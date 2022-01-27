@@ -16,7 +16,7 @@ Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to nat
   </a>
 </p>
 
-![Screenshot](https://api.marquee.activecove.com/screenshot.gif)
+![Screenshot](/website/public/assets/screenshot-optimized.gif)
 
 ## Install from inside VS Code
 

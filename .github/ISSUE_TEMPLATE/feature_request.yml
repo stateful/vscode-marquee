@@ -6,10 +6,7 @@ body:
 
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time and for sharing your great idea with us.
-        Like many VSCode extensions Marquee is an open source project and
-        lives from these great ideas.
+      value: Thanks for taking the time and for sharing your great idea with us. Like many VSCode extensions Marquee is an open source project and lives from these great ideas.
 
   - type: textarea
     id: problem
@@ -25,8 +22,7 @@ body:
     id: solution
     attributes:
       label: Describe the solution you'd like.
-      description: |
-        A clear and concise description of what you want to happen.
+      description: A clear and concise description of what you want to happen.
     validations:
       required: true
 
@@ -34,9 +30,7 @@ body:
     id: alternatives
     attributes:
       label: Describe alternatives you've considered.
-      description: |
-        A clear and concise description of any alternative solutions
-        or features you've considered.
+      description: A clear and concise description of any alternative solutions or features you've considered.
     validations:
       required: false
 
@@ -44,8 +38,7 @@ body:
     id: context
     attributes:
       label: Additional context
-      description: |
-        Add any other context or screenshots about the feature request here.
+      description: Add any other context or screenshots about the feature request here.
     validations:
       required: false
 
@@ -53,8 +46,7 @@ body:
     id: terms
     attributes:
       label: Code of Conduct
-      description: |
-        By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/webdriverio/webdriverio/blob/main/CODE_OF_CONDUCT.md)
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/webdriverio/webdriverio/blob/main/CODE_OF_CONDUCT.md)
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
