@@ -1,3 +1,3 @@
 # Changelog
 
-See [releases](https://github.com/stateful/marquee/releases) for a detailed changelog for every release.
+See [releases](https://github.com/stateful/vscode-marquee/releases) for a detailed changelog on every release.

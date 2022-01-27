@@ -60,7 +60,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                 >
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://github.com/stateful/marquee">
+                      <Link href="https://github.com/stateful/vscode-marquee">
                         GitHub Repository
                       </Link>
                       : Marquee GitHub Repository

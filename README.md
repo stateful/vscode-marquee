@@ -1,6 +1,6 @@
 Marquee
 =======
-[![Test](https://github.com/stateful/marquee/actions/workflows/test.yml/badge.svg)](https://github.com/stateful/marquee/actions/workflows/test.yml)
+[![Test](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml/badge.svg)](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml)
 [![vscode version](https://vsmarketplacebadge.apphb.com/version/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#overview)
 [![number of installs](https://vsmarketplacebadge.apphb.com/installs/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#overview)
 [![average user rating](https://vsmarketplacebadge.apphb.com/rating/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#review-details)

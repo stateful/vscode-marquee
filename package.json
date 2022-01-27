@@ -13,10 +13,10 @@
   "homepage": "https://marquee.stateful.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/stateful/marquee.git"
+    "url": "git://github.com/stateful/vscode-marquee.git"
   },
   "bugs": {
-    "url": "https://github.com/stateful/marquee/issues"
+    "url": "https://github.com/stateful/vscode-marquee/issues"
   },
   "private": true,
   "engines": {

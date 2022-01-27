@@ -20,7 +20,7 @@ You can participate by:
 - create bugs if you discover them while using Marquee
 - make feature requests if you are missing something in the project
 
-The maintainers of the project try to organize all [issues](https://github.com/stateful/marquee/issues) in the way that should allow anyone to have enough context to start working on it. If this is not the case please mention it in the issue thread so that either the issue creator or a maintainer can provide more information.
+The maintainers of the project try to organize all [issues](https://github.com/stateful/vscode-marquee/issues) in the way that should allow anyone to have enough context to start working on it. If this is not the case please mention it in the issue thread so that either the issue creator or a maintainer can provide more information.
 
 ## Contributing Code
 
@@ -48,7 +48,7 @@ Now, you can start to run the built version when pressing `F5`. Make sure to run
 
 ## Reporting New Issues
 
-When [opening a new issue](https://github.com/stateful/marquee/issues/new/choose), always make sure to fill out the issue template. __This step is very important!__ Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
+When [opening a new issue](https://github.com/stateful/vscode-marquee/issues/new/choose), always make sure to fill out the issue template. __This step is very important!__ Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
 
 - __One issue, one bug:__ Please report a single bug per issue.
 - __Provide reproduction steps:__ List all the steps necessary to reproduce the issue. The person reading your bug report should be able to follow these steps to reproduce your issue with minimal effort.
@@ -59,7 +59,7 @@ See [SECURITY.md](https://github.com/stateful/.github/blob/main/SECURITY.md).
 
 ## Release New Version
 
-Package releases are made using a GitHub workflow. All you need to do is go to the [`Manual NPM Publish`](https://github.com/stateful/marquee/actions/workflows/release.yml) workflow and trigger a new run. Choose the appropriate version upgrade based on the [Semantic Versioning](https://semver.org/) and the release channel. To help choose the right release type, here are some general guidelines:
+Package releases are made using a GitHub workflow. All you need to do is go to the [`Manual NPM Publish`](https://github.com/stateful/vscode-marquee/actions/workflows/release.yml) workflow and trigger a new run. Choose the appropriate version upgrade based on the [Semantic Versioning](https://semver.org/) and the release channel. To help choose the right release type, here are some general guidelines:
 
 - __Breaking Changes__: never do these by yourself! A major release is always a collaborative effort between all TSC members. It requires consensus from all of them.
 - __Minor Release__: minor releases are always required if a new, user focused feature was added to one of the packages. For example, if a command was added to WebdriverIO or if a service provides a new form of integration, a minor version bump would be appropriate. However if an internal package like `@wdio/local-runner` exposes a new interface that is solely used internally, we can consider that as a patch release.

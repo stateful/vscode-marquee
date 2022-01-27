@@ -8,7 +8,7 @@ const socialLinks = [{
   href: 'https://twitter.com/statefulhq',
   icon: SiTwitter
 }, {
-  href: 'https://github.com/stateful/marquee',
+  href: 'https://github.com/stateful/vscode-marquee',
   icon: SiGithub
 }, {
   href: 'https://discord.com/channels/878764303052865537/900787619728871484',
