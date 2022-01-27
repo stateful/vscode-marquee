@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders component correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "west": Object {
+        "upvote": Object {
+          "id": "1",
+        },
+      },
+    },
+  ],
+]
+`;

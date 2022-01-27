@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders component correctly 1`] = `
+Array [
+  Array [
+    Object {
+      "west": Object {
+        "execCommands": Array [
+          Object {
+            "command": "vscode.openFolder",
+            "options": Object {
+              "forceNewWindow": false,
+            },
+          },
+        ],
+      },
+    },
+  ],
+]
+`;
+
+exports[`renders component correctly 2`] = `
+Array [
+  Array [
+    Object {
+      "west": Object {
+        "execCommands": Array [
+          Object {
+            "command": "workbench.action.quickOpenRecent",
+          },
+        ],
+      },
+    },
+  ],
+]
+`;

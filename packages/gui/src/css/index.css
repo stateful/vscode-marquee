@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  padding: 0;
+  /* color: var(--vscode-foreground); */
+}
+
+a:link {
+  color: var(--vscode-textLink-foreground);
+}
+
+/* visited link */
+a:visited {
+  color: var(--vscode-textLink-foreground);
+}
+
+/* mouse over link */
+a:hover {
+  color: var(--vscode-textLink-foreground);
+}
+
+/* selected link */
+a:active {
+  color: var(--vscode-textLink-foreground);
+}

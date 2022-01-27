@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2018",
+    "outDir": "out",
+    "lib": [
+      "ES2019",
+      "DOM"
+    ],
+    "jsx": "react",
+    "rootDir": "packages",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "allowJs": true
+  },
+  "include": [
+    "packages/",
+    "./jest-setup.ts"
+  ]
+}

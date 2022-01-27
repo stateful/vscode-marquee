@@ -1,0 +1,27 @@
+{
+  "name": "@vscode-marquee/utils",
+  "description": "Marquee utils",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./build",
+  "types": "./build/index.d.ts",
+  "dependencies": {
+    "hex-rgb": "^4.3.0",
+    "rxjs": "^6.6.7",
+    "store2": "^2.12.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "@types/react": "^17.0.37",
+    "@types/vscode": "^1.63.0",
+    "react": "^17.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/vscode": {
+      "optional": true
+    }
+  }
+}

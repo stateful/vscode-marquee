@@ -1,0 +1,25 @@
+{
+  "name": "@vscode-marquee/extension",
+  "description": "Marquee Extension Backend",
+  "version": "0.1.0",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "private": true,
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "main": "./dist/extension.js",
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/glob": "^7.2.0",
+    "@types/node": "^16.11.12",
+    "@types/vscode": "^1.63.0",
+    "glob": "^7.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "axios-observable": "^1.3.0",
+    "fs-extra": "^10.0.0",
+    "rxjs": "^6.6.7",
+    "tangle": "^1.0.1"
+  }
+}

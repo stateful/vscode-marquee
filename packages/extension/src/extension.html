@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'unsafe-inline';
+        img-src 'self' data: app-ext-cspSource https:;
+        font-src app-ext-cspSource https:;
+        script-src 'nonce-app-ext-nonce';
+        connect-src app-ext-backendHost-api app-ext-backendHost-usCentral https://api.hackerwebapp.com https://*.ingest.sentry.io 'unsafe-eval';
+        child-src https://www.youtube.com https://player.vimeo.com https://fast.wistia.net;
+      "
+    >
+    <base href="app-ext-path">
+    <title>Marquee</title>
+    <style>
+        .MuiTypography-h1,
+        .MuiTypography-h2,
+        .MuiTypography-h3,
+        .MuiTypography-h4,
+        .MuiTypography-h5,
+        .MuiTypography-h6,
+        .MuiTypography-subtitle1,
+        .MuiTypography-subtitle2,
+        .MuiTypography-body1,
+        .MuiTypography-body2,
+        .MuiTypography-button,
+        .MuiTypography-caption,
+        .MuiTypography-overline {
+            font-size: app-ext-fontSize!important;
+        }
+    </style>
+    <style>
+      :root {
+        --marquee-theme-color: app-ext-theme-color;
+      }
+    </style>
+    <script nonce="app-ext-nonce">
+      window.marqueeUserProps = 'app-ext-props';
+      window.marqueeBackendBaseUrl = 'app-ext-backend-baseUrl';
+      window.marqueeBackendGeoUrl = 'app-ext-backend-geoUrl';
+      window.marqueeBackendFwdGeoUrl = 'app-ext-backend-fwdGeoUrl';
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script nonce="app-ext-nonce" src="main.js"></script>
+    <!-- app-ext-widgets -->
+</body>
+</html>

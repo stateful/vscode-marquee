@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "unused-imports"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/semi": "warn",
+    "curly": "warn",
+    "eqeqeq": "warn",
+    "no-throw-literal": "warn",
+    "semi": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": 0
+  },
+  "overrides": [{
+      "files": ["*.ts"],
+      "rules": {
+          // see https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
+          "no-unused-vars": "off",
+          "@typescript-eslint/no-unused-vars": "error",
+          "no-undef": "off",
+          // allow overloads
+          "no-redeclare": "off"
+      }
+  }]
+}

@@ -1,0 +1,441 @@
+{
+  "name": "marquee",
+  "version": "2.0.0-edge.2",
+  "publisher": "activecove",
+  "displayName": "Marquee",
+  "description": "Stay organized with minimal context switching, all inside your VS Code.",
+  "author": "Sebastian Tiedtke <sebastian@stateful.com>",
+  "contributors": [
+    "Christian Bromann <christian@stateful.com>"
+  ],
+  "icon": "assets/icon.png",
+  "license": "MIT",
+  "homepage": "https://marquee.stateful.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stateful/marquee.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stateful/marquee/issues"
+  },
+  "private": true,
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "categories": [
+    "Snippets",
+    "Debuggers",
+    "Formatters",
+    "Linters",
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "productivity",
+    "multi-workspace",
+    "entertainment",
+    "dashboard",
+    "homescreen",
+    "todo",
+    "notes",
+    "snippets"
+  ],
+  "workspaces": {
+    "packages": [
+      "packages/extension",
+      "packages/gui",
+      "packages/utils",
+      "packages/widget",
+      "packages/dialog",
+      "packages/widget-github",
+      "packages/widget-news",
+      "packages/widget-notes",
+      "packages/widget-projects",
+      "packages/widget-snippets",
+      "packages/widget-todo",
+      "packages/widget-weather",
+      "packages/widget-welcome"
+    ]
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:marquee"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "marquee",
+          "title": "Marquee",
+          "icon": "assets/marquee_activity_dark.png"
+        }
+      ]
+    },
+    "views": {
+      "marquee": [
+        {
+          "id": "marquee",
+          "name": "Marquee"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "marquee.expand",
+        "title": "Open Marquee",
+        "icon": {
+          "light": "assets/expand-dark.svg",
+          "dark": "assets/expand-light.svg"
+        }
+      },
+      {
+        "command": "marquee.open",
+        "title": "Open Marquee",
+        "icon": {
+          "light": "assets/marquee-light.svg",
+          "dark": "assets/marquee-dark.svg"
+        }
+      },
+      {
+        "command": "marquee.touchbar",
+        "title": "Open Marquee",
+        "icon": "assets/marquee_activity_light.png"
+      },
+      {
+        "command": "marquee.toggleTodo",
+        "title": "Marquee toggle todo"
+      },
+      {
+        "command": "marquee.clear",
+        "title": "Marquee clear persistence"
+      },
+      {
+        "command": "marquee.addTodo",
+        "title": "Add to Marquee"
+      },
+      {
+        "command": "marquee.addTodoEditor",
+        "title": "Add to todos [Marquee]"
+      },
+      {
+        "command": "marquee.addSnippetEditor",
+        "title": "Add to snippets [Marquee]"
+      },
+      {
+        "command": "marquee.insertSnippet",
+        "title": "Insert snippet"
+      },
+      {
+        "command": "marquee.link",
+        "title": "Jump to origin",
+        "icon": {
+          "light": "assets/link-dark.svg",
+          "dark": "assets/link-light.svg"
+        }
+      },
+      {
+        "command": "marquee.edit",
+        "title": "Edit"
+      },
+      {
+        "command": "marquee.move",
+        "title": "Move to current workspace"
+      },
+      {
+        "command": "marquee.archive",
+        "title": "Archive"
+      },
+      {
+        "command": "marquee.insertSnippetEditor",
+        "title": "Insert from snippets [Marquee]"
+      },
+      {
+        "command": "marquee.addEmptyTodo",
+        "title": "Add todo to Marquee",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.addEmptyNote",
+        "title": "Add item to Notes",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.addEmptySnippet",
+        "title": "Add item to Snippets",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.toggleScope",
+        "title": "Toggle global / workspace scope",
+        "icon": {
+          "light": "assets/toggle-todo-dark.svg",
+          "dark": "assets/toggle-todo-light.svg"
+        }
+      },
+      {
+        "command": "marquee.jsonExport",
+        "title": "Marquee JSON Export"
+      },
+      {
+        "command": "marquee.jsonImport",
+        "title": "Marquee JSON Import"
+      }
+    ],
+    "menus": {
+      "touchBar": [
+        {
+          "command": "marquee.touchbar"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "marquee.toggleScope",
+          "when": "view == marquee",
+          "group": "navigation@0"
+        },
+        {
+          "command": "marquee.expand",
+          "when": "view == marquee",
+          "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "marquee.edit",
+          "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "marquee.move",
+          "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.link",
+          "when": "view == marquee && viewItem == LinkedSnippet",
+          "group": "inline"
+        },
+        {
+          "command": "marquee.edit",
+          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "marquee.archive",
+          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "marquee.move",
+          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo|Note/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.link",
+          "when": "view == marquee && viewItem == LinkedTodo",
+          "group": "inline"
+        },
+        {
+          "command": "marquee.addEmptyTodo",
+          "when": "view == marquee && viewItem == todoHeadline",
+          "group": "inline"
+        },
+        {
+          "command": "marquee.addEmptyNote",
+          "when": "view == marquee && viewItem == notesHeadline",
+          "group": "inline"
+        },
+        {
+          "command": "marquee.addEmptySnippet",
+          "when": "view == marquee && viewItem == snippetsHeadline",
+          "group": "inline"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "marquee.addTodoEditor",
+          "group": "1_modification"
+        },
+        {
+          "command": "marquee.addSnippetEditor",
+          "group": "1_modification"
+        },
+        {
+          "command": "marquee.insertSnippetEditor",
+          "group": "9_cutcopypaste"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "marquee.open",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "Marquee",
+        "properties": {
+          "marquee.configuration.proxy": {
+            "type": "string",
+            "scope": "machine",
+            "default": "",
+            "markdownDescription": "URL to proxy (e.g. `https://username:password@domain.tld:port`). __Note:__ This only has an effect on widgets that gather data from the extension host (e.g. Welcome Widget)."
+          },
+          "marquee.configuration.fontSize": {
+            "type": "number",
+            "scope": "window",
+            "default": 5,
+            "markdownDescription": "Font Size of Widgets (`0` very small / `10` very large)",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          },
+          "marquee.configuration.colorScheme": {
+            "type": "object",
+            "scope": "window",
+            "properties": {
+              "r": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "g": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "b": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "a": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "additionalProperties": false,
+            "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
+          },
+          "marquee.configuration.startup.launchOnStartup": {
+            "type": "boolean",
+            "scope": "window",
+            "default": true,
+            "markdownDescription": "Open Marquee when VS Code starts up"
+          },
+          "marquee.configuration.startup.workspaceLaunch": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "Only auto-launch Marquee in Workspaces"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "backend": "cd backend && firebase serve --only hosting",
+    "build": "run-s compile bundle:prod",
+    "build:dev": "run-s compile bundle:dev",
+    "clean": "rimraf dist packages/**/node_modules packages/**/build",
+    "compile": "NODE_ENV=production run-s compile:*",
+    "compile:ts": "run-s compile:ts:*",
+    "compile:ts:utils": "tsc --project packages/utils/tsconfig.json",
+    "compile:ts:widget": "tsc --project packages/widget/tsconfig.json",
+    "compile:ts:dialog": "tsc --project packages/dialog/tsconfig.json",
+    "compile:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json",
+    "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
+    "compile:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json",
+    "compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
+    "compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
+    "compile:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json",
+    "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
+    "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
+    "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
+    "bundle:prod": "NODE_ENV=production webpack --mode production",
+    "bundle:dev": "NODE_ENV=development webpack --mode development",
+    "replace": "run-s replace:*",
+    "replace:author": "replace-in-file '\"publisher\": \"activecove\"' '\"publisher\": \"stateful\"' ./package.json",
+    "replace:name": "replace-in-file '\"name\": \"marquee\"' '\"name\": \"marquee-edge\"' ./package.json",
+    "test": "run-s test:*",
+    "test:lint": "eslint packages",
+    "test:unit": "jest",
+    "vscode:prepublish": "yarn run compile",
+    "watch": "run-p watch:*",
+    "watch:ts": "run-p watch:ts:*",
+    "watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",
+    "watch:ts:utils": "tsc --project packages/utils/tsconfig.json --watch",
+    "watch:ts:widget": "tsc --project packages/widget/tsconfig.json --watch",
+    "watch:ts:dialog": "tsc --project packages/dialog/tsconfig.json --watch",
+    "watch:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json --watch",
+    "watch:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json --watch",
+    "watch:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json --watch",
+    "watch:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json --watch",
+    "watch:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json --watch",
+    "watch:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json --watch",
+    "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
+    "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
+    "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/plugin-proposal-private-methods": "^7.16.11",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@babel/preset-env": "^7.16.11",
+    "@jest/types": "^27.4.2",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/ignore-styles": "^5.0.0",
+    "@types/webpack-env": "^1.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-app": "^10.0.1",
+    "copy-webpack-plugin": "^10.2.1",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.7.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "file-loader": "^6.2.0",
+    "ignore-styles": "^5.0.1",
+    "jest": "^27.4.7",
+    "jest-css-modules": "^2.1.0",
+    "npm-run-all": "^4.1.5",
+    "replace-in-file": "^6.3.2",
+    "rimraf": "^3.0.2",
+    "semver": "^7.3.5",
+    "style-loader": "^3.3.1",
+    "ts-jest": "^27.1.3",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5",
+    "vsce": "^2.6.4",
+    "vscode-test": "^1.6.1",
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

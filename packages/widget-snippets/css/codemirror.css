@@ -1,0 +1,8 @@
+.CodeMirror {
+  height: auto;
+  min-height: 50px;
+  font-size: var(--vscode-font-size);
+}
+.CodeMirror-lines {
+  background-color: var(--vscode-editor-background);
+}

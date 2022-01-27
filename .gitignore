@@ -1,0 +1,14 @@
+dist
+out
+node_modules
+.vscode-test/
+*.vsix
+.DS_Store
+*.log
+packages/**/build
+website/public/*.js
+website/public/*.js.map
+coverage
+website/.next
+website/public/robots.txt
+website/public/sitemap.xml

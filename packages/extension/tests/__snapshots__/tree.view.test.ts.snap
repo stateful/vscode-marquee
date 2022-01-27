@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TreeView clearTree 1`] = `
+Object {
+  "notes": Array [],
+  "snippets": Array [],
+  "todos": Array [],
+}
+`;
+
+exports[`TreeView getChildren 1`] = `
+Array [
+  Item {
+    "archived": undefined,
+    "basePath": "/foo/bar",
+    "checked": undefined,
+    "collapsibleState": "foo",
+    "command": undefined,
+    "contextValue": "todoHeadline",
+    "id": "0",
+    "label": "Todo [global] (1 open / 1 closed)",
+    "type": "todo",
+  },
+  Item {
+    "archived": undefined,
+    "basePath": "/foo/bar",
+    "checked": undefined,
+    "collapsibleState": "foo",
+    "command": undefined,
+    "contextValue": "snippetsHeadline",
+    "id": "1",
+    "label": "Snippets",
+    "type": "snippets",
+  },
+  Item {
+    "archived": undefined,
+    "basePath": "/foo/bar",
+    "checked": undefined,
+    "collapsibleState": "foo",
+    "command": undefined,
+    "contextValue": "notesHeadline",
+    "id": "2",
+    "label": "Notes",
+    "type": "notes",
+  },
+]
+`;
+
+exports[`TreeView getChildren 2`] = `
+Array [
+  TodoItem {
+    "archived": false,
+    "basePath": "/foo/bar",
+    "checked": true,
+    "collapsibleState": undefined,
+    "command": Object {
+      "arguments": Array [
+        [Circular],
+      ],
+      "command": "marquee.toggleTodo",
+      "title": "Marquee toggle todo",
+    },
+    "contextValue": "Todo",
+    "iconPath": Object {
+      "dark": "/foo/bar/assets/checked-light.svg",
+      "light": "/foo/bar/assets/checked-dark.svg",
+    },
+    "id": undefined,
+    "item": Object {
+      "archived": false,
+      "body": "foo",
+      "checked": true,
+    },
+    "label": "foo",
+    "type": "Todo",
+  },
+  TodoItem {
+    "archived": false,
+    "basePath": "/foo/bar",
+    "checked": false,
+    "collapsibleState": undefined,
+    "command": Object {
+      "arguments": Array [
+        [Circular],
+      ],
+      "command": "marquee.toggleTodo",
+      "title": "Marquee toggle todo",
+    },
+    "contextValue": "Todo",
+    "iconPath": Object {
+      "dark": "/foo/bar/assets/checked-border-light.svg",
+      "light": "/foo/bar/assets/checked-border-dark.svg",
+    },
+    "id": undefined,
+    "item": Object {
+      "archived": false,
+      "body": "bar",
+      "checked": false,
+    },
+    "label": "bar",
+    "type": "Todo",
+  },
+]
+`;
+
+exports[`TreeView getChildren 3`] = `
+Array [
+  SnippetItem {
+    "archived": undefined,
+    "basePath": "/foo/bar",
+    "checked": undefined,
+    "collapsibleState": undefined,
+    "command": Object {
+      "arguments": Array [
+        Object {
+          "id": "123",
+          "title": "foobar",
+        },
+      ],
+      "command": "marquee.insertSnippet",
+      "title": "Insert snippet",
+    },
+    "contextValue": "Snippet",
+    "empty": false,
+    "iconPath": Object {
+      "dark": "/foo/bar/assets/snippets-light.svg",
+      "light": "/foo/bar/assets/snippets-dark.svg",
+    },
+    "id": "123",
+    "item": Object {
+      "id": "123",
+      "title": "foobar",
+    },
+    "label": "foobar",
+    "type": "Snippet",
+  },
+]
+`;
+
+exports[`TreeView getChildren 4`] = `
+Array [
+  NoteItem {
+    "archived": undefined,
+    "basePath": "/foo/bar",
+    "checked": undefined,
+    "collapsibleState": undefined,
+    "command": Object {
+      "arguments": Array [
+        [Circular],
+      ],
+      "command": "marquee.edit",
+      "title": "Open note",
+    },
+    "contextValue": "Note",
+    "empty": false,
+    "iconPath": Object {
+      "dark": "/foo/bar/assets/notes-light.svg",
+      "light": "/foo/bar/assets/notes-dark.svg",
+    },
+    "id": "123",
+    "item": Object {
+      "id": "123",
+      "title": "foobar",
+    },
+    "label": "foobar",
+    "type": "Note",
+  },
+]
+`;
+
+exports[`TreeView handleStateManagerUpdates 1`] = `
+Object {
+  "notes": Array [
+    Object {
+      "id": "123",
+      "title": "foobar",
+    },
+  ],
+  "snippets": Array [
+    Object {
+      "id": "123",
+      "title": "foobar",
+    },
+  ],
+  "todos": Array [
+    Object {
+      "archived": true,
+    },
+    Object {
+      "archived": false,
+      "body": "foo",
+      "checked": true,
+    },
+    Object {
+      "archived": false,
+      "body": "bar",
+      "checked": false,
+    },
+  ],
+}
+`;
+
+exports[`TreeView handleStateManagerUpdates 2`] = `
+Array [
+  Object {
+    "caption": "Todo [global] (1 open / 1 closed)",
+    "id": 0,
+    "type": "todo",
+  },
+  Object {
+    "caption": "Snippets",
+    "id": 1,
+    "type": "snippets",
+  },
+  Object {
+    "caption": "Notes",
+    "id": 2,
+    "type": "notes",
+  },
+]
+`;

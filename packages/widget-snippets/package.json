@@ -1,0 +1,36 @@
+{
+  "name": "@vscode-marquee/widget-snippets",
+  "description": "Marquee Snippets Widget",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "dependencies": {
+    "@types/codemirror": "^5.60.5",
+    "@types/html-escaper": "^3.0.0",
+    "@types/react-splitter-layout": "^3.0.2",
+    "@types/react-virtualized": "^9.21.16",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@vscode-marquee/dialog": "^0.1.0",
+    "@vscode-marquee/utils": "^0.1.0",
+    "@vscode-marquee/widget": "^0.1.0",
+    "copy-to-clipboard": "^3.3.1",
+    "html-escaper": "^3.0.3",
+    "react-splitter-layout": "^4.0.0",
+    "react-virtualized": "^9.22.3",
+    "use-debounce": "^7.0.1"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@types/react": "^17.0.37",
+    "react": "^17.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,139 @@
+import path from "path";
+
+import { Configuration, DefinePlugin } from "webpack";
+import CopyPlugin from "copy-webpack-plugin";
+
+const extensionConfig: Configuration = {
+  target: "node",
+  mode: process.env.NODE_ENV ? 'production' : 'development',
+  entry: {
+    extension: path.resolve(__dirname, "packages", "extension", "src", "index.ts"),
+  },
+  output: {
+    libraryTarget: "commonjs2",
+    devtoolModuleFilenameTemplate: "../[resource-path]",
+  },
+  devtool: "source-map",
+  externals: {
+    vscode: "commonjs vscode",
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "ts-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|eot|svg|ttf|woff|woff2)$/,
+        type: 'asset/resource'
+      },
+    ],
+  },
+  plugins: [
+    new DefinePlugin({
+      BACKEND_BASE_URL:
+        process.env.NODE_ENV === "development"
+          ? JSON.stringify(
+              "https://us-central1-marquee-backend-dev.cloudfunctions.net"
+            )
+          : JSON.stringify("https://api.marquee.activecove.com"),
+    }),
+    new DefinePlugin({
+      BACKEND_GEO_URL:
+        process.env.NODE_ENV === "development"
+          ? JSON.stringify(
+              "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
+            )
+          : JSON.stringify(
+              "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
+            ),
+    }),
+    new DefinePlugin({
+      BACKEND_FWDGEO_URL:
+        process.env.NODE_ENV === "development"
+          ? JSON.stringify(
+              "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
+            )
+          : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
+    })
+  ]
+};
+
+const guiConfig: Configuration = {
+  entry: path.resolve(__dirname, "packages", "gui", "src", "index.tsx"),
+  output: {
+    path: path.resolve(__dirname, "dist", "gui"),
+    filename: "[name].js",
+  },
+  devtool: "source-map",
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(j|t)sx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['@babel/preset-env']
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpg|gif|eot|svg|ttf|woff|woff2)$/,
+        type: 'asset/resource'
+      },
+    ],
+  },
+  performance: {
+    hints: false,
+  }
+};
+
+const exampleWidget: Configuration = {
+  entry: path.resolve(__dirname, "exampleWidget", "widget.ts"),
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "exampleWidget.js",
+  },
+  devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              compilerOptions: {
+                declaration: false,
+                declarationMap: false,
+                rootDir: __dirname
+              }
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+module.exports = [extensionConfig, guiConfig, exampleWidget];

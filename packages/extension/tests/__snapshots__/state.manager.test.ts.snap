@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StateManager updateWorkspaces 1`] = `
+Object {
+  "workspaces": Array [],
+}
+`;
+
+exports[`StateManager updateWorkspaces 2`] = `
+Object {
+  "activeWorkspaceId": undefined,
+  "workspaces": Array [],
+}
+`;
+
+exports[`StateManager updateWorkspaces 3`] = `
+Object {
+  "workspaces": Array [
+    Object {
+      "id": "foo",
+    },
+  ],
+}
+`;
+
+exports[`StateManager updateWorkspaces 4`] = `
+Object {
+  "workspaces": Array [
+    Object {
+      "id": "foo",
+    },
+  ],
+}
+`;
+
+exports[`StateManager updateWorkspaces 5`] = `
+Object {
+  "workspaces": Array [
+    Object {
+      "id": "foobar",
+    },
+  ],
+}
+`;

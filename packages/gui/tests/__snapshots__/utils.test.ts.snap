@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sendFeedbackRequest successfully makes a request 1`] = `
+Array [
+  Array [
+    "https://marquee.stateful.com/submitFeedback",
+    Object {
+      "body": "{\\"feedback\\":\\"foobar\\",\\"email\\":\\"foo@bar.com\\"}",
+      "headers": Object {
+        "Content-Type": "application/json",
+        "x-foo": "bar",
+      },
+      "method": "POST",
+      "mode": "cors",
+    },
+  ],
+]
+`;

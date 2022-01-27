@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init 1`] = `
+Object {
+  "dsn": "SENTRY_DNS",
+  "environment": "production",
+  "integrations": Array [
+    mockConstructor {},
+    mockConstructor {},
+  ],
+  "tracesSampleRate": 1,
+}
+`;

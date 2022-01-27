@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should get proper extension props 1`] = `
+Object {
+  "extname": "activecove.marquee",
+  "extversion": "1.2.3",
+  "os": "some platform",
+  "platformversion": "some release",
+  "uikind": "web",
+  "vscodemachineid": "machineId",
+  "vscodesessionid": "sessionId",
+  "vscodeversion": "3.2.1",
+}
+`;
