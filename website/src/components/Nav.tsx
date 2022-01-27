@@ -87,7 +87,7 @@ export const Nav = () => {
                 fontWeight={600}
                 color={'white'}
                 bg={'marquee'}
-                href={'vscode:extension/activecove.marquee'}
+                href={'vscode:extension/stateful.marquee'}
                 _hover={{
                   bg: 'pink.300',
                 }}

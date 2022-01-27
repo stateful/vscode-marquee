@@ -1,7 +1,7 @@
 {
   "name": "marquee",
   "version": "2.0.0-edge.2",
-  "publisher": "activecove",
+  "publisher": "stateful",
   "displayName": "Marquee",
   "description": "Stay organized with minimal context switching, all inside your VS Code.",
   "author": "Sebastian Tiedtke <sebastian@stateful.com>",
@@ -376,9 +376,6 @@
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
     "bundle:prod": "NODE_ENV=production webpack --mode production",
     "bundle:dev": "NODE_ENV=development webpack --mode development",
-    "replace": "run-s replace:*",
-    "replace:author": "replace-in-file '\"publisher\": \"activecove\"' '\"publisher\": \"stateful\"' ./package.json",
-    "replace:name": "replace-in-file '\"name\": \"marquee\"' '\"name\": \"marquee-edge\"' ./package.json",
     "test": "run-s test:*",
     "test:lint": "eslint packages",
     "test:unit": "jest",
