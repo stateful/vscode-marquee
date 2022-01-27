@@ -53,4 +53,4 @@ This extension contributes the following settings:
 
 - If you have questions, you can get more information [on our website](http://marquee.stateful.com).
 - For support or questions, you can email us at info@stateful.com.
-- Our privacy policy is available at [https://marquee.stateful.com/privacy](https://marquee.stateful.com/privacy).
+- Our privacy policy is available at [https://www.stateful.com/privacy](https://www.stateful.com/privacy).
