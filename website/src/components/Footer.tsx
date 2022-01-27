@@ -14,7 +14,7 @@ const socialLinks = [{
   href: 'https://discord.com/channels/878764303052865537/900787619728871484',
   icon: SiDiscord
 }, {
-  href: 'https://gitter.im/stateful/marquee',
+  href: 'https://gitter.im/vscode-marquee/community',
   icon: SiGitter
 }];
 

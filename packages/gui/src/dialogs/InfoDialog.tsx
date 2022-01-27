@@ -84,7 +84,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://gitter.im/stateful/marquee">
+                      <Link href="https://gitter.im/vscode-marquee/community">
                         Gitter Channel
                       </Link>
                       : Join our Gitter community channel for questions and feedback.

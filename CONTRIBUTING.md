@@ -8,7 +8,7 @@ Everyone who participates in this project, either as a user or a contributor, is
 
 ## Find A Way To Contribute
 
-The project offers a variety of ways to contribute. If you struggle to find something suited for you, join the Marquee support channel on [Gitter](https://gitter.im/webdriverio/webdriverio) or [Discord](https://discord.com/channels/878764303052865537/900787619728871484) and reach out to the maintainer there. Don't be shy, they are there to help!
+The project offers a variety of ways to contribute. If you struggle to find something suited for you, join the Marquee support channel on [Gitter](https://gitter.im/vscode-marquee/community) or [Discord](https://discord.com/channels/878764303052865537/900787619728871484) and reach out to the maintainer there. Don't be shy, they are there to help!
 
 You can participate by:
 

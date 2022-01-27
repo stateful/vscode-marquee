@@ -5,7 +5,7 @@ Welcome to Marquee! We use GitHub for tracking bugs and feature requests. If you
 
 ## Real-time Chat
 
-* [Gitter](https://gitter.im/stateful/marquee) - Help and Support Gitter Channel
+* [Gitter](https://gitter.im/vscode-marquee/community) - Help and Support Gitter Channel
 * [Discord](https://discord.com/channels/878764303052865537/900787619728871484) - Help and Support Discord Channel
 
 ## User Documentation
