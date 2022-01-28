@@ -32,6 +32,7 @@ export class MarqueeGui extends EventEmitter {
   constructor(
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager,
+    private readonly channel: vscode.OutputChannel,
     private readonly widgetExtensions: vscode.Extension<ExtensionExport>[]
   ) {
     super();
@@ -145,10 +146,14 @@ export class MarqueeGui extends EventEmitter {
        * extension dir is not possible (returns a 404)
        */
       if (extension.extensionPath) {
-        fs.symlinkSync(extension.extensionPath, `./${THIRD_PARTY_EXTENSION_DIR}/${extension.id}`);
-        const targetPath = `${this.context.extensionPath}/${THIRD_PARTY_EXTENSION_DIR}/${extension.id}/${extension.packageJSON.marqueeWidget}`;
+        const extPath = path.join(this.context.extensionPath, THIRD_PARTY_EXTENSION_DIR, extension.id);
+        if (!fs.existsSync(extPath)) {
+          fs.symlinkSync(extension.extensionPath, extPath);
+        }
+
+        const targetPath = path.join(extPath, extension.packageJSON.marqueeWidget);
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath));
-        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}" />`);
+        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}"></script>`);
       }
     }
 
@@ -169,7 +174,11 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-cspSource/g, this.panel.webview.cspSource)
       .replace(/app-ext-fontSize/g, `${fontSize}em`)
       .replace(/app-ext-theme-color/g, colorScheme)
-      .replace(/\<!-- app-ext-widgets -->/, widgetScripts.join('\n'));
+      .replace(/app-ext-widgets/, [
+        ' begin 3rd party widgets -->',
+        ...widgetScripts.join('\n'),
+        '\n<!-- end of 3rd party widgets'
+      ].join(''));
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee');
     ch.registerPromise([this.panel.webview])

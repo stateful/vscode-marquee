@@ -64,7 +64,7 @@ export class MarqueeExtension {
     private readonly context: vscode.ExtensionContext,
     protected readonly stateMgr: StateManager
   ) {
-    this.gui = new MarqueeGui(this.context, stateMgr, this.widgetExtensions);
+    this.gui = new MarqueeGui(this.context, stateMgr, this._channel, this.widgetExtensions);
     this.treeView = new TreeView(this.context, stateMgr);
     this.setupCommands();
     this.context.subscriptions.push(...this.widgetExtensions.map((ex) => ex.exports.marquee.disposable));
