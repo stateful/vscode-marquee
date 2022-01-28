@@ -14,7 +14,7 @@ import type { MarqueeEvents } from '@vscode-marquee/utils';
 import { StateManager } from "./state.manager";
 import { Message } from "./state.manager";
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
-import { DEFAULT_FONT_SIZE } from './constants';
+import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 
 declare const BACKEND_BASE_URL: string;
@@ -145,9 +145,8 @@ export class MarqueeGui extends EventEmitter {
        * extension dir is not possible (returns a 404)
        */
       if (extension.extensionPath) {
-        fs.rmSync(`./3rdParty/${extension.id}`, { force: true });
-        fs.symlinkSync(extension.extensionPath, `./3rdParty/${extension.id}`);
-        const targetPath = `${this.context.extensionPath}/3rdParty/${extension.id}/${extension.packageJSON.marqueeWidget}`;
+        fs.symlinkSync(extension.extensionPath, `./${THIRD_PARTY_EXTENSION_DIR}/${extension.id}`);
+        const targetPath = `${this.context.extensionPath}/${THIRD_PARTY_EXTENSION_DIR}/${extension.id}/${extension.packageJSON.marqueeWidget}`;
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath));
         widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}" />`);
       }
