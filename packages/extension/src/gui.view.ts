@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
@@ -138,9 +139,16 @@ export class MarqueeGui extends EventEmitter {
         });
       }
 
+      /**
+       * in order to allow accessing assets outside of the Marquee extension
+       * we need to link to the directory as accessing files outside of the
+       * extension dir is not possible (returns a 404)
+       */
       if (extension.extensionPath) {
-        const widgetPath = path.resolve(extension.extensionPath, extension.packageJSON.marqueeWidget);
-        const src = this.panel.webview.asWebviewUri(vscode.Uri.file(widgetPath));
+        fs.rmSync(`./3rdParty/${extension.id}`, { force: true });
+        fs.symlinkSync(extension.extensionPath, `./3rdParty/${extension.id}`);
+        const targetPath = `${this.context.extensionPath}/3rdParty/${extension.id}/${extension.packageJSON.marqueeWidget}`;
+        const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath));
         widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}" />`);
       }
     }
