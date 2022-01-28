@@ -382,7 +382,6 @@
     "test": "run-s test:*",
     "test:lint": "eslint packages",
     "test:unit": "jest",
-    "vscode:prepublish": "yarn run compile",
     "watch": "run-p watch:*",
     "watch:ts": "run-p watch:ts:*",
     "watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",
