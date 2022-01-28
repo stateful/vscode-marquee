@@ -22,7 +22,6 @@
   "engines": {
     "vscode": "^1.63.0"
   },
-  "marqueeWidget": "./dist/exampleWidget.js",
   "categories": [
     "Snippets",
     "Debuggers",
