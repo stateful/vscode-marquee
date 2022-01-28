@@ -1,6 +1,6 @@
 # Marquee Widgets
 
-Marquee currently supports a broad set of widgets that help you build your own custom home screen. You can define various of home screens depending on the mood and situation. Every widget comes with its own configurations and and their size and position can be easily modified.
+Marquee currently supports a broad set of widgets that help you build your own custom homescreen. You can define various of homescreens depending on the mood and situation. Every widget comes with its own configurations and and their size and position can be easily modified.
 
 ## Mailbox Widget
 

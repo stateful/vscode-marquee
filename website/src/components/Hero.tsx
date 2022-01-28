@@ -24,7 +24,7 @@ export const Hero = () => {
       <Box my={6} maxWidth={'1200px'}>
         <Heading as="h2" fontSize={{ base: '1.2em', md: "1.8em"}} textAlign={'center'} mx={5} mb={{ base: 5, sm: 0 }}>
           Marquee is a <Text as="span" color={'marquee'} d={'inline'}>VS Code extension</Text> that
-          brings a fullly extensible homescreen right into your favorite IDE for minimal
+          brings a fully extensible homescreen right into your favorite IDE for minimal
           context switching.
         </Heading>
         <Text display={{ base: 'none', sm: 'block' }} fontSize={'small'} my={3} textAlign={'center'}>Install via:</Text>
