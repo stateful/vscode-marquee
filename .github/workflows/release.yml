@@ -106,10 +106,10 @@ jobs:
         run: yarn vsce package $RELEASE_VERSION --yarn --no-git-tag-version --no-update-package-json -o "./marquee-$RELEASE_VERSION.vsix" ${{ github.event.inputs.additionalFlags }}
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Publish to Visual Studio Marketplace (Edge)
-        run: yarn vsce publish $RELEASE_VERSION --packagePath "./marquee-$RELEASE_VERSION.vsix" --pre-release --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
+        run: yarn vsce publish --packagePath "./marquee-$RELEASE_VERSION.vsix" --pre-release --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
       - name: Publish to Visual Studio Marketplace (Stable)
-        run: yarn vsce publish $RELEASE_VERSION --packagePath "./marquee-$RELEASE_VERSION.vsix" --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
+        run: yarn vsce publish --packagePath "./marquee-$RELEASE_VERSION.vsix" --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
         if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
       - name: Publish to Open VSX Registry (Edge)
         uses: HaaLeo/publish-vscode-extension@v1
