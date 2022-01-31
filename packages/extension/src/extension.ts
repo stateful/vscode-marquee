@@ -22,6 +22,7 @@ import {
   mergeMap,
 } from "rxjs/operators";
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
+import { activate as activateProjectsWidget } from '@vscode-marquee/widget-projects/extension';
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import {
@@ -55,6 +56,12 @@ export class MarqueeExtension {
     {
       id: '@vscode-marquee/welcome-widget',
       exports: activateWelcomeWidget(this.context, this._channel),
+      isActive: true,
+      packageJSON: { marqueeWidget: true }
+    } as any as vscode.Extension<ExtensionExport>,
+    {
+      id: '@vscode-marquee/projects-widget',
+      exports: activateProjectsWidget(this.context, this._channel),
       isActive: true,
       packageJSON: { marqueeWidget: true }
     } as any as vscode.Extension<ExtensionExport>

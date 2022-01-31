@@ -199,6 +199,9 @@ export class StateManager {
     };
   }
 
+  /**
+   * ToDo(Christian): remove once storage migration finished
+   */
   public updateWorkspaces(latest: Message): Message {
     if (latest.workspaces === undefined) {
       latest.workspaces = [];
@@ -240,6 +243,9 @@ export class StateManager {
     return latest;
   }
 
+  /**
+   * ToDo(Christian): remove once storage migration finished
+   */
   public getActiveWorkspace(): Workspace | null {
     const wsp = vscode.workspace;
     let name = wsp.name || "";

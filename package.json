@@ -350,6 +350,25 @@
             "scope": "window",
             "default": false,
             "markdownDescription": "Only auto-launch Marquee in Workspaces"
+          },
+          "marquee.projects.workspaceFilter": {
+            "type": "string",
+            "scope": "window",
+            "default": "",
+            "markdownDescription": "Filter for project list"
+          },
+          "marquee.projects.workspaceSortOrder": {
+            "type": "string",
+            "scope": "window",
+            "default": "usage",
+            "enum": ["alphabetical", "usage"],
+            "markdownDescription": "Sort order of projects"
+          },
+          "marquee.projects.openProjectInNewWindow": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "If true, Marquee will open a project in a new window"
           }
         }
       }

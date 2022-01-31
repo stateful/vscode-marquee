@@ -1,46 +1,38 @@
 import React, { createContext, useState, useEffect } from "react";
-import { store } from '@vscode-marquee/utils';
-import { Context, ContextValues } from './types';
+import { getEventListener } from '@vscode-marquee/utils';
+import type { Workspace } from '@vscode-marquee/utils';
 
-const DEFAULTS: ContextValues = {
-  workspaceFilter: "",
-  workspaceSortOrder: "usage",
-  openProjectInNewWindow: false
-};
+import { DEFAULTS } from './constants';
+import type { Configuration, State, Context } from './types';
+
 const WorkspaceContext = createContext<Context>({} as Context);
 
 const WorkspaceProvider = ({ children }: { children: React.ReactElement }) => {
-  const WorkspaceStore = store("workspaces", false);
+  const widgetState = getEventListener<Configuration & State>('@vscode-marquee/projects-widget');
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [workspaceFilter, setWorkspaceFilter] = useState(DEFAULTS.workspaceFilter);
   const [workspaceSortOrder, setWorkspaceSortOrder] = useState(DEFAULTS.workspaceSortOrder);
   const [openProjectInNewWindow, setOpenProjectInNewWindow] = useState(DEFAULTS.openProjectInNewWindow);
 
   useEffect(() => {
-    WorkspaceStore.set("workspaceFilter", workspaceFilter);
-  }, [workspaceFilter]);
+    widgetState.broadcast({
+      workspaceFilter,
+      workspaceSortOrder,
+      openProjectInNewWindow
+    } as Configuration & State);
+  }, [workspaceFilter, workspaceSortOrder, openProjectInNewWindow]);
 
   useEffect(() => {
-    WorkspaceStore.set("workspaceSortOrder", workspaceSortOrder);
-  }, [workspaceSortOrder]);
-
-  useEffect(() => {
-    WorkspaceStore.set("openProjectInNewWindow", openProjectInNewWindow);
-  }, [openProjectInNewWindow]);
-
-  const handler = () => {
-    setWorkspaceFilter(WorkspaceStore.get("workspaceFilter") || workspaceFilter);
-    setOpenProjectInNewWindow(WorkspaceStore.get("openProjectInNewWindow" || openProjectInNewWindow));
-    setWorkspaceSortOrder(WorkspaceStore.get("workspaceSortOrder") || workspaceSortOrder);
-  };
-
-  useEffect(() => {
-    WorkspaceStore.subscribe(handler as any);
-    handler();
+    widgetState.listen('workspaces', setWorkspaces);
+    widgetState.listen('workspaceFilter', setWorkspaceFilter);
+    widgetState.listen('workspaceSortOrder', setWorkspaceSortOrder);
+    widgetState.listen('openProjectInNewWindow', setOpenProjectInNewWindow);
   }, []);
 
   return (
     <WorkspaceContext.Provider
       value={{
+        workspaces,
         workspaceFilter,
         setWorkspaceFilter,
         workspaceSortOrder,
