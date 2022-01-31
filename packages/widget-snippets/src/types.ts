@@ -1,6 +1,6 @@
 import type { vscLanguages } from './constants';
 
-export type VSCLanguages = keyof typeof vscLanguages
+export type VSCLanguages = keyof typeof vscLanguages;
 export interface Language {
   name: string
   value: VSCLanguages

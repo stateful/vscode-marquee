@@ -1,3 +1,4 @@
+import fs from 'fs/promises';
 import vscode from "vscode";
 import path from "path";
 import crypto from "crypto";
@@ -36,7 +37,7 @@ import { MarqueeGui } from "./gui.view";
 import { TreeView } from "./tree.view";
 import { writeFileSync, readFileSync } from "fs-extra";
 import { ContextMenu } from "./tree.view";
-import { INIT, config, FILE_FILTER, CONFIG_FILE_TYPE } from './constants';
+import { INIT, config, FILE_FILTER, CONFIG_FILE_TYPE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 import { MarqueeEvents } from "@vscode-marquee/utils";
 
@@ -44,6 +45,7 @@ export const CODE_TODO = "marquee_todo";
 export const TODO = /TODO[:]? /g;
 
 export class MarqueeExtension {
+  private readonly _channel = vscode.window.createOutputChannel('Marquee');
   private readonly gui: MarqueeGui;
   private readonly view: vscode.TreeView<any>;
   private readonly treeView: TreeView;
@@ -52,7 +54,7 @@ export class MarqueeExtension {
   private readonly widgetExtensions: vscode.Extension<ExtensionExport>[] = [
     {
       id: '@vscode-marquee/welcome-widget',
-      exports: activateWelcomeWidget(this.context),
+      exports: activateWelcomeWidget(this.context, this._channel),
       isActive: true,
       packageJSON: { marqueeWidget: true }
     } as any as vscode.Extension<ExtensionExport>
@@ -62,7 +64,7 @@ export class MarqueeExtension {
     private readonly context: vscode.ExtensionContext,
     protected readonly stateMgr: StateManager
   ) {
-    this.gui = new MarqueeGui(this.context, stateMgr, this.widgetExtensions);
+    this.gui = new MarqueeGui(this.context, stateMgr, this._channel, this.widgetExtensions);
     this.treeView = new TreeView(this.context, stateMgr);
     this.setupCommands();
     this.context.subscriptions.push(...this.widgetExtensions.map((ex) => ex.exports.marquee.disposable));
@@ -106,7 +108,20 @@ export class MarqueeExtension {
     });
 
     this.handleEvents();
-    this.openMarqueeOnStartup(config.get('configuration.startup'));
+
+    /**
+     * clear symlink to 3rd party extensions as new extension could have
+     * been installed since then
+     */
+    const thirdPartyDir = path.join(context.extensionPath, THIRD_PARTY_EXTENSION_DIR);
+    fs.rm(thirdPartyDir, { force: true, recursive: true }).then(
+      () => fs.mkdir(thirdPartyDir)
+    ).then(() => (
+      this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
+    )).then(
+      () => this.openMarqueeOnStartup(config.get('configuration.startup')),
+      (err) => this._channel.appendLine(`[Error]: ${err.message}`)
+    );
   }
 
   /**

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
@@ -13,7 +14,7 @@ import type { MarqueeEvents } from '@vscode-marquee/utils';
 import { StateManager } from "./state.manager";
 import { Message } from "./state.manager";
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
-import { DEFAULT_FONT_SIZE } from './constants';
+import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 
 declare const BACKEND_BASE_URL: string;
@@ -31,6 +32,7 @@ export class MarqueeGui extends EventEmitter {
   constructor(
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager,
+    private readonly channel: vscode.OutputChannel,
     private readonly widgetExtensions: vscode.Extension<ExtensionExport>[]
   ) {
     super();
@@ -138,10 +140,20 @@ export class MarqueeGui extends EventEmitter {
         });
       }
 
+      /**
+       * in order to allow accessing assets outside of the Marquee extension
+       * we need to link to the directory as accessing files outside of the
+       * extension dir is not possible (returns a 404)
+       */
       if (extension.extensionPath) {
-        const widgetPath = path.resolve(extension.extensionPath, extension.packageJSON.marqueeWidget);
-        const src = this.panel.webview.asWebviewUri(vscode.Uri.file(widgetPath));
-        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}" />`);
+        const extPath = path.join(this.context.extensionPath, THIRD_PARTY_EXTENSION_DIR, extension.id);
+        if (!fs.existsSync(extPath)) {
+          fs.symlinkSync(extension.extensionPath, extPath);
+        }
+
+        const targetPath = path.join(extPath, extension.packageJSON.marqueeWidget);
+        const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath));
+        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}"></script>`);
       }
     }
 
@@ -162,7 +174,11 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-cspSource/g, this.panel.webview.cspSource)
       .replace(/app-ext-fontSize/g, `${fontSize}em`)
       .replace(/app-ext-theme-color/g, colorScheme)
-      .replace(/\<!-- app-ext-widgets -->/, widgetScripts.join('\n'));
+      .replace(/app-ext-widgets/, [
+        ' begin 3rd party widgets -->',
+        ...widgetScripts.join('\n'),
+        '\n<!-- end of 3rd party widgets'
+      ].join(''));
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee');
     ch.registerPromise([this.panel.webview])
