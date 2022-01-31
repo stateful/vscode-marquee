@@ -357,7 +357,7 @@
   },
   "scripts": {
     "backend": "cd backend && firebase serve --only hosting",
-    "build": "run-s compile bundle:prod",
+    "build:prod": "run-s compile bundle:prod",
     "build:dev": "run-s compile bundle:dev",
     "clean": "rimraf dist packages/**/node_modules packages/**/build",
     "compile": "NODE_ENV=production run-s compile:*",
