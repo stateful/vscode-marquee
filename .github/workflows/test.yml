@@ -12,6 +12,6 @@ jobs:
       - name: 📦 Install Dependencies
         run: yarn
       - name: 🏗 Build Project
-        run: yarn build
+        run: yarn build:prod
       - name: 🧪 Run Tests
         run: yarn test
