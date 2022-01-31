@@ -24,18 +24,18 @@ on:
         description: "Publish on Visual Studio Marketplace?"
         required: true
         type: choice
-        default: yes
+        default: "yes"
         options:
-          - yes
-          - no
+          - "yes"
+          - "no"
       publishOpenVSX:
         description: "Publish on Open VSX Registry?"
         required: true
         type: choice
-        default: yes
+        default: "yes"
         options:
-          - yes
-          - no
+          - "yes"
+          - "no"
 
 jobs:
   release:
@@ -107,20 +107,20 @@ jobs:
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Publish to Visual Studio Marketplace (Edge)
         run: yarn vsce publish $RELEASE_VERSION --packagePath "./marquee-$RELEASE_VERSION.vsix" --pre-release --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
-        if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
+        if: ${{ github.event.inputs.publishMarketplace == "yes" && github.event.inputs.releaseChannel == 'edge' }}
       - name: Publish to Visual Studio Marketplace (Stable)
         run: yarn vsce publish $RELEASE_VERSION --packagePath "./marquee-$RELEASE_VERSION.vsix" --yarn --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }} ${{ github.event.inputs.additionalFlags }}
-        if: ${{ github.event.inputs.publishMarketplace == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
+        if: ${{ github.event.inputs.publishMarketplace == "yes" && github.event.inputs.releaseChannel == 'stable' }}
       - name: Publish to Open VSX Registry (Edge)
         uses: HaaLeo/publish-vscode-extension@v1
-        if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'edge' }}
+        if: ${{ github.event.inputs.publishOpenVSX == "yes" && github.event.inputs.releaseChannel == 'edge' }}
         with:
           preRelease: true
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
           extensionFile: ./marquee-${{ env.RELEASE_VERSION }}.vsix
       - name: Publish to Open VSX Registry (Stable)
         uses: HaaLeo/publish-vscode-extension@v1
-        if: ${{ github.event.inputs.publishOpenVSX == 'yes' && github.event.inputs.releaseChannel == 'stable' }}
+        if: ${{ github.event.inputs.publishOpenVSX == "yes" && github.event.inputs.releaseChannel == 'stable' }}
         with:
           preRelease: false
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
