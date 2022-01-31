@@ -10,6 +10,7 @@ import SortByAlphaIcon from "@material-ui/icons/SortByAlpha";
 import SortIcon from "@material-ui/icons/Sort";
 
 import WorkspaceContext from "../Context";
+import type { WorkspaceSortOrder } from '../types';
 
 const OpenInNewWindowBox = React.memo(() => {
   const { openProjectInNewWindow, setOpenProjectInNewWindow } = useContext(WorkspaceContext);
@@ -43,7 +44,7 @@ const SortOrder = React.memo(() => {
     WorkspaceContext
   );
 
-  const handleChange = (event: any, newAlignment: string) => {
+  const handleChange = (event: any, newAlignment: WorkspaceSortOrder) => {
     setWorkspaceSortOrder(newAlignment);
   };
 

@@ -5,6 +5,10 @@
   "private": true,
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
+  "exports": {
+    ".": "./build/index.js",
+    "./extension": "./build/extension.js"
+  },
   "dependencies": {
     "@vscode-marquee/widget": "^0.1.0",
     "@vscode-marquee/utils": "^0.1.0"

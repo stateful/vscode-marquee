@@ -27,11 +27,11 @@ const useStyles = makeStyles(() => ({
 
 let Projects = () => {
   const classes = useStyles();
-  const { workspaces, activeWorkspace } = useContext(GlobalContext);
+  const { activeWorkspace } = useContext(GlobalContext);
   const { todos } = useContext(TodoContext);
   const { notes } = useContext(NoteContext);
   const { snippets } = useContext(SnippetContext);
-  const { workspaceFilter, workspaceSortOrder, openProjectInNewWindow } = useContext(WorkspaceContext);
+  const { workspaces, workspaceFilter, workspaceSortOrder, openProjectInNewWindow } = useContext(WorkspaceContext);
 
   const totalLen = (wspid: string) => {
     let todoCount = todos.filter((todo) => todo.workspaceId === wspid).length;

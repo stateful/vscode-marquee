@@ -49,11 +49,17 @@ export interface MarqueeEvents {
   openEditNoteDialog?: string
 }
 
+export enum WorkspaceType {
+  WORKSPACE = "workspace",
+  FOLDER = "folder",
+  NONE = "none",
+}
+
 export interface Workspace {
   id: string
   name: string
   path: string
-  type: 'workspace' | 'folder'
+  type: WorkspaceType
 }
 
 export interface IGlobalContext {

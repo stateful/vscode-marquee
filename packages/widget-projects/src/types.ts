@@ -1,13 +1,21 @@
-export interface ContextValues {
-  workspaceFilter: string
-  workspaceSortOrder: string
-  openProjectInNewWindow: boolean
-}
+import type { Workspace } from "@vscode-marquee/utils";
+
+export type WorkspaceSortOrder = 'alphabetical' | 'usage';
 
 export interface ContextMethods {
   setWorkspaceFilter: (filter: string) => void
-  setWorkspaceSortOrder: (filter: string) => void
+  setWorkspaceSortOrder: (filter: WorkspaceSortOrder) => void
   setOpenProjectInNewWindow: (set: boolean) => void
 }
 
-export type Context = ContextValues & ContextMethods;
+export type Context = State & Configuration & ContextMethods;
+
+export interface Configuration {
+  workspaceFilter: string
+  workspaceSortOrder: WorkspaceSortOrder
+  openProjectInNewWindow: boolean
+}
+
+export interface State {
+  workspaces: Workspace[]
+}

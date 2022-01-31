@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-projects-extension",
+  "description": "extension logic for Projects Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}
