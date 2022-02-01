@@ -18,6 +18,8 @@ export interface ExtensionConfiguration {
 export interface ExtensionExport {
   marquee: {
     disposable: Disposable
+    defaultState?: Record<string, any>
+    defaultConfiguration?: Record<string, any>
     setup: (tangle: Client<any>) => EventEmitter | undefined
   }
   [i: string]: any

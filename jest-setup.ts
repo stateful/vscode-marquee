@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 
+// @ts-expect-error
 window.acquireVsCodeApi = jest.fn();
 
 // @ts-expect-error

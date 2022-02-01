@@ -131,7 +131,9 @@ export class MarqueeGui extends EventEmitter {
         extension.exports.marquee &&
         typeof extension.exports.marquee.setup === 'function'
       ) {
-        const ch = new Channel(extension.id);
+        const defaultState = extension.exports.marquee.defaultState || {};
+        const defaultConfiguration = extension.exports.marquee.defaultConfiguration || {};
+        const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration });
         ch.registerPromise([this.panel.webview]).then((client) => {
           const stateManager = extension.exports.marquee.setup(client);
           if (stateManager) {

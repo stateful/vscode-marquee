@@ -1,5 +1,6 @@
 import vscode from 'vscode';
 import crypto from 'crypto';
+import pick from 'lodash.pick';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
@@ -20,8 +21,26 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super();
-    this._state = this._context.globalState.get<State>(this._key) || this._defaultState;
-    this._configuration = config.get<Configuration>(this._key) || this._defaultConfiguration;
+
+    const oldGlobalStore = this._context.globalState.get<object>('persistence', {});
+    this._state = {
+      ...this._defaultState,
+      ...pick(oldGlobalStore, Object.keys(this._defaultState)),
+      ...this._context.globalState.get<State>(this._key)
+    };
+    this._configuration = {
+      ...this._defaultConfiguration,
+      ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration)),
+      ...config.get<Configuration>(this._key)
+    };
+  }
+
+  get state () {
+    return this._state;
+  }
+
+  get configuration () {
+    return this._configuration;
   }
 
   updateConfiguration <T extends keyof Configuration>(prop: T, val: Configuration[T]) {
@@ -38,6 +57,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   setBroadcaster (tangle: Client<State & Configuration>) {
     this._tangle = tangle;
+    this._tangle.broadcast({ ...this._state, ...this._configuration });
 
     /**
      * listen on configuration changes
