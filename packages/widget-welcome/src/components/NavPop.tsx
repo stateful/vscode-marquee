@@ -4,7 +4,7 @@ import Popover from "@material-ui/core/Popover";
 import { IconButton, Grid, Badge } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import TrickContent from "./TrickContent";
-import TrickContext from "../Context";
+import TrickContext, { TrickProvider } from "../Context";
 
 const useStyles = makeStyles(() => ({
   badge: {
@@ -79,4 +79,9 @@ let NavPop = () => {
   );
 };
 
-export default React.memo(NavPop);
+const Component = () => (
+  <TrickProvider>
+    <NavPop />
+  </TrickProvider>
+);
+export default React.memo(Component);

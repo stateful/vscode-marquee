@@ -7,7 +7,7 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 import { NetworkError } from '@vscode-marquee/utils';
 
-import TrickContext from './Context';
+import TrickContext, { TrickProvider } from './Context';
 import TrickContent from "./components/TrickContent";
 import PopMenu from "./components/Pop";
 
@@ -123,4 +123,9 @@ let Welcome = () => {
   );
 };
 
-export default wrapper(Welcome, 'welcome');
+const Widget = () => (
+  <TrickProvider>
+    <Welcome />
+  </TrickProvider>
+);
+export default wrapper(Widget, 'welcome');
