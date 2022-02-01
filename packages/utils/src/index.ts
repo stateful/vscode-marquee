@@ -1,8 +1,10 @@
 /* istanbul ignore file */
 
-import type { Client } from 'tangle';
+import { useState } from 'react';
 import Channel from "tangle/webviews";
 import { createTheme } from "@material-ui/core/styles";
+
+import type { Client } from 'tangle';
 
 import store from './store';
 import calculateTheme from "./calculateTheme";
@@ -46,6 +48,40 @@ const jumpTo = (item: any) => {
   });
 };
 
+export type ContextProperties<T> = {
+  [t in keyof T]: T[t]
+} & {
+  [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
+};
+
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+/**
+ * Helper method to connect a widget context with its configuration and
+ * application state
+ * @param defaults combind default values for configuration and state
+ * @param tangle   tangle client to broadcast information
+ * @returns object containing state values and its setter methods
+ */
+function connect<T> (defaults: T, tangle: Client<T>): ContextProperties<T> {
+  const contextValues: Partial<ContextProperties<T>> = {};
+  for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
+    const [propState, setPropState] = useState<typeof defaultVal>(defaultVal);
+    contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T];
+
+    const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
+    contextValues[setProp] = ((val: any) => {
+      setPropState(val);
+      tangle.broadcast({ [prop]: val } as T);
+    }) as any;
+    tangle.listen(prop as keyof T, setPropState as any);
+  }
+
+  return contextValues as ContextProperties<T>;
+}
+
 export {
   store,
   jumpTo,
@@ -54,6 +90,7 @@ export {
   defaultName,
   createConsumer,
   theme,
+  connect,
 
   // components
   BetterComplete,

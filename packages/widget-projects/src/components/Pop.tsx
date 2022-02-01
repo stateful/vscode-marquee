@@ -44,8 +44,10 @@ const SortOrder = React.memo(() => {
     WorkspaceContext
   );
 
-  const handleChange = (event: any, newAlignment: WorkspaceSortOrder) => {
-    setWorkspaceSortOrder(newAlignment);
+  const handleChange = (event: any, newAlignment: WorkspaceSortOrder | null) => {
+    if (newAlignment !== null) {
+      setWorkspaceSortOrder(newAlignment);
+    }
   };
 
   return (

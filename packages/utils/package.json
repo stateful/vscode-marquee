@@ -6,7 +6,9 @@
   "main": "./build",
   "types": "./build/index.d.ts",
   "dependencies": {
+    "@types/lodash.pick": "^4.4.6",
     "hex-rgb": "^4.3.0",
+    "lodash.pick": "^4.4.0",
     "rxjs": "^6.6.7",
     "store2": "^2.12.0"
   },

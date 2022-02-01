@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import vscode from 'vscode';
 import Axios, { AxiosRequestConfig } from 'axios';
-import { getExtProps } from '@vscode-marquee/utils';
+import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import { Client } from 'tangle';
 import type { State, Trick, Storage } from './types';

@@ -1,14 +1,6 @@
-import type { Workspace } from "@vscode-marquee/utils";
+import type { Workspace, ContextProperties } from "@vscode-marquee/utils";
 
 export type WorkspaceSortOrder = 'alphabetical' | 'usage';
-
-export interface ContextMethods {
-  setWorkspaceFilter: (filter: string) => void
-  setWorkspaceSortOrder: (filter: WorkspaceSortOrder) => void
-  setOpenProjectInNewWindow: (set: boolean) => void
-}
-
-export type Context = State & Configuration & ContextMethods;
 
 export interface Configuration {
   workspaceFilter: string
@@ -19,3 +11,5 @@ export interface Configuration {
 export interface State {
   workspaces: Workspace[]
 }
+
+export type Context = ContextProperties<Configuration & State>;

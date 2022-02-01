@@ -10,8 +10,8 @@
     "./extension": "./build/extension.js"
   },
   "dependencies": {
-    "@vscode-marquee/widget": "^0.1.0",
-    "@vscode-marquee/utils": "^0.1.0"
+    "@vscode-marquee/utils": "^0.1.0",
+    "@vscode-marquee/widget": "^0.1.0"
   },
   "devDependencies": {},
   "peerDependencies": {

@@ -2,17 +2,17 @@ import vscode from 'vscode';
 
 import ExtensionManager from '@vscode-marquee/utils/build/extensionManager';
 
-import { DEFAULTS, DEFAULT_STATE } from './constants';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import type { State, Configuration } from './types';
 
-const STATE_KEY = 'marquee.projects';
+const STATE_KEY = 'widgets.projects';
 
 class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (
     context: vscode.ExtensionContext,
     channel: vscode.OutputChannel
   ) {
-    super(context, channel, STATE_KEY, DEFAULTS, DEFAULT_STATE);
+    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE);
 
     const aws = this.getActiveWorkspace();
     /**
@@ -54,6 +54,8 @@ export function activate (
   return {
     marquee: {
       disposable: stateManager,
+      defaultState: stateManager.state,
+      defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
   };

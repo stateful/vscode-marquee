@@ -60,7 +60,7 @@ let Projects = () => {
     } else {
       return filteredProjects.sort((a, b) => a.name.localeCompare(b.name));
     }
-  }, [activeWorkspace, workspaces, workspaceFilter]);
+  }, [activeWorkspace, workspaces, workspaceFilter, workspaceSortOrder]);
 
   return (
     <>

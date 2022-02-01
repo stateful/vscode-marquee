@@ -1,6 +1,6 @@
 import type { Configuration, State } from './types';
 
-export const DEFAULTS: Configuration = {
+export const DEFAULT_CONFIGURATION: Configuration = {
   workspaceFilter: "",
   workspaceSortOrder: "usage",
   openProjectInNewWindow: false
