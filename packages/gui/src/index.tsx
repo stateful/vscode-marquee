@@ -8,7 +8,6 @@ import { interval, ConnectableObservable } from "rxjs";
 import { take, publish } from "rxjs/operators";
 
 import { PrefProvider, theme, GlobalProvider } from "@vscode-marquee/utils";
-import { TrickProvider } from "@vscode-marquee/widget-welcome";
 import { TodoProvider } from "@vscode-marquee/widget-todo";
 import { NoteProvider } from "@vscode-marquee/widget-notes";
 import { SnippetProvider } from "@vscode-marquee/widget-snippets";
@@ -33,17 +32,15 @@ export const Providers = ({ children }: any) => {
   return (
     <GlobalProvider>
       <ModeProvider>
-        <TrickProvider>
-          <PrefProvider>
-            <TodoProvider>
-              <SnippetProvider>
-                <NoteProvider>
-                  {children}
-                </NoteProvider>
-              </SnippetProvider>
-            </TodoProvider>
-          </PrefProvider>
-        </TrickProvider>
+        <PrefProvider>
+          <TodoProvider>
+            <SnippetProvider>
+              <NoteProvider>
+                {children}
+              </NoteProvider>
+            </SnippetProvider>
+          </TodoProvider>
+        </PrefProvider>
       </ModeProvider>
     </GlobalProvider>
   );
