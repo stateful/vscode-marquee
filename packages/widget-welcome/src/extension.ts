@@ -1,28 +1,29 @@
-import { EventEmitter } from 'events';
 import vscode from 'vscode';
 import Axios, { AxiosRequestConfig } from 'axios';
+import ExtensionManager from '@vscode-marquee/utils/build/extensionManager';
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
-
 import { Client } from 'tangle';
-import type { State, Trick, Storage } from './types';
+
+import { DEFAULT_STATE } from "./constants";
+import type { State, Events, Configuration, Trick } from './types';
 
 declare const BACKEND_BASE_URL: string;
 
+const STATE_KEY = 'widgets.welcome';
 const FETCH_INTERVAL = process.env.NODE_ENV === "development"
   ? 1000 * 5 // 5s
   : 5 * 1000 * 60; // 5min
 const config = vscode.workspace.getConfiguration('marquee');
 
-class StateManager extends EventEmitter implements vscode.Disposable {
-  private _tangle?: Client<State>;
+class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout;
   private _prevtricks?: Trick[];
 
   constructor (
-    private _context: vscode.ExtensionContext,
-    private _channel: vscode.OutputChannel
+    context: vscode.ExtensionContext,
+    channel: vscode.OutputChannel
   ) {
-    super();
+    super(context, channel, STATE_KEY, {}, DEFAULT_STATE as State & Events);
     this.fetchData();
     this._interval = setInterval(this.fetchData.bind(this), FETCH_INTERVAL);
   }
@@ -35,14 +36,14 @@ class StateManager extends EventEmitter implements vscode.Disposable {
    * broadcast to webview if available
    * @param state to broadcast
    */
-  broadcast (state: Partial<State>) {
+  broadcast (state: Partial<State & Events>) {
     this.emit('state', state);
 
     if (!this._tangle) {
       return;
     }
 
-    this._tangle.broadcast(state as State);
+    this._tangle.broadcast(state as State & Events);
   }
 
   /**
@@ -74,7 +75,6 @@ class StateManager extends EventEmitter implements vscode.Disposable {
    */
   async fetchData () {
     const url = `${this.backendUrl}/getTricks`;
-    const persistedData = this._context.globalState.get<Storage>('persistence', {} as Storage);
     this._channel.appendLine(`Fetching ${url}`);
     const result = await Axios.get(url, this._getRequestOptions()).then(
       (res) => res.data as Trick[],
@@ -99,13 +99,13 @@ class StateManager extends EventEmitter implements vscode.Disposable {
       }
     }
 
-    this._prevtricks = result;
-    this.broadcast({
-      tricks: result,
-      read: persistedData.read,
-      liked: persistedData.liked,
-      error: undefined
-    });
+    /**
+     * only broadcast if we haven't before or a new trick was received
+     */
+    if (!this._prevtricks || this._prevtricks.length < result.length) {
+      this._prevtricks = result;
+      this.broadcast({ error: undefined, tricks: result });
+    }
   }
 
   private _upvoteTrick (id: string) {
@@ -117,10 +117,10 @@ class StateManager extends EventEmitter implements vscode.Disposable {
     ).catch((err) => vscode.window.showErrorMessage('Failed to upvote trick!', err.message));
   }
 
-  setBroadcaster (tangle: Client<State>) {
+  setBroadcaster (tangle: Client<State & Events>) {
+    super.setBroadcaster(tangle);
     this.fetchData();
-    this._tangle = tangle;
-    this._tangle.on('upvote', this._upvoteTrick.bind(this));
+    tangle.on('upvote', this._upvoteTrick.bind(this));
     return this;
   }
 
@@ -140,6 +140,8 @@ export function activate (
   return {
     marquee: {
       disposable: stateManager,
+      defaultState: stateManager.state,
+      defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
   };

@@ -9,13 +9,13 @@ import { Workspace, WorkspaceType } from './types';
 const config = vscode.workspace.getConfiguration('marquee');
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
-  private _tangle?: Client<State & Configuration>;
+  protected _tangle?: Client<State & Configuration>;
   protected _state: State;
   protected _configuration: Configuration;
 
   constructor (
-    private _context: vscode.ExtensionContext,
-    private _channel: vscode.OutputChannel,
+    protected _context: vscode.ExtensionContext,
+    protected _channel: vscode.OutputChannel,
     private _key: string,
     private _defaultConfiguration: Configuration,
     private _defaultState: State
