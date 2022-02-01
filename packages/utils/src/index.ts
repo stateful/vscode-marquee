@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Channel from "tangle/webviews";
 import { createTheme } from "@material-ui/core/styles";
 
@@ -65,18 +65,22 @@ type Entries<T> = {
  * @param tangle   tangle client to broadcast information
  * @returns object containing state values and its setter methods
  */
-function connect<T> (defaults: T, tangle: Client<T>): ContextProperties<T> {
+function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
   const contextValues: Partial<ContextProperties<T>> = {};
   for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
     const [propState, setPropState] = useState<typeof defaultVal>(defaultVal);
     contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T];
-
     const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
     contextValues[setProp] = ((val: any) => {
       setPropState(val);
-      tangle.broadcast({ [prop]: val } as T);
+      tangle.broadcast({ [prop]: val } as T & Events);
     }) as any;
-    tangle.listen(prop as keyof T, setPropState as any);
+
+    useEffect(() => {
+      tangle.listen(prop as keyof T, (val: any) => {
+        setPropState(val);
+      });
+    }, []);
   }
 
   return contextValues as ContextProperties<T>;
