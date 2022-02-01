@@ -1,3 +1,5 @@
+import { ContextProperties } from "@vscode-marquee/utils";
+
 export interface Trick {
   order: number;
   id: string;
@@ -9,25 +11,24 @@ export interface Trick {
   votes: { upvote: number }
 }
 
-export interface Context {
-  tricks: Trick[];
-  read: string[];
-  liked: string[];
-  error?: Error;
-
-  setTricks: React.Dispatch<React.SetStateAction<Trick[]>>
-  _setLiked: (id: string) => void;
-  _setRead: (id: string) => void;
-  _resetRead: () => void;
-}
+type IgnoredSetters = 'setTricks' | 'setLiked' | 'setRead' | 'setError';
+export type Context = Omit<ContextProperties<State & Pick<Events, 'error'>>, IgnoredSetters> & {
+  _setLiked: (id: string) => void
+  _setRead: (id: string) => void
+  _resetRead: () => void
+} & Pick<Events, 'tricks'>;
 
 export interface State {
-  tricks: Trick[];
   read: string[];
   liked: string[];
-  error?: Error;
+}
 
-  upvote: string
+export interface Configuration {}
+
+export interface Events {
+  upvote: string;
+  tricks: Trick[];
+  error?: Error;
 }
 
 export interface Storage extends Pick<Context, 'read' | 'liked'> {}
