@@ -6,7 +6,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
-import { jumpTo } from '@vscode-marquee/utils';
+import { jumpTo, theme } from '@vscode-marquee/utils';
 
 import ChipInput from "material-ui-chip-input";
 import LinkIcon from "@material-ui/icons/Link";
@@ -94,7 +94,7 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
           }}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ paddingRight: theme.spacing(3) }}>
         <Button onClick={close} color="secondary">
           Close
         </Button>
