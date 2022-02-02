@@ -7,15 +7,32 @@ import {
 } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
 
+import { theme, MarqueeWindow } from "@vscode-marquee/utils";
+import { SplitButton } from "@vscode-marquee/widget";
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
 
 import TodoContext from "../Context";
+
+declare const window: MarqueeWindow;
+const options = ['Add to Workspace', 'Add as Global Todo'];
 
 const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
   const { _addTodo } = useContext(TodoContext);
   const [error, setError] = useState(false);
   const [body, setBody] = useState("");
   const [tags, setTags] = useState([] as string[]);
+
+  const submit = (index: number) => {
+    const isWorkspaceTodo = index === 0;
+    if (body !== "") {
+      _addTodo(body, tags, isWorkspaceTodo);
+    } else {
+      setError(true);
+      return;
+    }
+
+    close();
+  };
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -37,7 +54,7 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           onKeyDown={(e) => {
             if (e.keyCode === 13 && e.metaKey) {
               e.preventDefault();
-              _addTodo(body);
+              _addTodo(body, tags, true);
               close();
             }
           }}
@@ -61,26 +78,24 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           }}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ paddingRight: theme.spacing(3) }}>
         <Button onClick={close} color="secondary">
           Close
         </Button>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => {
-            if (body !== "") {
-              _addTodo(body, tags);
-            } else {
-              setError(true);
-              return;
-            }
+        {window.activeWorkspace
+          ? <SplitButton
+              options={options}
+              onClick={submit}
+            />
+          : <Button
+              color="primary"
+              variant="contained"
+              onClick={() => submit(1)}
+            >
+              {options[1]}
+            </Button>
+        }
 
-            close();
-          }}
-        >
-          Add
-        </Button>
       </DialogActions>
     </DialogContainer>
   );
