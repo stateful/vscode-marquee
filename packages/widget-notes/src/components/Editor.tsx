@@ -23,9 +23,9 @@ interface NoteEditorProps {
 let NoteEditor = ({
   text = "",
   body = "",
-  _change,
   name = "widget",
   border = "",
+  _change,
 }: NoteEditorProps) => {
   const [editorBody, setEditorBody] = useState(body || "");
   const [editorText, setEditorText] = useState(text || "");

@@ -1,24 +1,26 @@
+import type { ContextProperties } from "@vscode-marquee/utils";
+
 export interface Note {
   id: string
-  workspaceId: string
+  workspaceId: string | null
   title: string
   body: string
-  language: string
   text: string
 }
-
-export interface IContext {
+export interface State {
   notes: Note[]
   noteFilter: string
   noteSelected: string
   noteSplitter: number
-  _addNote: (note: Partial<Note>, cb?: (id: string) => void) => void
+}
+
+export interface Context extends ContextProperties<State> {
+  _addNote: (
+    note: Pick<Note, 'title' | 'body' | 'text'>,
+    isWorkspaceTodo: boolean
+  ) => string
   _removeNote: (id: string) => void
   _updateNote: (note: Note) => void
-  _setNotes: (notes: Note[]) => void
-  _updateNoteFilter: (filter: string) => void
-  _updateNoteSelected: (selected: string) => void
-  _updateNoteSplitter: (splitter: number) => void
 
   showAddDialog: boolean
   setShowAddDialog: (show: boolean) => void
