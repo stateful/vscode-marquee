@@ -12,6 +12,7 @@ import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 import WeatherContext, { WeatherProvider } from "./Context";
 import { WeatherDialogLauncher } from "./components/Dialog";
 import { kToF, kToC } from './utils';
+import { SCALE_OPTIONS } from './constants';
 import type { Forecast } from './types';
 
 const useStyles = makeStyles(() => ({
@@ -63,10 +64,10 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
             <Grid container direction="column">
               <Grid item>
                 <Typography variant={"h5"}>
-                  {scale && scale.value === "fahrenheit" && (
+                  {scale === SCALE_OPTIONS[0].name && (
                     <>{kToF(current.temp)}&#176;F</>
                   )}
-                  {scale && scale.value === "celsius" && (
+                  {scale === SCALE_OPTIONS[1].name && (
                     <>{kToC(current.temp)}&#176;C</>
                   )}
                 </Typography>
@@ -141,10 +142,10 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
 
                         <Grid item style={{ paddingTop: "8px" }}>
                           <Typography variant="caption">
-                            {scale && scale.value === "fahrenheit" && (
+                            {scale === SCALE_OPTIONS[0].name && (
                               <>{kToF(hour.temp)}&#176;F</>
                             )}
-                            {scale && scale.value === "celsius" && (
+                            {scale === SCALE_OPTIONS[1].name && (
                               <>{kToC(hour.temp)}&#176;C</>
                             )}
                           </Typography>
