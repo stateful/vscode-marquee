@@ -24,6 +24,7 @@ import {
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
 import { activate as activateProjectsWidget } from '@vscode-marquee/widget-projects/extension';
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension';
+import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension';
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import {
@@ -69,6 +70,12 @@ export class MarqueeExtension {
     {
       id: '@vscode-marquee/github-widget',
       exports: activateGitHubWidget(this.context, this._channel),
+      isActive: true,
+      packageJSON: { marqueeWidget: true }
+    } as any as vscode.Extension<ExtensionExport>,
+    {
+      id: '@vscode-marquee/weather-widget',
+      exports: activateWeatherWidget(this.context, this._channel),
       isActive: true,
       packageJSON: { marqueeWidget: true }
     } as any as vscode.Extension<ExtensionExport>
