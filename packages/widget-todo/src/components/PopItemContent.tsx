@@ -48,7 +48,10 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
     <List component="nav" dense>
       <ListItem
         button
-        onClick={() => setShowEditDialog(todo.id) }
+        onClick={() => {
+          setShowEditDialog(todo.id);
+          close();
+        }}
       >
         <ListItemText primary={<Typography variant="body2">Edit</Typography>} />
       </ListItem>
@@ -72,6 +75,7 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
           button
           onClick={() => {
             moveToCurrentWorkspace();
+            close();
           }}
         >
           <ListItemText
@@ -91,6 +95,7 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
             let newTodo = todo;
             newTodo.archived = true;
             _updateTodo(newTodo);
+            close();
             return true;
           }}
         >
@@ -108,6 +113,7 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
               let newTodo = todo;
               newTodo.archived = false;
               _updateTodo(newTodo);
+              close();
             }}
           >
             <ListItemText
@@ -118,6 +124,7 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
             button
             onClick={() => {
               _removeTodo(todo.id);
+              close();
             }}
           >
             <ListItemText

@@ -159,6 +159,7 @@ export class MarqueeGui extends EventEmitter {
       }
     }
 
+    const aws = this.stateMgr.getActiveWorkspace();
     const cs = pref?.colorScheme!;
     const colorScheme = typeof cs.r === 'number' && typeof cs.g === 'number' && typeof cs.b === 'number' && typeof cs.a === 'number'
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
@@ -175,6 +176,7 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-nonce/g, nonce)
       .replace(/app-ext-cspSource/g, this.panel.webview.cspSource)
       .replace(/app-ext-fontSize/g, `${fontSize}em`)
+      .replace(/app-ext-workspace/g, JSON.stringify(aws))
       .replace(/app-ext-theme-color/g, colorScheme)
       .replace(/app-ext-widgets/, [
         ' begin 3rd party widgets -->',

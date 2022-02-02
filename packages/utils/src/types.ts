@@ -26,6 +26,7 @@ export interface MarqueeInterface {
 export interface MarqueeWindow extends Window {
   vscode: VSCodeWebview
   acquireVsCodeApi: () => Webview
+  activeWorkspace: Workspace | null
   marqueeExtension: MarqueeInterface
   marqueeUserProps: string
   marqueeBackendBaseUrl: string
