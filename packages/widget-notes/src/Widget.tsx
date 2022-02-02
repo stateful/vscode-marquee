@@ -163,7 +163,7 @@ let Notes = () => {
               primaryIndex={0}
               secondaryMinSize={10}
               primaryMinSize={10}
-              secondaryInitialSize={noteSplitter}
+              secondaryInitialSize={noteSplitter || 80}
               onSecondaryPaneSizeChange={setNoteSplitter}
             >
               <div
