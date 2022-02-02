@@ -1,10 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, createConsumer, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
 import { DEFAULT_STATE, DEFAULT_CONFIGURATION } from "./constants";
 import type { Todo, Context, Configuration, State } from './types';
+
+declare const window: MarqueeWindow;
 
 const TodoContext = createContext<Context>({} as Context);
 
@@ -13,11 +15,10 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   const widgetState = getEventListener<Configuration & State>('@vscode-marquee/todo-widget');
   const providerValues = connect<Configuration & State>({ ...DEFAULT_CONFIGURATION, ...DEFAULT_STATE }, widgetState);
 
-  const [activeWorkspaceId, setActiveWorkspaceId] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
-  let _addTodo = (body: string, tags: string[] = []) => {
+  let _addTodo = (body: string, tags: string[] = [], isWorkspaceTodo = true) => {
     const globalTodos: Todo[] = providerValues.todos;
     const randomString = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
     globalTodos.unshift({
@@ -26,7 +27,9 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
       checked: false,
       id: randomString,
       archived: false,
-      workspaceId: activeWorkspaceId,
+      workspaceId: isWorkspaceTodo && window.activeWorkspace
+        ? window.activeWorkspace.id
+        : null,
     });
     providerValues.setTodos(globalTodos);
   };
@@ -49,12 +52,6 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   useEffect(() => {
-    createConsumer("activeWorkspace").subscribe((aws) => {
-      if (aws && aws.id) {
-        setActiveWorkspaceId(aws.id);
-      }
-    });
-
     eventListener.on('openAddTodoDialog', setShowAddDialog);
     eventListener.on('openEditTodoDialog', setShowEditDialog);
   }, []);
@@ -63,7 +60,6 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     <TodoContext.Provider
       value={{
         ...providerValues,
-        activeWorkspaceId,
 
         showAddDialog,
         setShowAddDialog,
