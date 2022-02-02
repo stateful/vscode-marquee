@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
 
 import Todo from "./Widget";
-import TodoContext, { TodoProvider } from "./Context";
 
 export default {
   name: "todo",
@@ -12,4 +11,4 @@ export default {
   description: "The Todo widget for simplifying priorities.",
   component: Todo,
 };
-export { Todo, TodoContext, TodoProvider };
+export { Todo };

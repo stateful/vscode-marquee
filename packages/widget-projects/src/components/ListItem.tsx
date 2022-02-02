@@ -15,7 +15,6 @@ import CodeIcon from "@material-ui/icons/Code";
 import NoteIcon from "@material-ui/icons/Note";
 
 import { PrefContext } from "@vscode-marquee/utils";
-import { TodoContext } from '@vscode-marquee/widget-todo';
 import { NoteContext } from '@vscode-marquee/widget-notes';
 import { SnippetContext } from "@vscode-marquee/widget-snippets";
 import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils';
@@ -51,12 +50,13 @@ let ProjectListItem = ({ activeWorkspace, workspace }: ProjectListItemProps) => 
   });
 
   const { openProjectInNewWindow } = useContext(WorkspaceContext);
-  const { todos } = useContext(TodoContext);
+  // ToDo(Christian): make todos accessible here
+  const { todos } = { todos: [] as any }; // useContext(TodoContext);
   const { notes } = useContext(NoteContext);
   const { snippets } = useContext(SnippetContext);
 
   let todoCount = useMemo(() => {
-    return todos.filter((todo) => todo.workspaceId === workspace.id);
+    return todos.filter((todo: any) => todo.workspaceId === workspace.id);
   }, [activeWorkspace, workspace, todos]);
 
   let noteCount = useMemo(() => {
