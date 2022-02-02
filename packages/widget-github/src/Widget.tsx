@@ -58,7 +58,7 @@ let Github = () => {
     }
 
     return filteredTrends;
-  }, [trends]);
+  }, [trends, trendFilter]);
 
   return (
     <>
