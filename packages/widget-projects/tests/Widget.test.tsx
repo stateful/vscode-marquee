@@ -3,7 +3,6 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 import { GlobalProvider, PrefProvider } from '@vscode-marquee/utils';
-import { NoteProvider } from "@vscode-marquee/widget-notes";
 import { SnippetProvider } from "@vscode-marquee/widget-snippets";
 
 import Widget from '../src';
@@ -22,11 +21,9 @@ test('renders component correctly', async () => {
     <GlobalProvider>
       <PrefProvider>
         <WorkspaceProvider>
-          <NoteProvider>
-            <SnippetProvider>
-              <Widget.component />
-            </SnippetProvider>
-          </NoteProvider>
+          <SnippetProvider>
+            <Widget.component />
+          </SnippetProvider>
         </WorkspaceProvider>
       </PrefProvider>
     </GlobalProvider>
