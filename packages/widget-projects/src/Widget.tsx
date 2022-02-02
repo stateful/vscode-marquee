@@ -7,7 +7,6 @@ import PageviewIcon from "@material-ui/icons/Pageview";
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 import { MarqueeWindow, GlobalContext } from "@vscode-marquee/utils";
 
-import { TodoContext } from '@vscode-marquee/widget-todo';
 import { NoteContext } from "@vscode-marquee/widget-notes";
 import { SnippetContext } from "@vscode-marquee/widget-snippets";
 
@@ -28,13 +27,14 @@ const useStyles = makeStyles(() => ({
 let Projects = () => {
   const classes = useStyles();
   const { activeWorkspace } = useContext(GlobalContext);
-  const { todos } = useContext(TodoContext);
+  // ToDo(Christian): make todos accessible here
+  const { todos } = { todos: [] }; // useContext(TodoContext);
   const { notes } = useContext(NoteContext);
   const { snippets } = useContext(SnippetContext);
   const { workspaces, workspaceFilter, workspaceSortOrder, openProjectInNewWindow } = useContext(WorkspaceContext);
 
   const totalLen = (wspid: string) => {
-    let todoCount = todos.filter((todo) => todo.workspaceId === wspid).length;
+    let todoCount = todos.filter((todo: any) => todo.workspaceId === wspid).length;
     let noteCount = notes.filter((notes) => notes.workspaceId === wspid).length;
     let snippetCount = snippets.filter(
       (snippets) => snippets.workspaceId === wspid
