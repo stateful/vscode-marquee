@@ -8,7 +8,6 @@ import { interval, ConnectableObservable } from "rxjs";
 import { take, publish } from "rxjs/operators";
 
 import { PrefProvider, theme, GlobalProvider } from "@vscode-marquee/utils";
-import { SnippetProvider } from "@vscode-marquee/widget-snippets";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
 import Sentry from "./sentry";
@@ -31,9 +30,7 @@ export const Providers = ({ children }: any) => {
     <GlobalProvider>
       <ModeProvider>
         <PrefProvider>
-          <SnippetProvider>
-            {children}
-          </SnippetProvider>
+          {children}
         </PrefProvider>
       </ModeProvider>
     </GlobalProvider>

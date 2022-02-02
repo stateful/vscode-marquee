@@ -7,11 +7,12 @@ export interface Note {
   body: string
   text: string
 }
+
 export interface State {
   notes: Note[]
   noteFilter: string
   noteSelected: string
-  noteSplitter: number
+  noteSplitter?: number
 }
 
 export interface Context extends ContextProperties<State> {

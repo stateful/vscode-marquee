@@ -14,7 +14,7 @@ import copy from "copy-to-clipboard";
 import { stringify } from "javascript-stringify";
 import { escape } from "html-escaper";
 
-import { GlobalContext, MarqueeWindow, jumpTo } from "@vscode-marquee/utils";
+import { MarqueeWindow, jumpTo } from "@vscode-marquee/utils";
 
 import SnippetContext from "../Context";
 import type { Snippet } from "../types";
@@ -61,35 +61,35 @@ let SnippetListItem = ({
   const { _removeSnippet, _updateSnippet, setShowEditDialog } = useContext(SnippetContext);
   // ToDo(Christian): make adding notes availble hre
   const { _addNote } = { _addNote: (note: any) => note }; // useContext(NoteContext);
-  const { activeWorkspace } = useContext(GlobalContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const matchingWorkspace = useMemo(() => {
-    let found = false;
-    if (!activeWorkspace) {
-      found = true;
+    if (!window.activeWorkspace) {
+      return true;
     }
-    if (activeWorkspace && activeWorkspace.id) {
-      if (snippet && snippet.workspaceId) {
-        if (activeWorkspace.id === snippet.workspaceId) {
-          found = true;
-        }
-      }
+
+    if (
+      window.activeWorkspace && window.activeWorkspace.id &&
+      snippet && snippet.workspaceId &&
+      window.activeWorkspace.id === snippet.workspaceId
+    ) {
+      return true;
     }
-    return found;
-  }, [activeWorkspace, snippet]);
+
+    return false;
+  }, [snippet]);
 
   const moveToCurrentWorkspace = useCallback(() => {
-    if (!activeWorkspace || !activeWorkspace.id) {
+    if (!window.activeWorkspace?.id || !snippet) {
       return;
     }
 
-    let updatedSnippet = snippet;
-    updatedSnippet!.workspaceId = activeWorkspace.id;
+    const updatedSnippet = snippet;
+    updatedSnippet.workspaceId = window.activeWorkspace.id;
     _updateSnippet(updatedSnippet);
     setAnchorEl(null);
-  }, [snippet, activeWorkspace]);
+  }, [snippet]);
 
   const handleRightClick = useCallback((e) => {
     setAnchorEl(e.currentTarget);
@@ -101,12 +101,9 @@ let SnippetListItem = ({
     e.stopPropagation();
   }, []);
 
-  let deleteSnippet = useCallback(
-    () => {
-      _removeSnippet(snippet!.id);
-    },
-    [snippet]
-  );
+  const deleteSnippet = useCallback(() => {
+    _removeSnippet(snippet!.id);
+  }, [snippet]);
 
   const open = Boolean(anchorEl);
   const id = open ? "snippet-item-popover" : undefined;
@@ -194,9 +191,7 @@ let SnippetListItem = ({
               {!matchingWorkspace && (
                 <ListItem
                   button
-                  onClick={() => {
-                    moveToCurrentWorkspace();
-                  }}
+                  onClick={() => moveToCurrentWorkspace()}
                 >
                   <ListItemText
                     primary={

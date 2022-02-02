@@ -4,5 +4,5 @@ export const DEFAULT_STATE: State = {
   notes: [],
   noteFilter: '',
   noteSelected: '',
-  noteSplitter: 80
+  noteSplitter: undefined
 };
