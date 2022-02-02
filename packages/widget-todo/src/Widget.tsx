@@ -8,7 +8,7 @@ import { List, arrayMove } from "react-movable";
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 
-import TodoContext from "./Context";
+import TodoContext, { TodoProvider } from "./Context";
 import TodoPop from "./components/Pop";
 import TodoInfo from "./components/Info";
 import TodoFilter from "./components/Filter";
@@ -202,4 +202,9 @@ let Todo = () => {
   );
 };
 
-export default wrapper(Todo, 'todo');
+const Widget = () => (
+  <TodoProvider>
+    <Todo />
+  </TodoProvider>
+);
+export default wrapper(Widget, 'todo');
