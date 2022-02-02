@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-todo-extension",
+  "description": "extension logic for Todo Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}

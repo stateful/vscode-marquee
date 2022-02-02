@@ -1,3 +1,5 @@
+import type { ContextProperties } from "@vscode-marquee/utils";
+
 export interface Todo {
   body: string
   checked: boolean
@@ -9,26 +11,26 @@ export interface Todo {
   path?: string
 }
 
-export interface Context {
+export interface State {
   todos: Todo[]
+}
+
+export interface Configuration {
   todoFilter: string
   hide: boolean
   showArchived: boolean
   autoDetect: boolean
+}
+
+export interface ContextValues extends Configuration, State {
   activeWorkspaceId: string | null
-
   showAddDialog: boolean
-  setShowAddDialog: (show: boolean) => void
   showEditDialog?: string
-  setShowEditDialog: (id?: string) => void
+}
 
+export interface Context extends Omit<ContextProperties<ContextValues>, 'setActiveWorkspaceId'> {
   _resetTodos: () => void
   _addTodo: (body: string, tags?: string[]) => void
   _removeTodo: (id: string) => void
   _updateTodo: (todo: Todo) => void
-  _setTodos: (todos: Todo[]) => void
-  _updateHide: (hide: boolean) => void
-  _updateFilter: (filter: string) => void
-  _updateShowArchived: (archived: boolean) => void
-  _updateAutoDetect: (autoDetect: boolean) => void
 }
