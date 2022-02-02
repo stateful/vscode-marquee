@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, useCallback } from "react";
+import React, { useContext, useState, useMemo, useCallback } from "react";
 import Popover from "@material-ui/core/Popover";
 import {
   IconButton,
@@ -7,25 +7,10 @@ import {
   Button,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { GlobalContext } from "@vscode-marquee/utils";
+
 
 import TodoContext from "../Context";
 import type { Todo } from '../types';
-
-let ProjectBox = React.memo(() => {
-  const { workspaces, activeWorkspace } = useContext(GlobalContext);
-  const wsname = activeWorkspace ? activeWorkspace.name : "none";
-
-  return (
-    <Grid container direction="column" spacing={1}>
-      <Grid item>Projects: {workspaces.length}</Grid>
-      <Grid item>Active: {wsname}</Grid>
-      <Grid item>
-        <Divider />
-      </Grid>
-    </Grid>
-  );
-});
 
 let Totals = () => {
   const { todos } = useContext(TodoContext);
@@ -120,10 +105,6 @@ let TodoInfo = () => {
         }}
       >
         <Grid container style={{ padding: "16px" }} direction="column">
-          <Grid item>
-            <ProjectBox />
-          </Grid>
-          <Grid item>&nbsp;</Grid>
           <Grid item>
             <Totals />
           </Grid>

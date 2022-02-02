@@ -1,5 +1,5 @@
 import React, { useContext, useCallback, useMemo } from "react";
-import { GlobalContext, jumpTo } from "@vscode-marquee/utils";
+import { jumpTo, MarqueeWindow } from "@vscode-marquee/utils";
 import {
   Typography,
   ListItem,
@@ -10,39 +10,46 @@ import {
 import TodoContext from "../Context";
 import type { Todo } from '../types';
 
+declare const window: MarqueeWindow;
+
 interface TodoPopItemContentPayload {
   todo: Todo
   close: () => void
 }
 
 const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
-  const { activeWorkspace } = useContext(GlobalContext);
   const { _updateTodo, _removeTodo, setShowEditDialog } = useContext(TodoContext);
 
   const moveToCurrentWorkspace = useCallback(() => {
-    if (!activeWorkspace || !activeWorkspace.id) {
+    if (!window.activeWorkspace || !window.activeWorkspace.id) {
       return;
     }
 
-    let updatedTodo = todo;
-    updatedTodo.workspaceId = activeWorkspace.id;
+    const updatedTodo = todo;
+    updatedTodo.workspaceId = window.activeWorkspace.id;
     _updateTodo(updatedTodo);
-  }, [todo, activeWorkspace]);
+  }, [todo]);
+
+  const moveToGlobalWorkspace = useCallback(() => {
+    let updatedTodo = todo;
+    updatedTodo.workspaceId = null;
+    _updateTodo(updatedTodo);
+  }, [todo]);
 
   const matchingWorkspace = useMemo(() => {
     let found = false;
-    if (!activeWorkspace) {
+    if (!window.activeWorkspace) {
       found = true;
     }
-    if (activeWorkspace && activeWorkspace.id) {
-      if (todo && todo.workspaceId) {
-        if (activeWorkspace.id === todo.workspaceId) {
-          found = true;
-        }
-      }
+    if (
+      window.activeWorkspace && window.activeWorkspace.id &&
+      todo && todo.workspaceId &&
+      window.activeWorkspace.id === todo.workspaceId
+    ) {
+      found = true;
     }
     return found;
-  }, [activeWorkspace, todo]);
+  }, [todo]);
 
   return (
     <List component="nav" dense>
@@ -81,6 +88,22 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
           <ListItemText
             primary={
               <Typography variant="body2">Move to current workspace</Typography>
+            }
+          />
+        </ListItem>
+      )}
+
+      {matchingWorkspace && (
+        <ListItem
+          button
+          onClick={() => {
+            moveToGlobalWorkspace();
+            close();
+          }}
+        >
+          <ListItemText
+            primary={
+              <Typography variant="body2">Make a Global Todo</Typography>
             }
           />
         </ListItem>
