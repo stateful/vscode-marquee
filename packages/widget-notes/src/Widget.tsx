@@ -12,7 +12,7 @@ import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 import "react-virtualized/styles.css";
 import "../css/react-splitter-layout.css";
 
-import NoteContext from "./Context";
+import NoteContext, { NoteProvider } from "./Context";
 import NoteEditor from "./components/Editor";
 import NoteListItem from "./components/ListItem";
 
@@ -88,13 +88,6 @@ let Notes = () => {
       setNoteSelected(notesArr[0].id);
     }
   }, [noteFilter, globalScope]);
-
-  useEffect(() => {
-    let exists = notesArr.find((entry) => entry.id === noteSelected);
-    if (!exists && notesArr.length !== 0) {
-      setNoteSelected(notesArr[0].id);
-    }
-  }, [notes]);
 
   const noteItemClick = useCallback((e, index) => {
     if (e.detail === 1) {
@@ -276,4 +269,8 @@ let Notes = () => {
   );
 };
 
-export default wrapper(Notes, 'notes');
+export default wrapper(() => (
+  <NoteProvider>
+    <Notes />
+  </NoteProvider>
+), 'notes');
