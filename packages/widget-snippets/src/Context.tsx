@@ -1,135 +1,85 @@
 import React, { createContext, useState, useEffect } from "react";
-import { store, createConsumer, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
 
-import type { Context, Snippet } from './types';
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
+import { DEFAULT_STATE } from './constants';
+import type { State, Context, Snippet } from './types';
 
+declare const window: MarqueeWindow;
 const SnippetContext = createContext<Context>({} as Context);
-
-let hasRegisteredListener = false;
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   const eventListener = getEventListener<MarqueeEvents>();
-  const snippetStore = store("snippets", false);
+  const widgetState = getEventListener<State>('@vscode-marquee/snippets-widget');
+  const providerValues = connect<State>(DEFAULT_STATE, widgetState);
 
-  const [snippets, setSnippets] = useState([] as Snippet[]);
-  const [activeWorkspaceId, setActiveWorkspaceId] = useState(null as (string | null));
-  const [snippetFilter, setSnippetFilter] = useState("");
-  const [snippetSelected, setSnippetSelected] = useState("");
-  const [snippetSplitter, setSnippetSplitter] = useState(80);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
-  const _updateSnippetFilter = (snippetfilter: string) => {
-    setSnippetFilter(snippetfilter);
-    snippetStore.set("snippetFilter", snippetfilter);
-  };
-
-  const _updateSnippetSelected = (snippetSelected: string) => {
-    setSnippetSelected(snippetSelected);
-    snippetStore.set("snippetSelected", snippetSelected);
-  };
-
-  const _updateSnippetSplitter = (percentage: number) => {
-    setSnippetSplitter(percentage);
-    snippetStore.set("snippetSplitter", percentage);
-  };
-
-  const _addSnippet = (snippet: Partial<Snippet>, cb?: (id: string) => void) => {
-    const globalSnippets: Snippet[] = snippetStore.get("snippets") || [];
+  const _addSnippet = (
+    snippet: Pick<Snippet, 'title' | 'body' | 'language'>,
+    isWorkspaceTodo: boolean
+  ): string => {
+    const globalSnippets = providerValues.snippets;
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
 
     const newSnippet: Snippet = Object.assign({}, snippet, {
-      id: id,
+      id,
       archived: false,
       createdAt: new Date().getTime(),
-      origin: null,
-      workspaceId: activeWorkspaceId,
+      workspaceId: isWorkspaceTodo
+        ? window.activeWorkspace?.id || null
+        : null
     });
 
     globalSnippets.unshift(newSnippet);
-    setSnippets(globalSnippets);
-    snippetStore.set("snippets", globalSnippets);
-
-    if (cb) {
-      cb(id);
-    }
+    providerValues.setSnippets(globalSnippets);
+    return id;
   };
-  if (!hasRegisteredListener && activeWorkspaceId) {
-    hasRegisteredListener = true;
+
+  useEffect(() => {
+    eventListener.on('openAddSnippetDialog', setShowAddDialog);
+    eventListener.on('openEditSnippetDialog', setShowEditDialog);
     eventListener.on('addSnippet', (snippet: Snippet) => {
       if (typeof snippet !== 'object') {
         return;
       }
-      _addSnippet(snippet);
+      _addSnippet(snippet, true);
     });
-  }
+  }, []);
 
   const _removeSnippet = (id: string) => {
-    const globalSnippets: Snippet[] = snippetStore.get("snippets") || [];
+    const globalSnippets = providerValues.snippets;
     const index = globalSnippets.findIndex((snippet) => snippet.id === id);
-    globalSnippets.splice(index, 1);
 
-    setSnippets(globalSnippets);
-    snippetStore.set("snippets", globalSnippets);
+    if (index < 0) {
+      return console.error(`Couldn't find note with id "${id}"`);
+    }
+
+    globalSnippets.splice(index, 1);
+    providerValues.setSnippets(globalSnippets);
   };
 
   const _updateSnippet = (snippet: Snippet) => {
-    const newSnippets = snippets.map((entry) => {
-      if (snippet.id === entry.id) {
-        return Object.assign({}, entry, snippet);
-      } else {
-        return entry;
-      }
-    });
-    setSnippets(newSnippets);
-    snippetStore.set("snippets", newSnippets);
-  };
+    const globalSnippets = providerValues.snippets;
+    const index = globalSnippets.findIndex((s) => s.id === snippet.id);
 
-  const _setSnippets = (snippets: Snippet[]) => {
-    setSnippets(snippets);
-    snippetStore.set("snippets", snippets);
-  };
-
-  const handler = () => {
-    const globalSnippets: Snippet[] = snippetStore.get("snippets") || [];
-    if (JSON.stringify(globalSnippets) !== JSON.stringify(snippets)) {
-      setSnippets(globalSnippets);
+    if (index < 0) {
+      return console.error(`Couldn't find note with id "${snippet.id}"`);
     }
 
-    setSnippetFilter(snippetStore.get("snippetFilter") || "");
-    setSnippetSelected(snippetStore.get("snippetSelected") || 0);
-    setSnippetSplitter(snippetStore.get("snippetSplitter") || 80);
+    globalSnippets[index] = snippet;
+    providerValues.setSnippets(globalSnippets);
   };
-
-  useEffect(() => {
-    snippetStore.subscribe(handler as any);
-    handler();
-    createConsumer("activeWorkspace").subscribe((aws) => {
-      if (aws && aws.id) {
-        setActiveWorkspaceId(aws.id);
-      }
-    });
-
-    eventListener.on('openAddSnippetDialog', setShowAddDialog);
-    eventListener.on('openEditSnippetDialog', setShowEditDialog);
-  }, []);
 
   return (
     <SnippetContext.Provider
       value={{
-        snippets,
-        snippetFilter,
-        snippetSelected,
-        snippetSplitter,
+        ...providerValues,
         _addSnippet,
         _removeSnippet,
         _updateSnippet,
-        _setSnippets,
-        _updateSnippetFilter,
-        _updateSnippetSelected,
-        _updateSnippetSplitter,
 
         showAddDialog,
         setShowAddDialog,
@@ -140,8 +90,8 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       { showAddDialog && (
         <AddDialog close={() => setShowAddDialog(false)} />
       )}
-      { showEditDialog && snippets.find((s) => showEditDialog === s.id) && (
-        <EditDialog snippet={snippets.find((s) => showEditDialog === s.id)!} close={() => setShowEditDialog(undefined) } />
+      { showEditDialog && providerValues.snippets.find((s) => showEditDialog === s.id) && (
+        <EditDialog snippet={providerValues.snippets.find((s) => showEditDialog === s.id)!} close={() => setShowEditDialog(undefined) } />
       )}
       {children}
     </SnippetContext.Provider>

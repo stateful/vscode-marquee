@@ -99,16 +99,19 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.state.notes = filterByScope(notesMerged, aws, recovered.globalScope);
   }
 
-  private handleStateManagerUpdates (msg: Message) {
+  private _updateSnippets (aws: Workspace | null, recovered: any) {
+    const { snippets } = this.context.globalState.get('widgets.snippets') || {};
+    const snippetsMerged = snippets ? snippets : recovered.snippets || [];
+    this.state.snippets = filterByScope(snippetsMerged, aws, recovered.globalScope);
+  }
+
+  private handleStateManagerUpdates () {
     const aws = this.stateMgr.getActiveWorkspace();
     const recovered = this.stateMgr.recover();
-    const obj: Message = { ...msg.east, ...msg.west };
 
     this._updateTodos(aws, recovered);
     this._updateNotes(aws, recovered);
-
-    const snippets = obj.snippets ? obj.snippets : recovered.snippets || [];
-    this.state.snippets = filterByScope(snippets, aws, recovered.globalScope);
+    this._updateSnippets(aws, recovered);
 
     this.refresh();
   }

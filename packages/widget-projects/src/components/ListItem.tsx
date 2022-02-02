@@ -15,8 +15,6 @@ import CodeIcon from "@material-ui/icons/Code";
 import NoteIcon from "@material-ui/icons/Note";
 
 import { PrefContext } from "@vscode-marquee/utils";
-import { NoteContext } from '@vscode-marquee/widget-notes';
-import { SnippetContext } from "@vscode-marquee/widget-snippets";
 import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils';
 
 import ProjectItemPop from "./ItemPop";
@@ -39,11 +37,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface ProjectListItemProps {
-  activeWorkspace: Workspace
   workspace: Workspace
 }
 
-let ProjectListItem = ({ activeWorkspace, workspace }: ProjectListItemProps) => {
+let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   const { themeColor } = useContext(PrefContext);
   const classes = useStyles({
     background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
@@ -52,20 +49,20 @@ let ProjectListItem = ({ activeWorkspace, workspace }: ProjectListItemProps) => 
   const { openProjectInNewWindow } = useContext(WorkspaceContext);
   // ToDo(Christian): make todos accessible here
   const { todos } = { todos: [] as any }; // useContext(TodoContext);
-  const { notes } = useContext(NoteContext);
-  const { snippets } = useContext(SnippetContext);
+  const { notes } = { notes: [] as any }; // useContext(NoteContext);
+  const { snippets } = { snippets: [] as any }; // useContext(SnippetContext);
 
   let todoCount = useMemo(() => {
     return todos.filter((todo: any) => todo.workspaceId === workspace.id);
-  }, [activeWorkspace, workspace, todos]);
+  }, [workspace, todos]);
 
   let noteCount = useMemo(() => {
-    return notes.filter((notes) => notes.workspaceId === workspace.id);
-  }, [activeWorkspace, workspace, notes]);
+    return notes.filter((notes: any) => notes.workspaceId === workspace.id);
+  }, [workspace, notes]);
 
   let snippetCount = useMemo(() => {
-    return snippets.filter((snippets) => snippets.workspaceId === workspace.id);
-  }, [activeWorkspace, workspace, snippets]);
+    return snippets.filter((snippets: any) => snippets.workspaceId === workspace.id);
+  }, [workspace, snippets]);
 
   const handleOpen = useCallback((ev) => {
     let target = ev.target;
@@ -109,13 +106,7 @@ let ProjectListItem = ({ activeWorkspace, workspace }: ProjectListItemProps) => 
   return (
     <>
       <ListItem
-        selected={
-          Boolean(
-            activeWorkspace &&
-            activeWorkspace.id &&
-            workspace.id === activeWorkspace.id
-          )
-        }
+        selected={workspace.id === window.activeWorkspace?.id}
         dense
         button
         disableRipple

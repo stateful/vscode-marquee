@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-snippets-extension",
+  "description": "Extension logic for Snippets Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}
