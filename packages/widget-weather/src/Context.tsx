@@ -1,48 +1,47 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getEventListener, MarqueeEvents, store } from "@vscode-marquee/utils";
+import { getEventListener, MarqueeEvents, connect } from "@vscode-marquee/utils";
 
 import { fetchGeoData, fetchWeather } from './utils';
-import type { Context, FetchParams, Forecast, Scale, Location } from './types';
-
-const DEFAULT_SCALE: Scale = {
-  name: "fahrenheit",
-  value: "fahrenheit"
-};
+import { DEFAULT_CONFIGURATION } from "./constants";
+import type { Context, Configuration, Forecast, Scale, Location } from './types';
 
 const WeatherContext = createContext<Context>({} as Context);
 
 const WeatherProvider = function ({ children }: { children: React.ReactElement }) {
-  const WeatherStore = store("weather");
+  const widgetState = getEventListener<Configuration>('@vscode-marquee/weather-widget');
+  const providerValues = connect<Configuration>(DEFAULT_CONFIGURATION, widgetState);
+
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error>();
   const [coords, setCoords] = useState<Location>();
-  const [fetchParams, setFetchParams] = useState<FetchParams>({ scale: DEFAULT_SCALE });
   const [forecast, setForecast] = useState<Forecast>();
   const [showDialog, setShowDialog] = useState(false);
 
   const _updateScale = (scale: Scale) => {
-    setFetchParams({ ...fetchParams, scale });
-    WeatherStore.set("scale", scale);
+    providerValues.setScale(scale.name);
   };
 
   const _updateCity = (city?: string) => {
-    setFetchParams(city ? { ...fetchParams, city } : { scale: fetchParams.scale });
-    WeatherStore.set("city", city);
+    providerValues.setCity(city);
   };
 
   useEffect(() => {
+    if (typeof providerValues.city === 'undefined') {
+      return;
+    }
+
     setIsFetching(true);
-    fetchGeoData(fetchParams?.city).then(
+    fetchGeoData(providerValues.city).then(
       (res) => {
         setError(undefined);
         setCoords({
           ...res.place.geometry.location,
-          city: res.place.place_name
+          city: res.place.address_components[0]?.short_name
         });
       },
       (e: Error) => setError(e)
     ).finally(() => setIsFetching(false));
-  }, [fetchParams.city]);
+  }, [providerValues.city]);
 
   useEffect(() => {
     if (!coords) {
@@ -56,23 +55,6 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
     ).finally(() => setIsFetching(false));
   }, [coords?.lat, coords?.lng]);
 
-  WeatherStore.subscribe((() => {
-    const newFetchParams: FetchParams = {
-      // default to undefined as `get` can return `null`
-      city: WeatherStore.get("city") || undefined,
-      scale: WeatherStore.get("scale") || DEFAULT_SCALE
-    };
-
-    /**
-     * only update if search params have updated
-     */
-    if (JSON.stringify(fetchParams) === JSON.stringify(newFetchParams)) {
-      return;
-    }
-
-    setFetchParams(newFetchParams);
-  }) as any);
-
   useEffect(() => {
     const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openWeatherDialog', setShowDialog);
@@ -82,7 +64,7 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
     <WeatherContext.Provider
       value={{
         city: coords?.city,
-        scale: fetchParams?.scale,
+        scale: providerValues.scale,
         error,
         forecast,
         isFetching,

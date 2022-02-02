@@ -77,12 +77,12 @@ export interface WeatherPayload {
   geo: GeoData
 }
 
-export interface FetchParams {
+export interface Configuration {
   city?: string
-  scale?: Scale
+  scale?: ScaleUnits
 }
 
-export interface Context extends FetchParams {
+export interface Context extends Configuration {
   forecast?: Forecast
   isFetching: boolean
   error?: Error
@@ -93,8 +93,8 @@ export interface Context extends FetchParams {
   setShowDialog: (show: boolean) => void
 }
 
-type ScaleUnits = 'fahrenheit' | 'celsius';
+type ScaleUnits = 'Fahrenheit' | 'Celsius';
 export interface Scale {
   name: ScaleUnits
-  value: ScaleUnits
+  value: Lowercase<ScaleUnits>
 }
