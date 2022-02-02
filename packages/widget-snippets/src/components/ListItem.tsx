@@ -14,7 +14,6 @@ import copy from "copy-to-clipboard";
 import { stringify } from "javascript-stringify";
 import { escape } from "html-escaper";
 
-import { NoteContext } from "@vscode-marquee/widget-notes";
 import { GlobalContext, MarqueeWindow, jumpTo } from "@vscode-marquee/utils";
 
 import SnippetContext from "../Context";
@@ -60,7 +59,8 @@ let SnippetListItem = ({
 }: SnippetListItemProps) => {
   const classes = useStyles();
   const { _removeSnippet, _updateSnippet, setShowEditDialog } = useContext(SnippetContext);
-  const { _addNote } = useContext(NoteContext);
+  // ToDo(Christian): make adding notes availble hre
+  const { _addNote } = { _addNote: (note: any) => note }; // useContext(NoteContext);
   const { activeWorkspace } = useContext(GlobalContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
