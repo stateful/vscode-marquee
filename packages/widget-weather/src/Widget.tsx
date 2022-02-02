@@ -259,8 +259,6 @@ const Weather = () => {
   );
 };
 
-
-
 export default wrapper(() => (
   <WeatherProvider>
     <Weather />
