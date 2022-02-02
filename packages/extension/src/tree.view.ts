@@ -1,7 +1,8 @@
 import vscode from "vscode";
 import path from "path";
-import { Message, StateManager, Todo, Snippet, Note } from "./state.manager";
+
 import { MarqueeEvents } from "@vscode-marquee/utils";
+import { Message, StateManager, Todo, Snippet, Note } from "./state.manager";
 
 import { isExpanded, filterByScope } from './utils';
 
@@ -48,6 +49,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     );
 
     this.update();
+    this._updateTodos();
   }
 
   clearTree () {
@@ -59,42 +61,45 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.stateMgr.handleUpdates(this.handleStateManagerUpdates.bind(this));
   }
 
-  private handleStateManagerUpdates (msg: Message) {
+  private _updateTodos () {
     const aws = this.stateMgr.getActiveWorkspace();
-    const obj: Message = { ...msg.east, ...msg.west };
+    const recovered = this.stateMgr.recover();
+    const { todos } = this.context.globalState.get('widgets.todo') || {};
 
-    if (obj.todos || obj.globalScope !== undefined) {
-      const recovered = this.stateMgr.recover();
-      const todos = obj.todos ? obj.todos : recovered.todos || [];
+    if (todos) {
       this.state.todos = filterByScope(
         todos,
         aws,
         recovered.globalScope
       );
 
-      if (this.state.todos) {
-        let openArr: any = [];
-        let closedArr: any = [];
-        this.state.todos.forEach((todo: any) => {
-          if (todo.archived) {
-            return;
-          }
-          if (todo.checked === false) {
-            openArr.push(todo);
-          } else {
-            closedArr.push(todo);
-          }
-        });
+      const openArr: any = [];
+      const closedArr: any = [];
+      this.state.todos.forEach((todo: any) => {
+        if (todo.archived) {
+          return;
+        }
+        if (todo.checked === false) {
+          openArr.push(todo);
+        } else {
+          closedArr.push(todo);
+        }
+      });
 
-        let todoIndex = this.toplevel.findIndex((entry: any) => {
-          return entry.caption.indexOf("Todo") !== -1;
-        });
-        const scope = recovered.globalScope ? "global" : "workspace";
-        this.toplevel[
-          todoIndex
-        ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`;
-      }
+      let todoIndex = this.toplevel.findIndex((entry: any) => {
+        return entry.caption.indexOf("Todo") !== -1;
+      });
+      const scope = recovered.globalScope ? "global" : "workspace";
+      this.toplevel[
+        todoIndex
+      ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`;
     }
+  }
+
+  private handleStateManagerUpdates (msg: Message) {
+    this._updateTodos();
+    const aws = this.stateMgr.getActiveWorkspace();
+    const obj: Message = { ...msg.east, ...msg.west };
 
     const recovered = this.stateMgr.recover();
 

@@ -5,7 +5,7 @@ import { Grid, Button, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, arrayMove } from "react-movable";
 
-import { GlobalContext, DoubleClickHelper } from "@vscode-marquee/utils";
+import { GlobalContext, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 
 import TodoContext from "./Context";
@@ -13,6 +13,8 @@ import TodoPop from "./components/Pop";
 import TodoInfo from "./components/Info";
 import TodoFilter from "./components/Filter";
 import TodoItem from "./components/Item";
+
+declare const window: MarqueeWindow;
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
@@ -24,13 +26,12 @@ const useStyles = makeStyles(() => ({
 let Todo = () => {
   const classes = useStyles();
   const {
-    _setTodos,
+    setTodos,
     setShowAddDialog,
     showArchived,
     todos,
     hide,
     todoFilter,
-    activeWorkspaceId,
   } = useContext(TodoContext);
   const { globalScope } = useContext(GlobalContext);
 
@@ -39,7 +40,7 @@ let Todo = () => {
 
     if (!globalScope) {
       let filteredArr = filteredItems.filter((item) => {
-        if (item["workspaceId"] === activeWorkspaceId) {
+        if (item["workspaceId"] === window.activeWorkspace?.id) {
           return true;
         }
       });
@@ -83,7 +84,7 @@ let Todo = () => {
     }
 
     return filteredItems;
-  }, [activeWorkspaceId, todos, globalScope, hide, todoFilter, showArchived]);
+  }, [todos, globalScope, hide, todoFilter, showArchived]);
 
   return (
     <>
@@ -173,7 +174,7 @@ let Todo = () => {
                   realFirstIndex,
                   realSecondIndex
                 );
-                _setTodos(newTodos);
+                setTodos(newTodos);
               }}
               renderList={({ children, props }) => (
                 <Grid
