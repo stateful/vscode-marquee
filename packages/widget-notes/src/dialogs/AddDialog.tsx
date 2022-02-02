@@ -13,7 +13,7 @@ import NoteContext from "../Context";
 import NoteEditor from "../components/Editor";
 
 declare const window: MarqueeWindow;
-const options = ['Add to Workspace', 'Add as Global Todo'];
+const options = ['Add to Workspace', 'Add as Global Note'];
 
 const AddDialog = React.memo(({ close }: { close: () => void }) => {
   const { _addNote, setNoteSelected } = useContext(NoteContext);
