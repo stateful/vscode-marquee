@@ -6,16 +6,17 @@ import { Clear, AddCircle } from "@material-ui/icons";
 import SplitterLayout from "react-splitter-layout";
 import { List, AutoSizer } from "react-virtualized";
 
-import { GlobalContext, DoubleClickHelper } from '@vscode-marquee/utils';
+import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils';
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-
-import NoteContext from "./Context";
 
 import "react-virtualized/styles.css";
 import "../css/react-splitter-layout.css";
 
+import NoteContext from "./Context";
 import NoteEditor from "./components/Editor";
 import NoteListItem from "./components/ListItem";
+
+declare const window: MarqueeWindow;
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,13 +38,13 @@ interface RowRendererProps {
 
 let Notes = () => {
   const classes = useStyles();
-  const { globalScope, activeWorkspace } = useContext(GlobalContext);
+  const { globalScope } = useContext(GlobalContext);
 
   const {
     _updateNote,
-    _updateNoteFilter,
-    _updateNoteSelected,
-    _updateNoteSplitter,
+    setNoteFilter,
+    setNoteSelected,
+    setNoteSplitter,
     notes,
     noteFilter,
     noteSelected,
@@ -53,62 +54,58 @@ let Notes = () => {
     setShowAddDialog
   } = useContext(NoteContext);
 
-  let note = useMemo(() => {
+  const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected);
   }, [noteSelected, notes]);
 
-  let notesArr = useMemo(() => {
+  const notesArr = useMemo(() => {
     let filteredItems = notes;
 
+    /**
+     * only display notes that are part of the active
+     * workspace
+     */
     if (!globalScope) {
-      let filteredArr = filteredItems.filter((item) => {
-        if (item.workspaceId && activeWorkspace && activeWorkspace.id) {
-          if (item.workspaceId === activeWorkspace.id) {
-            return true;
-          }
-        }
-      });
-      filteredItems = filteredArr;
+      filteredItems = filteredItems.filter((item) => (
+        item.workspaceId && item.workspaceId === window.activeWorkspace?.id
+      ));
     }
 
+    /**
+     * filter notes by note filter
+     */
     if (noteFilter) {
-      let filteredArr = filteredItems.filter((item) => {
-        return (
-          item.title.toLowerCase().indexOf(noteFilter.toLowerCase()) !== -1
-        );
-      });
-      filteredItems = filteredArr;
+      filteredItems = filteredItems.filter((item) => (
+        item.title.toLowerCase().indexOf(noteFilter.toLowerCase()) > -1)
+      );
     }
 
     return filteredItems;
-  }, [activeWorkspace, notes, globalScope, noteFilter]);
+  }, [notes, globalScope, noteFilter]);
 
   useEffect(() => {
     if (notesArr.length !== 0) {
-      _updateNoteSelected(notesArr[0].id);
+      setNoteSelected(notesArr[0].id);
     }
   }, [noteFilter, globalScope]);
 
   useEffect(() => {
     let exists = notesArr.find((entry) => entry.id === noteSelected);
     if (!exists && notesArr.length !== 0) {
-      _updateNoteSelected(notesArr[0].id);
+      setNoteSelected(notesArr[0].id);
     }
   }, [notes]);
 
-  const noteItemClick = useCallback(
-    (e, index) => {
-      if (e.detail === 1) {
-        let noteId = notesArr[index].id;
-        _updateNoteSelected(noteId);
-      }
+  const noteItemClick = useCallback((e, index) => {
+    if (e.detail === 1) {
+      let noteId = notesArr[index].id;
+      return setNoteSelected(noteId);
+    }
 
-      if (e.detail === 2) {
-        setShowEditDialog(notesArr[index].id);
-      }
-    },
-    [notesArr]
-  );
+    if (e.detail === 2) {
+      return setShowEditDialog(notesArr[index].id);
+    }
+  }, [notesArr]);
 
   let rowRenderer = ({ key, index, style }: RowRendererProps) => {
     let noteEntry = notesArr[index];
@@ -174,7 +171,7 @@ let Notes = () => {
               secondaryMinSize={10}
               primaryMinSize={10}
               secondaryInitialSize={noteSplitter}
-              onSecondaryPaneSizeChange={_updateNoteSplitter}
+              onSecondaryPaneSizeChange={setNoteSplitter}
             >
               <div
                 style={{
@@ -198,15 +195,13 @@ let Notes = () => {
                       fullWidth
                       size="small"
                       value={noteFilter}
-                      onChange={(e) => {
-                        _updateNoteFilter(e.target.value);
-                      }}
+                      onChange={(e) => setNoteFilter(e.target.value)}
                       InputProps={{
                         endAdornment: (
                           <Clear
                             fontSize="small"
                             style={{ cursor: "pointer" }}
-                            onClick={() => _updateNoteFilter("") }
+                            onClick={() => setNoteFilter("") }
                           />
                         ),
                       }}
