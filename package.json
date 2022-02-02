@@ -409,6 +409,30 @@
             "default": "Fahrenheit",
             "enum": ["Fahrenheit", "Celsius"],
             "markdownDescription": "Scale to display the weather forecast in"
+          },
+          "marquee.widgets.todo.todoFilter": {
+            "type": "string",
+            "scope": "window",
+            "default": "",
+            "markdownDescription": "Filter ToDos or their associated tags"
+          },
+          "marquee.widgets.todo.hide": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "Hide completed ToDos"
+          },
+          "marquee.widgets.todo.showArchived": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "Show archived ToDos"
+          },
+          "marquee.widgets.todo.autoDetect": {
+            "type": "boolean",
+            "scope": "window",
+            "default": true,
+            "markdownDescription": "Auto-detect ToDos"
           }
         }
       }
