@@ -16,6 +16,7 @@ import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
 import { BetterComplete } from '@vscode-marquee/utils';
 
 import WeatherContext from "../Context";
+import { SCALE_OPTIONS } from '../constants';
 
 const LocationOption = React.memo(() => {
   const { city, _updateCity } = useContext(WeatherContext);
@@ -38,8 +39,8 @@ const LocationOption = React.memo(() => {
           <Grid item>
             <Button
               onClick={() => {
-                setCityValue("");
-                _updateCity();
+                setCityValue('');
+                _updateCity('');
               }}
             >
               Restore to auto-detected
@@ -66,7 +67,7 @@ const LocationOption = React.memo(() => {
                     cityInputRef.blur();
                   }
 
-                  setCityValue("");
+                  setCityValue('');
                   e.stopPropagation();
                   e.preventDefault();
                 }
@@ -77,8 +78,8 @@ const LocationOption = React.memo(() => {
                     fontSize="small"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      setCityValue("");
-                      _updateCity();
+                      setCityValue('');
+                      _updateCity('');
                       if (cityInputRef) {
                         cityInputRef.value = "";
                         cityInputRef.focus();
@@ -91,6 +92,14 @@ const LocationOption = React.memo(() => {
                 shrink: true,
               }}
               onChange={(e) => {
+                /**
+                 * sometimes this event is emitted with a React Node rather
+                 * than an HTML element which causes the input to be cleared
+                 */
+                if (!e.target.tagName) {
+                  return;
+                }
+
                 setCityValue(e.target.value);
                 _updateCity(e.target.value);
               }}
@@ -106,6 +115,8 @@ const LocationOption = React.memo(() => {
 
 const ScaleOption = React.memo(() => {
   const { scale, _updateScale } = useContext(WeatherContext);
+  const value = scale && SCALE_OPTIONS.find((s) => s.name === scale) || SCALE_OPTIONS[0];
+
   return (
     <Grid
       container
@@ -118,23 +129,16 @@ const ScaleOption = React.memo(() => {
         <BetterComplete
           field="scale"
           label="Temperature scale"
-          options={[
-            { name: "fahrenheit", value: "fahrenheit" },
-            { name: "celsius", value: "celsius" },
-          ]}
+          options={SCALE_OPTIONS}
           display="name"
-          value={scale}
+          value={value}
           variant="filled"
           getOptionSelected={(option, value) => {
             return option.value === value.value;
           }}
-          onChange={(e, v) => {
-            if (v === null) {
-              _updateScale({ name: "fahrenheit", value: "fahrenheit" });
-            } else {
-              _updateScale(v);
-            }
-          }}
+          onChange={(e, v) => v
+            ? _updateScale(v)
+            : _updateScale(SCALE_OPTIONS[0])}
         />
       </Grid>
     </Grid>
