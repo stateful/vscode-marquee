@@ -13,11 +13,21 @@ import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog';
 import { BetterComplete } from '@vscode-marquee/utils';
 
 import TrendContext from "../Context";
-import { trendLanguages, spokenLanguages } from "../constants";
+import { sinceOptions, trendLanguages, spokenLanguages } from "../constants";
 import type { Since, SpokenLanguage } from '../types';
+
+function getOptionSelected (defaultOption: { name: string }) {
+  return (option: SpokenLanguage, value: SpokenLanguage) => {
+    if (!value) {
+      return defaultOption.name === option.name;
+    };
+    return option.name === value.name;
+  };
+}
 
 const SpokenLanguageOption = () => {
   const { spoken, _updateSpoken } = useContext(TrendContext);
+  const value = (spoken && spokenLanguages.find((s) => s.name === spoken)) || '';
 
   return (
     <Grid
@@ -37,8 +47,8 @@ const SpokenLanguageOption = () => {
           label="Selection..."
           options={spokenLanguages}
           display="name"
-          value={spoken}
-          getOptionSelected={(option: SpokenLanguage, value: SpokenLanguage) => option.urlParam === value.urlParam}
+          value={value}
+          getOptionSelected={getOptionSelected(spokenLanguages[0])}
           onChange={(e: any, v: SpokenLanguage) => _updateSpoken(v)}
         />
       </Grid>
@@ -48,6 +58,7 @@ const SpokenLanguageOption = () => {
 
 const ProgrammingLanguageOption = () => {
   const { language, _updateLanguage } = useContext(TrendContext);
+  const value = (language && trendLanguages.find((s) => s.name === language)) || '';
 
   return (
     <Grid
@@ -67,8 +78,8 @@ const ProgrammingLanguageOption = () => {
           label="Selection..."
           options={trendLanguages}
           display="name"
-          value={language}
-          getOptionSelected={(option: SpokenLanguage, value: SpokenLanguage) => option.urlParam === value.urlParam}
+          value={value}
+          getOptionSelected={getOptionSelected(trendLanguages[0])}
           onChange={(e: any, v: SpokenLanguage) => _updateLanguage(v)}
         />
       </Grid>
@@ -78,12 +89,7 @@ const ProgrammingLanguageOption = () => {
 
 const SinceOption = () => {
   const { since, _updateSince } = useContext(TrendContext);
-
-  const options = [
-    { name: "Daily", value: "daily" },
-    { name: "Weekly", value: "weekly" },
-    { name: "Monthly", value: "monthly" },
-  ];
+  const value = (since && sinceOptions.find((s) => s.name === since)) || '';
 
   return (
     <Grid
@@ -101,10 +107,10 @@ const SinceOption = () => {
           variant="filled"
           field="since"
           label="Since..."
-          options={options}
+          options={sinceOptions}
           display="name"
-          value={since}
-          getOptionSelected={(option: Since, value: Since) => option.value === value.value}
+          value={value}
+          getOptionSelected={getOptionSelected(sinceOptions[0])}
           onChange={(e: any, v: Since) => _updateSince(v)}
         />
       </Grid>

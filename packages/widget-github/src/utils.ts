@@ -1,21 +1,26 @@
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
-import type { Since, SpokenLanguage } from './types';
+import { spokenLanguages, trendLanguages } from './constants';
+import type { SinceConfiguration } from './types';
 
 declare const window: MarqueeWindow;
 const ERROR_MESSAGE = "Couldn't fetch GitHub trends!";
 
-export async function fetchData (since?: Since, language?: SpokenLanguage, spoken?: SpokenLanguage) {
+export async function fetchData (since?: SinceConfiguration, language?: string, spoken?: string) {
   const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
 
   if (since) {
-    searchParams.append('since', since.value);
+    searchParams.append('since', since.toLocaleLowerCase());
   }
-  if (language) {
-    searchParams.append('language', language.urlParam);
+
+  const languageParam = trendLanguages.find((l) => l.name === language);
+  if (languageParam) {
+    searchParams.append('language', languageParam.urlParam);
   }
-  if (spoken) {
-    searchParams.append('spoken', spoken.urlParam);
+
+  const spokenParam = spokenLanguages.find((l) => l.name === spoken);
+  if (spokenParam) {
+    searchParams.append('spoken', spokenParam.urlParam);
   }
 
   const url = `${window.marqueeBackendBaseUrl}/getRepositories?${searchParams.toString()}`;

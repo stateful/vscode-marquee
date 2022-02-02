@@ -1,29 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
-import { store, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
 
 import { fetchData } from './utils';
-import type { Since, SpokenLanguage, Trend } from './types';
-
-const DEFAULT_SEARCH_PARAMS = {};
-interface Context extends SearchParams {
-  trends: Trend[];
-  isFetching: boolean;
-  showDialog: boolean;
-  setShowDialog: (show: boolean) => void;
-  error?: Error;
-
-  _updateSpoken: (id: SpokenLanguage) => void
-  _updateLanguage: (val: SpokenLanguage) => void
-  _updateSince: (val: Since) => void
-  _updateFilter: (trendFilter: string) => void
-}
-
-interface SearchParams {
-  since?: Since;
-  language?: SpokenLanguage;
-  spoken?: SpokenLanguage;
-  trendFilter?: string;
-}
+import { DEFAULT_CONFIGURATION } from './constants';
+import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration } from './types';
 
 const TrendContext = createContext<Context>({} as any);
 
@@ -32,35 +12,28 @@ interface Props {
 }
 
 const TrendProvider = ({ children }: Props) => {
-  const trendStore = store("trendPrefs", false);
+  const widgetState = getEventListener<Configuration>('@vscode-marquee/github-widget');
+  const providerValues = connect<Configuration>(DEFAULT_CONFIGURATION, widgetState);
+
   const [error, setError] = useState<Error>();
   const [isFetching, setIsFetching] = useState(false);
-  const [searchParams, setSearchParams] = useState<SearchParams>(DEFAULT_SEARCH_PARAMS);
   const [trends, setTrends] = useState<Trend[]>([]);
   const [showDialog, setShowDialog] = useState(false);
 
-  useEffect(() => {
-    trendStore.set("trendFilter", searchParams.trendFilter);
-  }, [searchParams.trendFilter]);
-
   const _updateFilter = (trendFilter: string) => {
-    setSearchParams({ ...searchParams, trendFilter});
-    trendStore.set("trendFilter", trendFilter);
+    providerValues.setTrendFilter(trendFilter);
   };
 
-  const _updateSince = (since: Since) => {
-    setSearchParams({ ...searchParams, since});
-    trendStore.set("since", since);
+  const _updateSince = (since?: Since) => {
+    providerValues.setSince(since?.name as SinceConfiguration || '');
   };
 
-  const _updateLanguage = (language: SpokenLanguage) => {
-    setSearchParams({ ...searchParams, language});
-    trendStore.set("language", language);
+  const _updateLanguage = (language?: SpokenLanguage) => {
+    providerValues.setLanguage(language?.name || '');
   };
 
-  const _updateSpoken = (spoken: SpokenLanguage) => {
-    setSearchParams({ ...searchParams, spoken});
-    trendStore.set("spoken", spoken);
+  const _updateSpoken = (spoken?: SpokenLanguage) => {
+    providerValues.setSpoken(spoken?.name || '');
   };
 
   useEffect(() => {
@@ -69,45 +42,45 @@ const TrendProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
+    /**
+     * don't fetch if
+     */
+    if (
+      /**
+       * we haven't received all configuration params
+       */
+      typeof providerValues.since !== 'string' ||
+      typeof providerValues.language !== 'string' ||
+      typeof providerValues.spoken !== 'string' ||
+      /**
+       * we are already fetching something
+       */
+      isFetching
+    ) {
+      return;
+    }
+
     setIsFetching(true);
-    fetchData(searchParams.since, searchParams.language, searchParams.spoken).then(
+    fetchData(providerValues.since, providerValues.language, providerValues.spoken).then(
       (res) => {
         setTrends(res as Trend[]);
         setError(undefined);
       },
       (e: Error) => setError(e)
     ).finally(() => setIsFetching(false));
-  }, [searchParams.language, searchParams.since, searchParams.spoken, searchParams.trendFilter]);
-
-  trendStore.subscribe((() => {
-    const newSearchParams: SearchParams = {
-      language: trendStore.get("language"),
-      since: trendStore.get("since"),
-      spoken: trendStore.get("spoken"),
-      trendFilter: trendStore.get("trendFilter")
-    };
-
-    /**
-     * only update if search params have updated
-     */
-    if (JSON.stringify(searchParams) === JSON.stringify(newSearchParams)) {
-      return;
-    }
-
-    setSearchParams(newSearchParams);
-  }) as any);
+  }, [providerValues.language, providerValues.since, providerValues.spoken]);
 
   return (
     <TrendContext.Provider
       value={{
-        since: searchParams.since,
-        trendFilter: searchParams.trendFilter,
-        language: searchParams.language,
-        spoken: searchParams.spoken,
+        ...providerValues,
         trends,
         error,
         isFetching,
         showDialog,
+        setError,
+        setTrends,
+        setIsFetching,
         setShowDialog,
         _updateSpoken,
         _updateFilter,
