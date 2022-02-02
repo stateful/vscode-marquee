@@ -13,7 +13,7 @@ import { HideWidgetContent } from "@vscode-marquee/widget";
 import TodoContext from "../Context";
 
 let HideBox = React.memo(() => {
-  const { _updateHide, hide } = useContext(TodoContext);
+  const { setHide, hide } = useContext(TodoContext);
 
   return (
     <Grid
@@ -31,9 +31,7 @@ let HideBox = React.memo(() => {
           checked={hide}
           value={hide}
           name="hide"
-          onChange={(e) => {
-            _updateHide(e.target.checked);
-          }}
+          onChange={(e) => setHide(e.target.checked)}
         />
       </Grid>
     </Grid>
@@ -41,7 +39,7 @@ let HideBox = React.memo(() => {
 });
 
 let ArchivedBox = React.memo(() => {
-  const { _updateShowArchived, showArchived } = useContext(TodoContext);
+  const { setShowArchived, showArchived } = useContext(TodoContext);
 
   return (
     <Grid
@@ -59,9 +57,7 @@ let ArchivedBox = React.memo(() => {
           checked={showArchived}
           value={showArchived}
           name="hide"
-          onChange={(e) => {
-            _updateShowArchived(e.target.checked);
-          }}
+          onChange={(e) => setShowArchived(e.target.checked)}
         />
       </Grid>
     </Grid>
@@ -69,7 +65,7 @@ let ArchivedBox = React.memo(() => {
 });
 
 let AutoDetectBox = React.memo(() => {
-  const { _updateAutoDetect, autoDetect } = useContext(TodoContext);
+  const { setAutoDetect, autoDetect } = useContext(TodoContext);
   return (
     <Grid
       container
@@ -94,9 +90,7 @@ let AutoDetectBox = React.memo(() => {
           checked={autoDetect}
           value={autoDetect}
           name="autodetect"
-          onChange={(e) => {
-            _updateAutoDetect(e.target.checked);
-          }}
+          onChange={(e) => setAutoDetect(e.target.checked)}
         />
       </Grid>
     </Grid>
