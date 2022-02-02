@@ -9,7 +9,7 @@ import { DebounceInput } from "react-debounce-input";
 import TodoContext from "../Context";
 
 let TodoFilterBox = () => {
-  const { _updateFilter, todoFilter } = useContext(TodoContext);
+  const { setTodoFilter, todoFilter } = useContext(TodoContext);
   let filterInput: HTMLInputElement | null = null;
 
   return (
@@ -25,9 +25,7 @@ let TodoFilterBox = () => {
       label={"Filter"}
       variant="filled"
       placeholder="Type here..."
-      onChange={(e) => {
-        _updateFilter(e.target.value);
-      }}
+      onChange={(e) => setTodoFilter(e.target.value)}
       // margin="none"
       size="small"
       name="github-filter"
@@ -38,7 +36,7 @@ let TodoFilterBox = () => {
             fontSize="small"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              _updateFilter("");
+              setTodoFilter("");
               filterInput!.focus();
             }}
           />
