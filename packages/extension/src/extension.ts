@@ -27,6 +27,8 @@ import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension';
 import { activate as activateTodoWidget } from '@vscode-marquee/widget-todo/extension';
 import { activate as activateNotesWidget } from '@vscode-marquee/widget-notes/extension';
+import { activate as activateSnippetsWidget } from '@vscode-marquee/widget-snippets/extension';
+
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import {
@@ -55,7 +57,8 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/github-widget': activateGitHubWidget,
   '@vscode-marquee/weather-widget': activateWeatherWidget,
   '@vscode-marquee/todo-widget': activateTodoWidget,
-  '@vscode-marquee/notes-widget': activateNotesWidget
+  '@vscode-marquee/notes-widget': activateNotesWidget,
+  '@vscode-marquee/snippets-widget': activateSnippetsWidget
 };
 
 export class MarqueeExtension {

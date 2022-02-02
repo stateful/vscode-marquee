@@ -25,11 +25,7 @@ interface SnippetEditDialogProps {
 }
 
 const SnippetEditDialog = React.memo(({ close, snippet }: SnippetEditDialogProps) => {
-  const {
-    _updateSnippet,
-    _updateSnippetSelected,
-    _removeSnippet,
-  } = useContext(SnippetContext);
+  const { _updateSnippet, setSnippetSelected, _removeSnippet } = useContext(SnippetContext);
 
   const [title, setTitle] = useState(snippet.title);
   const [body, setBody] = useState(snippet.body);
@@ -58,12 +54,8 @@ const SnippetEditDialog = React.memo(({ close, snippet }: SnippetEditDialogProps
           display="name"
           value={language}
           variant="filled"
-          getOptionSelected={(option, value) => {
-            return option.value === value.value;
-          }}
-          onChange={(e, v) => {
-            setLanguage(getHighlightLanguage(v));
-          }}
+          getOptionSelected={(option, value) =>  option.value === value.value}
+          onChange={(e, v) => setLanguage(getHighlightLanguage(v))}
         />
         <div style={{ height: "8px", minWidth: "100%" }} />
 
@@ -81,15 +73,14 @@ const SnippetEditDialog = React.memo(({ close, snippet }: SnippetEditDialogProps
           Delete
         </Button>
         <Button color="primary" variant="contained" onClick={() => {
-            if (title === "") {
-              return setError(true);
-            }
+          if (title === "") {
+            return setError(true);
+          }
 
-            _updateSnippet({ ...snippet, body, title, language });
-            _updateSnippetSelected(snippet.id);
-            close();
-          }}
-        >
+          _updateSnippet({ ...snippet, body, title, language });
+          setSnippetSelected(snippet.id);
+          close();
+        }}>
           Save
         </Button>
       </DialogActions>
