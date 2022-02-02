@@ -5,6 +5,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import { theme } from '@vscode-marquee/utils';
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
 import NoteEditor from "../components/Editor";
@@ -17,7 +18,7 @@ interface NoteEditDialogProps {
 }
 
 const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
-  const { _updateNote, _updateNoteSelected, _removeNote } = useContext(NoteContext);
+  const { _updateNote, setNoteSelected, _removeNote } = useContext(NoteContext);
   const [error, setError] = useState(false);
   const [body, setBody] = useState(note.body);
   const [text, setText] = useState(note.text);
@@ -29,7 +30,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
     }
 
     _updateNote({ ...note, body, title, text });
-    _updateNoteSelected(note.id);
+    setNoteSelected(note.id);
     close();
   }, [title, body]);
 
@@ -69,7 +70,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
           text={text}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{ paddingRight: theme.spacing(3) }}>
         <Button onClick={close} color="secondary">
           Close
         </Button>

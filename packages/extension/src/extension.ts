@@ -26,6 +26,7 @@ import { activate as activateProjectsWidget } from '@vscode-marquee/widget-proje
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension';
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension';
 import { activate as activateTodoWidget } from '@vscode-marquee/widget-todo/extension';
+import { activate as activateNotesWidget } from '@vscode-marquee/widget-notes/extension';
 import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import {
@@ -48,6 +49,15 @@ import { MarqueeEvents } from "@vscode-marquee/utils";
 export const CODE_TODO = "marquee_todo";
 export const TODO = /TODO[:]? /g;
 
+const MARQUEE_WIDGETS = {
+  '@vscode-marquee/welcome-widget': activateWelcomeWidget,
+  '@vscode-marquee/projects-widget': activateProjectsWidget,
+  '@vscode-marquee/github-widget': activateGitHubWidget,
+  '@vscode-marquee/weather-widget': activateWeatherWidget,
+  '@vscode-marquee/todo-widget': activateTodoWidget,
+  '@vscode-marquee/notes-widget': activateNotesWidget
+};
+
 export class MarqueeExtension {
   private readonly _channel = vscode.window.createOutputChannel('Marquee');
   private readonly gui: MarqueeGui;
@@ -55,38 +65,14 @@ export class MarqueeExtension {
   private readonly treeView: TreeView;
   private readonly version: string;
 
-  private readonly widgetExtensions: vscode.Extension<ExtensionExport>[] = [
-    {
-      id: '@vscode-marquee/welcome-widget',
-      exports: activateWelcomeWidget(this.context, this._channel),
+  private readonly widgetExtensions: vscode.Extension<ExtensionExport>[] = Object.entries(MARQUEE_WIDGETS).map(
+    ([id, activate]) => ({
+      id,
+      exports: activate(this.context, this._channel),
       isActive: true,
       packageJSON: { marqueeWidget: true }
-    } as any as vscode.Extension<ExtensionExport>,
-    {
-      id: '@vscode-marquee/projects-widget',
-      exports: activateProjectsWidget(this.context, this._channel),
-      isActive: true,
-      packageJSON: { marqueeWidget: true }
-    } as any as vscode.Extension<ExtensionExport>,
-    {
-      id: '@vscode-marquee/github-widget',
-      exports: activateGitHubWidget(this.context, this._channel),
-      isActive: true,
-      packageJSON: { marqueeWidget: true }
-    } as any as vscode.Extension<ExtensionExport>,
-    {
-      id: '@vscode-marquee/weather-widget',
-      exports: activateWeatherWidget(this.context, this._channel),
-      isActive: true,
-      packageJSON: { marqueeWidget: true }
-    } as any as vscode.Extension<ExtensionExport>,
-    {
-      id: '@vscode-marquee/todo-widget',
-      exports: activateTodoWidget(this.context, this._channel),
-      isActive: true,
-      packageJSON: { marqueeWidget: true }
-    } as any as vscode.Extension<ExtensionExport>
-  ];
+    } as any as vscode.Extension<ExtensionExport>)
+  );
 
   constructor(
     private readonly context: vscode.ExtensionContext,
