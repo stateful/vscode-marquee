@@ -1,3 +1,9 @@
+export const sinceOptions = [
+  { name: "Daily", value: "daily" },
+  { name: "Weekly", value: "weekly" },
+  { name: "Monthly", value: "monthly" },
+];
+
 export const spokenLanguages = [
   { urlParam: "ab", name: "Abkhazian" },
   { urlParam: "aa", name: "Afar" },
@@ -658,3 +664,12 @@ export const trendLanguages = [
   { urlParam: "zephir", name: "Zephir" },
   { urlParam: "zimpl", name: "Zimpl" },
 ];
+
+export const DEFAULT_CONFIGURATION = {
+  since: undefined,
+  language: undefined,
+  spoken: undefined,
+  trendFilter: undefined
+};
+
+export const DEFAULT_STATE = {};
