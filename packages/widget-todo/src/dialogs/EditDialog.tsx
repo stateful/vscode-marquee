@@ -20,7 +20,7 @@ interface TodoEditDialogParams {
 }
 
 const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
-  const { _updateTodo } = useContext(TodoContext);
+  const { _updateTodo, _removeTodo } = useContext(TodoContext);
 
   let [error, setError] = useState(false);
   let [body, setBody] = useState(todo.body);
@@ -98,17 +98,13 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
         <Button onClick={close} color="secondary">
           Close
         </Button>
+        <Button variant="contained" color="secondary" onClick={() => _removeTodo(todo.id)}>
+          Delete
+        </Button>
         <Button
           color="primary"
           variant="contained"
-          onClick={() => {
-            if (body === "") {
-              return setError(true);
-            }
-
-            saveTodo();
-            close();
-          }}
+          onClick={saveTodo}
         >
           Save
         </Button>
