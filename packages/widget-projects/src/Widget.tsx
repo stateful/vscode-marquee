@@ -5,9 +5,7 @@ import AddCircle from "@material-ui/icons/AddCircleOutlined";
 import PageviewIcon from "@material-ui/icons/Pageview";
 
 import wrapper, { Dragger } from "@vscode-marquee/widget";
-import { MarqueeWindow, GlobalContext } from "@vscode-marquee/utils";
-
-import { SnippetContext } from "@vscode-marquee/widget-snippets";
+import { MarqueeWindow } from "@vscode-marquee/utils";
 
 import ProjectsFilter from "./components/Filter";
 import ProjectPop from "./components/Pop";
@@ -25,19 +23,19 @@ const useStyles = makeStyles(() => ({
 
 let Projects = () => {
   const classes = useStyles();
-  const { activeWorkspace } = useContext(GlobalContext);
   // ToDo(Christian): make todos, notes and snippets accessible here
   const { todos } = { todos: [] }; // useContext(TodoContext);
   const { notes } = { notes: [] }; // useContext(NoteContext);
-  const { snippets } = useContext(SnippetContext);
+  const { snippets } = { snippets: [] }; // useContext(SnippetContext);
   const { workspaces, workspaceFilter, workspaceSortOrder, openProjectInNewWindow } = useContext(WorkspaceContext);
 
   const totalLen = (wspid: string) => {
-    let todoCount = todos.filter((todo: any) => todo.workspaceId === wspid).length;
-    let noteCount = notes.filter((notes: any) => notes.workspaceId === wspid).length;
+    let todoCount = todos.filter(
+      (todo: any) => todo.workspaceId === wspid).length;
+    let noteCount = notes.filter(
+      (notes: any) => notes.workspaceId === wspid).length;
     let snippetCount = snippets.filter(
-      (snippets) => snippets.workspaceId === wspid
-    ).length;
+      (snippets: any) => snippets.workspaceId === wspid).length;
 
     return todoCount + noteCount + snippetCount;
   };
@@ -59,7 +57,7 @@ let Projects = () => {
     } else {
       return filteredProjects.sort((a, b) => a.name.localeCompare(b.name));
     }
-  }, [activeWorkspace, workspaces, workspaceFilter, workspaceSortOrder]);
+  }, [workspaces, workspaceFilter, workspaceSortOrder]);
 
   return (
     <>
@@ -173,7 +171,6 @@ let Projects = () => {
                     <ProjectListItem
                       key={workspace.id}
                       workspace={workspace}
-                      activeWorkspace={activeWorkspace!}
                     />
                   );
                 })}

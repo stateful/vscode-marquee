@@ -9,8 +9,9 @@ import {
   TextField,
 } from "@material-ui/core";
 
+import { SplitButton } from '@vscode-marquee/widget';
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
-import { BetterComplete } from '@vscode-marquee/utils';
+import { BetterComplete, MarqueeWindow } from '@vscode-marquee/utils';
 
 import SnippetEditor from "../components/Editor";
 import SnippetContext from "../Context";
@@ -18,19 +19,31 @@ import { languages } from '../constants';
 import { getHighlightLanguage } from "../utils";
 import type { Language } from '../types';
 
+declare const window: MarqueeWindow;
+const options = ['Add to Workspace', 'Add as Global Snippet'];
+
 const SnippetAddDialog = React.memo(({ close }: { close: () => void }) => {
-  const {
-    _addSnippet,
-    _updateSnippetSelected
-  } = useContext(SnippetContext);
+  const { _addSnippet, setSnippetSelected } = useContext(SnippetContext);
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [language, setLanguage] = useState<Language>({
-    name: "markdown",
-    value: "markdown",
-  });
   const [error, setError] = useState(false);
+  const [language, setLanguage] = useState<Language>({
+    name: "markdown", value: "markdown"
+  });
+
+  const submit = (index: number) => {
+    const isWorkspaceTodo = index === 0;
+    if (title === "") {
+      setError(true);
+      return;
+    }
+
+    setSnippetSelected(
+      _addSnippet({ title, body, language }, isWorkspaceTodo)
+    );
+    close();
+  };
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -68,17 +81,19 @@ const SnippetAddDialog = React.memo(({ close }: { close: () => void }) => {
         <Button onClick={close} color="secondary">
           Close
         </Button>
-        <Button color="primary" variant="contained" onClick={() => {
-            if (title === "") {
-              setError(true);
-              return;
-            }
-
-            _addSnippet({ title, body, language }, _updateSnippetSelected);
-            close();
-          }}>
-          Save
-        </Button>
+        {window.activeWorkspace
+          ? <SplitButton
+              options={options}
+              onClick={submit}
+            />
+          : <Button
+              color="primary"
+              variant="contained"
+              onClick={() => submit(1)}
+            >
+              {options[1]}
+            </Button>
+        }
       </DialogActions>
     </DialogContainer>
   );

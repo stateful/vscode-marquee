@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStickyNote } from "@fortawesome/free-solid-svg-icons";
 
 import Notes from "./Widget";
-import NoteContext, { NoteProvider } from "./Context";
 
 export default {
   name: "notes",
@@ -13,4 +12,4 @@ export default {
     "Rich notes for planning, brainstorming and organizing ones thoughts.",
   component: Notes,
 };
-export { Notes, NoteContext, NoteProvider };
+export { Notes };
