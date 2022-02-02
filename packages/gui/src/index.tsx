@@ -8,7 +8,6 @@ import { interval, ConnectableObservable } from "rxjs";
 import { take, publish } from "rxjs/operators";
 
 import { PrefProvider, theme, GlobalProvider } from "@vscode-marquee/utils";
-import { NoteProvider } from "@vscode-marquee/widget-notes";
 import { SnippetProvider } from "@vscode-marquee/widget-snippets";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
@@ -33,9 +32,7 @@ export const Providers = ({ children }: any) => {
       <ModeProvider>
         <PrefProvider>
           <SnippetProvider>
-            <NoteProvider>
-              {children}
-            </NoteProvider>
+            {children}
           </SnippetProvider>
         </PrefProvider>
       </ModeProvider>
