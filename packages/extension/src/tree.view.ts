@@ -2,7 +2,7 @@ import vscode from "vscode";
 import path from "path";
 
 import { MarqueeEvents } from "@vscode-marquee/utils";
-import { Message, StateManager, Todo, Snippet, Note } from "./state.manager";
+import { Message, StateManager, Todo, Snippet, Note, Workspace } from "./state.manager";
 
 import { isExpanded, filterByScope } from './utils';
 
@@ -49,7 +49,6 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     );
 
     this.update();
-    this._updateTodos();
   }
 
   clearTree () {
@@ -61,9 +60,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.stateMgr.handleUpdates(this.handleStateManagerUpdates.bind(this));
   }
 
-  private _updateTodos () {
-    const aws = this.stateMgr.getActiveWorkspace();
-    const recovered = this.stateMgr.recover();
+  private _updateTodos (aws: Workspace | null, recovered: any) {
     const { todos } = this.context.globalState.get('widgets.todo') || {};
 
     if (todos) {
@@ -96,18 +93,22 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     }
   }
 
+  private _updateNotes (aws: Workspace | null, recovered: any) {
+    const { notes } = this.context.globalState.get('widgets.notes') || {};
+    const notesMerged = notes ? notes : recovered.notes || [];
+    this.state.notes = filterByScope(notesMerged, aws, recovered.globalScope);
+  }
+
   private handleStateManagerUpdates (msg: Message) {
-    this._updateTodos();
     const aws = this.stateMgr.getActiveWorkspace();
+    const recovered = this.stateMgr.recover();
     const obj: Message = { ...msg.east, ...msg.west };
 
-    const recovered = this.stateMgr.recover();
+    this._updateTodos(aws, recovered);
+    this._updateNotes(aws, recovered);
 
     const snippets = obj.snippets ? obj.snippets : recovered.snippets || [];
     this.state.snippets = filterByScope(snippets, aws, recovered.globalScope);
-
-    const notes = obj.notes ? obj.notes : recovered.notes || [];
-    this.state.notes = filterByScope(notes, aws, recovered.globalScope);
 
     this.refresh();
   }
