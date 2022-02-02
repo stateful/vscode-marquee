@@ -13,10 +13,12 @@ import copy from "copy-to-clipboard";
 import { stripHtml } from "string-strip-html";
 import { unescape } from "html-escaper";
 
-import { GlobalContext, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { MarqueeWindow, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
 
 import NoteContext from "../Context";
 import type { Note } from '../types';
+
+declare const window: MarqueeWindow;
 
 const useStyles = makeStyles(() => ({
   selected: {
@@ -50,35 +52,33 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
   const eventListener = getEventListener<MarqueeEvents>();
   const classes = useStyles();
   const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext);
-  const { activeWorkspace } = useContext(GlobalContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const matchingWorkspace = useMemo(() => {
-    let found = false;
-    if (!activeWorkspace) {
-      found = true;
+    if (!window.activeWorkspace) {
+      return true;
     }
-    if (activeWorkspace && activeWorkspace.id) {
-      if (note && note.workspaceId) {
-        if (activeWorkspace.id === note.workspaceId) {
-          found = true;
-        }
-      }
+
+    if (
+      window.activeWorkspace && window.activeWorkspace.id &&
+      note && note.workspaceId &&
+      window.activeWorkspace.id === note.workspaceId
+    ) {
+      return true;
     }
-    return found;
-  }, [activeWorkspace, note]);
+
+    return false;
+  }, [note]);
 
   const moveToCurrentWorkspace = useCallback(() => {
-    if (!activeWorkspace || !activeWorkspace.id) {
+    if (!window.activeWorkspace || !window.activeWorkspace.id) {
       return;
     }
 
-    let updatedNote = note;
-    updatedNote.workspaceId = activeWorkspace.id;
-    _updateNote(updatedNote);
+    _updateNote({ ...note, workspaceId: window.activeWorkspace.id });
     setAnchorEl(null);
-  }, [note, activeWorkspace]);
+  }, [note]);
 
   const handleRightClick = useCallback((e) => {
     setAnchorEl(e.currentTarget);
@@ -90,12 +90,9 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
     e.stopPropagation();
   }, []);
 
-  let deleteNote = useCallback(
-    () => {
-      _removeNote(note.id);
-    },
-    [note]
-  );
+  const deleteNote = useCallback(() => {
+    _removeNote(note.id);
+  }, [note]);
 
   const open = Boolean(anchorEl);
   const id = open ? "note-item-popover" : undefined;
