@@ -1,3 +1,12 @@
+import type { State } from './types';
+
+export const DEFAULT_STATE: State = {
+  snippets: [],
+  snippetFilter: '',
+  snippetSelected: '',
+  snippetSplitter: undefined
+};
+
 export const languages = [
   { name: "python", value: "python" },
   { name: "markdown", value: "markdown" },

@@ -11,17 +11,19 @@ import {
 import { AddCircle, Clear } from "@material-ui/icons";
 import LinkIcon from "@material-ui/icons/Link";
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-import { GlobalContext, jumpTo, DoubleClickHelper } from "@vscode-marquee/utils";
+import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";
 
 import SplitterLayout from "react-splitter-layout";
 import { List, AutoSizer } from "react-virtualized";
 import "react-virtualized/styles.css";
 import "../css/react-splitter-layout.css";
 
-import SnippetContext from "./Context";
+import SnippetContext, { SnippetProvider } from "./Context";
 
 import SnippetEditor from "./components/Editor";
 import SnippetListItem from "./components/ListItem";
+
+declare const window: MarqueeWindow;
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -43,13 +45,13 @@ interface RowRendererProps {
 
 let Snippets = () => {
   const classes = useStyles();
-  const { globalScope, activeWorkspace } = useContext(GlobalContext);
+  const { globalScope } = useContext(GlobalContext);
 
   const {
     _updateSnippet,
-    _updateSnippetFilter,
-    _updateSnippetSelected,
-    _updateSnippetSplitter,
+    setSnippetFilter,
+    setSnippetSelected,
+    setSnippetSplitter,
     snippets,
     snippetFilter,
     snippetSelected,
@@ -64,75 +66,59 @@ let Snippets = () => {
   }, [snippetSelected, snippets]);
 
   const snippetLinkFileName = useMemo(() => {
-    if (snippet && snippet.exists && snippet.hasOwnProperty("path")) {
-      if (snippet.path.indexOf("/") !== -1) {
-        return snippet.path.split("/").reverse()[0].toUpperCase();
-      }
-    } else {
-      return "";
+    if (
+      snippet && snippet.path && snippet.exists && snippet.hasOwnProperty("path") &&
+      snippet.path.indexOf("/") !== -1
+    ) {
+      return snippet.path.split("/").reverse()[0].toUpperCase();
     }
+
+    return '';
   }, [snippet]);
 
   const snippetsArr = useMemo(() => {
     let filteredItems = snippets;
 
     if (!globalScope) {
-      let filteredArr = filteredItems.filter((item) => {
-        if (
-          item.workspaceId && activeWorkspace && activeWorkspace.id &&
-          item.workspaceId === activeWorkspace.id
-        ) {
-          return true;
-        }
-      });
-      filteredItems = filteredArr;
+      filteredItems = filteredItems.filter((item) => (
+        item.workspaceId && item.workspaceId === window.activeWorkspace?.id
+      ));
     }
 
     if (snippetFilter) {
-      let filteredArr = filteredItems.filter((item) => {
-        return (
-          item.title.toLowerCase().indexOf(snippetFilter.toLowerCase()) !== -1
-        );
-      });
-      filteredItems = filteredArr;
+      filteredItems = filteredItems.filter((item) => (
+        item.title.toLowerCase().indexOf(snippetFilter.toLowerCase()) !== -1
+      ));
     }
 
     return filteredItems;
-  }, [activeWorkspace, globalScope, snippets, snippetFilter]);
+  }, [globalScope, snippets, snippetFilter]);
+  console.log(snippets, snippetsArr);
+
 
   useEffect(() => {
     if (snippetsArr.length !== 0) {
-      _updateSnippetSelected(snippetsArr[0].id);
+      setSnippetSelected(snippetsArr[0].id);
     }
   }, [snippetFilter, globalScope]);
 
-  useEffect(() => {
-    const exists = snippetsArr.find((entry) => entry.id === snippetSelected);
-    if (!exists && snippetsArr.length !== 0) {
-      _updateSnippetSelected(snippetsArr[0].id);
+  const snippetItemClick = useCallback((e, index) => {
+    if (e.detail === 1) {
+      if (snippetsArr[index] && snippetsArr[index].id) {
+        setSnippetSelected(snippetsArr[index].id);
+      } else {
+        console.error({
+          message:
+            "Trying to set selected snippet to an entry that doesn't exist in the array",
+          eventObj: e,
+        });
+      }
     }
-  }, [snippets]);
 
-  const snippetItemClick = useCallback(
-    (e, index) => {
-      if (e.detail === 1) {
-        if (snippetsArr[index] && snippetsArr[index].id) {
-          _updateSnippetSelected(snippetsArr[index].id);
-        } else {
-          console.error({
-            message:
-              "Trying to set selected snippet to an entry that doesn't exist in the array",
-            eventObj: e,
-          });
-        }
-      }
-
-      if (e.detail === 2) {
-        setShowEditDialog(snippetsArr[index].id);
-      }
-    },
-    [snippetsArr]
-  );
+    if (e.detail === 2) {
+      setShowEditDialog(snippetsArr[index].id);
+    }
+  }, [snippetsArr]);
 
   const rowRenderer = ({ key, index, style }: RowRendererProps) => {
     const snippetEntry = snippetsArr[index];
@@ -212,8 +198,8 @@ let Snippets = () => {
               primaryIndex={0}
               secondaryMinSize={10}
               primaryMinSize={10}
-              secondaryInitialSize={snippetSplitter}
-              onSecondaryPaneSizeChange={_updateSnippetSplitter}
+              secondaryInitialSize={snippetSplitter || 80}
+              onSecondaryPaneSizeChange={setSnippetSplitter}
             >
               <div
                 style={{
@@ -237,15 +223,13 @@ let Snippets = () => {
                       fullWidth
                       size="small"
                       value={snippetFilter}
-                      onChange={(e) => {
-                        _updateSnippetFilter(e.target.value);
-                      }}
+                      onChange={(e) => setSnippetFilter(e.target.value)}
                       InputProps={{
                         endAdornment: (
                           <Clear
                             fontSize="small"
                             style={{ cursor: "pointer" }}
-                            onClick={() => _updateSnippetFilter("") }
+                            onClick={() => setSnippetFilter("") }
                           />
                         ),
                       }}
@@ -317,4 +301,8 @@ let Snippets = () => {
   );
 };
 
-export default wrapper(Snippets, 'snippets');
+export default wrapper(() => (
+  <SnippetProvider>
+    <Snippets />
+  </SnippetProvider>
+), 'snippets');

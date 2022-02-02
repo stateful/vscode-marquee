@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
 
 import Snippets from "./Widget";
-import SnippetContext, { SnippetProvider } from "./Context";
 
 export default {
   name: "snippets",
@@ -13,4 +12,4 @@ export default {
     "Create or extract code snippets then edit, organize and insert them directly into code.",
   component: Snippets,
 };
-export { Snippets, SnippetContext, SnippetProvider };
+export { Snippets };
