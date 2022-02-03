@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { getEventListener, PrefProvider, MarqueeEvents } from '@vscode-marquee/utils';
+import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { WeatherProvider } from '../src/Context';
@@ -43,11 +43,9 @@ beforeAll(() => {
 test('renders component correctly', async () => {
   const listener = getEventListener<MarqueeEvents>('@vscode-marquee/welcome-widget');
   const { getByRole, getByText, getAllByText, getByLabelText, getAllByRole, getByPlaceholderText } = render(
-    <PrefProvider>
-      <WeatherProvider>
-        <Widget.component />
-      </WeatherProvider>
-    </PrefProvider>
+    <WeatherProvider>
+      <Widget.component />
+    </WeatherProvider>
   );
   expect(getByRole('progressbar')).toBeTruthy();
   await new Promise((r) => setTimeout(r, 100));

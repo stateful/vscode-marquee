@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/utils-extension",
+  "description": "extension utility logic",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}

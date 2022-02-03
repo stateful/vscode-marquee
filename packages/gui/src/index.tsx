@@ -7,7 +7,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { interval, ConnectableObservable } from "rxjs";
 import { take, publish } from "rxjs/operators";
 
-import { PrefProvider, theme, GlobalProvider } from "@vscode-marquee/utils";
+import { theme, GlobalProvider } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
 import Sentry from "./sentry";
@@ -29,9 +29,7 @@ export const Providers = ({ children }: any) => {
   return (
     <GlobalProvider>
       <ModeProvider>
-        <PrefProvider>
-          {children}
-        </PrefProvider>
+        {children}
       </ModeProvider>
     </GlobalProvider>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { GlobalProvider, PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { NoteProvider } from '../src/Context';
@@ -11,11 +11,9 @@ import { NoteProvider } from '../src/Context';
 test('renders component correctly', async () => {
   const { queryByText, getByText, container, getByPlaceholderText } = render(
     <GlobalProvider>
-      <PrefProvider>
-        <NoteProvider>
-          <Widget.component />
-        </NoteProvider>
-      </PrefProvider>
+      <NoteProvider>
+        <Widget.component />
+      </NoteProvider>
     </GlobalProvider>
   );
   expect(queryByText('Add Note')).not.toBeTruthy();

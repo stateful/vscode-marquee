@@ -21,6 +21,7 @@ import {
   pairwise,
   mergeMap,
 } from "rxjs/operators";
+import { activate as activateUtils, getExtProps } from '@vscode-marquee/utils/extension';
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
 import { activate as activateProjectsWidget } from '@vscode-marquee/widget-projects/extension';
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension';
@@ -28,8 +29,6 @@ import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weathe
 import { activate as activateTodoWidget } from '@vscode-marquee/widget-todo/extension';
 import { activate as activateNotesWidget } from '@vscode-marquee/widget-notes/extension';
 import { activate as activateSnippetsWidget } from '@vscode-marquee/widget-snippets/extension';
-
-import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 
 import {
   StateManager,
@@ -52,6 +51,7 @@ export const CODE_TODO = "marquee_todo";
 export const TODO = /TODO[:]? /g;
 
 const MARQUEE_WIDGETS = {
+  '@vscode-marquee/utils': activateUtils,
   '@vscode-marquee/welcome-widget': activateWelcomeWidget,
   '@vscode-marquee/projects-widget': activateProjectsWidget,
   '@vscode-marquee/github-widget': activateGitHubWidget,

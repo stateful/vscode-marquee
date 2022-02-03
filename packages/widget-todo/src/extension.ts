@@ -1,6 +1,6 @@
 import vscode from 'vscode';
 
-import ExtensionManager from '@vscode-marquee/utils/build/extensionManager';
+import ExtensionManager from '@vscode-marquee/utils/extension';
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import type { Configuration, State } from './types';

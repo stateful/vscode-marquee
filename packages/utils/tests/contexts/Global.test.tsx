@@ -4,24 +4,20 @@ import { render } from '@testing-library/react';
 
 import GlobalContext, { GlobalProvider } from '../../src/contexts/Global';
 
-let _workspaces: any;
 let _globalScope: any;
-let __updateGlobalScope: any;
+let _setGlobalScope: any;
 
 test('WidgetLayout filters non display widgets', () => {
   const TestComponent = () => {
-    const { workspaces, globalScope, _updateGlobalScope } = useContext(GlobalContext);
-    _workspaces = workspaces;
+    const { globalScope, setGlobalScope } = useContext(GlobalContext);
     _globalScope = globalScope;
-    __updateGlobalScope = _updateGlobalScope;
+    _setGlobalScope = setGlobalScope;
     return (<div>Hello World</div>);
   };
 
   render(<GlobalProvider><TestComponent /></GlobalProvider>);
-
-  expect(_workspaces).toEqual([]);
   expect(_globalScope).toBe(true);
 
-  act(() => { __updateGlobalScope(false); });
+  act(() => { _setGlobalScope(false); });
   expect(_globalScope).toBe(false);
 });

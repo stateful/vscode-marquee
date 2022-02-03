@@ -15,9 +15,7 @@ import NetworkError from './components/NetworkError';
 import DoubleClickHelper from './components/DoubleClickHelper';
 
 import GlobalContext, { GlobalProvider } from "./contexts/Global";
-import { PrefProvider, PrefContext, defaultName } from './contexts/Pref';
-
-import type { MarqueeWindow } from './types';
+import type { MarqueeWindow, ContextProperties } from './types';
 
 const defaultChannel = 'vscode.marquee';
 const theme = createTheme(calculateTheme());
@@ -46,12 +44,6 @@ const jumpTo = (item: any) => {
       ],
     },
   });
-};
-
-export type ContextProperties<T> = {
-  [t in keyof T]: T[t]
-} & {
-  [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
 };
 
 type Entries<T> = {
@@ -90,8 +82,6 @@ export {
   store,
   jumpTo,
   getEventListener,
-  PrefProvider, PrefContext,
-  defaultName,
   createConsumer,
   theme,
   connect,

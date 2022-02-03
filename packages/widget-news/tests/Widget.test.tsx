@@ -2,7 +2,6 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { PrefProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 
@@ -15,11 +14,7 @@ beforeEach(() => {
 });
 
 test('renders component correctly', async () => {
-  const { getByRole, getByText } = render(
-    <PrefProvider>
-      <Widget.component />
-    </PrefProvider>
-  );
+  const { getByRole, getByText } = render(<Widget.component />);
   expect(getByRole('progressbar')).toBeTruthy();
   act(() => {
     resolveFetch({
@@ -48,11 +43,7 @@ test('renders component correctly', async () => {
 });
 
 test('should allow to switch channels', async () => {
-  const { getByLabelText, getByText, container } = render(
-    <PrefProvider>
-      <Widget.component />
-    </PrefProvider>
-  );
+  const { getByLabelText, getByText, container } = render(<Widget.component />);
   userEvent.click(container.querySelectorAll('button svg')[0]);
   expect(getByText('Hide this widget')).toBeTruthy();
   // await new Promise(r => setTimeout(r, 1000))

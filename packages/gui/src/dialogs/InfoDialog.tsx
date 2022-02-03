@@ -13,7 +13,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 
-import { PrefContext } from "@vscode-marquee/utils";
+import { GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
 // @ts-expect-error no types for imported png files
@@ -24,13 +24,17 @@ import google_icon_light from "../img/powered_by_google_on_white.png";
 import { themes } from "../constants";
 
 const InfoDialog = React.memo(({ close }: { close: () => void }) => {
-  const { bg } = useContext(PrefContext);
+  const { background } = useContext(GlobalContext);
 
   const theme = useMemo(() => {
+    if (isNaN(+background)) {
+      return { title: 'Unknown', author: 'Unknown' };
+    }
+
     return themes.filter((theme) => {
-      return theme.id === bg;
-    });
-  }, [bg]);
+      return theme.id === parseInt(background, 10);
+    })[0];
+  }, [background]);
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -43,7 +47,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
             <ListItemText
               primary={
                 <Typography variant="body2">
-                  {theme[0].title} - contributed by {theme[0].author}
+                  {theme.title} - contributed by {theme.author}
                 </Typography>
               }
             />

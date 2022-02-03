@@ -8,12 +8,12 @@ import { EventEmitter } from "events";
 import { readFileSync } from "fs-extra";
 import { BehaviorSubject, race, interval, timer } from "rxjs";
 import { filter, map, mapTo, take, pluck } from "rxjs/operators";
+import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
 
 import { StateManager } from "./state.manager";
 import { Message } from "./state.manager";
-import getExtProps from '@vscode-marquee/utils/build/getExtProps';
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 

@@ -339,6 +339,18 @@
             "additionalProperties": false,
             "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
           },
+          "marquee.configuration.name": {
+            "type": "string",
+            "scope": "window",
+            "default": "name here...",
+            "markdownDescription": "Your name so Marquee can greet you!"
+          },
+          "marquee.configuration.background": {
+            "type": "string",
+            "scope": "window",
+            "default": "1",
+            "markdownDescription": "Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon)."
+          },
           "marquee.configuration.startup.launchOnStartup": {
             "type": "boolean",
             "scope": "window",
@@ -449,7 +461,6 @@
     "compile:ts:widget": "tsc --project packages/widget/tsconfig.json",
     "compile:ts:dialog": "tsc --project packages/dialog/tsconfig.json",
     "compile:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json",
-    "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "compile:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json",
     "compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
     "compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
@@ -457,6 +468,7 @@
     "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
+    "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "bundle:prod": "NODE_ENV=production webpack --mode production",
     "bundle:dev": "NODE_ENV=development webpack --mode development",
     "replace": "run-s replace:*",

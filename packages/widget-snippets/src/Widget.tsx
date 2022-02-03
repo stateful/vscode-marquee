@@ -93,8 +93,6 @@ let Snippets = () => {
 
     return filteredItems;
   }, [globalScope, snippets, snippetFilter]);
-  console.log(snippets, snippetsArr);
-
 
   useEffect(() => {
     if (snippetsArr.length !== 0) {

@@ -1,7 +1,6 @@
 import vscode from 'vscode';
 import Axios, { AxiosRequestConfig } from 'axios';
-import ExtensionManager from '@vscode-marquee/utils/build/extensionManager';
-import getExtProps from '@vscode-marquee/utils/build/getExtProps';
+import ExtensionManager, { getExtProps } from '@vscode-marquee/utils/extension';
 import { Client } from 'tangle';
 
 import { DEFAULT_STATE } from "./constants";
@@ -104,7 +103,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
      */
     if (!this._prevtricks || this._prevtricks.length < result.length) {
       this._prevtricks = result;
-      this.broadcast({ error: undefined, tricks: result });
+      this.broadcast({ error: null, tricks: result });
     }
   }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
-import { PrefProvider, getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
+import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
 // @ts-expect-error mock import
 import { ModeProvider, _removeModeWidget } from '../src/contexts/ModeContext';
@@ -27,11 +27,11 @@ test('WidgetLayout filters non display widgets', () => {
 
 test('Container', () => {
   const l = getEventListener<MarqueeEvents>();
-  const { container } = render(<PrefProvider>
+  const { container } = render(
     <ModeProvider>
       <Container />
     </ModeProvider>
-  </PrefProvider>);
+  );
   expect(screen.getAllByText('Navigation')).toHaveLength(2);
   expect(screen.queryByRole('SettingsDialog')).not.toBeTruthy();
   expect(_removeModeWidget).toBeCalledTimes(0);

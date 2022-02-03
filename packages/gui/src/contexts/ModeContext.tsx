@@ -122,8 +122,6 @@ const ModeProvider = ({ children }: Props) => {
   const mode: Mode = useMemo(() => {
     return (modes && modes[modeName]) || {};
   }, [modes, modeName]);
-  const eventListener = getEventListener<MarqueeEvents>();
-  eventListener.emit('updateWidgetDisplay', mode.widgets);
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== modeName) {
@@ -262,6 +260,9 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
+    const eventListener = getEventListener<MarqueeEvents>();
+    eventListener.emit('updateWidgetDisplay', mode.widgets);
+
     // use two handlers
     // @ts-expect-error requires Observer as return value
     modeStore.subscribe(() => {

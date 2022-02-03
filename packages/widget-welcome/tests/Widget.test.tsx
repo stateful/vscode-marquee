@@ -2,11 +2,11 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { getEventListener, PrefProvider } from '@vscode-marquee/utils';
+import { getEventListener } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { TrickProvider } from '../src/Context';
-import type { State } from '../src/types';
+import type { State, Events } from '../src/types';
 
 declare const window: {
   vscode: any
@@ -17,13 +17,11 @@ beforeAll(() => {
 });
 
 test('renders component correctly', async () => {
-  const listener = getEventListener<State>('@vscode-marquee/welcome-widget');
+  const listener = getEventListener<State & Events>('@vscode-marquee/welcome-widget');
   const { getByText, queryByText, container } = render(
-    <PrefProvider>
-      <TrickProvider>
-        <Widget.component />
-      </TrickProvider>
-    </PrefProvider>
+    <TrickProvider>
+      <Widget.component />
+    </TrickProvider>
   );
   expect(getByText('You\'re all up to date 🚀, nice work! 🙃')).toBeTruthy();
   act(() => { listener.emit('error', new Error('ups')); });

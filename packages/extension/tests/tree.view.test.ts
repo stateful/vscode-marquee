@@ -3,32 +3,6 @@ import { TreeView } from '../src/tree.view';
 const context = {} as any;
 const stateMgr = {} as any;
 
-const testMessage = {
-  east: {
-    todos: [{
-      archived: true
-    }, {
-      checked: true,
-      archived: false,
-      body: 'foo'
-    }, {
-      checked: false,
-      archived: false,
-      body: 'bar'
-    }]
-  },
-  west: {
-    snippets: [{
-      id: '123',
-      title: 'foobar'
-    }],
-    notes: [{
-      id: '123',
-      title: 'foobar'
-    }]
-  }
-};
-
 beforeEach(() => {
   context.subscriptions = [];
   context.extensionPath = '/foo/bar';
@@ -69,7 +43,7 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates'](testMessage);
+    tree['handleStateManagerUpdates']();
     expect(tree['state']).toMatchSnapshot();
     expect(tree['toplevel']).toMatchSnapshot();
     expect(tree['refresh']).toBeCalledTimes(1);
@@ -101,7 +75,7 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates'](testMessage);
+    tree['handleStateManagerUpdates']();
 
     const elems = await tree.getChildren();
     expect(elems).toMatchSnapshot();

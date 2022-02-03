@@ -1,10 +1,11 @@
 import vscode from 'vscode';
-import crypto from 'crypto';
 import pick from 'lodash.pick';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
-import { Workspace, WorkspaceType } from './types';
+import getExtProps from './getExtProps';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
+import type { Configuration, State } from './types';
 
 const config = vscode.workspace.getConfiguration('marquee');
 
@@ -76,33 +77,38 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
   }
 
-  protected getActiveWorkspace(): Workspace | null {
-    const wsp = vscode.workspace;
-    let name = wsp.name || "";
-    let path = "";
-    let type = WorkspaceType.NONE;
-
-    if (wsp.workspaceFile) {
-      type = WorkspaceType.WORKSPACE;
-      path = wsp.workspaceFile.path;
-    } else if (wsp.workspaceFolders) {
-      type = WorkspaceType.FOLDER;
-      path =
-        wsp.workspaceFolders.length > 0 ? wsp.workspaceFolders[0].uri.path : "";
-    }
-
-    if (type && path) {
-      const shasum = crypto.createHash("sha1");
-      const id = shasum.update(path, "utf8").digest("hex");
-      const nws: Workspace = { id, name, type, path };
-
-      return nws;
-    }
-
-    return null;
-  }
-
   dispose() {
     delete this._tangle;
   }
 }
+
+class GlobalExtensionManager extends ExtensionManager<State, Configuration> {
+  constructor (
+    context: vscode.ExtensionContext,
+    channel: vscode.OutputChannel
+  ) {
+    super(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
+  }
+}
+
+function activate (
+  context: vscode.ExtensionContext,
+  channel: vscode.OutputChannel
+) {
+  const stateManager = new GlobalExtensionManager(context, channel);
+
+  return {
+    marquee: {
+      disposable: stateManager,
+      defaultState: stateManager.state,
+      defaultConfiguration: stateManager.configuration,
+      setup: stateManager.setBroadcaster.bind(stateManager)
+    }
+  };
+}
+
+/**
+ * export all helper methods that need an Node.js environment
+ */
+export { getExtProps, GlobalExtensionManager, activate };
+export * from './types';

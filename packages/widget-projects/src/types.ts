@@ -12,4 +12,6 @@ export interface State {
   workspaces: Workspace[]
 }
 
-export type Context = ContextProperties<Configuration & State>;
+export interface Context extends ContextProperties<Configuration & State> {
+  _removeWorkspace: (id: string) => void
+}

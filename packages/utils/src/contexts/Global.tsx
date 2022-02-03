@@ -1,53 +1,41 @@
-import React, { createContext, useState, useEffect } from "react";
-import { createConsumer } from "../stateConsumer";
+import React, { createContext } from "react";
 
-import store from "../store";
-import type { IGlobalContext, Workspace } from '../types';
+import { getEventListener, connect } from '../';
+import { getVSColor } from '../utils';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from '../constants';
+import type { Configuration, Context, State, RGBA } from '../types';
 
-const GlobalContext = createContext<IGlobalContext>({} as IGlobalContext);
+const GlobalContext = createContext<Context>({} as Context);
+const rgba = ['r', 'g', 'b', 'a'] as const;
 
 const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
-  const GlobalStore = store("globalScope", false);
-  const [globalScope, setGlobalScope] = useState(true);
-  const [activeWorkspace, setActiveWorkspace] = useState<Workspace | null>(null);
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const globalState = getEventListener<State & Configuration>('@vscode-marquee/utils');
+  const providerValues = connect<State & Configuration>(
+    { ...DEFAULT_STATE, ...DEFAULT_CONFIGURATION },
+    globalState
+  );
 
-
-  let _removeWorkspace = (id: string) => {
-    const wsps = [...workspaces];
-    let index = wsps.findIndex((wsp) => wsp.id === id);
-    wsps.splice(index, 1);
-
-    GlobalStore.set("workspaces", wsps);
-    setWorkspaces(wsps);
-  };
-
-  let _updateGlobalScope = (show: boolean) => {
-    setGlobalScope(show);
-    GlobalStore.set("globalScope", show);
-  };
-
-  const handler = () => {
-    setWorkspaces(GlobalStore.get("workspaces") || workspaces);
-    setGlobalScope(GlobalStore.get("globalScope"));
-  };
-
-  useEffect(() => {
-    GlobalStore.subscribe(handler as any);
-
-    createConsumer("activeWorkspace").subscribe((aws: Workspace) => {
-      setActiveWorkspace(aws);
-    });
-  }, []);
+  /**
+   * theme color propagated into template
+   */
+  const cssThemeValue = window.getComputedStyle(document.documentElement)
+    .getPropertyValue('--marquee-theme-color')
+    .trim();
+  const themeColor = cssThemeValue === 'transparent' || !cssThemeValue.match(/[\.\d]+/g)
+    ? getVSColor()
+    : cssThemeValue
+        .match(/[\.\d]+/g)!
+        .map(Number)
+        .reduce((acc, val, i) => {
+          acc[rgba[i]] = val;
+          return acc;
+        }, {} as RGBA);
 
   return (
     <GlobalContext.Provider
       value={{
-        globalScope,
-        workspaces,
-        activeWorkspace,
-        _removeWorkspace,
-        _updateGlobalScope,
+        ...providerValues,
+        themeColor
       }}
     >
       {children}

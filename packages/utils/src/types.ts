@@ -2,6 +2,12 @@ import type { ConnectableObservable } from 'rxjs';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import type { Webview } from 'vscode';
 
+export type ContextProperties<T> = {
+  [t in keyof T]: T[t]
+} & {
+  [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
+};
+
 interface VSCodeWebview extends Webview {
   getState: () => any
   setState: (param: any) => void
@@ -63,17 +69,22 @@ export interface Workspace {
   type: WorkspaceType
 }
 
-export interface IGlobalContext {
-  globalScope: boolean
-  workspaces: Workspace[]
-  activeWorkspace: Workspace | null
-  _removeWorkspace: (id: string) => void
-  _updateGlobalScope: (show: boolean) => void
-}
-
 export type RGBA = {
   r: number;
   g: number;
   b: number;
   a?: number;
 };
+
+export interface Configuration {
+  background: string
+  name: string
+}
+
+export interface State {
+  globalScope: boolean
+}
+
+export interface Context extends ContextProperties<State & Configuration> {
+  themeColor: RGBA
+}

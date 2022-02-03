@@ -4,5 +4,5 @@ export const DEFAULT_STATE: State & Omit<Events, 'upvote'> = {
   tricks: [],
   read: [],
   liked: [],
-  error: undefined
+  error: null
 };

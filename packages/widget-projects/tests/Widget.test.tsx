@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { GlobalProvider, PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { WorkspaceProvider } from '../src/Context';
@@ -18,11 +18,9 @@ beforeEach(() => {
 test('renders component correctly', async () => {
   const { getByText, getByLabelText, getByPlaceholderText, queryByPlaceholderText } = render(
     <GlobalProvider>
-      <PrefProvider>
-        <WorkspaceProvider>
-          <Widget.component />
-        </WorkspaceProvider>
-      </PrefProvider>
+      <WorkspaceProvider>
+        <Widget.component />
+      </WorkspaceProvider>
     </GlobalProvider>
   );
   expect(getByText('test workspace')).toBeTruthy();

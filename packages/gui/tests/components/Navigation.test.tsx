@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 // @ts-expect-error mock import
-import { PrefProvider, GlobalProvider, _updateGlobalScope } from '@vscode-marquee/utils';
+import { PrefProvider, GlobalProvider, setGlobalScope } from '@vscode-marquee/utils';
 
 import Navigation from '../../src/components/Navigation';
 
@@ -37,7 +37,7 @@ test('renders component correctly', () => {
   expect(getByText('some nameJohn Doe')).toBeTruthy();
 
   userEvent.click(getByTitle('Toggle global vs workspace scope'));
-  expect(_updateGlobalScope).toBeCalledTimes(1);
+  expect(setGlobalScope).toBeCalledTimes(1);
 
   userEvent.click(getByLabelText('Open Settings'));
   expect(getByText('SettingsDialog')).toBeTruthy();

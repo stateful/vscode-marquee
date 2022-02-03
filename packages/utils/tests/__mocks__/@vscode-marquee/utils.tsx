@@ -3,11 +3,9 @@ import { createTheme } from "@material-ui/core/styles";
 import { EventEmitter } from 'events';
 
 import GlobalContextImport from '../../../src/contexts/Global';
-import PrefContextImport from '../../../src/contexts/Pref';
 import NetworkErrorImport from '../../../src/components/NetworkError';
 import BetterCompleteImport from '../../../src/components/BetterComplete';
 import DoubleClickHelperImport from '../../../src/components/DoubleClickHelper';
-import { getVSColor } from '../../../src/utils';
 
 export const theme = createTheme({
   palette: {
@@ -22,30 +20,16 @@ const eventListener = new EventEmitter();
 eventListener.listen = eventListener.on;
 export const defaultName = "name here...";
 export const getEventListener = () => eventListener;
-export const PrefContext = PrefContextImport;
 export const GlobalContext = GlobalContextImport;
-export const updateWidgetFilter = jest.fn();
 export const updateName = jest.fn();
-export const PrefProvider = ({ children }: any) => (
-  <PrefContext.Provider value={{
-    themeColor: getVSColor(),
-    bg: 4,
-    name: 'some name',
-    widgetFilter: 'widgetFilter',
-    updateWidgetFilter,
-    updateName
-   } as any}>
-    <div role="PrefProvider">{children}</div>
-  </PrefContext.Provider>
-);
 
-export const _updateGlobalScope = jest.fn();
+export const setGlobalScope = jest.fn();
 export const GlobalProvider = ({ children }: any) => (
   <GlobalContext.Provider value={{
     globalScope: true,
     workspaces: [{ id: '1', name: 'test workspace' }],
     activeWorkspace: { id: 'foobar' },
-    _updateGlobalScope
+    setGlobalScope
    } as any}>
     <div role="GlobalProvider">{children}</div>
   </GlobalContext.Provider>

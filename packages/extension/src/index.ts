@@ -9,6 +9,9 @@ export function activate(context: vscode.ExtensionContext) {
   new MarqueeExtension(context, stateMgr);
 
   return {
+    /**
+     * demo code for example widget in "/example"
+     */
     marquee: {
       setup: (tangle: Client<{ counter: number }>) => {
         let i = 0;

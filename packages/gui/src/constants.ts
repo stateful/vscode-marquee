@@ -121,6 +121,18 @@ export const themes: Theme[] = [
   },
 ];
 
+export const NO_BACKGROUND_STYLE = {
+  position: "fixed" as 'fixed',
+  width: "100%",
+  height: "100%"
+};
+
+export const BACKGROUND_STYLE = {
+  ...NO_BACKGROUND_STYLE,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+};
+
 export const defaultLayout: LayoutType = {
   lg: [
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 0, i: "welcome", moved: false, static: false },

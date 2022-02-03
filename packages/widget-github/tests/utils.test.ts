@@ -20,9 +20,9 @@ test('fetchData', async () => {
   });
 
   expect(await fetchData(
-    { name: 'foo', value: 'foo' },
-    { name: 'bar', urlParam: 'bar' },
-    { name: 'loo', urlParam: 'loo' }
+    'Daily',
+    'TypeScript',
+    'English'
   )).toBe('foobar');
   expect((window.fetch as jest.Mock).mock.calls).toMatchSnapshot();
 });

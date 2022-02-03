@@ -28,7 +28,7 @@ export interface Configuration {}
 export interface Events {
   upvote: string;
   tricks: Trick[];
-  error?: Error;
+  error: Error | null;
 }
 
 export interface Storage extends Pick<Context, 'read' | 'liked'> {}

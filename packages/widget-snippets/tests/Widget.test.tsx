@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { GlobalProvider, PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { SnippetProvider } from '../src/Context';
@@ -10,11 +10,9 @@ import { SnippetProvider } from '../src/Context';
 test('renders component correctly', async () => {
   const { getByText, queryByText, getByLabelText } = render(
     <GlobalProvider>
-      <PrefProvider>
-        <SnippetProvider>
-          <Widget.component />
-        </SnippetProvider>
-      </PrefProvider>
+      <SnippetProvider>
+        <Widget.component />
+      </SnippetProvider>
     </GlobalProvider>
   );
   expect(getByText('Create a snippet')).toBeTruthy();
