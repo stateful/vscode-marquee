@@ -7,7 +7,16 @@ import Notes from "@vscode-marquee/widget-notes";
 import Snippets from "@vscode-marquee/widget-snippets";
 import Projects from "@vscode-marquee/widget-projects";
 
-import { LayoutType, WidgetConfig, Theme, ModeConfig } from "./types";
+import { WidgetConfig, Theme, State, Configuration, LayoutType } from "./types";
+
+export const DEFAULT_STATE: State = {
+  modeName: 'default',
+  prevMode: null
+};
+
+export const DEFAULT_CONFIGURATION: Configuration = {
+  modes: {}
+};
 
 export const widgetConfig: WidgetConfig[] = [
   Welcome,
@@ -133,6 +142,14 @@ export const BACKGROUND_STYLE = {
   backgroundRepeat: "no-repeat",
 };
 
+export const thirdPartyWidgetLayout = {
+  xxs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 98 },
+  xs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 86 },
+  sm: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 6, x: 0, y: 62 },
+  md: { h: 8, minH: 6, minW: 2, moved: false, static: false, w: 10, x: 0, y: 37 },
+  lg: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 0 }
+};
+
 export const defaultLayout: LayoutType = {
   lg: [
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 0, i: "welcome", moved: false, static: false },
@@ -186,120 +203,6 @@ export const defaultLayout: LayoutType = {
   ],
 };
 
-export const playLayout: LayoutType = {
-  sm: [
-    { w: 3, h: 12, x: 3, y: 11, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 12, x: 0, y: 11, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 36, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 11, x: 3, y: 0, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 13, x: 0, y: 23, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 11, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 48, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 60, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  xs: [
-    { w: 4, h: 13, x: 0, y: 37, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 24, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 62, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 11, x: 0, y: 13, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 50, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 74, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 86, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  md: [
-    { w: 5, h: 14, x: 5, y: 12, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 5, h: 14, x: 0, y: 12, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 37, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 5, h: 12, x: 5, y: 0, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 10, h: 11, x: 0, y: 26, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 5, h: 12, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 49, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 61, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  lg: [
-    { w: 6, h: 14, x: 6, y: 15, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 14, x: 0, y: 15, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 14, x: 4, y: 29, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 15, x: 3, y: 0, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 15, x: 6, y: 0, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 15, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 29, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 41, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  xxs: [
-    { w: 4, h: 13, x: 0, y: 37, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 24, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 62, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 11, x: 0, y: 13, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 50, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 74, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 86, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-};
-
-export const workLayout: LayoutType = {
-  sm: [
-    { w: 4, h: 12, x: 0, y: 47, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 59, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 11, x: 3, y: 0, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 71, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 11, x: 0, y: 36, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 11, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 6, h: 13, x: 0, y: 23, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 12, x: 0, y: 11, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  xs: [
-    { w: 4, h: 12, x: 0, y: 60, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 72, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 25, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 84, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 11, x: 0, y: 49, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 37, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 13, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  md: [
-    { w: 4, h: 12, x: 0, y: 26, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 38, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 12, x: 3, y: 0, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 50, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 5, h: 14, x: 5, y: 12, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 3, h: 12, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 5, h: 14, x: 0, y: 12, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 6, y: 0, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  lg: [
-    { w: 4, h: 12, x: 0, y: 28, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 40, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 8, y: 0, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 52, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 6, h: 15, x: 6, y: 13, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 6, h: 15, x: 0, y: 13, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 4, y: 0, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-  xxs: [
-    { w: 4, h: 12, x: 0, y: 60, i: "news", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 72, i: "github", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 25, i: "todo", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 84, i: "weather", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 11, x: 0, y: 49, i: "notes", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 13, x: 0, y: 0, i: "welcome", minW: 3, minH: 9, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 37, i: "snippets", minW: 2, minH: 6, moved: false, static: false },
-    { w: 4, h: 12, x: 0, y: 13, i: "projects", minW: 2, minH: 6, moved: false, static: false },
-  ],
-};
-
-export const thirdPartyWidgetLayout = {
-  xxs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 98 },
-  xs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 86 },
-  sm: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 6, x: 0, y: 62 },
-  md: { h: 8, minH: 6, minW: 2, moved: false, static: false, w: 10, x: 0, y: 37 },
-  lg: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 0 }
-};
-
 export const defaultEnabledWidgets = {
   news: true,
   github: true,
@@ -311,46 +214,4 @@ export const defaultEnabledWidgets = {
   projects: true,
 };
 
-export const presetModes = ['default', 'work', 'play'] as const;
-
-export const modeConfig: ModeConfig = {
-  default: { layouts: defaultLayout, widgets: defaultEnabledWidgets },
-  work: {
-    layouts: workLayout,
-    widgets: {
-      ...defaultEnabledWidgets,
-      ...{
-        news: false,
-        github: false,
-        weather: false,
-      },
-    },
-    icon: {
-      id: "briefcase",
-      name: "Briefcase",
-      short_names: ["briefcase"],
-      colons: ":briefcase:",
-      emoticons: [],
-      unified: "1f4bc",
-      skin: null,
-      native: "💼",
-    },
-  },
-  play: {
-    layouts: playLayout,
-    widgets: {
-      ...defaultEnabledWidgets,
-      ...{ todo: false, snippets: false, projects: false },
-    },
-    icon: {
-      id: "beach_with_umbrella",
-      name: "Beach with Umbrella",
-      short_names: ["beach_with_umbrella"],
-      colons: ":beach_with_umbrella:",
-      emoticons: [],
-      unified: "1f3d6-fe0f",
-      skin: null,
-      native: "🏖️",
-    },
-  },
-};
+export const presetModes = ['default', 'work', 'play'] as string[];

@@ -13,7 +13,6 @@ let _widgets: any;
 let _modeName: any;
 let _prevMode: any;
 let _modes: any;
-let __setModeName: any;
 let __addMode: any;
 let __removeMode: any;
 let __resetModes: any;
@@ -21,13 +20,10 @@ let __resetModes: any;
 test('WidgetLayout filters non display widgets', () => {
   expect(window.marqueeExtension).not.toBeTruthy();
   const TestComponent = () => {
-    const { widgets, thirdPartyWidgets, modeName, prevMode, modes, _resetModes, _removeMode, _setModeName, _addMode } = useContext(ModeContext);
+    const { widgets, thirdPartyWidgets, modes, _resetModes, _removeMode, _addMode } = useContext(ModeContext);
     _thirdPartyWidgets = thirdPartyWidgets;
     _widgets = widgets;
-    _modeName = modeName;
     _modes = modes;
-    _prevMode = prevMode;
-    __setModeName = _setModeName;
     __addMode = _addMode;
     __removeMode = _removeMode;
     __resetModes = _resetModes;
@@ -51,7 +47,7 @@ test('WidgetLayout filters non display widgets', () => {
   expect(_thirdPartyWidgets).toHaveLength(1);
   expect(_widgets['foo-bar']).toBeTruthy();
 
-  act(() => { __setModeName('work'); });
+  // act(() => { __setModeName('work'); });
   expect(_modeName).toBe('work');
   expect(_prevMode).toBe(null);
 

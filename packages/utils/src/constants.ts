@@ -1,7 +1,7 @@
 import type { State, Configuration } from './types';
 
 export const DEFAULT_STATE: State = {
-  globalScope: false,
+  globalScope: false
 };
 
 export const DEFAULT_CONFIGURATION: Configuration = {

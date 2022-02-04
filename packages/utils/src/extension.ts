@@ -88,20 +88,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 }
 
-class GlobalExtensionManager extends ExtensionManager<State, Configuration> {
-  constructor (
-    context: vscode.ExtensionContext,
-    channel: vscode.OutputChannel
-  ) {
-    super(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
-  }
-}
-
 function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new GlobalExtensionManager(context, channel);
+  const stateManager = new ExtensionManager<State, Configuration>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
 
   return {
     marquee: {
@@ -116,5 +107,5 @@ function activate (
 /**
  * export all helper methods that need an Node.js environment
  */
-export { getExtProps, GlobalExtensionManager, activate };
+export { getExtProps, activate };
 export * from './types';

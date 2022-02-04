@@ -7,20 +7,11 @@ import type { State } from './types';
 
 const STATE_KEY = 'widgets.snippets';
 
-class TodoExtensionManager extends ExtensionManager<State, {}> {
-  constructor (
-    context: vscode.ExtensionContext,
-    channel: vscode.OutputChannel
-  ) {
-    super(context, channel, STATE_KEY, {}, DEFAULT_STATE);
-  }
-}
-
 export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new TodoExtensionManager(context, channel);
+  const stateManager = new ExtensionManager<State, {}>(context, channel, STATE_KEY, {}, DEFAULT_STATE);
 
   return {
     marquee: {

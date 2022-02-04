@@ -43,6 +43,7 @@ import { MarqueeGui } from "./gui.view";
 import { TreeView } from "./tree.view";
 import { writeFileSync, readFileSync } from "fs-extra";
 import { ContextMenu } from "./tree.view";
+import { activateGUI } from './utils';
 import { INIT, config, FILE_FILTER, CONFIG_FILE_TYPE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 import { MarqueeEvents } from "@vscode-marquee/utils";
@@ -52,6 +53,7 @@ export const TODO = /TODO[:]? /g;
 
 const MARQUEE_WIDGETS = {
   '@vscode-marquee/utils': activateUtils,
+  '@vscode-marquee/gui': activateGUI,
   '@vscode-marquee/welcome-widget': activateWelcomeWidget,
   '@vscode-marquee/projects-widget': activateProjectsWidget,
   '@vscode-marquee/github-widget': activateGitHubWidget,

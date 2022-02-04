@@ -1,5 +1,4 @@
 import React, { useContext, MouseEvent, useState, useRef } from "react";
-import ModeContext from "../contexts/ModeContext";
 
 import SettingsIcon from "@material-ui/icons/Settings";
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
@@ -24,8 +23,9 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 
-import { ucFirst } from "../utils";
+import ModeContext from "../contexts/ModeContext";
 import ModeDialog from "../dialogs/ModeDialog";
+import { ucFirst } from "../utils";
 
 const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
   return (
@@ -38,10 +38,8 @@ const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
 const ModeSelector = () => {
   const [open, setOpen] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
+  const { modeName, _setModeName, prevMode, modes, mode} = useContext(ModeContext);
   const anchorRef = useRef(null);
-  const { modes, modeName, _setModeName, mode, prevMode } = useContext(
-    ModeContext
-  );
 
   const handleClick = () => {
     //if there was a previous mode, switch to that

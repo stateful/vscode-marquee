@@ -5,9 +5,9 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import "./css/react-grid-layout.css";
 import "react-resizable/css/styles.css";
 
-import ModeContext from "./contexts/ModeContext";
 import { getEventListener, MarqueeEvents, GlobalContext } from "@vscode-marquee/utils";
 
+import ModeContext from "./contexts/ModeContext";
 import Navigation from "./components/Navigation";
 import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
@@ -17,7 +17,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
 export const WidgetLayout = React.memo(() => {
-  const { modes, widgets, _setCurrentModeLayout, mode, modeName } = useContext(
+  const { modeName, modes, widgets, _setCurrentModeLayout, mode } = useContext(
     ModeContext
   );
 

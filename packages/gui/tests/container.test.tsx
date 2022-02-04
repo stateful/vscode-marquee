@@ -6,7 +6,7 @@ import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 // @ts-expect-error mock import
 import { ModeProvider, _removeModeWidget } from '../src/contexts/ModeContext';
 import Container, { WidgetLayout } from '../src/Container';
-import { modeConfig } from '../src/constants';
+import modeConfig from '../src/contexts/__mocks__/modeConfig.json';
 
 jest.mock('../src/utils/backgrounds', () => jest.fn((bg) => bg));
 jest.mock('../src/contexts/ModeContext');
