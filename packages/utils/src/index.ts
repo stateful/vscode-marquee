@@ -6,9 +6,7 @@ import { createTheme } from "@material-ui/core/styles";
 
 import type { Client } from 'tangle';
 
-import store from './store';
 import calculateTheme from "./calculateTheme";
-import { createConsumer } from './stateConsumer';
 
 import BetterComplete from "./components/BetterComplete";
 import NetworkError from './components/NetworkError';
@@ -110,10 +108,8 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
 }
 
 export {
-  store,
   jumpTo,
   getEventListener,
-  createConsumer,
   theme,
   connect,
 

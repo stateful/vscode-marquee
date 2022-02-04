@@ -34,21 +34,6 @@ export const GlobalProvider = ({ children }: any) => (
     <div role="GlobalProvider">{children}</div>
   </GlobalContext.Provider>
 );
-const handlers = new Map();
-export const stores = new Map();
-export const store = (name: string) => {
-  const s = new Map();
-  stores.set(name, s);
-  // @ts-expect-error store mock
-  s.subscribe = (cb: Function) => (
-    handlers.set(name, [...(handlers.get(name) || []), cb])
-  );
-  return s;
-};
-export const emitStore = (name: string, payload: any) => (
-  [...(handlers.get(name) || [])].map((handler) => handler(payload))
-);
 export const NetworkError = NetworkErrorImport;
 export const BetterComplete = BetterCompleteImport;
 export const DoubleClickHelper = DoubleClickHelperImport;
-export const createConsumer = () => ({ subscribe: jest.fn() });
