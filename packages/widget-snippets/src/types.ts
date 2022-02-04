@@ -20,6 +20,11 @@ export interface Snippet {
   workspaceId: string | null
 }
 
+export interface Selection {
+  label: string
+  snippet: Snippet
+}
+
 export interface State {
   snippets: Snippet[]
   snippetFilter: string

@@ -103,7 +103,7 @@
         "icon": "assets/marquee_activity_light.png"
       },
       {
-        "command": "marquee.toggleTodo",
+        "command": "marquee.todo.toggle",
         "title": "Marquee toggle todo"
       },
       {
@@ -111,20 +111,24 @@
         "title": "Marquee clear persistence"
       },
       {
-        "command": "marquee.addTodo",
+        "command": "marquee.todo.add",
         "title": "Add to Marquee"
       },
       {
-        "command": "marquee.addTodoEditor",
+        "command": "marquee.todo.addEditor",
         "title": "Add to todos [Marquee]"
       },
       {
-        "command": "marquee.addSnippetEditor",
+        "command": "marquee.snippet.add",
         "title": "Add to snippets [Marquee]"
       },
       {
-        "command": "marquee.insertSnippet",
+        "command": "marquee.snippet.insert",
         "title": "Insert snippet"
+      },
+      {
+        "command": "marquee.snippet.insertEditor",
+        "title": "Insert from snippets [Marquee]"
       },
       {
         "command": "marquee.link",
@@ -139,16 +143,20 @@
         "title": "Edit"
       },
       {
-        "command": "marquee.move",
-        "title": "Move to current workspace"
+        "command": "marquee.snippet.move",
+        "title": "Move snippet to current workspace"
+      },
+      {
+        "command": "marquee.todo.move",
+        "title": "Move todo to current workspace"
+      },
+      {
+        "command": "marquee.note.move",
+        "title": "Move note to current workspace"
       },
       {
         "command": "marquee.archive",
         "title": "Archive"
-      },
-      {
-        "command": "marquee.insertSnippetEditor",
-        "title": "Insert from snippets [Marquee]"
       },
       {
         "command": "marquee.addEmptyTodo",
@@ -216,8 +224,18 @@
           "group": "1_actions@1"
         },
         {
-          "command": "marquee.move",
+          "command": "marquee.snippet.move",
           "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.todo.move",
+          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.note.move",
+          "when": "view == marquee && viewItem =~ /Note/",
           "group": "5_copy@1"
         },
         {
@@ -231,14 +249,9 @@
           "group": "1_actions@1"
         },
         {
-          "command": "marquee.archive",
+          "command": "marquee.todo.archive",
           "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
           "group": "1_actions@2"
-        },
-        {
-          "command": "marquee.move",
-          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo|Note/",
-          "group": "5_copy@1"
         },
         {
           "command": "marquee.link",
@@ -263,15 +276,15 @@
       ],
       "editor/context": [
         {
-          "command": "marquee.addTodoEditor",
+          "command": "marquee.todo.addEditor",
           "group": "1_modification"
         },
         {
-          "command": "marquee.addSnippetEditor",
+          "command": "marquee.snippet.add",
           "group": "1_modification"
         },
         {
-          "command": "marquee.insertSnippetEditor",
+          "command": "marquee.snippet.insertEditor",
           "group": "9_cutcopypaste"
         }
       ],
@@ -687,7 +700,7 @@
             "type": "boolean",
             "scope": "window",
             "default": true,
-            "markdownDescription": "Auto-detect ToDos"
+            "markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
           }
         }
       }

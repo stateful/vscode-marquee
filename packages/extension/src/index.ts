@@ -1,12 +1,10 @@
 import type vscode from "vscode";
 import type { Client } from 'tangle';
 
-import { StateManager } from "./state.manager";
 import { MarqueeExtension } from "./extension";
 
 export function activate(context: vscode.ExtensionContext) {
-  const stateMgr = new StateManager(context);
-  new MarqueeExtension(context, stateMgr);
+  new MarqueeExtension(context);
 
   return {
     /**

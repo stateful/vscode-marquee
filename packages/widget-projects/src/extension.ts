@@ -1,15 +1,13 @@
-import crypto from 'crypto';
 import vscode from 'vscode';
 
 import ExtensionManager from '@vscode-marquee/utils/extension';
-import { Workspace, WorkspaceType } from '@vscode-marquee/utils/extension';
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import type { State, Configuration } from './types';
 
 const STATE_KEY = 'widgets.projects';
 
-class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
+export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (
     context: vscode.ExtensionContext,
     channel: vscode.OutputChannel
@@ -45,32 +43,6 @@ class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
       this.updateState('workspaces', [...this._state.workspaces, aws]);
     }
   }
-
-  protected getActiveWorkspace(): Workspace | null {
-    const wsp = vscode.workspace;
-    let name = wsp.name || "";
-    let path = "";
-    let type = WorkspaceType.NONE;
-
-    if (wsp.workspaceFile) {
-      type = WorkspaceType.WORKSPACE;
-      path = wsp.workspaceFile.path;
-    } else if (wsp.workspaceFolders) {
-      type = WorkspaceType.FOLDER;
-      path =
-        wsp.workspaceFolders.length > 0 ? wsp.workspaceFolders[0].uri.path : "";
-    }
-
-    if (type && path) {
-      const shasum = crypto.createHash("sha1");
-      const id = shasum.update(path, "utf8").digest("hex");
-      const nws: Workspace = { id, name, type, path };
-
-      return nws;
-    }
-
-    return null;
-  }
 }
 
 export function activate (
@@ -88,3 +60,5 @@ export function activate (
     }
   };
 }
+
+export * from './types';
