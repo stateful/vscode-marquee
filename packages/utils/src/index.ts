@@ -52,25 +52,56 @@ type Entries<T> = {
 
 /**
  * Helper method to connect a widget context with its configuration and
- * application state
+ * application state of the extension host
+ *
  * @param defaults combind default values for configuration and state
  * @param tangle   tangle client to broadcast information
  * @returns object containing state values and its setter methods
  */
 function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
+  const prevState: any = window.vscode.getState() || {};
   const contextValues: Partial<ContextProperties<T>> = {};
   for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
-    const [propState, setPropState] = useState<typeof defaultVal>(defaultVal);
+    /**
+     * get default state either from:
+     * - the webview state (when widget was removed and re-loaded)
+     * - the actual default value
+     */
+    const defaultState = typeof prevState[prop] === 'undefined'
+      ? defaultVal
+      : prevState[prop];
+
+    const [propState, setPropState] = useState<typeof defaultVal>(defaultState);
     contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T];
+
+    /**
+     * define a custom setter method for a state that:
+     * - updates the state
+     * - broadcasts it to the extension host for sync
+     * - add it to the webview state so if a webview is being revived it
+     *   receives its former configurations
+     */
     const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
     contextValues[setProp] = ((val: any) => {
       setPropState(val);
       tangle.broadcast({ [prop]: val } as T & Events);
+      window.vscode.setState({
+        ...(window.vscode.getState() || {}),
+        [prop]: val
+      });
     }) as any;
 
+    /**
+     * listen to updates from the extension host and apply it to the property
+     * state and webview state
+     */
     useEffect(() => {
       tangle.listen(prop as keyof T, (val: any) => {
         setPropState(val);
+        window.vscode.setState({
+          ...(window.vscode.getState() || {}),
+          [prop]: val
+        });
       });
     }, []);
   }

@@ -29,6 +29,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       ...pick(oldGlobalStore, Object.keys(this._defaultState)),
       ...this._context.globalState.get<State>(this._key)
     };
+
+    /**
+     * preserve state across different machines
+     */
+    this._context.globalState.setKeysForSync(Object.keys(this._defaultState));
+
     this._configuration = {
       ...this._defaultConfiguration,
       ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration)),
