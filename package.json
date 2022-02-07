@@ -260,7 +260,7 @@
         },
         {
           "command": "marquee.addEmptyTodo",
-          "when": "view == marquee && viewItem == todoHeadline",
+          "when": "view == marquee && viewItem == todosHeadline",
           "group": "inline"
         },
         {

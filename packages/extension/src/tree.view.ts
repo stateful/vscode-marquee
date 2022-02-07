@@ -139,7 +139,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
           elem.type
         );
         item.contextValue = `${elem.type}Headline`;
-        if (item.contextValue === "todoHeadline") {
+        if (item.contextValue === "todosHeadline") {
           this.focus = item;
         }
         return item;

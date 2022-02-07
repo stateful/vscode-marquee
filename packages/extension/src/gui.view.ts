@@ -188,5 +188,11 @@ export class MarqueeGui extends EventEmitter {
     ch.registerPromise([this.panel.webview])
       .then((client) => (this.client = client));
     this.panel.webview.html = content;
+    this.panel.webview.onDidReceiveMessage((e) => {
+      if (e.ready) {
+        this.guiActive = true;
+        this.emit('webview.open');
+      }
+    });
   }
 }

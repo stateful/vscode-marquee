@@ -16,7 +16,7 @@ Array [
     "checked": undefined,
     "collapsibleState": "foo",
     "command": undefined,
-    "contextValue": "todoHeadline",
+    "contextValue": "todosHeadline",
     "id": "0",
     "label": "Todo [global] (1 open / 1 closed)",
     "type": "todo",
