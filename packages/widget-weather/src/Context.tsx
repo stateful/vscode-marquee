@@ -31,10 +31,6 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
   };
 
   useEffect(() => {
-    if (typeof providerValues.city === 'undefined') {
-      return;
-    }
-
     const cachedData = geoDataCache(providerValues.city);
     if (cachedData) {
       return setCoords(cachedData);

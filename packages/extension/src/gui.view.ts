@@ -162,7 +162,7 @@ export class MarqueeGui extends EventEmitter {
         configuration: curr.exports.marquee.disposable.configuration,
         state: curr.exports.marquee.disposable.state
       }
-    }), {} as Record<string, any>)
+    }), {} as Record<string, any>);
 
     const content = index
       .replace(/app-ext-path/g, baseAppUri.toString())

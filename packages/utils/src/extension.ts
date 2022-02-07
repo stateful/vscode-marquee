@@ -72,10 +72,22 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    */
   public clear () {
     this._state = { ...this._defaultState };
-    Object.keys(this._defaultState).forEach(
-      (k) => this._context.globalState.update(k, this._defaultState[k as keyof State]));
+    Object.entries(this._defaultState).forEach(
+      ([key, defaultValue]) => this._context.globalState.update(key, defaultValue));
+
     this._configuration = { ...this._defaultConfiguration };
-    config.update(this._key, {}, CONFIGURATION_TARGET);
+    Object.keys(this._defaultConfiguration).forEach((key) => {
+      config.update(`${this._key}.${key}`, undefined, CONFIGURATION_TARGET);
+
+      /**
+       * after we deleted the current configuration, we have to update the
+       * object with the default value set in the extension package definition
+       * to get its default value from there
+       */
+      this.configuration[key as keyof Configuration] = (
+        config.get(`${this._key}.${key}`) || this._defaultConfiguration[key as keyof Configuration]
+      );
+    });
 
     if (this._tangle) {
       this._tangle.broadcast({ ...this._state, ...this._configuration });

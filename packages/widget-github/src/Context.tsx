@@ -44,20 +44,9 @@ const TrendProvider = ({ children }: Props) => {
 
   useEffect(() => {
     /**
-     * don't fetch if
+     * don't fetch if we are already fetching something
      */
-    if (
-      /**
-       * we haven't received all configuration params
-       */
-      typeof providerValues.since !== 'string' ||
-      typeof providerValues.language !== 'string' ||
-      typeof providerValues.spoken !== 'string' ||
-      /**
-       * we are already fetching something
-       */
-      isFetching
-    ) {
+    if (isFetching) {
       return;
     }
 
