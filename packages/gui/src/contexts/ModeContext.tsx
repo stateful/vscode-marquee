@@ -36,8 +36,6 @@ const ModeProvider = ({ children }: Props) => {
     modeState
   );
   const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[]);
-  console.log(providerValues.modes);
-
 
   const widgetMapping: Record<string, WidgetMap> = useMemo(() => {
     const newMap: Record<string, WidgetMap> = {};
@@ -99,8 +97,8 @@ const ModeProvider = ({ children }: Props) => {
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== providerValues.modeName) {
-      providerValues.setPrevMode(providerValues.modeName);
       providerValues.setModeName(newModeName);
+      providerValues.setPrevMode(providerValues.modeName);
     }
   };
 

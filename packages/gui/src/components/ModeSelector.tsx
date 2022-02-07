@@ -45,18 +45,17 @@ const ModeSelector = () => {
     //if there was a previous mode, switch to that
     if (prevMode) {
       _setModeName(prevMode);
-    } else {
-      //if there was no previous mode
-      //find the next mode and go there
-      //if that doesn't exist, goto default 0
-      let modesArr = Object.keys(modes);
-      let currModeIndex = modesArr.indexOf(modeName);
-      if (modesArr[currModeIndex + 1]) {
-        _setModeName(modesArr[currModeIndex + 1]);
-      } else {
-        _setModeName(modesArr[0]);
-      }
+      return;
     }
+
+    //if there was no previous mode
+    //find the next mode and go there
+    //if that doesn't exist, goto default 0
+    let modesArr = Object.keys(modes);
+    let currModeIndex = modesArr.indexOf(modeName);
+    return (modesArr[currModeIndex + 1])
+      ? _setModeName(modesArr[currModeIndex + 1])
+      : _setModeName(modesArr[0]);
   };
 
   const handleToggle = () => {
@@ -65,7 +64,7 @@ const ModeSelector = () => {
 
   const handleClose = (event: MouseEvent<Document, globalThis.MouseEvent>) => {
     // @ts-expect-error parentNode not defined
-    let targetClassList = event.target.parentNode.classList.value;
+    const targetClassList = event.target.parentNode.classList.value;
     if (
       // @ts-expect-error `current` not defined
       (anchorRef.current && anchorRef.current.contains(event.target)) ||
