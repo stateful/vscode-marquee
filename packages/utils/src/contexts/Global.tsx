@@ -2,18 +2,20 @@ import React, { createContext } from "react";
 
 import { getEventListener, connect } from '../';
 import { getVSColor } from '../utils';
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from '../constants';
-import type { Configuration, Context, State, RGBA } from '../types';
+import type { Configuration, Context, State, RGBA, MarqueeWindow } from '../types';
+
+declare const window: MarqueeWindow;
 
 const GlobalContext = createContext<Context>({} as Context);
 const rgba = ['r', 'g', 'b', 'a'] as const;
+const WIDGET_ID = '@vscode-marquee/utils';
 
 const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
-  const globalState = getEventListener<State & Configuration>('@vscode-marquee/utils');
-  const providerValues = connect<State & Configuration>(
-    { ...DEFAULT_STATE, ...DEFAULT_CONFIGURATION },
-    globalState
-  );
+  const globalState = getEventListener<State & Configuration>(WIDGET_ID);
+  const providerValues = connect<State & Configuration>({
+    ...window.marqueeStateConfiguration[WIDGET_ID].state,
+    ...window.marqueeStateConfiguration[WIDGET_ID].configuration
+  }, globalState);
 
   /**
    * theme color propagated into template

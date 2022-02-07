@@ -12,7 +12,7 @@ import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@
 import type { EmojiData } from 'emoji-mart';
 
 import { defaultLayout, defaultEnabledWidgets, thirdPartyWidgetLayout } from "../constants";
-import { widgetConfig, DEFAULT_STATE, DEFAULT_CONFIGURATION } from "../constants";
+import { widgetConfig } from "../constants";
 import { Context, Mode, LayoutType, WidgetConfig, LayoutSize, WidgetMap, State, Configuration } from "../types";
 
 declare const window: MarqueeWindow;
@@ -20,18 +20,24 @@ declare const window: MarqueeWindow;
 const pendingThirdPartyWidgets: ThirdPartyWidgetOptions[] = [];
 
 interface Props {
-  children: any
+  children: React.ReactChildren
 }
 
 const ModeContext = createContext<Context>({} as Context);
+const WIDGET_ID = '@vscode-marquee/gui';
 
 const ModeProvider = ({ children }: Props) => {
-  const globalState = getEventListener<State & Configuration>('@vscode-marquee/gui');
+  const modeState = getEventListener<State & Configuration>(WIDGET_ID);
   const providerValues = connect<State & Configuration>(
-    { ...DEFAULT_STATE, ...DEFAULT_CONFIGURATION },
-    globalState
+    {
+      ...window.marqueeStateConfiguration[WIDGET_ID].state,
+      ...window.marqueeStateConfiguration[WIDGET_ID].configuration
+    },
+    modeState
   );
   const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[]);
+  console.log(providerValues.modes);
+
 
   const widgetMapping: Record<string, WidgetMap> = useMemo(() => {
     const newMap: Record<string, WidgetMap> = {};

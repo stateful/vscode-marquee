@@ -1,13 +1,17 @@
 import vscode from "vscode";
 
-import { activate as activateUtils } from '@vscode-marquee/utils/extension';
+import ExtensionManager, {
+  activate as activateUtils,
+  State as GlobalState,
+  Configuration as GlobalConfiguration
+} from '@vscode-marquee/utils/extension';
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
 import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension';
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension';
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension';
-import { activate as activateTodoWidget } from '@vscode-marquee/widget-todo/extension';
-import { activate as activateNotesWidget } from '@vscode-marquee/widget-notes/extension';
-import { activate as activateSnippetsWidget } from '@vscode-marquee/widget-snippets/extension';
+import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension';
+import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension';
+import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension';
 
 import { activateGUI } from './utils';
 import type { ExtensionExport } from './types';
@@ -49,6 +53,30 @@ export default class StateManager implements vscode.Disposable {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/projects-widget'
     )?.exports.marquee.disposable as ProjectsExtensionManager;
+  }
+
+  get notesWidget () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/notes-widget'
+    )?.exports.marquee.disposable as NoteExtensionManager;
+  }
+
+  get todoWidget () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/todo-widget'
+    )?.exports.marquee.disposable as TodoExtensionManager;
+  }
+
+  get snippetsWidget () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/snippets-widget'
+    )?.exports.marquee.disposable as SnippetExtensionManager;
+  }
+
+  get global () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/utils'
+    )?.exports.marquee.disposable as ExtensionManager<GlobalState, GlobalConfiguration>;
   }
 
   /**

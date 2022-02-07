@@ -1,19 +1,20 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { fetchData } from './utils';
-import { DEFAULT_CONFIGURATION } from './constants';
 import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration } from './types';
 
-const TrendContext = createContext<Context>({} as any);
+declare const window: MarqueeWindow;
 
+const TrendContext = createContext<Context>({} as any);
+const WIDGET_ID = '@vscode-marquee/github-widget';
 interface Props {
   children?: React.ReactNode;
 }
 
 const TrendProvider = ({ children }: Props) => {
-  const widgetState = getEventListener<Configuration>('@vscode-marquee/github-widget');
-  const providerValues = connect<Configuration>(DEFAULT_CONFIGURATION, widgetState);
+  const widgetState = getEventListener<Configuration>(WIDGET_ID);
+  const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState);
 
   const [error, setError] = useState<Error>();
   const [isFetching, setIsFetching] = useState(false);

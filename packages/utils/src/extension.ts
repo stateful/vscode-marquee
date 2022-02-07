@@ -64,6 +64,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._channel.appendLine(`Update state "${prop}": ${val}`);
     this._state[prop] = val;
     this._context.globalState.update(this._key, this._state);
+    this.emit('stateUpdate', this._state);
   }
 
   /**

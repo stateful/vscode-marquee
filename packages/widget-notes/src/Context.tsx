@@ -3,16 +3,16 @@ import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
-import { DEFAULT_STATE } from "./constants";
 import type { State, Context, Note } from './types';
 
 declare const window: MarqueeWindow;
 const NoteContext = createContext<Context>({} as Context);
+const WIDGET_ID = '@vscode-marquee/notes-widget';
 
 const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   const eventListener = getEventListener<MarqueeEvents>();
-  const widgetState = getEventListener<State>('@vscode-marquee/notes-widget');
-  const providerValues = connect<State>(DEFAULT_STATE, widgetState);
+  const widgetState = getEventListener<State>(WIDGET_ID);
+  const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();

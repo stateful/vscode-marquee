@@ -53,3 +53,4 @@ export function activate (
     }
   };
 }
+export * from './types';

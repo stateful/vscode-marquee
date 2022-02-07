@@ -11,19 +11,12 @@ export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   return vscode.TreeItemCollapsibleState.Collapsed;
 };
 
-export const filterByScope = (
-  obj: { workspaceId: string }[],
+export const filterByScope = <T>(
+  obj: T[],
   aws: null | { id: string },
   globalScope: boolean
 ) => {
-  return obj.filter((n: any) => {
-    if (globalScope) {
-      return true;
-    } else if (aws && aws.id === n.workspaceId) {
-      return true;
-    }
-    return false;
-  });
+  return obj.filter((n: any) => globalScope || (aws && aws.id === n.workspaceId));
 };
 
 export const DEFAULT_STATE = {

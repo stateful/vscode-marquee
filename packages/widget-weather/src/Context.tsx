@@ -1,15 +1,20 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getEventListener, MarqueeEvents, connect } from "@vscode-marquee/utils";
+import { getEventListener, MarqueeEvents, connect, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { fetchGeoData, fetchWeather } from './utils';
-import { DEFAULT_CONFIGURATION } from "./constants";
 import type { Context, Configuration, Forecast, Scale, Location } from './types';
 
+declare const window: MarqueeWindow;
+
 const WeatherContext = createContext<Context>({} as Context);
+const WIDGET_ID = '@vscode-marquee/weather-widget';
 
 const WeatherProvider = function ({ children }: { children: React.ReactElement }) {
-  const widgetState = getEventListener<Configuration>('@vscode-marquee/weather-widget');
-  const providerValues = connect<Configuration>(DEFAULT_CONFIGURATION, widgetState);
+  const widgetState = getEventListener<Configuration>(WIDGET_ID);
+  const providerValues = connect<Configuration>({
+    ...window.marqueeStateConfiguration[WIDGET_ID].state,
+    ...window.marqueeStateConfiguration[WIDGET_ID].configuration
+  }, widgetState);
 
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error>();

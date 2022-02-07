@@ -65,6 +65,7 @@ describe('TreeView', () => {
     jest.spyOn(TreeView.prototype, 'update' as any)
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
+    // @ts-expect-error
     tree['_onDidChangeTreeData'] = { fire: jest.fn() } as any;
     tree.refresh();
     expect(tree['_onDidChangeTreeData'].fire).toBeCalledWith(undefined);

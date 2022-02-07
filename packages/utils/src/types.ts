@@ -29,7 +29,7 @@ export interface MarqueeInterface {
   ) => void
 }
 
-export interface MarqueeWindow extends Window {
+export interface MarqueeWindow<State = any, Configuration = any> extends Window {
   vscode: VSCodeWebview
   acquireVsCodeApi: () => Webview
   activeWorkspace: Workspace | null
@@ -38,6 +38,7 @@ export interface MarqueeWindow extends Window {
   marqueeBackendBaseUrl: string
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string
+  marqueeStateConfiguration: Record<string, { state: State, configuration: Configuration }>
   uptime?: ConnectableObservable<number>
 }
 

@@ -37,6 +37,9 @@ export const Providers = ({ children }: any) => {
 
 export const App = () => {
   useEffect(() => {
+    /**
+     * ToDo(Christian): use or remove this
+     */
     window.vscode.postMessage({ ready: true });
   }, []);
 

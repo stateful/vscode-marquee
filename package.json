@@ -155,7 +155,7 @@
         "title": "Move note to current workspace"
       },
       {
-        "command": "marquee.archive",
+        "command": "marquee.todo.archive",
         "title": "Archive"
       },
       {
