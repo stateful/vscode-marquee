@@ -97,8 +97,11 @@ const ModeProvider = ({ children }: Props) => {
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== providerValues.modeName) {
-      providerValues.setModeName(newModeName);
-      providerValues.setPrevMode(providerValues.modeName);
+      modeState.broadcast({
+        modeName: newModeName,
+        prevMode: providerValues.modeName,
+        modes: providerValues.modes
+      });
     }
   };
 

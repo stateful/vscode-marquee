@@ -37,14 +37,29 @@ const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
 
 const ModeSelector = () => {
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
   const { modeName, _setModeName, prevMode, modes, mode} = useContext(ModeContext);
   const anchorRef = useRef(null);
 
+  const setModeName = (newMode: string) => {
+    /**
+     * switching modes is a very costly operation, let's ensure we
+     * debounce this operation to avoid running into signal loops
+     */
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), 1000);
+    _setModeName(newMode);
+  };
+
   const handleClick = () => {
+
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), 1000);
+
     //if there was a previous mode, switch to that
     if (prevMode) {
-      _setModeName(prevMode);
+      setModeName(prevMode);
       return;
     }
 
@@ -54,8 +69,8 @@ const ModeSelector = () => {
     let modesArr = Object.keys(modes);
     let currModeIndex = modesArr.indexOf(modeName);
     return (modesArr[currModeIndex + 1])
-      ? _setModeName(modesArr[currModeIndex + 1])
-      : _setModeName(modesArr[0]);
+      ? setModeName(modesArr[currModeIndex + 1])
+      : setModeName(modesArr[0]);
   };
 
   const handleToggle = () => {
@@ -83,7 +98,7 @@ const ModeSelector = () => {
         <ModeDialog close={() => setShowModeDialog(false)} />
       )}
       <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-        <Button aria-label="Set Mode" onClick={handleClick} size="small">
+        <Button aria-label="Set Mode" onClick={handleClick} size="small" disabled={disabled}>
           {!mode.icon && (
             <ViewCompactIcon fontSize="small" className="modeIcon" />
           )}
@@ -92,6 +107,7 @@ const ModeSelector = () => {
           )}
         </Button>
         <Button
+          disabled={disabled}
           size="small"
           aria-controls={open ? "split-button-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
@@ -150,7 +166,8 @@ const ModeSelector = () => {
                                 button
                                 key={name}
                                 onClick={() => {
-                                  _setModeName(name);
+                                  setModeName(name);
+                                  handleToggle();
                                 }}
                               >
                                 <DenseListIcon>
