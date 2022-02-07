@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { getEventListener, MarqueeEvents, connect, MarqueeWindow } from "@vscode-marquee/utils";
 
-import { fetchGeoData, fetchWeather } from './utils';
+import { fetchGeoData, fetchWeather, forecastCache, geoDataCache } from './utils';
 import type { Context, Configuration, Forecast, Scale, Location } from './types';
 
 declare const window: MarqueeWindow;
@@ -35,14 +35,16 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
       return;
     }
 
+    const cachedData = geoDataCache(providerValues.city);
+    if (cachedData) {
+      return setCoords(cachedData);
+    }
+
     setIsFetching(true);
     fetchGeoData(providerValues.city).then(
-      (res) => {
+      (location) => {
         setError(undefined);
-        setCoords({
-          ...res.place.geometry.location,
-          city: res.place.address_components[0]?.short_name
-        });
+        setCoords(location);
       },
       (e: Error) => setError(e)
     ).finally(() => setIsFetching(false));
@@ -51,6 +53,11 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
   useEffect(() => {
     if (!coords) {
       return;
+    }
+
+    const weatherCache = forecastCache(coords?.lat, coords?.lng);
+    if (weatherCache) {
+      return setForecast(weatherCache);
     }
 
     setIsFetching(true);

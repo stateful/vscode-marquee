@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
 
-import { fetchData } from './utils';
+import { fetchData, getFromCache } from './utils';
 import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration } from './types';
 
 declare const window: MarqueeWindow;
@@ -59,6 +59,11 @@ const TrendProvider = ({ children }: Props) => {
       isFetching
     ) {
       return;
+    }
+
+    const cache = getFromCache(providerValues.since, providerValues.language, providerValues.spoken);
+    if (cache) {
+      return setTrends(cache);
     }
 
     setIsFetching(true);
