@@ -11,7 +11,7 @@ import type { Configuration, State, Workspace } from './types';
 
 const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
 const config = vscode.workspace.getConfiguration('marquee');
-const CONFIGURATION_TARGET = true;
+const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
   protected _tangle?: Client<State & Configuration>;
