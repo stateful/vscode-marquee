@@ -14,9 +14,14 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this._disposables.push(
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.insert', this._insertSnippet.bind(this)),
+      vscode.commands.registerCommand("marquee.snippet.addEmpty", this._addEmptySnippet.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.add', this._addSnippet.bind(this))
     );
+  }
+
+  private _addEmptySnippet () {
+    this.emit('openDialog', { event: 'openAddSnippetDialog', payload: true });
   }
 
   /**

@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
-import type { Todo, Context, Configuration, State } from './types';
+import type { Todo, Context, Configuration, State, Events } from './types';
 
 declare const window: MarqueeWindow;
 
@@ -11,7 +11,7 @@ const TodoContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/todo-widget';
 
 const TodoProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<MarqueeEvents>();
+  const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<Configuration & State>(WIDGET_ID);
   const providerValues = connect<Configuration & State>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,

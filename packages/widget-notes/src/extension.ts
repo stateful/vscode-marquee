@@ -11,7 +11,10 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, {}, DEFAULT_STATE);
     this._disposables.push(
-      vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this))
+      vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),
+      vscode.commands.registerCommand("marquee.note.addEmpty", () => this.emit(
+        'openDialog', { event: 'openAddNoteDialog', payload: true }
+      ))
     );
   }
 

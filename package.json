@@ -159,7 +159,7 @@
         "title": "Archive"
       },
       {
-        "command": "marquee.addEmptyTodo",
+        "command": "marquee.todo.addEmpty",
         "title": "Add todo to Marquee",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -167,7 +167,7 @@
         }
       },
       {
-        "command": "marquee.addEmptyNote",
+        "command": "marquee.note.addEmpty",
         "title": "Add item to Notes",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -175,7 +175,7 @@
         }
       },
       {
-        "command": "marquee.addEmptySnippet",
+        "command": "marquee.snippet.addEmpty",
         "title": "Add item to Snippets",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -259,17 +259,17 @@
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptyTodo",
+          "command": "marquee.todo.addEmpty",
           "when": "view == marquee && viewItem == todosHeadline",
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptyNote",
+          "command": "marquee.note.addEmpty",
           "when": "view == marquee && viewItem == notesHeadline",
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptySnippet",
+          "command": "marquee.snippet.addEmpty",
           "when": "view == marquee && viewItem == snippetsHeadline",
           "group": "inline"
         }

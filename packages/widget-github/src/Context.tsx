@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { fetchData, getFromCache } from './utils';
-import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration } from './types';
+import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration, Events } from './types';
 
 declare const window: MarqueeWindow;
 
@@ -13,6 +13,7 @@ interface Props {
 }
 
 const TrendProvider = ({ children }: Props) => {
+  const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<Configuration>(WIDGET_ID);
   const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState);
 
@@ -39,7 +40,6 @@ const TrendProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openGitHubDialog', setShowDialog);
     return () => {
       setUnmounted(true);

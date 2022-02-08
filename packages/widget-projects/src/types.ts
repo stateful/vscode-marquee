@@ -13,5 +13,13 @@ export interface State {
 }
 
 export interface Context extends ContextProperties<Configuration & State> {
+  notes: WidgetItem[],
+  todos: WidgetItem[],
+  snippets: WidgetItem[],
+
   _removeWorkspace: (id: string) => void
+}
+
+export interface WidgetItem {
+  workspaceId: string
 }

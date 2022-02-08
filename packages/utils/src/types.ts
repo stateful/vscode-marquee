@@ -46,15 +46,6 @@ export interface MarqueeEvents {
   openSettings: never
   removeWidget: string
   updateWidgetDisplay: Record<string, boolean>
-  addSnippet: any
-  openGitHubDialog: boolean
-  openWeatherDialog: boolean
-  openAddTodoDialog: boolean
-  openEditTodoDialog?: string
-  openAddSnippetDialog: boolean
-  openEditSnippetDialog?: string
-  openAddNoteDialog: boolean
-  openEditNoteDialog?: string
   resetMarquee?: boolean
 }
 

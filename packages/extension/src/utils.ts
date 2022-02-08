@@ -43,3 +43,29 @@ export function activateGUI (
     }
   };
 }
+
+export const linkMarquee = async (item: any) => {
+  let file = item.item.path;
+  let splt = file.split(":");
+  let ln = "1";
+  if (splt.length > 2) {
+    ln = splt[splt.length - 1];
+    splt = splt.splice(0, splt.length - 1);
+    file = splt.join(":");
+  } else if (splt.length > 1) {
+    [file, ln] = splt;
+  }
+  const rpath = vscode.Uri.parse(file).fsPath;
+  const doc = await vscode.workspace.openTextDocument(rpath);
+  if (!doc) {
+    return;
+  }
+
+  const editor = await vscode.window.showTextDocument(doc);
+  const r = doc.lineAt(parseInt(ln)).range;
+  if (!editor || !r) {
+    return;
+  }
+
+  editor.revealRange(r, vscode.TextEditorRevealType.InCenter);
+};

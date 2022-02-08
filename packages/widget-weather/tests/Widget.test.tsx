@@ -2,10 +2,11 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
+import { getEventListener } from '@vscode-marquee/utils';
 
 import Widget from '../src';
 import { WeatherProvider } from '../src/Context';
+import type { Events } from '../src/types';
 
 import getWeatherData from './__fixtures__/getWeather.json';
 import getGoogleGeolocation from './__fixtures__/getGoogleGeolocation.json';
@@ -41,7 +42,7 @@ beforeAll(() => {
 });
 
 test('renders component correctly', async () => {
-  const listener = getEventListener<MarqueeEvents>('@vscode-marquee/welcome-widget');
+  const listener = getEventListener<Events>('@vscode-marquee/welcome-widget');
   const { getByRole, getByText, getAllByText, getByLabelText, getAllByRole, getByPlaceholderText } = render(
     <WeatherProvider>
       <Widget.component />

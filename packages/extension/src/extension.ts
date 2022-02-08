@@ -2,14 +2,15 @@ import fs from 'fs/promises';
 import vscode from "vscode";
 import path from "path";
 import { WorkspaceType } from '@vscode-marquee/utils/extension';
+import type { MarqueeEvents } from "@vscode-marquee/utils";
 
 import StateManager from "./stateManager";
 import { MarqueeGui } from "./gui.view";
 import { TreeView } from "./tree.view";
 import { ContextMenu } from "./tree.view";
+import { linkMarquee } from './utils';
 import { config, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration } from './types';
-import { MarqueeEvents } from "@vscode-marquee/utils";
 
 export class MarqueeExtension {
   private readonly _channel = vscode.window.createOutputChannel('Marquee');
@@ -38,6 +39,12 @@ export class MarqueeExtension {
         `Please reload your Marquee View to apply the new theme.`
       );
     });
+
+    /**
+     * allow widget to trigger extension methods
+     */
+    this._stateMgr.onWidget('openDialog',
+      ({ event, payload }) => this.openDialog(event as keyof MarqueeEvents, payload));
 
     /**
      * clear symlink to 3rd party extensions as new extension could have
@@ -87,8 +94,6 @@ export class MarqueeExtension {
   }
 
   private setupCommands(): vscode.Disposable[] {
-    const disposables: vscode.Disposable[] = new Array<vscode.Disposable>();
-
     const switchTo = async (openView: boolean = false) => {
       await this.openGui();
       if (openView) {
@@ -96,72 +101,16 @@ export class MarqueeExtension {
       }
     };
 
-    disposables.push(vscode.commands.registerCommand("marquee.open", switchTo));
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.touchbar", switchTo)
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.expand", () => this.openGui())
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.link", (item: any) => {
-        let file = item.item.path;
-        let splt = file.split(":");
-        let ln = "1";
-        if (splt.length > 2) {
-          ln = splt[splt.length - 1];
-          splt = splt.splice(0, splt.length - 1);
-          file = splt.join(":");
-        } else if (splt.length > 1) {
-          [file, ln] = splt;
-        }
-        const rpath = vscode.Uri.parse(file).fsPath;
-        vscode.workspace.openTextDocument(rpath).then((doc) => {
-          if (!doc) {
-            return;
-          }
-          vscode.window.showTextDocument(doc).then((editor) => {
-            const r = doc.lineAt(parseInt(ln)).range;
-            if (editor && r) {
-              editor.revealRange(r, vscode.TextEditorRevealType.InCenter);
-            }
-          });
-        });
-      })
-    );
-
-    disposables.push(
+    const disposables: vscode.Disposable[] = [
+      vscode.commands.registerCommand("marquee.link", linkMarquee),
+      vscode.commands.registerCommand("marquee.open", switchTo),
+      vscode.commands.registerCommand("marquee.touchbar", switchTo),
+      vscode.commands.registerCommand("marquee.expand", () => this.openGui()),
+      vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
       vscode.commands.registerCommand("marquee.edit", (item: ContextMenu) => {
-        this.openDialog(item.getDialogs("edit"), item.id);
+        this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id);
       })
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.addEmptyTodo", () => {
-        this.openDialog('openAddTodoDialog', true);
-      })
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.addEmptySnippet", () => {
-        this.openDialog('openAddSnippetDialog', true);
-      })
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.addEmptyNote", () => {
-        this.openDialog('openAddNoteDialog', true);
-      })
-    );
-
-    disposables.push(
-      vscode.commands.registerCommand("marquee.clear", () => {
-        this.wipe();
-      })
-    );
+    ];
 
     disposables.map((d) => this.context.subscriptions.push(d));
     return disposables;

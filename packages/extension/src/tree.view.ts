@@ -1,7 +1,7 @@
 import vscode from "vscode";
 import path from "path";
 
-import type { MarqueeEvents, Workspace } from "@vscode-marquee/utils/extension";
+import type { Workspace } from "@vscode-marquee/utils/extension";
 import type { Snippet } from "@vscode-marquee/widget-snippets/extension";
 import type { Note } from "@vscode-marquee/widget-notes/extension";
 import type { Todo } from "@vscode-marquee/widget-todo/extension";
@@ -25,7 +25,7 @@ export interface Dialog {
 
 export interface ContextMenu {
   readonly id: string;
-  getDialogs(cmd: string): keyof MarqueeEvents;
+  getDialogs(cmd: string): string;
 }
 
 interface Elem {
@@ -271,7 +271,7 @@ class TodoItem extends Item implements ContextMenu {
     this.linkItem(this);
   }
 
-  public getDialogs(cmd: 'edit'): keyof MarqueeEvents {
+  public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
       return 'openEditTodoDialog';
     }
@@ -316,7 +316,7 @@ class TodoItem extends Item implements ContextMenu {
           basePath,
           "AddNew",
           {
-            command: "marquee.addEmptyTodo",
+            command: "marquee.todo.addEmpty",
             title: "Add new todo",
           }
         )
@@ -354,7 +354,7 @@ class SnippetItem extends Item implements ContextMenu {
     this.linkItem(this);
   }
 
-  public getDialogs(cmd: 'edit'): keyof MarqueeEvents {
+  public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
       return 'openEditSnippetDialog';
     }
@@ -391,7 +391,7 @@ class SnippetItem extends Item implements ContextMenu {
           vscode.TreeItemCollapsibleState.None,
           basePath,
           {
-            command: "marquee.addEmptySnippet",
+            command: "marquee.snippet.addEmpty",
             title: "Add new snippet",
           },
           true,
@@ -439,7 +439,7 @@ class NoteItem extends SnippetItem {
     };
   }
 
-  public getDialogs(cmd: 'edit'): keyof MarqueeEvents {
+  public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
       return 'openEditNoteDialog';
     }
@@ -476,7 +476,7 @@ class NoteItem extends SnippetItem {
           vscode.TreeItemCollapsibleState.None,
           basePath,
           {
-            command: "marquee.addEmptyNote",
+            command: "marquee.note.addEmpty",
             title: "Add new note",
           },
           true,

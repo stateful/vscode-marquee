@@ -1,8 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getEventListener, MarqueeEvents, connect, MarqueeWindow } from "@vscode-marquee/utils";
+import { getEventListener, connect, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { fetchGeoData, fetchWeather, forecastCache, geoDataCache } from './utils';
-import type { Context, Configuration, Forecast, Scale, Location } from './types';
+import type { Context, Configuration, Forecast, Scale, Location, Events } from './types';
 
 declare const window: MarqueeWindow;
 
@@ -10,6 +10,7 @@ const WeatherContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/weather-widget';
 
 const WeatherProvider = function ({ children }: { children: React.ReactElement }) {
+  const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<Configuration>(WIDGET_ID);
   const providerValues = connect<Configuration>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
@@ -73,7 +74,6 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
   }, [coords?.lat, coords?.lng]);
 
   useEffect(() => {
-    const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openWeatherDialog', setShowDialog);
     return () => {
       setUnmounted(true);

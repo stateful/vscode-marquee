@@ -230,6 +230,11 @@ export default class StateManager implements vscode.Disposable {
     }));
   }
 
+  onWidget (eventName: string, listener: ({ event, payload }: { event: string, payload: any }) => void) {
+    return Promise.all(this.widgetExtensions.map(
+      (w) => w.exports.marquee.disposable.on(eventName, listener)));
+  }
+
   /**
    * clear all subscriptions
    */

@@ -24,6 +24,9 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       vscode.commands.registerCommand('marquee.todo.archive', this._archiveTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.move', this._moveTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.add', this._addTodo.bind(this)),
+      vscode.commands.registerCommand("marquee.todo.addEmpty", () => this.emit(
+        'openDialog', { event: 'openAddTodoDialog', payload: true
+      })),
       vscode.commands.registerTextEditorCommand('marquee.todo.addEditor', this._addEditor.bind(this)),
 
       /**

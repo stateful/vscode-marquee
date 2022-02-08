@@ -1,16 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
-import type { State, Context, Note } from './types';
+import type { State, Context, Note, Events } from './types';
 
 declare const window: MarqueeWindow;
 const NoteContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/notes-widget';
 
 const NoteProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<MarqueeEvents>();
+  const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
@@ -67,6 +67,10 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   useEffect(() => {
     eventListener.on('openAddNoteDialog', setShowAddDialog);
     eventListener.on('openEditNoteDialog', setShowEditDialog);
+    eventListener.on('addNote', (note) => _addNote(
+      note,
+      note.workspaceId === window.activeWorkspace?.id
+    ));
     return () => {
       widgetState.removeAllListeners();
       eventListener.removeAllListeners();

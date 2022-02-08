@@ -1,16 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
-import type { State, Context, Snippet } from './types';
+import type { State, Context, Snippet, Events } from './types';
 
 declare const window: MarqueeWindow;
 const SnippetContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/snippets-widget';
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<MarqueeEvents>();
+  const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
@@ -41,12 +41,11 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   useEffect(() => {
     eventListener.on('openAddSnippetDialog', setShowAddDialog);
     eventListener.on('openEditSnippetDialog', setShowEditDialog);
-    eventListener.on('addSnippet', (snippet: Snippet) => {
-      if (typeof snippet !== 'object') {
-        return;
-      }
-      _addSnippet(snippet, true);
-    });
+    eventListener.on('addSnippet', (snippet) => _addSnippet(
+      snippet,
+      snippet.workspaceId === window.activeWorkspace?.id
+    ));
+
     return () => {
       widgetState.removeAllListeners();
       eventListener.removeAllListeners();

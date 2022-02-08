@@ -66,6 +66,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._channel.appendLine(`Update state "${prop}": ${val}`);
     this._state[prop] = val;
     await this._context.globalState.update(this._key, this._state);
+    this.emit('stateUpdate', this._state);
   }
 
   /**
@@ -168,7 +169,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       const s = stateProp as keyof State;
       this._subscriptions.push(this._tangle.listen(s, (val) => this.updateState(s, val)));
     }
-    this.emit('stateUpdate', this._state);
 
     return this;
   }

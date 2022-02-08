@@ -20,7 +20,7 @@ declare const window: MarqueeWindow;
 const pendingThirdPartyWidgets: ThirdPartyWidgetOptions[] = [];
 
 interface Props {
-  children: React.ReactChildren
+  children: JSX.Element
 }
 
 const ModeContext = createContext<Context>({} as Context);

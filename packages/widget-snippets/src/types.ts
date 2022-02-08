@@ -32,6 +32,13 @@ export interface State {
   snippetSplitter?: number
 }
 
+export interface Events {
+  openAddSnippetDialog: boolean
+  openEditSnippetDialog?: string
+  addSnippet: Snippet
+  addNote: Pick<Snippet, keyof Snippet>
+}
+
 export interface Context extends ContextProperties<State> {
   _addSnippet: (
     snippet: Pick<Snippet, 'title' | 'body' | 'language'>,

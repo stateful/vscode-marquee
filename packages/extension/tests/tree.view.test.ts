@@ -43,7 +43,7 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates']();
+    tree['update']();
     expect(tree['state']).toMatchSnapshot();
     expect(tree['toplevel']).toMatchSnapshot();
     expect(tree['refresh']).toBeCalledTimes(1);
@@ -76,7 +76,7 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates']();
+    tree['update']();
 
     const elems = await tree.getChildren();
     expect(elems).toMatchSnapshot();
