@@ -28,6 +28,14 @@ export class MarqueeGui extends EventEmitter {
     private readonly stateMgr: StateManager
   ) {
     super();
+
+    /**
+     * register listeners for Marquee state managers so they can interact with the gui
+     */
+    for (const widgetExtension of this.stateMgr.widgetExtensions) {
+      widgetExtension.exports.marquee.disposable.on('gui.open', this.open.bind(this));
+      widgetExtension.exports.marquee.disposable.on('gui.close', this.close.bind(this));
+    }
   }
 
   public isActive() {
@@ -126,10 +134,7 @@ export class MarqueeGui extends EventEmitter {
         const defaultConfiguration = extension.exports.marquee.defaultConfiguration || {};
         const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration });
         ch.registerPromise([this.panel.webview]).then((client) => {
-          const stateManager = extension.exports.marquee.setup(client);
-          if (stateManager) {
-            stateManager.on('gui.open', () => this.open());
-          }
+          extension.exports.marquee.setup(client);
         });
       }
 
@@ -189,10 +194,26 @@ export class MarqueeGui extends EventEmitter {
       .then((client) => (this.client = client));
     this.panel.webview.html = content;
     this.panel.webview.onDidReceiveMessage((e) => {
+      if (e.west && Array.isArray(e.west.execCommands)) {
+        e.west.execCommands.forEach(this._executeCommand.bind(this));
+      }
+
       if (e.ready) {
         this.guiActive = true;
         this.emit('webview.open');
       }
     });
+  }
+
+  private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
+    if (args && args.length > 0 && command === "vscode.openFolder") {
+      return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options);
+    }
+
+    if (args && args.length > 0) {
+      return vscode.commands.executeCommand(command, args[0], options);
+    }
+
+    vscode.commands.executeCommand(command, undefined, options);
   }
 }

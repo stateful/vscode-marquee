@@ -607,13 +607,13 @@
             },
             "markdownDescription": "Configuration of your widget location and display"
           },
-          "marquee.configuration.startup.launchOnStartup": {
+          "marquee.configuration.launchOnStartup": {
             "type": "boolean",
             "scope": "window",
             "default": true,
             "markdownDescription": "Open Marquee when VS Code starts up"
           },
-          "marquee.configuration.startup.workspaceLaunch": {
+          "marquee.configuration.workspaceLaunch": {
             "type": "boolean",
             "scope": "window",
             "default": false,

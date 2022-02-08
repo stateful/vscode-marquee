@@ -45,8 +45,8 @@ This extension contributes the following settings:
 
 * `marquee.configuration.proxy`: URL to proxy (e.g. `https://username:password@domain.tld:port`) to be used by widgets that rely on network content (e.g. news and weather widget)
 * `marquee.configuration.fontSize`: Font Size of widgets (`0` very small / `10` very large)
-* `marquee.configuration.startup.launchOnStartup`: If set to true, Marquee will automatically start when VSCode launches
-* `marquee.configuration.startup.workspaceLaunch`: If set to true, Marquee auto start will only work if a workspace is opened
+* `marquee.configuration.launchOnStartup`: If set to true, Marquee will automatically start when VSCode launches
+* `marquee.configuration.workspaceLaunch`: If set to true, Marquee auto start will only work if a workspace is opened
 * `marquee.configuration.colorScheme`: Allows to set a color scheme for the Marque webview (by default it is the same as the VSCode theme)
 
 ## More

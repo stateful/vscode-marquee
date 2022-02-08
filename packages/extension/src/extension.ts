@@ -49,7 +49,7 @@ export class MarqueeExtension {
     ).then(() => (
       this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
     )).then(
-      () => this.openMarqueeOnStartup(config.get('configuration.startup')),
+      () => this.openMarqueeOnStartup(config.get('configuration')),
       (err) => this._channel.appendLine(`[Error]: ${err.message}`)
     );
   }
@@ -83,8 +83,6 @@ export class MarqueeExtension {
     this.closeGui();
     this.treeView.clearTree();
   }
-
-
 
   private setupCommands(): vscode.Disposable[] {
     const disposables: vscode.Disposable[] = new Array<vscode.Disposable>();

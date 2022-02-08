@@ -124,8 +124,8 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
   }
 
   dispose() {
+    super.dispose();
     clearInterval(this._interval);
-    delete this._tangle;
   }
 }
 

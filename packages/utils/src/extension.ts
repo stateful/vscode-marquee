@@ -9,8 +9,9 @@ import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
+const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
 const config = vscode.workspace.getConfiguration('marquee');
-const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
+const CONFIGURATION_TARGET = true;
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
   protected _tangle?: Client<State & Configuration>;
@@ -27,7 +28,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   ) {
     super();
 
-    const oldGlobalStore = this._context.globalState.get<object>('persistence', {});
+    const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {});
     this._state = {
       ...this._defaultState,
       ...pick(oldGlobalStore, Object.keys(this._defaultState)),
@@ -54,41 +55,51 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
-  updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
     this._channel.appendLine(`Update configuration "${prop}": ${val}`);
     this._configuration[prop] = val;
-    config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
+    await config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
   }
 
-  updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
+  async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
     this._channel.appendLine(`Update state "${prop}": ${val}`);
     this._state[prop] = val;
-    this._context.globalState.update(this._key, this._state);
+    await this._context.globalState.update(this._key, this._state);
     this.emit('stateUpdate', this._state);
   }
 
   /**
    * clear state and configuration of widget
    */
-  public clear () {
+  public async clear () {
     this._state = { ...this._defaultState };
-    Object.entries(this._defaultState).forEach(
-      ([key, defaultValue]) => this._context.globalState.update(key, defaultValue));
+    this._context.globalState.update(this._key, this._state);
+    this.emit('stateUpdate', this._state);
 
     this._configuration = { ...this._defaultConfiguration };
-    Object.keys(this._defaultConfiguration).forEach((key) => {
-      config.update(`${this._key}.${key}`, undefined, CONFIGURATION_TARGET);
+    await Promise.all(
+      Object.keys(this._defaultConfiguration).map((key) => (
+        config.update(`${this._key}.${key}`, undefined, CONFIGURATION_TARGET)
+      ))
+    );
+    await config.update(this._key, undefined, CONFIGURATION_TARGET);
 
-      /**
-       * after we deleted the current configuration, we have to update the
-       * object with the default value set in the extension package definition
-       * to get its default value from there
-       */
-      this.configuration[key as keyof Configuration] = (
-        config.get(`${this._key}.${key}`) || this._defaultConfiguration[key as keyof Configuration]
-      );
-    });
+    /**
+     * after we deleted the current configuration, we have to update the
+     * object with the default value set in the extension package definition
+     * to get its default value from there
+     */
+    await Promise.all(
+      Object.keys(this._defaultConfiguration).map((key) => (
+        config.update(
+          `${this._key}.${key}`,
+          config.get(`${this._key}.${key}`) || this._defaultConfiguration[key as keyof typeof this._defaultConfiguration],
+          CONFIGURATION_TARGET
+        )
+      ))
+    );
 
+    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);
     if (this._tangle) {
       this._tangle.broadcast({ ...this._state, ...this._configuration });
     }
@@ -148,6 +159,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   public setBroadcaster (tangle: Client<State & Configuration>) {
     this._tangle = tangle;
     this._tangle.broadcast({ ...this._state, ...this._configuration });
+    console.log('START', { ...this._state, ...this._configuration });
+
 
     /**
      * listen on configuration changes
@@ -162,8 +175,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
      */
     for (const stateProp of Object.keys(this._defaultState)) {
       const s = stateProp as keyof State;
-      this._tangle.listen(s, (val) => this.updateState(s, val));
+      this._tangle.listen(s, (val) => {
+        this.updateState(s, val);
+      });
     }
+    return this;
   }
 
   public generateId (): string {
@@ -171,9 +187,13 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return crypto.randomFillSync(buf).toString("hex");
   }
 
-  public dispose () {
-    this.clear();
-    delete this._tangle;
+  dispose () {
+    this._disposables.forEach((d) => d.dispose());
+
+    if (this._tangle) {
+      this._tangle.removeAllListeners();
+      delete this._tangle;
+    }
   }
 }
 

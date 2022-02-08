@@ -57,7 +57,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     snippetDiagnostics: vscode.DiagnosticCollection
   ): void {
     const diagnostics: vscode.Diagnostic[] = [];
-    const enabled = this.configuration.autoDetect === true;
+    const enabled = this._configuration.autoDetect === true;
 
     for (let lineIndex = 0; lineIndex < doc.lineCount; lineIndex++) {
       const lineOfText = doc.lineAt(lineIndex);
