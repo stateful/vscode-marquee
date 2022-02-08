@@ -43,11 +43,27 @@ Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to nat
 
 This extension contributes the following settings:
 
-* `marquee.configuration.proxy`: URL to proxy (e.g. `https://username:password@domain.tld:port`) to be used by widgets that rely on network content (e.g. news and weather widget)
-* `marquee.configuration.fontSize`: Font Size of widgets (`0` very small / `10` very large)
-* `marquee.configuration.launchOnStartup`: If set to true, Marquee will automatically start when VSCode launches
-* `marquee.configuration.workspaceLaunch`: If set to true, Marquee auto start will only work if a workspace is opened
-* `marquee.configuration.colorScheme`: Allows to set a color scheme for the Marque webview (by default it is the same as the VSCode theme)
+* `marquee.configuration.proxy` (type: `string`, default: `""`): URL to proxy (e.g. `https://username:password@domain.tld:port`). __Note:__ This only has an effect on widgets that gather data from the extension host (e.g. Welcome Widget).
+* `marquee.configuration.fontSize` (type: `number`, default: `5`): Font Size of Widgets (`0` very small / `10` very large).
+* `marquee.configuration.colorScheme` (type: `object`, default: `{}`): The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme).
+* `marquee.configuration.name` (type: `string`, default: `name here...`): Your name so Marquee can greet you!
+* `marquee.configuration.background` (type: `string`, default: `1`): Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon).
+* `marquee.configuration.modes` (type: `object`): Configuration of your widget location and display.
+* `marquee.configuration.launchOnStartup` (type: `boolean`, default: `true`): Open Marquee when VS Code starts up.
+* `marquee.configuration.workspaceLaunch` (type: `boolean`, default: `false`): Only auto-launch Marquee in Workspaces.
+* `marquee.widgets.projects.workspaceFilter` (type: `string`, default: `""`): Filter for project list.
+* `marquee.widgets.projects.workspaceSortOrder` (type: `string`): Sort order of projects.
+* `marquee.widgets.projects.openProjectInNewWindow` (type: `boolean`, default: `false`): If true, Marquee will open a project in a new window.
+* `marquee.widgets.github.language` (type: `string`, default: `""`): Query GitHub trends for a specific programming language.
+* `marquee.widgets.github.spoken` (type: `string`, default: `""`): Query GitHub trends for a specific spoken language.
+* `marquee.widgets.github.since` (type: `string`, default: `Weekly`): Query GitHub trends by specific time period.
+* `marquee.widgets.github.trendFilter` (type: `string`, default: `""`): Query GitHub trends by specific key word
+* `marquee.widgets.weather.city` (type: `string`, default: `null`): City for which the widget displays the weather forecast.
+* `marquee.widgets.weather.scale` (type: `string`, default: `Fahrenheit`): Scale to display the weather forecast in.
+* `marquee.widgets.todo.todoFilter` (type: `string`, default: `""`): Filter ToDos or their associated tags.
+* `marquee.widgets.todo.hide` (type: `boolean`, default: `false`): Hide completed ToDos.
+* `marquee.widgets.todo.showArchived` (type: `boolean`, default: `false`): Show archived ToDos.
+* `marquee.widgets.todo.autoDetect` (type: `boolean`, default: `true`): Auto-detect ToDos in your code to allow adding them to Marquee.
 
 ## More
 
