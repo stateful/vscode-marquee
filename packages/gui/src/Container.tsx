@@ -17,9 +17,8 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
 export const WidgetLayout = React.memo(() => {
-  const { modeName, modes, widgets, _setCurrentModeLayout, mode } = useContext(
-    ModeContext
-  );
+  const { resetApp } = useContext(GlobalContext);
+  const { modeName, modes, widgets, _setCurrentModeLayout, mode } = useContext(ModeContext);
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly
@@ -84,39 +83,38 @@ export const WidgetLayout = React.memo(() => {
     );
   };
 
-  return (
-    <>
-      {!layoutConfig && (
-        <Grid
-          container
-          style={{ height: "100%" }}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
-          <Grid item>
-            <CircularProgress color="secondary" />
-          </Grid>
+  if (!layoutConfig || resetApp) {
+    return (
+      <Grid
+        container
+        style={{ height: "100%" }}
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
+      >
+        <Grid item>
+          <CircularProgress color="secondary" />
         </Grid>
-      )}
-      {layoutConfig && (
-        <ResponsiveReactGridLayout
-          style={{ height: "100%" }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
-          rowHeight={20}
-          onLayoutChange={(newLayout, newLayouts) => {
-            _setCurrentModeLayout(newLayouts);
-          }}
-          layouts={layoutConfig}
-          draggableHandle=".drag-handle"
-          draggableCancel=".draggableCancel"
-          containerPadding={[10, 10]}
-          margin={[10, 10]}
-        >
-          {generateWidgets()}
-        </ResponsiveReactGridLayout>
-      )}
-    </>
+      </Grid>
+    );
+  }
+
+  return (
+    <ResponsiveReactGridLayout
+      style={{ height: "100%" }}
+      cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
+      rowHeight={20}
+      onLayoutChange={(newLayout, newLayouts) => {
+        _setCurrentModeLayout(newLayouts);
+      }}
+      layouts={layoutConfig}
+      draggableHandle=".drag-handle"
+      draggableCancel=".draggableCancel"
+      containerPadding={[10, 10]}
+      margin={[10, 10]}
+    >
+      {generateWidgets()}
+    </ResponsiveReactGridLayout>
   );
 });
 

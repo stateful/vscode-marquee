@@ -1,8 +1,8 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 import { getEventListener, connect } from '../';
 import { getVSColor } from '../utils';
-import type { Configuration, Context, State, RGBA, MarqueeWindow } from '../types';
+import type { Configuration, Context, State, RGBA, MarqueeWindow, MarqueeEvents } from '../types';
 
 declare const window: MarqueeWindow;
 
@@ -16,6 +16,13 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration
   }, globalState);
+
+  const [resetApp, setResetApp] = useState(false);
+  useEffect(() => {
+    window.vscode.setState({});
+    const eventListener = getEventListener<MarqueeEvents>();
+    eventListener.on('resetMarquee', () => setResetApp(true));
+  }, []);
 
   /**
    * theme color propagated into template
@@ -37,7 +44,9 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
     <GlobalContext.Provider
       value={{
         ...providerValues,
-        themeColor
+        themeColor,
+        resetApp,
+        setResetApp
       }}
     >
       {children}

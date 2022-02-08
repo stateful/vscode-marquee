@@ -78,10 +78,12 @@ export class MarqueeExtension {
     this.gui.broadcast(event, payload);
   }
 
-  private wipe() {
-    this._stateMgr.clearAll();
-    this.closeGui();
+  private async wipe() {
+    this.gui.broadcast('resetMarquee', true);
     this.treeView.clearTree();
+    await this._stateMgr.clearAll();
+    await new Promise((r) => setTimeout(r, 1000));
+    this.closeGui();
   }
 
   private setupCommands(): vscode.Disposable[] {
@@ -187,56 +189,5 @@ export class MarqueeExtension {
 
   public guiActive() {
     return this.gui.isActive();
-  }
-
-  private handleCommands() {
-    // this.onWest(state$, "execCommands")
-    //   .pipe(
-    //     filter((obj) => {
-    //       return obj !== undefined && obj.execCommands !== undefined;
-    //     }),
-    //     mergeMap((obj) => {
-    //       if (obj && obj.execCommands) {
-    //         return from(obj.execCommands);
-    //       }
-
-    //       return from([]);
-    //     })
-    //   )
-    //   .subscribe((cmd) => {
-    //     if (
-    //       cmd.args &&
-    //       cmd.args.length > 0 &&
-    //       cmd.command === "vscode.openFolder"
-    //     ) {
-    //       vscode.commands.executeCommand(
-    //         cmd.command,
-    //         vscode.Uri.parse(cmd.args[0].toString()),
-    //         cmd.options
-    //       );
-    //     } else if (cmd.args && cmd.args.length > 0) {
-    //       vscode.commands.executeCommand(cmd.command, cmd.args[0], cmd.options);
-    //     } else {
-    //       vscode.commands.executeCommand(cmd.command, undefined, cmd.options);
-    //     }
-    //   });
-  }
-
-  private handleNotify() {
-    // this.onWest(state$, "notify")
-    //   .pipe(
-    //     map((obj) => {
-    //       if (obj && obj.notify !== undefined) {
-    //         return obj.notify;
-    //       }
-    //     })
-    //   )
-    //   .subscribe((notif: any) => {
-    //     switch (notif.type) {
-    //       case NotificationType.ERROR:
-    //       default:
-    //         vscode.window.showErrorMessage(notif.message);
-    //     }
-    //   });
   }
 }

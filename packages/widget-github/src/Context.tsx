@@ -16,6 +16,7 @@ const TrendProvider = ({ children }: Props) => {
   const widgetState = getEventListener<Configuration>(WIDGET_ID);
   const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState);
 
+  const [unmounted, setUnmounted] = useState(false);
   const [error, setError] = useState<Error>();
   const [isFetching, setIsFetching] = useState(false);
   const [trends, setTrends] = useState<Trend[]>([]);
@@ -40,13 +41,18 @@ const TrendProvider = ({ children }: Props) => {
   useEffect(() => {
     const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openGitHubDialog', setShowDialog);
+    return () => {
+      setUnmounted(true);
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
     /**
      * don't fetch if we are already fetching something
      */
-    if (isFetching) {
+    if (isFetching || unmounted) {
       return;
     }
 
@@ -58,11 +64,14 @@ const TrendProvider = ({ children }: Props) => {
     setIsFetching(true);
     fetchData(providerValues.since, providerValues.language, providerValues.spoken).then(
       (res) => {
+        if (unmounted) {
+          return;
+        }
         setTrends(res as Trend[]);
         setError(undefined);
       },
-      (e: Error) => setError(e)
-    ).finally(() => setIsFetching(false));
+      (e: Error) => !unmounted && setError(e)
+    ).finally(() => !unmounted && setIsFetching(false));
   }, [providerValues.language, providerValues.since, providerValues.spoken]);
 
   return (

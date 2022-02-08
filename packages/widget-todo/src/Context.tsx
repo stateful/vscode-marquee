@@ -57,6 +57,10 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   useEffect(() => {
     eventListener.on('openAddTodoDialog', setShowAddDialog);
     eventListener.on('openEditTodoDialog', setShowEditDialog);
+    return () => {
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   return (

@@ -55,6 +55,7 @@ export interface MarqueeEvents {
   openEditSnippetDialog?: string
   openAddNoteDialog: boolean
   openEditNoteDialog?: string
+  resetMarquee?: boolean
 }
 
 export enum WorkspaceType {
@@ -86,6 +87,10 @@ export interface State {
   globalScope: boolean
 }
 
-export interface Context extends ContextProperties<State & Configuration> {
+export interface GuiState {
+  resetApp: boolean
+}
+
+export interface Context extends ContextProperties<State & Configuration & GuiState> {
   themeColor: RGBA
 }

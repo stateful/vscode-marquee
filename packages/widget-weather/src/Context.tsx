@@ -16,6 +16,7 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration
   }, widgetState);
 
+  const [unmounted, setUnmounted] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<Error>();
   const [coords, setCoords] = useState<Location>();
@@ -31,6 +32,10 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
   };
 
   useEffect(() => {
+    if (unmounted) {
+      return;
+    }
+
     const cachedData = geoDataCache(providerValues.city);
     if (cachedData) {
       return setCoords(cachedData);
@@ -39,15 +44,19 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
     setIsFetching(true);
     fetchGeoData(providerValues.city).then(
       (location) => {
+        if (unmounted) {
+          return;
+        }
+
         setError(undefined);
         setCoords(location);
       },
-      (e: Error) => setError(e)
-    ).finally(() => setIsFetching(false));
+      (e: Error) => !unmounted && setError(e)
+    ).finally(() => !unmounted && setIsFetching(false));
   }, [providerValues.city]);
 
   useEffect(() => {
-    if (!coords) {
+    if (!coords || unmounted) {
       return;
     }
 
@@ -58,14 +67,19 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
 
     setIsFetching(true);
     fetchWeather(coords?.lat, coords?.lng).then(
-      (res) => setForecast(res),
-      (e: Error) => setError(e)
-    ).finally(() => setIsFetching(false));
+      (res) => !unmounted && setForecast(res),
+      (e: Error) => !unmounted && setError(e)
+    ).finally(() => !unmounted && setIsFetching(false));
   }, [coords?.lat, coords?.lng]);
 
   useEffect(() => {
     const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openWeatherDialog', setShowDialog);
+    return () => {
+      setUnmounted(true);
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   return (

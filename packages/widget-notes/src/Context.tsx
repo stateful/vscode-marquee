@@ -56,6 +56,10 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
       return console.error(`Couldn't find note with id "${note.id}"`);
     }
 
+    if (JSON.stringify(note) === JSON.stringify(globalNotes[index])) {
+      return;
+    }
+
     globalNotes[index] = note;
     providerValues.setNotes(globalNotes);
   };
@@ -63,6 +67,10 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   useEffect(() => {
     eventListener.on('openAddNoteDialog', setShowAddDialog);
     eventListener.on('openEditNoteDialog', setShowEditDialog);
+    return () => {
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   return (

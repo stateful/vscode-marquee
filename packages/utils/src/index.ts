@@ -93,13 +93,15 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      * state and webview state
      */
     useEffect(() => {
-      tangle.listen(prop as keyof T, (val: any) => {
+      const subs = tangle.listen(prop as keyof T, (val: any) => {
         setPropState(val);
         window.vscode.setState({
           ...(window.vscode.getState() || {}),
           [prop]: val
         });
       });
+
+      return () => { subs.unsubscribe(); };
     }, []);
   }
 

@@ -130,8 +130,8 @@ export class MarqueeGui extends EventEmitter {
         extension.exports.marquee &&
         typeof extension.exports.marquee.setup === 'function'
       ) {
-        const defaultState = extension.exports.marquee.defaultState || {};
-        const defaultConfiguration = extension.exports.marquee.defaultConfiguration || {};
+        const defaultState = extension.exports.marquee.disposable.state || {};
+        const defaultConfiguration = extension.exports.marquee.disposable.configuration || {};
         const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration });
         ch.registerPromise([this.panel.webview]).then((client) => {
           extension.exports.marquee.setup(client);
@@ -198,10 +198,18 @@ export class MarqueeGui extends EventEmitter {
         e.west.execCommands.forEach(this._executeCommand.bind(this));
       }
 
+      if (e.west && e.west.notify && e.west.notify.message) {
+        return this._handleNotifications(e.west.notify);
+      }
+
       if (e.ready) {
         this.guiActive = true;
-        this.emit('webview.open');
+        return this.emit('webview.open');
       }
+    });
+    this.panel.onDidDispose(async () => {
+      this.client?.removeAllListeners();
+      delete this.client;
     });
   }
 
@@ -215,5 +223,18 @@ export class MarqueeGui extends EventEmitter {
     }
 
     vscode.commands.executeCommand(command, undefined, options);
+  }
+
+  private _handleNotifications ({ type, message }: { type: string, message: string }) {
+    switch (type) {
+      case 'error':
+        vscode.window.showErrorMessage(message);
+      break;
+      case 'warning':
+        vscode.window.showWarningMessage(message);
+      break;
+      default:
+        vscode.window.showInformationMessage(message);
+    }
   }
 }

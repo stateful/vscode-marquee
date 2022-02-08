@@ -79,8 +79,6 @@ export default class StateManager implements vscode.Disposable {
       return;
     }
 
-    this.global.emit('gui.close');
-    await this.clearAll();
     try {
       const importJSON = await readFile(filePath.fsPath);
       const obj = JSON.parse(importJSON.toString());
@@ -120,14 +118,17 @@ export default class StateManager implements vscode.Disposable {
         };
       }
 
+      let promises: Promise<void>[] = [];
       for (const [id, manager] of this.widgetExtensions.map((we) => [we.id, we.exports.marquee.disposable] as const)) {
-        Object.entries(jsonImport.configuration[id] || {}).forEach(
-          ([key, val]) => manager.updateConfiguration(key, val));
-        Object.entries(jsonImport.state[id] || {}).forEach(
-          ([key, val]) => manager.updateState(key, val));
+        promises.push(...Object.entries(jsonImport.configuration[id] || {}).map(
+          ([key, val]) => manager.updateConfiguration(key, val)));
+        promises.push(...Object.entries(jsonImport.state[id] || {}).map(
+          ([key, val]) => manager.updateState(key, val).then(() => { manager.emit('stateUpdate', manager.state); })));
       }
+      await Promise.all(promises);
 
       vscode.window.showInformationMessage(`Successfully imported Marquee state from ${filePath.path}`);
+      this.global.emit('gui.close');
       return this.global.emit('gui.open', true);
     } catch (err: any) {
       vscode.window.showErrorMessage(
@@ -212,10 +213,21 @@ export default class StateManager implements vscode.Disposable {
   }
 
   /**
+   * reset all tangle subscriptions
+   */
+  resetAll () {
+    return Promise.all(this.widgetExtensions.map(
+      (w) => w.exports.marquee.disposable.reset()));
+  }
+
+  /**
    * clear state and configuration of all Marquee widgets
    */
   clearAll () {
-    return Promise.all(this.widgetExtensions.map((w) => w.exports.marquee.disposable.clear()));
+    return Promise.all(this.widgetExtensions.map(async (w) => {
+      await w.exports.marquee.disposable.clear();
+      await w.exports.marquee.disposable.dispose();
+    }));
   }
 
   /**

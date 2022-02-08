@@ -13,7 +13,7 @@ import type { EmojiData } from 'emoji-mart';
 
 import { defaultLayout, defaultEnabledWidgets, thirdPartyWidgetLayout } from "../constants";
 import { widgetConfig } from "../constants";
-import { Context, Mode, LayoutType, WidgetConfig, LayoutSize, WidgetMap, State, Configuration } from "../types";
+import { Context, Mode, LayoutType, WidgetConfig, LayoutSize, WidgetMap, State, Configuration, ModeConfig } from "../types";
 
 declare const window: MarqueeWindow;
 
@@ -106,13 +106,19 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   const _setCurrentModeLayout = (newLayouts: ReactGridLayout.Layouts) => {
-    providerValues.setModes({
+    const newModes: ModeConfig = {
       ...providerValues.modes,
       [providerValues.modeName]: {
         ...providerValues.modes[providerValues.modeName],
         layouts: newLayouts,
       } as Mode,
-    });
+    };
+
+    if(JSON.stringify(providerValues.modes) === JSON.stringify(newModes)) {
+      return;
+    }
+
+    providerValues.setModes(newModes);
   };
 
   const _setModeWidget = (targetMode: string, widgetName: string, value: ReactGridLayout.Layout | Boolean) => {

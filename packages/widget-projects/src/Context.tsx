@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { getEventListener, MarqueeWindow, connect } from '@vscode-marquee/utils';
 
 import type { Configuration, State, Context } from './types';
@@ -26,6 +26,10 @@ const WorkspaceProvider = ({ children }: { children: React.ReactElement }) => {
     wsps.splice(index, 1);
     providerValues.setWorkspaces(wsps);
   };
+
+  useEffect(() => {
+    return () => { widgetState.removeAllListeners(); };
+  }, []);
 
   return (
     <WorkspaceContext.Provider value={{

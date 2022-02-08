@@ -18,6 +18,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   protected _state: State;
   protected _configuration: Configuration;
   protected _disposables: vscode.Disposable[] = [];
+  protected _subscriptions: { unsubscribe: Function }[] = [];
 
   constructor (
     protected _context: vscode.ExtensionContext,
@@ -65,7 +66,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._channel.appendLine(`Update state "${prop}": ${val}`);
     this._state[prop] = val;
     await this._context.globalState.update(this._key, this._state);
-    this.emit('stateUpdate', this._state);
   }
 
   /**
@@ -73,7 +73,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    */
   public async clear () {
     this._state = { ...this._defaultState };
-    this._context.globalState.update(this._key, this._state);
+    await this._context.globalState.update(this._key, this._state);
+    await this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);
     this.emit('stateUpdate', this._state);
 
     this._configuration = { ...this._defaultConfiguration };
@@ -89,20 +90,13 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
      * object with the default value set in the extension package definition
      * to get its default value from there
      */
-    await Promise.all(
-      Object.keys(this._defaultConfiguration).map((key) => (
-        config.update(
-          `${this._key}.${key}`,
-          config.get(`${this._key}.${key}`) || this._defaultConfiguration[key as keyof typeof this._defaultConfiguration],
-          CONFIGURATION_TARGET
-        )
-      ))
-    );
-
-    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);
-    if (this._tangle) {
-      this._tangle.broadcast({ ...this._state, ...this._configuration });
-    }
+    await Promise.all(Object.keys(this._defaultConfiguration).map((key) => {
+      type ConfigKey = keyof typeof this._defaultConfiguration;
+      const configKey = key as ConfigKey;
+      const trueDefault = config.get(`${this._key}.${key}`) as Configuration[ConfigKey] || this._defaultConfiguration[configKey];
+      this._configuration[configKey] = trueDefault;
+      return config.update(`${this._key}.${key}`, trueDefault, CONFIGURATION_TARGET);
+    }));
   }
 
   /**
@@ -158,16 +152,13 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   public setBroadcaster (tangle: Client<State & Configuration>) {
     this._tangle = tangle;
-    this._tangle.broadcast({ ...this._state, ...this._configuration });
-    console.log('START', { ...this._state, ...this._configuration });
-
 
     /**
      * listen on configuration changes
      */
     for (const configProp of Object.keys(this._defaultConfiguration)) {
       const c = configProp as keyof Configuration;
-      this._tangle.listen(c, (val) => this.updateConfiguration(c, val));
+      this._subscriptions.push(this._tangle.listen(c, (val) => this.updateConfiguration(c, val)));
     }
 
     /**
@@ -175,10 +166,10 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
      */
     for (const stateProp of Object.keys(this._defaultState)) {
       const s = stateProp as keyof State;
-      this._tangle.listen(s, (val) => {
-        this.updateState(s, val);
-      });
+      this._subscriptions.push(this._tangle.listen(s, (val) => this.updateState(s, val)));
     }
+    this.emit('stateUpdate', this._state);
+
     return this;
   }
 
@@ -187,13 +178,17 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return crypto.randomFillSync(buf).toString("hex");
   }
 
-  dispose () {
-    this._disposables.forEach((d) => d.dispose());
-
+  reset () {
     if (this._tangle) {
+      this._subscriptions.forEach((s) => s.unsubscribe());
       this._tangle.removeAllListeners();
       delete this._tangle;
     }
+  }
+
+  dispose () {
+    this._disposables.forEach((d) => d.dispose());
+    this.reset();
   }
 }
 

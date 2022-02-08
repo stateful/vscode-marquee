@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { DEFAULT_STATE } from "./constants";
@@ -34,6 +34,13 @@ const TrickProvider = ({ children }: Props) => {
   const _resetRead = () => {
     providerValues.setRead([]);
   };
+
+  useEffect(() => {
+    return () => {
+      widgetState.removeAllListeners();
+      widgetEvents.removeAllListeners();
+    };
+  }, []);
 
   return (
     <TrickContext.Provider

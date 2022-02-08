@@ -47,6 +47,10 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       }
       _addSnippet(snippet, true);
     });
+    return () => {
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   const _removeSnippet = (id: string) => {
