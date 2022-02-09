@@ -20,11 +20,23 @@ export interface Snippet {
   workspaceId: string | null
 }
 
+export interface Selection {
+  label: string
+  snippet: Snippet
+}
+
 export interface State {
   snippets: Snippet[]
   snippetFilter: string
   snippetSelected: string
   snippetSplitter?: number
+}
+
+export interface Events {
+  openAddSnippetDialog: boolean
+  openEditSnippetDialog?: string
+  addSnippet: Snippet
+  addNote: Pick<Snippet, keyof Snippet>
 }
 
 export interface Context extends ContextProperties<State> {

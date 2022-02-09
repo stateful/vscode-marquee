@@ -2,6 +2,12 @@ import type { ConnectableObservable } from 'rxjs';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import type { Webview } from 'vscode';
 
+export type ContextProperties<T> = {
+  [t in keyof T]: T[t]
+} & {
+  [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
+};
+
 interface VSCodeWebview extends Webview {
   getState: () => any
   setState: (param: any) => void
@@ -23,7 +29,7 @@ export interface MarqueeInterface {
   ) => void
 }
 
-export interface MarqueeWindow extends Window {
+export interface MarqueeWindow<State = any, Configuration = any> extends Window {
   vscode: VSCodeWebview
   acquireVsCodeApi: () => Webview
   activeWorkspace: Workspace | null
@@ -32,6 +38,7 @@ export interface MarqueeWindow extends Window {
   marqueeBackendBaseUrl: string
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string
+  marqueeStateConfiguration: Record<string, { state: State, configuration: Configuration }>
   uptime?: ConnectableObservable<number>
 }
 
@@ -39,15 +46,7 @@ export interface MarqueeEvents {
   openSettings: never
   removeWidget: string
   updateWidgetDisplay: Record<string, boolean>
-  addSnippet: any
-  openGitHubDialog: boolean
-  openWeatherDialog: boolean
-  openAddTodoDialog: boolean
-  openEditTodoDialog?: string
-  openAddSnippetDialog: boolean
-  openEditSnippetDialog?: string
-  openAddNoteDialog: boolean
-  openEditNoteDialog?: string
+  resetMarquee?: boolean
 }
 
 export enum WorkspaceType {
@@ -63,17 +62,26 @@ export interface Workspace {
   type: WorkspaceType
 }
 
-export interface IGlobalContext {
-  globalScope: boolean
-  workspaces: Workspace[]
-  activeWorkspace: Workspace | null
-  _removeWorkspace: (id: string) => void
-  _updateGlobalScope: (show: boolean) => void
-}
-
 export type RGBA = {
   r: number;
   g: number;
   b: number;
   a?: number;
 };
+
+export interface Configuration {
+  background: string
+  name: string
+}
+
+export interface State {
+  globalScope: boolean
+}
+
+export interface GuiState {
+  resetApp: boolean
+}
+
+export interface Context extends ContextProperties<State & Configuration & GuiState> {
+  themeColor: RGBA
+}

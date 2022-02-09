@@ -4,10 +4,9 @@ import { Typography, ListItem, ListItemText, Popover } from "@material-ui/core";
 import ModeContext from "../contexts/ModeContext";
 import { ModeEditDialog } from "../dialogs/ModeEditDialog";
 import { presetModes } from '../constants';
-import type { PresetModes } from '../types';
 
 interface ModeTabPopProps {
-  name: PresetModes
+  name: string
   children: React.ReactElement
 }
 

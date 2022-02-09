@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { PrefProvider } from '@vscode-marquee/utils';
 
-import wrapper from '../src/components/WidgetWrapper';
+import wrapper from '../src/WidgetWrapper';
 
 test('should fail gracefully on error', () => {
   const dragHandle = <div>DragHandle</div>;
@@ -11,10 +10,8 @@ test('should fail gracefully on error', () => {
     return <div {...props}>hello world</div>;
   });
   const { queryByText } = render(
-    <PrefProvider>
-      {/* @ts-expect-error */}
-      <Widget name="testWidget" dragHandle={dragHandle} />
-    </PrefProvider>
+    // @ts-expect-error
+    <Widget name="testWidget" dragHandle={dragHandle} />
   );
   expect(queryByText('hello world')).not.toBeTruthy();
 });
