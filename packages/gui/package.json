@@ -58,7 +58,6 @@
     "react-truncate": "^2.4.0",
     "react-virtualized": "^9.22.3",
     "rxjs": "^6.6.7",
-    "store2": "^2.12.0",
     "tangle": "^1.0.1",
     "typeface-lato": "^1.1.13",
     "use-debounce": "^7.0.1",

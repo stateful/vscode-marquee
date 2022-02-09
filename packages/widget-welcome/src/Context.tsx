@@ -1,18 +1,22 @@
-import React, { createContext } from "react";
-import { connect, getEventListener } from "@vscode-marquee/utils";
+import React, { createContext, useEffect } from "react";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import { DEFAULT_STATE } from "./constants";
 import type { Context, State, Events } from './types';
+
+declare const window: MarqueeWindow;
 
 interface Props {
   children?: React.ReactNode;
 }
 
 const TrickContext = createContext<Context>(DEFAULT_STATE as any as Context);
+const WIDGET_ID = '@vscode-marquee/welcome-widget';
 
 const TrickProvider = ({ children }: Props) => {
-  const widgetState = getEventListener<State & Events>('@vscode-marquee/welcome-widget');
-  const providerValues = connect<State & Omit<Events, "upvote">, Events>(DEFAULT_STATE, widgetState);
+  const widgetState = getEventListener<State>(WIDGET_ID);
+  const widgetEvents = getEventListener<Events>(WIDGET_ID);
+  const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
   const _setRead = (id: string) => {
     if (!providerValues.read.includes(id)) {
@@ -23,13 +27,20 @@ const TrickProvider = ({ children }: Props) => {
   const _setLiked = (id: string) => {
     if (!providerValues.liked.includes(id)) {
       providerValues.setLiked([...providerValues.liked, id]);
-      widgetState.emit('upvote', id);
+      widgetEvents.emit('upvote', id);
     }
   };
 
   const _resetRead = () => {
     providerValues.setRead([]);
   };
+
+  useEffect(() => {
+    return () => {
+      widgetState.removeAllListeners();
+      widgetEvents.removeAllListeners();
+    };
+  }, []);
 
   return (
     <TrickContext.Provider

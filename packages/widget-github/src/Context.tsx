@@ -1,20 +1,23 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
-import { fetchData } from './utils';
-import { DEFAULT_CONFIGURATION } from './constants';
-import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration } from './types';
+import { fetchData, getFromCache } from './utils';
+import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration, Events } from './types';
+
+declare const window: MarqueeWindow;
 
 const TrendContext = createContext<Context>({} as any);
-
+const WIDGET_ID = '@vscode-marquee/github-widget';
 interface Props {
   children?: React.ReactNode;
 }
 
 const TrendProvider = ({ children }: Props) => {
-  const widgetState = getEventListener<Configuration>('@vscode-marquee/github-widget');
-  const providerValues = connect<Configuration>(DEFAULT_CONFIGURATION, widgetState);
+  const eventListener = getEventListener<Events>();
+  const widgetState = getEventListener<Configuration>(WIDGET_ID);
+  const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState);
 
+  const [unmounted, setUnmounted] = useState(false);
   const [error, setError] = useState<Error>();
   const [isFetching, setIsFetching] = useState(false);
   const [trends, setTrends] = useState<Trend[]>([]);
@@ -37,37 +40,38 @@ const TrendProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openGitHubDialog', setShowDialog);
+    return () => {
+      setUnmounted(true);
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
     /**
-     * don't fetch if
+     * don't fetch if we are already fetching something
      */
-    if (
-      /**
-       * we haven't received all configuration params
-       */
-      typeof providerValues.since !== 'string' ||
-      typeof providerValues.language !== 'string' ||
-      typeof providerValues.spoken !== 'string' ||
-      /**
-       * we are already fetching something
-       */
-      isFetching
-    ) {
+    if (isFetching || unmounted) {
       return;
+    }
+
+    const cache = getFromCache(providerValues.since, providerValues.language, providerValues.spoken);
+    if (cache) {
+      return setTrends(cache);
     }
 
     setIsFetching(true);
     fetchData(providerValues.since, providerValues.language, providerValues.spoken).then(
       (res) => {
+        if (unmounted) {
+          return;
+        }
         setTrends(res as Trend[]);
         setError(undefined);
       },
-      (e: Error) => setError(e)
-    ).finally(() => setIsFetching(false));
+      (e: Error) => !unmounted && setError(e)
+    ).finally(() => !unmounted && setIsFetching(false));
   }, [providerValues.language, providerValues.since, providerValues.spoken]);
 
   return (

@@ -1,36 +1,17 @@
 import { TreeView } from '../src/tree.view';
 
 const context = {} as any;
-const stateMgr = {} as any;
-
-const testMessage = {
-  east: {
-    todos: [{
-      archived: true
-    }, {
-      checked: true,
-      archived: false,
-      body: 'foo'
-    }, {
-      checked: false,
-      archived: false,
-      body: 'bar'
-    }]
-  },
-  west: {
-    snippets: [{
-      id: '123',
-      title: 'foobar'
-    }],
-    notes: [{
-      id: '123',
-      title: 'foobar'
-    }]
-  }
-};
+const stateMgr = {
+  todoWidget: { on: jest.fn () },
+  snippetsWidget: { on: jest.fn () },
+  notesWidget: { on: jest.fn () },
+  global: { on: jest.fn (), updateState: jest.fn(), state: { globalScope: true } },
+  projectWidget: { getActiveWorkspace: jest.fn().mockReturnValue({ id: '123' })}
+} as any;
 
 beforeEach(() => {
   context.subscriptions = [];
+  context.globalState = { get: jest.fn() };
   context.extensionPath = '/foo/bar';
   stateMgr.handleUpdates = jest.fn();
   stateMgr.recover = jest.fn().mockReturnValue({
@@ -44,35 +25,16 @@ describe('TreeView', () => {
   test('constructor', () => {
     jest.spyOn(TreeView.prototype, 'update' as any)
       .mockImplementation(() => ({} as any));
-    const tree = new TreeView(context as any, {} as any);
+    new TreeView(context as any, stateMgr);
     expect(context.subscriptions).toEqual(['marquee.toggleScope']);
-    expect(tree['update']).toBeCalledTimes(1);
   });
 
   test('clearTree', () => {
     jest.spyOn(TreeView.prototype, 'update' as any)
       .mockImplementation(() => ({} as any));
-    const tree = new TreeView(context as any, {} as any);
-    expect(tree['update']).toBeCalledTimes(1);
+    const tree = new TreeView(context as any, stateMgr);
     tree.clearTree();
     expect(tree['state']).toMatchSnapshot();
-    expect(tree['update']).toBeCalledTimes(2);
-  });
-
-  test('update', () => {
-    new TreeView(context as any, stateMgr);
-    expect(stateMgr.handleUpdates).toBeCalledTimes(1);
-  });
-
-  test('handleStateManagerUpdates', () => {
-    jest.spyOn(TreeView.prototype, 'update' as any)
-      .mockImplementation(() => ({} as any));
-    const tree = new TreeView(context as any, stateMgr);
-    tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates'](testMessage);
-    expect(tree['state']).toMatchSnapshot();
-    expect(tree['toplevel']).toMatchSnapshot();
-    expect(tree['refresh']).toBeCalledTimes(1);
   });
 
   test('toggleScope', () => {
@@ -80,17 +42,71 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree.toggleScope();
-    expect(tree['update']).toBeCalledTimes(2);
+    expect(tree['stateMgr'].global.updateState).toBeCalledWith('globalScope', false);
+    expect(tree['update']).toBeCalledTimes(1);
+  });
 
-    const cb = (stateMgr.save as jest.Mock).mock.calls[0][0];
-    expect(cb({ globalScope: true }))
-      .toEqual({ globalScope: false });
+  test('_updateTodos', () => {
+    const tree = new TreeView(context as any, stateMgr);
+    tree['_updateTodos']({} as any, true);
+    expect(tree['state'].todos).toHaveLength(0);
+
+    context.globalState.get.mockReturnValue({
+      todos: [{ workspaceId: '123' }, { workspaceId: '321' }]
+    });
+    tree['_updateTodos']({ id: '321' } as any, true);
+    expect(tree['toplevel']).toMatchSnapshot();
+    expect(tree['state'].todos).toMatchSnapshot();
+  });
+
+  test('_updateNotes', () => {
+    const tree = new TreeView(context as any, stateMgr);
+    tree['_updateNotes']({} as any, true);
+    expect(tree['state'].notes).toHaveLength(0);
+
+    context.globalState.get.mockReturnValue({
+      notes: [{ workspaceId: '123' }, { workspaceId: '321' }]
+    });
+    tree['_updateNotes']({ id: '321' } as any, true);
+    expect(tree['toplevel']).toMatchSnapshot();
+    expect(tree['state'].notes).toMatchSnapshot();
+  });
+
+  test('_updateSnippets', () => {
+    const tree = new TreeView(context as any, stateMgr);
+    tree['_updateSnippets']({} as any, true);
+    expect(tree['state'].snippets).toHaveLength(0);
+
+    context.globalState.get.mockReturnValue({
+      snippets: [{ workspaceId: '123' }, { workspaceId: '321' }]
+    });
+    tree['_updateSnippets']({ id: '321' } as any, true);
+    expect(tree['toplevel']).toMatchSnapshot();
+    expect(tree['state'].snippets).toMatchSnapshot();
+  });
+
+  test('update', () => {
+    const tree = new TreeView(context as any, stateMgr);
+    context.globalState.get.mockReturnValue({
+      globalScope: true
+    });
+    tree['_updateTodos'] = jest.fn();
+    tree['_updateNotes'] = jest.fn();
+    tree['_updateSnippets'] = jest.fn();
+    tree['refresh'] = jest.fn();
+
+    tree['update']();
+    expect(tree['_updateTodos']).toBeCalledWith({ id: '123' }, true);
+    expect(tree['_updateNotes']).toBeCalledWith({ id: '123' }, true);
+    expect(tree['_updateSnippets']).toBeCalledWith({ id: '123' }, true);
+    expect(tree['refresh']).toBeCalledTimes(1);
   });
 
   test('refresh', () => {
     jest.spyOn(TreeView.prototype, 'update' as any)
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
+    // @ts-expect-error
     tree['_onDidChangeTreeData'] = { fire: jest.fn() } as any;
     tree.refresh();
     expect(tree['_onDidChangeTreeData'].fire).toBeCalledWith(undefined);
@@ -101,7 +117,7 @@ describe('TreeView', () => {
       .mockImplementation(() => ({} as any));
     const tree = new TreeView(context as any, stateMgr);
     tree['refresh'] = jest.fn();
-    tree['handleStateManagerUpdates'](testMessage);
+    tree['update']();
 
     const elems = await tree.getChildren();
     expect(elems).toMatchSnapshot();

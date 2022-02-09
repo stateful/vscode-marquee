@@ -1,6 +1,7 @@
 import type { EventEmitter } from 'events';
 import type { Client } from 'tangle';
 import type { Disposable } from 'vscode';
+import type ExtensionManager from '@vscode-marquee/utils/extension';
 
 export interface ExtensionConfiguration {
   proxy: string
@@ -15,9 +16,9 @@ export interface ExtensionConfiguration {
   }
 }
 
-export interface ExtensionExport {
+export interface ExtensionExport<State = any, Configuration = any> {
   marquee: {
-    disposable: Disposable
+    disposable: ExtensionManager<State, Configuration> & Disposable
     defaultState?: Record<string, any>
     defaultConfiguration?: Record<string, any>
     setup: (tangle: Client<any>) => EventEmitter | undefined

@@ -14,7 +14,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CodeIcon from "@material-ui/icons/Code";
 import NoteIcon from "@material-ui/icons/Note";
 
-import { PrefContext } from "@vscode-marquee/utils";
+import { GlobalContext } from "@vscode-marquee/utils";
 import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils';
 
 import ProjectItemPop from "./ItemPop";
@@ -41,19 +41,15 @@ interface ProjectListItemProps {
 }
 
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
-  const { themeColor } = useContext(PrefContext);
+  const { themeColor } = useContext(GlobalContext);
   const classes = useStyles({
     background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
   });
 
-  const { openProjectInNewWindow } = useContext(WorkspaceContext);
-  // ToDo(Christian): make todos accessible here
-  const { todos } = { todos: [] as any }; // useContext(TodoContext);
-  const { notes } = { notes: [] as any }; // useContext(NoteContext);
-  const { snippets } = { snippets: [] as any }; // useContext(SnippetContext);
+  const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext);
 
   let todoCount = useMemo(() => {
-    return todos.filter((todo: any) => todo.workspaceId === workspace.id);
+    return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived);
   }, [workspace, todos]);
 
   let noteCount = useMemo(() => {

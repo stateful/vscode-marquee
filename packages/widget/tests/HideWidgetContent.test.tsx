@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
-import { HideWidgetContent } from '../src';
+import HideWidgetContent from '../src/HideWidgetContent';
 
 test('should emit events properly', () => {
   const listener = getEventListener<MarqueeEvents>();

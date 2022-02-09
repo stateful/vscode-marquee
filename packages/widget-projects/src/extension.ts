@@ -1,13 +1,13 @@
 import vscode from 'vscode';
 
-import ExtensionManager from '@vscode-marquee/utils/build/extensionManager';
+import ExtensionManager from '@vscode-marquee/utils/extension';
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import type { State, Configuration } from './types';
 
 const STATE_KEY = 'widgets.projects';
 
-class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
+export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (
     context: vscode.ExtensionContext,
     channel: vscode.OutputChannel
@@ -60,3 +60,5 @@ export function activate (
     }
   };
 }
+
+export * from './types';
