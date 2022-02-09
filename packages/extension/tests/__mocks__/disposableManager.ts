@@ -1,0 +1,10 @@
+const manager = {} as any;
+manager.updateConfiguration = jest.fn().mockReturnValue(manager);
+manager.updateState = jest.fn().mockResolvedValue(manager);
+manager.emit = jest.fn().mockReturnValue(manager);
+manager.clear = jest.fn();
+manager.dispose = jest.fn();
+manager.on = jest.fn();
+manager.state = 'some state';
+manager.configuration = 'some configuration';
+module.exports = manager;

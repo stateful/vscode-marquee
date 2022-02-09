@@ -8,7 +8,8 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { PrefContext } from "@vscode-marquee/utils";
+
+import { GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
 import backgrounds from '../utils/backgrounds';
@@ -45,14 +46,14 @@ interface TileStyle {
 
 let ThemeButton = React.memo(({ tile }: ThemeButtonProps) => {
   const classes = useStyles();
-  const { updateBg, bg } = useContext(PrefContext);
-  const selected = tile.id === bg;
+  const { setBackground, background } = useContext(GlobalContext);
+  const selected = !isNaN(+background) && tile.id === parseInt(background, 10);
 
   return (
     <Button
       size="small"
       variant={"outlined"}
-      onClick={() => updateBg(tile.id) }
+      onClick={() => setBackground(tile.id.toString()) }
       className={selected ? classes.selectedButton : classes.notSelectedButton}
     >
       {selected ? (
@@ -66,7 +67,7 @@ let ThemeButton = React.memo(({ tile }: ThemeButtonProps) => {
 
 const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
   const classes = useStyles();
-  const { themeColor } = useContext(PrefContext);
+  const { themeColor } = useContext(GlobalContext);
 
   return (
     <DialogContainer fullScreen={true}>

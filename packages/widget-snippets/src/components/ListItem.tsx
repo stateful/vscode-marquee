@@ -14,10 +14,10 @@ import copy from "copy-to-clipboard";
 import { stringify } from "javascript-stringify";
 import { escape } from "html-escaper";
 
-import { MarqueeWindow, jumpTo } from "@vscode-marquee/utils";
+import { MarqueeWindow, jumpTo, getEventListener } from "@vscode-marquee/utils";
 
 import SnippetContext from "../Context";
-import type { Snippet } from "../types";
+import type { Events, Snippet } from "../types";
 
 declare const window: MarqueeWindow;
 
@@ -58,10 +58,9 @@ let SnippetListItem = ({
   click,
 }: SnippetListItemProps) => {
   const classes = useStyles();
-  const { _removeSnippet, _updateSnippet, setShowEditDialog } = useContext(SnippetContext);
-  // ToDo(Christian): make adding notes availble hre
-  const { _addNote } = { _addNote: (note: any) => note }; // useContext(NoteContext);
+  const eventListener = getEventListener<Events>();
 
+  const { _removeSnippet, _updateSnippet, setShowEditDialog } = useContext(SnippetContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const matchingWorkspace = useMemo(() => {
@@ -100,10 +99,6 @@ let SnippetListItem = ({
     e.preventDefault();
     e.stopPropagation();
   }, []);
-
-  const deleteSnippet = useCallback(() => {
-    _removeSnippet(snippet!.id);
-  }, [snippet]);
 
   const open = Boolean(anchorEl);
   const id = open ? "snippet-item-popover" : undefined;
@@ -245,8 +240,9 @@ let SnippetListItem = ({
                   newBody = newBody.replace(/ /g, "\u00a0");
                   newBody = newBody.replace(/(?:\r\n|\r|\n)/g, "<br>");
                   newNote.body = newBody;
-                  _addNote(newNote as any);
-                  deleteSnippet();
+
+                  _removeSnippet(snippet.id);
+                  eventListener.emit('addNote', newNote);
                   handleClose(e);
                 }}
               >
@@ -259,7 +255,7 @@ let SnippetListItem = ({
               <ListItem
                 button
                 onClick={(e) => {
-                  deleteSnippet();
+                  _removeSnippet(snippet.id);
                   handleClose(e);
                 }}
               >

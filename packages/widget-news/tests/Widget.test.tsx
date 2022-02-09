@@ -2,9 +2,11 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
-import { PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
+
+jest.mock('../../utils/src/contexts/Global');
 
 let resolveFetch = (params: any) => params;
 const fetchOrig = window.fetch;
@@ -16,9 +18,9 @@ beforeEach(() => {
 
 test('renders component correctly', async () => {
   const { getByRole, getByText } = render(
-    <PrefProvider>
+    <GlobalProvider>
       <Widget.component />
-    </PrefProvider>
+    </GlobalProvider>
   );
   expect(getByRole('progressbar')).toBeTruthy();
   act(() => {
@@ -49,9 +51,9 @@ test('renders component correctly', async () => {
 
 test('should allow to switch channels', async () => {
   const { getByLabelText, getByText, container } = render(
-    <PrefProvider>
+    <GlobalProvider>
       <Widget.component />
-    </PrefProvider>
+    </GlobalProvider>
   );
   userEvent.click(container.querySelectorAll('button svg')[0]);
   expect(getByText('Hide this widget')).toBeTruthy();

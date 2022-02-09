@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext } from "react";
 import Popover from "@material-ui/core/Popover";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { IconButton, ListItem, ListItemText, Typography } from "@material-ui/core";
-import { GlobalContext, MarqueeWindow } from '@vscode-marquee/utils';
+import { MarqueeWindow } from '@vscode-marquee/utils';
 import type { Workspace } from '@vscode-marquee/utils';
 
 import WorkspaceContext from '../Context';
@@ -10,8 +10,7 @@ import WorkspaceContext from '../Context';
 declare const window: MarqueeWindow;
 
 let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
-  const { _removeWorkspace } = useContext(GlobalContext);
-  const { openProjectInNewWindow } = useContext(WorkspaceContext);
+  const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {

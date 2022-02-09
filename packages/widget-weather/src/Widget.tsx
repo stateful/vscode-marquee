@@ -6,7 +6,7 @@ import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, CircularProgress } from "@material-ui/core";
 
-import { PrefContext, NetworkError } from "@vscode-marquee/utils";
+import { GlobalContext, NetworkError } from "@vscode-marquee/utils";
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 
 import WeatherContext, { WeatherProvider } from "./Context";
@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 
 let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'>) => {
   const { scale } = useContext(WeatherContext);
-  const { themeColor } = useContext(PrefContext);
+  const { themeColor } = useContext(GlobalContext);
 
   const classes = useStyles();
   const fiveHours = hourly.slice(0, 5);
