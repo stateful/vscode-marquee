@@ -222,8 +222,6 @@ const Navigation = () => {
                       setInputName('');
                     }}
                     onSave={(v) => {
-                      console.log('I SAve');
-
                       if (v !== "") {
                         setName(v);
                         setInputName(v);

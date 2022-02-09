@@ -57,8 +57,6 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       snippet.workspaceId === window.activeWorkspace?.id
     ));
 
-    setInterval(() => console.log(snippets), 1000);
-
     return () => {
       widgetState.removeAllListeners();
       eventListener.removeAllListeners();

@@ -102,8 +102,6 @@ let SnippetListItem = ({
 
   const open = Boolean(anchorEl);
   const id = open ? "snippet-item-popover" : undefined;
-  console.log(snippet);
-
 
   if (!snippet) {
     return <></>;

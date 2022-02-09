@@ -10,6 +10,7 @@ const toolbarOptions = [
   [{ header: 1 }, { header: 2 }],
   [{ list: "bullet" }],
   [{ color: [] }],
+  ['link']
 ];
 
 interface NoteEditorProps {
