@@ -6,14 +6,11 @@ import Channel from 'tangle/webviews';
 import { URL } from 'url';
 import { EventEmitter } from "events";
 import { readFileSync } from "fs-extra";
-import { BehaviorSubject, race, interval, timer } from "rxjs";
-import { filter, map, mapTo, take, pluck } from "rxjs/operators";
+import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
 
-import { StateManager } from "./state.manager";
-import { Message } from "./state.manager";
-import getExtProps from '@vscode-marquee/utils/build/getExtProps';
+import StateManager from "./stateManager";
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 
@@ -21,21 +18,24 @@ declare const BACKEND_BASE_URL: string;
 declare const BACKEND_GEO_URL: string;
 declare const BACKEND_FWDGEO_URL: string;
 
-const backoff: number = 2000;
-
 export class MarqueeGui extends EventEmitter {
-  private inbound$: BehaviorSubject<Message> | null = null;
   private panel: vscode.WebviewPanel | null = null;
   private guiActive: boolean = false;
   private client?: Client<MarqueeEvents>;
 
   constructor(
     private readonly context: vscode.ExtensionContext,
-    private readonly stateMgr: StateManager,
-    private readonly channel: vscode.OutputChannel,
-    private readonly widgetExtensions: vscode.Extension<ExtensionExport>[]
+    private readonly stateMgr: StateManager
   ) {
     super();
+
+    /**
+     * register listeners for Marquee state managers so they can interact with the gui
+     */
+    for (const widgetExtension of this.stateMgr.widgetExtensions) {
+      widgetExtension.exports.marquee.disposable.on('gui.open', this.open.bind(this));
+      widgetExtension.exports.marquee.disposable.on('gui.close', this.close.bind(this));
+    }
   }
 
   public isActive() {
@@ -53,7 +53,7 @@ export class MarqueeGui extends EventEmitter {
     this.client.emit(event, payload);
   }
 
-  public open(delay: number = backoff) {
+  public open() {
     if (this.guiActive && this.panel) {
       this.panel.reveal();
       this.emit('webview.open');
@@ -81,7 +81,6 @@ export class MarqueeGui extends EventEmitter {
     this.panel.onDidDispose(() => {
       this.guiActive = false;
       this.panel = null;
-      this.inbound$ = null;
       this.emit('webview.close');
     });
 
@@ -107,7 +106,7 @@ export class MarqueeGui extends EventEmitter {
       /**
        * Marquee widgets
        */
-      ...this.widgetExtensions
+      ...this.stateMgr.widgetExtensions
     ] as vscode.Extension<ExtensionExport>[];
 
     const widgetScripts: string[] = [];
@@ -131,14 +130,11 @@ export class MarqueeGui extends EventEmitter {
         extension.exports.marquee &&
         typeof extension.exports.marquee.setup === 'function'
       ) {
-        const defaultState = extension.exports.marquee.defaultState || {};
-        const defaultConfiguration = extension.exports.marquee.defaultConfiguration || {};
+        const defaultState = extension.exports.marquee.disposable.state || {};
+        const defaultConfiguration = extension.exports.marquee.disposable.configuration || {};
         const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration });
         ch.registerPromise([this.panel.webview]).then((client) => {
-          const stateManager = extension.exports.marquee.setup(client);
-          if (stateManager) {
-            stateManager.on('gui.open', () => this.open());
-          }
+          extension.exports.marquee.setup(client);
         });
       }
 
@@ -159,11 +155,19 @@ export class MarqueeGui extends EventEmitter {
       }
     }
 
-    const aws = this.stateMgr.getActiveWorkspace();
+    const aws = this.stateMgr.projectWidget.getActiveWorkspace();
     const cs = pref?.colorScheme!;
     const colorScheme = typeof cs.r === 'number' && typeof cs.g === 'number' && typeof cs.b === 'number' && typeof cs.a === 'number'
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
       : 'transparent';
+
+    const widgetStateConfigurations = this.stateMgr.widgetExtensions.reduce((prev, curr) => ({
+      ...prev,
+      [curr.id]: {
+        configuration: curr.exports.marquee.disposable.configuration,
+        state: curr.exports.marquee.disposable.state
+      }
+    }), {} as Record<string, any>);
 
     const content = index
       .replace(/app-ext-path/g, baseAppUri.toString())
@@ -178,6 +182,7 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-fontSize/g, `${fontSize}em`)
       .replace(/app-ext-workspace/g, JSON.stringify(aws))
       .replace(/app-ext-theme-color/g, colorScheme)
+      .replace(/app-ext-state-config/g, JSON.stringify(widgetStateConfigurations))
       .replace(/app-ext-widgets/, [
         ' begin 3rd party widgets -->',
         ...widgetScripts.join('\n'),
@@ -188,57 +193,48 @@ export class MarqueeGui extends EventEmitter {
     ch.registerPromise([this.panel.webview])
       .then((client) => (this.client = client));
     this.panel.webview.html = content;
-
-    if (this.inbound$ === null) {
-      this.inbound$ = new BehaviorSubject<Message>({});
-    }
-
-    this.recover();
-    this.panel.webview.onDidReceiveMessage(async (msg: Message) => {
-      if (this.inbound$) {
-        this.inbound$.next(msg);
+    this.panel.webview.onDidReceiveMessage((e) => {
+      if (e.west && Array.isArray(e.west.execCommands)) {
+        e.west.execCommands.forEach(this._executeCommand.bind(this));
       }
-    }, undefined);
 
-    const reload$ = race(
-      this.inbound$.pipe(
-        filter((msg) => typeof msg.ready === "boolean"),
-        map((msg) => msg.ready)
-      ),
-      interval(delay).pipe(take(1), mapTo(false))
-    );
+      if (e.west && e.west.notify && e.west.notify.message) {
+        return this._handleNotifications(e.west.notify);
+      }
 
-    reload$.subscribe((isReady) => {
-      if (!isReady && this.panel) {
-        this.panel.dispose();
-        this.guiActive = false;
-        this.open(delay + backoff);
-      } else if (isReady && this.panel && !this.guiActive) {
+      if (e.ready) {
         this.guiActive = true;
-        this.emit('webview.open');
-        this.panel.webview.onDidReceiveMessage(async (msg: Message) => {
-          this.stateMgr.receive(msg);
-        }, undefined);
-        this.recover();
-        this.stateMgr.handleUpdates((msg: Message) => {
-          if (this.panel && msg.east) {
-            this.panel.webview.postMessage(msg);
-          }
-        });
-        timer(100, 1000)
-          .pipe(
-            map(() => this.stateMgr.recover()),
-            pluck("theme"),
-            filter((obj) => obj !== undefined && obj !== null)
-          )
-          .subscribe(() => this.recover());
+        return this.emit('webview.open');
       }
+    });
+    this.panel.onDidDispose(async () => {
+      this.client?.removeAllListeners();
+      delete this.client;
     });
   }
 
-  private recover() {
-    if (this.panel) {
-      this.panel.webview.postMessage({ persistence: this.stateMgr.recover() });
+  private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
+    if (args && args.length > 0 && command === "vscode.openFolder") {
+      return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options);
+    }
+
+    if (args && args.length > 0) {
+      return vscode.commands.executeCommand(command, args[0], options);
+    }
+
+    vscode.commands.executeCommand(command, undefined, options);
+  }
+
+  private _handleNotifications ({ type, message }: { type: string, message: string }) {
+    switch (type) {
+      case 'error':
+        vscode.window.showErrorMessage(message);
+      break;
+      case 'warning':
+        vscode.window.showWarningMessage(message);
+      break;
+      default:
+        vscode.window.showInformationMessage(message);
     }
   }
 }

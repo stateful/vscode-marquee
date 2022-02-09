@@ -1,0 +1,57 @@
+{
+ "type": "MarqueeSettings",
+ "bg": 9,
+ "notes": [
+  {
+   "title": "sadsda",
+   "body": "<p>asdsaasd</p>",
+   "text": "",
+   "id": "eb9s48rn",
+   "archived": false,
+   "createdAt": 1644402822591,
+   "origin": null,
+   "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80"
+  }
+ ],
+ "read": [
+  "-MumT6xMRoa9-5HldrZM",
+  "-MsgFT_sLhRzijQekM8s",
+  "-MRQu2va0eCaPZnPAtNz",
+  "-MO3AlnxSsSx16kAWodv",
+  "-MKpao5VyK0UrufFJT6M"
+ ],
+ "since": {
+  "name": "Weekly",
+  "value": "weekly"
+ },
+ "version": "foo",
+ "snippets": [
+  {
+   "title": "dassadsad",
+   "body": "dassaddsa",
+   "language": {
+    "name": "markdown",
+    "value": "markdown"
+   },
+   "id": "y7utrxy7",
+   "archived": false,
+   "createdAt": 1644402818003,
+   "origin": null,
+   "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
+   "exists": false
+  }
+ ],
+ "todos": [
+  {
+   "body": "foobar",
+   "tags": [
+    "foo"
+   ],
+   "checked": false,
+   "id": "z825fdsi",
+   "archived": false,
+   "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
+   "exists": false
+  }
+ ]
+}

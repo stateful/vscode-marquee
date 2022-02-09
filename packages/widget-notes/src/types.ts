@@ -8,6 +8,13 @@ export interface Note {
   text: string
 }
 
+export interface Events {
+  openAddNoteDialog: boolean
+  openEditNoteDialog?: string
+  addSnippet: Pick<Note, keyof Note>
+  addNote: Note
+}
+
 export interface State {
   notes: Note[]
   noteFilter: string

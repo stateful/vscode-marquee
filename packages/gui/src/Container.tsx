@@ -5,21 +5,20 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import "./css/react-grid-layout.css";
 import "react-resizable/css/styles.css";
 
-import ModeContext from "./contexts/ModeContext";
-import { PrefContext, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { getEventListener, MarqueeEvents, GlobalContext } from "@vscode-marquee/utils";
 
+import ModeContext from "./contexts/ModeContext";
 import Navigation from "./components/Navigation";
 import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
-import { themes } from "./constants";
+import { themes, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
 export const WidgetLayout = React.memo(() => {
-  const { modes, widgets, _setCurrentModeLayout, mode, modeName } = useContext(
-    ModeContext
-  );
+  const { resetApp } = useContext(GlobalContext);
+  const { modeName, modes, widgets, _setCurrentModeLayout, mode } = useContext(ModeContext);
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly
@@ -84,79 +83,68 @@ export const WidgetLayout = React.memo(() => {
     );
   };
 
-  return (
-    <>
-      {!layoutConfig && (
-        <Grid
-          container
-          style={{ height: "100%" }}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
-          <Grid item>
-            <CircularProgress color="secondary" />
-          </Grid>
+  if (!layoutConfig || resetApp) {
+    return (
+      <Grid
+        container
+        style={{ height: "100%" }}
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
+      >
+        <Grid item>
+          <CircularProgress color="secondary" />
         </Grid>
-      )}
-      {layoutConfig && (
-        <ResponsiveReactGridLayout
-          style={{ height: "100%" }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
-          rowHeight={20}
-          onLayoutChange={(newLayout, newLayouts) => {
-            _setCurrentModeLayout(newLayouts);
-          }}
-          layouts={layoutConfig}
-          draggableHandle=".drag-handle"
-          draggableCancel=".draggableCancel"
-          containerPadding={[10, 10]}
-          margin={[10, 10]}
-        >
-          {generateWidgets()}
-        </ResponsiveReactGridLayout>
-      )}
-    </>
+      </Grid>
+    );
+  }
+
+  return (
+    <ResponsiveReactGridLayout
+      style={{ height: "100%" }}
+      cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
+      rowHeight={20}
+      onLayoutChange={(newLayout, newLayouts) => {
+        _setCurrentModeLayout(newLayouts);
+      }}
+      layouts={layoutConfig}
+      draggableHandle=".drag-handle"
+      draggableCancel=".draggableCancel"
+      containerPadding={[10, 10]}
+      margin={[10, 10]}
+    >
+      {generateWidgets()}
+    </ResponsiveReactGridLayout>
   );
 });
 
 const Container = () => {
-  const { bg, themeColor } = useContext(PrefContext);
+  const { background, themeColor } = useContext(GlobalContext);
   const { _removeModeWidget } = useContext(ModeContext);
   const [showSettings, setShowSettings] = useState(false);
 
-  const theme = useMemo(() => {
-    return themes.filter((theme) => {
-      return theme.id === bg;
-    });
-  }, [bg]);
-
-  const background = useMemo(() => {
-    if (theme[0].background) {
-      return backgrounds(`./${bg}.jpg`);
-    } else {
-      return false;
-    }
-  }, [bg]);
-
   const backgroundStyle = useMemo(() => {
-    if (background) {
-      return {
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        position: "fixed" as 'fixed',
-        width: "100%",
-        height: "100%",
-      };
-    } else {
-      return {
-        position: "fixed" as 'fixed',
-        width: "100%",
-        height: "100%"
-      };
+    /**
+     * if `background` is not a number we can't fetch provided background
+     * ToDo(Christian): implement importing Unsplash images
+     */
+    if (isNaN(+background)) {
+      return NO_BACKGROUND_STYLE;
     }
-  }, [bg]);
+
+    const theme = themes.find((theme) => {
+      return theme.id === parseInt(background, 10);
+    });
+
+    if (!theme || !theme.background) {
+      return NO_BACKGROUND_STYLE;
+    }
+
+    return {
+      ...BACKGROUND_STYLE,
+      backgroundImage: `url(${backgrounds(theme.background)})`,
+    };
+  }, [background]);
 
   useEffect(() => {
     const eventListener = getEventListener<MarqueeEvents>();

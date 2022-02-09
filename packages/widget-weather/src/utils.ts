@@ -1,5 +1,5 @@
 import type { MarqueeWindow } from '@vscode-marquee/utils';
-import type { Forecast, GeoData } from './types';
+import type { Forecast, GeoData, Location } from './types';
 
 declare const window: MarqueeWindow;
 
@@ -13,9 +13,33 @@ export function kToC (k: number) {
 
 const USER_GEO_LOCATION_ERROR = 'Couldn\'t fetch users geolocation!';
 const ERROR_MESSAGE = "Couldn't fetch weather data!";
+const REFETCH_TRESHOLD = 1000 * 60 * 30; // 30min
+
+/**
+ * no need to fetch forecast for same lat and lng input for
+ * given `REFETCH_TRESHOLD` given that weather doesn't change
+ * that often
+ */
+export function forecastCache (lat: number, lng: number) {
+  const stateResultKey = `geoData-${lat},${lng}`;
+  const currentState = window.vscode.getState() || {};
+
+  if (currentState[stateResultKey] && (Date.now() - currentState[stateResultKey].time) < REFETCH_TRESHOLD) {
+    return currentState[stateResultKey].data;
+  }
+
+  return undefined;
+}
 
 export async function fetchWeather (lat: number, lng: number) {
+  const stateResultKey = `geoData-${lat},${lng}`;
+  const currentState = window.vscode.getState() || {};
   const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
+  const cache = forecastCache(lat, lng);
+
+  if (cache) {
+    return cache;
+  }
 
   searchParams.append('lat', lat.toString());
   searchParams.append('lon', lng.toString());
@@ -28,12 +52,29 @@ export async function fetchWeather (lat: number, lng: number) {
     throw new Error(`${ERROR_MESSAGE} (status: ${res.status})`);
   }
 
-  return res.json() as Promise<Forecast>;
+  const data = await res.json() as Promise<Forecast>;
+  window.vscode.setState({ ...currentState, [stateResultKey]: { time: Date.now(), data } });
+  return data;
+}
+
+export function geoDataCache (city?: string) {
+  const currentState = window.vscode.getState() || {};
+  const stateResultKey = `geoData-${city || 'unknown'}`;
+
+  if (currentState[stateResultKey]) {
+    return currentState[stateResultKey] as Location;
+  }
+
+  return undefined;
 }
 
 export async function fetchGeoData (city?: string) {
-  const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
+  const cachedData = geoDataCache(city);
+  if (cachedData) {
+    return cachedData;
+  }
 
+  const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
   if (city) {
     searchParams.append('city', city);
   }
@@ -48,6 +89,19 @@ export async function fetchGeoData (city?: string) {
     throw new Error(`${USER_GEO_LOCATION_ERROR} (status: ${res.status}${city ? `, query: "${city}"` : ''})`);
   }
 
-  const { data } = await res.json();
-  return data as GeoData;
+  const { data } = await res.json() as { data: GeoData };
+  const result: Location = {
+    ...data.place.geometry.location,
+    city: data.place.address_components[0]?.short_name
+  };
+
+  /**
+   * store geo data for locations into state as given input and
+   * output stays the same
+   */
+  const currentState = window.vscode.getState() || {};
+  const stateResultKey = `geoData-${city || 'unknown'}`;
+  window.vscode.setState({ ...currentState, [stateResultKey]: result });
+
+  return result;
 }

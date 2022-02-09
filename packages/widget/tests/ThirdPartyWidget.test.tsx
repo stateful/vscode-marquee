@@ -1,8 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
-import { ThirdPartyWidget } from '../src';
+import ThirdPartyWidget from '../src/ThirdPartyWidget';
+
+jest.mock('../../utils/src/contexts/Global');
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
@@ -23,10 +25,10 @@ customElements.define('some-custom-widget', CustomWidget);
 
 test('should display custom widget', () => {
   const { getByText, container } = render(
-    <PrefProvider>
+    <GlobalProvider>
       {/* @ts-expect-error */}
       <ThirdPartyWidget name="some-custom-widget" label="Some custom Widget" />
-    </PrefProvider>
+    </GlobalProvider>
   );
   expect(getByText('Some custom Widget')).toBeTruthy();
   expect(container.querySelector('some-custom-widget')).toBeTruthy();
