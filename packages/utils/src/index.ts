@@ -6,18 +6,14 @@ import { createTheme } from "@material-ui/core/styles";
 
 import type { Client } from 'tangle';
 
-import store from './store';
 import calculateTheme from "./calculateTheme";
-import { createConsumer } from './stateConsumer';
 
 import BetterComplete from "./components/BetterComplete";
 import NetworkError from './components/NetworkError';
 import DoubleClickHelper from './components/DoubleClickHelper';
 
 import GlobalContext, { GlobalProvider } from "./contexts/Global";
-import { PrefProvider, PrefContext, defaultName } from './contexts/Pref';
-
-import type { MarqueeWindow } from './types';
+import type { MarqueeWindow, ContextProperties } from './types';
 
 const defaultChannel = 'vscode.marquee';
 const theme = createTheme(calculateTheme());
@@ -48,38 +44,64 @@ const jumpTo = (item: any) => {
   });
 };
 
-export type ContextProperties<T> = {
-  [t in keyof T]: T[t]
-} & {
-  [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
-};
-
 type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 
 /**
  * Helper method to connect a widget context with its configuration and
- * application state
+ * application state of the extension host
+ *
  * @param defaults combind default values for configuration and state
  * @param tangle   tangle client to broadcast information
  * @returns object containing state values and its setter methods
  */
 function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
+  const prevState: any = window.vscode.getState() || {};
   const contextValues: Partial<ContextProperties<T>> = {};
   for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
-    const [propState, setPropState] = useState<typeof defaultVal>(defaultVal);
+    /**
+     * get default state either from:
+     * - the webview state (when widget was removed and re-loaded)
+     * - the actual default value
+     */
+    const defaultState = typeof prevState[prop] === 'undefined'
+      ? defaultVal
+      : prevState[prop];
+
+    const [propState, setPropState] = useState<typeof defaultVal>(defaultState);
     contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T];
+
+    /**
+     * define a custom setter method for a state that:
+     * - updates the state
+     * - broadcasts it to the extension host for sync
+     * - add it to the webview state so if a webview is being revived it
+     *   receives its former configurations
+     */
     const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
     contextValues[setProp] = ((val: any) => {
-      setPropState(val);
       tangle.broadcast({ [prop]: val } as T & Events);
+      window.vscode.setState({
+        ...(window.vscode.getState() || {}),
+        [prop]: val
+      });
     }) as any;
 
+    /**
+     * listen to updates from the extension host and apply it to the property
+     * state and webview state
+     */
     useEffect(() => {
-      tangle.listen(prop as keyof T, (val: any) => {
+      const subs = tangle.listen(prop as keyof T, (val: any) => {
         setPropState(val);
+        window.vscode.setState({
+          ...(window.vscode.getState() || {}),
+          [prop]: val
+        });
       });
+
+      return () => { subs.unsubscribe(); };
     }, []);
   }
 
@@ -87,12 +109,8 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
 }
 
 export {
-  store,
   jumpTo,
   getEventListener,
-  PrefProvider, PrefContext,
-  defaultName,
-  createConsumer,
   theme,
   connect,
 

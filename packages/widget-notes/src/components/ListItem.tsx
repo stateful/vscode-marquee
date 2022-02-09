@@ -13,10 +13,10 @@ import copy from "copy-to-clipboard";
 import { stripHtml } from "string-strip-html";
 import { unescape } from "html-escaper";
 
-import { MarqueeWindow, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
 
 import NoteContext from "../Context";
-import type { Note } from '../types';
+import type { Note, Events } from '../types';
 
 declare const window: MarqueeWindow;
 
@@ -49,7 +49,7 @@ interface NoteListItemProps {
 }
 
 let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListItemProps) => {
-  const eventListener = getEventListener<MarqueeEvents>();
+  const eventListener = getEventListener<Events>();
   const classes = useStyles();
   const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext);
 
@@ -89,10 +89,6 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
     e.preventDefault();
     e.stopPropagation();
   }, []);
-
-  const deleteNote = useCallback(() => {
-    _removeNote(note.id);
-  }, [note]);
 
   const open = Boolean(anchorEl);
   const id = open ? "note-item-popover" : undefined;
@@ -186,8 +182,9 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
                     newSnippet.body = stripHtml(note.body).result;
                   }
 
+                  _removeNote(note.id);
+                  console.log('ADDSNIPPET', newSnippet);
                   eventListener.emit('addSnippet', newSnippet);
-                  deleteNote();
                   handleClose(e);
                 }}
               >
@@ -200,7 +197,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               <ListItem
                 button
                 onClick={(e) => {
-                  deleteNote();
+                  _removeNote(note.id);
                   handleClose(e);
                 }}
               >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   DialogContent,
   Button,
@@ -14,7 +14,7 @@ import {
   Box
 } from "@material-ui/core";
 
-import { MarqueeWindow } from "@vscode-marquee/utils";
+import { MarqueeWindow, GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
 import ModeDialogContent from "../components/ModeDialogContent";
@@ -22,6 +22,8 @@ import ModeDialogContent from "../components/ModeDialogContent";
 declare const window: MarqueeWindow;
 
 const ImportExport = ({ close }: { close: () => void }) => {
+  const { setResetApp } = useContext(GlobalContext);
+
   return (
     <Grid
       container
@@ -40,6 +42,7 @@ const ImportExport = ({ close }: { close: () => void }) => {
                   command: "marquee.jsonImport",
                 }]},
               });
+              setResetApp(true);
               close();
             }}
           >

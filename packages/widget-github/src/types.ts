@@ -30,17 +30,17 @@ export interface Trend {
 
 export type SinceConfiguration = 'Daily' | 'Weekly' | 'Monthly';
 export interface Configuration {
-  since?: SinceConfiguration;
-  language?: string;
-  spoken?: string;
-  trendFilter?: string;
+  since?: SinceConfiguration
+  language?: string
+  spoken?: string
+  trendFilter?: string
 }
 
 export interface ContextTypes extends Configuration {
-  trends: Trend[];
-  isFetching: boolean;
-  showDialog: boolean;
-  error?: Error;
+  trends: Trend[]
+  isFetching: boolean
+  showDialog: boolean
+  error?: Error
 }
 
 export interface Context extends ContextProperties<ContextTypes> {
@@ -48,4 +48,8 @@ export interface Context extends ContextProperties<ContextTypes> {
   _updateLanguage: (val: SpokenLanguage) => void
   _updateSince: (val: Since) => void
   _updateFilter: (trendFilter: string) => void
+}
+
+export interface Events {
+  openGitHubDialog: boolean
 }

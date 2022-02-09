@@ -8,6 +8,7 @@ jest.mock('axios', () => ({
 }));
 
 jest.mock('vscode', () => ({
+  ConfigurationTarget: { Global: 1 },
   workspace: {
     getConfiguration: jest.fn().mockReturnValue(new Map())
   },
@@ -24,9 +25,12 @@ test('should return expected interface', async () => {
     on: jest.fn(),
     emit: jest.fn(),
     broadcast: jest.fn(),
-    listen: jest.fn()
+    listen: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }),
+    removeAllListeners: jest.fn()
   };
   const context = { globalState: new Map() };
+  // @ts-expect-error
+  context.globalState.setKeysForSync = jest.fn();
   context.globalState.set('persistence', {});
   const result = activate(context as any, channel as any);
 

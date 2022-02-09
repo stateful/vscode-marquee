@@ -20,11 +20,7 @@ jest.mock('../src/contexts/ModeContext', () => ({
 jest.mock('../src/Container', () => () => (<div>Container</div>));
 
 test('Providers', () => {
-  const { getByRole, getByText } = render(<Providers>Foobar</Providers>);
-  expect(getByRole('PrefProvider')).toBeTruthy();
-  expect(getByRole('GlobalProvider')).toBeTruthy();
-  expect(getByRole('TrickProvider')).toBeTruthy();
-  expect(getByRole('ModeProvider')).toBeTruthy();
+  const { getByText } = render(<Providers>Foobar</Providers>);
   expect(getByText('Foobar')).toBeTruthy();
 });
 

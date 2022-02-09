@@ -1,9 +1,11 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
-import { PrefProvider } from '@vscode-marquee/utils';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
+
+jest.mock('../../utils/src/contexts/Global');
 
 let resolveFetch = (params: any) => params;
 const fetchOrig = window.fetch;
@@ -15,9 +17,9 @@ beforeEach(() => {
 
 test('renders component correctly', async () => {
   const { getByRole, getByText, queryByRole } = render(
-    <PrefProvider>
+    <GlobalProvider>
       <Widget.component />
-    </PrefProvider>
+    </GlobalProvider>
   );
   expect(getByRole('progressbar')).toBeTruthy();
   act(() => {
@@ -46,9 +48,9 @@ test('renders component correctly', async () => {
 
 test('should query projects with no result', async () => {
   const { getByText } = render(
-    <PrefProvider>
+    <GlobalProvider>
       <Widget.component />
-    </PrefProvider>
+    </GlobalProvider>
   );
   act(() => { resolveFetch({ ok: 1, json: () => [] }); });
   await new Promise((r) => setTimeout(r, 100));
@@ -58,9 +60,9 @@ test('should query projects with no result', async () => {
 test('should fail with network error', async () => {
   (window.fetch as jest.Mock).mockRejectedValue(new Error('upsala'));
   const { getByText } = render(
-    <PrefProvider>
+    <GlobalProvider>
       <Widget.component />
-    </PrefProvider>
+    </GlobalProvider>
   );
   await new Promise((r) => setTimeout(r, 100));
   expect(getByText('Couldn\'t fetch GitHub trends!')).toBeTruthy();
