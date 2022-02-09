@@ -149,7 +149,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const { text, path } = this.getTextSelection(editor);
 
     if (text.length < 1) {
-      return;
+      return vscode.window.showWarningMessage('Marquee: no text selected');
     }
 
     const todo: Todo = {
@@ -163,7 +163,11 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     };
     const newTodos = [todo].concat(this.state.todos);
     this.updateState('todos', newTodos);
-    this.emit('gui.open');
+    this.broadcast({ todos: newTodos });
+    vscode.window.showInformationMessage(
+      `Added "${text}" to your todos in Marquee`,
+      "Open Marquee"
+    ).then((item) => item && this.emit('gui.open'));
   }
 
   /**

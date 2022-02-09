@@ -183,7 +183,6 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
                   }
 
                   _removeNote(note.id);
-                  console.log('ADDSNIPPET', newSnippet);
                   eventListener.emit('addSnippet', newSnippet);
                   handleClose(e);
                 }}
@@ -220,9 +219,9 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
                 <NoteIcon fontSize="small" />
               </Grid>
               <Grid item>
-                <Tooltip title={note.title} placement="top" arrow>
+                <Tooltip title={note.title || 'Untitled'} placement="top" arrow>
                   <Typography variant="body2" noWrap>
-                    {note.title}
+                    {note.title || 'Untitled'}
                   </Typography>
                 </Tooltip>
               </Grid>

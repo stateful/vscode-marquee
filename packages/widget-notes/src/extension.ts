@@ -3,7 +3,7 @@ import vscode from 'vscode';
 import ExtensionManager from '@vscode-marquee/utils/extension';
 
 import { DEFAULT_STATE } from './constants';
-import type { State } from './types';
+import type { State, Note } from './types';
 
 const STATE_KEY = 'widgets.notes';
 
@@ -11,11 +11,40 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, {}, DEFAULT_STATE);
     this._disposables.push(
+      vscode.commands.registerTextEditorCommand('marquee.note.add', this._addNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),
       vscode.commands.registerCommand("marquee.note.addEmpty", () => this.emit(
         'openDialog', { event: 'openAddNoteDialog', payload: true }
       ))
     );
+  }
+
+  /**
+   * add note into text editor
+   */
+   private _addNote (editor: vscode.TextEditor) {
+    const { text, name } = this.getTextSelection(editor);
+
+    if (text.length < 1) {
+      return vscode.window.showWarningMessage('Marquee: no text selected');
+    }
+
+    const note: Note = {
+      title: name,
+      body: text,
+      text: text,
+      id: this.generateId(),
+      workspaceId: this.getActiveWorkspace()?.id || null,
+    };
+    const newNotes = [note].concat(this.state.notes);
+    this.updateState('notes', newNotes);
+    this.broadcast({ notes: newNotes });
+
+    vscode.commands.executeCommand("marquee.refreshCodeActions");
+    vscode.window.showInformationMessage(
+      `Added ${name} to your notes in Marquee`,
+      "Open Marquee"
+    ).then((item) => item && this.emit('gui.open'));
   }
 
   /**

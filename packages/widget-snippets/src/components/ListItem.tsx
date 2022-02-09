@@ -102,6 +102,8 @@ let SnippetListItem = ({
 
   const open = Boolean(anchorEl);
   const id = open ? "snippet-item-popover" : undefined;
+  console.log(snippet);
+
 
   if (!snippet) {
     return <></>;
@@ -275,13 +277,13 @@ let SnippetListItem = ({
                 <CodeIcon fontSize="small" />
               </Grid>
               <Grid item>
-                <Tooltip title={snippet.title} placement="top" arrow>
+                <Tooltip title={snippet.title || 'Untitled'} placement="top" arrow>
                   <Typography
                     variant="body1"
                     noWrap
                     style={{ fontFamily: "monospace" }}
                   >
-                    {snippet.title}
+                    {snippet.title || 'Untitled'}
                   </Typography>
                 </Tooltip>
               </Grid>

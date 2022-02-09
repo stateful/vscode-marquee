@@ -116,11 +116,15 @@
       },
       {
         "command": "marquee.todo.addEditor",
-        "title": "Add to todos [Marquee]"
+        "title": "Add to Todos [Marquee]"
       },
       {
         "command": "marquee.snippet.add",
-        "title": "Add to snippets [Marquee]"
+        "title": "Add to Snippets [Marquee]"
+      },
+      {
+        "command": "marquee.note.add",
+        "title": "Add to Notes [Marquee]"
       },
       {
         "command": "marquee.snippet.insert",
@@ -281,6 +285,10 @@
         },
         {
           "command": "marquee.snippet.add",
+          "group": "1_modification"
+        },
+        {
+          "command": "marquee.note.add",
           "group": "1_modification"
         },
         {

@@ -56,6 +56,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
+  protected broadcast (payload: Partial<State & Configuration>) {
+    if (!this._tangle) {
+      return;
+    }
+
+    this._tangle.broadcast(payload as State & Configuration);
+  }
+
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
     this._channel.appendLine(`Update configuration "${prop}": ${val}`);
     this._configuration[prop] = val;

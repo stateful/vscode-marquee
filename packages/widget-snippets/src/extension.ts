@@ -31,7 +31,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     const { text, path, name, lang } = this.getTextSelection(editor);
 
     if (text.length < 1) {
-      return;
+      return vscode.window.showWarningMessage('Marquee: no text selected');
     }
 
     const snippet: Snippet = {
@@ -47,6 +47,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     };
     const newSnippets = [snippet].concat(this.state.snippets);
     this.updateState('snippets', newSnippets);
+    this.broadcast({ snippets: newSnippets });
 
     vscode.commands.executeCommand("marquee.refreshCodeActions");
     vscode.window.showInformationMessage(
