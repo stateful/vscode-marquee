@@ -13,12 +13,23 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   const eventListener = getEventListener<Events>();
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
+  /**
+   * for so far unknown reason the `providerValues.notes` doesn't change when
+   * `providerValues.setNotes` is called within the context, therefor we need
+   * to maintain a local state
+   */
+  const [notes, _setNotes] = useState<Note[]>(providerValues.notes);
+
+  const setNotes = (notes: Note[]) => {
+    _setNotes(notes);
+    providerValues.setNotes(notes);
+  };
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
   const _addNote = (note: Pick<Note, 'title' | 'body' | 'text'>, isWorkspaceTodo: boolean): string => {
-    const globalNotes = providerValues.notes;
+    const globalNotes = notes;
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
 
     const newNote = Object.assign({}, note, {
@@ -32,12 +43,12 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     });
 
     globalNotes.unshift(newNote);
-    providerValues.setNotes(globalNotes);
+    setNotes(globalNotes);
     return id;
   };
 
   const _removeNote = (id: string) => {
-    const globalNotes = providerValues.notes;
+    const globalNotes = notes;
     const index = globalNotes.findIndex((note) => note.id === id);
 
     if (index < 0) {
@@ -45,11 +56,11 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     }
 
     globalNotes.splice(index, 1);
-    providerValues.setNotes(globalNotes);
+    setNotes(globalNotes);
   };
 
   const _updateNote = (note: Note) => {
-    const globalNotes = providerValues.notes;
+    const globalNotes = notes;
     const index = globalNotes.findIndex((entry) => entry.id === note.id);
 
     if (index < 0) {
@@ -61,7 +72,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     }
 
     globalNotes[index] = note;
-    providerValues.setNotes(globalNotes);
+    setNotes(globalNotes);
   };
 
   useEffect(() => {
@@ -94,8 +105,8 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
       {showAddDialog && (
         <AddDialog close={() => setShowAddDialog(false)} />
       )}
-      { showEditDialog && providerValues.notes.find((n) => n.id === showEditDialog) && (
-        <EditDialog note={providerValues.notes.find((n) => n.id === showEditDialog)!} close={() => setShowEditDialog(undefined) } />
+      { showEditDialog && notes.find((n) => n.id === showEditDialog) && (
+        <EditDialog note={notes.find((n) => n.id === showEditDialog)!} close={() => setShowEditDialog(undefined) } />
       )}
       {children}
     </NoteContext.Provider>
