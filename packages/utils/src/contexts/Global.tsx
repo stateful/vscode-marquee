@@ -1,53 +1,52 @@
-import React, { createContext, useState, useEffect } from "react";
-import { createConsumer } from "../stateConsumer";
+import React, { createContext, useEffect, useState } from "react";
 
-import store from "../store";
-import type { IGlobalContext, Workspace } from '../types';
+import { getEventListener, connect } from '../';
+import { getVSColor } from '../utils';
+import type { Configuration, Context, State, RGBA, MarqueeWindow, MarqueeEvents } from '../types';
 
-const GlobalContext = createContext<IGlobalContext>({} as IGlobalContext);
+declare const window: MarqueeWindow;
+
+const GlobalContext = createContext<Context>({} as Context);
+const rgba = ['r', 'g', 'b', 'a'] as const;
+const WIDGET_ID = '@vscode-marquee/utils';
 
 const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
-  const GlobalStore = store("globalScope", false);
-  const [globalScope, setGlobalScope] = useState(true);
-  const [activeWorkspace, setActiveWorkspace] = useState<Workspace | null>(null);
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const globalState = getEventListener<State & Configuration>(WIDGET_ID);
+  const providerValues = connect<State & Configuration>({
+    ...window.marqueeStateConfiguration[WIDGET_ID].state,
+    ...window.marqueeStateConfiguration[WIDGET_ID].configuration
+  }, globalState);
 
-
-  let _removeWorkspace = (id: string) => {
-    const wsps = [...workspaces];
-    let index = wsps.findIndex((wsp) => wsp.id === id);
-    wsps.splice(index, 1);
-
-    GlobalStore.set("workspaces", wsps);
-    setWorkspaces(wsps);
-  };
-
-  let _updateGlobalScope = (show: boolean) => {
-    setGlobalScope(show);
-    GlobalStore.set("globalScope", show);
-  };
-
-  const handler = () => {
-    setWorkspaces(GlobalStore.get("workspaces") || workspaces);
-    setGlobalScope(GlobalStore.get("globalScope"));
-  };
-
+  const [resetApp, setResetApp] = useState(false);
   useEffect(() => {
-    GlobalStore.subscribe(handler as any);
-
-    createConsumer("activeWorkspace").subscribe((aws: Workspace) => {
-      setActiveWorkspace(aws);
-    });
+    window.vscode.setState({});
+    const eventListener = getEventListener<MarqueeEvents>();
+    eventListener.on('resetMarquee', () => setResetApp(true));
   }, []);
+
+  /**
+   * theme color propagated into template
+   */
+  const cssThemeValue = window.getComputedStyle(document.documentElement)
+    .getPropertyValue('--marquee-theme-color')
+    .trim();
+  const themeColor = cssThemeValue === 'transparent' || !cssThemeValue.match(/[\.\d]+/g)
+    ? getVSColor()
+    : cssThemeValue
+        .match(/[\.\d]+/g)!
+        .map(Number)
+        .reduce((acc, val, i) => {
+          acc[rgba[i]] = val;
+          return acc;
+        }, {} as RGBA);
 
   return (
     <GlobalContext.Provider
       value={{
-        globalScope,
-        workspaces,
-        activeWorkspace,
-        _removeWorkspace,
-        _updateGlobalScope,
+        ...providerValues,
+        themeColor,
+        resetApp,
+        setResetApp
       }}
     >
       {children}
