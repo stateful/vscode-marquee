@@ -23,11 +23,10 @@ const useStyles = makeStyles(() => ({
 
 let Projects = () => {
   const classes = useStyles();
-  // ToDo(Christian): make todos, notes and snippets accessible here
-  const { todos } = { todos: [] }; // useContext(TodoContext);
-  const { notes } = { notes: [] }; // useContext(NoteContext);
-  const { snippets } = { snippets: [] }; // useContext(SnippetContext);
-  const { workspaces, workspaceFilter, workspaceSortOrder, openProjectInNewWindow } = useContext(WorkspaceContext);
+  const {
+    notes, todos, snippets, workspaces, workspaceFilter,
+    workspaceSortOrder, openProjectInNewWindow
+  } = useContext(WorkspaceContext);
 
   const totalLen = (wspid: string) => {
     let todoCount = todos.filter(

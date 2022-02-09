@@ -1,20 +1,9 @@
+import type { ContextProperties } from "@vscode-marquee/utils";
 import type { EmojiData } from 'emoji-mart';
 import type { presetModes } from './constants';
 
-export interface Layout {
-  w: number;
-  h: number;
-  x: number;
-  y: number;
-  i: string;
-  minW: number;
-  minH: number;
-  moved: boolean;
-  static: boolean;
-}
-
 export type LayoutSize = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
-export type LayoutType = Record<LayoutSize, Layout[]>;
+export type LayoutType = Record<LayoutSize, ReactGridLayout.Layout[]>;
 export type PresetModes = typeof presetModes[number];
 
 export interface Mode {
@@ -46,4 +35,28 @@ export interface Theme {
   title: string
   description: string
   author: string
+}
+
+export interface State {
+  modeName: string
+  prevMode: string | null
+}
+
+export interface Configuration {
+  modes: ModeConfig
+}
+
+export interface Context extends ContextProperties<State & Configuration> {
+  mode: Mode
+  thirdPartyWidgets: WidgetConfig[]
+  widgets: Record<string, WidgetMap>,
+
+  _setCurrentModeLayout: (newLayouts: ReactGridLayout.Layouts) => void
+  _setModeWidget: (targetMode: string, widgetName: string, value: ReactGridLayout.Layout | Boolean) => void
+  _addMode: (newModeName: string, emoji: EmojiData) => void
+  _removeMode: (removeModeName: string) => void
+  _resetModes: () => void
+  _duplicateMode: (oldModeName: string, newModeName: string, newEmoji: EmojiData) => void
+  _removeModeWidget: (widgetName: string) => void
+  _setModeName: (newModeName: string) => void
 }

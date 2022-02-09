@@ -27,6 +27,11 @@ export interface ContextValues extends Configuration, State {
   showEditDialog?: string
 }
 
+export interface Events {
+  openAddTodoDialog: boolean
+  openEditTodoDialog?: string
+}
+
 export interface Context extends Omit<ContextProperties<ContextValues>, 'setActiveWorkspaceId'> {
   _resetTodos: () => void
   _addTodo: (body: string, tags: string[], isWorkspaceTodo: boolean) => void

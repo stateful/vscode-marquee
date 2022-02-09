@@ -11,7 +11,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 
-import { PrefContext } from "@vscode-marquee/utils";
+import { GlobalContext } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
 import TrickContext from "../Context";
@@ -60,7 +60,7 @@ let LikeButton = React.memo((props: Props) => {
 
 let TrickContent = () => {
   const { tricks, read, _setRead } = useContext(TrickContext);
-  const { themeColor } = useContext(PrefContext);
+  const { themeColor } = useContext(GlobalContext);
 
   let [infoIndex, setInfoIndex] = useState(0);
 

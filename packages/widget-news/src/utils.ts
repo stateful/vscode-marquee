@@ -1,11 +1,7 @@
-import React from 'react';
-
 import { HN_API } from './constants';
 import type { WidgetState, HackerNews } from "./types";
 
-export async function fetchNews (data: WidgetState, setData: React.Dispatch<React.SetStateAction<WidgetState>>) {
-  setData({ ...data, isFetching: true });
-
+export async function fetchNews (data: WidgetState) {
   const resp = await fetch(
     HN_API + data.channel,
     { mode: 'cors' }
@@ -16,16 +12,16 @@ export async function fetchNews (data: WidgetState, setData: React.Dispatch<Reac
   }));
 
   if (!resp.ok) {
-    return setData({
+    return {
       ...data,
       isFetching: false,
       error: new Error(`Failed to fetch news! (status: ${resp.status})`)
-    });
+    };
   }
 
-  setData({
+  return {
     isFetching: false,
     news: await resp.json() as HackerNews[],
     channel: data.channel
-  });
+  };
 }

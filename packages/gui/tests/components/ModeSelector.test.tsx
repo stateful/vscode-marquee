@@ -9,21 +9,13 @@ jest.mock('../../src/contexts/ModeContext');
 jest.mock('../../src/dialogs/ModeDialog', () => () => <div>ModeDialog</div>);
 
 test('should render component correctly', () => {
-  const { getByLabelText, getByText } = render(
+  const { getByLabelText } = render(
     <ModeProvider>
       <ModeSelector />
     </ModeProvider>
   );
 
   expect(_setModeName).toBeCalledTimes(0);
-  userEvent.click(getByLabelText('Set Mode'));
-  expect(_setModeName).toBeCalledWith('prevMode');
-
-  userEvent.click(getByLabelText('select merge strategy'));
-  userEvent.click(getByLabelText('Open Mode Dialog'));
-  expect(getByText('ModeDialog')).toBeTruthy();
-
-  userEvent.click(getByText('Play'));
-  expect(_setModeName).toBeCalledTimes(2);
+  userEvent.click(getByLabelText('Set Mode').querySelector('span')!);
   expect(_setModeName).toBeCalledWith('play');
 });

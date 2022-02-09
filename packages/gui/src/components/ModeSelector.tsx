@@ -1,5 +1,4 @@
 import React, { useContext, MouseEvent, useState, useRef } from "react";
-import ModeContext from "../contexts/ModeContext";
 
 import SettingsIcon from "@material-ui/icons/Settings";
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
@@ -24,8 +23,9 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 
-import { ucFirst } from "../utils";
+import ModeContext from "../contexts/ModeContext";
 import ModeDialog from "../dialogs/ModeDialog";
+import { ucFirst } from "../utils";
 
 const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
   return (
@@ -37,28 +37,40 @@ const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
 
 const ModeSelector = () => {
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
+  const { modeName, _setModeName, prevMode, modes, mode } = useContext(ModeContext);
   const anchorRef = useRef(null);
-  const { modes, modeName, _setModeName, mode, prevMode } = useContext(
-    ModeContext
-  );
+
+  const setModeName = (newMode: string) => {
+    /**
+     * switching modes is a very costly operation, let's ensure we
+     * debounce this operation to avoid running into signal loops
+     */
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), 1000);
+    _setModeName(newMode);
+  };
 
   const handleClick = () => {
+
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), 1000);
+
     //if there was a previous mode, switch to that
     if (prevMode) {
-      _setModeName(prevMode);
-    } else {
-      //if there was no previous mode
-      //find the next mode and go there
-      //if that doesn't exist, goto default 0
-      let modesArr = Object.keys(modes);
-      let currModeIndex = modesArr.indexOf(modeName);
-      if (modesArr[currModeIndex + 1]) {
-        _setModeName(modesArr[currModeIndex + 1]);
-      } else {
-        _setModeName(modesArr[0]);
-      }
+      setModeName(prevMode);
+      return;
     }
+
+    //if there was no previous mode
+    //find the next mode and go there
+    //if that doesn't exist, goto default 0
+    let modesArr = Object.keys(modes);
+    let currModeIndex = modesArr.indexOf(modeName);
+    return (modesArr[currModeIndex + 1])
+      ? setModeName(modesArr[currModeIndex + 1])
+      : setModeName(modesArr[0]);
   };
 
   const handleToggle = () => {
@@ -67,7 +79,7 @@ const ModeSelector = () => {
 
   const handleClose = (event: MouseEvent<Document, globalThis.MouseEvent>) => {
     // @ts-expect-error parentNode not defined
-    let targetClassList = event.target.parentNode.classList.value;
+    const targetClassList = event.target.parentNode.classList.value;
     if (
       // @ts-expect-error `current` not defined
       (anchorRef.current && anchorRef.current.contains(event.target)) ||
@@ -86,7 +98,7 @@ const ModeSelector = () => {
         <ModeDialog close={() => setShowModeDialog(false)} />
       )}
       <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-        <Button aria-label="Set Mode" onClick={handleClick} size="small">
+        <Button aria-label="Set Mode" onClick={handleClick} size="small" disabled={disabled}>
           {!mode.icon && (
             <ViewCompactIcon fontSize="small" className="modeIcon" />
           )}
@@ -95,6 +107,7 @@ const ModeSelector = () => {
           )}
         </Button>
         <Button
+          disabled={disabled}
           size="small"
           aria-controls={open ? "split-button-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
@@ -153,7 +166,8 @@ const ModeSelector = () => {
                                 button
                                 key={name}
                                 onClick={() => {
-                                  _setModeName(name);
+                                  setModeName(name);
+                                  handleToggle();
                                 }}
                               >
                                 <DenseListIcon>

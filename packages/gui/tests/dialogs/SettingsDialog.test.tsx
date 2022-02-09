@@ -3,10 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
 import SettingsDialog from '../../src/dialogs/SettingsDialog';
+import { GlobalProvider } from '@vscode-marquee/utils';
 
 declare const window: {
   vscode: any
 };
+
+jest.mock('../../../utils/src/contexts/Global');
 
 jest.mock('../../src/components/ModeDialogContent', () => (
   () => (<div>ModeDialogContent</div>)
@@ -14,7 +17,7 @@ jest.mock('../../src/components/ModeDialogContent', () => (
 
 test('renders ModeDialogContent component properly', () => {
   const close = jest.fn();
-  render(<SettingsDialog close={close} />);
+  render(<GlobalProvider><SettingsDialog close={close} /></GlobalProvider>);
   expect(screen.queryByText('ModeDialogContent')).toBeTruthy();
 });
 
@@ -22,7 +25,11 @@ test('switches to import/export settings', () => {
   window.vscode = { postMessage: jest.fn() };
 
   const close = jest.fn();
-  const { getByText } = render(<SettingsDialog close={close} />);
+  const { getByText } = render(
+    <GlobalProvider>
+      <SettingsDialog close={close} />
+    </GlobalProvider>
+  );
   userEvent.click(getByText('Import / Export'));
   expect(screen.queryByText('ModeDialogContent')).not.toBeTruthy();
 
