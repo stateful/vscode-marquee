@@ -34,7 +34,7 @@ test('renders component correctly', () => {
   const input = getByPlaceholderText('Type...');
   userEvent.type(input, 'John Doe');
   userEvent.click(input.parentElement?.querySelector('button')!);
-  expect(getByText('John Doe')).toBeTruthy();
+  expect(getByText('some nameJohn Doe')).toBeTruthy();
 
   userEvent.click(getByTitle('Toggle global vs workspace scope'));
   expect(setGlobalScope).toBeCalledTimes(1);
