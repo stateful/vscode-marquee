@@ -3,11 +3,9 @@ import { createTheme } from "@material-ui/core/styles";
 import { EventEmitter } from 'events';
 
 import GlobalContextImport from '../../../src/contexts/Global';
-import PrefContextImport from '../../../src/contexts/Pref';
 import NetworkErrorImport from '../../../src/components/NetworkError';
 import BetterCompleteImport from '../../../src/components/BetterComplete';
 import DoubleClickHelperImport from '../../../src/components/DoubleClickHelper';
-import { getVSColor } from '../../../src/utils';
 
 export const theme = createTheme({
   palette: {
@@ -19,52 +17,70 @@ export const theme = createTheme({
 
 const eventListener = new EventEmitter();
 // @ts-expect-error mock tangle
-eventListener.listen = eventListener.on;
+eventListener.listen = jest.fn((event, cb) => {
+  if (event === 'todos') {
+    // @ts-expect-error
+    cb(window.marqueeStateConfiguration['@vscode-marquee/todo-widget'].state.todos);
+  }
+  if (event === 'snippets') {
+    // @ts-expect-error
+    cb(window.marqueeStateConfiguration['@vscode-marquee/snippets-widget'].state.snippets);
+  }
+  if (event === 'notes') {
+    // @ts-expect-error
+    cb(window.marqueeStateConfiguration['@vscode-marquee/notes-widget'].state.notes);
+  }
+
+  return { unsubscribe: jest.fn() };
+});
+// @ts-expect-error
+eventListener.broadcast = jest.fn();
 export const defaultName = "name here...";
 export const getEventListener = () => eventListener;
-export const PrefContext = PrefContextImport;
-export const GlobalContext = GlobalContextImport;
-export const updateWidgetFilter = jest.fn();
-export const updateName = jest.fn();
-export const PrefProvider = ({ children }: any) => (
-  <PrefContext.Provider value={{
-    themeColor: getVSColor(),
-    bg: 4,
-    name: 'some name',
-    widgetFilter: 'widgetFilter',
-    updateWidgetFilter,
-    updateName
-   } as any}>
-    <div role="PrefProvider">{children}</div>
-  </PrefContext.Provider>
-);
 
-export const _updateGlobalScope = jest.fn();
+export const providerValues = {
+  // @ts-expect-error
+  ...Object.values(window.marqueeStateConfiguration).reduce((prev: object, curr: any) => ({
+    ...prev,
+    ...curr.state,
+    ...Object.keys(curr.state).reduce((prev, curr: string) => ({
+      ...prev,
+      [`set${curr.slice(0, 1).toUpperCase()}${curr.slice(1)}`]: jest.fn()
+    }), {}),
+    ...curr.configuration,
+    ...Object.keys(curr.configuration).reduce((prev, curr: string) => ({
+      ...prev,
+      [`set${curr.slice(0, 1).toUpperCase()}${curr.slice(1)}`]: jest.fn()
+    }), {}),
+  }), {})
+};
+export const connect = jest.fn().mockReturnValue(providerValues);
+
+export const GlobalContext = GlobalContextImport;
+
+export const setResetApp = jest.fn();
+export const setBackground = jest.fn();
+export const setName = jest.fn();
+export const setGlobalScope = jest.fn();
+export const setThemeColor = jest.fn();
+
 export const GlobalProvider = ({ children }: any) => (
   <GlobalContext.Provider value={{
-    globalScope: true,
-    workspaces: [{ id: '1', name: 'test workspace' }],
-    activeWorkspace: { id: 'foobar' },
-    _updateGlobalScope
-   } as any}>
-    <div role="GlobalProvider">{children}</div>
+    background: '4',
+    name: 'some name',
+    globalScope: false,
+    themeColor: { r: 1, g: 2, b: 3, a: 4 },
+    resetApp: false,
+    setResetApp,
+    setBackground,
+    setName,
+    setGlobalScope,
+    setThemeColor
+  } as any}>
+    {children}
   </GlobalContext.Provider>
 );
-const handlers = new Map();
-export const stores = new Map();
-export const store = (name: string) => {
-  const s = new Map();
-  stores.set(name, s);
-  // @ts-expect-error store mock
-  s.subscribe = (cb: Function) => (
-    handlers.set(name, [...(handlers.get(name) || []), cb])
-  );
-  return s;
-};
-export const emitStore = (name: string, payload: any) => (
-  [...(handlers.get(name) || [])].map((handler) => handler(payload))
-);
+
 export const NetworkError = NetworkErrorImport;
 export const BetterComplete = BetterCompleteImport;
 export const DoubleClickHelper = DoubleClickHelperImport;
-export const createConsumer = () => ({ subscribe: jest.fn() });

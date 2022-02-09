@@ -1,4 +1,4 @@
-import React, { useContext, MouseEvent, useState } from "react";
+import React, { useContext, MouseEvent, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,7 +17,7 @@ import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import styled from "@emotion/styled";
 import EdiText from "react-editext";
 
-import { PrefContext, defaultName, GlobalContext } from "@vscode-marquee/utils";
+import { GlobalContext } from "@vscode-marquee/utils";
 import { NavPop } from "@vscode-marquee/widget-welcome";
 
 import ModeSelector from "./ModeSelector";
@@ -79,17 +79,20 @@ const StyledEdiText = styled(EdiText)`
 
 const Navigation = () => {
   const classes = useStyles();
+  const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showThemeDialog, setShowThemeDialog] = useState(false);
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null));
-  const { globalScope, _updateGlobalScope } = useContext(GlobalContext);
-  const { name, themeColor, updateName } = useContext(PrefContext);
+  const [inputName, setInputName] = useState(name);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  useEffect(() => setInputName(name), [name]);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -131,11 +134,7 @@ const Navigation = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          _updateGlobalScope(!globalScope);
-        }}
-      >
+      <MenuItem onClick={() => { setGlobalScope(!globalScope); }}>
         <Grid container direction="row" alignItems="stretch" spacing={1}>
           <Grid item>
             <Badge
@@ -154,11 +153,7 @@ const Navigation = () => {
           </Grid>
         </Grid>
       </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleMobileMenuClose();
-        }}
-      >
+      <MenuItem onClick={handleMobileMenuClose}>
         <div onClick={() => setShowSettingsDialog(true)  }>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
             <Grid item>
@@ -223,25 +218,17 @@ const Navigation = () => {
                 </Grid>
                 <Grid item>
                   <StyledEdiText
-                    onEditingStart={(v) => {
-                      if (v === defaultName) {
-                        updateName("");
-                      }
-                    }}
-                    onCancel={(v) => {
-                      if (v === "") {
-                        updateName(defaultName);
-                      }
+                    onEditingStart={() => {
+                      setInputName('');
                     }}
                     onSave={(v) => {
-                      if (v === "") {
-                        updateName(defaultName);
-                      } else {
-                        updateName(v);
+                      if (v !== "") {
+                        setName(v);
+                        setInputName(v);
                       }
                     }}
                     type="text"
-                    value={name}
+                    value={inputName}
                     editOnViewClick
                     viewProps={{
                       style: {
@@ -255,7 +242,6 @@ const Navigation = () => {
                       className: classes.editInput,
                     }}
                     showButtonsOnHover
-                    //editing={editing}
                     cancelOnEscape
                     submitOnUnfocus
                   />
@@ -278,7 +264,7 @@ const Navigation = () => {
                   <IconButton
                     size="small"
                     onClick={() => {
-                      _updateGlobalScope(!globalScope);
+                      setGlobalScope(!globalScope);
                     }}
                   >
                     <Badge

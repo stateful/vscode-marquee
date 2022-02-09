@@ -1,19 +1,22 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeEvents, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
-import { DEFAULT_STATE, DEFAULT_CONFIGURATION } from "./constants";
-import type { Todo, Context, Configuration, State } from './types';
+import type { Todo, Context, Configuration, State, Events } from './types';
 
 declare const window: MarqueeWindow;
 
 const TodoContext = createContext<Context>({} as Context);
+const WIDGET_ID = '@vscode-marquee/todo-widget';
 
 const TodoProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<MarqueeEvents>();
-  const widgetState = getEventListener<Configuration & State>('@vscode-marquee/todo-widget');
-  const providerValues = connect<Configuration & State>({ ...DEFAULT_CONFIGURATION, ...DEFAULT_STATE }, widgetState);
+  const eventListener = getEventListener<Events>();
+  const widgetState = getEventListener<Configuration & State>(WIDGET_ID);
+  const providerValues = connect<Configuration & State>({
+    ...window.marqueeStateConfiguration[WIDGET_ID].state,
+    ...window.marqueeStateConfiguration[WIDGET_ID].configuration
+  }, widgetState);
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
@@ -54,6 +57,10 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   useEffect(() => {
     eventListener.on('openAddTodoDialog', setShowAddDialog);
     eventListener.on('openEditTodoDialog', setShowEditDialog);
+    return () => {
+      widgetState.removeAllListeners();
+      eventListener.removeAllListeners();
+    };
   }, []);
 
   return (

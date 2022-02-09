@@ -20,18 +20,16 @@ test('fetchNews', async () => {
     json: () => 'foobar'
   });
 
-  const setData = jest.fn();
-  await fetchNews({ channel: 'foobar'} as any, setData);
+  const result = await fetchNews({ channel: 'foobar'} as any);
   expect((window.fetch as jest.Mock).mock.calls).toMatchSnapshot();
-  expect(setData.mock.calls).toMatchSnapshot();
+  expect(result).toMatchSnapshot();
 });
 
 test('fetchNews fails', async () => {
   (window.fetch as jest.Mock).mockRejectedValue(new Error('ups'));
 
-  const setData = jest.fn();
-  await fetchNews({ channel: 'foobar'} as any, setData);
-  expect(setData.mock.calls).toMatchSnapshot();
+  const result = await fetchNews({ channel: 'foobar'} as any);
+  expect(result).toMatchSnapshot();
 });
 
 test('fetchNews fails', async () => {
@@ -40,9 +38,8 @@ test('fetchNews fails', async () => {
     status: 123
   });
 
-  const setData = jest.fn();
-  await fetchNews({ channel: 'foobar'} as any, setData);
-  expect(setData.mock.calls).toMatchSnapshot();
+  const result = await fetchNews({ channel: 'foobar'} as any);
+  expect(result).toMatchSnapshot();
 });
 
 afterAll(() => {

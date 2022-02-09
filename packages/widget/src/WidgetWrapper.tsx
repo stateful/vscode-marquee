@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
-import { PrefContext } from "@vscode-marquee/utils";
+import { GlobalContext } from "@vscode-marquee/utils";
 
 import { ErrorBoundary } from './ErrorBoundary';
 
 const WidgetWrapper = ({ dragHandle, ...props }: any) => {
-  const { themeColor } = useContext(PrefContext);
+  const { themeColor } = useContext(GlobalContext);
   const [ shouldBeDisplayed, setShouldBeDisplayed ] = useState(true);
 
   const eventListener = getEventListener<MarqueeEvents>();

@@ -1,44 +1,233 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StateManager updateWorkspaces 1`] = `
-Object {
-  "workspaces": Array [],
-}
+exports[`_export 1`] = `
+Array [
+  Array [
+    "/bar/foo",
+    "{
+ \\"type\\": \\"MarqueeSettings\\",
+ \\"version\\": \\"1.2.3\\",
+ \\"state\\": {
+  \\"@vscode-marquee/utils\\": \\"some state\\",
+  \\"@vscode-marquee/gui\\": \\"some state\\",
+  \\"@vscode-marquee/welcome-widget\\": \\"some state\\",
+  \\"@vscode-marquee/projects-widget\\": \\"some state\\",
+  \\"@vscode-marquee/github-widget\\": \\"some state\\",
+  \\"@vscode-marquee/weather-widget\\": \\"some state\\",
+  \\"@vscode-marquee/todo-widget\\": \\"some state\\",
+  \\"@vscode-marquee/notes-widget\\": \\"some state\\",
+  \\"@vscode-marquee/snippets-widget\\": \\"some state\\"
+ },
+ \\"configuration\\": {
+  \\"@vscode-marquee/utils\\": \\"some configuration\\",
+  \\"@vscode-marquee/gui\\": \\"some configuration\\",
+  \\"@vscode-marquee/welcome-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/projects-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/github-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/weather-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/todo-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/notes-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/snippets-widget\\": \\"some configuration\\"
+ }
+}",
+  ],
+]
 `;
 
-exports[`StateManager updateWorkspaces 2`] = `
-Object {
-  "activeWorkspaceId": undefined,
-  "workspaces": Array [],
-}
-`;
-
-exports[`StateManager updateWorkspaces 3`] = `
-Object {
-  "workspaces": Array [
+exports[`_import transforms old config types 1`] = `
+Array [
+  Array [
+    "name",
+    undefined,
+  ],
+  Array [
+    "background",
+    9,
+  ],
+  Array [
+    "language",
+    undefined,
+  ],
+  Array [
+    "since",
     Object {
-      "id": "foo",
+      "name": "Weekly",
+      "value": "weekly",
     },
   ],
-}
+  Array [
+    "spoken",
+    undefined,
+  ],
+  Array [
+    "autoDetect",
+    undefined,
+  ],
+]
 `;
 
-exports[`StateManager updateWorkspaces 4`] = `
-Object {
-  "workspaces": Array [
-    Object {
-      "id": "foo",
-    },
+exports[`_import transforms old config types 2`] = `
+Array [
+  Array [
+    "read",
+    Array [
+      "-MumT6xMRoa9-5HldrZM",
+      "-MsgFT_sLhRzijQekM8s",
+      "-MRQu2va0eCaPZnPAtNz",
+      "-MO3AlnxSsSx16kAWodv",
+      "-MKpao5VyK0UrufFJT6M",
+    ],
   ],
-}
+  Array [
+    "workspaces",
+    undefined,
+  ],
+  Array [
+    "todos",
+    Array [
+      Object {
+        "archived": false,
+        "body": "foobar",
+        "checked": false,
+        "exists": false,
+        "id": "z825fdsi",
+        "tags": Array [
+          "foo",
+        ],
+        "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
+      },
+    ],
+  ],
+  Array [
+    "notes",
+    Array [
+      Object {
+        "archived": false,
+        "body": "<p>asdsaasd</p>",
+        "createdAt": 1644402822591,
+        "id": "eb9s48rn",
+        "origin": null,
+        "text": "",
+        "title": "sadsda",
+        "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
+      },
+    ],
+  ],
+  Array [
+    "snippets",
+    Array [
+      Object {
+        "archived": false,
+        "body": "dassaddsa",
+        "createdAt": 1644402818003,
+        "exists": false,
+        "id": "y7utrxy7",
+        "language": Object {
+          "name": "markdown",
+          "value": "markdown",
+        },
+        "origin": null,
+        "title": "dassadsad",
+        "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
+      },
+    ],
+  ],
+]
 `;
 
-exports[`StateManager updateWorkspaces 5`] = `
-Object {
-  "workspaces": Array [
-    Object {
-      "id": "foobar",
-    },
-  ],
-}
+exports[`StateManager initiation 1`] = `
+Array [
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
+  "marquee.jsonImport",
+  "marquee.jsonExport",
+]
 `;

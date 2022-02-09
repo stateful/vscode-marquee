@@ -19,6 +19,7 @@ import { NetworkError } from "@vscode-marquee/utils";
 import PopMenu from "./components/Pop";
 import { fetchNews } from './utils';
 import { DEFAULT_STATE } from "./constants";
+import type { WidgetState } from "./types";
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
@@ -30,9 +31,12 @@ const useStyles = makeStyles(() => ({
 let News = () => {
   const classes = useStyles();
   const [data, setData] = useState(DEFAULT_STATE);
-  useEffect(
-    () => { fetchNews(data, setData); },
-    [data.channel]);
+  useEffect(() => {
+    let _setData = (data: WidgetState) => setData(data);
+    setData({ ...data, isFetching: true });
+    fetchNews(data).then((data) => _setData(data));
+    return () => { _setData = () => {}; };
+  }, [data.channel]);
 
   return (
     <>

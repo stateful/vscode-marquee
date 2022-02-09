@@ -12,55 +12,25 @@ Array [
 `;
 
 exports[`fetchNews 2`] = `
-Array [
-  Array [
-    Object {
-      "channel": "foobar",
-      "isFetching": true,
-    },
-  ],
-  Array [
-    Object {
-      "channel": "foobar",
-      "isFetching": false,
-      "news": "foobar",
-    },
-  ],
-]
+Object {
+  "channel": "foobar",
+  "isFetching": false,
+  "news": "foobar",
+}
 `;
 
 exports[`fetchNews fails 1`] = `
-Array [
-  Array [
-    Object {
-      "channel": "foobar",
-      "isFetching": true,
-    },
-  ],
-  Array [
-    Object {
-      "channel": "foobar",
-      "error": [Error: Failed to fetch news! (status: 0)],
-      "isFetching": false,
-    },
-  ],
-]
+Object {
+  "channel": "foobar",
+  "error": [Error: Failed to fetch news! (status: 0)],
+  "isFetching": false,
+}
 `;
 
 exports[`fetchNews fails 2`] = `
-Array [
-  Array [
-    Object {
-      "channel": "foobar",
-      "isFetching": true,
-    },
-  ],
-  Array [
-    Object {
-      "channel": "foobar",
-      "error": [Error: Failed to fetch news! (status: 123)],
-      "isFetching": false,
-    },
-  ],
-]
+Object {
+  "channel": "foobar",
+  "error": [Error: Failed to fetch news! (status: 123)],
+  "isFetching": false,
+}
 `;

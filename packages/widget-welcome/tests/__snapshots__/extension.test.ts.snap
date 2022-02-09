@@ -4,25 +4,13 @@ exports[`should return expected interface 1`] = `
 Array [
   Array [
     Object {
-      "error": undefined,
-      "liked": undefined,
-      "read": undefined,
+      "error": null,
       "tricks": Array [],
     },
   ],
   Array [
     Object {
-      "error": undefined,
-      "liked": undefined,
-      "read": undefined,
-      "tricks": Array [],
-    },
-  ],
-  Array [
-    Object {
-      "error": undefined,
-      "liked": undefined,
-      "read": undefined,
+      "error": null,
       "tricks": Array [
         Object {
           "active": true,

@@ -103,7 +103,7 @@
         "icon": "assets/marquee_activity_light.png"
       },
       {
-        "command": "marquee.toggleTodo",
+        "command": "marquee.todo.toggle",
         "title": "Marquee toggle todo"
       },
       {
@@ -111,20 +111,24 @@
         "title": "Marquee clear persistence"
       },
       {
-        "command": "marquee.addTodo",
+        "command": "marquee.todo.add",
         "title": "Add to Marquee"
       },
       {
-        "command": "marquee.addTodoEditor",
+        "command": "marquee.todo.addEditor",
         "title": "Add to todos [Marquee]"
       },
       {
-        "command": "marquee.addSnippetEditor",
+        "command": "marquee.snippet.add",
         "title": "Add to snippets [Marquee]"
       },
       {
-        "command": "marquee.insertSnippet",
+        "command": "marquee.snippet.insert",
         "title": "Insert snippet"
+      },
+      {
+        "command": "marquee.snippet.insertEditor",
+        "title": "Insert from snippets [Marquee]"
       },
       {
         "command": "marquee.link",
@@ -139,19 +143,23 @@
         "title": "Edit"
       },
       {
-        "command": "marquee.move",
-        "title": "Move to current workspace"
+        "command": "marquee.snippet.move",
+        "title": "Move snippet to current workspace"
       },
       {
-        "command": "marquee.archive",
+        "command": "marquee.todo.move",
+        "title": "Move todo to current workspace"
+      },
+      {
+        "command": "marquee.note.move",
+        "title": "Move note to current workspace"
+      },
+      {
+        "command": "marquee.todo.archive",
         "title": "Archive"
       },
       {
-        "command": "marquee.insertSnippetEditor",
-        "title": "Insert from snippets [Marquee]"
-      },
-      {
-        "command": "marquee.addEmptyTodo",
+        "command": "marquee.todo.addEmpty",
         "title": "Add todo to Marquee",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -159,7 +167,7 @@
         }
       },
       {
-        "command": "marquee.addEmptyNote",
+        "command": "marquee.note.addEmpty",
         "title": "Add item to Notes",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -167,7 +175,7 @@
         }
       },
       {
-        "command": "marquee.addEmptySnippet",
+        "command": "marquee.snippet.addEmpty",
         "title": "Add item to Snippets",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -216,8 +224,18 @@
           "group": "1_actions@1"
         },
         {
-          "command": "marquee.move",
+          "command": "marquee.snippet.move",
           "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.todo.move",
+          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+          "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.note.move",
+          "when": "view == marquee && viewItem =~ /Note/",
           "group": "5_copy@1"
         },
         {
@@ -231,14 +249,9 @@
           "group": "1_actions@1"
         },
         {
-          "command": "marquee.archive",
+          "command": "marquee.todo.archive",
           "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
           "group": "1_actions@2"
-        },
-        {
-          "command": "marquee.move",
-          "when": "view == marquee && viewItem =~ /Todo|LinkedTodo|Note/",
-          "group": "5_copy@1"
         },
         {
           "command": "marquee.link",
@@ -246,32 +259,32 @@
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptyTodo",
-          "when": "view == marquee && viewItem == todoHeadline",
+          "command": "marquee.todo.addEmpty",
+          "when": "view == marquee && viewItem == todosHeadline",
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptyNote",
+          "command": "marquee.note.addEmpty",
           "when": "view == marquee && viewItem == notesHeadline",
           "group": "inline"
         },
         {
-          "command": "marquee.addEmptySnippet",
+          "command": "marquee.snippet.addEmpty",
           "when": "view == marquee && viewItem == snippetsHeadline",
           "group": "inline"
         }
       ],
       "editor/context": [
         {
-          "command": "marquee.addTodoEditor",
+          "command": "marquee.todo.addEditor",
           "group": "1_modification"
         },
         {
-          "command": "marquee.addSnippetEditor",
+          "command": "marquee.snippet.add",
           "group": "1_modification"
         },
         {
-          "command": "marquee.insertSnippetEditor",
+          "command": "marquee.snippet.insertEditor",
           "group": "9_cutcopypaste"
         }
       ],
@@ -339,13 +352,268 @@
             "additionalProperties": false,
             "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
           },
-          "marquee.configuration.startup.launchOnStartup": {
+          "marquee.configuration.name": {
+            "type": "string",
+            "scope": "window",
+            "default": "name here...",
+            "markdownDescription": "Your name so Marquee can greet you!"
+          },
+          "marquee.configuration.background": {
+            "type": "string",
+            "scope": "window",
+            "default": "1",
+            "markdownDescription": "Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon)."
+          },
+          "marquee.configuration.modes": {
+            "type": "object",
+            "scope": "window",
+            "default": {
+              "default": {
+                "layouts": {
+                  "lg": [
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 0, "i": "welcome", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 8, "y": 12, "i": "todo", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 8, "y": 0, "i": "weather", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 4, "y": 12, "i": "github", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 12, "i": "news", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 6, "h": 13, "x": 0, "y": 24, "i": "snippets", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 6, "h": 13, "x": 6, "y": 24, "i": "notes", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 4, "y": 0, "i": "projects", "moved": false, "static": false }
+                  ],
+                  "md": [
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 0, "y": 0, "i": "welcome", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 6, "y": 12, "i": "todo", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 7, "y": 0, "i": "weather", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 3, "y": 12, "i": "github", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 0, "y": 12, "i": "news", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 5, "h": 13, "x": 0, "y": 24, "i": "snippets", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 5, "h": 13, "x": 5, "y": 24, "i": "notes", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 3, "y": 0, "i": "projects", "moved": false, "static": false }
+                  ],
+                  "sm": [
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 0, "y": 0, "i": "welcome", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 3, "y": 24, "i": "todo", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 3, "y": 12, "i": "weather", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 0, "y": 24, "i": "github", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 0, "y": 12, "i": "news", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 6, "h": 13, "x": 0, "y": 36, "i": "snippets", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 6, "h": 13, "x": 0, "y": 49, "i": "notes", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 3, "h": 12, "x": 3, "y": 0, "i": "projects", "moved": false, "static": false }
+                  ],
+                  "xs": [
+                    { "minW": 2, "minH": 6, "w": 2, "h": 11, "x": 0, "y": 0, "i": "welcome", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 23, "i": "todo", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 2, "h": 11, "x": 2, "y": 0, "i": "weather", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 74, "i": "github", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 61, "i": "news", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 35, "i": "snippets", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 48, "i": "notes", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 11, "i": "projects", "moved": false, "static": false }
+                  ],
+                  "xxs": [
+                    { "minW": 2, "minH": 6, "w": 4, "h": 11, "x": 0, "y": 0, "i": "welcome", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 35, "i": "todo", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 11, "i": "weather", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 86, "i": "github", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 73, "i": "news", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 47, "i": "snippets", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 13, "x": 0, "y": 60, "i": "notes", "moved": false, "static": false },
+                    { "minW": 2, "minH": 6, "w": 4, "h": 12, "x": 0, "y": 23, "i": "projects", "moved": false, "static": false }
+                  ]
+                },
+                "widgets": {
+                  "news": true, "github": true, "todo": true, "weather": true, "notes": true, "welcome": true, "snippets": true, "projects": true
+                }
+              },
+              "play": {
+                "layouts": {
+                  "sm": [
+                    { "w": 3, "h": 12, "x": 3, "y": 11, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 12, "x": 0, "y": 11, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 36, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 11, "x": 3, "y": 0, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 13, "x": 0, "y": 23, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 11, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 48, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 60, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "xs": [
+                    { "w": 4, "h": 13, "x": 0, "y": 37, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 24, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 62, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 11, "x": 0, "y": 13, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 50, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 74, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 86, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "md": [
+                    { "w": 5, "h": 14, "x": 5, "y": 12, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 5, "h": 14, "x": 0, "y": 12, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 37, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 5, "h": 12, "x": 5, "y": 0, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 10, "h": 11, "x": 0, "y": 26, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 5, "h": 12, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 49, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 61, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "lg": [
+                    { "w": 6, "h": 14, "x": 6, "y": 15, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 14, "x": 0, "y": 15, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 14, "x": 4, "y": 29, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 15, "x": 3, "y": 0, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 15, "x": 6, "y": 0, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 15, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 29, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 41, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "xxs": [
+                    { "w": 4, "h": 13, "x": 0, "y": 37, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 24, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 62, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 11, "x": 0, "y": 13, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 50, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 74, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 86, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ]
+                },
+                "widgets": {
+                  "news": true, "github": true, "todo": false, "weather": true, "notes": false, "welcome": true, "snippets": false, "projects": false
+                },
+                "icon": {
+                  "id": "beach_with_umbrella",
+                  "name": "Beach with Umbrella",
+                  "short_names": ["beach_with_umbrella"],
+                  "colons": ":beach_with_umbrella:",
+                  "unified": "1f3d6-fe0f",
+                  "native": "🏖️"
+                }
+              },
+              "work": {
+                "layouts": {
+                  "sm": [
+                    { "w": 4, "h": 12, "x": 0, "y": 47, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 59, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 11, "x": 3, "y": 0, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 71, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 11, "x": 0, "y": 36, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 11, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 6, "h": 13, "x": 0, "y": 23, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 12, "x": 0, "y": 11, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "xs": [
+                    { "w": 4, "h": 12, "x": 0, "y": 60, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 72, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 25, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 84, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 11, "x": 0, "y": 49, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 37, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 13, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "md": [
+                    { "w": 4, "h": 12, "x": 0, "y": 26, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 38, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 12, "x": 3, "y": 0, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 50, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 5, "h": 14, "x": 5, "y": 12, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 3, "h": 12, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 5, "h": 14, "x": 0, "y": 12, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 6, "y": 0, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "lg": [
+                    { "w": 4, "h": 12, "x": 0, "y": 28, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 40, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 8, "y": 0, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 52, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 6, "h": 15, "x": 6, "y": 13, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 6, "h": 15, "x": 0, "y": 13, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 4, "y": 0, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ],
+                  "xxs": [
+                    { "w": 4, "h": 12, "x": 0, "y": 60, "i": "news", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 72, "i": "github", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 25, "i": "todo", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 84, "i": "weather", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 11, "x": 0, "y": 49, "i": "notes", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 13, "x": 0, "y": 0, "i": "welcome", "minW": 3, "minH": 9, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 37, "i": "snippets", "minW": 2, "minH": 6, "moved": false, "static": false },
+                    { "w": 4, "h": 12, "x": 0, "y": 13, "i": "projects", "minW": 2, "minH": 6, "moved": false, "static": false }
+                  ]
+                },
+                "widgets": {
+                  "news": false, "github": false, "todo": true, "weather": false, "notes": true, "welcome": true, "snippets": true, "projects": true
+                },
+                "icon": {
+                  "id": "briefcase",
+                  "name": "Briefcase",
+                  "short_names": ["briefcase"],
+                  "colons": ":briefcase:",
+                  "unified": "1f4bc",
+                  "native": "💼"
+                }
+              }
+            },
+            "patternProperties": {
+              "^([a-zA-Z0-9_ ])+$": {
+                "type": "object",
+                "required": ["layouts", "widgets"],
+                "properties": {
+                  "layouts": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(sm|xs|md|lg|xxs)$": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "w": { "type": "number" },
+                            "h": { "type": "number" },
+                            "x": { "type": "number" },
+                            "y": { "type": "number" },
+                            "i": { "type": "string" },
+                            "minW": { "type": "number" },
+                            "minH": { "type": "number" },
+                            "moved": { "type": "boolean" },
+                            "static": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "widgets": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^([a-zA-Z0-9_ ])+$": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "icon": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "short_names": { "type": "array", "items": { "type": "string" } },
+                      "colons": { "type": "string" },
+                      "unified": { "type": "string" },
+                      "native": { "type":  "string" }
+                    }
+                  }
+                }
+              }
+            },
+            "markdownDescription": "Configuration of your widget location and display"
+          },
+          "marquee.configuration.launchOnStartup": {
             "type": "boolean",
             "scope": "window",
             "default": true,
             "markdownDescription": "Open Marquee when VS Code starts up"
           },
-          "marquee.configuration.startup.workspaceLaunch": {
+          "marquee.configuration.workspaceLaunch": {
             "type": "boolean",
             "scope": "window",
             "default": false,
@@ -432,7 +700,7 @@
             "type": "boolean",
             "scope": "window",
             "default": true,
-            "markdownDescription": "Auto-detect ToDos"
+            "markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
           }
         }
       }
@@ -449,7 +717,6 @@
     "compile:ts:widget": "tsc --project packages/widget/tsconfig.json",
     "compile:ts:dialog": "tsc --project packages/dialog/tsconfig.json",
     "compile:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json",
-    "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "compile:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json",
     "compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
     "compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
@@ -457,6 +724,7 @@
     "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
+    "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "bundle:prod": "NODE_ENV=production webpack --mode production",
     "bundle:dev": "NODE_ENV=development webpack --mode development",
     "replace": "run-s replace:*",

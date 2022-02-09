@@ -98,3 +98,7 @@ export interface Scale {
   name: ScaleUnits
   value: Lowercase<ScaleUnits>
 }
+
+export interface Events {
+  openWeatherDialog: boolean
+}
