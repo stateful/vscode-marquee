@@ -222,13 +222,16 @@ const Navigation = () => {
                       setInputName('');
                     }}
                     onSave={(v) => {
+                      console.log('I SAve');
+
                       if (v !== "") {
                         setName(v);
                         setInputName(v);
                       }
                     }}
+                    submitOnEnter={true}
                     type="text"
-                    value={inputName}
+                    value={name}
                     editOnViewClick
                     viewProps={{
                       style: {
