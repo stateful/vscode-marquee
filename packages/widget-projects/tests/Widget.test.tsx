@@ -23,7 +23,7 @@ test('renders component correctly', async () => {
       </WorkspaceProvider>
     </GlobalProvider>
   );
-  expect(getByText('test workspace')).toBeTruthy();
+  expect(getByText('example')).toBeTruthy();
   expect(queryByPlaceholderText('Type here...')).not.toBeTruthy();
   act(() => { userEvent.click(getByLabelText('Open Filter Search')); });
   act(() => { userEvent.type(getByPlaceholderText('Type here...'), 'f'); });
@@ -32,7 +32,6 @@ test('renders component correctly', async () => {
   act(() => { userEvent.type(getByPlaceholderText('Type here...'), '{enter}'); });
   act(() => { userEvent.click(getByText('Projects')); });
   act(() => { userEvent.click(getByLabelText('Open Filter Search')); });
-  expect(getByText('Add a project')).toBeTruthy();
 
   expect(window.vscode.postMessage).toBeCalledTimes(0);
   act(() => { userEvent.click(getByLabelText('Open Folder')); });

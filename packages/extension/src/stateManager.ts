@@ -132,7 +132,7 @@ export default class StateManager implements vscode.Disposable {
       return this.global.emit('gui.open', true);
     } catch (err: any) {
       vscode.window.showErrorMessage(
-        `Error importing file marquee-export.json: ${err.message}`
+        `Error importing file: ${err.message}`
       );
     }
   }
@@ -177,7 +177,7 @@ export default class StateManager implements vscode.Disposable {
       );
     } catch (err: any) {
       vscode.window.showErrorMessage(
-        `Error writing export file marquee-export.json: ${err.message}`
+        `Error writing export file: ${err.message}`
       );
     }
   }

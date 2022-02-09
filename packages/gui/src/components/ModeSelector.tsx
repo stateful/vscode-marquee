@@ -39,7 +39,7 @@ const ModeSelector = () => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
-  const { modeName, _setModeName, prevMode, modes, mode} = useContext(ModeContext);
+  const { modeName, _setModeName, prevMode, modes, mode } = useContext(ModeContext);
   const anchorRef = useRef(null);
 
   const setModeName = (newMode: string) => {

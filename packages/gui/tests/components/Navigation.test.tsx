@@ -2,10 +2,11 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 // @ts-expect-error mock import
-import { PrefProvider, GlobalProvider, setGlobalScope } from '@vscode-marquee/utils';
+import { GlobalProvider, setGlobalScope } from '@vscode-marquee/utils';
 
 import Navigation from '../../src/components/Navigation';
 
+jest.mock('../../../utils/src/contexts/Global');
 jest.mock('@vscode-marquee/widget-welcome', () => ({
   NavPop: () => <div>NavPop</div>
 }));
@@ -17,11 +18,10 @@ jest.mock('../../src/dialogs/SettingsDialog', () => () => <div>SettingsDialog</d
 
 test('renders component correctly', () => {
   const { queryByText, getByText, getAllByText, getByPlaceholderText, getByTitle, getByLabelText } = render(
-  <PrefProvider>
     <GlobalProvider>
       <Navigation />
     </GlobalProvider>
-  </PrefProvider>);
+  );
   expect(getByText('some name')).toBeTruthy();
   expect(getAllByText('ModeSelector')).toHaveLength(2);
   expect(queryByText('InfoDialog')).not.toBeTruthy();
@@ -34,7 +34,7 @@ test('renders component correctly', () => {
   const input = getByPlaceholderText('Type...');
   userEvent.type(input, 'John Doe');
   userEvent.click(input.parentElement?.querySelector('button')!);
-  expect(getByText('some nameJohn Doe')).toBeTruthy();
+  expect(getByText('John Doe')).toBeTruthy();
 
   userEvent.click(getByTitle('Toggle global vs workspace scope'));
   expect(setGlobalScope).toBeCalledTimes(1);

@@ -12,6 +12,6 @@ test('should render component properly', () => {
   const { getByText } = render(<InfoDialog close={close} />);
   userEvent.click(getByText('Close'));
   expect(close).toBeCalledTimes(1);
-  expect(getByText('Lago di Garda, Italy - contributed by Jan Delay'))
+  expect(getByText('GitHub Repository'))
     .toBeTruthy();
 });

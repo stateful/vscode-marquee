@@ -29,16 +29,7 @@ export class MarqueeExtension {
       treeDataProvider: this.treeView,
     });
 
-    vscode.window.onDidChangeActiveColorTheme(() => {
-      if (!this.gui.isActive()) {
-        return;
-      }
-
-      this.gui.close();
-      vscode.window.showInformationMessage(
-        `Please reload your Marquee View to apply the new theme.`
-      );
-    });
+    vscode.window.onDidChangeActiveColorTheme(this._onColorThemeChange.bind(this));
 
     /**
      * allow widget to trigger extension methods
@@ -58,6 +49,17 @@ export class MarqueeExtension {
     )).then(
       () => this.openMarqueeOnStartup(config.get('configuration')),
       (err) => this._channel.appendLine(`[Error]: ${err.message}`)
+    );
+  }
+
+  private _onColorThemeChange () {
+    if (!this.gui.isActive()) {
+      return;
+    }
+
+    this.gui.close();
+    vscode.window.showInformationMessage(
+      `Please reload your Marquee View to apply the new theme.`
     );
   }
 
@@ -89,22 +91,21 @@ export class MarqueeExtension {
     this.gui.broadcast('resetMarquee', true);
     this.treeView.clearTree();
     await this._stateMgr.clearAll();
-    await new Promise((r) => setTimeout(r, 1000));
     this.closeGui();
   }
 
-  private setupCommands(): vscode.Disposable[] {
-    const switchTo = async (openView: boolean = false) => {
-      await this.openGui();
-      if (openView) {
-        this.openView();
-      }
-    };
+  private async _switchTo (openView: boolean = false) {
+    await this.openGui();
+    if (openView) {
+      this.openView();
+    }
+  }
 
+  private setupCommands(): vscode.Disposable[] {
     const disposables: vscode.Disposable[] = [
       vscode.commands.registerCommand("marquee.link", linkMarquee),
-      vscode.commands.registerCommand("marquee.open", switchTo),
-      vscode.commands.registerCommand("marquee.touchbar", switchTo),
+      vscode.commands.registerCommand("marquee.open", this._switchTo.bind(this)),
+      vscode.commands.registerCommand("marquee.touchbar", this._switchTo.bind(this)),
       vscode.commands.registerCommand("marquee.expand", () => this.openGui()),
       vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
       vscode.commands.registerCommand("marquee.edit", (item: ContextMenu) => {

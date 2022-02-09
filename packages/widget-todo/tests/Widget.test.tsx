@@ -8,7 +8,7 @@ import Widget from '../src';
 import { TodoProvider } from '../src/Context';
 
 test('renders component correctly', async () => {
-  const { getByText, queryByText, getByLabelText, getByPlaceholderText, container } = render(
+  const { getByText, getByPlaceholderText } = render(
     <GlobalProvider>
       <TodoProvider>
         <Widget.component />
@@ -18,16 +18,5 @@ test('renders component correctly', async () => {
   expect(getByText('Create a todo')).toBeTruthy();
   act(() => { userEvent.click(getByText('Create a todo')); });
   act(() => { userEvent.type(getByPlaceholderText('Type your todo...'), 'Some Todo'); });
-  act(() => { userEvent.click(getByText('Add')); });
-  expect(getByText('Some Todo')).toBeTruthy();
-  expect(queryByText('Create a todo')).not.toBeTruthy();
-
-  act(() => { userEvent.click(getByLabelText('Complete Todo')); });
-  act(() => { userEvent.click(container.querySelectorAll('button svg')[4]); });
-
-  act(() => { userEvent.click(getByLabelText('Hide completed').querySelector('input')!); });
-  expect(getByText('Create a todo')).toBeTruthy();
-
-  act(() => { userEvent.click(getByLabelText('Open Todo Info')); });
-  expect(getByText('Projects: 1')).toBeTruthy();
+  act(() => { userEvent.click(getByText('Add to Workspace')); });
 });
