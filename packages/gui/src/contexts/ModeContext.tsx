@@ -11,9 +11,9 @@ import { ThirdPartyWidget } from '@vscode-marquee/widget';
 import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@vscode-marquee/utils';
 import type { EmojiData } from 'emoji-mart';
 
-import { defaultLayout, defaultEnabledWidgets, thirdPartyWidgetLayout } from "../constants";
+import { defaultLayout, defaultEnabledWidgets } from "../constants";
 import { widgetConfig } from "../constants";
-import { Context, Mode, LayoutType, WidgetConfig, LayoutSize, WidgetMap, State, Configuration, ModeConfig } from "../types";
+import { Context, Mode, LayoutType, WidgetConfig, WidgetMap, State, Configuration, ModeConfig } from "../types";
 
 declare const window: MarqueeWindow;
 
@@ -68,28 +68,6 @@ const ModeProvider = ({ children }: Props) => {
       }
     } as MarqueeInterface;
   }
-
-  useEffect(() => {
-    if (pendingThirdPartyWidgets.length) {
-      for (const mn of Object.keys(providerValues.modes)) {
-        for (const w of pendingThirdPartyWidgets) {
-          if (typeof providerValues.modes[mn].widgets[w.name] === 'boolean') {
-            continue;
-          }
-          providerValues.modes[mn].widgets[w.name] = true;
-          for (const size of Object.keys(providerValues.modes[mn].layouts)) {
-            providerValues.modes[mn].layouts[size as LayoutSize].push({
-              ...thirdPartyWidgetLayout[size as LayoutSize],
-              i: w.name
-            });
-          }
-        }
-      }
-
-      providerValues.setModes(providerValues.modes);
-    }
-  }, [providerValues.modes]);
-
 
   const mode: Mode = useMemo(() => {
     return (providerValues.modes && providerValues.modes[providerValues.modeName]) || {};

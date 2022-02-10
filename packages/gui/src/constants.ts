@@ -142,14 +142,6 @@ export const BACKGROUND_STYLE = {
   backgroundRepeat: "no-repeat",
 };
 
-export const thirdPartyWidgetLayout = {
-  xxs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 98 },
-  xs: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 86 },
-  sm: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 6, x: 0, y: 62 },
-  md: { h: 8, minH: 6, minW: 2, moved: false, static: false, w: 10, x: 0, y: 37 },
-  lg: { h: 12, minH: 6, minW: 2, moved: false, static: false, w: 4, x: 0, y: 0 }
-};
-
 export const defaultLayout: LayoutType = {
   lg: [
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 0, i: "welcome", moved: false, static: false },
