@@ -10,7 +10,8 @@ jest.mock('axios', () => ({
 jest.mock('vscode', () => ({
   ConfigurationTarget: { Global: 1 },
   workspace: {
-    getConfiguration: jest.fn().mockReturnValue(new Map())
+    getConfiguration: jest.fn().mockReturnValue(new Map()),
+    onDidChangeConfiguration: jest.fn()
   },
   window: {
     createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
@@ -80,7 +81,4 @@ test('should return expected interface', async () => {
   result.marquee.disposable.fetchData();
   await new Promise((resolve) => setTimeout(resolve, 100));
   expect(tangle.broadcast.mock.calls).toMatchSnapshot();
-
-  result.marquee.disposable.dispose();
-  expect(result.marquee.disposable['_tangle']).not.toBeTruthy();
 });

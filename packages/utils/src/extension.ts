@@ -10,15 +10,17 @@ import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
 const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
-const config = vscode.workspace.getConfiguration('marquee');
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
   protected _tangle?: Client<State & Configuration>;
   protected _state: State;
   protected _configuration: Configuration;
-  protected _disposables: vscode.Disposable[] = [];
+  protected _disposables: vscode.Disposable[] = [
+    vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
+  ];
   protected _subscriptions: { unsubscribe: Function }[] = [];
+  private _stopListenOnChangeEvents = false;
 
   constructor (
     protected _context: vscode.ExtensionContext,
@@ -29,6 +31,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   ) {
     super();
 
+    const config = vscode.workspace.getConfiguration('marquee');
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {});
     this._state = {
       ...this._defaultState,
@@ -56,6 +59,33 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
+  private _onConfigChange (event: vscode.ConfigurationChangeEvent) {
+    /**
+     * if the change was triggered by the user through the UI we don't
+     * need to act on it because the config change will be already
+     * executed
+     */
+    if (this._stopListenOnChangeEvents) {
+      return false;
+    }
+
+    for (const configKey of Object.keys(this.configuration)) {
+      if (!event.affectsConfiguration(`marquee.${this._key}.${configKey}`)) {
+        continue;
+      }
+
+      const config = vscode.workspace.getConfiguration('marquee');
+      const prop = configKey as keyof Configuration;
+      const val = config.get(`${this._key}.${configKey}`) as Configuration[keyof Configuration];
+      this._channel.appendLine(`Update configuration via configuration listener "${prop}": ${val}`);
+      this._configuration[prop] = val;
+      this.broadcast({ [prop]: val } as any);
+      break;
+    }
+
+    return true;
+  }
+
   protected broadcast (payload: Partial<State & Configuration>) {
     if (!this._tangle) {
       return;
@@ -65,9 +95,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+    const config = vscode.workspace.getConfiguration('marquee');
+    this._stopListenOnChangeEvents = true;
     this._channel.appendLine(`Update configuration "${prop}": ${val}`);
     this._configuration[prop] = val;
     await config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
+    this._stopListenOnChangeEvents = false;
   }
 
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
@@ -81,6 +114,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    * clear state and configuration of widget
    */
   public async clear () {
+    const config = vscode.workspace.getConfiguration('marquee');
     this._state = { ...this._defaultState };
     await this._context.globalState.update(this._key, this._state);
     await this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);

@@ -2,7 +2,8 @@ const vscode: any = {
   env: {},
   ConfigurationTarget: { Global: 1 },
   CodeActionKind: { QuickFix: 1 },
-  Uri: { parse: (param: string) => `parsedUri-${param}` }
+  Uri: { parse: (param: string) => `parsedUri-${param}` },
+  Range: jest.fn()
 };
 vscode.TreeItemCollapsibleState = {
   Expanded: 'foo',
@@ -17,7 +18,10 @@ vscode.commands = {
 vscode.TreeItem = jest.fn();
 vscode.EventEmitter = jest.fn();
 vscode.workspace = {
-  getConfiguration: jest.fn().mockReturnValue(new Map())
+  name: 'foobarWorkspace',
+  workspaceFile: { path: '/foo/bar' },
+  getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn() }),
+  onDidChangeConfiguration: jest.fn()
 };
 vscode.window = {
   createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),

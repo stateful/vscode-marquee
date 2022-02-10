@@ -4,7 +4,7 @@ export const SCALE_OPTIONS = [
 ] as const;
 
 export const DEFAULT_CONFIGURATION = {
-  city: undefined,
+  city: "",
   scale: SCALE_OPTIONS[0].name
 };
 
