@@ -30,7 +30,7 @@ export const Hero = () => {
         <Text display={{ base: 'none', sm: 'block' }} fontSize={'small'} my={3} textAlign={'center'}>Install via:</Text>
         <Flex display={{ base: 'none', sm: 'flex' }} align={'center'} flexFlow={{ base: 'wrap', sm: 'nowrap' }} justifyContent={'center'} flexDirection={'row'}>
           <Text mx={3} fontFamily={'monospace'} backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')} p={3} rounded={8}>
-            $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension activecove.marquee
+            $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
           </Text>
           <Text fontSize={'small'}>or</Text>
           <Button
@@ -41,7 +41,7 @@ export const Hero = () => {
             fontWeight={600}
             color={'white'}
             bg={'marquee'}
-            href={'vscode:extension/activecove.marquee'}
+            href={'vscode:extension/stateful.marquee'}
             _hover={{
               bg: 'pink.300',
             }}>

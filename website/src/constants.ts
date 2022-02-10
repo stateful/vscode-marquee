@@ -50,6 +50,6 @@ export const NAVIGATION: Navigation = {
     children: DOCS_CONTENT
   },
   'Marketplace': {
-    href: 'https://marketplace.visualstudio.com/items?itemName=activecove.marquee'
+    href: 'https://marketplace.visualstudio.com/items?itemName=stateful.marquee'
   }
 };

@@ -1,9 +1,9 @@
 Marquee
 =======
 [![Test](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml/badge.svg)](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml)
-[![vscode version](https://vsmarketplacebadge.apphb.com/version/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#overview)
-[![number of installs](https://vsmarketplacebadge.apphb.com/installs/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#overview)
-[![average user rating](https://vsmarketplacebadge.apphb.com/rating/activecove.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#review-details)
+[![vscode version](https://vsmarketplacebadge.apphb.com/version/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview)
+[![number of installs](https://vsmarketplacebadge.apphb.com/installs/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview)
+[![average user rating](https://vsmarketplacebadge.apphb.com/rating/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#review-details)
 ![license](https://img.shields.io/github/license/stateful/marquee.svg)
 
 ### Stay organized with minimal context switching, all inside your Visual Studio Code.
@@ -11,7 +11,7 @@ Marquee
 Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to naturally integrate with your development flow, so that you will no longer lose track of your thoughts while you're coding. It is a fully extensible homescreen platform for your favorite IDE that elegantly handles a multitude of VS Code windows.
 
 <p align="center" style="padding: 20px 0">
-  <a href="https://marketplace.visualstudio.com/items?itemName=activecove.marquee&ssr=false#overview">
+  <a href="https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview">
     <img src="https://img.shields.io/badge/Install-VSCode%20Marketplace-blue" />
   </a>
 </p>

@@ -101,7 +101,7 @@ let Welcome = () => {
                       <Typography variant="caption">
                         <Link
                           component="a"
-                          href={`https://twitter.com/intent/tweet?text=Check%20out%20the%20Marquee%20extension%20for%20VS%20Code!%20https://marketplace.visualstudio.com/items?itemName=activecove.marquee`}
+                          href={`https://twitter.com/intent/tweet?text=Check%20out%20the%20Marquee%20extension%20for%20VS%20Code!%20https://marketplace.visualstudio.com/items?itemName=stateful.marquee`}
                           target="_blank"
                         >
                           Share Marquee on &nbsp;

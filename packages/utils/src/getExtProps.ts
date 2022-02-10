@@ -3,7 +3,7 @@ import vscode from "vscode";
 
 import { pkg } from './constants';
 
-const EXTENSION_ID = "activecove.marquee";
+const EXTENSION_ID = "stateful.marquee";
 const TELEMETRY_CONFIG_ID = "telemetry";
 const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry";
 
