@@ -4,9 +4,6 @@ import ReactDOM from "react-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/styles";
 
-import { interval, ConnectableObservable } from "rxjs";
-import { take, publish } from "rxjs/operators";
-
 import { theme, GlobalProvider } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
 
@@ -20,9 +17,6 @@ import "./css/index.css";
 declare const window: MarqueeWindow;
 
 window.vscode = window.acquireVsCodeApi() as MarqueeWindow['vscode'];
-window.uptime = interval(1000).pipe(take(11), publish()) as ConnectableObservable<number>;
-window.uptime!.connect();
-
 Sentry.init();
 
 export const Providers = ({ children }: any) => {

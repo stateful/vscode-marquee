@@ -7,7 +7,7 @@
   "types": "./build/index.d.ts",
   "dependencies": {
     "@vscode-marquee/utils": "^0.1.0",
-    "tangle": "^1.0.1"
+    "tangle": "^1.0.5"
   },
   "devDependencies": {},
   "peerDependencies": {

@@ -221,7 +221,7 @@ const Navigation = () => {
                     onEditingStart={() => {
                       setInputName('');
                     }}
-                    onSave={(v) => {
+                    onSave={(v: string) => {
                       if (v !== "") {
                         setName(v);
                         setInputName(v);
