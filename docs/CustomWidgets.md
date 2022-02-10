@@ -80,7 +80,7 @@ The setup method receives an already initialised tangle instance that you can us
 import Channel from 'tangle/webviews';
 
 // the channel name is always your extension id
-const ch = new Channel<{ counter: number }>('activecove.marquee');
+const ch = new Channel<{ counter: number }>('stateful.marquee');
 const client = ch.attach(window.vscode);
 
 class MyAwesomeWidget extends HTMLElement {
