@@ -8,7 +8,7 @@ Marquee
 
 ### Stay organized with minimal context switching, all inside your Visual Studio Code.
 
-Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to naturally integrate with your development flow, so that you will no longer lose track of your thoughts while you're coding. It is a fully extensible home screen platform for your favorite IDE that elegantly handles a multitude of VS Code windows.
+Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to naturally integrate with your development flow, so that you will no longer lose track of your thoughts while you're coding. It is a fully extensible homescreen platform for your favorite IDE that elegantly handles a multitude of VS Code windows.
 
 <p align="center" style="padding: 20px 0">
   <a href="https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview">
@@ -53,4 +53,4 @@ This extension contributes the following settings:
 
 - If you have questions, you can get more information [on our website](http://marquee.stateful.com).
 - For support or questions, you can email us at info@stateful.com.
-- Our privacy policy is available at [https://marquee.stateful.com/privacy](https://marquee.stateful.com/privacy).
+- Our privacy policy is available at [https://www.stateful.com/privacy](https://www.stateful.com/privacy).

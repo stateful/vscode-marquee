@@ -1,6 +1,6 @@
 {
   "name": "marquee",
-  "version": "2.0.0-edge.2",
+  "version": "2.0.0",
   "publisher": "stateful",
   "displayName": "Marquee",
   "description": "Stay organized with minimal context switching, all inside your VS Code.",
@@ -357,7 +357,7 @@
   },
   "scripts": {
     "backend": "cd backend && firebase serve --only hosting",
-    "build": "run-s compile bundle:prod",
+    "build:prod": "run-s compile bundle:prod",
     "build:dev": "run-s compile bundle:dev",
     "clean": "rimraf dist packages/**/node_modules packages/**/build",
     "compile": "NODE_ENV=production run-s compile:*",
@@ -379,7 +379,6 @@
     "test": "run-s test:*",
     "test:lint": "eslint packages",
     "test:unit": "jest",
-    "vscode:prepublish": "yarn run compile",
     "watch": "run-p watch:*",
     "watch:ts": "run-p watch:ts:*",
     "watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",

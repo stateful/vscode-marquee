@@ -7,3 +7,4 @@ export const INIT = 50;
 export const config = vscode.workspace.getConfiguration('marquee');
 export const FILE_FILTER = { 'Marquee Settings': ['json'] };
 export const CONFIG_FILE_TYPE = 'MarqueeSettings';
+export const THIRD_PARTY_EXTENSION_DIR = '3rdParty';

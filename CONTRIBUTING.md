@@ -35,7 +35,7 @@ yarn install
 Next, build the project:
 
 ```sh
-yarn build
+yarn build:dev
 ```
 
 and open up VSCode:

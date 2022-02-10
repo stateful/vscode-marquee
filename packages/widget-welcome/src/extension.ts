@@ -14,12 +14,14 @@ const FETCH_INTERVAL = process.env.NODE_ENV === "development"
 const config = vscode.workspace.getConfiguration('marquee');
 
 class StateManager extends EventEmitter implements vscode.Disposable {
-  private readonly _channel = vscode.window.createOutputChannel('Marquee');
   private _tangle?: Client<State>;
   private _interval: NodeJS.Timeout;
   private _prevtricks?: Trick[];
 
-  constructor (private _context: vscode.ExtensionContext) {
+  constructor (
+    private _context: vscode.ExtensionContext,
+    private _channel: vscode.OutputChannel
+  ) {
     super();
     this.fetchData();
     this._interval = setInterval(this.fetchData.bind(this), FETCH_INTERVAL);
@@ -129,8 +131,11 @@ class StateManager extends EventEmitter implements vscode.Disposable {
 }
 
 let stateManager: StateManager;
-export function activate (context: vscode.ExtensionContext) {
-  stateManager = new StateManager(context);
+export function activate (
+  context: vscode.ExtensionContext,
+  channel: vscode.OutputChannel
+) {
+  stateManager = new StateManager(context, channel);
 
   return {
     marquee: {
