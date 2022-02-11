@@ -1,20 +1,13 @@
 import os from "os";
-import fs from 'fs';
-import path from 'path';
 import vscode from "vscode";
+
+import { pkg } from './constants';
 
 const EXTENSION_ID = "activecove.marquee";
 const TELEMETRY_CONFIG_ID = "telemetry";
 const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry";
 
-export function getMarqueeVersion (context: vscode.ExtensionContext) {
-  const extensionPath = path.join(context.extensionPath, "package.json");
-  const packageFile = fs.readFileSync(extensionPath, "utf-8");
-  const packageJson = JSON.parse(packageFile);
-  return packageJson.version;
-}
-
-export default function getExtProps(context: vscode.ExtensionContext): { [key: string]: string } {
+export default function getExtProps(): { [key: string]: string } {
   const extProps = Object.create(null);
 
   const config = vscode.workspace.getConfiguration(TELEMETRY_CONFIG_ID);
@@ -28,7 +21,7 @@ export default function getExtProps(context: vscode.ExtensionContext): { [key: s
     "$1$2$3"
   );
   extProps["extname"] = EXTENSION_ID;
-  extProps["extversion"] = getMarqueeVersion(context);
+  extProps["extversion"] = pkg.version;
   if (vscode && vscode.env) {
     extProps["vscodemachineid"] = vscode.env.machineId;
     extProps["vscodesessionid"] = vscode.env.sessionId;

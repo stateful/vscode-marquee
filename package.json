@@ -64,6 +64,7 @@
     "onStartupFinished",
     "onView:marquee"
   ],
+  "browser": "./dist/extensionWeb.js",
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -2728,6 +2729,24 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "@emotion/react": "^11.7.1"
+    "@emotion/react": "^11.7.1",
+    "@vscode/test-web": "^0.0.22",
+    "console-browserify": "^1.2.0",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0",
+    "html-webpack-plugin": "^5.5.0",
+    "https-browserify": "^1.0.0",
+    "node-stdlib-browser": "^1.2.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "string_decoder": "^1.3.0",
+    "timers-browserify": "^2.0.12",
+    "universal-url": "^2.0.0",
+    "url": "^0.11.0",
+    "util": "^0.12.4"
   }
 }

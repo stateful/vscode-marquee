@@ -111,7 +111,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
     this._channel.appendLine(`Upvote trick with id: ${id}`);
     return Axios.post(
       `${this.backendUrl}/voteTrick`,
-      { op: 'upvote', id, props: JSON.stringify(getExtProps(this._context)) },
+      { op: 'upvote', id, props: JSON.stringify(getExtProps()) },
       this._getRequestOptions()
     ).catch((err) => vscode.window.showErrorMessage('Failed to upvote trick!', err.message));
   }

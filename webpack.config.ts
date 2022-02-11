@@ -1,10 +1,14 @@
 import fs from 'fs';
 import path from "path";
-
-import { Configuration, DefinePlugin } from "webpack";
+import stdLibBrowser from "node-stdlib-browser";
+const {
+	NodeProtocolUrlPlugin
+} = require('node-stdlib-browser/helpers/webpack/plugin');
+import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
+const tpl = fs.readFileSync(`${__dirname}/packages/extension/src/extension.html`).toString('utf8');
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -73,6 +77,44 @@ const extensionConfig: Configuration = {
     new CopyPlugin({
       patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
     })
+  ]
+};
+
+const extensionConfigBrowser: Configuration = {
+  ...extensionConfig,
+  target: 'web',
+  entry: {
+    extensionWeb: path.resolve(__dirname, "packages", "extension", "src", "index.ts"),
+  },
+  resolve: {
+    ...extensionConfig.resolve,
+    alias: stdLibBrowser,
+    fallback: {
+      fs: false,
+      console: require.resolve('console-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      events: require.resolve('events'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      path: require.resolve('path-browserify'),
+      process: require.resolve('process/browser'),
+      querystring: require.resolve('querystring-es3'),
+      stream: require.resolve('stream-browserify'),
+      string_decoder: require.resolve('string_decoder'),
+      timers: require.resolve('timers-browserify'),
+      url: require.resolve('url'),
+      util: require.resolve('util')
+    },
+  },
+  plugins: [
+    ...(extensionConfig.plugins || []),
+    new DefinePlugin({ EXTENSION_TEMPLATE: `\`${tpl}\`` }),
+    new NodeProtocolUrlPlugin(),
+		new ProvidePlugin({
+			process: stdLibBrowser.process,
+			Buffer: [stdLibBrowser.buffer, 'Buffer']
+		})
   ]
 };
 
@@ -147,4 +189,4 @@ const exampleWidget: Configuration = {
   },
 };
 
-module.exports = [extensionConfig, guiConfig, exampleWidget];
+module.exports = [extensionConfigBrowser];

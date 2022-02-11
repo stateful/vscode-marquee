@@ -3,7 +3,7 @@ import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
 import Channel from 'tangle/webviews';
-import { URL } from 'url';
+import { URL } from 'universal-url';
 import { EventEmitter } from "events";
 import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
@@ -13,6 +13,7 @@ import StateManager from "./stateManager";
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 
+declare const EXTENSION_TEMPLATE: string;
 declare const BACKEND_BASE_URL: string;
 declare const BACKEND_GEO_URL: string;
 declare const BACKEND_FWDGEO_URL: string;
@@ -84,14 +85,20 @@ export class MarqueeGui extends EventEmitter {
       this.emit('webview.close');
     });
 
-    const index = await fs.readFile(
-      `${this.context.extensionPath}/dist/extension.html`,
-      "utf-8"
-    );
+    const index = globalThis.process
+      ? await fs.readFile(`${this.context.extensionPath}/dist/extension.html`, "utf-8")
+      : EXTENSION_TEMPLATE;
 
     const baseAppUri = this.panel.webview.asWebviewUri(
       vscode.Uri.file(basePath)
     );
+    console.log(baseAppUri);
+    // const vscode = vscode_1.default;
+    //     const uri_ = vscode.Uri.joinPath(this.context.extensionUri)
+    //     console.log(uri_);
+    //     console.log(this.context.extensionPath);
+    console.log(await vscode.workspace.fs.readDirectory(baseAppUri));
+
 
     const nonce = crypto.randomBytes(16).toString('base64');
     const config = vscode.workspace.getConfiguration('marquee');
@@ -174,7 +181,7 @@ export class MarqueeGui extends EventEmitter {
 
     const content = index
       .replace(/app-ext-path/g, baseAppUri.toString())
-      .replace(/app-ext-props/g, JSON.stringify(getExtProps(this.context)))
+      .replace(/app-ext-props/g, JSON.stringify(getExtProps()))
       .replace(/app-ext-backend-baseUrl/g, BACKEND_BASE_URL)
       .replace(/app-ext-backend-geoUrl/g, BACKEND_GEO_URL)
       .replace(/app-ext-backend-fwdGeoUrl/g, BACKEND_FWDGEO_URL)
