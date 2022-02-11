@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-let ThirdPartyWidget = ({ name, label }: Props) => {
+const ThirdPartyWidget = ({ name, label }: Props) => {
   const classes = useStyles();
   const WidgetTag = name;
 
@@ -66,4 +66,4 @@ let ThirdPartyWidget = ({ name, label }: Props) => {
   );
 };
 
-export default wrapper(ThirdPartyWidget);
+export default (name: string) => wrapper(ThirdPartyWidget, name);

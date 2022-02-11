@@ -184,6 +184,7 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-workspace/g, JSON.stringify(aws))
       .replace(/app-ext-theme-color/g, colorScheme)
       .replace(/app-ext-state-config/g, JSON.stringify(widgetStateConfigurations))
+      .replace(/app-ext-thirdParty-widgets/g, widgetScripts.length.toString())
       .replace(/app-ext-widgets/, [
         ' begin 3rd party widgets -->',
         ...widgetScripts.join('\n'),

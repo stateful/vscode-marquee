@@ -38,6 +38,7 @@ export interface MarqueeWindow<State = any, Configuration = any> extends Window 
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string
   marqueeStateConfiguration: Record<string, { state: State, configuration: Configuration }>
+  marqueeThirdPartyWidgets: number
 }
 
 export interface MarqueeEvents {
