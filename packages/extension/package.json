@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
-    "axios-observable": "^1.3.0",
     "tangle": "^1.0.5"
   }
 }
