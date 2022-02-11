@@ -7,6 +7,7 @@ import News from "./Widget";
 export default {
   name: "news",
   icon: <FontAwesomeIcon icon={faNewspaper} />,
+  label: 'News',
   tags: ["hackernews", "HNN", "programing", "entertainment"],
   description: "The Hacker News feed, with more feeds coming soon.",
   component: News,

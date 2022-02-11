@@ -5,7 +5,7 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import "./css/react-grid-layout.css";
 import "react-resizable/css/styles.css";
 
-import { getEventListener, MarqueeEvents, GlobalContext } from "@vscode-marquee/utils";
+import { getEventListener, MarqueeEvents, GlobalContext, MarqueeWindow } from "@vscode-marquee/utils";
 
 import ModeContext from "./contexts/ModeContext";
 import Navigation from "./components/Navigation";
@@ -13,12 +13,13 @@ import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
 import { themes, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
 
+declare const window: MarqueeWindow;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
 export const WidgetLayout = React.memo(() => {
   const { resetApp } = useContext(GlobalContext);
-  const { modeName, modes, widgets, _setCurrentModeLayout, mode } = useContext(ModeContext);
+  const { modeName, modes, widgets, _setCurrentModeLayout, mode, thirdPartyWidgets } = useContext(ModeContext);
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly
@@ -40,7 +41,7 @@ export const WidgetLayout = React.memo(() => {
       sizes.forEach((size) => {
         const sizeArr = newLayouts[size];
         Object.keys(widgets).forEach((widget) => {
-          const found = sizeArr.findIndex((entry) => entry["i"] === widget);
+          const found = sizeArr.findIndex((entry) => entry.i === widget);
           if (found === -1) {
             const widgetObject = {
               minW: 2,
@@ -83,7 +84,7 @@ export const WidgetLayout = React.memo(() => {
     );
   };
 
-  if (!layoutConfig || resetApp) {
+  if (!layoutConfig || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
     return (
       <Grid
         container
@@ -112,6 +113,8 @@ export const WidgetLayout = React.memo(() => {
       draggableCancel=".draggableCancel"
       containerPadding={[10, 10]}
       margin={[10, 10]}
+      // only when running unit tests
+      measureBeforeMount={!Boolean(globalThis['process'])}
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>

@@ -8,6 +8,7 @@ export default {
   name: "github",
   icon: <FontAwesomeIcon icon={faFire} />,
   tags: ["github", "trending", "projects", "entertainment"],
+  label: 'GitHub',
   description: "The Github trending feed.",
   component: Github,
 };

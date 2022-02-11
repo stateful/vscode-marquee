@@ -7,17 +7,15 @@ import React, {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
-import { ThirdPartyWidget } from '@vscode-marquee/widget';
+import wrapper, { ThirdPartyWidget } from '@vscode-marquee/widget';
 import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@vscode-marquee/utils';
 import type { EmojiData } from 'emoji-mart';
 
-import { defaultLayout, defaultEnabledWidgets, thirdPartyWidgetLayout } from "../constants";
+import { defaultLayout, defaultEnabledWidgets } from "../constants";
 import { widgetConfig } from "../constants";
-import { Context, Mode, LayoutType, WidgetConfig, LayoutSize, WidgetMap, State, Configuration, ModeConfig } from "../types";
+import { Context, Mode, LayoutType, WidgetConfig, WidgetMap, State, Configuration, ModeConfig } from "../types";
 
 declare const window: MarqueeWindow;
-
-const pendingThirdPartyWidgets: ThirdPartyWidgetOptions[] = [];
 
 interface Props {
   children: JSX.Element
@@ -62,34 +60,11 @@ const ModeProvider = ({ children }: Props) => {
           label: widgetOptions.label,
           tags: widgetOptions.tags,
           description: widgetOptions.description,
-          component: ThirdPartyWidget,
+          component: wrapper(ThirdPartyWidget, widgetOptions.name),
         }]);
-        pendingThirdPartyWidgets.push(widgetOptions);
       }
     } as MarqueeInterface;
   }
-
-  useEffect(() => {
-    if (pendingThirdPartyWidgets.length) {
-      for (const mn of Object.keys(providerValues.modes)) {
-        for (const w of pendingThirdPartyWidgets) {
-          if (typeof providerValues.modes[mn].widgets[w.name] === 'boolean') {
-            continue;
-          }
-          providerValues.modes[mn].widgets[w.name] = true;
-          for (const size of Object.keys(providerValues.modes[mn].layouts)) {
-            providerValues.modes[mn].layouts[size as LayoutSize].push({
-              ...thirdPartyWidgetLayout[size as LayoutSize],
-              i: w.name
-            });
-          }
-        }
-      }
-
-      providerValues.setModes(providerValues.modes);
-    }
-  }, [providerValues.modes]);
-
 
   const mode: Mode = useMemo(() => {
     return (providerValues.modes && providerValues.modes[providerValues.modeName]) || {};

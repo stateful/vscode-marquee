@@ -1,4 +1,3 @@
-import type { ConnectableObservable } from 'rxjs';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import type { Webview } from 'vscode';
 
@@ -39,7 +38,7 @@ export interface MarqueeWindow<State = any, Configuration = any> extends Window 
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string
   marqueeStateConfiguration: Record<string, { state: State, configuration: Configuration }>
-  uptime?: ConnectableObservable<number>
+  marqueeThirdPartyWidgets: number
 }
 
 export interface MarqueeEvents {

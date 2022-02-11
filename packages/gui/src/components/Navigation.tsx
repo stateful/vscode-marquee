@@ -87,7 +87,7 @@ const Navigation = () => {
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null));
-  const [inputName, setInputName] = useState(name);
+  const [, setInputName] = useState(name);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -221,7 +221,7 @@ const Navigation = () => {
                     onEditingStart={() => {
                       setInputName('');
                     }}
-                    onSave={(v) => {
+                    onSave={(v: string) => {
                       if (v !== "") {
                         setName(v);
                         setInputName(v);

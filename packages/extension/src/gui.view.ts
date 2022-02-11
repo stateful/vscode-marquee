@@ -33,8 +33,8 @@ export class MarqueeGui extends EventEmitter {
      * register listeners for Marquee state managers so they can interact with the gui
      */
     for (const widgetExtension of this.stateMgr.widgetExtensions) {
-      widgetExtension.exports.marquee.disposable.on('gui.open', this.open.bind(this));
-      widgetExtension.exports.marquee.disposable.on('gui.close', this.close.bind(this));
+      widgetExtension.exports.marquee?.disposable?.on('gui.open', this.open.bind(this));
+      widgetExtension.exports.marquee?.disposable?.on('gui.close', this.close.bind(this));
     }
   }
 
@@ -70,6 +70,7 @@ export class MarqueeGui extends EventEmitter {
         retainContextWhenHidden: true,
       }
     );
+    this.panel.onDidChangeViewState(this._handleViewStateChange.bind(this));
     this.panel.iconPath = {
       light: vscode.Uri.parse(
         `${this.context.extensionPath}/assets/marquee-tab.svg`
@@ -111,7 +112,7 @@ export class MarqueeGui extends EventEmitter {
 
     const widgetScripts: string[] = [];
     for (const extension of widgets) {
-      if (!extension.packageJSON.marqueeWidget) {
+      if (!extension.packageJSON.marquee?.widget) {
         continue;
       }
 
@@ -130,8 +131,8 @@ export class MarqueeGui extends EventEmitter {
         extension.exports.marquee &&
         typeof extension.exports.marquee.setup === 'function'
       ) {
-        const defaultState = extension.exports.marquee.disposable.state || {};
-        const defaultConfiguration = extension.exports.marquee.disposable.configuration || {};
+        const defaultState = extension.exports.marquee?.disposable?.state || {};
+        const defaultConfiguration = extension.exports.marquee?.disposable?.configuration || {};
         const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration });
         ch.registerPromise([this.panel.webview]).then((client) => {
           extension.exports.marquee.setup(client);
@@ -149,7 +150,7 @@ export class MarqueeGui extends EventEmitter {
           fs.symlinkSync(extension.extensionPath, extPath);
         }
 
-        const targetPath = path.join(extPath, extension.packageJSON.marqueeWidget);
+        const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget);
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath));
         widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}"></script>`);
       }
@@ -164,8 +165,8 @@ export class MarqueeGui extends EventEmitter {
     const widgetStateConfigurations = this.stateMgr.widgetExtensions.reduce((prev, curr) => ({
       ...prev,
       [curr.id]: {
-        configuration: curr.exports.marquee.disposable.configuration,
-        state: curr.exports.marquee.disposable.state
+        configuration: curr.exports.marquee?.disposable?.configuration || {},
+        state: curr.exports.marquee?.disposable?.state || {}
       }
     }), {} as Record<string, any>);
 
@@ -183,6 +184,7 @@ export class MarqueeGui extends EventEmitter {
       .replace(/app-ext-workspace/g, JSON.stringify(aws))
       .replace(/app-ext-theme-color/g, colorScheme)
       .replace(/app-ext-state-config/g, JSON.stringify(widgetStateConfigurations))
+      .replace(/app-ext-thirdParty-widgets/g, widgetScripts.length.toString())
       .replace(/app-ext-widgets/, [
         ' begin 3rd party widgets -->',
         ...widgetScripts.join('\n'),
@@ -204,6 +206,7 @@ export class MarqueeGui extends EventEmitter {
 
       if (e.ready) {
         this.guiActive = true;
+        this._handleViewStateChange({ webviewPanel: { visible: true } } as any);
         return this.emit('webview.open');
       }
     });
@@ -235,6 +238,15 @@ export class MarqueeGui extends EventEmitter {
       break;
       default:
         vscode.window.showInformationMessage(message);
+    }
+  }
+
+  private _handleViewStateChange (e: vscode.WebviewPanelOnDidChangeViewStateEvent) {
+    const widgetDisposables = this.stateMgr.widgetExtensions
+      .map((w) => w.exports?.marquee?.disposable)
+      .filter(Boolean);
+    for (const widgetExtension of widgetDisposables) {
+      widgetExtension.stopListenOnChangeEvents = e.webviewPanel.visible;
     }
   }
 }

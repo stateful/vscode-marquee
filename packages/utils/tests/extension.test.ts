@@ -97,10 +97,7 @@ test('updateConfiguration', async () => {
   ;(vscode.workspace.getConfiguration as jest.Mock)
     .mockClear()
     .mockReturnValue(config);
-  const updateState = manager.updateConfiguration('defaultConfig', 'some other new value' as any);
-  expect(manager['_stopListenOnChangeEvents']).toBe(true);
-  await updateState;
-  expect(manager['_stopListenOnChangeEvents']).toBe(false);
+  await manager.updateConfiguration('defaultConfig', 'some other new value' as any);
   expect(manager.configuration.defaultConfig).toBe('some other new value');
   expect(config.update).toBeCalledWith('widget.todo.defaultConfig', 'some other new value', 1);
 });

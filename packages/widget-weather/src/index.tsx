@@ -7,6 +7,7 @@ import Weather from "./Widget";
 export default {
   name: "weather",
   icon: <FontAwesomeIcon icon={faCloudSun} />,
+  label: 'Weather',
   tags: ["plan", "forecast"],
   description: "Weather and a 5 day forecast.",
   component: Weather,

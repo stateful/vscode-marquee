@@ -40,11 +40,15 @@ interface ExportFormat<T = any> {
 
 export default class StateManager implements vscode.Disposable {
   public readonly widgetExtensions: vscode.Extension<ExtensionExport>[] = Object.entries(MARQUEE_WIDGETS).map(
+    /**
+     * this is to make Marquee core widget look like external widgets
+     * so that the interface is the same
+     */
     ([id, activate]) => ({
       id,
       exports: activate(this._context, this._channel),
       isActive: true,
-      packageJSON: { marqueeWidget: true }
+      packageJSON: { marquee: { widget: true } }
     } as any as vscode.Extension<ExtensionExport>)
   );
 

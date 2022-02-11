@@ -30,8 +30,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super();
-
     const config = vscode.workspace.getConfiguration('marquee');
+
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {});
     this._state = {
       ...this._defaultState,
@@ -57,6 +57,10 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   get configuration () {
     return this._configuration;
+  }
+
+  set stopListenOnChangeEvents (val: boolean) {
+    this._stopListenOnChangeEvents = val;
   }
 
   private _onConfigChange (event: vscode.ConfigurationChangeEvent) {
@@ -96,11 +100,9 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
     const config = vscode.workspace.getConfiguration('marquee');
-    this._stopListenOnChangeEvents = true;
     this._channel.appendLine(`Update configuration "${prop}": ${val}`);
     this._configuration[prop] = val;
     await config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
-    this._stopListenOnChangeEvents = false;
   }
 
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {

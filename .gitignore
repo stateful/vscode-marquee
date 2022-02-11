@@ -13,3 +13,5 @@ website/.next
 website/public/robots.txt
 website/public/sitemap.xml
 3rdParty
+
+.vercel

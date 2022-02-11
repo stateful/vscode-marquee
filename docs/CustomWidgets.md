@@ -9,7 +9,7 @@ While all core Marquee widgets are implemeted in React.js we need 3rd party widg
 To add your widget to Marquee add the following to your extension:
 
 - build your widget based of web components and publish the file as part of your extension
-- define a `marqueeWidget` property in your `package.json` file that points to the bundle where your widgets are defined (e.g. `"marqueeWidget": "./dist/widgets.js",`)
+- define a `marquee` property in your `package.json` file that contains a `widget` property that points to the bundle where your widgets are defined (e.g. `"marquee": { "widget": "./dist/widgets.js" },`)
 - register your widgets in your bundle via `window.marqueeExtension.defineWidget({ ... }), e.g.:
 
   ```ts
