@@ -135,9 +135,7 @@ export default class StateManager implements vscode.Disposable {
       this.global.emit('gui.close');
       return this.global.emit('gui.open', true);
     } catch (err: any) {
-      vscode.window.showErrorMessage(
-        `Error importing file: ${err.message}`
-      );
+      vscode.window.showErrorMessage(`Error importing file: ${err.message}`);
     }
   }
 

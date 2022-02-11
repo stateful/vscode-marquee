@@ -1,7 +1,10 @@
+import fs from 'fs';
 import path from "path";
 
 import { Configuration, DefinePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
+
+const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -64,6 +67,9 @@ const extensionConfig: Configuration = {
             )
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
     }),
+    new DefinePlugin({
+      PACKAGE_JSON: pkg
+    }),
     new CopyPlugin({
       patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
     })
@@ -102,6 +108,11 @@ const guiConfig: Configuration = {
       },
     ],
   },
+  plugins: [
+    new DefinePlugin({
+      PACKAGE_JSON: JSON.parse(pkg)
+    })
+  ],
   performance: {
     hints: false,
   }

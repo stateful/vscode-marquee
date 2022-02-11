@@ -125,23 +125,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._configuration = { ...this._defaultConfiguration };
     await Promise.all(
       Object.keys(this._defaultConfiguration).map((key) => (
-        config.update(`${this._key}.${key}`, undefined, CONFIGURATION_TARGET)
+        config.update(
+          `${this._key}.${key}`,
+          this._defaultConfiguration[key as keyof Configuration],
+          CONFIGURATION_TARGET
+        )
       ))
     );
     await config.update(this._key, undefined, CONFIGURATION_TARGET);
-
-    /**
-     * after we deleted the current configuration, we have to update the
-     * object with the default value set in the extension package definition
-     * to get its default value from there
-     */
-    await Promise.all(Object.keys(this._defaultConfiguration).map((key) => {
-      type ConfigKey = keyof typeof this._defaultConfiguration;
-      const configKey = key as ConfigKey;
-      const trueDefault = config.get(`${this._key}.${key}`) as Configuration[ConfigKey] || this._defaultConfiguration[configKey];
-      this._configuration[configKey] = trueDefault;
-      return config.update(`${this._key}.${key}`, trueDefault, CONFIGURATION_TARGET);
-    }));
   }
 
   /**
@@ -257,3 +248,4 @@ function activate (
  */
 export { getExtProps, activate };
 export * from './types';
+export * from './constants';

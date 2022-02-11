@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import ExtensionManager from '@vscode-marquee/utils/extension';
+import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension';
 
 export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0;
@@ -25,7 +25,12 @@ export const DEFAULT_STATE = {
 };
 
 export const DEFAULT_CONFIGURATION = {
-  modes: {}
+  modes: defaultConfigurations['marquee.configuration.modes'].default,
+  proxy: defaultConfigurations['marquee.configuration.proxy'].default,
+  fontSize: defaultConfigurations['marquee.configuration.fontSize'].default,
+  launchOnStartup: defaultConfigurations['marquee.configuration.launchOnStartup'].default,
+  workspaceLaunch: defaultConfigurations['marquee.configuration.workspaceLaunch'].default,
+  colorScheme: undefined
 };
 
 export function activateGUI (
