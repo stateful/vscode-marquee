@@ -1,11 +1,10 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
 import Channel from 'tangle/webviews';
 import { URL } from 'url';
 import { EventEmitter } from "events";
-import { readFileSync } from "fs-extra";
 import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
@@ -53,7 +52,7 @@ export class MarqueeGui extends EventEmitter {
     this.client.emit(event, payload);
   }
 
-  public open() {
+  public async open() {
     if (this.guiActive && this.panel) {
       this.panel.reveal();
       this.emit('webview.open');
@@ -85,7 +84,7 @@ export class MarqueeGui extends EventEmitter {
       this.emit('webview.close');
     });
 
-    const index = readFileSync(
+    const index = await fs.readFile(
       `${this.context.extensionPath}/dist/extension.html`,
       "utf-8"
     );
@@ -143,11 +142,14 @@ export class MarqueeGui extends EventEmitter {
        * in order to allow accessing assets outside of the Marquee extension
        * we need to link to the directory as accessing files outside of the
        * extension dir is not possible (returns a 404)
+       *
+       * Only do this when extension host is running within Node.js environment.
        */
-      if (extension.extensionPath) {
+      if (extension.extensionPath && globalThis.process) {
         const extPath = path.join(this.context.extensionPath, THIRD_PARTY_EXTENSION_DIR, extension.id);
-        if (!fs.existsSync(extPath)) {
-          fs.symlinkSync(extension.extensionPath, extPath);
+        const doesExist = await fs.access(extPath).then(() => true, () => false);
+        if (!doesExist) {
+          await fs.symlink(extension.extensionPath, extPath);
         }
 
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget);

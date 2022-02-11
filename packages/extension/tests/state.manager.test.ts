@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import fs from 'fs-extra';
+import fs from 'fs/promises';
 
 // @ts-expect-error mock
 import manager from 'disposableManager';
@@ -16,7 +16,7 @@ jest.mock('@vscode-marquee/widget-weather/extension', () => ({ activate: () => (
 jest.mock('@vscode-marquee/widget-todo/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-notes/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-snippets/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
-jest.mock('fs-extra', () => ({
+jest.mock('fs/promises', () => ({
   readFile: jest.fn().mockResolvedValue(JSON.stringify({ foo: 'bar' })),
   writeFile: jest.fn().mockResolvedValue({})
 }));
