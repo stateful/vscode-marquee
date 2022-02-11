@@ -113,7 +113,8 @@ export const WidgetLayout = React.memo(() => {
       draggableCancel=".draggableCancel"
       containerPadding={[10, 10]}
       margin={[10, 10]}
-      measureBeforeMount={true}
+      // only when running unit tests
+      measureBeforeMount={!Boolean(globalThis['process'])}
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>

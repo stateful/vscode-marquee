@@ -7,7 +7,7 @@ import React, {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
-import { getThirdPartyWidgetComponent } from '@vscode-marquee/widget';
+import wrapper, { ThirdPartyWidget } from '@vscode-marquee/widget';
 import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@vscode-marquee/utils';
 import type { EmojiData } from 'emoji-mart';
 
@@ -60,7 +60,7 @@ const ModeProvider = ({ children }: Props) => {
           label: widgetOptions.label,
           tags: widgetOptions.tags,
           description: widgetOptions.description,
-          component: getThirdPartyWidgetComponent(widgetOptions.name),
+          component: wrapper(ThirdPartyWidget, widgetOptions.name),
         }]);
       }
     } as MarqueeInterface;

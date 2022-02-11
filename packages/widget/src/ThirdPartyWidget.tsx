@@ -2,7 +2,6 @@ import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import wrapper from './WidgetWrapper';
 import HidePop from './HidePop';
 import Dragger from './Dragger';
 
@@ -66,4 +65,4 @@ const ThirdPartyWidget = ({ name, label }: Props) => {
   );
 };
 
-export default (name: string) => wrapper(ThirdPartyWidget, name);
+export default ThirdPartyWidget;

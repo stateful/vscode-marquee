@@ -9,7 +9,6 @@ import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
-const config = vscode.workspace.getConfiguration('marquee');
 const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
 
@@ -31,6 +30,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super();
+    const config = vscode.workspace.getConfiguration('marquee');
 
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {});
     this._state = {
@@ -99,6 +99,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+    const config = vscode.workspace.getConfiguration('marquee');
     this._channel.appendLine(`Update configuration "${prop}": ${val}`);
     this._configuration[prop] = val;
     await config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
@@ -115,6 +116,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    * clear state and configuration of widget
    */
   public async clear () {
+    const config = vscode.workspace.getConfiguration('marquee');
     this._state = { ...this._defaultState };
     await this._context.globalState.update(this._key, this._state);
     await this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);

@@ -26,7 +26,6 @@ customElements.define('some-custom-widget', CustomWidget);
 test('should display custom widget', () => {
   const { getByText, container } = render(
     <GlobalProvider>
-      {/* @ts-expect-error */}
       <ThirdPartyWidget name="some-custom-widget" label="Some custom Widget" />
     </GlobalProvider>
   );
