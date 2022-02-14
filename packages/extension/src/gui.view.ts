@@ -3,6 +3,7 @@ import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
 import Channel from 'tangle/webviews';
+// @ts-expect-error
 import { URL } from 'universal-url';
 import { EventEmitter } from "events";
 import { getExtProps } from '@vscode-marquee/utils/extension';
@@ -60,7 +61,7 @@ export class MarqueeGui extends EventEmitter {
       return;
     }
 
-    const basePath = path.join(this.context.extensionPath, "/dist/gui/");
+    const basePath = vscode.Uri.joinPath(this.context.extensionUri, "dist/gui/");
     this.panel = vscode.window.createWebviewPanel(
       "marqueeGui", // Identifies the type of the webview. Used internally
       "Marquee", // Title of the this.panel displayed to the user
@@ -89,17 +90,7 @@ export class MarqueeGui extends EventEmitter {
       ? await fs.readFile(`${this.context.extensionPath}/dist/extension.html`, "utf-8")
       : EXTENSION_TEMPLATE;
 
-    const baseAppUri = this.panel.webview.asWebviewUri(
-      vscode.Uri.file(basePath)
-    );
-    console.log(baseAppUri);
-    // const vscode = vscode_1.default;
-    //     const uri_ = vscode.Uri.joinPath(this.context.extensionUri)
-    //     console.log(uri_);
-    //     console.log(this.context.extensionPath);
-    console.log(await vscode.workspace.fs.readDirectory(baseAppUri));
-
-
+    const baseAppUri = this.panel.webview.asWebviewUri(basePath);
     const nonce = crypto.randomBytes(16).toString('base64');
     const config = vscode.workspace.getConfiguration('marquee');
     const pref: ExtensionConfiguration | undefined = config.get('configuration');
