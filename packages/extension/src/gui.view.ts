@@ -115,7 +115,17 @@ export class MarqueeGui extends EventEmitter {
 
     const widgetScripts: string[] = [];
     for (const extension of widgets) {
-      if (!extension.packageJSON.marquee?.widget) {
+      /**
+       * continue if extension doesn't expose a marquee widget
+       * within its package.json
+       */
+      if (
+        !extension.packageJSON.marquee?.widget ||
+        /**
+         * don't show example widget extension in production
+         */
+        (process.env.NODE_ENV !== 'development' && extension.id === 'stateful.marquee')
+      ) {
         continue;
       }
 
