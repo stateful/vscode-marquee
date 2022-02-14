@@ -8,7 +8,6 @@ import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
-const tpl = fs.readFileSync(`${__dirname}/packages/extension/src/extension.html`).toString('utf8');
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -109,7 +108,6 @@ const extensionConfigBrowser: Configuration = {
   },
   plugins: [
     ...(extensionConfig.plugins || []),
-    new DefinePlugin({ EXTENSION_TEMPLATE: `\`${tpl}\`` }),
     new NodeProtocolUrlPlugin(),
 		new ProvidePlugin({
 			process: stdLibBrowser.process,

@@ -3,9 +3,8 @@ import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
 import Channel from 'tangle/webviews';
-// @ts-expect-error
-import { URL } from 'universal-url';
 import { EventEmitter } from "events";
+import { render } from 'eta';
 import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
@@ -14,7 +13,6 @@ import StateManager from "./stateManager";
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
 
-declare const EXTENSION_TEMPLATE: string;
 declare const BACKEND_BASE_URL: string;
 declare const BACKEND_GEO_URL: string;
 declare const BACKEND_FWDGEO_URL: string;
@@ -24,11 +22,16 @@ export class MarqueeGui extends EventEmitter {
   private guiActive: boolean = false;
   private client?: Client<MarqueeEvents>;
 
+  private _baseUri = vscode.Uri.joinPath(this.context.extensionUri);
+  private _template: Thenable<Uint8Array>;
+  private _templateDecoded?: string;
+
   constructor(
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager
   ) {
     super();
+    this._template = vscode.workspace.fs.readFile(vscode.Uri.joinPath(this._baseUri, 'dist', 'extension.html'));
 
     /**
      * register listeners for Marquee state managers so they can interact with the gui
@@ -37,6 +40,17 @@ export class MarqueeGui extends EventEmitter {
       widgetExtension.exports.marquee?.disposable?.on('gui.open', this.open.bind(this));
       widgetExtension.exports.marquee?.disposable?.on('gui.close', this.close.bind(this));
     }
+  }
+
+  async getTemplate () {
+    if (this._templateDecoded) {
+      return this._templateDecoded;
+    }
+
+    const dec = new TextDecoder('utf-8');
+    const tpl = await this._template;
+    this._templateDecoded = dec.decode(tpl);
+    return this._templateDecoded;
   }
 
   public isActive() {
@@ -61,7 +75,6 @@ export class MarqueeGui extends EventEmitter {
       return;
     }
 
-    const basePath = vscode.Uri.joinPath(this.context.extensionUri, "dist/gui/");
     this.panel = vscode.window.createWebviewPanel(
       "marqueeGui", // Identifies the type of the webview. Used internally
       "Marquee", // Title of the this.panel displayed to the user
@@ -82,10 +95,7 @@ export class MarqueeGui extends EventEmitter {
       this.emit('webview.close');
     });
 
-    const index = globalThis.process
-      ? await fs.readFile(`${this.context.extensionPath}/dist/extension.html`, "utf-8")
-      : EXTENSION_TEMPLATE;
-
+    const basePath = vscode.Uri.joinPath(this._baseUri, 'dist', 'gui');
     const baseAppUri = this.panel.webview.asWebviewUri(basePath);
     const nonce = crypto.randomBytes(16).toString('base64');
     const config = vscode.workspace.getConfiguration('marquee');
@@ -166,26 +176,35 @@ export class MarqueeGui extends EventEmitter {
       }
     }), {} as Record<string, any>);
 
-    const content = index
-      .replace(/app-ext-path/g, baseAppUri.toString())
-      .replace(/app-ext-props/g, JSON.stringify(getExtProps()))
-      .replace(/app-ext-backend-baseUrl/g, BACKEND_BASE_URL)
-      .replace(/app-ext-backend-geoUrl/g, BACKEND_GEO_URL)
-      .replace(/app-ext-backend-fwdGeoUrl/g, BACKEND_FWDGEO_URL)
-      .replace(/app-ext-backendHost-api/g, (new URL(BACKEND_BASE_URL)).origin)
-      .replace(/app-ext-backendHost-usCentral/g, (new URL(BACKEND_GEO_URL)).origin)
-      .replace(/app-ext-nonce/g, nonce)
-      .replace(/app-ext-cspSource/g, this.panel.webview.cspSource)
-      .replace(/app-ext-fontSize/g, `${fontSize}em`)
-      .replace(/app-ext-workspace/g, JSON.stringify(aws))
-      .replace(/app-ext-theme-color/g, colorScheme)
-      .replace(/app-ext-state-config/g, JSON.stringify(widgetStateConfigurations))
-      .replace(/app-ext-thirdParty-widgets/g, widgetScripts.length.toString())
-      .replace(/app-ext-widgets/, [
-        ' begin 3rd party widgets -->',
-        ...widgetScripts.join('\n'),
-        '\n<!-- end of 3rd party widgets'
-      ].join(''));
+    const content = await render(await this.getTemplate(), {
+      aws,
+      nonce,
+      fontSize,
+      baseAppUri,
+      colorScheme,
+      props: JSON.stringify(getExtProps()),
+      baseUrl: BACKEND_BASE_URL,
+      geoUrl: BACKEND_GEO_URL,
+      fwdGeoUrl: BACKEND_FWDGEO_URL,
+      cspSource: this.panel.webview.cspSource,
+      widgetStateConfigurations,
+      widgetScripts,
+      connectSrc: [
+        (new URL(BACKEND_BASE_URL)).origin,
+        (new URL(BACKEND_GEO_URL)).origin,
+        'https://api.hackerwebapp.com',
+        'https://*.ingest.sentry.io'
+      ],
+      childSrc: [
+        'https://www.youtube.com',
+        'https://player.vimeo.com',
+        'https://fast.wistia.net'
+      ]
+    });
+
+    if (!content) {
+      return vscode.window.showErrorMessage(`Couldn't load Marquee`);
+    }
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee');
     ch.registerPromise([this.panel.webview])
