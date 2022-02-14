@@ -11,8 +11,8 @@ const stateMgr = {
 
 beforeEach(() => {
   context.subscriptions = [];
-  context.globalState = { get: jest.fn() };
-  context.extensionPath = '/foo/bar';
+  context.globalState = { get: jest.fn((key: string, defaultParam: any) => defaultParam) };
+  context.extensionUri = '/foo/bar';
   stateMgr.handleUpdates = jest.fn();
   stateMgr.recover = jest.fn().mockReturnValue({
     globalScope: true

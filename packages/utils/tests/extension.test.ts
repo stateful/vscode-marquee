@@ -145,7 +145,6 @@ test('clear', async () => {
   expect(manager.configuration).toEqual({ defaultConfig: 'some other value #2' });
   expect(manager.state).toEqual({ defaultState: 'some other state #2' });
 
-  config.get = jest.fn().mockReturnValue('default value'),
   await manager.clear();
 
   expect(context.globalState.update).toBeCalledWith('persistence', undefined);
@@ -153,9 +152,9 @@ test('clear', async () => {
   expect(manager.emit).toBeCalledWith('stateUpdate', { defaultState: true });
 
   expect(config.update).toBeCalledWith('widget.todo', undefined, 1);
-  expect(config.update).toBeCalledWith('widget.todo.defaultConfig', 'default value', 1);
+  expect(config.update).toBeCalledWith('widget.todo.defaultConfig', true, 1);
 
-  expect(manager.configuration).toEqual({ defaultConfig: 'default value' });
+  expect(manager.configuration).toEqual({ defaultConfig: true });
   expect(manager.state).toEqual({ defaultState: true });
 });
 

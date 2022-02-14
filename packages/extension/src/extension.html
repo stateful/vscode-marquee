@@ -7,14 +7,14 @@
       http-equiv="Content-Security-Policy"
       content="
         default-src 'unsafe-inline';
-        img-src 'self' data: app-ext-cspSource https:;
-        font-src app-ext-cspSource https:;
-        script-src 'nonce-app-ext-nonce';
-        connect-src app-ext-backendHost-api app-ext-backendHost-usCentral https://api.hackerwebapp.com https://*.ingest.sentry.io 'unsafe-eval';
-        child-src https://www.youtube.com https://player.vimeo.com https://fast.wistia.net;
+        img-src 'self' data: <%= it.cspSource %> https:;
+        font-src <%= it.cspSource %> https:;
+        script-src 'nonce-<%= it.nonce %>';
+        connect-src <%= it.connectSrc.join(' ') %> 'unsafe-eval';
+        child-src <%= it.childSrc.join(' ') %>;
       "
     >
-    <base href="app-ext-path">
+    <base href="<%= it.baseAppUri %>">
     <title>Marquee</title>
     <style>
         .MuiTypography-h1,
@@ -30,27 +30,29 @@
         .MuiTypography-button,
         .MuiTypography-caption,
         .MuiTypography-overline {
-            font-size: app-ext-fontSize!important;
+            font-size: <%= it.fontSize %>em!important;
         }
     </style>
     <style>
       :root {
-        --marquee-theme-color: app-ext-theme-color;
+        --marquee-theme-color: <%= it.colorScheme %>;
       }
     </style>
-    <script nonce="app-ext-nonce">
-      window.activeWorkspace = app-ext-workspace;
-      window.marqueeUserProps = 'app-ext-props';
-      window.marqueeBackendBaseUrl = 'app-ext-backend-baseUrl';
-      window.marqueeBackendGeoUrl = 'app-ext-backend-geoUrl';
-      window.marqueeBackendFwdGeoUrl = 'app-ext-backend-fwdGeoUrl';
-      window.marqueeStateConfiguration = app-ext-state-config;
-      window.marqueeThirdPartyWidgets = app-ext-thirdParty-widgets;
+    <script nonce="<%= it.nonce %>">
+      window.activeWorkspace = <%~ JSON.stringify(it.aws) %>;
+      window.marqueeUserProps = '<%~ it.props %>';
+      window.marqueeBackendBaseUrl = '<%= it.baseUrl %>';
+      window.marqueeBackendGeoUrl = '<%= it.geoUrl %>';
+      window.marqueeBackendFwdGeoUrl = '<%= it.fwdGeoUrl %>';
+      window.marqueeStateConfiguration = <%~ JSON.stringify(it.widgetStateConfigurations) %>;
+      window.marqueeThirdPartyWidgets = <%= it.widgetScripts.length %>;
     </script>
 </head>
 <body>
     <div id="root"></div>
-    <script nonce="app-ext-nonce" src="main.js"></script>
-    <!-- app-ext-widgets -->
+    <script nonce="<%= it.nonce %>" src="<%= it.baseAppUri %>/main.js"></script>
+    <% for (const widgetScript of it.widgetScripts) { %>
+      <%~ widgetScript %>
+    <% } %>
 </body>
 </html>

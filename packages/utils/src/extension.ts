@@ -232,6 +232,14 @@ function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new ExtensionManager<State, Configuration>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
+  const aws = stateManager.getActiveWorkspace();
+
+  /**
+   * set global state to true if we don't have a workspace
+   */
+  if (!aws) {
+    stateManager.updateState('globalScope', true);
+  }
 
   return {
     marquee: {

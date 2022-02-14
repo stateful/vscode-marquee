@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from "path";
-
-import { Configuration, DefinePlugin } from "webpack";
+import stdLibBrowser from "node-stdlib-browser";
+const {
+  NodeProtocolUrlPlugin
+} = require('node-stdlib-browser/helpers/webpack/plugin');
+import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
@@ -45,26 +48,26 @@ const extensionConfig: Configuration = {
       BACKEND_BASE_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net"
+          )
           : JSON.stringify("https://api.marquee.activecove.com"),
     }),
     new DefinePlugin({
       BACKEND_GEO_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
+          )
           : JSON.stringify(
-              "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
-            ),
+            "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
+          ),
     }),
     new DefinePlugin({
       BACKEND_FWDGEO_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
+          )
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
     }),
     new DefinePlugin({
@@ -72,6 +75,29 @@ const extensionConfig: Configuration = {
     }),
     new CopyPlugin({
       patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
+    })
+  ]
+};
+
+const extensionConfigBrowser: Configuration = {
+  ...extensionConfig,
+  target: 'web',
+  entry: {
+    extensionWeb: path.resolve(__dirname, "packages", "extension", "src", "index.ts"),
+  },
+  resolve: {
+    ...extensionConfig.resolve,
+    alias: stdLibBrowser,
+    fallback: {
+      fs: false
+    },
+  },
+  plugins: [
+    ...(extensionConfig.plugins || []),
+    new NodeProtocolUrlPlugin(),
+    new ProvidePlugin({
+      process: stdLibBrowser.process,
+      Buffer: [stdLibBrowser.buffer, 'Buffer']
     })
   ]
 };
@@ -147,4 +173,4 @@ const exampleWidget: Configuration = {
   },
 };
 
-module.exports = [extensionConfig, guiConfig, exampleWidget];
+module.exports = [extensionConfig, extensionConfigBrowser, guiConfig, exampleWidget];

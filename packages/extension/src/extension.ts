@@ -40,16 +40,20 @@ export class MarqueeExtension {
     /**
      * clear symlink to 3rd party extensions as new extension could have
      * been installed since then
+     *
+     * Only run this if extension host is running within a Node.js environment
      */
-    const thirdPartyDir = path.join(context.extensionPath, THIRD_PARTY_EXTENSION_DIR);
-    fs.rm(thirdPartyDir, { force: true, recursive: true }).then(
-      () => fs.mkdir(thirdPartyDir)
-    ).then(() => (
-      this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
-    )).then(
-      () => this.openMarqueeOnStartup(config.get('configuration')),
-      (err) => this._channel.appendLine(`[Error]: ${err.message}`)
-    );
+    if (globalThis.process) {
+      const thirdPartyDir = path.join(context.extensionPath, THIRD_PARTY_EXTENSION_DIR);
+      fs.rm(thirdPartyDir, { force: true, recursive: true }).then(
+        () => fs.mkdir(thirdPartyDir)
+      ).then(() => (
+        this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
+      )).then(
+        () => this.openMarqueeOnStartup(config.get('configuration')),
+        (err) => this._channel.appendLine(`[Error]: ${err.message}`)
+      );
+    }
   }
 
   private _onColorThemeChange () {

@@ -6,6 +6,10 @@ import { MarqueeExtension } from "./extension";
 export function activate(context: vscode.ExtensionContext) {
   new MarqueeExtension(context);
 
+  if (process.env.NODE_ENV !== 'development') {
+    return {};
+  }
+
   return {
     /**
      * demo code for example widget in "/example"

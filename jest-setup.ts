@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { TextDecoder, TextEncoder } from 'util';
 import '@testing-library/jest-dom/extend-expect';
 
 const pkg = JSON.parse(fs.readFileSync('./package.json').toString());
@@ -16,7 +17,18 @@ window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode);
 
 // @ts-expect-error
 global.__requireContext = jest.fn();
-require.context = jest.fn();
+// @ts-expect-error
+global.PACKAGE_JSON = pkg;
+// @ts-expect-error
+global.BACKEND_BASE_URL = 'http://BACKEND_BASE_URL.com';
+// @ts-expect-error
+global.BACKEND_GEO_URL = 'http://BACKEND_GEO_URL.com';
+// @ts-expect-error
+global.BACKEND_FWDGEO_URL = 'http://BACKEND_FWDGEO_URL.com';
+
+// @ts-expect-error
+global.TextDecoder = TextDecoder;
+global.TextEncoder = TextEncoder;
 
 const styles = {
   '--vscode-font-size': '13px',

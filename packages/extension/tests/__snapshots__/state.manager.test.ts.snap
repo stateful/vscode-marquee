@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`_export 1`] = `
-Array [
-  Array [
-    "/bar/foo",
-    "{
+"{
  \\"type\\": \\"MarqueeSettings\\",
  \\"version\\": \\"1.2.3\\",
  \\"state\\": {
@@ -29,9 +26,7 @@ Array [
   \\"@vscode-marquee/notes-widget\\": \\"some configuration\\",
   \\"@vscode-marquee/snippets-widget\\": \\"some configuration\\"
  }
-}",
-  ],
-]
+}"
 `;
 
 exports[`_import transforms old config types 1`] = `

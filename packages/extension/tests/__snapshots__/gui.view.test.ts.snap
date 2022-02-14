@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`open webview 1`] = `
+Object {
+  "dark": "/some/uri/assets/marquee-tab.svg",
+  "light": "/some/uri/assets/marquee-tab.svg",
+}
+`;
+
+exports[`open webview 2`] = `
+Array [
+  Array [
+    "<html></html>",
+    Object {
+      "aws": Object {
+        "id": "foobar",
+      },
+      "baseAppUri": "some url",
+      "baseUrl": "http://BACKEND_BASE_URL.com",
+      "childSrc": Array [
+        "https://www.youtube.com",
+        "https://player.vimeo.com",
+        "https://fast.wistia.net",
+      ],
+      "colorScheme": "transparent",
+      "connectSrc": Array [
+        "http://backend_base_url.com",
+        "http://backend_geo_url.com",
+        "https://api.hackerwebapp.com",
+        "https://*.ingest.sentry.io",
+      ],
+      "cspSource": "csp-source",
+      "fontSize": 1,
+      "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
+      "geoUrl": "http://BACKEND_GEO_URL.com",
+      "nonce": "some random string",
+      "props": "{}",
+      "widgetScripts": Array [],
+      "widgetStateConfigurations": Object {
+        "undefined": Object {
+          "configuration": Object {},
+          "state": Object {},
+        },
+      },
+    },
+  ],
+]
+`;

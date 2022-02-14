@@ -1,7 +1,7 @@
 import getExtProps from '../src/getExtProps';
 
-jest.mock('fs', () => ({
-  readFileSync: () => JSON.stringify({ version: '1.2.3' })
+jest.mock('../src/constants', () => ({
+  pkg: { version: '1.2.3' }
 }));
 jest.mock('os', () => ({
   platform: () => 'some platform',
@@ -21,6 +21,5 @@ jest.mock('vscode', () => ({
 }));
 
 test('should get proper extension props', () => {
-  const context = { extensionPath: '/foo/bar' };
-  expect(getExtProps(context as any)).toMatchSnapshot();
+  expect(getExtProps()).toMatchSnapshot();
 });
