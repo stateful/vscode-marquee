@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from "path";
 import stdLibBrowser from "node-stdlib-browser";
 const {
-	NodeProtocolUrlPlugin
+  NodeProtocolUrlPlugin
 } = require('node-stdlib-browser/helpers/webpack/plugin');
 import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
@@ -48,26 +48,26 @@ const extensionConfig: Configuration = {
       BACKEND_BASE_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net"
+          )
           : JSON.stringify("https://api.marquee.activecove.com"),
     }),
     new DefinePlugin({
       BACKEND_GEO_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
+          )
           : JSON.stringify(
-              "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
-            ),
+            "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
+          ),
     }),
     new DefinePlugin({
       BACKEND_FWDGEO_URL:
         process.env.NODE_ENV === "development"
           ? JSON.stringify(
-              "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
-            )
+            "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
+          )
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
     }),
     new DefinePlugin({
@@ -89,30 +89,16 @@ const extensionConfigBrowser: Configuration = {
     ...extensionConfig.resolve,
     alias: stdLibBrowser,
     fallback: {
-      fs: false,
-      console: require.resolve('console-browserify'),
-      crypto: require.resolve('crypto-browserify'),
-      events: require.resolve('events'),
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
-      os: require.resolve('os-browserify/browser'),
-      path: require.resolve('path-browserify'),
-      process: require.resolve('process/browser'),
-      querystring: require.resolve('querystring-es3'),
-      stream: require.resolve('stream-browserify'),
-      string_decoder: require.resolve('string_decoder'),
-      timers: require.resolve('timers-browserify'),
-      url: require.resolve('url'),
-      util: require.resolve('util')
+      fs: false
     },
   },
   plugins: [
     ...(extensionConfig.plugins || []),
     new NodeProtocolUrlPlugin(),
-		new ProvidePlugin({
-			process: stdLibBrowser.process,
-			Buffer: [stdLibBrowser.buffer, 'Buffer']
-		})
+    new ProvidePlugin({
+      process: stdLibBrowser.process,
+      Buffer: [stdLibBrowser.buffer, 'Buffer']
+    })
   ]
 };
 
