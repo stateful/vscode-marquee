@@ -151,17 +151,17 @@ export default class StateManager implements vscode.Disposable {
       }
     }), {} as Pick<ExportFormat, 'configuration' | 'state'>);
 
-    const exportPath = await vscode.window.showSaveDialog({
-      saveLabel: 'Export',
-      filters: FILE_FILTER,
-      title: 'Export Marquee Extension',
-    });
-
-    if (!exportPath) {
-      return;
-    }
-
     try {
+      const exportPath = await vscode.window.showSaveDialog({
+        saveLabel: 'Export',
+        filters: FILE_FILTER,
+        title: 'Export Marquee Extension',
+      });
+
+      if (!exportPath) {
+        return;
+      }
+
       const jsonExport: ExportFormat = {
         type: CONFIG_FILE_TYPE,
         version: packageJson.version,

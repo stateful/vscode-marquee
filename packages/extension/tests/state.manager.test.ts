@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import fs from 'fs/promises';
+import { TextEncoder, TextDecoder } from 'util';
 
 // @ts-expect-error mock
 import manager from 'disposableManager';
@@ -8,7 +8,10 @@ import StateManager from '../src/stateManager';
 import oldConfigFile from './__fixtures__/oldMarqueeConfig.json';
 
 jest.mock('../src/utils', () => ({ activateGUI: () => ({ marquee: { disposable: require('disposableManager') }}) }));
-jest.mock('@vscode-marquee/utils/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
+jest.mock('@vscode-marquee/utils/extension', () => ({
+  activate: () => ({ marquee: { disposable: require('disposableManager') }}),
+  pkg: { version: '1.2.3' }
+}));
 jest.mock('@vscode-marquee/widget-welcome/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-projects/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-github/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
@@ -16,10 +19,15 @@ jest.mock('@vscode-marquee/widget-weather/extension', () => ({ activate: () => (
 jest.mock('@vscode-marquee/widget-todo/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-notes/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
 jest.mock('@vscode-marquee/widget-snippets/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }));
-jest.mock('fs/promises', () => ({
-  readFile: jest.fn().mockResolvedValue(JSON.stringify({ foo: 'bar' })),
-  writeFile: jest.fn().mockResolvedValue({})
-}));
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+(vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(encoder.encode(JSON.stringify({ foo: 'bar' })));
+(vscode.workspace.fs.writeFile as jest.Mock).mockResolvedValue({});
+
+beforeEach(() => {
+  (vscode.window.showInformationMessage as jest.Mock).mockClear();
+});
 
 test('StateManager initiation', () => {
   const stateManager = new StateManager('context' as any, 'channel' as any);
@@ -37,7 +45,7 @@ test('_import', async () => {
 test('_import transforms old config types', async () => {
   const stateManager = new StateManager({ extensionPath: '/foo/bar' } as any, 'channel' as any);
   (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }]);
-  (fs.readFile as jest.Mock).mockResolvedValue(JSON.stringify(oldConfigFile));
+  (vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(encoder.encode(JSON.stringify(oldConfigFile)));
   await stateManager['_import']();
   expect(manager.updateConfiguration.mock.calls).toMatchSnapshot();
   expect(manager.updateState.mock.calls).toMatchSnapshot();
@@ -48,16 +56,15 @@ test('_import transforms old config types', async () => {
 test('_export', async () => {
   const stateManager = new StateManager({ extensionPath: '/foo/bar' } as any, 'channel' as any);
   (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }]);
-  (fs.readFile as jest.Mock).mockResolvedValue(JSON.stringify({ version: '1.2.3' }));
   await stateManager['_export']();
-  expect((fs.writeFile as jest.Mock).mock.calls).toMatchSnapshot();
+  expect(decoder.decode((vscode.workspace.fs.writeFile as jest.Mock).mock.calls[0][1])).toMatchSnapshot();
   expect(vscode.window.showInformationMessage).toBeCalledWith('Successfully exported Marquee state to /bar/foo');
 });
 
 test('_export with error', async () => {
   const stateManager = new StateManager({ extensionPath: '/foo/bar' } as any, 'channel' as any);
   (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }]);
-  (fs.readFile as jest.Mock).mockRejectedValue(new Error('upps'));
+  (vscode.workspace.fs.writeFile as jest.Mock).mockRejectedValue(new Error('upps'));
   await stateManager['_export']();
   expect(vscode.window.showErrorMessage).toBeCalledWith('Error writing export file: upps');
 });

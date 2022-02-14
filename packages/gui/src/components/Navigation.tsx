@@ -260,7 +260,7 @@ const Navigation = () => {
               wrap="nowrap"
             >
               {window.activeWorkspace && (<Grid item>
-                <Tooltip title="Toggle global vs workspace scope!!!">
+                <Tooltip title="Toggle global vs workspace scope">
                   <IconButton
                     size="small"
                     onClick={() => {

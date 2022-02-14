@@ -2,8 +2,17 @@ const vscode: any = {
   env: {},
   ConfigurationTarget: { Global: 1 },
   CodeActionKind: { QuickFix: 1 },
-  Uri: { parse: (param: string) => `parsedUri-${param}` },
-  Range: jest.fn()
+  Uri: {
+    parse: jest.fn((param: string) => `parsedUri-${param}`),
+    joinPath: jest.fn((base: string, ...seg: string[]) => `${base}/${seg.join('/')}`)
+  },
+  Range: jest.fn(),
+  ViewColumn: {
+    One: 'ViewColumn.One'
+  },
+  TextEditorRevealType: {
+    inCenter: 'TextEditorRevealType.inCenter'
+  }
 };
 vscode.TreeItemCollapsibleState = {
   Expanded: 'foo',
@@ -21,7 +30,17 @@ vscode.workspace = {
   name: 'foobarWorkspace',
   workspaceFile: { path: '/foo/bar' },
   getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn() }),
-  onDidChangeConfiguration: jest.fn()
+  onDidChangeConfiguration: jest.fn(),
+  fs: {
+    readFile: jest.fn().mockResolvedValue('some file'),
+    writeFile: jest.fn().mockResolvedValue({})
+  },
+  openTextDocument: jest.fn().mockResolvedValue({
+    lineAt: jest.fn().mockReturnValue({ range: 'some range'})
+  })
+};
+vscode.extensions = {
+  all: []
 };
 vscode.window = {
   createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
@@ -31,7 +50,21 @@ vscode.window = {
   showErrorMessage: jest.fn(),
   showWarningMessage: jest.fn(),
   showInformationMessage: jest.fn(),
-  showSaveDialog: jest.fn().mockResolvedValue({ fsPath: '/bar/foo' })
+  showSaveDialog: jest.fn().mockResolvedValue({ fsPath: '/bar/foo' }),
+  createWebviewPanel: jest.fn().mockReturnValue({
+    onDidChangeViewState: jest.fn(),
+    onDidDispose: jest.fn(),
+    iconPath: '/icon/path',
+    webview: {
+      onDidReceiveMessage: jest.fn(),
+      asWebviewUri: jest.fn().mockReturnValue('some url'),
+      cspSource: 'csp-source',
+      html: '<html></html>'
+    }
+  }),
+  showTextDocument: jest.fn().mockResolvedValue({
+    revealRange: jest.fn()
+  })
 };
 
 export default vscode;

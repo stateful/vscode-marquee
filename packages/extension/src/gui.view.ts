@@ -3,6 +3,8 @@ import path from "path";
 import vscode from "vscode";
 import crypto from 'crypto';
 import Channel from 'tangle/webviews';
+// @ts-expect-error
+import { URL } from 'universal-url';
 import { EventEmitter } from "events";
 import { render } from 'eta';
 import { getExtProps } from '@vscode-marquee/utils/extension';
@@ -84,16 +86,10 @@ export class MarqueeGui extends EventEmitter {
         retainContextWhenHidden: true,
       }
     );
-    this.panel.onDidChangeViewState(this._handleViewStateChange.bind(this));
     this.panel.iconPath = {
-      light: vscode.Uri.joinPath(this.context.extensionUri, 'assets/marquee-tab.svg'),
-      dark: vscode.Uri.joinPath(this.context.extensionUri, 'assets/marquee-tab.svg'),
+      light: vscode.Uri.joinPath(this.context.extensionUri, 'assets', 'marquee-tab.svg'),
+      dark: vscode.Uri.joinPath(this.context.extensionUri, 'assets', 'marquee-tab.svg'),
     };
-    this.panel.onDidDispose(() => {
-      this.guiActive = false;
-      this.panel = null;
-      this.emit('webview.close');
-    });
 
     const basePath = vscode.Uri.joinPath(this._baseUri, 'dist', 'gui');
     const baseAppUri = this.panel.webview.asWebviewUri(basePath);
@@ -173,8 +169,8 @@ export class MarqueeGui extends EventEmitter {
     }
 
     const aws = this.stateMgr.projectWidget.getActiveWorkspace();
-    const cs = pref?.colorScheme!;
-    const colorScheme = typeof cs.r === 'number' && typeof cs.g === 'number' && typeof cs.b === 'number' && typeof cs.a === 'number'
+    const cs = pref?.colorScheme;
+    const colorScheme = typeof cs?.r === 'number' && typeof cs?.g === 'number' && typeof cs?.b === 'number' && typeof cs?.a === 'number'
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
       : 'transparent';
 
@@ -220,25 +216,33 @@ export class MarqueeGui extends EventEmitter {
     ch.registerPromise([this.panel.webview])
       .then((client) => (this.client = client));
     this.panel.webview.html = content;
-    this.panel.webview.onDidReceiveMessage((e) => {
-      if (e.west && Array.isArray(e.west.execCommands)) {
-        e.west.execCommands.forEach(this._executeCommand.bind(this));
-      }
+    this.panel.webview.onDidReceiveMessage(this._handleWebviewMessage.bind(this));
+    this.panel.onDidDispose(this._disposePanel.bind(this));
+    this.panel.onDidChangeViewState(this._handleViewStateChange.bind(this));
+  }
 
-      if (e.west && e.west.notify && e.west.notify.message) {
-        return this._handleNotifications(e.west.notify);
-      }
+  private _disposePanel () {
+    this.guiActive = false;
+    this.panel = null;
+    this.emit('webview.close');
+    this.client?.removeAllListeners();
+    delete this.client;
+  }
 
-      if (e.ready) {
-        this.guiActive = true;
-        this._handleViewStateChange({ webviewPanel: { visible: true } } as any);
-        return this.emit('webview.open');
-      }
-    });
-    this.panel.onDidDispose(async () => {
-      this.client?.removeAllListeners();
-      delete this.client;
-    });
+  private _handleWebviewMessage (e: any) {
+    if (e.west && Array.isArray(e.west.execCommands)) {
+      e.west.execCommands.forEach(this._executeCommand.bind(this));
+    }
+
+    if (e.west && e.west.notify && e.west.notify.message) {
+      return this._handleNotifications(e.west.notify);
+    }
+
+    if (e.ready) {
+      this.guiActive = true;
+      this._handleViewStateChange({ webviewPanel: { visible: true } } as any);
+      return this.emit('webview.open');
+    }
   }
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
