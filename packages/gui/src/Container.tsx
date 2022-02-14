@@ -102,10 +102,9 @@ export const WidgetLayout = React.memo(() => {
 
   return (
     <ResponsiveReactGridLayout
-      style={{ height: "100%" }}
       cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
       rowHeight={20}
-      onLayoutChange={(newLayout, newLayouts) => {
+      onLayoutChange={(_, newLayouts) => {
         _setCurrentModeLayout(newLayouts);
       }}
       layouts={layoutConfig}
@@ -139,13 +138,15 @@ const Container = () => {
       return theme.id === parseInt(background, 10);
     });
 
-    if (!theme || !theme.background) {
+    if (!theme || (!theme.background && !theme.backgroundColor)) {
       return NO_BACKGROUND_STYLE;
     }
 
     return {
       ...BACKGROUND_STYLE,
-      backgroundImage: `url(${backgrounds(theme.background)})`,
+      ...(theme.background
+        ? { backgroundImage: `url(${backgrounds(theme.background)})` }
+        : { backgroundColor: theme.backgroundColor })
     };
   }, [background]);
 
