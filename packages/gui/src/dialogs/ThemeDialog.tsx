@@ -23,16 +23,8 @@ const useStyles = makeStyles(() => ({
   selectedButton: {
     color: "var(--vscode-foreground)",
     border: "1px solid var(--vscode-button-foreground)",
-  },
-  notSelectedButton: {
-    color: "var(--vscode-foreground)",
-    border: "1px solid var(--vscode-button-background)",
-  },
+  }
 }));
-
-interface ThemeButtonProps {
-  tile: Theme
-}
 
 interface TileStyle {
   minHeight: string
@@ -44,30 +36,10 @@ interface TileStyle {
   backgroundPositionY: string
 }
 
-let ThemeButton = React.memo(({ tile }: ThemeButtonProps) => {
-  const classes = useStyles();
-  const { setBackground, background } = useContext(GlobalContext);
-  const selected = !isNaN(+background) && tile.id === parseInt(background, 10);
-
-  return (
-    <Button
-      size="small"
-      variant={"outlined"}
-      onClick={() => setBackground(tile.id.toString()) }
-      className={selected ? classes.selectedButton : classes.notSelectedButton}
-    >
-      {selected ? (
-        <Typography style={{ fontWeight: "bold" }}>Selected</Typography>
-      ) : (
-        <Typography>Select</Typography>
-      )}
-    </Button>
-  );
-});
-
 const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
   const classes = useStyles();
-  const { themeColor } = useContext(GlobalContext);
+  const { themeColor, background, setBackground } = useContext(GlobalContext);
+  const isSelected = (tile: Theme) => !isNaN(+background) && tile.id === parseInt(background, 10);
 
   return (
     <DialogContainer fullScreen={true}>
@@ -92,7 +64,16 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                   tileStyle.backgroundPositionY = "50%";
                 }
                 return (
-                  <Grid item xs={12} sm={6} md={4} lg={4} key={tile.id}>
+                  <Grid
+                    item
+                    style={{ cursor: 'pointer' }}
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={4}
+                    key={tile.id}
+                    onClick={() => setBackground(tile.id.toString())}
+                  >
                     <Grid container style={tileStyle} alignContent="flex-end">
                       <Grid item style={{ width: "100%" }}>
                         <Grid
@@ -118,9 +99,15 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                               </Grid>
                             </Grid>
                           </Grid>
-                          <Grid item>
-                            <ThemeButton tile={tile} />
-                          </Grid>
+                          {isSelected(tile) && <Grid item>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              className={classes.selectedButton}
+                            >
+                              <Typography style={{ fontWeight: "bold" }}>Selected</Typography>
+                            </Button>
+                          </Grid>}
                         </Grid>
                       </Grid>
                     </Grid>

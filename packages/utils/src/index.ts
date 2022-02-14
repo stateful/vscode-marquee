@@ -81,6 +81,7 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      */
     const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
     contextValues[setProp] = ((val: any) => {
+      setPropState(val);
       tangle.broadcast({ [prop]: val } as T & Events);
       window.vscode.setState({
         ...(window.vscode.getState() || {}),
