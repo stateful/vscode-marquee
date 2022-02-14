@@ -5,10 +5,6 @@ import { CaptureConsole } from "@sentry/integrations";
 import { SENTRY_DNS } from './constants';
 
 function init (userID?: string) {
-  if (true) {
-    return
-
-  }
   const env =
     process.env.NODE_ENV === "development" ? "development" : "production";
 

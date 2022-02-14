@@ -17,7 +17,7 @@ import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import styled from "@emotion/styled";
 import EdiText from "react-editext";
 
-import { GlobalContext } from "@vscode-marquee/utils";
+import { GlobalContext, MarqueeWindow } from "@vscode-marquee/utils";
 import { NavPop } from "@vscode-marquee/widget-welcome";
 
 import ModeSelector from "./ModeSelector";
@@ -25,6 +25,8 @@ import FeedbackDialog from "../dialogs/FeedbackDialog";
 import ThemeDialog from "../dialogs/ThemeDialog";
 import InfoDialog from "../dialogs/InfoDialog";
 import SettingsDialog from "../dialogs/SettingsDialog";
+
+declare const window: MarqueeWindow;
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -134,7 +136,7 @@ const Navigation = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => { setGlobalScope(!globalScope); }}>
+      {window.activeWorkspace && (<MenuItem onClick={() => { setGlobalScope(!globalScope); }}>
         <Grid container direction="row" alignItems="stretch" spacing={1}>
           <Grid item>
             <Badge
@@ -152,7 +154,7 @@ const Navigation = () => {
             </Typography>
           </Grid>
         </Grid>
-      </MenuItem>
+      </MenuItem>)}
       <MenuItem onClick={handleMobileMenuClose}>
         <div onClick={() => setShowSettingsDialog(true)  }>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
@@ -208,9 +210,6 @@ const Navigation = () => {
       >
         <Toolbar variant="dense">
           <Grid container spacing={2} alignItems="center">
-            {/* <Grid item>
-              <img style={{ height: "18px" }} src={icon} alt="Marquee" />
-            </Grid> */}
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
                 <Grid item>
@@ -260,8 +259,8 @@ const Navigation = () => {
               alignItems="center"
               wrap="nowrap"
             >
-              <Grid item>
-                <Tooltip title="Toggle global vs workspace scope">
+              {window.activeWorkspace && (<Grid item>
+                <Tooltip title="Toggle global vs workspace scope!!!">
                   <IconButton
                     size="small"
                     onClick={() => {
@@ -278,7 +277,7 @@ const Navigation = () => {
                     </Badge>
                   </IconButton>
                 </Tooltip>
-              </Grid>
+              </Grid>)}
               <Grid item>
                 <ModeSelector />
               </Grid>

@@ -73,12 +73,8 @@ export class MarqueeGui extends EventEmitter {
     );
     this.panel.onDidChangeViewState(this._handleViewStateChange.bind(this));
     this.panel.iconPath = {
-      light: vscode.Uri.parse(
-        `${this.context.extensionPath}/assets/marquee-tab.svg`
-      ),
-      dark: vscode.Uri.parse(
-        `${this.context.extensionPath}/assets/marquee-tab.svg`
-      ),
+      light: vscode.Uri.joinPath(this.context.extensionUri, 'assets/marquee-tab.svg'),
+      dark: vscode.Uri.joinPath(this.context.extensionUri, 'assets/marquee-tab.svg'),
     };
     this.panel.onDidDispose(() => {
       this.guiActive = false;

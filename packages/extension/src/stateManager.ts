@@ -1,8 +1,7 @@
-import fs from "fs/promises";
-import path from 'path';
 import vscode from "vscode";
 
 import ExtensionManager, {
+  pkg as packageJson,
   activate as activateUtils,
   State as GlobalState,
   Configuration as GlobalConfiguration
@@ -84,8 +83,9 @@ export default class StateManager implements vscode.Disposable {
     }
 
     try {
-      const importJSON = await fs.readFile(filePath.fsPath);
-      const obj = JSON.parse(importJSON.toString());
+      const dec = new TextDecoder('utf-8');
+      const importJSON = await vscode.workspace.fs.readFile(filePath);
+      const obj = JSON.parse(dec.decode(importJSON));
       let jsonImport = obj as ExportFormat;
 
       /**
@@ -162,10 +162,6 @@ export default class StateManager implements vscode.Disposable {
     }
 
     try {
-      const extensionPath = path.join(this._context.extensionPath, "package.json");
-      const packageFile = await fs.readFile(extensionPath, "utf-8");
-      const packageJson = JSON.parse(packageFile);
-
       const jsonExport: ExportFormat = {
         type: CONFIG_FILE_TYPE,
         version: packageJson.version,
@@ -173,7 +169,8 @@ export default class StateManager implements vscode.Disposable {
         configuration
       };
 
-      await fs.writeFile(exportPath.fsPath, JSON.stringify(jsonExport, null, 1));
+      var enc = new TextEncoder();
+      await vscode.workspace.fs.writeFile(exportPath, enc.encode(JSON.stringify(jsonExport, null, 1)));
       vscode.window.showInformationMessage(
         `Successfully exported Marquee state to ${exportPath.fsPath}`
       );

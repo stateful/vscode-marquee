@@ -189,4 +189,4 @@ const exampleWidget: Configuration = {
   },
 };
 
-module.exports = [extensionConfigBrowser];
+module.exports = [extensionConfig, extensionConfigBrowser, guiConfig, exampleWidget];
