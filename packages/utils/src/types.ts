@@ -46,6 +46,10 @@ export interface MarqueeEvents {
   removeWidget: string
   updateWidgetDisplay: Record<string, boolean>
   resetMarquee?: boolean
+  telemetryEvent: {
+    eventName: string,
+    properties?: Record<string, string>
+  }
 }
 
 export enum WorkspaceType {

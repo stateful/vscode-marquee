@@ -1,4 +1,4 @@
-import getExtProps from '../src/getExtProps';
+import { getExtProps } from '../src/getExtProps';
 
 jest.mock('../src/constants', () => ({
   pkg: { version: '1.2.3' }

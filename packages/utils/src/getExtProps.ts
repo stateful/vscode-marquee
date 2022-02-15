@@ -3,11 +3,11 @@ import vscode from "vscode";
 
 import { pkg } from './constants';
 
-const EXTENSION_ID = "stateful.marquee";
-const TELEMETRY_CONFIG_ID = "telemetry";
-const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry";
+export const EXTENSION_ID = "stateful.marquee";
+export const TELEMETRY_CONFIG_ID = "telemetry";
+export const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry";
 
-export default function getExtProps(): { [key: string]: string } {
+export function getExtProps(): { [key: string]: string } {
   const extProps = Object.create(null);
 
   const config = vscode.workspace.getConfiguration(TELEMETRY_CONFIG_ID);

@@ -14,6 +14,7 @@ import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-ma
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension';
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension';
 
+import telemetry from './telemetry';
 import { activateGUI } from './utils';
 import { FILE_FILTER, CONFIG_FILE_TYPE } from './constants';
 import type { ExtensionExport } from './types';
@@ -68,6 +69,7 @@ export default class StateManager implements vscode.Disposable {
   }
 
   private async _import () {
+    telemetry.sendTelemetryEvent('import');
     const importPath = await vscode.window.showOpenDialog({
       canSelectFiles: true,
       canSelectFolders: false,
@@ -140,6 +142,7 @@ export default class StateManager implements vscode.Disposable {
   }
 
   private async _export () {
+    telemetry.sendTelemetryEvent('export');
     const { state, configuration } = this.widgetExtensions.reduce((format, ext) => ({
       state: {
         ...format.state,

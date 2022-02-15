@@ -130,7 +130,6 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
   }
 
   getChildren(element?: Item): Thenable<Item[]> {
-
     if (!element) {
       const elems = this.toplevel.map((elem) => {
         const item = new Item(
@@ -148,24 +147,24 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       });
 
       return Promise.resolve(elems);
-    } else {
-      if (element.label.indexOf("Todo") !== -1) {
-        return Promise.resolve(
-          TodoItem.map(this.state.todos || [], this.context.extensionUri)
-        );
-      }
+    }
 
-      if (element.label.indexOf("Snippets") !== -1) {
-        return Promise.resolve(
-          SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
-        );
-      }
+    if (element.label.indexOf("Todo") !== -1) {
+      return Promise.resolve(
+        TodoItem.map(this.state.todos || [], this.context.extensionUri)
+      );
+    }
 
-      if (element.label.indexOf("Notes") !== -1) {
-        return Promise.resolve(
-          NoteItem.map(this.state.notes || [], this.context.extensionUri)
-        );
-      }
+    if (element.label.indexOf("Snippets") !== -1) {
+      return Promise.resolve(
+        SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
+      );
+    }
+
+    if (element.label.indexOf("Notes") !== -1) {
+      return Promise.resolve(
+        NoteItem.map(this.state.notes || [], this.context.extensionUri)
+      );
     }
 
     return Promise.resolve([]);

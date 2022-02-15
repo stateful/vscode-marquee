@@ -25,6 +25,7 @@ const ModeContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/gui';
 
 const ModeProvider = ({ children }: Props) => {
+  const eventListener = getEventListener<MarqueeEvents>();
   const modeState = getEventListener<State & Configuration>(WIDGET_ID);
   const providerValues = connect<State & Configuration>(
     {
@@ -72,6 +73,11 @@ const ModeProvider = ({ children }: Props) => {
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== providerValues.modeName) {
+      eventListener.emit('telemetryEvent', {
+        eventName: 'switchMode',
+        properties: { modeName: newModeName }
+      });
+
       modeState.broadcast({
         modeName: newModeName,
         prevMode: providerValues.modeName,
@@ -170,8 +176,8 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const eventListener = getEventListener<MarqueeEvents>();
     eventListener.emit('updateWidgetDisplay', mode.widgets);
+    return () => { eventListener.removeAllListeners(); };
   }, []);
 
   return (

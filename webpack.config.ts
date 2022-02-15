@@ -71,6 +71,9 @@ const extensionConfig: Configuration = {
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
     }),
     new DefinePlugin({
+      INSTRUMENTATION_KEY: process.env.MARQUEE_INSTRUMENTATION_KEY
+    }),
+    new DefinePlugin({
       PACKAGE_JSON: pkg
     }),
     new CopyPlugin({
