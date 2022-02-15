@@ -1,4 +1,5 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import {
   DialogContent,
   DialogActions,
@@ -8,12 +9,16 @@ import {
 import type { EmojiData } from "emoji-mart";
 
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
-import EmojiPop from "../components/EmojiPop";
-import ModeContext from "../contexts/ModeContext";
 
-const ModeAddDialog = React.memo(({ close }: { close: () => void }) => {
+import EmojiPop from "../components/EmojiPop";
+import { addMode } from '../redux/actions';
+
+const mapStateToProps = (state: never, ownProps: { close: () => void }) => ownProps;
+const mapDispatchToProps = { _addMode: addMode };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(React.memo(({ close, _addMode }: ConnectedProps<typeof connector>) => {
   const [modeName, setModeName] = useState("");
-  const { _addMode } = useContext(ModeContext);
   const [emoji, setEmoji] = useState(null as (EmojiData | null));
   let modeNameInputRef: HTMLButtonElement | null = null;
 
@@ -69,6 +74,4 @@ const ModeAddDialog = React.memo(({ close }: { close: () => void }) => {
       </DialogActions>
     </DialogContainer>
   );
-});
-
-export default ModeAddDialog;
+}));

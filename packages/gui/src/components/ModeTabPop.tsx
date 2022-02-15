@@ -1,38 +1,37 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useCallback } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import { Typography, ListItem, ListItemText, Popover } from "@material-ui/core";
 
-import ModeContext from "../contexts/ModeContext";
 import { ModeEditDialog } from "../dialogs/ModeEditDialog";
 import { presetModes } from '../constants';
+import { removeMode } from '../redux/actions';
 
 interface ModeTabPopProps {
   name: string
   children: React.ReactElement
 }
 
-const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
+const mapStateToProps = (state: never, ownProps: ModeTabPopProps) => ownProps;
+const mapDispatchToProps = { removeMode };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const ModeTabPop = ({ name, children, removeMode }: ConnectedProps<typeof connector>) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showModeTab, SetShowModeTab] = useState(false);
-  const { _removeMode } = useContext(ModeContext);
 
-  const handleRightClick = useCallback(
-    (e) => {
-      //if this isn't one of the preset modes
-      if (!presetModes.includes(name)) {
-        setAnchorEl(e.currentTarget);
-      }
-    },
-    [name]
-  );
+  const handleRightClick = useCallback((e) => {
+    //if this isn't one of the preset modes
+    if (!presetModes.includes(name)) {
+      setAnchorEl(e.currentTarget);
+    }
+  }, [name]);
 
   const handleClose = useCallback(() => {
     setAnchorEl(null);
   }, []);
 
   const handleDelete = useCallback(
-    () => {
-      _removeMode(name);
-    },
+    () => removeMode(name),
     [name]
   );
 
@@ -88,4 +87,4 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
   );
 };
 
-export default React.memo(ModeTabPop);
+export default connector(React.memo(ModeTabPop));

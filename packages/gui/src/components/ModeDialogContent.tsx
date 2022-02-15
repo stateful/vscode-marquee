@@ -1,4 +1,5 @@
-import React, { useContext, useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import {
   Typography,
   Grid,
@@ -19,13 +20,14 @@ import ViewCompactIcon from "@material-ui/icons/ViewCompact";
 import PropTypes from "prop-types";
 import { Emoji } from "emoji-mart";
 
-import ModeContext from "../contexts/ModeContext";
+import { setModeWidget } from '../redux/actions';
 import { widgetConfig } from "../constants";
 
 import ModeConfigToolbar from "./ModeConfigToolbar";
 import ModeTabPop from "./ModeTabPop";
 import { ucFirst } from "../utils";
-import { WidgetConfig, PresetModes } from "../types";
+import type { WidgetConfig, PresetModes } from "../types";
+import type { ReduxState } from "../redux/types";
 
 const VerticalTabs = withStyles(() => ({
   flexContainer: {
@@ -88,9 +90,15 @@ interface WidgetSelectorProps {
   widgetName: string
   targetModeName: string
 }
-const WidgetSelector = React.memo(({ widgetName, targetModeName }: WidgetSelectorProps) => {
-  const { modes, _setModeWidget } = useContext(ModeContext);
 
+const mapStateToProps = (state: ReduxState, ownProps: WidgetSelectorProps) => ({
+  ...ownProps,
+  modes: state.modes
+});
+const mapDispatchToProps = { setModeWidget };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const WidgetSelector = connector(React.memo(({ widgetName, targetModeName, modes, setModeWidget }: ConnectedProps<typeof connector>) => {
   const checked = useMemo(() => {
     if (modes[targetModeName] && modes[targetModeName]["widgets"][widgetName]) {
       return modes[targetModeName]["widgets"][widgetName];
@@ -114,25 +122,32 @@ const WidgetSelector = React.memo(({ widgetName, targetModeName }: WidgetSelecto
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              _setModeWidget(targetModeName, widgetName, !checked);
+              setModeWidget(targetModeName, widgetName, !checked);
             }}
           />
         }
       />
     </Tooltip>
   );
-});
+}));
 
 interface WidgetListProps {
   name: string
 }
-const WidgetList = React.memo(({ name }: WidgetListProps) => {
-  const { modes, _setModeWidget, thirdPartyWidgets } = useContext(ModeContext);
+const mapStateToPropsWidgetList = (state: ReduxState, ownProps: WidgetListProps) => ({
+  ...ownProps,
+  modes: state.modes,
+  thirdPartyWidgets: state.thirdPartyWidgets
+});
+const mapDispatchToPropsWidgetList = { setModeWidget };
+const widgetListConnector = connect(mapStateToPropsWidgetList, mapDispatchToPropsWidgetList);
+
+const WidgetList = widgetListConnector(React.memo(({ name, modes, thirdPartyWidgets, setModeWidget }: ConnectedProps<typeof widgetListConnector>) => {
   const widgets: WidgetConfig[] = [...widgetConfig, ...thirdPartyWidgets];
 
   return (
     <>
-      {widgets.map((widget: any) => {
+      {widgets.map((widget: WidgetConfig) => {
         return (
           <Grid item key={widget.name}>
             <List dense style={{ padding: 0 }}>
@@ -142,7 +157,7 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  _setModeWidget(
+                  setModeWidget(
                     name,
                     widget.name,
                     !modes[name]["widgets"][widget.name]
@@ -181,11 +196,12 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
       })}
     </>
   );
-});
+}));
 
-const ModeDialogContent = () => {
+const mapStateToPropsModeDialogContent = (state: ReduxState) => state;
+const modeDialogContentConnector = connect(mapStateToPropsModeDialogContent, {});
+const ModeDialogContent = modeDialogContentConnector(({ modes, modeName }: ConnectedProps<typeof modeDialogContentConnector>) => {
   const classes = useStyles();
-  const { modes, modeName } = useContext(ModeContext);
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -277,6 +293,6 @@ const ModeDialogContent = () => {
       </Box>
     </>
   );
-};
+});
 
 export default ModeDialogContent;

@@ -1,4 +1,5 @@
-import React, { useContext, MouseEvent, useState, useRef } from "react";
+import React, { MouseEvent, useState, useRef } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
 import SettingsIcon from "@material-ui/icons/Settings";
 import ViewCompactIcon from "@material-ui/icons/ViewCompact";
@@ -23,9 +24,10 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 
-import ModeContext from "../contexts/ModeContext";
 import ModeDialog from "../dialogs/ModeDialog";
 import { ucFirst } from "../utils";
+import { setModeName } from '../redux/actions';
+import type { ReduxState } from '../redux/types';
 
 const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
   return (
@@ -35,11 +37,14 @@ const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
   );
 };
 
-const ModeSelector = () => {
+const mapStateToProps = (state: ReduxState) => state;
+const mapDispatchToProps = { _setModeName: setModeName };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const ModeSelector = connector(({ modeName, _setModeName, prevMode, modes, mode }: ConnectedProps<typeof connector>) => {
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
-  const { modeName, _setModeName, prevMode, modes, mode } = useContext(ModeContext);
   const anchorRef = useRef(null);
 
   const setModeName = (newMode: string) => {
@@ -204,6 +209,6 @@ const ModeSelector = () => {
       </Popper>
     </div>
   );
-};
+});
 
 export default ModeSelector;

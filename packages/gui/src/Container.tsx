@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
 import { Grid, CircularProgress } from "@material-ui/core";
 import { WidthProvider, Responsive } from "react-grid-layout";
@@ -7,25 +8,30 @@ import "react-resizable/css/styles.css";
 
 import { getEventListener, MarqueeEvents, GlobalContext, MarqueeWindow } from "@vscode-marquee/utils";
 
-import ModeContext from "./contexts/ModeContext";
 import Navigation from "./components/Navigation";
 import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
 import { themes, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
+import { setCurrentModeLayout, removeModeWidget } from './redux/actions';
+import type { ReduxState } from './redux/types';
 
 declare const window: MarqueeWindow;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
-export const WidgetLayout = React.memo(() => {
+const mapStateToProps = (state: ReduxState) => state;
+const mapDispatchToProps = { setCurrentModeLayout };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export const WidgetLayout = connector(React.memo((props: ConnectedProps<typeof connector>) => {
   const { resetApp } = useContext(GlobalContext);
-  const { modeName, modes, widgets, _setCurrentModeLayout, mode, thirdPartyWidgets } = useContext(ModeContext);
+  const { modeName, modes, widgets, setCurrentModeLayout, mode, thirdPartyWidgets } = props;
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly
   //to encourage them to integrate or hide it
   //this finds the missing entries and patches them
-  const layoutConfig = useMemo(() => {
+  const getLayoutConfig = () => {
     if (!modeName || !modes[modeName]) {
       return null;
     }
@@ -67,8 +73,9 @@ export const WidgetLayout = React.memo(() => {
         return mode.layouts;
       }
     }
-    return null;
-  }, [mode, modes, modeName]);
+
+    return modes[modeName].layouts;
+  };
 
   let generateWidgets = () => {
     return Object.keys(widgets)
@@ -84,7 +91,8 @@ export const WidgetLayout = React.memo(() => {
     );
   };
 
-  if (!layoutConfig || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
+  const layout = getLayoutConfig();
+  if (!layout || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
     return (
       <Grid
         container
@@ -105,9 +113,9 @@ export const WidgetLayout = React.memo(() => {
       cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
       rowHeight={20}
       onLayoutChange={(_, newLayouts) => {
-        _setCurrentModeLayout(newLayouts);
+        setCurrentModeLayout(newLayouts);
       }}
-      layouts={layoutConfig}
+      layouts={layout}
       draggableHandle=".drag-handle"
       draggableCancel=".draggableCancel"
       containerPadding={[10, 10]}
@@ -118,11 +126,11 @@ export const WidgetLayout = React.memo(() => {
       {generateWidgets()}
     </ResponsiveReactGridLayout>
   );
-});
+}));
 
-const Container = () => {
+const containerConnector = connect(null, { removeModeWidget });
+export default containerConnector(React.memo((props: ConnectedProps<typeof containerConnector>) => {
   const { background, themeColor } = useContext(GlobalContext);
-  const { _removeModeWidget } = useContext(ModeContext);
   const [showSettings, setShowSettings] = useState(false);
 
   const backgroundStyle = useMemo(() => {
@@ -153,7 +161,7 @@ const Container = () => {
   useEffect(() => {
     const eventListener = getEventListener<MarqueeEvents>();
     eventListener.on('openSettings', () => setShowSettings(true));
-    eventListener.on('removeWidget', (name: string) => _removeModeWidget(name));
+    eventListener.on('removeWidget', (name: string) => props.removeModeWidget(name));
   }, []);
 
   return (
@@ -193,6 +201,4 @@ const Container = () => {
       </Grid>
     </div>
   );
-};
-
-export default React.memo(Container);
+}));

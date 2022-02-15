@@ -1,6 +1,7 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useCallback } from "react";
+import { connect, ConnectedProps } from "react-redux";
+
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ModeContext from "../contexts/ModeContext";
 import {
   Typography,
   ListItem,
@@ -9,9 +10,12 @@ import {
   IconButton,
 } from "@material-ui/core";
 
-const ModeMorePop = () => {
-  const { _resetModes } = useContext(ModeContext);
+import { resetModes } from '../redux/actions';
 
+const mapDispatchToProps = { resetModes };
+const connector = connect(null, mapDispatchToProps);
+
+const ModeMorePop = connector(({ resetModes }: ConnectedProps<typeof connector>) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {
@@ -21,10 +25,6 @@ const ModeMorePop = () => {
   const handleClose = useCallback(() => {
     setAnchorEl(null);
   }, []);
-
-  const handleReset = () => {
-    _resetModes();
-  };
 
   const open = Boolean(anchorEl);
   const id = open ? "hide-popover" : undefined;
@@ -52,7 +52,7 @@ const ModeMorePop = () => {
         <ListItem
           button
           onClick={() => {
-            handleReset();
+            resetModes();
             handleClose();
           }}
         >
@@ -65,6 +65,6 @@ const ModeMorePop = () => {
       </Popover>
     </div>
   );
-};
+});
 
 export default ModeMorePop;

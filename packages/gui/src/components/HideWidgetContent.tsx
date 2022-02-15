@@ -1,16 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Grid, Button, Typography, IconButton } from "@material-ui/core";
+import { connect } from "react-redux";
 
-import ModeContext from "../contexts/ModeContext";
+import { removeModeWidget } from "../redux/actions";
 import SettingsDialog from "../dialogs/SettingsDialog";
 
 interface HideWidgetContentProp {
   name: string
 }
 
-const HideWidgetContent = ({ name }: HideWidgetContentProp) => {
-  const { _removeModeWidget } = useContext(ModeContext);
+const mapStateToProps = (state: never, ownProps: HideWidgetContentProp) => (ownProps);
+const mapDispatchToProps = { removeModeWidget };
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
+const HideWidgetContent = ({ name, removeModeWidget }: Props) => {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
@@ -19,7 +23,7 @@ const HideWidgetContent = ({ name }: HideWidgetContentProp) => {
         <Button
           size="small"
           variant="outlined"
-          onClick={() => _removeModeWidget(name) }
+          onClick={() => removeModeWidget(name) }
         >
           Hide this widget
         </Button>
@@ -36,4 +40,4 @@ const HideWidgetContent = ({ name }: HideWidgetContentProp) => {
   );
 };
 
-export default React.memo(HideWidgetContent);
+export default connect()(React.memo(HideWidgetContent));

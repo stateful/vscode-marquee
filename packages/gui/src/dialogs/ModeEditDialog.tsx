@@ -1,4 +1,5 @@
-import React, { useContext, useState, useMemo, useCallback, MouseEvent } from "react";
+import React, { useState, useMemo, useCallback, MouseEvent } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import {
   DialogContent,
   DialogActions,
@@ -8,16 +9,23 @@ import {
 
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
-import ModeContext from "../contexts/ModeContext";
 import EmojiPop from "../components/EmojiPop";
+import { duplicateMode } from '../redux/actions';
+import type { ReduxState } from '../redux/types';
 
 interface ModeEditDialogProps {
   _close?: (event?: MouseEvent<HTMLButtonElement>) => void
   name: string
 }
 
-const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
-  const { modes, _duplicateMode } = useContext(ModeContext);
+const mapStateToProps = (state: ReduxState, ownProps: ModeEditDialogProps) => ({
+  ...state,
+  ...ownProps
+});
+const mapDispatchToProps = { duplicateMode };
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export const ModeEditDialog = connector(React.memo(({ _close, duplicateMode, name, modes }: ConnectedProps<typeof connector>) => {
   const [modeName, setModeName] = useState(name);
   const [emoji, setEmoji] = useState(modes[name].icon);
   let modeNameInputRef: HTMLButtonElement | null = null;
@@ -28,7 +36,7 @@ const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
 
   const updateMode = useCallback(() => {
     if (!error) {
-      _duplicateMode(name, modeName, emoji!);
+      duplicateMode(name, modeName, emoji!);
       if (_close) {
         _close();
       }
@@ -82,6 +90,4 @@ const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
       </DialogActions>
     </DialogContainer>
   );
-});
-
-export { ModeEditDialog };
+}));
