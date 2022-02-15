@@ -2,7 +2,6 @@ import { fetchData } from '../src/utils';
 
 declare const window: {
   fetch: Function
-  marqueeUserProps: any
   marqueeBackendBaseUrl: string
 };
 
@@ -12,7 +11,6 @@ beforeEach(() => {
 });
 
 test('fetchData', async () => {
-  window.marqueeUserProps = JSON.stringify({ foo: 'bar' });
   window.marqueeBackendBaseUrl = 'http://marquee.com';
   (window.fetch as jest.Mock).mockResolvedValue({
     ok: 1,

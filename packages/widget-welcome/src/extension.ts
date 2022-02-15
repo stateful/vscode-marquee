@@ -1,6 +1,6 @@
 import vscode from 'vscode';
 import Axios, { AxiosRequestConfig } from 'axios';
-import ExtensionManager, { getExtProps } from '@vscode-marquee/utils/extension';
+import ExtensionManager from '@vscode-marquee/utils/extension';
 import { Client } from 'tangle';
 
 import { DEFAULT_STATE } from "./constants";
@@ -111,7 +111,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
     this._channel.appendLine(`Upvote trick with id: ${id}`);
     return Axios.post(
       `${this.backendUrl}/voteTrick`,
-      { op: 'upvote', id, props: JSON.stringify(getExtProps()) },
+      { op: 'upvote', id },
       this._getRequestOptions()
     ).catch((err) => vscode.window.showErrorMessage('Failed to upvote trick!', err.message));
   }

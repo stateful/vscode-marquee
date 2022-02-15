@@ -1,5 +1,7 @@
+import os from 'os';
 import vscode from 'vscode';
-import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension';
+import ExtensionManager, { pkg, defaultConfigurations } from '@vscode-marquee/utils/extension';
+import { EXTENSION_ID } from './constants';
 
 export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0;
@@ -74,3 +76,35 @@ export const linkMarquee = async (item: any) => {
 
   editor.revealRange(r, vscode.TextEditorRevealType.InCenter);
 };
+
+export function getExtProps() {
+  const extProps: Record<string, string> = {};
+
+  if (globalThis.process) {
+    extProps.os = os.platform();
+    extProps.platformversion = (os.release() || "").replace(
+      /^(\d+)(\.\d+)?(\.\d+)?(.*)/,
+      "$1$2$3"
+    );
+  }
+
+  extProps.extname = EXTENSION_ID;
+  extProps.extversion = pkg.version;
+  if (vscode && vscode.env) {
+    extProps.vscodemachineid = vscode.env.machineId;
+    extProps.vscodesessionid = vscode.env.sessionId;
+    extProps.vscodeversion = vscode.version;
+
+    switch (vscode.env.uiKind) {
+      case vscode.UIKind.Web:
+        extProps.uikind = "web";
+        break;
+      case vscode.UIKind.Desktop:
+        extProps.uikind = "desktop";
+        break;
+      default:
+        extProps.uikind = "unknown";
+    }
+  }
+  return extProps;
+}

@@ -22,8 +22,6 @@ export class MarqueeExtension {
   private readonly treeView: TreeView;
 
   constructor(private readonly context: vscode.ExtensionContext) {
-    telemetry.sendTelemetryEvent('extensionStart');
-
     this.gui = new MarqueeGui(this.context, this._stateMgr);
     this.treeView = new TreeView(this.context, this._stateMgr);
     this.setupCommands();

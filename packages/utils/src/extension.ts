@@ -253,6 +253,5 @@ export function activate (
 /**
  * export all helper methods that need an Node.js environment
  */
-export * from './getExtProps';
 export * from './types';
 export * from './constants';

@@ -33,7 +33,6 @@ export interface MarqueeWindow<State = any, Configuration = any> extends Window 
   acquireVsCodeApi: () => Webview
   activeWorkspace: Workspace | null
   marqueeExtension: MarqueeInterface
-  marqueeUserProps: string
   marqueeBackendBaseUrl: string
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string

@@ -1,5 +1,10 @@
 const vscode: any = {
-  env: {},
+  version: '1.2.3',
+  env: {
+    uiKind: 1,
+    machineId: 'machineId',
+    sessionId: 'sessionId'
+  },
   ConfigurationTarget: { Global: 1 },
   CodeActionKind: { QuickFix: 1 },
   Uri: {
@@ -12,6 +17,10 @@ const vscode: any = {
   },
   TextEditorRevealType: {
     inCenter: 'TextEditorRevealType.inCenter'
+  },
+  UIKind: {
+    Desktop: 1,
+    Web: 2
   }
 };
 vscode.TreeItemCollapsibleState = {

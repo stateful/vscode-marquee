@@ -22,6 +22,7 @@ const extensionConfig: Configuration = {
   devtool: "source-map",
   externals: {
     vscode: "commonjs vscode",
+    'applicationinsights-native-metrics': 'commonjs applicationinsights-native-metrics' // ignored because we don't ship native module
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],

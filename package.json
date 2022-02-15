@@ -2702,7 +2702,6 @@
     "@typescript-eslint/parser": "^5.11.0",
     "@vscode/extension-telemetry": "^0.4.9",
     "@vscode/test-web": "^0.0.22",
-    "applicationinsights-native-metrics": "^0.0.7",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-preset-react": "^6.24.1",

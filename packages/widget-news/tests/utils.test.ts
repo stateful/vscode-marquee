@@ -2,11 +2,9 @@ import { fetchNews } from '../src/utils';
 
 declare const window: {
   fetch: Function
-  marqueeUserProps: any
   marqueeBackendBaseUrl: string
 };
 
-window.marqueeUserProps = JSON.stringify({ foo: 'bar' });
 window.marqueeBackendBaseUrl = 'http://marquee.com';
 
 const fetchOrig = window.fetch;

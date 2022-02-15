@@ -1,5 +1,6 @@
 import vscode from 'vscode';
 
+export const EXTENSION_ID = "stateful.marquee";
 export const DEFAULT_FONT_SIZE = 5;
 
 export const RETRY = 4 * 1000;
