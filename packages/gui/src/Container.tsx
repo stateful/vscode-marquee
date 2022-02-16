@@ -31,7 +31,7 @@ export const WidgetLayout = connector(React.memo((props: ConnectedProps<typeof c
   //stored layout, we patch the layout so that it displays properly
   //to encourage them to integrate or hide it
   //this finds the missing entries and patches them
-  const getLayoutConfig = () => {
+  const layoutConfig = useMemo(() => {
     if (!modeName || !modes[modeName]) {
       return null;
     }
@@ -73,9 +73,8 @@ export const WidgetLayout = connector(React.memo((props: ConnectedProps<typeof c
         return mode.layouts;
       }
     }
-
-    return modes[modeName].layouts;
-  };
+    return null;
+  }, [mode, modes, modeName, thirdPartyWidgets]);
 
   let generateWidgets = () => {
     return Object.keys(widgets)
@@ -91,8 +90,7 @@ export const WidgetLayout = connector(React.memo((props: ConnectedProps<typeof c
     );
   };
 
-  const layout = getLayoutConfig();
-  if (!layout || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
+  if (!layoutConfig || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
     return (
       <Grid
         container
@@ -115,7 +113,7 @@ export const WidgetLayout = connector(React.memo((props: ConnectedProps<typeof c
       onLayoutChange={(_, newLayouts) => {
         setCurrentModeLayout(newLayouts);
       }}
-      layouts={layout}
+      layouts={layoutConfig}
       draggableHandle=".drag-handle"
       draggableCancel=".draggableCancel"
       containerPadding={[10, 10]}

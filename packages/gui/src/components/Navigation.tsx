@@ -89,7 +89,7 @@ const Navigation = () => {
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null));
-  const [, setInputName] = useState(name);
+  const [inputName, setInputName] = useState(name);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -217,18 +217,17 @@ const Navigation = () => {
                 </Grid>
                 <Grid item>
                   <StyledEdiText
-                    onEditingStart={() => {
-                      setInputName('');
-                    }}
+                    onEditingStart={() => setInputName('')}
                     onSave={(v: string) => {
-                      if (v !== "") {
+                      if (v.trim() !== "") {
                         setName(v);
                         setInputName(v);
                       }
                     }}
+                    onCancel={() => setInputName(name)}
                     submitOnEnter={true}
                     type="text"
-                    value={name}
+                    value={inputName}
                     editOnViewClick
                     viewProps={{
                       style: {
