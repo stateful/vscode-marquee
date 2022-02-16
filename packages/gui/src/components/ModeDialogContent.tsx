@@ -26,8 +26,7 @@ import { widgetConfig } from "../constants";
 import ModeConfigToolbar from "./ModeConfigToolbar";
 import ModeTabPop from "./ModeTabPop";
 import { ucFirst } from "../utils";
-import type { WidgetConfig, PresetModes } from "../types";
-import type { ReduxState } from "../redux/types";
+import type { ReduxState, WidgetConfig, PresetModes } from "../types";
 
 const VerticalTabs = withStyles(() => ({
   flexContainer: {

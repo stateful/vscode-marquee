@@ -1,18 +1,17 @@
 import { MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
-import { ACTIONS } from "./actions";
+import { ACTIONS, ActionTypes } from "./actions";
 import { widgetConfig } from "../constants";
-import type { ActionTypes, State, Configuration, ReduxState } from './types';
-import type { Mode, WidgetConfig, WidgetMap, ModeConfig } from '../types';
+import type { ReduxState, State, Configuration, Mode, WidgetConfig, WidgetMap, ModeConfig } from '../types';
 
 declare const window: MarqueeWindow;
 
 const WIDGET_ID = '@vscode-marquee/gui';
 export const initialState: ReduxState = {
-  ...window.marqueeStateConfiguration[WIDGET_ID].state,
-  ...window.marqueeStateConfiguration[WIDGET_ID].configuration,
+  ...window.marqueeStateConfiguration[WIDGET_ID].state as State,
+  ...window.marqueeStateConfiguration[WIDGET_ID].configuration as Configuration,
   thirdPartyWidgets: [],
   widgets: {},
-  mode: {}
+  mode: {} as any
 };
 
 export const reducer = (

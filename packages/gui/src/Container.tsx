@@ -13,7 +13,7 @@ import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
 import { themes, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
 import { setCurrentModeLayout, removeModeWidget } from './redux/actions';
-import type { ReduxState } from './redux/types';
+import type { ReduxState } from './types';
 
 declare const window: MarqueeWindow;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);

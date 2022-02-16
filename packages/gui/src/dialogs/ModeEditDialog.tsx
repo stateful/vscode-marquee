@@ -11,7 +11,7 @@ import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 
 import EmojiPop from "../components/EmojiPop";
 import { duplicateMode } from '../redux/actions';
-import type { ReduxState } from '../redux/types';
+import type { ReduxState } from '../types';
 
 interface ModeEditDialogProps {
   _close?: (event?: MouseEvent<HTMLButtonElement>) => void

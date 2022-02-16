@@ -27,7 +27,7 @@ import {
 import ModeDialog from "../dialogs/ModeDialog";
 import { ucFirst } from "../utils";
 import { setModeName } from '../redux/actions';
-import type { ReduxState } from '../redux/types';
+import type { ReduxState } from '../types';
 
 const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
   return (
