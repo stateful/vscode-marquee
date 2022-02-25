@@ -3,7 +3,7 @@ import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import { GlobalProvider, getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
-import wrapper from '../src/WidgetWrapper';
+import wrapper from '../src';
 
 jest.mock('../../utils/src/contexts/Global');
 
