@@ -1,6 +1,6 @@
 import vscode from 'vscode';
 import pick from 'lodash.pick';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
@@ -9,6 +9,7 @@ import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
 const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
+const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6';
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
@@ -154,7 +155,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
 
     if (type && path) {
-      return { id: this.generateId(), name, type, path };
+      const id = uuidv5(path, NAMESPACE);
+      return { id, name, type, path };
     }
 
     return null;
