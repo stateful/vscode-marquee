@@ -32,8 +32,7 @@ const ModeProvider = ({ children }: Props) => {
       ...window.marqueeStateConfiguration[WIDGET_ID].state,
       ...window.marqueeStateConfiguration[WIDGET_ID].configuration
     },
-    modeState,
-    false
+    modeState
   );
 
   const _setModeName = (newModeName: string) => {
