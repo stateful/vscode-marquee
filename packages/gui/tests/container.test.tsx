@@ -29,8 +29,8 @@ test('WidgetLayout filters non display widgets', () => {
     </ModeProvider>
   );
 
-  expect(screen.getByText('Example Widget #1')).toBeTruthy();
-  expect(screen.getByText('Example Widget #3')).toBeTruthy();
+  expect(screen.getByText('News Widget')).toBeTruthy();
+  expect(screen.getByText('Notes Widget')).toBeTruthy();
 });
 
 test('Container', () => {

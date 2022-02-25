@@ -10,7 +10,6 @@ import ModeContext, { ModeProvider } from '../../src/contexts/ModeContext';
 declare const window: MarqueeWindow;
 
 let _thirdPartyWidgets: any;
-let _widgets: any;
 let _modes: any;
 let __addMode: any;
 let __removeMode: any;
@@ -45,7 +44,6 @@ test('WidgetLayout filters non display widgets', () => {
     }, class Foobar extends HTMLElement {});
   });
   expect(_thirdPartyWidgets).toHaveLength(1);
-  expect(_widgets['foo-bar']).toBeTruthy();
 
   act(() => { __setModeName('work'); });
   const listener = getEventListener();

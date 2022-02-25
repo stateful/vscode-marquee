@@ -24,25 +24,7 @@ export const ModeProvider = ({ children }: any) => (
     _setModeName,
     modeName: 'default',
     modes: modeConfig,
-    mode: modeConfig.default,
-    thirdPartyWidgets: [],
-    widgets: {
-      news: {
-        element: React.forwardRef(
-          // @ts-expect-error
-          (props, ref) => <div ref={ref}>Example Widget #1</div>),
-      } as any,
-      welcome: {
-        element: React.forwardRef(
-          // @ts-expect-error
-          (props, ref) => <div ref={ref}>Example Widget #2</div>)
-      } as any,
-      github: {
-        element: React.forwardRef(
-          // @ts-expect-error
-          (props, ref) => <div ref={ref}>Example Widget #3</div>)
-      } as any
-    }
+    thirdPartyWidgets: []
   } as any}>
     {children}
   </ModeContext.default.Provider>
