@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHackerNews } from "@fortawesome/free-brands-svg-icons";
+import { faHackerNews } from "@fortawesome/free-brands-svg-icons/faHackerNews";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 

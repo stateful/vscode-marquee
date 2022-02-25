@@ -10,7 +10,6 @@ import ModeContext, { ModeProvider } from '../../src/contexts/ModeContext';
 declare const window: MarqueeWindow;
 
 let _thirdPartyWidgets: any;
-let _widgets: any;
 let _modes: any;
 let __addMode: any;
 let __removeMode: any;
@@ -20,9 +19,8 @@ let __setModeName: any;
 test('WidgetLayout filters non display widgets', () => {
   expect(window.marqueeExtension).not.toBeTruthy();
   const TestComponent = () => {
-    const { widgets, thirdPartyWidgets, modes, _resetModes, _removeMode, _addMode, _setModeName } = useContext(ModeContext);
+    const { thirdPartyWidgets, modes, _resetModes, _removeMode, _addMode, _setModeName } = useContext(ModeContext);
     _thirdPartyWidgets = thirdPartyWidgets;
-    _widgets = widgets;
     _modes = modes;
     __addMode = _addMode;
     __removeMode = _removeMode;
@@ -46,7 +44,6 @@ test('WidgetLayout filters non display widgets', () => {
     }, class Foobar extends HTMLElement {});
   });
   expect(_thirdPartyWidgets).toHaveLength(1);
-  expect(_widgets['foo-bar']).toBeTruthy();
 
   act(() => { __setModeName('work'); });
   const listener = getEventListener();

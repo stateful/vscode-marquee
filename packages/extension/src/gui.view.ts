@@ -1,10 +1,8 @@
 import fs from 'fs/promises';
 import path from "path";
 import vscode from "vscode";
-import crypto from 'crypto';
 import Channel from 'tangle/webviews';
-// @ts-expect-error
-import { URL } from 'universal-url';
+import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from "events";
 import { render } from 'eta';
 import type { Client } from 'tangle';
@@ -93,7 +91,7 @@ export class MarqueeGui extends EventEmitter {
 
     const basePath = vscode.Uri.joinPath(this._baseUri, 'dist', 'gui');
     const baseAppUri = this.panel.webview.asWebviewUri(basePath);
-    const nonce = crypto.randomBytes(16).toString('base64');
+    const nonce = Buffer.from(uuidv4()).toString('base64');
     const config = vscode.workspace.getConfiguration('marquee');
     const pref: ExtensionConfiguration | undefined = config.get('configuration');
     // calculate font-size as range between 0.5 - 1.5
@@ -182,6 +180,8 @@ export class MarqueeGui extends EventEmitter {
       }
     }), {} as Record<string, any>);
 
+    const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL);
+    const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL);
     const content = await render(await this.getTemplate(), {
       aws,
       nonce,
@@ -195,8 +195,8 @@ export class MarqueeGui extends EventEmitter {
       widgetStateConfigurations,
       widgetScripts,
       connectSrc: [
-        (new URL(BACKEND_BASE_URL)).origin,
-        (new URL(BACKEND_GEO_URL)).origin,
+        `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
+        `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
         'https://api.hackerwebapp.com',
         'https://*.ingest.sentry.io'
       ],

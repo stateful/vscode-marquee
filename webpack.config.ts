@@ -1,13 +1,11 @@
 import fs from 'fs';
 import path from "path";
 import stdLibBrowser from "node-stdlib-browser";
-const {
-  NodeProtocolUrlPlugin
-} = require('node-stdlib-browser/helpers/webpack/plugin');
 import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
+const isDevelopment = process.env.NODE_ENV === "development";
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -47,34 +45,18 @@ const extensionConfig: Configuration = {
   plugins: [
     new DefinePlugin({
       BACKEND_BASE_URL:
-        process.env.NODE_ENV === "development"
-          ? JSON.stringify(
-            "https://us-central1-marquee-backend-dev.cloudfunctions.net"
-          )
+        isDevelopment
+          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net")
           : JSON.stringify("https://api.marquee.activecove.com"),
-    }),
-    new DefinePlugin({
       BACKEND_GEO_URL:
-        process.env.NODE_ENV === "development"
-          ? JSON.stringify(
-            "https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation"
-          )
-          : JSON.stringify(
-            "https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"
-          ),
-    }),
-    new DefinePlugin({
+        isDevelopment
+          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation")
+          : JSON.stringify("https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"),
       BACKEND_FWDGEO_URL:
-        process.env.NODE_ENV === "development"
-          ? JSON.stringify(
-            "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
-          )
+        isDevelopment
+          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation")
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
-    }),
-    new DefinePlugin({
-      INSTRUMENTATION_KEY: process.env.MARQUEE_INSTRUMENTATION_KEY
-    }),
-    new DefinePlugin({
+      INSTRUMENTATION_KEY: process.env.MARQUEE_INSTRUMENTATION_KEY,
       PACKAGE_JSON: pkg
     }),
     new CopyPlugin({
@@ -98,7 +80,6 @@ const extensionConfigBrowser: Configuration = {
   },
   plugins: [
     ...(extensionConfig.plugins || []),
-    new NodeProtocolUrlPlugin(),
     new ProvidePlugin({
       process: stdLibBrowser.process,
       Buffer: [stdLibBrowser.buffer, 'Buffer']

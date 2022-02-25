@@ -15,7 +15,7 @@ Object {
 
 exports[`getActiveWorkspace 1`] = `
 Object {
-  "id": "a82cce35fd860de6f63f97e6c482dc6a14d002e8",
+  "id": "39d2f858-3522-4053-beb8-b75a1defd1d2",
   "name": "foobarWorkspace",
   "path": "/foo/bar",
   "type": "workspace",

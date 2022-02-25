@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 
 // @ts-expect-error no types available
 import WeatherIcon from "react-icons-weather";
-import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, CircularProgress } from "@material-ui/core";
 
@@ -11,7 +10,7 @@ import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 
 import WeatherContext, { WeatherProvider } from "./Context";
 import { WeatherDialogLauncher } from "./components/Dialog";
-import { kToF, kToC } from './utils';
+import { kToF, kToC, formatAMPM } from './utils';
 import { SCALE_OPTIONS } from './constants';
 import type { Forecast } from './types';
 
@@ -80,13 +79,13 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
               <Grid item>
                 <Typography variant="body2">
                   <span className={classes.sunrise}>🌅</span>
-                  {moment.unix(current.sunrise).format("LT")}
+                  {formatAMPM(new Date(current.sunrise * 1000))}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant="body2">
                   <span className={classes.sunset}>🌇</span>
-                  {moment.unix(current.sunset).format("LT")}
+                  {formatAMPM(new Date(current.sunset * 1000))}
                 </Typography>
               </Grid>
             </Grid>
@@ -152,7 +151,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                         </Grid>
                         <Grid item>
                           <Typography variant="caption">
-                            {moment.unix(hour.dt).format("LT")}
+                            {formatAMPM(new Date(hour.dt * 1000))}
                           </Typography>
                         </Grid>
                       </Grid>

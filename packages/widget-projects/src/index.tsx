@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
+import { faProjectDiagram } from "@fortawesome/free-solid-svg-icons/faProjectDiagram";
 
 import Projects from "./Widget";
 

@@ -105,3 +105,20 @@ export async function fetchGeoData (city?: string) {
 
   return result;
 }
+
+/**
+ * Simple method to convert a unix timestamp into a "9:30 pm" format
+ * without having to import momentjs
+ * @param date
+ * @returns
+ */
+export const formatAMPM = (date: Date) => {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'pm' : 'am';
+
+  hours %= 12;
+  hours = hours || 12;
+  const minutesStr = minutes < 10 ? `0${minutes}` : minutes.toString();
+  return `${hours}:${minutesStr} ${ampm.toUpperCase()}`;
+};

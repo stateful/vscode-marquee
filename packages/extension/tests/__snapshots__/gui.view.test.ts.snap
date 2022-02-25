@@ -24,8 +24,8 @@ Array [
       ],
       "colorScheme": "transparent",
       "connectSrc": Array [
-        "http://backend_base_url.com",
-        "http://backend_geo_url.com",
+        "undefined://undefined",
+        "undefined://undefined",
         "https://api.hackerwebapp.com",
         "https://*.ingest.sentry.io",
       ],
@@ -33,7 +33,7 @@ Array [
       "fontSize": 1,
       "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
       "geoUrl": "http://BACKEND_GEO_URL.com",
-      "nonce": "some random string",
+      "nonce": "MzlkMmY4NTgtMzUyMi00MDUzLWJlYjgtYjc1YTFkZWZkMWQy",
       "widgetScripts": Array [],
       "widgetStateConfigurations": Object {
         "undefined": Object {

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Grid, Link, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter";
 
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 import { NetworkError } from '@vscode-marquee/utils';
