@@ -1,7 +1,8 @@
 import React, {
   createContext,
   useState,
-  useEffect
+  useEffect,
+  useMemo
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -139,29 +140,29 @@ const ModeProvider = ({ children }: Props) => {
     );
   };
 
+  window.marqueeExtension = useMemo(() => ({
+    defineWidget: (
+      widgetOptions: ThirdPartyWidgetOptions,
+      constructor: CustomElementConstructor,
+      options?: ElementDefinitionOptions
+    ) => {
+      customElements.define(widgetOptions.name, constructor, options);
+      setThirdPartyWidgets([...thirdPartyWidgets, {
+        name: widgetOptions.name,
+        icon: <FontAwesomeIcon icon={widgetOptions.icon} />,
+        label: widgetOptions.label,
+        tags: widgetOptions.tags,
+        description: widgetOptions.description,
+        component: wrapper(ThirdPartyWidget, widgetOptions.name),
+      }]);
+    }
+  } as MarqueeInterface), [thirdPartyWidgets]);
+
   useEffect(() => {
     eventListener.emit(
       'updateWidgetDisplay',
       providerValues.modes[providerValues.modeName].widgets
     );
-
-    window.marqueeExtension = {
-      defineWidget: (
-        widgetOptions: ThirdPartyWidgetOptions,
-        constructor: CustomElementConstructor,
-        options?: ElementDefinitionOptions
-      ) => {
-        customElements.define(widgetOptions.name, constructor, options);
-        setThirdPartyWidgets([...thirdPartyWidgets, {
-          name: widgetOptions.name,
-          icon: <FontAwesomeIcon icon={widgetOptions.icon} />,
-          label: widgetOptions.label,
-          tags: widgetOptions.tags,
-          description: widgetOptions.description,
-          component: wrapper(ThirdPartyWidget, widgetOptions.name),
-        }]);
-      }
-    } as MarqueeInterface;
 
     return () => { eventListener.removeAllListeners(); };
   }, []);
