@@ -25,12 +25,6 @@ const stateMgr = {
   }
 };
 
-jest.mock('crypto', () => ({
-  randomBytes: jest.fn().mockReturnValue({
-    toString: jest.fn().mockReturnValue('some random string')
-  })
-}));
-
 test('constructor', () => {
   new MarqueeGui('context' as any, stateMgr as any);
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on).toBeCalledTimes(2);

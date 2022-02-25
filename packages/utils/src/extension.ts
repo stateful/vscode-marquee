@@ -1,6 +1,6 @@
 import vscode from 'vscode';
-import crypto from 'crypto';
 import pick from 'lodash.pick';
+import { v4 as uuidv4 } from 'uuid';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
@@ -154,11 +154,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
 
     if (type && path) {
-      const shasum = crypto.createHash("sha1");
-      const id = shasum.update(path, "utf8").digest("hex");
-      const nws: Workspace = { id, name, type, path };
-
-      return nws;
+      return { id: this.generateId(), name, type, path };
     }
 
     return null;
@@ -208,8 +204,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   public generateId (): string {
-    const buf = Buffer.alloc(20);
-    return crypto.randomFillSync(buf).toString("hex");
+    return uuidv4();
   }
 
   reset () {

@@ -6,7 +6,6 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.0.0",
     "@fortawesome/react-fontawesome": "^0.1.17",
     "@vscode-marquee/widget": "^0.1.0",
     "@vscode-marquee/dialog": "^0.1.0",

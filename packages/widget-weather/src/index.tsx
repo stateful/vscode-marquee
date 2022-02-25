@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudSun } from "@fortawesome/free-solid-svg-icons";
+import { faCloudSun } from "@fortawesome/free-solid-svg-icons/faCloudSun";
 
 import Weather from "./Widget";
 
