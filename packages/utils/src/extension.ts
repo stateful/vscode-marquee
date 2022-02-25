@@ -4,7 +4,6 @@ import pick from 'lodash.pick';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
-import getExtProps from './getExtProps';
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
@@ -227,7 +226,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 }
 
-function activate (
+export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
@@ -254,6 +253,5 @@ function activate (
 /**
  * export all helper methods that need an Node.js environment
  */
-export { getExtProps, activate };
 export * from './types';
 export * from './constants';

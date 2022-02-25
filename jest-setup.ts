@@ -16,6 +16,8 @@ window.vscode = vscode;
 window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode);
 
 // @ts-expect-error
+global.INSTRUMENTATION_KEY = 'INSTRUMENTATION_KEY_123';
+// @ts-expect-error
 global.__requireContext = jest.fn();
 // @ts-expect-error
 global.PACKAGE_JSON = pkg;
@@ -61,8 +63,6 @@ window.activeWorkspace = {
 
 // @ts-ignore
 window.marqueeThirdPartyWidgets = 0;
-// @ts-ignore
-window.marqueeUserProps = '{"os":"darwin","platformversion":"21.2.0","extname":"activecove.marquee","extversion":"2.0.0-edge.2","vscodemachineid":"366db9dc84b42b265be19d881f97b45d623eb61f68f91c6f7c715dd6265d9eb6","vscodesessionid":"a78cfd2b-4773-4404-9367-e9dfca65c0411644419442497","vscodeversion":"1.64.0","uikind":"desktop"}';
 // @ts-ignore
 window.marqueeBackendBaseUrl = 'https://us-central1-marquee-backend-dev.cloudfunctions.net';
 // @ts-ignore

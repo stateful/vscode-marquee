@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
@@ -10,7 +10,7 @@ const SnippetContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/snippets-widget';
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<Events>();
+  const eventListener = getEventListener<Events & MarqueeEvents>();
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
@@ -32,6 +32,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     snippet: Pick<Snippet, 'title' | 'body' | 'language'>,
     isWorkspaceTodo: boolean
   ): string => {
+    eventListener.emit('telemetryEvent', { eventName: 'addSnippet' });
     const globalSnippets = snippets;
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
 
@@ -64,6 +65,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   }, []);
 
   const _removeSnippet = (id: string) => {
+    eventListener.emit('telemetryEvent', { eventName: 'removeSnippet' });
     const globalSnippets = snippets;
     const index = globalSnippets.findIndex((snippet) => snippet.id === id);
 
@@ -76,6 +78,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   const _updateSnippet = (snippet: Snippet) => {
+    eventListener.emit('telemetryEvent', { eventName: 'updateSnippet' });
     const globalSnippets = snippets;
     const index = globalSnippets.findIndex((s) => s.id === snippet.id);
 

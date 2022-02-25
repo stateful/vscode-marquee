@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
@@ -11,7 +11,7 @@ const TodoContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/todo-widget';
 
 const TodoProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<Events>();
+  const eventListener = getEventListener<Events & MarqueeEvents>();
   const widgetState = getEventListener<Configuration & State>(WIDGET_ID);
   const providerValues = connect<Configuration & State>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
@@ -22,6 +22,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
   let _addTodo = (body: string, tags: string[] = [], isWorkspaceTodo = true) => {
+    eventListener.emit('telemetryEvent', { eventName: 'addTodo' });
     const globalTodos: Todo[] = providerValues.todos;
     const randomString = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
     globalTodos.unshift({
@@ -38,12 +39,14 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   let _removeTodo = (id: string) => {
+    eventListener.emit('telemetryEvent', { eventName: 'removeTodo' });
     let globalTodos: Todo[] = providerValues.todos;
     let newTodos = globalTodos.filter((todo) => todo.id !== id);
     providerValues.setTodos(newTodos);
   };
 
   let _updateTodo = (todo: Todo) => {
+    eventListener.emit('telemetryEvent', { eventName: 'updateTodo' });
     let globalTodos: Todo[] = providerValues.todos;
     let index = globalTodos.findIndex((entry) => entry.id === todo.id);
     globalTodos[index] = todo;
@@ -51,6 +54,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   let _resetTodos = () => {
+    eventListener.emit('telemetryEvent', { eventName: 'resetTodo' });
     providerValues.setTodos([]);
   };
 

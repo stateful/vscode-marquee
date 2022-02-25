@@ -1,9 +1,12 @@
 import type vscode from "vscode";
 import type { Client } from 'tangle';
 
+import telemetry from './telemetry';
 import { MarqueeExtension } from "./extension";
+import { getExtProps } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
+  telemetry.sendTelemetryEvent('extensionActivate', getExtProps());
   new MarqueeExtension(context);
 
   if (process.env.NODE_ENV !== 'development') {
@@ -26,4 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  telemetry.sendTelemetryEvent('extensionDeactivate');
+}

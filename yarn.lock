@@ -2077,6 +2077,11 @@
     "@typescript-eslint/types" "5.11.0"
     eslint-visitor-keys "^3.0.0"
 
+"@vscode/extension-telemetry@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@vscode/extension-telemetry/-/extension-telemetry-0.4.9.tgz#bfd8cc9fcb701e7c9627a3cfa97d02ad596d0b5d"
+  integrity sha512-ZQIqlcgJU462oyQJDVgmEKNSSibEp1CRs0ECoa43gwgkt877Jm2dpz5G+KQhXad/zJy1sxTq8r/5kD75nq4W8Q==
+
 "@vscode/test-web@^0.0.22":
   version "0.0.22"
   resolved "https://registry.yarnpkg.com/@vscode/test-web/-/test-web-0.0.22.tgz#8767c80e7b16e73e78cf30da93d4dff5d4db148a"

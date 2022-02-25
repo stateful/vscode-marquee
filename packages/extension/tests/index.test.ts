@@ -1,3 +1,6 @@
+// @ts-expect-error mock
+import { sendTelemetryEvent } from '@vscode/extension-telemetry';
+
 import { activate, deactivate } from '../src';
 
 jest.mock('../src/extension.ts', () => ({
@@ -7,8 +10,8 @@ jest.mock('../src/extension.ts', () => ({
 jest.useFakeTimers();
 
 test('should activate extension manager', () => {
-  expect(typeof deactivate).toBe('function');
   let exp = activate('context' as any);
+  expect(sendTelemetryEvent).toBeCalledWith('extensionActivate', expect.any(Object));
 
   expect(typeof exp.marquee).toBe('undefined');
 
@@ -19,4 +22,9 @@ test('should activate extension manager', () => {
 
   jest.advanceTimersByTime(2000);
   expect(client.emit).toBeCalledWith('counter', 1);
+});
+
+test('should deactivate extension', () => {
+  deactivate();
+  expect(sendTelemetryEvent).toBeCalledWith('extensionDeactivate');
 });

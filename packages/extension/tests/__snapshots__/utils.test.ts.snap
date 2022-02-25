@@ -3,12 +3,12 @@
 exports[`should get proper extension props 1`] = `
 Object {
   "extname": "stateful.marquee",
-  "extversion": "1.2.3",
+  "extversion": "3.0.0-edge.1",
   "os": "some platform",
   "platformversion": "some release",
-  "uikind": "web",
+  "uikind": "desktop",
   "vscodemachineid": "machineId",
   "vscodesessionid": "sessionId",
-  "vscodeversion": "3.2.1",
+  "vscodeversion": "1.2.3",
 }
 `;

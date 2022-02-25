@@ -47,8 +47,7 @@ test('should return expected interface', async () => {
   upvoteTrick(100);
   expect(Axios.post).toBeCalledWith('http://test/voteTrick', {
     id: 100,
-    op: 'upvote',
-    props: '{}'
+    op: 'upvote'
   }, {
     proxy: {
       protocol: 'http:',

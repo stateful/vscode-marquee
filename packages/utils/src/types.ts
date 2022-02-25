@@ -33,7 +33,6 @@ export interface MarqueeWindow<State = any, Configuration = any> extends Window 
   acquireVsCodeApi: () => Webview
   activeWorkspace: Workspace | null
   marqueeExtension: MarqueeInterface
-  marqueeUserProps: string
   marqueeBackendBaseUrl: string
   marqueeBackendGeoUrl: string
   marqueeBackendFwdGeoUrl: string
@@ -46,6 +45,10 @@ export interface MarqueeEvents {
   removeWidget: string
   updateWidgetDisplay: Record<string, boolean>
   resetMarquee?: boolean
+  telemetryEvent: {
+    eventName: string,
+    properties?: Record<string, string>
+  }
 }
 
 export enum WorkspaceType {

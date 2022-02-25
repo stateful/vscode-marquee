@@ -7,10 +7,10 @@ import Channel from 'tangle/webviews';
 import { URL } from 'universal-url';
 import { EventEmitter } from "events";
 import { render } from 'eta';
-import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
 
+import telemetry from './telemetry';
 import StateManager from "./stateManager";
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants';
 import type { ExtensionConfiguration, ExtensionExport } from './types';
@@ -188,7 +188,6 @@ export class MarqueeGui extends EventEmitter {
       fontSize,
       baseAppUri,
       colorScheme,
-      props: JSON.stringify(getExtProps()),
       baseUrl: BACKEND_BASE_URL,
       geoUrl: BACKEND_GEO_URL,
       fwdGeoUrl: BACKEND_FWDGEO_URL,
@@ -213,8 +212,9 @@ export class MarqueeGui extends EventEmitter {
     }
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee');
-    ch.registerPromise([this.panel.webview])
-      .then((client) => (this.client = client));
+    this.client = await ch.registerPromise([this.panel.webview]);
+    this.client.on('telemetryEvent', ({ eventName, properties }) => (
+      telemetry.sendTelemetryEvent(eventName, properties)));
     this.panel.webview.html = content;
     this.panel.webview.onDidReceiveMessage(this._handleWebviewMessage.bind(this));
     this.panel.onDidDispose(this._disposePanel.bind(this));
@@ -222,6 +222,7 @@ export class MarqueeGui extends EventEmitter {
   }
 
   private _disposePanel () {
+    telemetry.sendTelemetryEvent('guiClose');
     this.guiActive = false;
     this.panel = null;
     this.emit('webview.close');
@@ -239,6 +240,7 @@ export class MarqueeGui extends EventEmitter {
     }
 
     if (e.ready) {
+      telemetry.sendTelemetryEvent('guiOpen');
       this.guiActive = true;
       this._handleViewStateChange({ webviewPanel: { visible: true } } as any);
       return this.emit('webview.open');
@@ -246,6 +248,7 @@ export class MarqueeGui extends EventEmitter {
   }
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
+    telemetry.sendTelemetryEvent('executeCommand', { command });
     if (args && args.length > 0 && command === "vscode.openFolder") {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options);
     }
@@ -271,6 +274,7 @@ export class MarqueeGui extends EventEmitter {
   }
 
   private _handleViewStateChange (e: vscode.WebviewPanelOnDidChangeViewStateEvent) {
+    telemetry.sendTelemetryEvent('viewStateChange', { visible: `${e.webviewPanel.visible}` });
     const widgetDisposables = this.stateMgr.widgetExtensions
       .map((w) => w.exports?.marquee?.disposable)
       .filter(Boolean);

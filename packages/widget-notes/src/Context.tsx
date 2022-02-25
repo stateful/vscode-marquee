@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from "@vscode-marquee/utils";
 
 import AddDialog from "./dialogs/AddDialog";
 import EditDialog from "./dialogs/EditDialog";
@@ -10,7 +10,7 @@ const NoteContext = createContext<Context>({} as Context);
 const WIDGET_ID = '@vscode-marquee/notes-widget';
 
 const NoteProvider = ({ children }: { children: React.ReactElement }) => {
-  const eventListener = getEventListener<Events>();
+  const eventListener = getEventListener<Events & MarqueeEvents>();
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
   /**
@@ -29,6 +29,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
   const _addNote = (note: Pick<Note, 'title' | 'body' | 'text'>, isWorkspaceTodo: boolean): string => {
+    eventListener.emit('telemetryEvent', { eventName: 'addNote' });
     const globalNotes = notes;
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
 
@@ -48,6 +49,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   const _removeNote = (id: string) => {
+    eventListener.emit('telemetryEvent', { eventName: 'removeNote' });
     const globalNotes = notes;
     const index = globalNotes.findIndex((note) => note.id === id);
 
@@ -60,6 +62,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   const _updateNote = (note: Note) => {
+    eventListener.emit('telemetryEvent', { eventName: 'updateNote' });
     const globalNotes = notes;
     const index = globalNotes.findIndex((entry) => entry.id === note.id);
 

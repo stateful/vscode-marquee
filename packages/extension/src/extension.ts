@@ -4,6 +4,7 @@ import path from "path";
 import { WorkspaceType } from '@vscode-marquee/utils/extension';
 import type { MarqueeEvents } from "@vscode-marquee/utils";
 
+import telemetry from './telemetry';
 import StateManager from "./stateManager";
 import { MarqueeGui } from "./gui.view";
 import { TreeView } from "./tree.view";
@@ -92,6 +93,7 @@ export class MarqueeExtension {
   }
 
   private async wipe() {
+    telemetry.sendTelemetryEvent('clearPersistence');
     this.gui.broadcast('resetMarquee', true);
     this.treeView.clearTree();
     await this._stateMgr.clearAll();
@@ -113,6 +115,7 @@ export class MarqueeExtension {
       vscode.commands.registerCommand("marquee.expand", () => this.openGui()),
       vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
       vscode.commands.registerCommand("marquee.edit", (item: ContextMenu) => {
+        telemetry.sendTelemetryEvent('openDialog', { type: item.getDialogs("edit") });
         this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id);
       })
     ];

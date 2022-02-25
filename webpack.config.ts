@@ -22,6 +22,7 @@ const extensionConfig: Configuration = {
   devtool: "source-map",
   externals: {
     vscode: "commonjs vscode",
+    'applicationinsights-native-metrics': 'commonjs applicationinsights-native-metrics' // ignored because we don't ship native module
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
@@ -69,6 +70,9 @@ const extensionConfig: Configuration = {
             "https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation"
           )
           : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
+    }),
+    new DefinePlugin({
+      INSTRUMENTATION_KEY: process.env.MARQUEE_INSTRUMENTATION_KEY
     }),
     new DefinePlugin({
       PACKAGE_JSON: pkg
