@@ -62,7 +62,6 @@ jobs:
           NODE_ENV: production
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Run tests
-        uses: GabrielBB/xvfb-action@v1.0
         with:
           run: yarn test
       - name: Create Changelog
@@ -100,8 +99,10 @@ jobs:
           npm version $RELEASE_VERSION
           git tag -a $RELEASE_VERSION -m "$RELEASE_VERSION"
       - name: Package Extension (Edge)
-        run: yarn vsce package $RELEASE_VERSION --pre-release --yarn --no-git-tag-version --no-update-package-json -o "./marquee-$RELEASE_VERSION.vsix" ${{ github.event.inputs.additionalFlags }}
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
+        run: |
+          node .github/scripts/updateEdgeVersion.js
+          yarn vsce package $RELEASE_VERSION --pre-release --yarn --no-git-tag-version --no-update-package-json -o "./marquee-$RELEASE_VERSION.vsix" ${{ github.event.inputs.additionalFlags }}
       - name: Package Extension (Stable)
         run: yarn vsce package $RELEASE_VERSION --yarn --no-git-tag-version --no-update-package-json -o "./marquee-$RELEASE_VERSION.vsix" ${{ github.event.inputs.additionalFlags }}
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
