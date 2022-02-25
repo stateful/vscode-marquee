@@ -11,7 +11,8 @@ import ModeContext from "./contexts/ModeContext";
 import Navigation from "./components/Navigation";
 import SettingsDialog from './dialogs/SettingsDialog';
 import backgrounds from './utils/backgrounds';
-import { themes, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
+import { themes, widgetConfig, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
+import type { WidgetMap, WidgetConfig } from './types';
 
 declare const window: MarqueeWindow;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -19,7 +20,19 @@ const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
 export const WidgetLayout = React.memo(() => {
   const { resetApp } = useContext(GlobalContext);
-  const { modeName, modes, widgets, _setCurrentModeLayout, mode, thirdPartyWidgets } = useContext(ModeContext);
+  const { modeName, modes, _setCurrentModeLayout, thirdPartyWidgets } = useContext(ModeContext);
+
+  const mode = modes[modeName];
+  const widgets: Record<string, WidgetMap> = useMemo(() => {
+    const newMap: Record<string, WidgetMap> = {};
+    [...widgetConfig, ...thirdPartyWidgets].map((widgetObj: WidgetConfig) => {
+      newMap[widgetObj.name] = {
+        label: widgetObj.label || 'Unknown Widget',
+        element: widgetObj.component
+      };
+    });
+    return newMap;
+  }, [thirdPartyWidgets]);
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly

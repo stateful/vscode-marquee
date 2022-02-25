@@ -56,7 +56,7 @@ type Entries<T> = {
  * @param tangle   tangle client to broadcast information
  * @returns object containing state values and its setter methods
  */
-function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
+function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>, isBidirectional = true): ContextProperties<T> {
   const prevState: any = window.vscode.getState() || {};
   const contextValues: Partial<ContextProperties<T>> = {};
   for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
@@ -93,17 +93,19 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      * listen to updates from the extension host and apply it to the property
      * state and webview state
      */
-    useEffect(() => {
-      const subs = tangle.listen(prop as keyof T, (val: any) => {
-        setPropState(val);
-        window.vscode.setState({
-          ...(window.vscode.getState() || {}),
-          [prop]: val
+    if (isBidirectional) {
+      useEffect(() => {
+        const subs = tangle.listen(prop as keyof T, (val: any) => {
+          setPropState(val);
+          window.vscode.setState({
+            ...(window.vscode.getState() || {}),
+            [prop]: val
+          });
         });
-      });
 
-      return () => { subs.unsubscribe(); };
-    }, []);
+        return () => { subs.unsubscribe(); };
+      }, []);
+    }
   }
 
   return contextValues as ContextProperties<T>;

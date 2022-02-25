@@ -20,9 +20,8 @@ let __setModeName: any;
 test('WidgetLayout filters non display widgets', () => {
   expect(window.marqueeExtension).not.toBeTruthy();
   const TestComponent = () => {
-    const { widgets, thirdPartyWidgets, modes, _resetModes, _removeMode, _addMode, _setModeName } = useContext(ModeContext);
+    const { thirdPartyWidgets, modes, _resetModes, _removeMode, _addMode, _setModeName } = useContext(ModeContext);
     _thirdPartyWidgets = thirdPartyWidgets;
-    _widgets = widgets;
     _modes = modes;
     __addMode = _addMode;
     __removeMode = _removeMode;

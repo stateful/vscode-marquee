@@ -1,8 +1,7 @@
 import React, {
   createContext,
   useState,
-  useEffect,
-  useMemo
+  useEffect
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,8 +11,7 @@ import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@
 import type { EmojiData } from 'emoji-mart';
 
 import { defaultLayout, defaultEnabledWidgets } from "../constants";
-import { widgetConfig } from "../constants";
-import { Context, Mode, LayoutType, WidgetConfig, WidgetMap, State, Configuration, ModeConfig } from "../types";
+import { Context, Mode, LayoutType, WidgetConfig, State, Configuration, ModeConfig } from "../types";
 
 declare const window: MarqueeWindow;
 
@@ -26,50 +24,16 @@ const WIDGET_ID = '@vscode-marquee/gui';
 
 const ModeProvider = ({ children }: Props) => {
   const eventListener = getEventListener<MarqueeEvents>();
+  const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[]);
   const modeState = getEventListener<State & Configuration>(WIDGET_ID);
   const providerValues = connect<State & Configuration>(
     {
       ...window.marqueeStateConfiguration[WIDGET_ID].state,
       ...window.marqueeStateConfiguration[WIDGET_ID].configuration
     },
-    modeState
+    modeState,
+    false
   );
-  const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[]);
-
-  const widgetMapping: Record<string, WidgetMap> = useMemo(() => {
-    const newMap: Record<string, WidgetMap> = {};
-    [...widgetConfig, ...thirdPartyWidgets].map((widgetObj: WidgetConfig) => {
-      newMap[widgetObj.name] = {
-        label: widgetObj.label || 'Unknown Widget',
-        element: widgetObj.component
-      };
-    });
-    return newMap;
-  }, [widgetConfig, thirdPartyWidgets]);
-
-  if (!window.marqueeExtension) {
-    window.marqueeExtension = {
-      defineWidget: (
-        widgetOptions: ThirdPartyWidgetOptions,
-        constructor: CustomElementConstructor,
-        options?: ElementDefinitionOptions
-      ) => {
-        customElements.define(widgetOptions.name, constructor, options);
-        setThirdPartyWidgets([...thirdPartyWidgets, {
-          name: widgetOptions.name,
-          icon: <FontAwesomeIcon icon={widgetOptions.icon} />,
-          label: widgetOptions.label,
-          tags: widgetOptions.tags,
-          description: widgetOptions.description,
-          component: wrapper(ThirdPartyWidget, widgetOptions.name),
-        }]);
-      }
-    } as MarqueeInterface;
-  }
-
-  const mode: Mode = useMemo(() => {
-    return (providerValues.modes && providerValues.modes[providerValues.modeName]) || {};
-  }, [providerValues.modes, providerValues.modeName]);
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== providerValues.modeName) {
@@ -176,7 +140,29 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    eventListener.emit('updateWidgetDisplay', mode.widgets);
+    eventListener.emit(
+      'updateWidgetDisplay',
+      providerValues.modes[providerValues.modeName].widgets
+    );
+
+    window.marqueeExtension = {
+      defineWidget: (
+        widgetOptions: ThirdPartyWidgetOptions,
+        constructor: CustomElementConstructor,
+        options?: ElementDefinitionOptions
+      ) => {
+        customElements.define(widgetOptions.name, constructor, options);
+        setThirdPartyWidgets([...thirdPartyWidgets, {
+          name: widgetOptions.name,
+          icon: <FontAwesomeIcon icon={widgetOptions.icon} />,
+          label: widgetOptions.label,
+          tags: widgetOptions.tags,
+          description: widgetOptions.description,
+          component: wrapper(ThirdPartyWidget, widgetOptions.name),
+        }]);
+      }
+    } as MarqueeInterface;
+
     return () => { eventListener.removeAllListeners(); };
   }, []);
 
@@ -184,9 +170,8 @@ const ModeProvider = ({ children }: Props) => {
     <ModeContext.Provider
       value={{
         ...providerValues,
-        mode: mode,
-        widgets: widgetMapping,
-        thirdPartyWidgets: thirdPartyWidgets,
+        thirdPartyWidgets,
+        setThirdPartyWidgets,
 
         _setModeName: _setModeName,
         _setCurrentModeLayout: _setCurrentModeLayout,

@@ -46,11 +46,11 @@ export interface Configuration {
   modes: ModeConfig
 }
 
-export interface Context extends ContextProperties<State & Configuration> {
-  mode: Mode
+export interface AdditionalProps {
   thirdPartyWidgets: WidgetConfig[]
-  widgets: Record<string, WidgetMap>,
+}
 
+export interface Context extends ContextProperties<State & Configuration & AdditionalProps> {
   _setCurrentModeLayout: (newLayouts: ReactGridLayout.Layouts) => void
   _setModeWidget: (targetMode: string, widgetName: string, value: ReactGridLayout.Layout | Boolean) => void
   _addMode: (newModeName: string, emoji: EmojiData) => void

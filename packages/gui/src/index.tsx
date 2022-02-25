@@ -21,11 +21,11 @@ Sentry.init();
 
 export const Providers = ({ children }: any) => {
   return (
-    <GlobalProvider>
-      <ModeProvider>
+    <ModeProvider>
+      <GlobalProvider>
         {children}
-      </ModeProvider>
-    </GlobalProvider>
+      </GlobalProvider>
+    </ModeProvider>
   );
 };
 
