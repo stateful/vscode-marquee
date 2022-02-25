@@ -62,8 +62,7 @@ jobs:
           NODE_ENV: production
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Run tests
-        with:
-          run: yarn test
+        run: yarn test
       - name: Create Changelog
         run: |
           git log $(git describe --tags --abbrev=0)..HEAD --oneline &> ${{ github.workspace }}-CHANGELOG.txt
