@@ -43,5 +43,7 @@ test('linkMarquee', async () => {
 });
 
 test('should get proper extension props', () => {
-  expect(getExtProps()).toMatchSnapshot();
+  const { extversion, ...snap } = getExtProps();
+  expect(snap).toMatchSnapshot();
+  expect(typeof extversion).toBe('string');
 });

@@ -3,7 +3,6 @@
 exports[`should get proper extension props 1`] = `
 Object {
   "extname": "stateful.marquee",
-  "extversion": "3.0.0-edge.1",
   "os": "some platform",
   "platformversion": "some release",
   "uikind": "desktop",
