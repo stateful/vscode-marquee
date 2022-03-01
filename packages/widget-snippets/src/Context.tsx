@@ -1,16 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
 import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from "@vscode-marquee/utils";
 
-import AddDialog from "./dialogs/AddDialog";
-import EditDialog from "./dialogs/EditDialog";
+import { WIDGET_ID } from './constants';
 import type { State, Context, Snippet, Events } from './types';
 
 declare const window: MarqueeWindow;
 const SnippetContext = createContext<Context>({} as Context);
-const WIDGET_ID = '@vscode-marquee/snippets-widget';
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   const eventListener = getEventListener<Events & MarqueeEvents>();
+  const widgetEvents = getEventListener<Events>(WIDGET_ID);
   const widgetState = getEventListener<State>(WIDGET_ID);
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState);
 
@@ -20,8 +19,6 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
    * to maintain a local state
    */
   const [snippets, _setSnippets] = useState<Snippet[]>(providerValues.snippets);
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState<string | undefined>();
 
   const setSnippets = (snippets: Snippet[]) => {
     _setSnippets(snippets);
@@ -51,8 +48,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   useEffect(() => {
-    eventListener.on('openAddSnippetDialog', setShowAddDialog);
-    eventListener.on('openEditSnippetDialog', setShowEditDialog);
+    widgetEvents.on('selectSnippet', (id) => providerValues.setSnippetSelected(id));
     eventListener.on('addSnippet', (snippet) => _addSnippet(
       snippet,
       snippet.workspaceId === window.activeWorkspace?.id
@@ -97,19 +93,8 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
         _addSnippet,
         _removeSnippet,
         _updateSnippet,
-
-        showAddDialog,
-        setShowAddDialog,
-        showEditDialog,
-        setShowEditDialog
       }}
     >
-      { showAddDialog && (
-        <AddDialog close={() => setShowAddDialog(false)} />
-      )}
-      { showEditDialog && snippets.find((s) => showEditDialog === s.id) && (
-        <EditDialog snippet={snippets.find((s) => showEditDialog === s.id)!} close={() => setShowEditDialog(undefined) } />
-      )}
       {children}
     </SnippetContext.Provider>
   );

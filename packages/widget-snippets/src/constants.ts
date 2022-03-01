@@ -1,5 +1,8 @@
 import type { State } from './types';
 
+export const STATE_KEY = 'widgets.snippets';
+export const WIDGET_ID = '@vscode-marquee/snippets-widget';
+
 export const DEFAULT_STATE: State = {
   snippets: [],
   snippetFilter: '',

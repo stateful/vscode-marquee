@@ -124,19 +124,15 @@
       },
       {
         "command": "marquee.snippet.add",
-        "title": "Add to Snippets [Marquee]"
+        "title": "Add Selection to Snippets [Marquee]"
       },
       {
         "command": "marquee.note.add",
         "title": "Add to Notes [Marquee]"
       },
       {
-        "command": "marquee.snippet.insert",
-        "title": "Insert snippet"
-      },
-      {
         "command": "marquee.snippet.insertEditor",
-        "title": "Insert from snippets [Marquee]"
+        "title": "Insert from Snippets [Marquee]"
       },
       {
         "command": "marquee.link",
@@ -168,7 +164,7 @@
       },
       {
         "command": "marquee.todo.addEmpty",
-        "title": "Add todo to Marquee",
+        "title": "Create New Todo [Marquee]",
         "icon": {
           "light": "assets/add-dark.svg",
           "dark": "assets/add-light.svg"
@@ -176,7 +172,7 @@
       },
       {
         "command": "marquee.note.addEmpty",
-        "title": "Add item to Notes",
+        "title": "Create New Note [Marquee]",
         "icon": {
           "light": "assets/add-dark.svg",
           "dark": "assets/add-light.svg"
@@ -184,7 +180,7 @@
       },
       {
         "command": "marquee.snippet.addEmpty",
-        "title": "Add item to Snippets",
+        "title": "Create New Snippet [Marquee]",
         "icon": {
           "light": "assets/add-dark.svg",
           "dark": "assets/add-light.svg"

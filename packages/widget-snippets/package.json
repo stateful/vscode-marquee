@@ -6,7 +6,6 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "dependencies": {
-    "@types/codemirror": "^5.60.5",
     "@types/html-escaper": "^3.0.0",
     "@types/react-splitter-layout": "^3.0.2",
     "@types/react-virtualized": "^9.21.18",

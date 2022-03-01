@@ -24,6 +24,8 @@ export interface Dialog {
 
 export interface ContextMenu {
   readonly id: string;
+  readonly type: string;
+  readonly item: Snippet | Todo | Note;
   getDialogs(cmd: string): string;
 }
 
@@ -372,7 +374,7 @@ class SnippetItem extends Item implements ContextMenu {
         basePath,
         {
           command: "marquee.insertSnippet",
-          title: "Insert snippet",
+          title: "Insert Snippet",
         }
       );
 
@@ -386,14 +388,14 @@ class SnippetItem extends Item implements ContextMenu {
     if (snps.length < 1) {
       snps.push(
         new SnippetItem(
-          "Add new snippet",
+          "Add New Snippet",
           "addItemSnippet",
           {} as Snippet,
           vscode.TreeItemCollapsibleState.None,
           basePath,
           {
             command: "marquee.snippet.addEmpty",
-            title: "Add new snippet",
+            title: "Add New Snippet",
           },
           true,
           "AddNew"

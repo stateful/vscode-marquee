@@ -17,6 +17,7 @@ import { escape } from "html-escaper";
 import { MarqueeWindow, jumpTo, getEventListener } from "@vscode-marquee/utils";
 
 import SnippetContext from "../Context";
+import { WIDGET_ID } from "../constants";
 import type { Events, Snippet } from "../types";
 
 declare const window: MarqueeWindow;
@@ -58,9 +59,10 @@ let SnippetListItem = ({
   click,
 }: SnippetListItemProps) => {
   const classes = useStyles();
+  const widgetEventListener = getEventListener<Events>(WIDGET_ID);
   const eventListener = getEventListener<Events>();
 
-  const { _removeSnippet, _updateSnippet, setShowEditDialog } = useContext(SnippetContext);
+  const { _removeSnippet, _updateSnippet } = useContext(SnippetContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const matchingWorkspace = useMemo(() => {
@@ -146,7 +148,7 @@ let SnippetListItem = ({
               <ListItem
                 button
                 onClick={(e) => {
-                  setShowEditDialog(snippet.id);
+                  widgetEventListener.emit('openSnippet', snippet.path!);
                   handleClose(e);
                 }}
               >

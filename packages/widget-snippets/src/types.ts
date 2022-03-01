@@ -33,8 +33,8 @@ export interface State {
 }
 
 export interface Events {
-  openAddSnippetDialog: boolean
-  openEditSnippetDialog?: string
+  openSnippet: string
+  selectSnippet: string
   addSnippet: Snippet
   addNote: Pick<Snippet, keyof Snippet>
 }
@@ -46,9 +46,4 @@ export interface Context extends ContextProperties<State> {
   ) => string
   _removeSnippet: (id: string) => void
   _updateSnippet: (snippet: any) => void
-
-  showAddDialog: boolean
-  setShowAddDialog: (show: boolean) => void
-  showEditDialog?: string
-  setShowEditDialog: (id?: string) => void
 }

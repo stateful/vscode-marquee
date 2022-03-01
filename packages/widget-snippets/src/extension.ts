@@ -1,39 +1,77 @@
 import vscode from 'vscode';
+import type { Client } from 'tangle';
 
 import ExtensionManager from '@vscode-marquee/utils/extension';
 
-import { DEFAULT_STATE } from './constants';
-import type { Snippet, State, Selection, Language } from './types';
-
-const STATE_KEY = 'widgets.snippets';
-
+import ContentProvider from './provider/ContentProvider';
+import SnippetStorageProvider from './provider/SnippetStorageProvider';
+import { DEFAULT_STATE, STATE_KEY } from './constants';
+import type { Snippet, State, Events, Selection, Language } from './types';
 
 export class SnippetExtensionManager extends ExtensionManager<State, {}> {
+  private _contentProvider = new ContentProvider();
+  private _fsProvider: SnippetStorageProvider;
+
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, {}, DEFAULT_STATE);
+    this._fsProvider = new SnippetStorageProvider(context, channel, this.getActiveWorkspace()?.id);
+
     this._disposables.push(
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
-      vscode.commands.registerCommand('marquee.snippet.insert', this._insertSnippet.bind(this)),
       vscode.commands.registerCommand("marquee.snippet.addEmpty", this._addEmptySnippet.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
-      vscode.commands.registerTextEditorCommand('marquee.snippet.add', this._addSnippet.bind(this))
+      vscode.commands.registerTextEditorCommand('marquee.snippet.add', this._addSnippet.bind(this)),
+      vscode.workspace.registerTextDocumentContentProvider(ContentProvider.scheme, this._contentProvider),
+      vscode.workspace.registerFileSystemProvider(SnippetStorageProvider.scheme, this._fsProvider, { isCaseSensitive: true })
     );
+
+    this._fsProvider.on('saveNewSnippet', (snippet) => {
+      const newSnippets = [snippet].concat(this.state.snippets);
+      this.updateState('snippets', newSnippets);
+      this.broadcast({ snippets: newSnippets });
+
+      vscode.commands.executeCommand("marquee.refreshCodeActions");
+      vscode.window.showInformationMessage(
+        `Added ${snippet.title} to your snippets in Marquee`,
+        "Open Marquee"
+      );
+      vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+      this._openSnippet(snippet.path);
+    });
+
+    this._fsProvider.on('updateSnippet', (snippet) => {
+      const index = this.state.snippets.findIndex((s) => s.id === snippet.id);
+      if (index < 0) {
+        return vscode.window.showErrorMessage(`Couldn't update snippet "${snippet.title}"`);
+      }
+
+      this.state.snippets[index].body = snippet.body;
+      this.updateState('snippets', this.state.snippets);
+      this.broadcast({ snippets: this.state.snippets });
+    });
   }
 
-  private _addEmptySnippet () {
-    this.emit('openDialog', { event: 'openAddSnippetDialog', payload: true });
+  private async _addEmptySnippet () {
+    return this._openSnippet('/New Snippet');
+  }
+
+  private async _openSnippet (path: string) {
+    const setting: vscode.Uri = vscode.Uri.parse(`${SnippetStorageProvider.scheme}:${path}`);
+    const doc = await vscode.workspace.openTextDocument(setting);
+    await vscode.window.showTextDocument(doc, 2, false);
   }
 
   /**
    * add snippet into text editor
    */
   private _addSnippet (editor: vscode.TextEditor) {
-    const { text, path, name, lang } = this.getTextSelection(editor);
+    const { text, name, lang } = this.getTextSelection(editor);
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected');
     }
 
+    const path = editor.document.uri.path.split('/').pop() || `/${name}.txt`;
     const snippet: Snippet = {
       archived: false,
       title: name,
@@ -41,7 +79,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       createdAt: new Date().getTime(),
       id: this.generateId(),
       origin: path,
-      path: path,
+      path,
       language: { name: lang, value: lang } as Language,
       workspaceId: this.getActiveWorkspace()?.id || null,
     };
@@ -77,30 +115,6 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   }
 
   /**
-   * insert snippet
-   */
-  private _insertSnippet (item: Snippet) {
-    const activeTextEditor = vscode.window.activeTextEditor;
-    if (!activeTextEditor) {
-      return console.error('No active text editor found');
-    }
-
-    activeTextEditor.edit((editor) => {
-      if (!activeTextEditor.selection) {
-        return console.warn('No text selected');
-      }
-
-      const pos = activeTextEditor.selection;
-      editor.insert(pos.active, item.body);
-      activeTextEditor.revealRange(
-        new vscode.Range(pos.start, pos.end),
-        vscode.TextEditorRevealType.InCenterIfOutsideViewport
-      );
-      vscode.window.showTextDocument(activeTextEditor.document);
-    });
-  }
-
-  /**
    * archive todo
    * @param item TreeView item that represents a todo in a tree view
    * @returns (un)archived todo
@@ -120,6 +134,24 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
 
     this.state.snippets[snippetIndex].workspaceId = awsp.id;
     this.updateState('snippets', this.state.snippets);
+  }
+
+  public setBroadcaster (tangle: Client<State>) {
+    super.setBroadcaster(tangle);
+
+    const _tangle = this._tangle as any as Client<Events>;
+
+    /**
+     * open snippet document by webview request
+     */
+    _tangle.on('openSnippet', (path: string) => this._openSnippet(path));
+
+    /**
+     * select snippet in webview when file is opened
+     */
+    this._fsProvider.on('fileStat', (id: string) => _tangle.emit('selectSnippet', id));
+
+    return this;
   }
 }
 
