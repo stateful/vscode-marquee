@@ -71,7 +71,8 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       return vscode.window.showWarningMessage('Marquee: no text selected');
     }
 
-    const path = editor.document.uri.path.split('/').pop() || `/${name}.txt`;
+    const id = this.generateId();
+    const path = `/${id}/${editor.document.uri.path.split('/').pop() || `/${name}.txt`}`;
     const snippet: Snippet = {
       archived: false,
       title: name,
