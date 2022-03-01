@@ -5,6 +5,12 @@ const vscode: any = {
     machineId: 'machineId',
     sessionId: 'sessionId'
   },
+  FileType: {
+    File: '1'
+  },
+  Disposable: class {
+    public dispose = jest.fn();
+  },
   ConfigurationTarget: { Global: 1 },
   CodeActionKind: { QuickFix: 1 },
   Uri: {
@@ -60,6 +66,7 @@ vscode.window = {
   showWarningMessage: jest.fn(),
   showInformationMessage: jest.fn(),
   showSaveDialog: jest.fn().mockResolvedValue({ fsPath: '/bar/foo' }),
+  showInputBox: jest.fn().mockResolvedValue('some input'),
   createWebviewPanel: jest.fn().mockReturnValue({
     onDidChangeViewState: jest.fn(),
     onDidDispose: jest.fn(),
