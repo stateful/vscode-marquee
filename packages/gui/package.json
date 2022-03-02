@@ -36,7 +36,6 @@
     "email-validator": "^2.0.4",
     "emoji-mart": "^3.0.1",
     "html-escaper": "^3.0.3",
-    "javascript-stringify": "^2.1.0",
     "material-ui-chip-input": "^1.1.0",
     "react": "^17.0.2",
     "react-animated-slider": "^2.0.0",

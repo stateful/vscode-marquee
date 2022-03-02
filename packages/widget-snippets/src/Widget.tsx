@@ -64,11 +64,8 @@ let Snippets = () => {
   }, [snippetSelected, snippets]);
 
   const snippetLinkFileName = useMemo(() => {
-    if (
-      snippet && snippet.path && snippet.exists && snippet.hasOwnProperty("path") &&
-      snippet.path.indexOf("/") !== -1
-    ) {
-      return snippet.path.split("/").reverse()[0].toUpperCase();
+    if (snippet && snippet.origin) {
+      return snippet.origin.split("/").reverse()[0].toUpperCase();
     }
 
     return '';

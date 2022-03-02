@@ -26,14 +26,14 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
   };
 
   const _addSnippet = (
-    snippet: Pick<Snippet, 'title' | 'body' | 'language'>,
+    snippet: Pick<Snippet, 'title' | 'body'>,
     isWorkspaceTodo: boolean
   ): string => {
     eventListener.emit('telemetryEvent', { eventName: 'addSnippet' });
     const globalSnippets = snippets;
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('');
 
-    const newSnippet: Snippet = Object.assign({}, snippet, {
+    const newSnippet: Partial<Snippet> = Object.assign({}, snippet, {
       id,
       archived: false,
       createdAt: new Date().getTime(),
@@ -42,7 +42,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
         : null
     });
 
-    globalSnippets.unshift(newSnippet);
+    globalSnippets.unshift(newSnippet as Snippet);
     setSnippets(globalSnippets);
     return id;
   };

@@ -36,9 +36,9 @@ test('activateGUI', () => {
 
 test('linkMarquee', async () => {
   const parse = vscode.Uri.parse as jest.Mock;
-  await linkMarquee({ item: { path: '/some/file:123:3' } });
+  await linkMarquee({ item: { origin: '/some/file:123:3' } });
   expect(parse).toBeCalledWith('/some/file:123');
-  await linkMarquee({ item: { path: '/some/file:124' } });
+  await linkMarquee({ item: { origin: '/some/file:124' } });
   expect(parse).toBeCalledWith('/some/file');
 });
 

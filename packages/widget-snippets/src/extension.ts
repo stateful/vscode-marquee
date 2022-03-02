@@ -3,10 +3,11 @@ import type { Client } from 'tangle';
 
 import ExtensionManager from '@vscode-marquee/utils/extension';
 
+import Snippet from './models/Snippet';
 import ContentProvider from './provider/ContentProvider';
 import SnippetStorageProvider from './provider/SnippetStorageProvider';
 import { DEFAULT_STATE, STATE_KEY } from './constants';
-import type { Snippet, SnippetTreeItem, State, Events, Selection, Language } from './types';
+import type { SnippetTreeItem, State, Events, Selection } from './types';
 
 export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   private _contentProvider = new ContentProvider();
@@ -72,25 +73,22 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
    * add snippet into text editor
    */
   private _addSnippet (editor: vscode.TextEditor) {
-    const { text, name, lang } = this.getTextSelection(editor);
+    const { path, text, name } = this.getTextSelection(editor);
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected');
     }
 
     const id = this.generateId();
-    const path = `/${id}/${editor.document.uri.path.split('/').pop() || `/${name}.txt`}`;
-    const snippet: Snippet = {
-      archived: false,
-      title: name,
-      body: text,
-      createdAt: new Date().getTime(),
-      id: this.generateId(),
-      origin: path,
-      path,
-      language: { name: lang, value: lang } as Language,
-      workspaceId: this.getActiveWorkspace()?.id || null,
-    };
+    const snippet = new Snippet(
+      this.getActiveWorkspace()?.id || null,
+      name,
+      text,
+      false,
+      Date.now(),
+      id,
+      path
+    );
     const newSnippets = [snippet].concat(this.state.snippets);
     this.updateState('snippets', newSnippets);
     this.broadcast({ snippets: newSnippets });
@@ -151,21 +149,28 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   /**
    * insert snippet into editor
    */
-  private _insertEditor (editor: vscode.TextEditor) {
-    const qp = vscode.window.createQuickPick<Selection>();
-    qp.items = this.state.snippets.map((snippet: Snippet): Selection => ({
-      label: snippet.title,
-      snippet
-    }));
-    qp.onDidChangeSelection((selection) => {
-      editor.insertSnippet(
-        new vscode.SnippetString(selection[0].snippet.body),
-        editor.selection.start
-      );
-      qp.hide();
+  private async _insertEditor (editor: vscode.TextEditor) {
+    const snippet = await this._pickSnippet();
+    editor.insertSnippet(
+      new vscode.SnippetString(snippet.body),
+      editor.selection.start
+    );
+  }
+
+  private _pickSnippet () {
+    return new Promise<Snippet>((resolve) => {
+      const qp = vscode.window.createQuickPick<Selection>();
+      qp.items = this.state.snippets.map((snippet: Snippet): Selection => ({
+        label: snippet.title,
+        snippet
+      }));
+      qp.onDidChangeSelection((selection) => {
+        resolve(selection[0].snippet);
+        qp.hide();
+      });
+      qp.onDidHide(() => qp.dispose());
+      qp.show();
     });
-    qp.onDidHide(() => qp.dispose());
-    qp.show();
   }
 
   /**
@@ -173,7 +178,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
    * @param item TreeView item that represents a todo in a tree view
    * @returns (un)archived todo
    */
-  private _moveSnippet (item: { id: string, archived: boolean }) {
+  private async _moveSnippet (item: { id: string, archived: boolean }) {
+    if (!item) {
+      item = await this._pickSnippet();
+    }
+
     const awsp = this.getActiveWorkspace();
 
     if (!awsp) {

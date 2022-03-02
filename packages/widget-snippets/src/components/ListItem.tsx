@@ -11,7 +11,6 @@ import {
 import CodeIcon from "@material-ui/icons/Code";
 
 import copy from "copy-to-clipboard";
-import { stringify } from "javascript-stringify";
 import { escape } from "html-escaper";
 
 import { MarqueeWindow, jumpTo, getEventListener } from "@vscode-marquee/utils";
@@ -157,7 +156,7 @@ let SnippetListItem = ({
                 />
               </ListItem>
 
-              {snippet && snippet.exists && (
+              {snippet && snippet.origin && (
                 <ListItem
                   button
                   onClick={(e) => {
@@ -199,41 +198,7 @@ let SnippetListItem = ({
                   />
                 </ListItem>
               )}
-              {snippet.language && snippet.language.name === "json" && (
-                <ListItem
-                  button
-                  onClick={(e) => {
-                    try {
-                      var literal = stringify(
-                        JSON.parse(snippet.body),
-                        null,
-                        2
-                      ) || '';
-                      copy(literal);
-                    } catch (err) {
-                      window.vscode.postMessage({
-                        west: {
-                          notify: {
-                            type: "error",
-                            message:
-                              "An error occured parsing the provided JSON.",
-                          },
-                        },
-                      });
-                    }
 
-                    handleClose(e);
-                  }}
-                >
-                  <ListItemText
-                    primary={
-                      <Typography variant="body2">
-                        Copy as object literal
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              )}
               <ListItem
                 button
                 onClick={(e) => {
@@ -244,7 +209,7 @@ let SnippetListItem = ({
                   newNote.body = newBody;
 
                   _removeSnippet(snippet.id);
-                  eventListener.emit('addNote', newNote);
+                  eventListener.emit('addNote', newNote as Snippet);
                   handleClose(e);
                 }}
               >

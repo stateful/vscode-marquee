@@ -1,46 +1,10 @@
 import path from 'path';
 import vscode from 'vscode';
-import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
 
+import Snippet from '../models/Snippet';
 import { STATE_KEY } from '../constants';
-import type { State, Snippet as OrigSnippet } from '../types';
-
-export class Snippet implements vscode.FileStat {
-  type: vscode.FileType = vscode.FileType.File;
-  size: number;
-  path: string;
-  origin: string;
-  ctime: number;
-  mtime: number;
-
-  constructor(
-    public workspaceId: string | null = null,
-    public title = 'New Snippet',
-    public body = '',
-    public archived = false,
-    public createdAt = Date.now(),
-    public id = uuidv4(),
-    snippetPath?: string
-  ) {
-    this.type = vscode.FileType.File;
-    this.size = body.length;
-    this.path = path.join(`/${id}`, snippetPath || title);
-    this.origin = this.path;
-    this.ctime = this.createdAt;
-    this.mtime = this.createdAt;
-  }
-
-  static fromSnippet (s: OrigSnippet) {
-    const snippet = new Snippet(s.workspaceId, s.title, s.body, s.archived, s.createdAt, s.id, s.path);
-    return snippet;
-  }
-
-  get data () {
-    const enc = new TextEncoder();
-    return enc.encode(this.body);
-  }
-}
+import type { State } from '../types';
 
 export default class SnippetStorageProvider extends EventEmitter implements vscode.FileSystemProvider {
   static scheme = 'snippet';
@@ -73,7 +37,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
     }
 
     this.emit('fileStat', snippet.id);
-    return Snippet.fromSnippet(snippet);
+    return Snippet.fromObject(snippet);
   }
 
   readDirectory(): [string, vscode.FileType][] {
@@ -96,11 +60,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
       const snippet = new Snippet(
         this._workspaceId,
         path.basename(snippetName),
-        content.toString(),
-        false,
-        undefined,
-        undefined,
-        snippetName
+        content.toString()
       );
 
       /**

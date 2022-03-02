@@ -52,7 +52,12 @@ export function activateGUI (
 }
 
 export const linkMarquee = async (item: any) => {
-  let file = item.item.path;
+  let file = item?.item?.origin;
+
+  if (!file) {
+    return;
+  }
+
   let splt = file.split(":");
   let ln = "1";
   if (splt.length > 2) {

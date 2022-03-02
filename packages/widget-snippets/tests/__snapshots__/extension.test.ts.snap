@@ -5,18 +5,18 @@ Array [
   Array [
     "snippets",
     Array [
-      Object {
+      Snippet {
         "archived": false,
         "body": "foobar",
         "createdAt": 1577836800000,
+        "ctime": 1577836800000,
         "id": "123457890",
-        "language": Object {
-          "name": "ts",
-          "value": "ts",
-        },
-        "origin": "/123457890/bar",
-        "path": "/123457890/bar",
+        "mtime": 1577836800000,
+        "origin": undefined,
+        "path": "/123457890/some name",
+        "size": 6,
         "title": "some name",
+        "type": "1",
         "workspaceId": null,
       },
       Object {
@@ -33,18 +33,18 @@ Array [
   Array [
     Object {
       "snippets": Array [
-        Object {
+        Snippet {
           "archived": false,
           "body": "foobar",
           "createdAt": 1577836800000,
+          "ctime": 1577836800000,
           "id": "123457890",
-          "language": Object {
-            "name": "ts",
-            "value": "ts",
-          },
-          "origin": "/123457890/bar",
-          "path": "/123457890/bar",
+          "mtime": 1577836800000,
+          "origin": undefined,
+          "path": "/123457890/some name",
+          "size": 6,
           "title": "some name",
+          "type": "1",
           "workspaceId": null,
         },
         Object {

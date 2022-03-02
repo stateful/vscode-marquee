@@ -1,29 +1,6 @@
-import SnippetStorageProvider, { Snippet } from '../../src/provider/SnippetStorageProvider';
+import SnippetStorageProvider from '../../src/provider/SnippetStorageProvider';
 
 const enc = new TextEncoder();
-
-describe('Snippet', () => {
-  it('can be created with defaults', () => {
-    const s = new Snippet();
-    expect(s.workspaceId).toBe(null);
-    expect(s.title).toBe('New Snippet');
-    expect(s.path).toBe('/39d2f858-3522-4053-beb8-b75a1defd1d2/New Snippet');
-  });
-
-  it('can be created from snippet object', () => {
-    const s = Snippet.fromSnippet({
-      id: 'foobar',
-      title: 'title',
-      archived: false,
-      body: 'some body',
-      workspaceId: null,
-      createdAt: 123,
-      language: { name: 'foo', value: 'css' }
-    });
-    expect(s).toMatchSnapshot();
-    expect(s.data).toMatchSnapshot();
-  });
-});
 
 describe('SnippetStorageProvider', () => {
   it('should return disposable for watch', () => {
@@ -86,7 +63,7 @@ describe('SnippetStorageProvider', () => {
       ctime: expect.any(Number),
       id: '39d2f858-3522-4053-beb8-b75a1defd1d2',
       mtime: expect.any(Number),
-      origin: '/39d2f858-3522-4053-beb8-b75a1defd1d2/some input',
+      origin: undefined,
       path: '/39d2f858-3522-4053-beb8-b75a1defd1d2/some input',
       size: 34,
       title: 'some input',
@@ -111,8 +88,8 @@ describe('SnippetStorageProvider', () => {
       ctime: expect.any(Number),
       id: 'foobar',
       mtime: expect.any(Number),
-      origin: '/foobar/bar/foo',
-      path: '/foobar/bar/foo',
+      origin: undefined,
+      path: '/foobar/some title',
       size: 6,
       title: 'some title',
       type: '1',

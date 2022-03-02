@@ -124,7 +124,8 @@
       },
       {
         "command": "marquee.snippet.add",
-        "title": "Add Selection to Snippets [Marquee]"
+        "title": "Add Selection to Snippets [Marquee]",
+        "enablement": "editorHasSelection"
       },
       {
         "command": "marquee.note.add",
@@ -133,7 +134,7 @@
       {
         "command": "marquee.snippet.insertEditor",
         "title": "Insert from Snippets [Marquee]",
-        "when": "editorTextFocus"
+        "enablement": "editorTextFocus"
       },
       {
         "command": "marquee.link",
@@ -161,7 +162,8 @@
       },
       {
         "command": "marquee.snippet.copyToClipboard",
-        "title": "Copy snippet to clipboard"
+        "title": "Copy snippet to clipboard",
+        "enablement": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/"
       },
       {
         "command": "marquee.todo.move",
