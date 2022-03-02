@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_addSnippet 1`] = `
+Array [
+  Array [
+    "snippets",
+    Array [
+      Object {
+        "archived": false,
+        "body": "foobar",
+        "createdAt": 1577836800000,
+        "id": "123457890",
+        "language": Object {
+          "name": "ts",
+          "value": "ts",
+        },
+        "origin": "/123457890/bar",
+        "path": "/123457890/bar",
+        "title": "some name",
+        "workspaceId": null,
+      },
+      undefined,
+    ],
+  ],
+]
+`;
+
+exports[`_addSnippet 2`] = `
+Array [
+  Array [
+    Object {
+      "snippets": Array [
+        Object {
+          "archived": false,
+          "body": "foobar",
+          "createdAt": 1577836800000,
+          "id": "123457890",
+          "language": Object {
+            "name": "ts",
+            "value": "ts",
+          },
+          "origin": "/123457890/bar",
+          "path": "/123457890/bar",
+          "title": "some name",
+          "workspaceId": null,
+        },
+        undefined,
+      ],
+    },
+  ],
+]
+`;
+
+exports[`_removeSnippet 1`] = `
+Array [
+  Array [
+    "snippets",
+    Array [
+      Object {
+        "id": "foo",
+      },
+      Object {
+        "id": "loo",
+      },
+    ],
+  ],
+]
+`;
+
+exports[`_removeSnippet 2`] = `
+Array [
+  Array [
+    Object {
+      "snippets": Array [
+        Object {
+          "id": "foo",
+        },
+        Object {
+          "id": "loo",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`_saveNewSnippet 1`] = `
+Array [
+  Array [
+    "snippets",
+    Array [
+      Object {
+        "bar": "foo",
+        "path": "foobar",
+      },
+      Object {
+        "foo": "bar",
+      },
+    ],
+  ],
+]
+`;
+
+exports[`_saveNewSnippet 2`] = `
+Array [
+  Array [
+    Object {
+      "snippets": Array [
+        Object {
+          "bar": "foo",
+          "path": "foobar",
+        },
+        Object {
+          "foo": "bar",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`_updateSnippet 1`] = `
+Array [
+  Array [
+    "snippets",
+    Array [
+      Object {
+        "body": "bar",
+        "id": "foo",
+      },
+    ],
+  ],
+]
+`;
+
+exports[`_updateSnippet 2`] = `
+Array [
+  Array [
+    Object {
+      "snippets": Array [
+        Object {
+          "body": "bar",
+          "id": "foo",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`activate 1`] = `
+Array [
+  "disposable",
+  "defaultState",
+  "defaultConfiguration",
+  "setup",
+]
+`;

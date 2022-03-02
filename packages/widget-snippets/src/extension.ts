@@ -29,30 +29,33 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       vscode.workspace.registerFileSystemProvider(SnippetStorageProvider.scheme, this._fsProvider, { isCaseSensitive: true })
     );
 
-    this._fsProvider.on('saveNewSnippet', (snippet) => {
-      const newSnippets = [snippet].concat(this.state.snippets);
-      this.updateState('snippets', newSnippets);
-      this.broadcast({ snippets: newSnippets });
+    this._fsProvider.on('saveNewSnippet', this._saveNewSnippet.bind(this));
+    this._fsProvider.on('updateSnippet', this._updateSnippet.bind(this));
+  }
 
-      vscode.commands.executeCommand("marquee.refreshCodeActions");
-      vscode.window.showInformationMessage(
-        `Added ${snippet.title} to your snippets in Marquee`,
-        "Open Marquee"
-      );
-      vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-      this._openSnippet(snippet.path);
-    });
+  private _saveNewSnippet (snippet: Snippet) {
+    const newSnippets = [snippet].concat(this.state.snippets);
+    this.updateState('snippets', newSnippets);
+    this.broadcast({ snippets: newSnippets });
 
-    this._fsProvider.on('updateSnippet', (snippet) => {
-      const index = this.state.snippets.findIndex((s) => s.id === snippet.id);
-      if (index < 0) {
-        return vscode.window.showErrorMessage(`Couldn't update snippet "${snippet.title}"`);
-      }
+    vscode.commands.executeCommand("marquee.refreshCodeActions");
+    vscode.window.showInformationMessage(
+      `Added ${snippet.title} to your snippets in Marquee`,
+      "Open Marquee"
+    );
+    vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+    this._openSnippet(snippet.path!);
+  }
 
-      this.state.snippets[index].body = snippet.body;
-      this.updateState('snippets', this.state.snippets);
-      this.broadcast({ snippets: this.state.snippets });
-    });
+  private _updateSnippet (snippet: Snippet) {
+    const index = this.state.snippets.findIndex((s) => s.id === snippet.id);
+    if (index < 0) {
+      return vscode.window.showErrorMessage(`Couldn't update snippet "${snippet.title}"`);
+    }
+
+    this.state.snippets[index].body = snippet.body;
+    this.updateState('snippets', this.state.snippets);
+    this.broadcast({ snippets: this.state.snippets });
   }
 
   private async _addEmptySnippet () {
@@ -188,6 +191,8 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   }
 
   public setBroadcaster (tangle: Client<State>) {
+    console.log('JHEE');
+
     super.setBroadcaster(tangle);
 
     const _tangle = this._tangle as any as Client<Events>;
@@ -195,6 +200,8 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     /**
      * open snippet document by webview request
      */
+    console.log('YOO', _tangle);
+
     _tangle.on('openSnippet', (path: string) => this._openSnippet(path));
 
     /**

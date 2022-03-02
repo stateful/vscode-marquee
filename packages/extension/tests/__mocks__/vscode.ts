@@ -3,7 +3,8 @@ const vscode: any = {
   env: {
     uiKind: 1,
     machineId: 'machineId',
-    sessionId: 'sessionId'
+    sessionId: 'sessionId',
+    clipboard: { writeText: jest.fn(), readText: jest.fn() }
   },
   FileType: {
     File: '1'
@@ -22,7 +23,8 @@ const vscode: any = {
     One: 'ViewColumn.One'
   },
   TextEditorRevealType: {
-    inCenter: 'TextEditorRevealType.inCenter'
+    inCenter: 'TextEditorRevealType.inCenter',
+    InCenterIfOutsideViewport: 'TextEditorRevealType.InCenterIfOutsideViewport'
   },
   UIKind: {
     Desktop: 1,
@@ -36,6 +38,7 @@ vscode.TreeItemCollapsibleState = {
 
 vscode.commands = {
   registerCommand: jest.fn().mockImplementation((cmd: string) => cmd),
+  registerTextEditorCommand: jest.fn(),
   executeCommand: jest.fn()
 };
 
@@ -52,7 +55,9 @@ vscode.workspace = {
   },
   openTextDocument: jest.fn().mockResolvedValue({
     lineAt: jest.fn().mockReturnValue({ range: 'some range'})
-  })
+  }),
+  registerTextDocumentContentProvider: jest.fn(),
+  registerFileSystemProvider: jest.fn()
 };
 vscode.extensions = {
   all: []
@@ -64,7 +69,7 @@ vscode.window = {
   showOpenDialog: jest.fn().mockResolvedValue(['/foo/bar']),
   showErrorMessage: jest.fn(),
   showWarningMessage: jest.fn(),
-  showInformationMessage: jest.fn(),
+  showInformationMessage: jest.fn().mockResolvedValue(''),
   showSaveDialog: jest.fn().mockResolvedValue({ fsPath: '/bar/foo' }),
   showInputBox: jest.fn().mockResolvedValue('some input'),
   createWebviewPanel: jest.fn().mockReturnValue({
