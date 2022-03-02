@@ -11,7 +11,7 @@ import {
 import { AddCircle, Clear } from "@material-ui/icons";
 import LinkIcon from "@material-ui/icons/Link";
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";
+import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
 
 import SplitterLayout from "react-splitter-layout";
 import { List, AutoSizer } from "react-virtualized";
@@ -20,8 +20,9 @@ import "../css/react-splitter-layout.css";
 
 import SnippetContext, { SnippetProvider } from "./Context";
 
-import SnippetEditor from "./components/Editor";
 import SnippetListItem from "./components/ListItem";
+import { WIDGET_ID } from "./constants";
+import type { Events } from './types';
 
 declare const window: MarqueeWindow;
 
@@ -44,11 +45,11 @@ interface RowRendererProps {
 }
 
 let Snippets = () => {
+  const eventListener = getEventListener<Events>(WIDGET_ID);
   const classes = useStyles();
   const { globalScope } = useContext(GlobalContext);
 
   const {
-    _updateSnippet,
     setSnippetFilter,
     setSnippetSelected,
     setSnippetSplitter,
@@ -56,9 +57,6 @@ let Snippets = () => {
     snippetFilter,
     snippetSelected,
     snippetSplitter,
-
-    setShowAddDialog,
-    setShowEditDialog
   } = useContext(SnippetContext);
 
   const snippet = useMemo(() => {
@@ -66,11 +64,8 @@ let Snippets = () => {
   }, [snippetSelected, snippets]);
 
   const snippetLinkFileName = useMemo(() => {
-    if (
-      snippet && snippet.path && snippet.exists && snippet.hasOwnProperty("path") &&
-      snippet.path.indexOf("/") !== -1
-    ) {
-      return snippet.path.split("/").reverse()[0].toUpperCase();
+    if (snippet && snippet.origin) {
+      return snippet.origin.split("/").reverse()[0].toUpperCase();
     }
 
     return '';
@@ -114,7 +109,7 @@ let Snippets = () => {
     }
 
     if (e.detail === 2) {
-      setShowEditDialog(snippetsArr[index].id);
+      return eventListener.emit('openSnippet', snippetsArr[index].path!);
     }
   }, [snippetsArr]);
 
@@ -164,7 +159,7 @@ let Snippets = () => {
                 <Grid item>
                   <IconButton
                     size="small"
-                    onClick={() => setShowAddDialog(true)}
+                    onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
                   >
                     <AddCircle fontSize="small" />
                   </IconButton>
@@ -274,7 +269,7 @@ let Snippets = () => {
                           <Button
                             startIcon={<AddCircle />}
                             variant="outlined"
-                            onClick={() => setShowAddDialog(true) }
+                            onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
                           >
                             Create a snippet
                           </Button>
@@ -282,11 +277,7 @@ let Snippets = () => {
                       </Grid>
                     )}
                     {snippetsArr.length !== 0 && snippet && (
-                      <SnippetEditor
-                        body={snippet.body}
-                        language={snippet.language}
-                        onChange={(body) => _updateSnippet({ ...snippet, body }) }
-                      />
+                      <pre style={{ paddingLeft: 15, paddingRight: 15 }}>{snippet.body}</pre>
                     )}
                   </Grid>
                 </Grid>

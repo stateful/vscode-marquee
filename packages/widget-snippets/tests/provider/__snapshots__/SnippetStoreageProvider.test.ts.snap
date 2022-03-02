@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnippetStorageProvider getDirectory 1`] = `
+Array [
+  Array [
+    "/foo/bar",
+    "1",
+  ],
+  Array [
+    "/bar/foo",
+    "1",
+  ],
+]
+`;
+
+exports[`SnippetStorageProvider readFile 1`] = `
+Uint8Array [
+  102,
+  111,
+  111,
+  98,
+  97,
+  114,
+]
+`;

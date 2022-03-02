@@ -3,6 +3,7 @@ import vscode from "vscode";
 import path from "path";
 import { WorkspaceType } from '@vscode-marquee/utils/extension';
 import type { MarqueeEvents } from "@vscode-marquee/utils";
+import type { Snippet } from "@vscode-marquee/widget-snippets/extension";
 
 import telemetry from './telemetry';
 import StateManager from "./stateManager";
@@ -114,7 +115,13 @@ export class MarqueeExtension {
       vscode.commands.registerCommand("marquee.touchbar", this._switchTo.bind(this)),
       vscode.commands.registerCommand("marquee.expand", () => this.openGui()),
       vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
-      vscode.commands.registerCommand("marquee.edit", (item: ContextMenu) => {
+      vscode.commands.registerCommand("marquee.edit", async (item: ContextMenu) => {
+        if (item.type === 'Snippet') {
+          const setting: vscode.Uri = vscode.Uri.parse(`snippet:${(item.item as Snippet).path}`);
+          const doc = await vscode.workspace.openTextDocument(setting);
+          return vscode.window.showTextDocument(doc, 2, false);
+        }
+
         telemetry.sendTelemetryEvent('openDialog', { type: item.getDialogs("edit") });
         this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id);
       })

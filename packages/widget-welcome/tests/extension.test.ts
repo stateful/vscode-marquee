@@ -79,5 +79,6 @@ test('should return expected interface', async () => {
   (Axios.get as jest.Mock).mockRejectedValue(new Error('ups'));
   result.marquee.disposable.fetchData();
   await new Promise((resolve) => setTimeout(resolve, 100));
-  expect(tangle.broadcast.mock.calls).toMatchSnapshot();
+  expect((result.marquee.disposable.broadcast as jest.Mock).mock.calls)
+    .toMatchSnapshot();
 });
