@@ -19,7 +19,10 @@ Array [
         "title": "some name",
         "workspaceId": null,
       },
-      undefined,
+      Object {
+        "body": "bar",
+        "id": "foo",
+      },
     ],
   ],
 ]
@@ -44,7 +47,10 @@ Array [
           "title": "some name",
           "workspaceId": null,
         },
-        undefined,
+        Object {
+          "body": "bar",
+          "id": "foo",
+        },
       ],
     },
   ],

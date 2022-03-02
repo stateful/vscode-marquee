@@ -1,5 +1,9 @@
 const actualExport = jest.requireActual('../../../../src/extension');
 
+const defaultChannel = {
+  appendLine: jest.fn()
+};
+
 export default class ExtensionManagerMock {
   on = jest.fn();
   emit = jest.fn();
@@ -8,9 +12,20 @@ export default class ExtensionManagerMock {
   getActiveWorkspace = jest.fn().mockReturnValue(null);
   getTextSelection = jest.fn().mockReturnValue({});
   generateId = jest.fn().mockReturnValue('123457890');
-  setBroadcaster = jest.fn();
   _disposables = [];
-  state = {};
+  _tangle: any;
+  state: any;
+  config: any;
+
+  constructor (public _context = {}, public _channel = defaultChannel, ___: any, defaultConfig: any, defaultState: any) {
+    this.config = defaultConfig;
+    this.state = defaultState;
+  }
+
+  setBroadcaster (tangle: any) {
+    this._tangle = tangle;
+    return this;
+  }
 }
 
 export const WorkspaceType = actualExport.WorkspaceType;
