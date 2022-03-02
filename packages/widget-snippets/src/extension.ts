@@ -191,17 +191,12 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   }
 
   public setBroadcaster (tangle: Client<State>) {
-    console.log('JHEE');
-
     super.setBroadcaster(tangle);
-
     const _tangle = this._tangle as any as Client<Events>;
 
     /**
      * open snippet document by webview request
      */
-    console.log('YOO', _tangle);
-
     _tangle.on('openSnippet', (path: string) => this._openSnippet(path));
 
     /**
