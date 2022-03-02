@@ -6,7 +6,7 @@ import ExtensionManager from '@vscode-marquee/utils/extension';
 import ContentProvider from './provider/ContentProvider';
 import SnippetStorageProvider from './provider/SnippetStorageProvider';
 import { DEFAULT_STATE, STATE_KEY } from './constants';
-import type { Snippet, State, Events, Selection, Language } from './types';
+import type { Snippet, SnippetTreeItem, State, Events, Selection, Language } from './types';
 
 export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   private _contentProvider = new ContentProvider();
@@ -18,7 +18,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
 
     this._disposables.push(
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
-      vscode.commands.registerCommand("marquee.snippet.addEmpty", this._addEmptySnippet.bind(this)),
+      vscode.commands.registerCommand('marquee.snippet.addEmpty', this._addEmptySnippet.bind(this)),
+      vscode.commands.registerCommand('marquee.snippet.insert', this._insertFromTreeView.bind(this)),
+      vscode.commands.registerCommand('marquee.snippet.remove', this._removeSnippet.bind(this)),
+      vscode.commands.registerCommand('marquee.snippet.copyToClipboard', this._copyToClipboard.bind(this)),
+
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.add', this._addSnippet.bind(this)),
       vscode.workspace.registerTextDocumentContentProvider(ContentProvider.scheme, this._contentProvider),
@@ -93,6 +97,52 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       `Added ${name} to your snippets in Marquee`,
       "Open Marquee"
     ).then((item) => item && this.emit('gui.open'));
+  }
+
+  /**
+   * insert snippet
+   * this action is triggerd by either clicking on a snippet tree view item
+   * or clicking on "Insert" in the context menu
+   */
+  private _insertFromTreeView (item: Snippet | SnippetTreeItem) {
+    const snippet = (item as SnippetTreeItem).isTreeItem
+      ? (item as SnippetTreeItem).item
+      : item as Snippet;
+    const activeTextEditor = vscode.window.activeTextEditor;
+
+    if (!activeTextEditor) {
+      return vscode.window.showInformationMessage(
+        'Marquee: No editor open, a snippet can only be inserted into a text document.'
+      );
+    }
+
+    activeTextEditor.edit((editor) => {
+      if (!activeTextEditor.selection) {
+        return console.warn('No text selected');
+      }
+
+      const pos = activeTextEditor.selection;
+      editor.insert(pos.active, snippet.body);
+      activeTextEditor.revealRange(
+        new vscode.Range(pos.start, pos.end),
+        vscode.TextEditorRevealType.InCenterIfOutsideViewport
+      );
+      vscode.window.showTextDocument(activeTextEditor.document);
+    });
+  }
+
+  private _copyToClipboard ({ item }: SnippetTreeItem) {
+    vscode.env.clipboard.writeText(item.body);
+  }
+
+  /**
+   * remove snippet after clicking on "Remove" through the context menu
+   * in the tree view
+   */
+  private _removeSnippet ({ item }: SnippetTreeItem) {
+    const newSnippets = this.state.snippets.filter((s) => s.id !== item.id);
+    this.updateState('snippets', newSnippets);
+    this.broadcast({ snippets: newSnippets });
   }
 
   /**

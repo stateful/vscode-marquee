@@ -182,6 +182,8 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
 }
 
 export class Item extends vscode.TreeItem {
+  public isTreeItem = true;
+
   constructor(
     public readonly label: string,
     public readonly id: string,
@@ -373,7 +375,7 @@ class SnippetItem extends Item implements ContextMenu {
         vscode.TreeItemCollapsibleState.None,
         basePath,
         {
-          command: "marquee.insertSnippet",
+          command: "marquee.snippet.insert",
           title: "Insert Snippet",
         }
       );

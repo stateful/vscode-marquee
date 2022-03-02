@@ -132,7 +132,8 @@
       },
       {
         "command": "marquee.snippet.insertEditor",
-        "title": "Insert from Snippets [Marquee]"
+        "title": "Insert from Snippets [Marquee]",
+        "when": "editorTextFocus"
       },
       {
         "command": "marquee.link",
@@ -147,8 +148,20 @@
         "title": "Edit"
       },
       {
+        "command": "marquee.snippet.insert",
+        "title": "Insert"
+      },
+      {
+        "command": "marquee.snippet.remove",
+        "title": "Remove"
+      },
+      {
         "command": "marquee.snippet.move",
         "title": "Move snippet to current workspace"
+      },
+      {
+        "command": "marquee.snippet.copyToClipboard",
+        "title": "Copy snippet to clipboard"
       },
       {
         "command": "marquee.todo.move",
@@ -228,9 +241,24 @@
           "group": "1_actions@1"
         },
         {
+          "command": "marquee.snippet.insert",
+          "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "marquee.snippet.remove",
+          "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "1_actions@3"
+        },
+        {
           "command": "marquee.snippet.move",
           "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
           "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.snippet.copyToClipboard",
+          "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+          "group": "5_copy@2"
         },
         {
           "command": "marquee.todo.move",

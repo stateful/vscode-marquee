@@ -7,6 +7,11 @@ export interface Language {
   value: VSCLanguages
 }
 
+export interface SnippetTreeItem {
+  item: Snippet
+  isTreeItem: boolean
+}
+
 export interface Snippet {
   archived: boolean
   title: string
