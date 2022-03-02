@@ -1,3 +1,5 @@
+const actualExport = jest.requireActual('../../../../src/extension');
+
 export default class ExtensionManagerMock {
   on = jest.fn();
   emit = jest.fn();
@@ -10,3 +12,9 @@ export default class ExtensionManagerMock {
   _disposables = [];
   state = {};
 }
+
+export const WorkspaceType = actualExport.WorkspaceType;
+export const pkg = actualExport.pkg;
+export const defaultConfigurations = actualExport.defaultConfigurations;
+export const DEFAULT_STATE = actualExport.DEFAULT_STATE;
+export const DEFAULT_CONFIGURATION = actualExport.DEFAULT_CONFIGURATION;
