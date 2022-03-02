@@ -150,11 +150,13 @@
       },
       {
         "command": "marquee.snippet.insert",
-        "title": "Insert"
+        "title": "Insert",
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.snippet.remove",
-        "title": "Remove"
+        "title": "Remove",
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.snippet.move",
@@ -163,19 +165,22 @@
       {
         "command": "marquee.snippet.copyToClipboard",
         "title": "Copy snippet to clipboard",
-        "enablement": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/"
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.todo.move",
-        "title": "Move todo to current workspace"
+        "title": "Move todo to current workspace",
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.note.move",
-        "title": "Move note to current workspace"
+        "title": "Move note to current workspace",
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.todo.archive",
-        "title": "Archive"
+        "title": "Archive",
+        "enablement": "listFocus"
       },
       {
         "command": "marquee.todo.addEmpty",
