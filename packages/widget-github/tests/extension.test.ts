@@ -16,11 +16,11 @@ test('should upgrade config from v2 to v3', () => {
   const context = {
     globalState: {
       get: jest.fn().mockReturnValue({
-        scale: { name: 'fahrenheit', value: 'fahrenheit' }
+        language: { name: 'HTML', value: 'html' }
       })
     }
   };
   const exp = activate(context as any, {} as any);
   expect(exp.marquee.disposable.updateConfiguration)
-    .toBeCalledWith('scale', 'Fahrenheit');
+    .toBeCalledWith('language', 'HTML');
 });

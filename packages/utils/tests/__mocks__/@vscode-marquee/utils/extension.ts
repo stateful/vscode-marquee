@@ -8,6 +8,7 @@ export default class ExtensionManagerMock {
   on = jest.fn();
   emit = jest.fn();
   updateState = jest.fn();
+  updateConfiguration = jest.fn();
   broadcast = jest.fn();
   getActiveWorkspace = jest.fn().mockReturnValue(null);
   getTextSelection = jest.fn().mockReturnValue({});

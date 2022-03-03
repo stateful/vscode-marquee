@@ -1,6 +1,6 @@
 import vscode from 'vscode';
 
-import ExtensionManager from '@vscode-marquee/utils/extension';
+import ExtensionManager, { DEPRECATED_GLOBAL_STORE_KEY } from '@vscode-marquee/utils/extension';
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
 import type { Configuration } from './types';
@@ -12,6 +12,14 @@ export function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new ExtensionManager<{}, Configuration>(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE);
+
+  /**
+   * transform configurations from Marquee v2 -> v3
+   */
+  const oldGlobalStore = context.globalState.get<any>(DEPRECATED_GLOBAL_STORE_KEY, {});
+  if (typeof oldGlobalStore.language?.name === 'string') {
+    stateManager.updateConfiguration('language', oldGlobalStore.language.name);
+  }
 
   return {
     marquee: {

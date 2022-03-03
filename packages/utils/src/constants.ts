@@ -3,6 +3,7 @@ import type { State, Configuration } from './types';
 declare const PACKAGE_JSON: string;
 export const pkg: any = PACKAGE_JSON;
 export const defaultConfigurations = pkg.contributes.configuration[0].properties;
+export const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
 
 export const DEFAULT_STATE: State = {
   globalScope: false
