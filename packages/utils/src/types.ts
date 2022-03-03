@@ -48,8 +48,7 @@ export interface MarqueeEvents {
   telemetryEvent: {
     eventName: string
     properties?: Record<string, string>
-  },
-  jumpTo: string
+  }
 }
 
 export enum WorkspaceType {

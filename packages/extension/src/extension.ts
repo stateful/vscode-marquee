@@ -112,6 +112,7 @@ export class MarqueeExtension {
     const disposables: vscode.Disposable[] = [
       vscode.commands.registerCommand("marquee.link", linkMarquee),
       vscode.commands.registerCommand("marquee.open", this._switchTo.bind(this)),
+      vscode.commands.registerCommand("marquee.touchbar", this._switchTo.bind(this)),
       vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
       vscode.commands.registerCommand("marquee.edit", async (item: ContextMenu) => {
         if (item.type === 'Snippet') {

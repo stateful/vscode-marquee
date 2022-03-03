@@ -4,6 +4,7 @@ exports[`should be initiated with no errors 1`] = `
 Array [
   "marquee.link",
   "marquee.open",
+  "marquee.touchbar",
   "marquee.clear",
   "marquee.edit",
 ]
