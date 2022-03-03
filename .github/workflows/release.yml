@@ -55,11 +55,13 @@ jobs:
         run: yarn build:dev
         env:
           NODE_ENV: development
+          MARQUEE_INSTRUMENTATION_KEY: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY }}
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
       - name: Build Package
         run: yarn build:prod
         env:
           NODE_ENV: production
+          MARQUEE_INSTRUMENTATION_KEY: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY }}
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Run tests
         run: yarn test
