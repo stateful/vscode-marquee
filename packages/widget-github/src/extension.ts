@@ -24,7 +24,7 @@ export function activate (
     stateManager.updateConfiguration('since', oldGlobalStore.since.name);
   }
   if (typeof oldGlobalStore.spoken?.name === 'string') {
-    stateManager.updateConfiguration('spoken', oldGlobalStore.since.name);
+    stateManager.updateConfiguration('spoken', oldGlobalStore.spoken.name);
   }
 
   return {
