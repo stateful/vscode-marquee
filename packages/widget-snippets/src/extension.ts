@@ -21,11 +21,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.addEmpty', this._addEmptySnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.insert', this._insertFromTreeView.bind(this)),
-      vscode.commands.registerCommand('marquee.snippet.remove', this._removeSnippet.bind(this)),
+      vscode.commands.registerCommand('marquee.snippet.delete', this._removeSnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.copyToClipboard', this._copyToClipboard.bind(this)),
 
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
-      vscode.commands.registerTextEditorCommand('marquee.snippet.add', this._addSnippet.bind(this)),
+      vscode.commands.registerTextEditorCommand('marquee.snippet.addEditor', this._addSnippet.bind(this)),
       vscode.workspace.registerTextDocumentContentProvider(ContentProvider.scheme, this._contentProvider),
       vscode.workspace.registerFileSystemProvider(SnippetStorageProvider.scheme, this._fsProvider, { isCaseSensitive: true })
     );

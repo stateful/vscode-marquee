@@ -7,7 +7,7 @@ export interface Todo {
   archived: boolean
   workspaceId: string | null
   tags: string[]
-  exists?: boolean
+  origin?: string
   path?: string
 }
 
