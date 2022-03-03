@@ -21,3 +21,4 @@ yarn.lock
 Profile*.json
 test.code-workspace
 packages
+coverage

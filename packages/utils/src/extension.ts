@@ -4,11 +4,10 @@ import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY } from './constants';
 import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
-const DEPRECATED_GLOBAL_STORE_KEY = 'persistence';
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6';
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
 
@@ -229,6 +228,14 @@ export function activate (
 ) {
   const stateManager = new ExtensionManager<State, Configuration>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
   const aws = stateManager.getActiveWorkspace();
+
+  /**
+   * transform configurations from Marquee v2 -> v3
+   */
+  const oldGlobalStore = context.globalState.get<any>(DEPRECATED_GLOBAL_STORE_KEY, {});
+  if (oldGlobalStore.bg) {
+    stateManager.updateConfiguration('background', oldGlobalStore.bg);
+  }
 
   /**
    * set global state to true if we don't have a workspace

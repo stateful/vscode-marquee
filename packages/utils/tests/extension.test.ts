@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import ExtensionManager from '../src/extension';
+import ExtensionManager, { activate } from '../src/extension';
 
 const context = {
   globalState: {
@@ -259,4 +259,17 @@ test('dispose', () => {
 
   expect(manager.reset).toHaveBeenCalledTimes(1);
   expect(disposable.dispose).toHaveBeenCalledTimes(1);
+});
+
+test('returns proper interface', () => {
+  const exp = activate(context as any, { appendLine: jest.fn() } as any);
+  expect(Object.keys(exp.marquee)).toEqual(
+    ['disposable', 'defaultState', 'defaultConfiguration', 'setup']
+  );
+});
+
+test('should upgrade config from v2 to v3', () => {
+  context.globalState.get = jest.fn().mockReturnValue({ bg: 42 });
+  const exp = activate(context as any, { appendLine: jest.fn() } as any);
+  expect(exp.marquee.disposable.configuration.background).toBe(42);
 });
