@@ -43,7 +43,7 @@
       window.marqueeBackendBaseUrl = '<%= it.baseUrl %>';
       window.marqueeBackendGeoUrl = '<%= it.geoUrl %>';
       window.marqueeBackendFwdGeoUrl = '<%= it.fwdGeoUrl %>';
-      window.marqueeStateConfiguration = <%~ JSON.stringify(it.widgetStateConfigurations) %>;
+      window.marqueeStateConfiguration = JSON.parse(atob('<%~ Buffer.from(JSON.stringify(it.widgetStateConfigurations)).toString('base64') %>'));
       window.marqueeThirdPartyWidgets = <%= it.widgetScripts.length %>;
     </script>
 </head>

@@ -45,10 +45,7 @@ Array [
   ],
   Array [
     "since",
-    Object {
-      "name": "Weekly",
-      "value": "weekly",
-    },
+    "Weekly",
   ],
   Array [
     "spoken",
@@ -75,7 +72,7 @@ Array [
   ],
   Array [
     "workspaces",
-    undefined,
+    Array [],
   ],
   Array [
     "todos",

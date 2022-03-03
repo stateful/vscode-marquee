@@ -106,19 +106,19 @@ export default class StateManager implements vscode.Disposable {
           type: CONFIG_FILE_TYPE,
           version: '0.0.0',
           state: {
-            '@vscode-marquee/snippets-widget': { snippets: obj.snippets },
-            '@vscode-marquee/notes-widget': { notes: obj.notes },
-            '@vscode-marquee/todo-widget': { todos: obj.todos },
-            '@vscode-marquee/welcome-widget': { read: obj.read },
-            '@vscode-marquee/projects-widget': { workspaces: obj.workspaces }
+            '@vscode-marquee/snippets-widget': { snippets: obj.snippets || [] },
+            '@vscode-marquee/notes-widget': { notes: obj.notes || [] },
+            '@vscode-marquee/todo-widget': { todos: obj.todos || [] },
+            '@vscode-marquee/welcome-widget': { read: obj.read || [] },
+            '@vscode-marquee/projects-widget': { workspaces: obj.workspaces || [] }
           },
           configuration: {
             '@vscode-marquee/utils': { name: obj.name, background: obj.bg },
             '@vscode-marquee/todo-widget': { autoDetect: obj.autoDetect },
             '@vscode-marquee/github-widget': {
-              language: obj.language,
-              since: obj.since,
-              spoken: obj.spoken
+              language: obj.language?.name,
+              since: obj.since?.name,
+              spoken: obj.spoken?.name
             }
           }
         };

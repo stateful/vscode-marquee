@@ -6,4 +6,6 @@ export const DEFAULT_CONFIGURATION: Configuration = {
   openProjectInNewWindow: false
 };
 
-export const DEFAULT_STATE: State = { workspaces: [] };
+export const DEFAULT_STATE: State = {
+  workspaces: []
+};

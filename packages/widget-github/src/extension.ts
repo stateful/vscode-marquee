@@ -20,6 +20,12 @@ export function activate (
   if (typeof oldGlobalStore.language?.name === 'string') {
     stateManager.updateConfiguration('language', oldGlobalStore.language.name);
   }
+  if (typeof oldGlobalStore.since?.name === 'string') {
+    stateManager.updateConfiguration('since', oldGlobalStore.since.name);
+  }
+  if (typeof oldGlobalStore.spoken?.name === 'string') {
+    stateManager.updateConfiguration('spoken', oldGlobalStore.since.name);
+  }
 
   return {
     marquee: {
