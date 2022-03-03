@@ -29,7 +29,7 @@ jest.mock('../src/stateManager.ts', () => class {
 test('should be initiated with no errors', () => {
   const context = { subscriptions: [], extensionPath: '/foo/bar' };
   const ext = new MarqueeExtension(context as any);
-  expect(context.subscriptions).toHaveLength(6);
+  expect(context.subscriptions).toHaveLength(5);
   expect(vscode.window.createTreeView)
     .toBeCalledWith('marquee', expect.any(Object));
   expect(vscode.window.onDidChangeActiveColorTheme)

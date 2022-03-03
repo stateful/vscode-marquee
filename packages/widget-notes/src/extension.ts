@@ -11,8 +11,9 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, {}, DEFAULT_STATE);
     this._disposables.push(
-      vscode.commands.registerTextEditorCommand('marquee.note.add', this._addNote.bind(this)),
+      vscode.commands.registerTextEditorCommand('marquee.note.addEditor', this._addNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),
+      vscode.commands.registerCommand('marquee.note.delete', this._deleteNote.bind(this)),
       vscode.commands.registerCommand("marquee.note.addEmpty", () => this.emit(
         'openDialog', { event: 'openAddNoteDialog', payload: true }
       ))
@@ -52,7 +53,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
    * @param item TreeView item that represents a todo in a tree view
    * @returns (un)archived todo
    */
-   private _moveNote (item: { id: string, archived: boolean }) {
+  private _moveNote (item: { id: string, archived: boolean }) {
     const awsp = this.getActiveWorkspace();
 
     if (!awsp) {
@@ -67,6 +68,16 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
 
     this.state.notes[noteIndex].workspaceId = awsp.id;
     this.updateState('notes', this.state.notes);
+    this.broadcast({ notes: this.state.notes });
+  }
+
+  /**
+   * delete note (triggered from tree view)
+   */
+  private _deleteNote (item: { id: string }) {
+    const newNotes = this.state.notes.filter((n) => n.id !== item.id);
+    this.updateState('notes', newNotes);
+    this.broadcast({ notes: this.state.notes });
   }
 }
 

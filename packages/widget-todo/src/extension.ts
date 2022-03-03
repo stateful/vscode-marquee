@@ -114,7 +114,8 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
   }
 
   /**
-   * add todo
+   * Add todo highlighted in code editor, e.g. Todo: foobar
+   * see `_createDiagnostic`
    */
   private _addTodo (diagnostic: vscode.Diagnostic) {
     let body = vscode.window.activeTextEditor?.document.getText(diagnostic.range) || '';
@@ -159,6 +160,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       id: this.generateId(),
       tags: [],
       path: path,
+      origin: path,
       workspaceId: this.getActiveWorkspace()?.id || null,
     };
     const newTodos = [todo].concat(this.state.todos);
@@ -184,6 +186,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
 
     this.state.todos[todoIndex].checked = !item.checked;
     this.updateState('todos', this.state.todos);
+    this.broadcast({ todos: this.state.todos });
   }
 
   /**
@@ -200,6 +203,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
 
     this.state.todos[todoIndex].archived = !item.archived;
     this.updateState('todos', this.state.todos);
+    this.broadcast({ todos: this.state.todos });
   }
 
   /**
@@ -222,6 +226,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
 
     this.state.todos[todoIndex].workspaceId = awsp.id;
     this.updateState('todos', this.state.todos);
+    this.broadcast({ todos: this.state.todos });
   }
 }
 
@@ -246,12 +251,12 @@ class TodoInfo implements vscode.CodeActionProvider {
     diagnostic: vscode.Diagnostic
   ): vscode.CodeAction {
     const action = new vscode.CodeAction(
-      "Add todo",
+      "Marquee: Add Todo",
       vscode.CodeActionKind.QuickFix
     );
     action.command = {
       command: "marquee.todo.add",
-      title: "Add todo",
+      title: "Marquee: Add Todo",
       arguments: [diagnostic],
     };
     action.diagnostics = [diagnostic];

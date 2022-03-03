@@ -239,9 +239,13 @@ export class Item extends vscode.TreeItem {
     }
   }
 
+  /**
+   * Define item as LinkedTodo or LinkedSnippet to enable
+   * further context operation, e.g. jump to file
+   */
   linkItem(item: any) {
     const i: any = item.item;
-    if (i.exists) {
+    if (i.origin) {
       this.contextValue = `Linked${this.contextValue}`;
     }
   }
@@ -298,8 +302,8 @@ class TodoItem extends Item implements ContextMenu {
           basePath,
           "Todo",
           {
-            command: "marquee.toggleTodo",
-            title: "Marquee toggle todo",
+            command: "marquee.todo.toggle",
+            title: "Toggle Todo",
           },
           todo.checked,
           todo.archived

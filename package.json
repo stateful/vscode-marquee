@@ -86,129 +86,40 @@
     },
     "commands": [
       {
-        "command": "marquee.expand",
-        "title": "Open Marquee",
-        "icon": {
-          "light": "assets/expand-dark.svg",
-          "dark": "assets/expand-light.svg"
-        }
-      },
-      {
         "command": "marquee.open",
-        "title": "Open Marquee",
+        "title": "Open",
+        "category": "Marquee",
         "icon": {
           "light": "assets/marquee-light.svg",
           "dark": "assets/marquee-dark.svg"
         }
       },
       {
+        "command": "marquee.clear",
+        "category": "Marquee",
+        "title": "Clear Persistence"
+      },
+      {
         "command": "marquee.touchbar",
         "title": "Open Marquee",
-        "icon": "assets/marquee_activity_light.png"
-      },
-      {
-        "command": "marquee.todo.toggle",
-        "title": "Marquee toggle todo"
-      },
-      {
-        "command": "marquee.clear",
-        "title": "Marquee clear persistence"
-      },
-      {
-        "command": "marquee.todo.add",
-        "title": "Add to Marquee"
-      },
-      {
-        "command": "marquee.todo.addEditor",
-        "title": "Add to Todos [Marquee]"
-      },
-      {
-        "command": "marquee.snippet.add",
-        "title": "Add Selection to Snippets [Marquee]",
-        "enablement": "editorHasSelection"
-      },
-      {
-        "command": "marquee.note.add",
-        "title": "Add to Notes [Marquee]"
-      },
-      {
-        "command": "marquee.snippet.insertEditor",
-        "title": "Insert from Snippets [Marquee]",
-        "enablement": "editorTextFocus"
+        "category": "Marquee",
+        "icon": "assets/marquee_activity_light.png",
+        "enablement": "isMac"
       },
       {
         "command": "marquee.link",
         "title": "Jump to origin",
+        "category": "Marquee",
+        "enablement": "listFocus",
         "icon": {
           "light": "assets/link-dark.svg",
           "dark": "assets/link-light.svg"
         }
       },
       {
-        "command": "marquee.edit",
-        "title": "Edit"
-      },
-      {
-        "command": "marquee.snippet.insert",
-        "title": "Insert",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.snippet.remove",
-        "title": "Remove",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.snippet.move",
-        "title": "Move snippet to current workspace"
-      },
-      {
-        "command": "marquee.snippet.copyToClipboard",
-        "title": "Copy snippet to clipboard",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.todo.move",
-        "title": "Move todo to current workspace",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.note.move",
-        "title": "Move note to current workspace",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.todo.archive",
-        "title": "Archive",
-        "enablement": "listFocus"
-      },
-      {
-        "command": "marquee.todo.addEmpty",
-        "title": "Create New Todo [Marquee]",
-        "icon": {
-          "light": "assets/add-dark.svg",
-          "dark": "assets/add-light.svg"
-        }
-      },
-      {
-        "command": "marquee.note.addEmpty",
-        "title": "Create New Note [Marquee]",
-        "icon": {
-          "light": "assets/add-dark.svg",
-          "dark": "assets/add-light.svg"
-        }
-      },
-      {
-        "command": "marquee.snippet.addEmpty",
-        "title": "Create New Snippet [Marquee]",
-        "icon": {
-          "light": "assets/add-dark.svg",
-          "dark": "assets/add-light.svg"
-        }
-      },
-      {
         "command": "marquee.toggleScope",
         "title": "Toggle global / workspace scope",
+        "category": "Marquee",
         "icon": {
           "light": "assets/toggle-todo-dark.svg",
           "dark": "assets/toggle-todo-light.svg"
@@ -216,17 +127,130 @@
       },
       {
         "command": "marquee.jsonExport",
-        "title": "Marquee JSON Export"
+        "category": "Marquee",
+        "title": "JSON Export"
       },
       {
         "command": "marquee.jsonImport",
-        "title": "Marquee JSON Import"
+        "category": "Marquee",
+        "title": "JSON Import"
+      },
+      {
+        "command": "marquee.edit",
+        "category": "Marquee",
+        "enablement": "listFocus",
+        "title": "Edit"
+      },
+      {
+        "command": "marquee.todo.toggle",
+        "title": "Toggle Todo",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.todo.addEditor",
+        "title": "Add Selection to Todos",
+        "category": "Marquee",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "marquee.todo.move",
+        "title": "Move todo to current workspace",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.todo.archive",
+        "title": "Archive",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.todo.addEmpty",
+        "title": "Create New Todo",
+        "category": "Marquee",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.note.addEditor",
+        "title": "Add Selection to Notes",
+        "category": "Marquee",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "marquee.note.move",
+        "title": "Move note to current workspace",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.note.delete",
+        "title": "Delete",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.note.addEmpty",
+        "title": "Create New Note",
+        "category": "Marquee",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.snippet.addEmpty",
+        "title": "Create New Snippet",
+        "category": "Marquee",
+        "icon": {
+          "light": "assets/add-dark.svg",
+          "dark": "assets/add-light.svg"
+        }
+      },
+      {
+        "command": "marquee.snippet.insertEditor",
+        "title": "Insert from Snippets",
+        "category": "Marquee",
+        "enablement": "editorTextFocus"
+      },
+      {
+        "command": "marquee.snippet.addEditor",
+        "title": "Add Selection to Snippets",
+        "category": "Marquee",
+        "enablement": "editorHasSelection"
+      },
+      {
+        "command": "marquee.snippet.insert",
+        "title": "Insert",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.snippet.delete",
+        "title": "Delete",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.snippet.move",
+        "title": "Move snippet to current workspace",
+        "category": "Marquee",
+        "enablement": "listFocus"
+      },
+      {
+        "command": "marquee.snippet.copyToClipboard",
+        "title": "Copy snippet to clipboard",
+        "category": "Marquee",
+        "enablement": "listFocus"
       }
     ],
     "menus": {
       "touchBar": [
         {
-          "command": "marquee.touchbar"
+          "command": "marquee.open"
         }
       ],
       "view/title": [
@@ -236,7 +260,7 @@
           "group": "navigation@0"
         },
         {
-          "command": "marquee.expand",
+          "command": "marquee.open",
           "when": "view == marquee",
           "group": "navigation@1"
         }
@@ -253,7 +277,7 @@
           "group": "1_actions@2"
         },
         {
-          "command": "marquee.snippet.remove",
+          "command": "marquee.snippet.delete",
           "when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
           "group": "1_actions@3"
         },
@@ -271,6 +295,16 @@
           "command": "marquee.todo.move",
           "when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
           "group": "5_copy@1"
+        },
+        {
+          "command": "marquee.edit",
+          "when": "view == marquee && viewItem =~ /Note/",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "marquee.note.delete",
+          "when": "view == marquee && viewItem =~ /Note/",
+          "group": "1_actions@2"
         },
         {
           "command": "marquee.note.move",
@@ -319,11 +353,11 @@
           "group": "1_modification"
         },
         {
-          "command": "marquee.snippet.add",
+          "command": "marquee.snippet.addEditor",
           "group": "1_modification"
         },
         {
-          "command": "marquee.note.add",
+          "command": "marquee.note.addEditor",
           "group": "1_modification"
         },
         {

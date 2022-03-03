@@ -46,7 +46,7 @@ export interface MarqueeEvents {
   updateWidgetDisplay: Record<string, boolean>
   resetMarquee?: boolean
   telemetryEvent: {
-    eventName: string,
+    eventName: string
     properties?: Record<string, string>
   }
 }

@@ -63,7 +63,7 @@ const TodoPopItemContent = ({ todo, close }: TodoPopItemContentPayload) => {
         <ListItemText primary={<Typography variant="body2">Edit</Typography>} />
       </ListItem>
 
-      {todo && todo.exists && (
+      {todo && todo.origin && (
         <ListItem
           button
           onClick={() => {
