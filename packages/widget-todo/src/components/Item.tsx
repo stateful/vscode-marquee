@@ -2,6 +2,7 @@ import React, { useContext, useState, useCallback } from "react";
 
 import DragHandleIcon from "@material-ui/icons/DragHandle";
 import Chip from "@material-ui/core/Chip";
+import LinkIcon from "@material-ui/icons/Link";
 import Tooltip from "@material-ui/core/Tooltip";
 import {
   Grid,
@@ -11,6 +12,7 @@ import {
   Popover,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { jumpTo } from '@vscode-marquee/utils';
 import TodoItemPop from "./ItemPop";
 import TodoPopItemContent from "./PopItemContent";
 
@@ -161,6 +163,22 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
             )}
           </Grid>
         </Grid>
+        {todo.origin && (
+          <Grid item xs>
+            <Tooltip
+              title={<Typography variant="subtitle2">{todo.path}</Typography>}
+              classes={{ tooltip: classes.customTooltip }}
+              placement="top"
+              arrow
+            >
+              <Typography variant="body2" noWrap>
+                <IconButton size="small" tabIndex={-1} onClick={() => jumpTo(todo)}>
+                  <LinkIcon />
+                </IconButton>
+              </Typography>
+            </Tooltip>
+          </Grid>
+        )}
         <Grid item xs style={{ margin: "4px" }}>
           <TodoItemPop todo={todo} />
         </Grid>
