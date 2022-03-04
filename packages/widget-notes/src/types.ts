@@ -5,7 +5,9 @@ export interface Note {
   workspaceId: string | null
   title: string
   body: string
-  text: string
+  text: string,
+  path?: string,
+  origin?: string
 }
 
 export interface Events {

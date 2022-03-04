@@ -37,7 +37,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
       id: id,
       archived: false,
       createdAt: new Date().getTime(),
-      origin: null,
       workspaceId: isWorkspaceTodo
         ? window.activeWorkspace?.id || null
         : null,

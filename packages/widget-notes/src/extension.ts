@@ -24,7 +24,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
    * add note into text editor
    */
    private _addNote (editor: vscode.TextEditor) {
-    const { text, name } = this.getTextSelection(editor);
+    const { text, name, path } = this.getTextSelection(editor);
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected');
@@ -36,6 +36,8 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       text: text,
       id: this.generateId(),
       workspaceId: this.getActiveWorkspace()?.id || null,
+      path,
+      origin: path
     };
     const newNotes = [note].concat(this.state.notes);
     this.updateState('notes', newNotes);

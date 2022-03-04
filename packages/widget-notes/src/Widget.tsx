@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useMemo, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField, IconButton, Button } from "@material-ui/core";
-import { Clear, AddCircle } from "@material-ui/icons";
+import LinkIcon from "@material-ui/icons/Link";
+import ClearIcon from "@material-ui/icons/Clear";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import SplitterLayout from "react-splitter-layout";
 import { List, AutoSizer } from "react-virtualized";
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils';
+import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils';
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 
 import "react-virtualized/styles.css";
@@ -57,6 +59,12 @@ let Notes = () => {
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected);
   }, [noteSelected, notes]);
+
+  const noteLinkFileName = useMemo(() => {
+    if (note && note.origin) {
+      return note.origin.split("/").reverse()[0].toUpperCase();
+    }
+  }, [note]);
 
   const notesArr = useMemo(() => {
     let filteredItems = notes;
@@ -127,13 +135,30 @@ let Notes = () => {
             alignItems="center"
           >
             <Grid item>
-              <Typography variant="subtitle1">Notes</Typography>
+              <Grid container direction="row" spacing={1} alignItems="center">
+                <Grid item>
+                  <Typography variant="subtitle1">Notes</Typography>
+                </Grid>
+                <Grid item>
+                  {note && noteLinkFileName && (
+                    <Button
+                      size="small"
+                      startIcon={<LinkIcon />}
+                      disableFocusRipple
+                      onClick={() => jumpTo(note)}
+                      style={{ padding: '0 5px' }}
+                    >
+                      {noteLinkFileName}
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
                 <Grid item>
                   <IconButton size="small" onClick={() => setShowAddDialog(true)}>
-                    <AddCircle fontSize="small" />
+                    <AddCircleIcon fontSize="small" />
                   </IconButton>
                 </Grid>
                 <Grid item>
@@ -191,7 +216,7 @@ let Notes = () => {
                       onChange={(e) => setNoteFilter(e.target.value)}
                       InputProps={{
                         endAdornment: (
-                          <Clear
+                          <ClearIcon
                             fontSize="small"
                             style={{ cursor: "pointer" }}
                             onClick={() => setNoteFilter("") }
@@ -238,7 +263,7 @@ let Notes = () => {
                         </Grid>
                         <Grid item>&nbsp;</Grid>
                         <Grid item>
-                          <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
+                          <Button startIcon={<AddCircleIcon />} variant="outlined" onClick={() => setShowAddDialog(true)}>
                             Create a note
                           </Button>
                         </Grid>
