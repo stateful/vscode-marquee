@@ -45,8 +45,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
     this._configuration = {
       ...this._defaultConfiguration,
-      ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration)),
-      ...config.get<Configuration>(this._key)
+      ...config.get<Configuration>(this._key),
+      ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration))
     };
   }
 

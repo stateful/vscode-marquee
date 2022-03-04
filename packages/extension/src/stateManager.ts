@@ -4,7 +4,8 @@ import ExtensionManager, {
   pkg as packageJson,
   activate as activateUtils,
   State as GlobalState,
-  Configuration as GlobalConfiguration
+  Configuration as GlobalConfiguration,
+  DEPRECATED_GLOBAL_STORE_KEY
 } from '@vscode-marquee/utils/extension';
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
 import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension';
@@ -66,6 +67,12 @@ export default class StateManager implements vscode.Disposable {
       vscode.commands.registerCommand("marquee.jsonImport", this._import.bind(this)),
       vscode.commands.registerCommand("marquee.jsonExport", this._export.bind(this))
     );
+
+    /**
+     * delete old global state so that configurations stored in the globalState in v2
+     * can be applied with v3
+     */
+    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);
   }
 
   private async _import () {
