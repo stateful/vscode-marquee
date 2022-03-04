@@ -46,6 +46,12 @@ code .
 
 Now, you can start to run the built version when pressing `F5`. Make sure to run `yarn watch` (or `SHIFT + CMD + B`) in one of your terminals so that the project is being rebuild everytime you change a file. To restart the extension you can press `CMD + R` or `Control + R` (like reloading a website in a browser).
 
+In order to ensure that types are updated and bundle recompiled after making changes, ensure to run the watch task:
+
+```sh
+yarn watch
+```
+
 ## Reporting New Issues
 
 When [opening a new issue](https://github.com/stateful/vscode-marquee/issues/new/choose), always make sure to fill out the issue template. __This step is very important!__ Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
