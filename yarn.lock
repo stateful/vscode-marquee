@@ -6909,14 +6909,6 @@ react-dom@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-drag-listview@^0.1.8:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/react-drag-listview/-/react-drag-listview-0.1.9.tgz#6732849c50f1de088775c1f287017615544cec3d"
-  integrity sha512-/OsYevKtCUlw4FhJIfZPH7INHEmyl89sSC5COzonHW5Z2c8rHg4DNYFnUxOyqH+65o7sHweL13oaf6wr7dFvPA==
-  dependencies:
-    babel-runtime "^6.26.0"
-    prop-types "^15.5.8"
-
 react-draggable@4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-4.4.3.tgz#0727f2cae5813e36b0e4962bf11b2f9ef2b406f3"

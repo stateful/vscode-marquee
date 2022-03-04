@@ -18,6 +18,13 @@ declare const window: MarqueeWindow;
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
 
+/**
+ * the `onLayoutChange` handler is triggered more often than desired
+ * which can cause side effects as we have to update the modes
+ * configuration
+ */
+let allowedToChange = true;
+
 export const WidgetLayout = React.memo(() => {
   const { resetApp } = useContext(GlobalContext);
   const { modeName, modes, _setCurrentModeLayout, thirdPartyWidgets } = useContext(ModeContext);
@@ -118,7 +125,12 @@ export const WidgetLayout = React.memo(() => {
       cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
       rowHeight={20}
       onLayoutChange={(_, newLayouts) => {
+        if (!allowedToChange) {
+          return;
+        }
+        allowedToChange = false;
         _setCurrentModeLayout(newLayouts);
+        setTimeout(() => (allowedToChange = true), 100);
       }}
       layouts={layoutConfig}
       draggableHandle=".drag-handle"
