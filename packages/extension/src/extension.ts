@@ -113,21 +113,33 @@ export class MarqueeExtension {
       vscode.commands.registerCommand("marquee.link", linkMarquee),
       vscode.commands.registerCommand("marquee.open", this._switchTo.bind(this)),
       vscode.commands.registerCommand("marquee.touchbar", this._switchTo.bind(this)),
-      vscode.commands.registerCommand("marquee.clear", () => this.wipe()),
-      vscode.commands.registerCommand("marquee.edit", async (item: ContextMenu) => {
-        if (item.type === 'Snippet') {
-          const setting: vscode.Uri = vscode.Uri.parse(`snippet:${(item.item as Snippet).path}`);
-          const doc = await vscode.workspace.openTextDocument(setting);
-          return vscode.window.showTextDocument(doc, 2, false);
-        }
-
-        telemetry.sendTelemetryEvent('openDialog', { type: item.getDialogs("edit") });
-        this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id);
-      })
+      vscode.commands.registerCommand("marquee.clear", this.wipe.bind(this)),
+      vscode.commands.registerCommand("marquee.edit", this._editTreeItem.bind(this))
     ];
 
     disposables.map((d) => this.context.subscriptions.push(d));
     return disposables;
+  }
+
+  private _editTreeItem (item: ContextMenu) {
+    telemetry.sendTelemetryEvent('editTreeItem', { type: item.type });
+
+    if (item.type === 'Snippet') {
+      /**
+       * transform v2 snippets into v3 compatible ones
+       */
+      const snippet = item.item as Snippet;
+      if (!snippet.path?.startsWith('/')) {
+        const pathName = snippet.path ? path.basename(snippet.path) : snippet.title;
+        (item.item as Snippet).path = path.join(`/${snippet.id}`, pathName);
+      }
+
+      const setting: vscode.Uri = vscode.Uri.parse(`snippet:${(item.item as Snippet).path}`);
+      return vscode.workspace.openTextDocument(setting)
+        .then((doc) => vscode.window.showTextDocument(doc, 2, false));
+    }
+
+    this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id);
   }
 
   public openView() {

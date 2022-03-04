@@ -128,3 +128,37 @@ test('guiActive', () => {
   ext.guiActive();
   expect(ext['gui'].isActive).toBeCalledTimes(1);
 });
+
+test('_editTreeItem', async () => {
+  const context = { subscriptions: [], extensionPath: '/foo/bar' };
+  const ext = new MarqueeExtension(context as any);
+  ext['openDialog'] = jest.fn();
+
+  const item = {
+    getDialogs: jest.fn().mockReturnValue('foobar'),
+    id: 'barfoo',
+    type: 'Note'
+  };
+  ext['_editTreeItem'](item as any);
+  expect(ext['openDialog']).toBeCalledWith('foobar', 'barfoo');
+
+  const oldSnippetItem = {
+    type: 'Snippet',
+    item: {
+      title: 'Untitled',
+      id: 'foobar'
+    }
+  };
+  await ext['_editTreeItem'](oldSnippetItem as any);
+  expect(vscode.workspace.openTextDocument)
+    .toBeCalledWith('parsedUri-snippet:/foobar/Untitled');
+
+  const newSnippetItem = {
+    type: 'Snippet',
+    item: { path: '/foo/bar' }
+  };
+  await ext['_editTreeItem'](newSnippetItem as any);
+  expect(vscode.workspace.openTextDocument)
+    .toBeCalledWith('parsedUri-snippet:/foo/bar');
+  expect(vscode.window.showTextDocument).toBeCalledTimes(2);
+});
