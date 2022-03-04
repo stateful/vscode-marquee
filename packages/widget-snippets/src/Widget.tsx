@@ -67,8 +67,6 @@ let Snippets = () => {
     if (snippet && snippet.origin) {
       return snippet.origin.split("/").reverse()[0].toUpperCase();
     }
-
-    return '';
   }, [snippet]);
 
   const snippetsArr = useMemo(() => {
@@ -139,18 +137,17 @@ let Snippets = () => {
                   <Typography variant="subtitle1">Snippets</Typography>
                 </Grid>
                 <Grid item>
-                  {snippet &&
-                    snippetLinkFileName !== "" &&
-                    snippetsArr.length !== 0 && (
-                      <Button
-                        size="small"
-                        startIcon={<LinkIcon />}
-                        disableFocusRipple
-                        onClick={() => jumpTo(snippet)}
-                      >
-                        {snippetLinkFileName}
-                      </Button>
-                    )}
+                  {snippet && snippetLinkFileName && (
+                    <Button
+                      size="small"
+                      startIcon={<LinkIcon />}
+                      disableFocusRipple
+                      style={{ padding: '0 5px' }}
+                      onClick={() => jumpTo(snippet)}
+                    >
+                      {snippetLinkFileName}
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
