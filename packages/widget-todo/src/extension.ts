@@ -124,7 +124,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       return;
     }
 
-    const path = vscode.window.activeTextEditor?.document.uri.path;
+    const path = `${vscode.window.activeTextEditor?.document.uri.path}:${diagnostic.range.start.line}`;
     body = body.replace(/TODO[:]? /g, "").trim();
 
     const todo: Todo = {
@@ -133,7 +133,8 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       checked: false,
       id: this.generateId(),
       tags: [],
-      path: `${path}:${diagnostic.range.start.line}`,
+      path,
+      origin: path,
       workspaceId: this.getActiveWorkspace()?.id || null,
     };
 
