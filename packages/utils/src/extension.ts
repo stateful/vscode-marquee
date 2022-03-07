@@ -11,6 +11,8 @@ import type { Configuration, State, Workspace } from './types';
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6';
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global;
+const TELEMETRY_CONFIG_ID = "telemetry";
+const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry";
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
   protected _tangle?: Client<State & Configuration>;
@@ -257,6 +259,11 @@ export function activate (
 
 export function getExtProps() {
   const extProps: Record<string, string> = {};
+
+  const config = vscode.workspace.getConfiguration(TELEMETRY_CONFIG_ID);
+  if (!config.get<boolean>(TELEMETRY_CONFIG_ENABLED_ID)) {
+    return extProps;
+  }
 
   if (globalThis.process) {
     extProps.os = os.platform();

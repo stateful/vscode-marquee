@@ -279,3 +279,9 @@ test('should get proper extension props', () => {
   expect(snap).toMatchSnapshot();
   expect(typeof extversion).toBe('string');
 });
+
+test('should not propagate telemetry data if not opted in', () => {
+  (vscode.workspace.getConfiguration as jest.Mock)
+    .mockReturnValueOnce({ get: jest.fn().mockReturnValue(false) });
+  expect(getExtProps()).toEqual({});
+});
