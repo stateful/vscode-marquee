@@ -1,7 +1,6 @@
 import TelemetryReporter from '@vscode/extension-telemetry';
 
-import { pkg } from '@vscode-marquee/utils/extension';
-import { EXTENSION_ID } from './constants';
+import { pkg, EXTENSION_ID } from '@vscode-marquee/utils/extension';
 
 // injected by webpack
 declare const INSTRUMENTATION_KEY: string;

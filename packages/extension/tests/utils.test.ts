@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import { isExpanded, filterByScope, activateGUI, linkMarquee, getExtProps } from '../src/utils';
+import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/utils';
 
 jest.mock('os', () => ({
   platform: () => 'some platform',
@@ -40,10 +40,4 @@ test('linkMarquee', async () => {
   expect(parse).toBeCalledWith('/some/file:123');
   await linkMarquee({ item: { origin: '/some/file:124' } });
   expect(parse).toBeCalledWith('/some/file');
-});
-
-test('should get proper extension props', () => {
-  const { extversion, ...snap } = getExtProps();
-  expect(snap).toMatchSnapshot();
-  expect(typeof extversion).toBe('string');
 });

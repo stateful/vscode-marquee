@@ -34,7 +34,7 @@ export function forecastCache (lat: number, lng: number) {
 export async function fetchWeather (lat: number, lng: number) {
   const stateResultKey = `geoData-${lat},${lng}`;
   const currentState = window.vscode.getState() || {};
-  const searchParams = new URLSearchParams({});
+  const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
   const cache = forecastCache(lat, lng);
 
   if (cache) {
@@ -74,7 +74,7 @@ export async function fetchGeoData (city?: string) {
     return cachedData;
   }
 
-  const searchParams = new URLSearchParams({});
+  const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
   if (city) {
     searchParams.append('city', city);
   }

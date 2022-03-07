@@ -1,10 +1,11 @@
+import os from 'os';
 import vscode from 'vscode';
 import pick from 'lodash.pick';
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY } from './constants';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants';
 import { WorkspaceType } from './types';
 import type { Configuration, State, Workspace } from './types';
 
@@ -252,6 +253,38 @@ export function activate (
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
   };
+}
+
+export function getExtProps() {
+  const extProps: Record<string, string> = {};
+
+  if (globalThis.process) {
+    extProps.os = os.platform();
+    extProps.platformversion = (os.release() || "").replace(
+      /^(\d+)(\.\d+)?(\.\d+)?(.*)/,
+      "$1$2$3"
+    );
+  }
+
+  extProps.extname = EXTENSION_ID;
+  extProps.extversion = pkg.version;
+  if (vscode && vscode.env) {
+    extProps.vscodemachineid = vscode.env.machineId;
+    extProps.vscodesessionid = vscode.env.sessionId;
+    extProps.vscodeversion = vscode.version;
+
+    switch (vscode.env.uiKind) {
+      case vscode.UIKind.Web:
+        extProps.uikind = "web";
+        break;
+      case vscode.UIKind.Desktop:
+        extProps.uikind = "desktop";
+        break;
+      default:
+        extProps.uikind = "unknown";
+    }
+  }
+  return extProps;
 }
 
 /**

@@ -3,7 +3,7 @@
 exports[`fetchData 1`] = `
 Array [
   Array [
-    "http://marquee.com/getRepositories?since=daily&language=typescript&spoken=en",
+    "http://marquee.com/getRepositories?props=%7B%22foo%22%3A%22bar%22%7D&since=daily&language=typescript&spoken=en",
   ],
 ]
 `;

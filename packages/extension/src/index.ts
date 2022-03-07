@@ -3,7 +3,7 @@ import type { Client } from 'tangle';
 
 import telemetry from './telemetry';
 import { MarqueeExtension } from "./extension";
-import { getExtProps } from './utils';
+import { getExtProps } from '@vscode-marquee/utils/extension';
 
 export function activate(context: vscode.ExtensionContext) {
   telemetry.sendTelemetryEvent('extensionActivate', getExtProps());

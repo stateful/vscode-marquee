@@ -34,6 +34,9 @@ Array [
       "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
       "geoUrl": "http://BACKEND_GEO_URL.com",
       "nonce": "MzlkMmY4NTgtMzUyMi00MDUzLWJlYjgtYjc1YTFkZWZkMWQy",
+      "props": Object {
+        "some": "props",
+      },
       "widgetScripts": Array [],
       "widgetStateConfigurations": Object {
         "undefined": Object {

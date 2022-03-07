@@ -43,3 +43,15 @@ Object {
   "defaultState": "old state",
 }
 `;
+
+exports[`should get proper extension props 1`] = `
+Object {
+  "extname": "stateful.marquee",
+  "os": "darwin",
+  "platformversion": "21.2.0",
+  "uikind": "desktop",
+  "vscodemachineid": "machineId",
+  "vscodesessionid": "sessionId",
+  "vscodeversion": "1.2.3",
+}
+`;

@@ -40,6 +40,7 @@
     </style>
     <script nonce="<%= it.nonce %>">
       window.activeWorkspace = <%~ JSON.stringify(it.aws) %>;
+      window.marqueeUserProps = '<%~ JSON.stringify(it.props) %>';
       window.marqueeBackendBaseUrl = '<%= it.baseUrl %>';
       window.marqueeBackendGeoUrl = '<%= it.geoUrl %>';
       window.marqueeBackendFwdGeoUrl = '<%= it.fwdGeoUrl %>';
