@@ -72,10 +72,6 @@ const PopMenu = (props: PopMenuProps) => {
           </Grid>
           <Grid item>&nbsp;</Grid>
           <Grid item>
-            <Divider />
-          </Grid>
-          <Grid item>&nbsp;</Grid>
-          <Grid item>
             <HideWidgetContent name="news" />
           </Grid>
         </Grid>

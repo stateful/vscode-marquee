@@ -233,10 +233,8 @@ export default class StateManager implements vscode.Disposable {
    * clear state and configuration of all Marquee widgets
    */
   clearAll () {
-    return Promise.all(this.widgetExtensions.map(async (w) => {
-      await w.exports.marquee.disposable.clear();
-      await w.exports.marquee.disposable.dispose();
-    }));
+    return Promise.all(this.widgetExtensions.map(
+      (w) => w.exports.marquee.disposable.clear()));
   }
 
   onWidget (eventName: string, listener: ({ event, payload }: { event: string, payload: any }) => void) {

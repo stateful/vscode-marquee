@@ -34,17 +34,18 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this._fsProvider.on('updateSnippet', this._updateSnippet.bind(this));
   }
 
-  private _saveNewSnippet (snippet: Snippet) {
+  private async _saveNewSnippet (snippet: Snippet) {
     const newSnippets = [snippet].concat(this.state.snippets);
     this.updateState('snippets', newSnippets);
     this.broadcast({ snippets: newSnippets });
 
+    this._openSnippet(snippet.path!);
+    await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
     vscode.commands.executeCommand("marquee.refreshCodeActions");
     vscode.window.showInformationMessage(
       `Added ${snippet.title} to your snippets in Marquee`,
       "Open Marquee"
     ).then((item) => item && this.emit('gui.open'));
-    this._openSnippet(snippet.path!);
   }
 
   private _updateSnippet (snippet: Snippet) {

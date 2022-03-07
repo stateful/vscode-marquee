@@ -89,7 +89,6 @@ test('clearAll', async () => {
   const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any);
   await stateManager.clearAll();
   expect(manager.clear).toBeCalledTimes(9);
-  expect(manager.dispose).toBeCalledTimes(9);
 });
 
 test('onWidget', () => {
