@@ -14,8 +14,9 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
+    "@mui/styles": "5.4.4",
+    "@mui/material": "5.4.4",
+    "@mui/icons-material": "5.4.4",
     "@types/react": "^17.0.39",
     "react": "^17.0.2"
   },

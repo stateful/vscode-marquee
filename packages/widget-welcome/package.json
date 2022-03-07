@@ -16,8 +16,9 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@material-ui/core": "^4.12.3",
     "@types/react": "^17.0.39",
+    "@mui/styles": "5.4.4",
+    "@mui/material": "5.4.4",
     "react": "^17.0.2"
   },
   "peerDependenciesMeta": {
