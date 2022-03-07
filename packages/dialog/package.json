@@ -11,6 +11,8 @@
   "peerDependencies": {
     "@mui/styles": "5.4.4",
     "@mui/material": "5.4.4",
+    "@emotion/react": "11.8.1",
+    "@emotion/styled": "11.8.1",
     "@mui/lab": "5.0.0-alpha.71",
     "@types/react": "^17.0.39",
     "@vscode-marquee/utils": "^0.1.0",
