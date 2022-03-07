@@ -11,7 +11,7 @@
   "peerDependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "@types/react": "^17.0.37",
+    "@types/react": "^17.0.39",
     "@vscode-marquee/utils": "^0.1.0",
     "react": "^17.0.2"
   },
