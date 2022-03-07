@@ -1,11 +1,6 @@
 import vscode from 'vscode';
 import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/utils';
 
-jest.mock('os', () => ({
-  platform: () => 'some platform',
-  release: () => 'some release'
-}));
-
 test('isExpanded', () => {
   expect(isExpanded(1)).toBe('foo');
   expect(isExpanded(4)).toBe('bar');

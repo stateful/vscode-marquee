@@ -9,6 +9,11 @@ const context = {
   }
 };
 
+jest.mock('os', () => ({
+  platform: () => 'some platform',
+  release: () => 'some release'
+}));
+
 test('generate proper default state and configuration', () => {
   const manager = new ExtensionManager(
     context as any,
