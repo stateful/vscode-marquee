@@ -32,8 +32,8 @@ interface Props extends React.PropsWithChildren<{ classes: ClassNameMap<string> 
 const DialogTitle = withStyles(styles(theme))((props: Props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+    <MuiDialogTitle className={classes.root} {...other}>
+      <Typography variant="h6" component="span">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
