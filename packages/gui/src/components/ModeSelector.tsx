@@ -1,10 +1,10 @@
 import React, { useContext, MouseEvent, useState, useRef } from "react";
 
-import SettingsIcon from "@material-ui/icons/Settings";
-import ViewCompactIcon from "@material-ui/icons/ViewCompact";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import CheckIcon from "@material-ui/icons/Check";
-import { IconButton } from "@material-ui/core";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ViewCompactIcon from "@mui/icons-material/ViewCompact";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CheckIcon from "@mui/icons-material/Check";
+import { IconButton } from "@mui/material";
 import { Emoji } from "emoji-mart";
 import {
   Popper,
@@ -21,7 +21,7 @@ import {
   ListItemSecondaryAction,
   Divider,
   ClickAwayListener,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import ModeContext from "../contexts/ModeContext";
 import ModeDialog from "../dialogs/ModeDialog";

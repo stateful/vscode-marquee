@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid } from "@mui/material";
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
 import { GlobalContext } from "@vscode-marquee/utils";

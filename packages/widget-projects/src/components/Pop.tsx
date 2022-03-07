@@ -1,13 +1,13 @@
 import React, { useState, useContext, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, Divider, Typography, Checkbox } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Tooltip from "@material-ui/core/Tooltip";
+import Popover from "@mui/material/Popover";
+import { IconButton, Grid, Divider, Typography, Checkbox } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Tooltip from "@mui/material/Tooltip";
 import { HideWidgetContent } from "@vscode-marquee/widget";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import SortByAlphaIcon from "@material-ui/icons/SortByAlpha";
-import SortIcon from "@material-ui/icons/Sort";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
+import SortIcon from "@mui/icons-material/Sort";
 
 import WorkspaceContext from "../Context";
 import type { WorkspaceSortOrder } from '../types';

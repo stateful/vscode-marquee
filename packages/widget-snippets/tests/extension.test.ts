@@ -2,9 +2,9 @@ import path from 'path'
 import vscode from 'vscode'
 import { SnippetExtensionManager, activate } from '../src/extension'
 
-jest.mock('../src/provider/SnippetStorageProvider', () => class {
+jest.mock('../src/provider/SnippetStorageProvider', () => (class {
   on = jest.fn()
-})
+}))
 
 jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime())
 

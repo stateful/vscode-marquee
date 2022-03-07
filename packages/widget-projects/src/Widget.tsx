@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from "react";
-import { Grid, Typography, List, IconButton, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AddCircle from "@material-ui/icons/AddCircleOutlined";
-import PageviewIcon from "@material-ui/icons/Pageview";
+import { Grid, Typography, List, IconButton, Button } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import AddCircle from "@mui/icons-material/AddCircleOutlined";
+import PageviewIcon from "@mui/icons-material/Pageview";
 
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 import { MarqueeWindow } from "@vscode-marquee/utils";

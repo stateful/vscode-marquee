@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from "react";
-import Popover from "@material-ui/core/Popover";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { IconButton, ListItem, ListItemText, Typography } from "@material-ui/core";
+import Popover from "@mui/material/Popover";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IconButton, ListItem, ListItemText, Typography } from "@mui/material";
 import { MarqueeWindow } from '@vscode-marquee/utils';
 import type { Workspace } from '@vscode-marquee/utils';
 

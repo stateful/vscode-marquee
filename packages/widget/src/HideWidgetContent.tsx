@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid, Button, Typography, IconButton } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
+import { Grid, Button, Typography, IconButton } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
 
 interface Props {
   name: string;

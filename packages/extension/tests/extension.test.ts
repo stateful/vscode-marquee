@@ -21,11 +21,11 @@ jest.mock('../src/tree.view.ts', () => ({
     public clearTree = jest.fn()
   }
 }))
-jest.mock('../src/stateManager.ts', () => class {
+jest.mock('../src/stateManager.ts', () => (class {
   public onWidget = jest.fn()
   public projectWidget = { getActiveWorkspace: jest.fn() }
   public clearAll = jest.fn()
-})
+}))
 
 test('should be initiated with no errors', () => {
   const context = { subscriptions: [], extensionPath: '/foo/bar' }

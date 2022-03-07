@@ -49,7 +49,7 @@ export const Nav = () => {
               icon={ isOpen ? <CloseIcon w={15} h={15} /> : <HamburgerIcon w={30} h={30} /> }
               variant={'outline'}
               aria-label={'Toggle Navigation'}
-            />
+              size="large" />
           </Flex>
           <Flex align={"center"} justify={{ base: 'right' }} ml={10}>
             <Box display={{ base: 'none', sm: 'flex' }}>

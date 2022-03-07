@@ -7,9 +7,9 @@ import {
   IconButton,
   Typography,
   Grid,
-} from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
-import SettingsIcon from "@material-ui/icons/Settings";
+} from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { DebounceInput } from "react-debounce-input";
 
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";

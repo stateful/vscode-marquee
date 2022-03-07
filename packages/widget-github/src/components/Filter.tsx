@@ -1,12 +1,12 @@
 import React, { useState, useContext, useCallback } from "react";
-import { Badge } from "@material-ui/core";
+import { Badge } from "@mui/material";
 
 import TrendContext from "../Context";
 import { DebounceInput } from "react-debounce-input";
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, TextField } from "@material-ui/core";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import Popover from "@mui/material/Popover";
+import { IconButton, Grid, TextField } from "@mui/material";
 
 let GithubFilterBox = () => {
   const { _updateFilter, trendFilter } = useContext(TrendContext);

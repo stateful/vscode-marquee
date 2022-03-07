@@ -1,6 +1,6 @@
 import React from "react";
-import { IconButton, Link, Grid, Typography } from "@material-ui/core";
-import ErrorIcon from "@material-ui/icons/Error";
+import { IconButton, Link, Grid, Typography } from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 import type { MarqueeWindow } from '../types';
 
 declare const window: MarqueeWindow;

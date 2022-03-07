@@ -6,8 +6,8 @@ import {
   IconButton,
   Grid,
   Badge
-} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
+} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog';
 import { BetterComplete } from '@vscode-marquee/utils';

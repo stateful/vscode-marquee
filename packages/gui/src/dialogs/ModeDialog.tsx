@@ -3,7 +3,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
 

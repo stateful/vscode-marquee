@@ -4,7 +4,7 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import type { EmojiData } from "emoji-mart";
 
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";

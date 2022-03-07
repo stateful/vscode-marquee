@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "@material-ui/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/styles";
 
 import { theme, GlobalProvider } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
@@ -13,6 +13,13 @@ import Container from "./Container";
 import { ModeProvider } from "./contexts/ModeContext";
 
 import "./css/index.css";
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 declare const window: MarqueeWindow;
 
@@ -36,12 +43,14 @@ export const App = () => {
   useEffect(() => { window.vscode.postMessage({ ready: true }); }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Providers>
-        <Container />
-      </Providers>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Providers>
+          <Container />
+        </Providers>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

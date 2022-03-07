@@ -11,7 +11,7 @@ import {
   ListSubheader,
   Divider,
   ListItemText,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";

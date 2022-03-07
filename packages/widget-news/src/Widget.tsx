@@ -6,12 +6,12 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+} from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHackerNews } from "@fortawesome/free-brands-svg-icons/faHackerNews";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@mui/material/CircularProgress";
+import makeStyles from '@mui/styles/makeStyles';
 
 import wrapper, { Dragger } from "@vscode-marquee/widget";
 import { NetworkError } from "@vscode-marquee/utils";

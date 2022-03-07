@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { Grid, Button, Typography, IconButton } from "@material-ui/core";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Grid, Button, Typography, IconButton } from "@mui/material";
 
 import ModeContext from "../contexts/ModeContext";
 import SettingsDialog from "../dialogs/SettingsDialog";

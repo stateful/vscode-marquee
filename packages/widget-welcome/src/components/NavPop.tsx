@@ -1,8 +1,8 @@
 import React, { useState, useContext, useMemo, MouseEvent } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, Badge } from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import makeStyles from '@mui/styles/makeStyles';
+import Popover from "@mui/material/Popover";
+import { IconButton, Grid, Badge } from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import TrickContent from "./TrickContent";
 import TrickContext, { TrickProvider } from "../Context";
 
