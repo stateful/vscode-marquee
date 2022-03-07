@@ -14,14 +14,14 @@ const NetworkError = ({ message }: NetworkErrorProps) => {
     <>
       Are you using a proxy? Please make sure to set it up in the {" "}
       <Link
-          style={{ cursor: 'pointer' }}
-          onClick={() => window.vscode.postMessage({
-            west: { execCommands: [{
-              command: 'workbench.action.openSettings',
-              args: ['Marquee']
-            }],
-          }})}
-      >
+        style={{ cursor: 'pointer' }}
+        onClick={() => window.vscode.postMessage({
+          west: { execCommands: [{
+            command: 'workbench.action.openSettings',
+            args: ['Marquee']
+          }],
+        }})}
+        underline="hover">
           Marquee settings
       </Link>.
     </>
