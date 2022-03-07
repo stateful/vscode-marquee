@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import { Typography, ListItem, ListItemText, Popover } from "@material-ui/core";
+import { Typography, ListItem, ListItemText, Popover } from "@mui/material";
 
 import ModeContext from "../contexts/ModeContext";
 import { ModeEditDialog } from "../dialogs/ModeEditDialog";

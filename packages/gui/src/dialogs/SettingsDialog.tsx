@@ -12,7 +12,7 @@ import {
   Tabs,
   Tab,
   Box
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { MarqueeWindow, GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
@@ -126,8 +126,8 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
                   value={value}
                   onChange={handleChange}
                   variant="scrollable"
-                  scrollButtons="on"
-                >
+                  scrollButtons
+                  allowScrollButtonsMobile>
                   <Tab label="Widgets" />
                   <Tab label="Import / Export" />
                   <Tab label="Marquee Settings" />

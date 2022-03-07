@@ -1,9 +1,9 @@
 import React, { useContext, useState, useCallback } from "react";
 
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, TextField, Badge } from "@material-ui/core";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import Popover from "@mui/material/Popover";
+import { IconButton, Grid, TextField, Badge } from "@mui/material";
 import { DebounceInput } from "react-debounce-input";
 
 import WorkspaceContext from "../Context";

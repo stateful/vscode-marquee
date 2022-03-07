@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme, adaptV4Theme } from "@mui/material/styles";
 import { EventEmitter } from 'events';
 
 import GlobalContextImport from '../../../src/contexts/Global';
@@ -7,13 +7,13 @@ import NetworkErrorImport from '../../../src/components/NetworkError';
 import BetterCompleteImport from '../../../src/components/BetterComplete';
 import DoubleClickHelperImport from '../../../src/components/DoubleClickHelper';
 
-export const theme = createTheme({
+export const theme = createTheme(adaptV4Theme({
   palette: {
     primary: {
       main: '#000'
     },
   },
-});
+}));
 
 const eventListener = new EventEmitter();
 // @ts-expect-error mock tangle

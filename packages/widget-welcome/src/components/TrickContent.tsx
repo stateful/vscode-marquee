@@ -4,12 +4,12 @@ import {
   IconButton,
   Divider,
   Chip,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import DoneIcon from "@material-ui/icons/Done";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import DoneIcon from "@mui/icons-material/Done";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 
 import { GlobalContext } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';

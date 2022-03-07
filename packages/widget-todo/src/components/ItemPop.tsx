@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { IconButton } from "@material-ui/core";
+import Popover from "@mui/material/Popover";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IconButton } from "@mui/material";
 
 import TodoPopItemContent from "./PopItemContent";
 

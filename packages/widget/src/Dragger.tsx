@@ -1,6 +1,6 @@
 import React from "react";
-import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import { IconButton } from "@material-ui/core";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { IconButton } from "@mui/material";
 
 let Dragger = () => {
   return (

@@ -1,13 +1,13 @@
 import React, { useState, useContext, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
+import Popover from "@mui/material/Popover";
 import {
   IconButton,
   Grid,
   Divider,
   Checkbox,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Tooltip from "@material-ui/core/Tooltip";
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Tooltip from "@mui/material/Tooltip";
 import { HideWidgetContent } from "@vscode-marquee/widget";
 
 import TodoContext from "../Context";

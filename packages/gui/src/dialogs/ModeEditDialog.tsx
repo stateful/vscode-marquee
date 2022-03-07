@@ -4,7 +4,7 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 

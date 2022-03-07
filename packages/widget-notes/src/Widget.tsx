@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useCallback } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, TextField, IconButton, Button } from "@material-ui/core";
-import LinkIcon from "@material-ui/icons/Link";
-import ClearIcon from "@material-ui/icons/Clear";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import makeStyles from '@mui/styles/makeStyles';
+import { Grid, Typography, TextField, IconButton, Button } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
+import ClearIcon from "@mui/icons-material/Clear";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import SplitterLayout from "react-splitter-layout";
 import { List, AutoSizer } from "react-virtualized";

@@ -5,9 +5,9 @@ import {
   Button,
   Typography,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { GlobalContext } from "@vscode-marquee/utils";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";

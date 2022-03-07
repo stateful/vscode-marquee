@@ -1,17 +1,17 @@
 import React, { useContext, useState, useCallback } from "react";
 
-import DragHandleIcon from "@material-ui/icons/DragHandle";
-import Chip from "@material-ui/core/Chip";
-import LinkIcon from "@material-ui/icons/Link";
-import Tooltip from "@material-ui/core/Tooltip";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
+import Chip from "@mui/material/Chip";
+import LinkIcon from "@mui/icons-material/Link";
+import Tooltip from "@mui/material/Tooltip";
 import {
   Grid,
   Checkbox,
   IconButton,
   Typography,
   Popover,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { jumpTo } from '@vscode-marquee/utils';
 import TodoItemPop from "./ItemPop";
 import TodoPopItemContent from "./PopItemContent";

@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from "react";
-import Typography from "@material-ui/core/Typography";
-import AddCircle from "@material-ui/icons/AddCircleOutlined";
-import { Grid, Button, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@mui/material/Typography";
+import AddCircle from "@mui/icons-material/AddCircleOutlined";
+import { Grid, Button, IconButton } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { List, arrayMove } from "react-movable";
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";

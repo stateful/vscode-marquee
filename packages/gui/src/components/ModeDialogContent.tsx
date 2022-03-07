@@ -13,9 +13,10 @@ import {
   ListItemSecondaryAction,
   Tabs,
   Tab,
-} from "@material-ui/core";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import ViewCompactIcon from "@material-ui/icons/ViewCompact";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 import PropTypes from "prop-types";
 import { Emoji } from "emoji-mart";
 

@@ -5,7 +5,7 @@ import {
   ListItem,
   ListItemText,
   List,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import TodoContext from "../Context";
 import type { Todo } from '../types';

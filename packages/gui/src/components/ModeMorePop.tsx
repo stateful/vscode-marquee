@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ModeContext from "../contexts/ModeContext";
 import {
   Typography,
@@ -7,7 +7,7 @@ import {
   ListItemText,
   Popover,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const ModeMorePop = () => {
   const { _resetModes } = useContext(ModeContext);

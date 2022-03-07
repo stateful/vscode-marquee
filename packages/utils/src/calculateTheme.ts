@@ -1,5 +1,5 @@
-import { createTheme, ThemeOptions } from '@material-ui/core/styles'
-import React from 'react'
+import { createTheme, DeprecatedThemeOptions, adaptV4Theme } from "@mui/material/styles"
+import React from "react"
 
 export default () => {
   const fontSize = parseInt(
@@ -18,7 +18,7 @@ export default () => {
     }
   })
 
-  const newTheme: ThemeOptions = {
+  const newTheme: DeprecatedThemeOptions = {
     shape: {
       borderRadius: 0,
     },
@@ -28,7 +28,7 @@ export default () => {
       },
     },
     palette: {
-      type: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
+      mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
       divider: vsCodeStyleMap['--vscode-foreground'],
       background: {
         default: vsCodeStyleMap['--vscode-editor-background'],
@@ -76,5 +76,5 @@ export default () => {
     },
   }
 
-  return createTheme(newTheme)
+  return createTheme(adaptV4Theme(newTheme))
 }

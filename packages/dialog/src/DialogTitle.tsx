@@ -1,12 +1,14 @@
 import React, { MouseEventHandler } from "react";
 
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
-import { withStyles, Theme } from "@material-ui/core/styles";
-import { Styles, ClassNameMap } from "@material-ui/core/styles/withStyles";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import CloseIcon from "@mui/icons-material/Close";
+import { Theme } from "@mui/material/styles";
 
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import { Styles, ClassNameMap } from '@mui/styles';
+import withStyles from '@mui/styles/withStyles';
+
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 import { theme } from "@vscode-marquee/utils";
 
@@ -37,7 +39,7 @@ const DialogTitle = withStyles(styles(theme))((props: Props) => {
           aria-label="close"
           className={classes.closeButton}
           onClick={onClose}
-        >
+          size="large">
           <CloseIcon />
         </IconButton>
       ) : null}

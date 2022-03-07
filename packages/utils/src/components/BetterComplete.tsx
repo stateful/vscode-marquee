@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import Autocomplete from '@mui/material/Autocomplete';
+import { TextField } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 export interface Props {
   id: string

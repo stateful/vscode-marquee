@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 // @ts-expect-error no types available
 import WeatherIcon from "react-icons-weather";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, CircularProgress } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
+import { Grid, Typography, CircularProgress } from "@mui/material";
 
 import { GlobalContext, NetworkError } from "@vscode-marquee/utils";
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";

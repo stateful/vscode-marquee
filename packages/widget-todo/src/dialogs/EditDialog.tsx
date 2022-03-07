@@ -4,11 +4,12 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 import { jumpTo, theme } from '@vscode-marquee/utils';
 
-import LinkIcon from "@material-ui/icons/Link";
+import ChipInput from "material-ui-chip-input";
+import LinkIcon from "@mui/icons-material/Link";
 
 import TodoContext from "../Context";
 import type { Todo } from '../types';

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback, useMemo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Typography,
   ListItem,
@@ -7,8 +7,8 @@ import {
   Popover,
   Grid,
   Tooltip,
-} from "@material-ui/core";
-import NoteIcon from "@material-ui/icons/Note";
+} from "@mui/material";
+import NoteIcon from "@mui/icons-material/Note";
 import copy from "copy-to-clipboard";
 import { stripHtml } from "string-strip-html";
 import { unescape } from "html-escaper";

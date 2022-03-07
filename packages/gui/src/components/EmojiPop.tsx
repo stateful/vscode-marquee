@@ -1,9 +1,9 @@
 import React, { useState, MouseEvent } from "react";
-import Popover from "@material-ui/core/Popover";
-import { Grid, Button } from "@material-ui/core";
+import Popover from "@mui/material/Popover";
+import { Grid, Button } from "@mui/material";
 import "emoji-mart/css/emoji-mart.css";
 import { NimblePicker, Emoji, EmojiData, BaseEmoji, CustomEmoji } from "emoji-mart";
-import ViewCompactIcon from "@material-ui/icons/ViewCompact";
+import ViewCompactIcon from "@mui/icons-material/ViewCompact";
 
 import data from "./emoji-data.json";
 

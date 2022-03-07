@@ -1,7 +1,7 @@
 import React from "react";
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
 
-import HelpIcon from "@material-ui/icons/Help";
+import HelpIcon from "@mui/icons-material/Help";
 
 export interface DoubleClickHelperParams {
   content?: string

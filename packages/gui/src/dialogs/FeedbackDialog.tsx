@@ -12,8 +12,8 @@ import {
   InputAdornment,
   Typography,
   Divider,
-} from "@material-ui/core";
-import EmailIcon from "@material-ui/icons/Email";
+} from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
 import validator from "email-validator";
 
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";

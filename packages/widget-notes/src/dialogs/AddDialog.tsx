@@ -4,7 +4,7 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import { SplitButton } from '@vscode-marquee/widget';
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
 import { theme, MarqueeWindow } from "@vscode-marquee/utils";

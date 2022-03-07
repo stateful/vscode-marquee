@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from "react";
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from "@material-ui/core";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from "@mui/material";
+import AvatarGroup from '@mui/material/AvatarGroup';
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-import StarIcon from "@material-ui/icons/Star";
-import StarHalfIcon from "@material-ui/icons/StarHalf";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { makeStyles } from "@material-ui/core/styles";
+import StarIcon from "@mui/icons-material/Star";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons/faCodeBranch";

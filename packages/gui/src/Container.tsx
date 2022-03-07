@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress } from "@mui/material";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import "./css/react-grid-layout.css";
 import "react-resizable/css/styles.css";

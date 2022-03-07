@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Popover from "@mui/material/Popover";
+import { IconButton, Grid } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import HideWidgetContent from "./HideWidgetContent";
 
 interface Props {

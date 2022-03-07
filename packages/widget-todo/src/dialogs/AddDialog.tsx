@@ -4,7 +4,8 @@ import {
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
+import ChipInput from "material-ui-chip-input";
 
 import { theme, MarqueeWindow } from "@vscode-marquee/utils";
 import { SplitButton } from "@vscode-marquee/widget";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import { Grid, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@mui/material/Toolbar";
+import { Grid, Button } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 import ModeMorePop from "./ModeMorePop";
 import ModeAddDialog from "../dialogs/ModeAddDialog";

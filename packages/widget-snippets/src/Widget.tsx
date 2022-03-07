@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useMemo, useCallback } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Grid,
   IconButton,
   Typography,
   TextField,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { AddCircle, Clear } from "@material-ui/icons";
-import LinkIcon from "@material-ui/icons/Link";
+import { AddCircle, Clear } from "@mui/icons-material";
+import LinkIcon from "@mui/icons-material/Link";
 import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
 import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
 

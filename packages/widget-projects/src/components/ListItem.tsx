@@ -6,13 +6,13 @@ import {
   ListItemText,
   ListItemAvatar,
   Badge,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import LayersIcon from "@material-ui/icons/Layers";
-import FolderIcon from "@material-ui/icons/Folder";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CodeIcon from "@material-ui/icons/Code";
-import NoteIcon from "@material-ui/icons/Note";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import LayersIcon from "@mui/icons-material/Layers";
+import FolderIcon from "@mui/icons-material/Folder";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CodeIcon from "@mui/icons-material/Code";
+import NoteIcon from "@mui/icons-material/Note";
 
 import { GlobalContext } from "@vscode-marquee/utils";
 import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils';
