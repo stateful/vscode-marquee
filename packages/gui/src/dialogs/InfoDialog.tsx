@@ -64,7 +64,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                 >
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://github.com/stateful/vscode-marquee">
+                      <Link href="https://github.com/stateful/vscode-marquee" underline="hover">
                         GitHub Repository
                       </Link>
                       : Marquee GitHub Repository
@@ -72,7 +72,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://marquee.stateful.com">
+                      <Link href="https://marquee.stateful.com" underline="hover">
                         Marquee Homepage
                       </Link>
                       : Additional resources about Marquee!
@@ -80,7 +80,9 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://discord.com/channels/878764303052865537/900787619728871484">
+                      <Link
+                        href="https://discord.com/channels/878764303052865537/900787619728871484"
+                        underline="hover">
                         Discord Channel
                       </Link>
                       : Join our Discord channel for questions and feedback.
@@ -88,7 +90,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://gitter.im/vscode-marquee/community">
+                      <Link href="https://gitter.im/vscode-marquee/community" underline="hover">
                         Gitter Channel
                       </Link>
                       : Join our Gitter community channel for questions and feedback.
@@ -96,7 +98,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2">
-                      <Link href="https://www.stateful.com/privacy">
+                      <Link href="https://www.stateful.com/privacy" underline="hover">
                         Privacy Policy
                       </Link>
                       : Our official commitments about data usage and privacy.
