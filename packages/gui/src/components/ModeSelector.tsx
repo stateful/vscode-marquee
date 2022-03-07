@@ -78,7 +78,7 @@ const ModeSelector = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: MouseEvent<Document, globalThis.MouseEvent>) => {
+  const handleClose = (event: MouseEvent | TouchEvent) => {
     // @ts-expect-error parentNode not defined
     const targetClassList = event.target.parentNode.classList.value;
     if (
