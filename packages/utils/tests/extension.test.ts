@@ -1,5 +1,5 @@
 import vscode from 'vscode';
-import ExtensionManager, { activate } from '../src/extension';
+import ExtensionManager, { activate, getExtProps } from '../src/extension';
 
 const context = {
   globalState: {
@@ -8,6 +8,11 @@ const context = {
     update: jest.fn()
   }
 };
+
+jest.mock('os', () => ({
+  platform: () => 'some platform',
+  release: () => 'some release'
+}));
 
 test('generate proper default state and configuration', () => {
   const manager = new ExtensionManager(
@@ -272,4 +277,16 @@ test('should upgrade config from v2 to v3', () => {
   context.globalState.get = jest.fn().mockReturnValue({ bg: 42 });
   const exp = activate(context as any, { appendLine: jest.fn() } as any);
   expect(exp.marquee.disposable.configuration.background).toBe(42);
+});
+
+test('should get proper extension props', () => {
+  const { extversion, ...snap } = getExtProps();
+  expect(snap).toMatchSnapshot();
+  expect(typeof extversion).toBe('string');
+});
+
+test('should not propagate telemetry data if not opted in', () => {
+  (vscode.workspace.getConfiguration as jest.Mock)
+    .mockReturnValueOnce({ get: jest.fn().mockReturnValue(false) });
+  expect(getExtProps()).toEqual({});
 });

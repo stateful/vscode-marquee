@@ -43,8 +43,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     vscode.window.showInformationMessage(
       `Added ${snippet.title} to your snippets in Marquee`,
       "Open Marquee"
-    );
-    vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+    ).then((item) => item && this.emit('gui.open'));
     this._openSnippet(snippet.path!);
   }
 

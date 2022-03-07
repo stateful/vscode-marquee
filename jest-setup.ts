@@ -11,7 +11,8 @@ const vscode = {
 };
 // @ts-expect-error
 window.vscode = vscode;
-
+// @ts-expect-error
+window.marqueeUserProps = '{"os":"darwin","platformversion":"21.2.0","extname":"activecove.marquee","extversion":"2.0.0-edge.2","vscodemachineid":"366db9dc84b42b265be19d881f97b45d623eb61f68f91c6f7c715dd6265d9eb6","vscodesessionid":"a78cfd2b-4773-4404-9367-e9dfca65c0411644419442497","vscodeversion":"1.64.0","uikind":"desktop"}';
 // @ts-expect-error
 window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode);
 

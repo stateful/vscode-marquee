@@ -25,6 +25,11 @@ const stateMgr = {
   }
 };
 
+jest.mock('@vscode-marquee/utils/extension', () => ({
+  getExtProps: jest.fn().mockReturnValue({ some: 'props' }),
+  pkg: { version: '1.2.3' }
+}));
+
 test('constructor', () => {
   new MarqueeGui('context' as any, stateMgr as any);
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on).toBeCalledTimes(2);

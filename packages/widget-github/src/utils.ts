@@ -8,7 +8,7 @@ const ERROR_MESSAGE = "Couldn't fetch GitHub trends!";
 const CACHE_TIMEOUT = 1000 * 60 * 30; // 30min
 
 function getResourceURL (since?: SinceConfiguration, language?: string, spoken?: string) {
-  const searchParams = new URLSearchParams({});
+  const searchParams = new URLSearchParams({ props: window.marqueeUserProps });
 
   if (since) {
     searchParams.append('since', since.toLocaleLowerCase());

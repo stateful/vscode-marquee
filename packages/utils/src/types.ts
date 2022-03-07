@@ -32,6 +32,7 @@ export interface MarqueeWindow<State = any, Configuration = any> extends Window 
   vscode: VSCodeWebview
   acquireVsCodeApi: () => Webview
   activeWorkspace: Workspace | null
+  marqueeUserProps: string
   marqueeExtension: MarqueeInterface
   marqueeBackendBaseUrl: string
   marqueeBackendGeoUrl: string

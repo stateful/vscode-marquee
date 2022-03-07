@@ -7,6 +7,11 @@ jest.mock('../src/extension.ts', () => ({
   MarqueeExtension: class {}
 }));
 
+jest.mock('@vscode-marquee/utils/extension', () => ({
+  getExtProps: jest.fn().mockReturnValue({ some: 'props' }),
+  pkg: { version: '1.2.3' }
+}));
+
 jest.useFakeTimers();
 
 test('should activate extension manager', () => {

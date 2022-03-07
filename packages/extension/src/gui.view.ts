@@ -5,6 +5,7 @@ import Channel from 'tangle/webviews';
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from "events";
 import { render } from 'eta';
+import { getExtProps } from '@vscode-marquee/utils/extension';
 import type { Client } from 'tangle';
 import type { MarqueeEvents } from '@vscode-marquee/utils';
 
@@ -188,6 +189,7 @@ export class MarqueeGui extends EventEmitter {
       fontSize,
       baseAppUri,
       colorScheme,
+      props: getExtProps(),
       baseUrl: BACKEND_BASE_URL,
       geoUrl: BACKEND_GEO_URL,
       fwdGeoUrl: BACKEND_FWDGEO_URL,

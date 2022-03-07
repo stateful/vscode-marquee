@@ -28,7 +28,6 @@ test('_saveNewSnippet', () => {
   m['_saveNewSnippet']({ bar: 'foo', path: 'foobar' } as any);
   expect((m.updateState as jest.Mock).mock.calls).toMatchSnapshot();
   expect((m['broadcast'] as jest.Mock).mock.calls).toMatchSnapshot();
-  expect(vscode.commands.executeCommand).toBeCalledWith('workbench.action.closeActiveEditor');
   expect(m['_openSnippet']).toBeCalledWith('foobar');
 });
 
