@@ -16,7 +16,6 @@ test('should render component correctly', () => {
   )
 
   expect(_setModeName).toBeCalledTimes(0)
-  // eslint-disable-next-line testing-library/no-node-access
-  userEvent.click(screen.getByLabelText('Set Mode').querySelector('span')!)
+  userEvent.click(screen.getByRole('button', { name: 'Set Mode' }))
   expect(_setModeName).toBeCalledWith('play')
 })
