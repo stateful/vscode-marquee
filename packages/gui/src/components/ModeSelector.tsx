@@ -54,7 +54,6 @@ const ModeSelector = () => {
   };
 
   const handleClick = () => {
-
     setDisabled(true);
     setTimeout(() => setDisabled(false), 1000);
 
@@ -69,7 +68,7 @@ const ModeSelector = () => {
     //if that doesn't exist, goto default 0
     let modesArr = Object.keys(modes);
     let currModeIndex = modesArr.indexOf(modeName);
-    return (modesArr[currModeIndex + 1])
+    return modesArr[currModeIndex + 1]
       ? setModeName(modesArr[currModeIndex + 1])
       : setModeName(modesArr[0]);
   };
@@ -78,34 +77,20 @@ const ModeSelector = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: MouseEvent | TouchEvent) => {
-    // @ts-expect-error parentNode not defined
-    const targetClassList = event.target.parentNode.classList.value;
-    if (
-      // @ts-expect-error `current` not defined
-      (anchorRef.current && anchorRef.current.contains(event.target)) ||
-      targetClassList.indexOf("modeIcon") !== -1 ||
-      targetClassList.indexOf("emoji-mart-emoji") !== -1
-    ) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
   return (
     <div>
-      {showModeDialog && (
-        <ModeDialog close={() => setShowModeDialog(false)} />
-      )}
+      {showModeDialog && <ModeDialog close={() => setShowModeDialog(false)} />}
       <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-        <Button aria-label="Set Mode" onClick={handleClick} size="small" disabled={disabled}>
+        <Button
+          aria-label="Set Mode"
+          onClick={handleClick}
+          size="small"
+          disabled={disabled}
+        >
           {!mode.icon && (
             <ViewCompactIcon fontSize="small" className="modeIcon" />
           )}
-          {mode.icon && (
-            <Emoji emoji={mode.icon} size={16} />
-          )}
+          {mode.icon && <Emoji emoji={mode.icon} size={16} />}
         </Button>
         <Button
           disabled={disabled}
@@ -135,7 +120,24 @@ const ModeSelector = () => {
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
+              <ClickAwayListener
+                onClickAway={(event) => {
+                  const targetClassList =
+                    // @ts-expect-error parentNode not defined
+                    event.target.parentNode.classList.value;
+                  if (
+                    (anchorRef.current &&
+                      // @ts-expect-error parentNode not defined
+                      anchorRef.current.contains(event.target)) ||
+                    targetClassList.indexOf("modeIcon") !== -1 ||
+                    targetClassList.indexOf("emoji-mart-emoji") !== -1
+                  ) {
+                    return;
+                  }
+
+                  setOpen(false);
+                }}
+              >
                 <Grid
                   container
                   style={{ padding: "8px", minWidth: "200px" }}
@@ -150,7 +152,11 @@ const ModeSelector = () => {
                     >
                       <Grid item>Modes</Grid>
                       <Grid item>
-                        <IconButton aria-label="Open Mode Dialog" size="small" onClick={() => setShowModeDialog(true)}>
+                        <IconButton
+                          aria-label="Open Mode Dialog"
+                          size="small"
+                          onClick={() => setShowModeDialog(true)}
+                        >
                           <SettingsIcon fontSize="small" />
                         </IconButton>
                       </Grid>
@@ -173,7 +179,10 @@ const ModeSelector = () => {
                               >
                                 <DenseListIcon>
                                   {modes[name].icon && (
-                                    <Emoji emoji={modes[name].icon!} size={16} />
+                                    <Emoji
+                                      emoji={modes[name].icon!}
+                                      size={16}
+                                    />
                                   )}
                                   {!modes[name].icon && (
                                     <ViewCompactIcon fontSize="small" />
