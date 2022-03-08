@@ -5,7 +5,7 @@ import { DialogContainer } from '../src'
 
 test('should render component', () => {
   render(<DialogContainer>Foobar</DialogContainer>)
-  expect(screen.getByRole('presentation')).toHaveStyle({
+  expect(screen.getAllByRole('presentation')[0]).toHaveStyle({
     position: 'fixed',
     zIndex: 1300
   })

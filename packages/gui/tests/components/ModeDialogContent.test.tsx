@@ -4,20 +4,22 @@ import { render, screen } from '@testing-library/react'
 // @ts-expect-error mock import
 import { ModeProvider, _setModeWidget } from '../../src/contexts/ModeContext'
 import ModeDialogContent from '../../src/components/ModeDialogContent'
+import { ThemeProvider } from '@mui/styles'
+import { theme } from '@vscode-marquee/utils'
 
 jest.mock('../../src/contexts/ModeContext')
-jest.mock('../../src/components/ModeConfigToolbar', () => (
-  () => <div>ModeConfigToolbar</div>
+jest.mock('../../src/components/ModeConfigToolbar', () => () => (
+  <div>ModeConfigToolbar</div>
 ))
-jest.mock('../../src/components/ModeTabPop', () => (
-  () => <div>ModeTabPop</div>
-))
+jest.mock('../../src/components/ModeTabPop', () => () => <div>ModeTabPop</div>)
 
 test('should render component correctly', () => {
   render(
-    <ModeProvider>
-      <ModeDialogContent />
-    </ModeProvider>
+    <ThemeProvider theme={theme}>
+      <ModeProvider>
+        <ModeDialogContent />
+      </ModeProvider>
+    </ThemeProvider>
   )
 
   expect(screen.getByText('Mailbox')).toBeInTheDocument()

@@ -265,6 +265,7 @@ const Navigation = () => {
                   title={`Toggle Global vs Workspace Scope (${globalScope ? 'Global' : 'Workspace'} Scope)`}
                 >
                   <IconButton
+                    data-testid="navigation-toggle-global-scope"
                     size="small"
                     onClick={() => setGlobalScope(!globalScope)}
                   >
