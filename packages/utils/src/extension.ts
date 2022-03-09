@@ -23,7 +23,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
   ];
   protected _subscriptions: { unsubscribe: Function }[] = [];
-  private _stopListenOnChangeEvents = false;
 
   constructor (
     protected _context: vscode.ExtensionContext,
@@ -62,30 +61,28 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
-  set stopListenOnChangeEvents (val: boolean) {
-    this._stopListenOnChangeEvents = val;
-  }
-
   private _onConfigChange (event: vscode.ConfigurationChangeEvent) {
-    /**
-     * if the change was triggered by the user through the UI we don't
-     * need to act on it because the config change will be already
-     * executed
-     */
-    if (this._stopListenOnChangeEvents) {
-      return false;
-    }
-
     for (const configKey of Object.keys(this.configuration)) {
-      if (!event.affectsConfiguration(`marquee.${this._key}.${configKey}`)) {
+      const prop = configKey as keyof Configuration;
+
+      /**
+       * don't apply config updates for modes (handled in GUIExtensionManager) and configurations
+       * that were not affected by the change event
+       */
+      if (prop === 'modes' || !event.affectsConfiguration(`marquee.${this._key}.${configKey}`)) {
         continue;
       }
 
       const config = vscode.workspace.getConfiguration('marquee');
-      const prop = configKey as keyof Configuration;
       const val = config.get(`${this._key}.${configKey}`) as Configuration[keyof Configuration];
+      /**
+       * don't propagate updates if changes are already updated
+       */
+      if (val && hash(this._configuration[prop]) === hash(val)) {
+        continue;
+      }
+
       this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val}`);
-      this._configuration[prop] = val;
       this.broadcast({ [prop]: val } as any);
       break;
     }

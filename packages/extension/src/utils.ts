@@ -1,6 +1,8 @@
 import vscode from 'vscode';
 import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension';
 
+import { MODES_UPDATE_TIMEOUT } from './constants';
+
 export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0;
 
@@ -33,14 +35,32 @@ export const DEFAULT_CONFIGURATION = {
   colorScheme: undefined
 };
 
-class GUIExtensionManager extends ExtensionManager<typeof DEFAULT_STATE, typeof DEFAULT_CONFIGURATION> {
-  async updateConfiguration (prop: keyof typeof DEFAULT_CONFIGURATION, val: any) {
+type Configuration = typeof DEFAULT_CONFIGURATION;
+type State = typeof DEFAULT_STATE;
+
+class GUIExtensionManager extends ExtensionManager<State, Configuration> {
+  private _lastModesChange = Date.now();
+
+  constructor (
+    context: vscode.ExtensionContext,
+    channel: vscode.OutputChannel,
+    key: string,
+    defaultConfiguration: Configuration,
+    defaultState: State
+  ) {
+    super(context, channel, key, defaultConfiguration, defaultState);
+    this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)));
+  }
+
+  async updateConfiguration (prop: keyof Configuration, val: any) {
     /**
      * when updating modes the webview passes the native ascii icon (e.g. "💼") which
      * breaks when sending from webview to extension host. This ensures that we don't
      * includes these broken ascii characters into the VSCode settings file
      */
     if (prop === 'modes') {
+      this._lastModesChange = Date.now();
+
       for (const modeName of Object.keys(val)) {
         if (val[modeName].icon) {
           delete val[modeName].icon.native;
@@ -49,6 +69,20 @@ class GUIExtensionManager extends ExtensionManager<typeof DEFAULT_STATE, typeof 
     }
 
     super.updateConfiguration(prop, val);
+  }
+
+  _onModeChange (event: vscode.ConfigurationChangeEvent) {
+    if (
+      !event.affectsConfiguration(`marquee.configuration.modes`) ||
+      (Date.now() - this._lastModesChange) < MODES_UPDATE_TIMEOUT
+    ) {
+      return;
+    }
+
+    const config = vscode.workspace.getConfiguration('marquee');
+    const val = config.get('configuration.modes') as Configuration[keyof Configuration];
+    this._channel.appendLine(`Update configuration.modes via configuration listener`);
+    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) } as any);
   }
 }
 
