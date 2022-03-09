@@ -107,7 +107,15 @@ let Snippets = () => {
     }
 
     if (e.detail === 2) {
-      return eventListener.emit('openSnippet', snippetsArr[index].path!);
+      let path = snippetsArr[index].path || '';
+      /**
+       * transform v2 snippets to make them editable in v3
+       */
+      if (!path.startsWith('/')) {
+        path = `/${snippetsArr[index].id}/${path}`;
+      }
+
+      return eventListener.emit('openSnippet', path);
     }
   }, [snippetsArr]);
 

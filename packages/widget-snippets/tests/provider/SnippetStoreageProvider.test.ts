@@ -27,6 +27,14 @@ describe('SnippetStorageProvider', () => {
     }
   });
 
+  it('should be able to also find old snippet types', () => {
+    const snippets = [{ path: 'Untitled:1:0', id: '12345' }, { path: '/bar/foo' }];
+    const context = { globalState: { get: jest.fn().mockReturnValue({ snippets }) } };
+    const provider = new SnippetStorageProvider(context as any, {} as any);
+    const s = provider.stat({ path: '/12345/Untitled:1:0' } as any);
+    expect(s.id).toBe('12345');
+  });
+
   it('stat: should return file stat', () => {
     const snippets = [{ path: '/foo/bar' }, { path: '/bar/foo', id: 'foobar' }];
     const context = { globalState: { get: jest.fn().mockReturnValue({ snippets }) } };

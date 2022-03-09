@@ -40,6 +40,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
   const id = open ? "todo-item-popover" : undefined;
 
   const handleRightClick = useCallback((e) => {
+    e.preventDefault();
     setAnchorEl(e.currentTarget);
   }, []);
 

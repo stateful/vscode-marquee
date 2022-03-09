@@ -81,6 +81,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
   }, [note]);
 
   const handleRightClick = useCallback((e) => {
+    e.preventDefault();
     setAnchorEl(e.currentTarget);
   }, []);
 
