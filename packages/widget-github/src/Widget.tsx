@@ -60,197 +60,198 @@ let Github = () => {
     return filteredTrends;
   }, [trends, trendFilter]);
 
-  return <>
-    <Grid item xs={1} style={{ maxWidth: "100%" }}>
-      <div className={classes.widgetTitle}>
+  return (
+  <>
+      <Grid item xs={1} style={{ maxWidth: "100%" }}>
+        <div className={classes.widgetTitle}>
+          <Grid
+            container
+            direction="row"
+            wrap="nowrap"
+            alignItems="stretch"
+            alignContent="stretch"
+            justifyContent="space-between"
+          >
+            <Grid item>
+              <Typography variant="subtitle1">Trending on Github</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1}>
+                <Grid item>
+                  <Filter />
+                </Grid>
+                <Grid item>
+                  <TrendingDialogLauncher />
+                </Grid>
+                <Grid item>
+                  <HidePop name="github" />
+                </Grid>
+                <Grid item>
+                  <Dragger />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </div>
+      </Grid>
+      <Grid item xs>
         <Grid
           container
-          direction="row"
           wrap="nowrap"
-          alignItems="stretch"
-          alignContent="stretch"
-          justifyContent="space-between"
+          direction="column"
+          style={{ height: "100%" }}
         >
-          <Grid item>
-            <Typography variant="subtitle1">Trending on Github</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <Filter />
+          <Grid item xs style={{ overflow: "auto" }}>
+            {error && (
+              <Grid
+                item
+                xs
+                style={{
+                  overflow: "auto",
+                  height: "100%",
+                  width: "100%",
+                  padding: "24px",
+                }}
+              >
+                <NetworkError message={error.message} />
               </Grid>
-              <Grid item>
-                <TrendingDialogLauncher />
+            )}
+            {isFetching && (
+              <Grid
+                container
+                style={{ height: "100%" }}
+                alignItems="center"
+                justifyContent="center"
+                direction="column"
+              >
+                <Grid item>
+                  <CircularProgress color="secondary" />
+                </Grid>
               </Grid>
-              <Grid item>
-                <HidePop name="github" />
+            )}
+            {!isFetching && !error && filteredTrends.length === 0 && (
+              <Grid
+                container
+                style={{ height: "100%" }}
+                alignItems="center"
+                justifyContent="center"
+                direction="column"
+              >
+                <Grid item>
+                  <Typography variant="body2">
+                    There are no matches for your search criteria.
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    </Grid>
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: "100%" }}
-      >
-        <Grid item xs style={{ overflow: "auto" }}>
-          {error && (
-            <Grid
-              item
-              xs
-              style={{
-                overflow: "auto",
-                height: "100%",
-                width: "100%",
-                padding: "24px",
-              }}
-            >
-              <NetworkError message={error.message} />
-            </Grid>
-          )}
-          {isFetching && (
-            <Grid
-              container
-              style={{ height: "100%" }}
-              alignItems="center"
-              justifyContent="center"
-              direction="column"
-            >
-              <Grid item>
-                <CircularProgress color="secondary" />
-              </Grid>
-            </Grid>
-          )}
-          {!isFetching && !error && filteredTrends.length === 0 && (
-            <Grid
-              container
-              style={{ height: "100%" }}
-              alignItems="center"
-              justifyContent="center"
-              direction="column"
-            >
-              <Grid item>
-                <Typography variant="body2">
-                  There are no matches for your search criteria.
-                </Typography>
-              </Grid>
-            </Grid>
-          )}
-          {!isFetching && !error && filteredTrends.length !== 0 &&
-            filteredTrends.map((entry) => {
-              return (
-                <Grid
-                  key={entry.url}
-                  container
-                  direction="column"
-                  className={classes.trendEntry}
-                >
+            )}
+            {!isFetching && !error && filteredTrends.length !== 0 &&
+              filteredTrends.map((entry) => {
+                return (
                   <Grid
                     aria-labelledby="trend-entry"
                     key={entry.url}
                     container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    direction="column"
+                    className={classes.trendEntry}
                   >
-                    <Grid item>
-                      <Link component="a" href={`${entry.url}`} target="_blank" underline="hover">
-                        <Typography variant="body2">
-                          {entry.author}/{entry.name}
-                        </Typography>
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <GChip
-                        label={entry.currentPeriodStars.toLocaleString()}
-                        icon={<StarHalfIcon />}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <Typography variant="caption">
-                        {entry.description}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    <Grid item>&nbsp;</Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="flex-end"
-                  >
-                    <Grid item>
-                      <Grid container spacing={1}>
-                        {entry.language && (
-                          <Grid item>
-                            <GChip
-                              label={entry.language}
-                              icon={
-                                <FiberManualRecordIcon
-                                  style={{
-                                    fill: `${entry.languageColor}`,
-                                  }}
-                                />
-                              }
-                            />
-                          </Grid>
-                        )}
-                        <Grid item>
-                          <GChip
-                            label={entry.forks.toLocaleString()}
-                            icon={<FontAwesomeIcon icon={faCodeBranch} />}
-                          />
-                        </Grid>
-                        <Grid item>
-                          <GChip
-                            label={entry.stars.toLocaleString()}
-                            icon={<StarIcon />}
-                          />
-                        </Grid>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item>
+                        <Link component="a" href={`${entry.url}`} target="_blank" underline="hover">
+                          <Typography variant="body2">
+                            {entry.author}/{entry.name}
+                          </Typography>
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <GChip
+                          label={entry.currentPeriodStars.toLocaleString()}
+                          icon={<StarHalfIcon />}
+                        />
                       </Grid>
                     </Grid>
-                    <Grid item>
-                      <AvatarGroup>
-                        {entry.builtBy.map((contributor) => {
-                          return (
-                            <Avatar
-                              key={contributor.username}
-                              style={{
-                                height: "22px",
-                                width: "22px",
-                                border: 0,
-                              }}
-                              src={contributor.avatar}
-                              alt={contributor.username}
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item>
+                        <Typography variant="caption">
+                          {entry.description}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container>
+                      <Grid item>&nbsp;</Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                      alignItems="flex-end"
+                    >
+                      <Grid item>
+                        <Grid container spacing={1}>
+                          {entry.language && (
+                            <Grid item>
+                              <GChip
+                                label={entry.language}
+                                icon={
+                                  <FiberManualRecordIcon
+                                    style={{
+                                      fill: `${entry.languageColor}`,
+                                    }}
+                                  />
+                                }
+                              />
+                            </Grid>
+                          )}
+                          <Grid item>
+                            <GChip
+                              label={entry.forks.toLocaleString()}
+                              icon={<FontAwesomeIcon icon={faCodeBranch} />}
                             />
-                          );
-                        })}
-                      </AvatarGroup>
+                          </Grid>
+                          <Grid item>
+                            <GChip
+                              label={entry.stars.toLocaleString()}
+                              icon={<StarIcon />}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item>
+                        <AvatarGroup>
+                          {entry.builtBy.map((contributor) => {
+                            return (
+                              <Avatar
+                                key={contributor.username}
+                                style={{
+                                  height: "22px",
+                                  width: "22px",
+                                  border: 0,
+                                }}
+                                src={contributor.avatar}
+                                alt={contributor.username}
+                              />
+                            );
+                          })}
+                        </AvatarGroup>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              );
-            })}
+                );
+              })}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </>;
+    </>
+  );
 };
 
 const Widget = () => (
