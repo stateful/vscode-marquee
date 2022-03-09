@@ -33,8 +33,8 @@ export const DEFAULT_CONFIGURATION = {
   colorScheme: undefined
 };
 
-class GUIExtensionManager extends ExtensionManager<any, any> {
-  async updateConfiguration (prop: any, val: any) {
+class GUIExtensionManager extends ExtensionManager<typeof DEFAULT_STATE, typeof DEFAULT_CONFIGURATION> {
+  async updateConfiguration (prop: keyof typeof DEFAULT_CONFIGURATION, val: any) {
     /**
      * when updating modes the webview passes the native ascii icon (e.g. "💼") which
      * breaks when sending from webview to extension host. This ensures that we don't
