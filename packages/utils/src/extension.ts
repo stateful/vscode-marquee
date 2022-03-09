@@ -1,6 +1,7 @@
 import os from 'os';
 import vscode from 'vscode';
 import pick from 'lodash.pick';
+import hash from 'object-hash';
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 import { Client } from 'tangle';
 import { EventEmitter } from 'events';
@@ -83,7 +84,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       const config = vscode.workspace.getConfiguration('marquee');
       const prop = configKey as keyof Configuration;
       const val = config.get(`${this._key}.${configKey}`) as Configuration[keyof Configuration];
-      this._channel.appendLine(`Update configuration via configuration listener "${prop}": ${val}`);
+      this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val}`);
       this._configuration[prop] = val;
       this.broadcast({ [prop]: val } as any);
       break;
@@ -101,14 +102,28 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+    /**
+     * check if we have to update
+     */
+    if (val && hash(this._configuration[prop]) === hash(val)) {
+      return;
+    }
+
     const config = vscode.workspace.getConfiguration('marquee');
-    this._channel.appendLine(`Update configuration "${prop}": ${val}`);
+    this._channel.appendLine(`Update configuration "${prop.toString()}": ${val}`);
     this._configuration[prop] = val;
-    await config.update(`${this._key}.${prop}`, val, CONFIGURATION_TARGET);
+    await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET);
   }
 
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
-    this._channel.appendLine(`Update state "${prop}": ${val}`);
+    /**
+     * check if we have to update
+     */
+    if (val && hash(this._state[prop]) === hash(val)) {
+      return;
+    }
+
+    this._channel.appendLine(`Update state "${prop.toString()}": ${val}`);
     this._state[prop] = val;
     await this._context.globalState.update(this._key, this._state);
     this.emit('stateUpdate', this._state);

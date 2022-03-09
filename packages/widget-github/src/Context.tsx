@@ -28,15 +28,24 @@ const TrendProvider = ({ children }: Props) => {
   };
 
   const _updateSince = (since?: Since) => {
-    providerValues.setSince(since?.name as SinceConfiguration || '');
+    if (!since?.name) {
+      return;
+    }
+    providerValues.setSince(since.name as SinceConfiguration);
   };
 
   const _updateLanguage = (language?: SpokenLanguage) => {
-    providerValues.setLanguage(language?.name || '');
+    if (!language?.name) {
+      return;
+    }
+    providerValues.setLanguage(language.name);
   };
 
   const _updateSpoken = (spoken?: SpokenLanguage) => {
-    providerValues.setSpoken(spoken?.name || '');
+    if (!spoken?.name) {
+      return;
+    }
+    providerValues.setSpoken(spoken.name);
   };
 
   useEffect(() => {

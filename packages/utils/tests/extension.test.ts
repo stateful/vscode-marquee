@@ -107,6 +107,27 @@ test('updateConfiguration', async () => {
   expect(config.update).toBeCalledWith('widget.todo.defaultConfig', 'some other new value', 1);
 });
 
+test('updateConfiguration does not do anything if values are equal', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    { prop: { a: 'b' , c: 'd' } },
+    {}
+  );
+  const waitPromise = new Promise((resolve) => setTimeout(resolve, 100));
+  const config = {
+    update: jest.fn().mockReturnValue(waitPromise),
+    get: jest.fn().mockReturnValue('some new value')
+  };
+
+  ;(vscode.workspace.getConfiguration as jest.Mock)
+    .mockClear()
+    .mockReturnValue(config);
+  await manager.updateConfiguration('prop', { c: 'd', a: 'b' });
+  expect(config.update).toBeCalledTimes(0);
+});
+
 test('updateState', async () => {
   const manager = new ExtensionManager(
     context as any,
@@ -122,6 +143,19 @@ test('updateState', async () => {
     defaultState: 'some new state',
     defaultConfig: 'old config'
   });
+});
+
+test('updateState does not do anything if values are equal', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    {},
+    { prop: { a: 'b' , c: 'd' } }
+  );
+  manager.emit = jest.fn();
+  await manager.updateState('prop', { c: 'd', a: 'b' });
+  expect(manager.emit).toBeCalledTimes(0);
 });
 
 test('clear', async () => {
