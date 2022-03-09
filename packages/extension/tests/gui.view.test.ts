@@ -7,15 +7,13 @@ const stateMgr = {
   widgetExtensions: [
     {
       exports: { marquee: { disposable: {
-        on: jest.fn(),
-        stopListenOnChangeEvents: false
+        on: jest.fn()
       } } },
       packageJSON: {}
     },
     {
       exports: { marquee: { disposable: {
-        on: jest.fn(),
-        stopListenOnChangeEvents: false
+        on: jest.fn()
       } } },
       packageJSON: {}
     }
@@ -129,7 +127,6 @@ test('_handleWebviewMessage', () => {
   const gui = new MarqueeGui('context' as any, stateMgr as any);
   gui['_executeCommand'] = jest.fn();
   gui['_handleNotifications'] = jest.fn();
-  gui['_handleViewStateChange'] = jest.fn();
   gui['emit'] = jest.fn();
 
   gui['_handleWebviewMessage']({ west: { execCommands: ['foo', 'bar'] } });
@@ -143,15 +140,5 @@ test('_handleWebviewMessage', () => {
   expect(gui['guiActive']).toBe(false);
   gui['_handleWebviewMessage']({ ready: true });
   expect(gui['guiActive']).toBe(true);
-  expect(gui['_handleViewStateChange']).toBeCalledWith({ webviewPanel: { visible: true } });
   expect(gui.emit).toBeCalledWith('webview.open');
-});
-
-test('_handleViewStateChange', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any);
-  expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.stopListenOnChangeEvents).toBe(false);
-  expect(stateMgr.widgetExtensions[1].exports.marquee.disposable.stopListenOnChangeEvents).toBe(false);
-  gui['_handleViewStateChange']({ webviewPanel: { visible: true }} as any);
-  expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.stopListenOnChangeEvents).toBe(true);
-  expect(stateMgr.widgetExtensions[1].exports.marquee.disposable.stopListenOnChangeEvents).toBe(true);
 });

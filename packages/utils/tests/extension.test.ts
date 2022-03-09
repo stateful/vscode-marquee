@@ -44,7 +44,7 @@ test('_onConfigChange', () => {
     context as any,
     { appendLine: jest.fn() } as any,
     'widget.todo',
-    { defaultConfig: true },
+    { defaultConfig: true, modes: { foo: 'bar' } },
     { defaultState: true }
   );
   manager['broadcast'] = jest.fn();
@@ -52,12 +52,12 @@ test('_onConfigChange', () => {
     .mockClear()
     .mockReturnValue({ get: jest.fn().mockReturnValue('some new value') });
 
-  manager['_stopListenOnChangeEvents'] = true;
   const event = { affectsConfiguration: jest.fn() };
-  expect(manager['_onConfigChange'](event)).toBe(false);
-  expect(event.affectsConfiguration).toBeCalledTimes(0);
+  expect(manager['_onConfigChange'](event)).toBe(true);
+  // assert that it only checks for defaultConfig prop but skips "modes"
+  expect(event.affectsConfiguration).toBeCalledTimes(1);
+  event.affectsConfiguration.mockClear();
 
-  manager['_stopListenOnChangeEvents'] = false;
   event.affectsConfiguration.mockReturnValue(false);
   expect(manager['_onConfigChange'](event)).toBe(true);
   expect(vscode.workspace.getConfiguration).toHaveBeenCalledTimes(0);
@@ -65,7 +65,7 @@ test('_onConfigChange', () => {
   event.affectsConfiguration.mockReturnValue(true);
   expect(manager['_onConfigChange'](event)).toBe(true);
   expect(vscode.workspace.getConfiguration).toHaveBeenCalledTimes(1);
-  expect(manager.configuration).toEqual({ defaultConfig: 'some new value' });
+  expect(manager['broadcast']).toHaveBeenCalledTimes(1);
   expect(manager['broadcast']).toHaveBeenCalledWith({ defaultConfig: 'some new value' });
 });
 

@@ -23,7 +23,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
   ];
   protected _subscriptions: { unsubscribe: Function }[] = [];
-  private _stopListenOnChangeEvents = false;
 
   constructor (
     protected _context: vscode.ExtensionContext,
@@ -62,20 +61,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
-  set stopListenOnChangeEvents (val: boolean) {
-    this._stopListenOnChangeEvents = val;
-  }
-
   private _onConfigChange (event: vscode.ConfigurationChangeEvent) {
-    /**
-     * if the change was triggered by the user through the UI we don't
-     * need to act on it because the config change will be already
-     * executed
-     */
-    if (this._stopListenOnChangeEvents) {
-      return false;
-    }
-
     for (const configKey of Object.keys(this.configuration)) {
       const prop = configKey as keyof Configuration;
 

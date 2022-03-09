@@ -10,12 +10,19 @@ jest.mock('@vscode-marquee/utils/extension', () => class {
     'marquee.configuration.workspaceLaunch': { default: 'marquee.configuration.workspaceLaunch' }
   };
   setBroadcaster = jest.fn();
+  broadcast = jest.fn();
   state = 'foobar';
+  _disposables = [];
+  _channel = {
+    appendLine: jest.fn()
+  };
   configuration = {} as any;
   updateConfiguration (prop: string, val: any) {
     this.configuration[prop] = val;
   }
 });
+
+jest.mock('../src/constants', () => ({ MODES_UPDATE_TIMEOUT: 100 }));
 
 test('isExpanded', () => {
   expect(isExpanded(1)).toBe('foo');
@@ -59,6 +66,34 @@ test('extension manager removes native icon', () => {
     modes: {
       foobar: { icon: { foo: 'bar' } }
     }
+  });
+});
+
+test('extension manager listens on mode changes and applies if not triggered within the last 2s', async () => {
+  (vscode.workspace.getConfiguration as jest.Mock).mockReturnValueOnce({
+    get: jest.fn().mockReturnValue({ foo: 'bar' })
+  });
+  const context = {
+    globalState: {
+      get: jest.fn().mockReturnValue({}),
+      setKeysForSync: jest.fn()
+    }
+  };
+  const extExport = activateGUI(context as any, {} as any);
+  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0);
+
+  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(false) });
+  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0);
+
+  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(true) });
+  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0);
+
+  await new Promise((resolve) => setTimeout(resolve, 110));
+
+  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(true) });
+  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(1);
+  expect(extExport.marquee.disposable['broadcast']).toBeCalledWith({
+    modes: { foo: 'bar' }
   });
 });
 
