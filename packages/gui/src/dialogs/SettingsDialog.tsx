@@ -98,6 +98,15 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: any, newValue: any) => {
+    if (event.target.innerHTML === 'Marquee Settings') {
+      return window.vscode.postMessage({
+        west: { execCommands: [{
+          command: 'workbench.action.openSettings',
+          args: ['@ext:stateful.marquee']
+        }]},
+      });
+    }
+
     setValue(newValue);
   };
   return (
@@ -121,6 +130,7 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
                 >
                   <Tab label="Widgets" />
                   <Tab label="Import / Export" />
+                  <Tab label="Marquee Settings" />
                 </Tabs>
               </AppBar>
             </Grid>

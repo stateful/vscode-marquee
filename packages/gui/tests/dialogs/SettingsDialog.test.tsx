@@ -45,3 +45,22 @@ test('switches to import/export settings', () => {
 
   expect(close).toBeCalledTimes(2);
 });
+
+test('should open Marquee settings in VSCode preference view', () => {
+  window.vscode = { postMessage: jest.fn() };
+
+  const close = jest.fn();
+  const { getByText } = render(
+    <GlobalProvider>
+      <SettingsDialog close={close} />
+    </GlobalProvider>
+  );
+
+  userEvent.click(getByText('Marquee Settings'));
+  expect(window.vscode.postMessage).toBeCalledWith({
+    west: { execCommands: [{
+      command: 'workbench.action.openSettings',
+      args: ['@ext:stateful.marquee']
+    }] }
+  });
+});
