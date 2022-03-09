@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/styles";
+import { StyledEngineProvider, Theme } from "@mui/material/styles";
 
 import { theme, GlobalProvider } from "@vscode-marquee/utils";
 import type { MarqueeWindow } from '@vscode-marquee/utils';
@@ -13,7 +14,6 @@ import Container from "./Container";
 import { ModeProvider } from "./contexts/ModeContext";
 
 import "./css/index.css";
-import { StyledEngineProvider, Theme } from "@mui/material/styles";
 
 
 declare module '@mui/styles/defaultTheme' {
