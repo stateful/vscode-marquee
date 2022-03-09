@@ -92,6 +92,7 @@ let SnippetListItem = ({
   }, [snippet]);
 
   const handleRightClick = useCallback((e) => {
+    e.preventDefault();
     setAnchorEl(e.currentTarget);
   }, []);
 
@@ -147,7 +148,15 @@ let SnippetListItem = ({
               <ListItem
                 button
                 onClick={(e) => {
-                  widgetEventListener.emit('openSnippet', snippet.path!);
+                  let path = snippet.path || '';
+                  /**
+                   * transform v2 snippets to make them editable in v3
+                   */
+                  if (!path.startsWith('/')) {
+                    path = `/${snippet.id}/${path}`;
+                  }
+
+                  widgetEventListener.emit('openSnippet', path!);
                   handleClose(e);
                 }}
               >

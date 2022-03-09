@@ -30,7 +30,18 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
     }
 
     const state = this._context.globalState.get<State>(STATE_KEY);
-    const snippet = state?.snippets.find((snippet) => snippet.path === uri.path);
+    let snippet = state?.snippets.find((snippet) => snippet.path === uri.path);
+
+    /**
+     * in Marquee v2 and earlier `path` was used to recognise the source of the snippet.
+     * This has changed in v3 where `path` represents the virtual path and `origin` the
+     * source of the snippet. To allow finding old snippets (e.g. imported in v3) we do
+     * this extra check.
+     */
+    if (!snippet) {
+      const [id, path] = uri.path.split('/').filter(Boolean);
+      snippet = state?.snippets.find((snippet) => snippet.id === id && snippet.path === path);
+    }
 
     if (!snippet) {
       throw new Error(`Couldn't find snippet at ${uri.path}`);

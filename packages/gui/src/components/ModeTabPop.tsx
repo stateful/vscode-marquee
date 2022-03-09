@@ -15,15 +15,13 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
   const [showModeTab, SetShowModeTab] = useState(false);
   const { _removeMode } = useContext(ModeContext);
 
-  const handleRightClick = useCallback(
-    (e) => {
-      //if this isn't one of the preset modes
-      if (!presetModes.includes(name)) {
-        setAnchorEl(e.currentTarget);
-      }
-    },
-    [name]
-  );
+  const handleRightClick = useCallback((e) => {
+    e.preventDefault();
+    //if this isn't one of the preset modes
+    if (!presetModes.includes(name)) {
+      setAnchorEl(e.currentTarget);
+    }
+  }, [name]);
 
   const handleClose = useCallback(() => {
     setAnchorEl(null);
