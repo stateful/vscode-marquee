@@ -33,11 +33,30 @@ export const DEFAULT_CONFIGURATION = {
   colorScheme: undefined
 };
 
+class GUIExtensionManager extends ExtensionManager<typeof DEFAULT_STATE, typeof DEFAULT_CONFIGURATION> {
+  async updateConfiguration (prop: keyof typeof DEFAULT_CONFIGURATION, val: any) {
+    /**
+     * when updating modes the webview passes the native ascii icon (e.g. "💼") which
+     * breaks when sending from webview to extension host. This ensures that we don't
+     * includes these broken ascii characters into the VSCode settings file
+     */
+    if (prop === 'modes') {
+      for (const modeName of Object.keys(val)) {
+        if (val[modeName].icon) {
+          delete val[modeName].icon.native;
+        }
+      }
+    }
+
+    super.updateConfiguration(prop, val);
+  }
+}
+
 export function activateGUI (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<{}, {}>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
+  const stateManager = new GUIExtensionManager(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
 
   return {
     marquee: {
