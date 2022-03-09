@@ -2664,13 +2664,11 @@
           "marquee.widgets.github.trendFilter": {
             "type": "string",
             "scope": "window",
-            "default": "",
             "markdownDescription": "Query GitHub trends by specific key word"
           },
           "marquee.widgets.weather.city": {
             "type": "string",
             "scope": "window",
-            "default": null,
             "markdownDescription": "City for which the widget displays the weather forecast"
           },
           "marquee.widgets.weather.scale": {

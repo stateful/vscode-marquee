@@ -120,10 +120,10 @@ export default class StateManager implements vscode.Disposable {
             '@vscode-marquee/projects-widget': { workspaces: obj.workspaces || [] }
           },
           configuration: {
-            '@vscode-marquee/utils': { name: obj.name, background: obj.bg },
+            '@vscode-marquee/utils': { name: obj.name, background: obj.bg?.toString() },
             '@vscode-marquee/todo-widget': { autoDetect: obj.autoDetect },
             '@vscode-marquee/github-widget': {
-              language: obj.language?.name,
+              language: obj.language?.name || undefined,
               since: obj.since?.name,
               spoken: obj.spoken?.name
             }

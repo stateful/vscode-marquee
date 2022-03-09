@@ -24,7 +24,7 @@ const TrendProvider = ({ children }: Props) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const _updateFilter = (trendFilter: string) => {
-    providerValues.setTrendFilter(trendFilter);
+    providerValues.setTrendFilter(trendFilter || undefined);
   };
 
   const _updateSince = (since?: Since) => {
