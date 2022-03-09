@@ -77,15 +77,26 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
 
     for (const configKey of Object.keys(this.configuration)) {
-      if (!event.affectsConfiguration(`marquee.${this._key}.${configKey}`)) {
+      const prop = configKey as keyof Configuration;
+
+      /**
+       * don't apply config updates for modes (handled in GUIExtensionManager) and configurations
+       * that were not affected by the change event
+       */
+      if (prop === 'modes' || !event.affectsConfiguration(`marquee.${this._key}.${configKey}`)) {
         continue;
       }
 
       const config = vscode.workspace.getConfiguration('marquee');
-      const prop = configKey as keyof Configuration;
       const val = config.get(`${this._key}.${configKey}`) as Configuration[keyof Configuration];
+      /**
+       * don't propagate updates if changes are already updated
+       */
+      if (val && hash(this._configuration[prop]) === hash(val)) {
+        continue;
+      }
+
       this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val}`);
-      this._configuration[prop] = val;
       this.broadcast({ [prop]: val } as any);
       break;
     }

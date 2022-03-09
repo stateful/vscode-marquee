@@ -220,7 +220,6 @@ export class MarqueeGui extends EventEmitter {
     this.panel.webview.html = content;
     this.panel.webview.onDidReceiveMessage(this._handleWebviewMessage.bind(this));
     this.panel.onDidDispose(this._disposePanel.bind(this));
-    this.panel.onDidChangeViewState(this._handleViewStateChange.bind(this));
   }
 
   private _disposePanel () {
@@ -244,7 +243,6 @@ export class MarqueeGui extends EventEmitter {
     if (e.ready) {
       telemetry.sendTelemetryEvent('guiOpen');
       this.guiActive = true;
-      this._handleViewStateChange({ webviewPanel: { visible: true } } as any);
       return this.emit('webview.open');
     }
   }
@@ -272,16 +270,6 @@ export class MarqueeGui extends EventEmitter {
       break;
       default:
         vscode.window.showInformationMessage(message);
-    }
-  }
-
-  private _handleViewStateChange (e: vscode.WebviewPanelOnDidChangeViewStateEvent) {
-    telemetry.sendTelemetryEvent('viewStateChange', { visible: `${e.webviewPanel.visible}` });
-    const widgetDisposables = this.stateMgr.widgetExtensions
-      .map((w) => w.exports?.marquee?.disposable)
-      .filter(Boolean);
-    for (const widgetExtension of widgetDisposables) {
-      widgetExtension.stopListenOnChangeEvents = e.webviewPanel.visible;
     }
   }
 }
