@@ -12,7 +12,7 @@ interface ModeTabPopProps {
 
 const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [showModeTab, SetShowModeTab] = useState(false);
+  const [showModeTab, setShowModeTab] = useState(false);
   const { _removeMode } = useContext(ModeContext);
 
   const handleRightClick = useCallback((e) => {
@@ -40,7 +40,7 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
   return (
     <>
       {showModeTab && (
-        <ModeEditDialog name={name} />
+        <ModeEditDialog onClose={() => setShowModeTab(false)} name={name} />
       )}
       <div style={{ width: "100%" }} onContextMenu={handleRightClick}>
         {children}
@@ -62,7 +62,7 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
         <ListItem
           button
           onClick={() => {
-            SetShowModeTab(true);
+            setShowModeTab(true);
             handleClose();
           }}
         >

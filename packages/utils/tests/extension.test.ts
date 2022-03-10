@@ -268,7 +268,8 @@ test('getTextSelection', () => {
 
 test('setBroadcaster', () => {
   const tangle = {
-    listen: jest.fn().mockReturnValue('a subscription')
+    listen: jest.fn().mockReturnValue('a subscription'),
+    on: jest.fn()
   };
   const manager = new ExtensionManager(
     context as any,
@@ -278,6 +279,7 @@ test('setBroadcaster', () => {
     { defaultState: true }
   );
   manager.setBroadcaster(tangle as any);
+  expect(tangle.on).toBeCalledWith('clear', expect.any(Function));
   expect(tangle.listen).toBeCalledWith('defaultState', expect.any(Function));
   expect(tangle.listen).toBeCalledWith('defaultConfig', expect.any(Function));
   expect(manager['_subscriptions']).toEqual(['a subscription', 'a subscription']);

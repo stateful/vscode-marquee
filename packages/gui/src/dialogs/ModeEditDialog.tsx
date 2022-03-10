@@ -12,11 +12,11 @@ import ModeContext from "../contexts/ModeContext";
 import EmojiPop from "../components/EmojiPop";
 
 interface ModeEditDialogProps {
-  _close?: (event?: MouseEvent<HTMLButtonElement>) => void
+  onClose: (event?: MouseEvent<HTMLButtonElement>) => void
   name: string
 }
 
-const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
+const ModeEditDialog = React.memo(({ onClose, name }: ModeEditDialogProps) => {
   const { modes, _duplicateMode } = useContext(ModeContext);
   const [modeName, setModeName] = useState(name);
   const [emoji, setEmoji] = useState(modes[name].icon);
@@ -29,25 +29,21 @@ const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
   const updateMode = useCallback(() => {
     if (!error) {
       _duplicateMode(name, modeName, emoji!);
-      if (_close) {
-        _close();
-      }
+      onClose();
     } else {
       modeNameInputRef!.focus();
     }
   }, [name, modeName, emoji]);
 
   return (
-    <DialogContainer fullWidth={true} onClose={_close}>
-      <DialogTitle onClose={_close}>Duplicate Mode</DialogTitle>
+    <DialogContainer fullWidth={true} onClose={onClose}>
+      <DialogTitle onClose={onClose}>Duplicate Mode</DialogTitle>
       <DialogContent dividers={true}>
         <TextField
           inputProps={{ ref: (input: HTMLButtonElement) => (modeNameInputRef = input) }}
           error={error}
           fullWidth
-          onChange={(e) => {
-            setModeName(e.target.value);
-          }}
+          onChange={(e) => setModeName(e.target.value)}
           name="modeName"
           autoFocus
           value={modeName}
@@ -71,9 +67,14 @@ const ModeEditDialog = React.memo(({ _close, name }: ModeEditDialogProps) => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => {
-            updateMode();
-          }}
+          onClick={() => onClose()}
+          variant="contained"
+          color="secondary"
+        >
+          Close
+        </Button>
+        <Button
+          onClick={() => updateMode()}
           variant="contained"
           color="primary"
         >

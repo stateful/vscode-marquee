@@ -215,6 +215,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   public setBroadcaster (tangle: Client<State & Configuration>) {
     this._tangle = tangle;
+    this._tangle.on<any>('clear', this.clear.bind(this));
 
     /**
      * listen on configuration changes
