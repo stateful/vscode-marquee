@@ -4,7 +4,7 @@ import type { Disposable } from 'vscode';
 import type ExtensionManager from '@vscode-marquee/utils/extension';
 
 export interface ExtensionConfiguration {
-  proxy: string
+  proxy?: string
   fontSize: number
   launchOnStartup: boolean
   workspaceLaunch: boolean

@@ -76,6 +76,12 @@ export default class StateManager implements vscode.Disposable {
   }
 
   private async _import () {
+    /**
+     * disable config change listener during the time we import
+     */
+    this.widgetExtensions.forEach((ex) => (
+      ex.exports.marquee.disposable.setImportInProgress()));
+
     telemetry.sendTelemetryEvent('import');
     const importPath = await vscode.window.showOpenDialog({
       canSelectFiles: true,
@@ -123,7 +129,7 @@ export default class StateManager implements vscode.Disposable {
             '@vscode-marquee/utils': { name: obj.name, background: obj.bg?.toString() },
             '@vscode-marquee/todo-widget': { autoDetect: obj.autoDetect },
             '@vscode-marquee/github-widget': {
-              language: obj.language?.name || undefined,
+              language: obj.language?.name,
               since: obj.since?.name,
               spoken: obj.spoken?.name
             }
@@ -145,6 +151,12 @@ export default class StateManager implements vscode.Disposable {
       return this.global.emit('gui.open', true);
     } catch (err: any) {
       vscode.window.showErrorMessage(`Error importing file: ${err.message}`);
+    } finally {
+      /**
+       * re-enable config change listener again
+       */
+      this.widgetExtensions.forEach((ex) => (
+        ex.exports.marquee.disposable.setImportInProgress(false)), 1000);
     }
   }
 

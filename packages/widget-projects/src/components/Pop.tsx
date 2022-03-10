@@ -31,7 +31,7 @@ const OpenInNewWindowBox = React.memo(() => {
           value={openProjectInNewWindow}
           name="openInNewWindow"
           onChange={(e) => {
-            setOpenProjectInNewWindow(e.target.checked);
+            setOpenProjectInNewWindow(Boolean(e.target.checked));
           }}
         />
       </Grid>

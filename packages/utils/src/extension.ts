@@ -23,6 +23,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
   ];
   protected _subscriptions: { unsubscribe: Function }[] = [];
+  private _isConfigUpdateListenerDisabled = false;
+  private _isImportInProgress = false;
 
   constructor (
     protected _context: vscode.ExtensionContext,
@@ -61,7 +63,15 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return this._configuration;
   }
 
+  public setImportInProgress (inProgress = true) {
+    this._isImportInProgress = inProgress;
+  }
+
   private _onConfigChange (event: vscode.ConfigurationChangeEvent) {
+    if (this._isConfigUpdateListenerDisabled || this._isImportInProgress) {
+      return;
+    }
+
     for (const configKey of Object.keys(this.configuration)) {
       const prop = configKey as keyof Configuration;
 
@@ -99,10 +109,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+    this._isConfigUpdateListenerDisabled = true;
+
     /**
      * check if we have to update
      */
-    if (val && hash(this._configuration[prop]) === hash(val)) {
+    if (val && this._configuration[prop] && hash(this._configuration[prop]) === hash(val)) {
       return;
     }
 
@@ -110,13 +122,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._channel.appendLine(`Update configuration "${prop.toString()}": ${val}`);
     this._configuration[prop] = val;
     await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET);
+    this._isConfigUpdateListenerDisabled = false;
   }
 
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
     /**
      * check if we have to update
      */
-    if (val && hash(this._state[prop]) === hash(val)) {
+    if (val && this._state[prop] && hash(this._state[prop]) === hash(val)) {
       return;
     }
 
@@ -130,6 +143,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    * clear state and configuration of widget
    */
   public async clear () {
+    this._isConfigUpdateListenerDisabled = true;
+
     const config = vscode.workspace.getConfiguration('marquee');
     this._state = { ...this._defaultState };
     await this._context.globalState.update(this._key, this._state);
@@ -147,6 +162,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       ))
     );
     await config.update(this._key, undefined, CONFIGURATION_TARGET);
+    this._isConfigUpdateListenerDisabled = false;
   }
 
   /**

@@ -70,7 +70,7 @@ let ProjectsFilter = () => {
           color="secondary"
           variant="dot"
           overlap="circular"
-          badgeContent={workspaceFilter.length}
+          badgeContent={Boolean(workspaceFilter?.length)}
         >
           <SearchIcon fontSize="small" />
         </Badge>

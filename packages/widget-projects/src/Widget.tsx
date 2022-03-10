@@ -42,7 +42,7 @@ let Projects = () => {
   let filteredProjects = useMemo(() => {
     let filteredProjects = workspaces;
 
-    if (workspaceFilter !== "") {
+    if (workspaceFilter) {
       let filteredArr = filteredProjects.filter((project) => {
         return (
           project.name.toLowerCase().indexOf(workspaceFilter.toLowerCase()) !==

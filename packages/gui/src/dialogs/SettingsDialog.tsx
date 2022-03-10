@@ -120,7 +120,7 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
             direction="column"
             style={{ height: "100%" }}
           >
-            <Grid item xs={1} style={{ maxWidth: "100%" }}>
+            <Grid item style={{ maxWidth: "100%" }}>
               <AppBar position="static" color="inherit">
                 <Tabs
                   value={value}
