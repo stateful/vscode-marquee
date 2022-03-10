@@ -213,8 +213,7 @@
       {
         "command": "marquee.snippet.insertEditor",
         "title": "Insert from Snippets",
-        "category": "Marquee",
-        "enablement": "editorTextFocus"
+        "category": "Marquee"
       },
       {
         "command": "marquee.snippet.addEditor",
@@ -1984,6 +1983,7 @@
             "scope": "window",
             "default": "",
             "enum": [
+              "",
               "1C Enterprise",
               "ABAP",
               "ABNF",
@@ -2463,6 +2463,7 @@
             "scope": "window",
             "default": "",
             "enum": [
+              "",
               "Abkhazian",
               "Afar",
               "Afrikaans",

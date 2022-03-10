@@ -33,6 +33,7 @@ const context = {
 beforeEach(() => {
   (vscode.window.showInformationMessage as jest.Mock).mockClear();
   context.globalState.update.mockClear();
+  manager.setImportInProgress.mockClear();
 });
 
 test('StateManager initiation', () => {
@@ -47,6 +48,7 @@ test('_import', async () => {
   expect(vscode.window.showErrorMessage).toBeCalledWith(
     'Error importing file: Invalid Marquee Configuration'
   );
+  expect(manager.setImportInProgress).toBeCalledTimes(18);
 });
 
 test('_import transforms old config types', async () => {
@@ -58,6 +60,7 @@ test('_import transforms old config types', async () => {
   expect(manager.updateState.mock.calls).toMatchSnapshot();
   expect(manager.emit).toBeCalledWith('gui.close');
   expect(manager.emit).toBeCalledWith('gui.open', true);
+  expect(manager.setImportInProgress).toBeCalledTimes(18);
 });
 
 test('_export', async () => {

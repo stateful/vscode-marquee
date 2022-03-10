@@ -16,7 +16,7 @@ export interface State {
 }
 
 export interface Configuration {
-  todoFilter: string
+  todoFilter?: string
   hide: boolean
   showArchived: boolean
   autoDetect: boolean
