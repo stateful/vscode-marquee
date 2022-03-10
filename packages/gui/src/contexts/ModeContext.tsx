@@ -84,7 +84,7 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   const _resetModes = () => {
-    modeState.emit<any>('clear', null);
+    modeState.emit<any>('clear', undefined);
   };
 
   const _removeMode = (removeModeName: string) => {

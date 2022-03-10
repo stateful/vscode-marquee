@@ -59,6 +59,7 @@ test('WidgetLayout filters non display widgets', () => {
   act(() => { __removeMode('foobar'); });
   expect(providerValues.setModes).toBeCalledTimes(1);
 
+  listener.emit = jest.fn();
   act(() => { __resetModes(); });
-  expect(providerValues.setModeName).toBeCalledWith('default');
+  expect(listener.emit).toBeCalledWith('clear', undefined);
 });
