@@ -84,9 +84,7 @@ const ModeProvider = ({ children }: Props) => {
   };
 
   const _resetModes = () => {
-    providerValues.setModes(undefined as any);
-    providerValues.setModeName('default');
-    providerValues.setPrevMode(null);
+    modeState.emit<any>('clear', null);
   };
 
   const _removeMode = (removeModeName: string) => {

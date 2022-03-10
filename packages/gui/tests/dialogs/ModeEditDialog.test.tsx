@@ -11,7 +11,7 @@ jest.mock('../../src/contexts/ModeContext');
 test('should render component', () => {
   const close = jest.fn();
   const { getByText } = render(<ModeProvider>
-    <ModeEditDialog _close={close} name="default" />
+    <ModeEditDialog onClose={close} name="default" />
   </ModeProvider>);
   userEvent.click(getByText('Add'));
   expect(_duplicateMode).toBeCalledWith('default', 'default', undefined);
