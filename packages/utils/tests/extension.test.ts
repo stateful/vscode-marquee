@@ -69,6 +69,26 @@ test('_onConfigChange', () => {
   expect(manager['broadcast']).toHaveBeenCalledWith({ defaultConfig: 'some new value' });
 });
 
+test('_onConfigChange is not triggered if flags are set', () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    {},
+    {}
+  );
+  manager['_configuration'] = [];
+  expect(manager['_onConfigChange']({} as any)).toBe(true);
+  manager['_isConfigUpdateListenerDisabled'] = true;
+  expect(manager['_onConfigChange']({} as any)).toBe(undefined);
+  manager['_isConfigUpdateListenerDisabled'] = false;
+  manager['_isImportInProgress'] = true;
+  expect(manager['_onConfigChange']({} as any)).toBe(undefined);
+  manager['_isConfigUpdateListenerDisabled'] = false;
+  manager['_isImportInProgress'] = false;
+  expect(manager['_onConfigChange']({} as any)).toBe(true);
+});
+
 test('broadcast', () => {
   const manager = new ExtensionManager(
     context as any,
@@ -83,6 +103,21 @@ test('broadcast', () => {
   manager['_tangle'] = tangle as any;
   manager['broadcast']({ bar: 'foo' } as any);
   expect(tangle.broadcast).toBeCalledWith({ bar: 'foo' });
+});
+
+test('setImportInProgress', () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'foobar',
+    {},
+    {}
+  );
+  expect(manager['_isImportInProgress']).toBe(false);
+  manager.setImportInProgress();
+  expect(manager['_isImportInProgress']).toBe(true);
+  manager.setImportInProgress(false);
+  expect(manager['_isImportInProgress']).toBe(false);
 });
 
 test('updateConfiguration', async () => {

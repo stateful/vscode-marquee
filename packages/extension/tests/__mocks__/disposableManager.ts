@@ -7,4 +7,5 @@ manager.dispose = jest.fn();
 manager.on = jest.fn();
 manager.state = 'some state';
 manager.configuration = 'some configuration';
+manager.setImportInProgress = jest.fn();
 module.exports = manager;
