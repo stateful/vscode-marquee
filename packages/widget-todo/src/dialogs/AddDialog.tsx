@@ -5,13 +5,14 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
-import ChipInput from "material-ui-chip-input";
+import ChipInputOld from "material-ui-chip-input";
 
 import { theme, MarqueeWindow } from "@vscode-marquee/utils";
 import { SplitButton } from "@vscode-marquee/widget";
 import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
 
 import TodoContext from "../Context";
+import ChipInput from "../components/ChipInput";
 
 declare const window: MarqueeWindow;
 const options = ['Add to Workspace', 'Add as Global Todo'];
@@ -61,6 +62,13 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
         />
         <div style={{ height: "8px", minWidth: "100%" }} />
         <ChipInput
+          fullWidth
+          label="Add some tags!"
+          variant="filled"
+          value={tags}
+          onChange={tags => setTags(tags)}
+        />
+        <ChipInputOld
           newChipKeyCodes={[13, 9]}
           blurBehavior="add"
           fullWidth
