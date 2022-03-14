@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useEffect } from "react";
+import React, { KeyboardEvent } from "react";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import { InputAdornment, TextFieldProps } from "@material-ui/core";
@@ -10,52 +10,40 @@ type Props = Omit<TextFieldProps, "value" | "onChange"> & {
 
 export default function TagsInput({ onChange, value, ...inputProps }: Props) {
   const [inputValue, setInputValue] = React.useState("");
-  const [selectedItems, setSelectedItems] = React.useState(value ?? []);
-
-  useEffect(() => {
-    onChange(selectedItems);
-  }, [selectedItems, onChange]);
 
   function handleKeyDown(
     event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     if (event.key === "Enter") {
-      if (!selectedItems.includes(inputValue)) {
+      if (!value.includes(inputValue)) {
         // only add new tag if it's not a duplicate
-        setSelectedItems((oldSelectedItems) => [
-          ...oldSelectedItems,
-          inputValue,
-        ]);
+        onChange([...value, inputValue]);
       }
       setInputValue("");
     }
     if (
       event.key === "Backspace" &&
-      selectedItems.length > 0 &&
+      value.length > 0 &&
       inputValue.length === 0
     ) {
       // Removing last tag on backspace, and populating the text input with the
       // respective value.
-      const lastItem = selectedItems.slice(-1).pop()!;
+      const lastItem = value.slice(-1).pop()!;
       setInputValue(lastItem);
-      setSelectedItems((oldSelectedItems) => oldSelectedItems.slice(0, -1));
+      onChange(value.slice(0, -1));
     }
   }
 
   const handleDelete = (item: string) => () => {
-    setSelectedItems((oldSelectedItems) =>
-      oldSelectedItems.filter((it) => it !== item)
-    );
+    onChange(value.filter((it) => it !== item));
   };
 
   return (
     <TextField
       value={inputValue}
       InputProps={{
-        startAdornment: selectedItems.map((item) => (
-          <InputAdornment
-            position="start"
-          >
+        startAdornment: value.map((item) => (
+          <InputAdornment position="start">
             <Chip
               key={item}
               tabIndex={-1}
