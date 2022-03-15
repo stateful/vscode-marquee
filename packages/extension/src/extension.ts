@@ -36,8 +36,9 @@ export class MarqueeExtension {
     /**
      * allow widget to trigger extension methods
      */
-    this._stateMgr.onWidget('openDialog',
-      ({ event, payload }) => this.openDialog(event as keyof MarqueeEvents, payload));
+    this._stateMgr.onWidget("openDialog", ({ event, payload }) =>
+      this.openDialog(event, payload)
+    );
 
     /**
      * clear symlink to 3rd party extensions as new extension could have
@@ -88,7 +89,10 @@ export class MarqueeExtension {
     return this.openGui();
   }
 
-  private async openDialog (event: keyof MarqueeEvents, payload?: any) {
+  private async openDialog<EventName extends keyof MarqueeEvents>(
+    event: EventName,
+    payload: MarqueeEvents[EventName]
+  ) {
     await this.openGui();
     this.gui.broadcast(event, payload);
   }

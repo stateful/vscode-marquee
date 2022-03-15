@@ -53,11 +53,11 @@ test('close', () => {
 
 test('broadcast', () => {
   const gui = new MarqueeGui('context' as any, stateMgr as any);
-  expect(gui.broadcast('openSettings', 'foobar')).toBe(false);
+  expect(gui.broadcast('removeWidget', 'foobar')).toBe(false);
 
   gui['client'] = { emit: jest.fn() } as any;
-  expect(gui.broadcast('openSettings', 'foobar')).toBe(undefined);
-  expect(gui['client']!.emit).toBeCalledWith('openSettings', 'foobar');
+  expect(gui.broadcast('removeWidget', 'foobar')).toBe(undefined);
+  expect(gui['client']!.emit).toBeCalledWith('removeWidget', 'foobar');
 });
 
 test('_executeCommand', () => {

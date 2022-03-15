@@ -74,9 +74,9 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
 
     this.state.todos = filterByScope(todos, aws, globalScope);
 
-    const openArr: any = [];
-    const closedArr: any = [];
-    this.state.todos.forEach((todo: any) => {
+    const openArr: Todo[] = [];
+    const closedArr: Todo[] = [];
+    this.state.todos.forEach((todo) => {
       if (todo.archived) {
         return;
       }
@@ -87,7 +87,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       }
     });
 
-    let todoIndex = this.toplevel.findIndex((entry: any) => {
+    let todoIndex = this.toplevel.findIndex((entry) => {
       return entry.caption.indexOf("Todo") !== -1;
     });
     const scope = globalScope ? "global" : "workspace";
@@ -243,8 +243,8 @@ export class Item extends vscode.TreeItem {
    * Define item as LinkedTodo or LinkedSnippet to enable
    * further context operation, e.g. jump to file
    */
-  linkItem(item: any) {
-    const i: any = item.item;
+  linkItem(item: TodoItem | SnippetItem) {
+    const i = item.item;
     if (i.origin) {
       this.contextValue = `Linked${this.contextValue}`;
     }
@@ -287,12 +287,12 @@ class TodoItem extends Item implements ContextMenu {
     throw new Error(`Unknown dialog "${cmd}"`);
   }
 
-  public static map(todos: any, basePath: vscode.Uri): Array<any> {
+  public static map(todos: Todo[], basePath: vscode.Uri) {
     const ts = todos
-      .filter((todo: any) => {
+      .filter((todo) => {
         return todo.archived === false;
       })
-      .map((todo: any) => {
+      .map((todo) => {
         // new Todo
         const t = new TodoItem(
           todo.body,
@@ -370,7 +370,7 @@ class SnippetItem extends Item implements ContextMenu {
     throw new Error(`Unknown dialog "${cmd}"`);
   }
 
-  public static map(snippets: any, basePath: vscode.Uri): Array<SnippetItem> {
+  public static map(snippets: Array<Snippet>, basePath: vscode.Uri): Array<SnippetItem> {
     const snps = snippets.slice(0, 12).map((snippet: Snippet) => {
       const t = new SnippetItem(
         snippet.title,
@@ -413,6 +413,10 @@ class SnippetItem extends Item implements ContextMenu {
   }
 }
 
+// @ts-expect-error This is invalid inheritance due to
+// NoteItem's `map(notes: Array<Note>, ...)` method.
+// Since `Note` does not inherit from `Snippet`, `NoteItem.map`
+// cannot inherit `Snippet.map`
 class NoteItem extends SnippetItem {
   constructor(
     public readonly label: string,
@@ -455,7 +459,7 @@ class NoteItem extends SnippetItem {
     throw new Error(`Unknown dialog "${cmd}"`);
   }
 
-  public static map(notes: any, basePath: vscode.Uri): Array<NoteItem> {
+  public static map(notes: Array<Note>, basePath: vscode.Uri): Array<NoteItem> {
     const ns = notes.slice(0, 12).map((note: Note) => {
       const t = new NoteItem(
         note.title,

@@ -5,7 +5,7 @@ import type { MarqueeWindow } from '../packages/utils';
 declare const window: MarqueeWindow;
 
 const ch = new Channel<{ counter: number }>('stateful.marquee');
-const client = ch.attach(window.vscode as any);
+const client = ch.attach(window.vscode);
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`

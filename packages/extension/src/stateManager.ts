@@ -5,7 +5,8 @@ import ExtensionManager, {
   activate as activateUtils,
   State as GlobalState,
   Configuration as GlobalConfiguration,
-  DEPRECATED_GLOBAL_STORE_KEY
+  DEPRECATED_GLOBAL_STORE_KEY,
+  MarqueeEvents
 } from '@vscode-marquee/utils/extension';
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
 import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension';
@@ -40,7 +41,7 @@ interface ExportFormat<T = any> {
 }
 
 export default class StateManager implements vscode.Disposable {
-  public readonly widgetExtensions: vscode.Extension<ExtensionExport>[] = Object.entries(MARQUEE_WIDGETS).map(
+  public readonly widgetExtensions = Object.entries(MARQUEE_WIDGETS).map(
     /**
      * this is to make Marquee core widget look like external widgets
      * so that the interface is the same
@@ -50,7 +51,7 @@ export default class StateManager implements vscode.Disposable {
       exports: activate(this._context, this._channel),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
-    } as any as vscode.Extension<ExtensionExport>)
+    }) as Pick<vscode.Extension<ExtensionExport>, "id" | "exports" | "isActive" | "packageJSON">
   );
 
   /**
@@ -249,9 +250,21 @@ export default class StateManager implements vscode.Disposable {
       (w) => w.exports.marquee.disposable.clear()));
   }
 
-  onWidget (eventName: string, listener: ({ event, payload }: { event: string, payload: any }) => void) {
-    return Promise.all(this.widgetExtensions.map(
-      (w) => w.exports.marquee.disposable.on(eventName, listener)));
+  onWidget<EventName extends keyof MarqueeEvents>(
+    eventName: string,
+    listener: ({
+      event,
+      payload,
+    }: {
+      event: EventName;
+      payload: MarqueeEvents[EventName];
+    }) => void
+  ) {
+    return Promise.all(
+      this.widgetExtensions.map((w) =>
+        w.exports.marquee.disposable.on(eventName, listener)
+      )
+    );
   }
 
   /**
