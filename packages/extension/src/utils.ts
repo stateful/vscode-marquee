@@ -13,12 +13,12 @@ export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   return vscode.TreeItemCollapsibleState.Collapsed;
 };
 
-export const filterByScope = <T>(
+export const filterByScope = <T extends { workspaceId: string | null }>(
   obj: T[],
   aws: null | { id: string },
   globalScope: boolean
 ) => {
-  return obj.filter((n: any) => globalScope || (aws && aws.id === n.workspaceId));
+  return obj.filter((n) => globalScope || (aws && aws.id === n.workspaceId));
 };
 
 export const DEFAULT_STATE = {
@@ -52,7 +52,7 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
     this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)));
   }
 
-  async updateConfiguration (prop: keyof Configuration, val: any) {
+  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
     /**
      * when updating modes the webview passes the native ascii icon (e.g. "💼") which
      * breaks when sending from webview to extension host. This ensures that we don't
@@ -82,7 +82,7 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
     const config = vscode.workspace.getConfiguration('marquee');
     const val = config.get('configuration.modes') as Configuration[keyof Configuration];
     this._channel.appendLine(`Update configuration.modes via configuration listener`);
-    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) } as any);
+    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) });
   }
 }
 

@@ -62,7 +62,10 @@ export class MarqueeGui extends EventEmitter {
     this.panel?.dispose();
   }
 
-  public broadcast (event: keyof MarqueeEvents, payload: any) {
+  public broadcast<EventName extends keyof MarqueeEvents>(
+    event: EventName,
+    payload: MarqueeEvents[EventName]
+  ) {
     if (!this.client) {
       return false;
     }
@@ -173,13 +176,16 @@ export class MarqueeGui extends EventEmitter {
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
       : 'transparent';
 
-    const widgetStateConfigurations = this.stateMgr.widgetExtensions.reduce((prev, curr) => ({
-      ...prev,
-      [curr.id]: {
-        configuration: curr.exports.marquee?.disposable?.configuration || {},
-        state: curr.exports.marquee?.disposable?.state || {}
-      }
-    }), {} as Record<string, any>);
+    const widgetStateConfigurations = this.stateMgr.widgetExtensions.reduce(
+      (prev, curr) => ({
+        ...prev,
+        [curr.id]: {
+          configuration: curr.exports.marquee?.disposable?.configuration || {},
+          state: curr.exports.marquee?.disposable?.state || {},
+        },
+      }),
+      {} as Record<string, Pick<ExtensionExport, "configuration" | "state">>
+    );
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL);
     const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL);

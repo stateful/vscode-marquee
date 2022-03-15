@@ -64,9 +64,9 @@ test('openDialog', async () => {
   const ext = new MarqueeExtension(context as any);
   ext.openGui = jest.fn().mockReturnValue('openedGui');
 
-  await ext['openDialog']('openSettings', { foo: 'bar' });
+  await ext['openDialog']('removeWidget', "foobar");
   expect(ext.openGui).toBeCalledTimes(1);
-  expect(ext['gui'].broadcast).toBeCalledWith('openSettings', { foo: 'bar' });
+  expect(ext['gui'].broadcast).toBeCalledWith('removeWidget', "foobar");
 });
 
 test('wipe', async () => {
