@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import ModeDialog from '../../src/dialogs/ModeDialog';
 
@@ -10,7 +10,7 @@ jest.mock('../../src/components/ModeDialogContent', () => (
 
 test('should render component', () => {
   const close = jest.fn();
-  const { getByText } = render(<ModeDialog close={close} />);
-  userEvent.click(getByText('Close'));
+  render(<ModeDialog close={close} />);
+  userEvent.click(screen.getByText('Close'));
   expect(close).toBeCalledTimes(1);
 });

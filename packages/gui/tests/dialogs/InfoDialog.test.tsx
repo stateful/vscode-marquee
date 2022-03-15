@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import InfoDialog from "../../src/dialogs/InfoDialog";
 
@@ -9,9 +9,9 @@ jest.mock('../../src/img/powered_by_google_on_white.png', () => {});
 
 test('should render component properly', () => {
   const close = jest.fn();
-  const { getByText } = render(<InfoDialog close={close} />);
-  userEvent.click(getByText('Close'));
+  render(<InfoDialog close={close} />);
+  userEvent.click(screen.getByText('Close'));
   expect(close).toBeCalledTimes(1);
-  expect(getByText('GitHub Repository'))
-    .toBeTruthy();
+  expect(screen.getByText('GitHub Repository'))
+    .toBeInTheDocument();
 });

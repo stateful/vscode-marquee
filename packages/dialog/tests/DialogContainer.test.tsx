@@ -9,12 +9,12 @@ test('should render component', () => {
     position: 'fixed',
     zIndex: 1300
   });
-  expect(screen.getByRole('dialog').className)
-    .not.toContain('.MuiDialog-paperFullScreen');
+  expect(screen.getByRole('dialog'))
+    .not.toHaveClass('.MuiDialog-paperFullScreen');
 });
 
 test('should display in full screen mode', () => {
   render(<DialogContainer fullScreen={true}>Foobar</DialogContainer>);
-  expect(screen.getByRole('dialog').className)
-    .toContain('MuiDialog-paperFullScreen');
+  expect(screen.getByRole('dialog'))
+    .toHaveClass('MuiDialog-paperFullScreen');
 });

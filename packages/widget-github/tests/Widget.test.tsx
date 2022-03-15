@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
@@ -16,12 +16,12 @@ beforeEach(() => {
 });
 
 test('renders component correctly', async () => {
-  const { getByRole, getByText, queryByRole } = render(
+  render(
     <GlobalProvider>
       <Widget.component />
     </GlobalProvider>
   );
-  expect(getByRole('progressbar')).toBeTruthy();
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
   act(() => {
     resolveFetch({
       ok: 1,
@@ -40,32 +40,32 @@ test('renders component correctly', async () => {
     });
   });
   await new Promise((r) => setTimeout(r, 100));
-  expect(queryByRole('progressbar')).not.toBeTruthy();
-  expect(getByText('Trending on Github')).toBeTruthy();
-  expect(getByText('projectDescriptiom')).toBeTruthy();
-  expect(getByText('John Doe/someProject')).toBeTruthy();
+  expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+  expect(screen.getByText('Trending on Github')).toBeInTheDocument();
+  expect(screen.getByText('projectDescriptiom')).toBeInTheDocument();
+  expect(screen.getByText('John Doe/someProject')).toBeInTheDocument();
 });
 
 test('should query projects with no result', async () => {
-  const { getByText } = render(
+  render(
     <GlobalProvider>
       <Widget.component />
     </GlobalProvider>
   );
   act(() => { resolveFetch({ ok: 1, json: () => [] }); });
   await new Promise((r) => setTimeout(r, 100));
-  expect(getByText('There are no matches for your search criteria.')).toBeTruthy();
+  expect(screen.getByText('There are no matches for your search criteria.')).toBeInTheDocument();
 });
 
 test('should fail with network error', async () => {
   (window.fetch as jest.Mock).mockRejectedValue(new Error('upsala'));
-  const { getByText } = render(
+  render(
     <GlobalProvider>
       <Widget.component />
     </GlobalProvider>
   );
   await new Promise((r) => setTimeout(r, 100));
-  expect(getByText('Couldn\'t fetch GitHub trends!')).toBeTruthy();
+  expect(screen.getByText('Couldn\'t fetch GitHub trends!')).toBeInTheDocument();
 });
 
 afterAll(() => {

@@ -29,8 +29,8 @@ test('WidgetLayout filters non display widgets', () => {
     </ModeProvider>
   );
 
-  expect(screen.getByText('News Widget')).toBeTruthy();
-  expect(screen.getByText('Notes Widget')).toBeTruthy();
+  expect(screen.getByText('News Widget')).toBeInTheDocument();
+  expect(screen.getByText('Notes Widget')).toBeInTheDocument();
 });
 
 test('Container', () => {
@@ -43,13 +43,13 @@ test('Container', () => {
     </ModeProvider>
   );
   expect(screen.getAllByText('Navigation')).toHaveLength(2);
-  expect(screen.queryByRole('SettingsDialog')).not.toBeTruthy();
+  expect(screen.queryByRole('SettingsDialog')).not.toBeInTheDocument();
   expect(_removeModeWidget).toBeCalledTimes(0);
 
   act(() => {
     l.emit('openSettings', undefined as never);
   });
-  expect(screen.queryByRole('SettingsDialog')).toBeTruthy();
+  expect(screen.getByRole('SettingsDialog')).toBeInTheDocument();
 
   act(() => {
     l.emit('removeWidget', 'news');

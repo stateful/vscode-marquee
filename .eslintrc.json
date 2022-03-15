@@ -7,7 +7,9 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "testing-library",
+    "jest-dom"
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
@@ -19,15 +21,31 @@
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": 0
   },
-  "overrides": [{
+  "overrides": [
+    {
       "files": ["*.ts"],
       "rules": {
-          // see https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
-          "no-unused-vars": "off",
-          "@typescript-eslint/no-unused-vars": "error",
-          "no-undef": "off",
-          // allow overloads
-          "no-redeclare": "off"
+        // see https://stackoverflow.com/questions/55280555/typescript-eslint-eslint-plugin-error-route-is-defined-but-never-used-no-un
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-undef": "off",
+        // allow overloads
+        "no-redeclare": "off"
       }
-  }]
+    },
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": [
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended"
+      ],
+      "rules": {
+        "testing-library/no-container": 1,
+        "testing-library/no-node-access": 1
+      }
+    }
+  ]
 }

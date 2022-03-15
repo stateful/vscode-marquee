@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { GlobalProvider } from '@vscode-marquee/utils';
 
 import Widget from '../src';
@@ -17,12 +17,12 @@ beforeEach(() => {
 });
 
 test('renders component correctly', async () => {
-  const { getByRole, getByText } = render(
+  render(
     <GlobalProvider>
       <Widget.component />
     </GlobalProvider>
   );
-  expect(getByRole('progressbar')).toBeTruthy();
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
   act(() => {
     resolveFetch({
       ok: 1,
@@ -45,21 +45,21 @@ test('renders component correctly', async () => {
     { mode: 'cors' }
   );
   await new Promise((r) => setTimeout(r, 100));
-  expect(getByText('Foobar Title')).toBeTruthy();
-  expect(getByText('42 points by john.doe 5hrs')).toBeTruthy();
+  expect(screen.getByText('Foobar Title')).toBeInTheDocument();
+  expect(screen.getByText('42 points by john.doe 5hrs')).toBeInTheDocument();
 });
 
 test('should allow to switch channels', async () => {
-  const { getByLabelText, getByText, container } = render(
+  const { container } = render(
     <GlobalProvider>
       <Widget.component />
     </GlobalProvider>
   );
   userEvent.click(container.querySelectorAll('button svg')[0]);
-  expect(getByText('Hide this widget')).toBeTruthy();
+  expect(screen.getByText('Hide this widget')).toBeInTheDocument();
   // await new Promise(r => setTimeout(r, 1000))
-  userEvent.click(getByLabelText('Channel'));
-  userEvent.click(getByText('Jobs'));
+  userEvent.click(screen.getByLabelText('Channel'));
+  userEvent.click(screen.getByText('Jobs'));
   expect(window.fetch).toBeCalledWith(
     'https://api.hackerwebapp.com/jobs',
     { mode: 'cors' }

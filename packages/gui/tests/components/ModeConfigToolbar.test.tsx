@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ModeConfigToolbar from '../../src/components/ModeConfigToolbar';
 
 jest.mock('../../src/components/ModeMorePop', () => (
@@ -11,7 +11,7 @@ jest.mock('../../src/dialogs/ModeAddDialog', () => (
 ));
 
 test('should render component correctly', () => {
-  const { getByText } = render(<ModeConfigToolbar />);
-  userEvent.click(getByText('Add new mode'));
-  expect(getByText('ModeAddDialog')).toBeTruthy();
+  render(<ModeConfigToolbar />);
+  userEvent.click(screen.getByText('Add new mode'));
+  expect(screen.getByText('ModeAddDialog')).toBeInTheDocument();
 });

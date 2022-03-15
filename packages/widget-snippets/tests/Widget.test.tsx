@@ -13,10 +13,10 @@ test('renders component correctly', async () => {
       </SnippetProvider>
     </GlobalProvider>
   );
-  // expect(getByText('Create a snippet')).toBeTruthy();
-  // act(() => { userEvent.click(getByText('Create a snippet')); });
-  // act(() => { userEvent.type(getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
-  // act(() => { userEvent.type(getByLabelText('Snippet Title').querySelector('input')!, 'O'); });
-  // act(() => { userEvent.type(getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
-  // act(() => { userEvent.click(getByText('Add to Workspace')); });
+  // expect(screen.getByText('Create a snippet')).toBeTruthy();
+  // act(() => { userEvent.click(screen.getByText('Create a snippet')); });
+  // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
+  // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'O'); });
+  // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
+  // act(() => { userEvent.click(screen.getByText('Add to Workspace')); });
 });

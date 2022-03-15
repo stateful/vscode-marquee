@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 // @ts-expect-error mock import
 import { ModeProvider, _setModeWidget } from '../../src/contexts/ModeContext';
 import ModeDialogContent from '../../src/components/ModeDialogContent';
@@ -14,23 +14,23 @@ jest.mock('../../src/components/ModeTabPop', () => (
 ));
 
 test('should render component correctly', () => {
-  const { getAllByLabelText, getByText } = render(
+  render(
     <ModeProvider>
       <ModeDialogContent />
     </ModeProvider>
   );
 
-  expect(getByText('Mailbox')).toBeTruthy();
-  expect(getByText('News')).toBeTruthy();
-  expect(getByText('Github')).toBeTruthy();
-  expect(getByText('Todo')).toBeTruthy();
-  expect(getByText('Weather')).toBeTruthy();
-  expect(getByText('Projects')).toBeTruthy();
-  expect(getByText('Snippets')).toBeTruthy();
-  expect(getByText('Notes')).toBeTruthy();
+  expect(screen.getByText('Mailbox')).toBeInTheDocument();
+  expect(screen.getByText('News')).toBeInTheDocument();
+  expect(screen.getByText('Github')).toBeInTheDocument();
+  expect(screen.getByText('Todo')).toBeInTheDocument();
+  expect(screen.getByText('Weather')).toBeInTheDocument();
+  expect(screen.getByText('Projects')).toBeInTheDocument();
+  expect(screen.getByText('Snippets')).toBeInTheDocument();
+  expect(screen.getByText('Notes')).toBeInTheDocument();
 
-  userEvent.click(getAllByLabelText('Enable/Disable Github Widget')[0]);
+  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0]);
   expect(_setModeWidget).toBeCalledWith('default', 'github', false);
-  userEvent.click(getAllByLabelText('Enable/Disable Github Widget')[1]);
+  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[1]);
   expect(_setModeWidget).toBeCalledTimes(2);
 });

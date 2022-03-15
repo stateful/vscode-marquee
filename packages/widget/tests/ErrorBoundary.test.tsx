@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import wrapper from '../src/WidgetWrapper';
 
@@ -9,9 +9,9 @@ test('should fail gracefully on error', () => {
     throw new Error('ups');
     return <div {...props}>hello world</div>;
   });
-  const { queryByText } = render(
+  render(
     // @ts-expect-error
     <Widget name="testWidget" dragHandle={dragHandle} />
   );
-  expect(queryByText('hello world')).not.toBeTruthy();
+  expect(screen.queryByText('hello world')).not.toBeInTheDocument();
 });
