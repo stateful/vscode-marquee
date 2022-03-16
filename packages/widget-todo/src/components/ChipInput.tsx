@@ -8,18 +8,27 @@ type Props = Omit<TextFieldProps, "value" | "onChange"> & {
   onChange: (tags: Array<string>) => void;
 };
 
-export default function TagsInput({ onChange, value, ...inputProps }: Props) {
+export default function TagsInput({
+  onChange,
+  value,
+  onBlur,
+  ...inputProps
+}: Props) {
   const [inputValue, setInputValue] = React.useState("");
 
-  function handleKeyDown(
+  const addTag = () => {
+    if (!value.includes(inputValue)) {
+      // only add new tag if it's not a duplicate
+      onChange([...value, inputValue]);
+    }
+    setInputValue("");
+  };
+
+  const handleKeyDown = (
     event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  ) => {
     if (event.key === "Enter") {
-      if (!value.includes(inputValue)) {
-        // only add new tag if it's not a duplicate
-        onChange([...value, inputValue]);
-      }
-      setInputValue("");
+      addTag();
     }
     if (
       event.key === "Backspace" &&
@@ -28,14 +37,23 @@ export default function TagsInput({ onChange, value, ...inputProps }: Props) {
     ) {
       // Removing last tag on backspace, and populating the text input with the
       // respective value.
+      event.preventDefault();
+
       const lastItem = value.slice(-1).pop()!;
       setInputValue(lastItem);
       onChange(value.slice(0, -1));
     }
-  }
+  };
 
   const handleDelete = (item: string) => () => {
     onChange(value.filter((it) => it !== item));
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+    addTag();
+    if (onBlur) {
+      onBlur(event);
+    }
   };
 
   return (
@@ -43,7 +61,7 @@ export default function TagsInput({ onChange, value, ...inputProps }: Props) {
       value={inputValue}
       InputProps={{
         startAdornment: value.map((item) => (
-          <InputAdornment position="start">
+          <InputAdornment key={item} position="start">
             <Chip
               key={item}
               tabIndex={-1}
@@ -53,7 +71,7 @@ export default function TagsInput({ onChange, value, ...inputProps }: Props) {
           </InputAdornment>
         )),
         onChange: (event) => setInputValue(event.target.value),
-        onBlur: () => setInputValue(""),
+        onBlur: handleBlur,
         onKeyDown: handleKeyDown,
       }}
       {...inputProps}
