@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 // @ts-expect-error mock import
 import { ModeProvider, _removeModeWidget } from '../../src/contexts/ModeContext';
@@ -12,16 +12,16 @@ jest.mock('../../src/dialogs/SettingsDialog', () => (
 ));
 
 test('should render component correctly', () => {
-  const { getByText, container } = render(
+  const { container } = render(
     <ModeProvider>
       <HideWidgetContent name="foobar" />
     </ModeProvider>
   );
 
   expect(_removeModeWidget).toBeCalledTimes(0);
-  userEvent.click(getByText('Hide this widget'));
+  userEvent.click(screen.getByText('Hide this widget'));
   expect(_removeModeWidget).toBeCalledWith('foobar');
 
   userEvent.click(container.querySelector('svg')!);
-  expect(getByText('SettingsDialog')).toBeTruthy();
+  expect(screen.getByText('SettingsDialog')).toBeInTheDocument();
 });

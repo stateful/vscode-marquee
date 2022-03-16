@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 // @ts-expect-error mock import
 import { GlobalProvider, setGlobalScope } from '@vscode-marquee/utils';
 
@@ -17,34 +17,35 @@ jest.mock('../../src/dialogs/InfoDialog', () => () => <div>InfoDialog</div>);
 jest.mock('../../src/dialogs/SettingsDialog', () => () => <div>SettingsDialog</div>);
 
 test('renders component correctly', () => {
-  const { queryByText, getByText, getAllByText, getByPlaceholderText, getByTitle, getByLabelText } = render(
+  render(
     <GlobalProvider>
       <Navigation />
     </GlobalProvider>
   );
-  expect(getByText('some name')).toBeTruthy();
-  expect(getAllByText('ModeSelector')).toHaveLength(2);
-  expect(queryByText('InfoDialog')).not.toBeTruthy();
-  expect(queryByText('John Doe')).not.toBeTruthy();
-  expect(queryByText('SettingsDialog')).not.toBeTruthy();
-  expect(queryByText('ThemeDialog')).not.toBeTruthy();
-  expect(queryByText('InfoDialog')).not.toBeTruthy();
+  expect(screen.getByText('some name')).toBeInTheDocument();
+  expect(screen.getAllByText('ModeSelector')).toHaveLength(2);
+  expect(screen.queryByText('InfoDialog')).not.toBeInTheDocument();
+  expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
+  expect(screen.queryByText('SettingsDialog')).not.toBeInTheDocument();
+  expect(screen.queryByText('ThemeDialog')).not.toBeInTheDocument();
+  expect(screen.queryByText('InfoDialog')).not.toBeInTheDocument();
 
-  userEvent.click(getByText('some name'));
-  const input = getByPlaceholderText('Type...');
+  userEvent.click(screen.getByText('some name'));
+  const input = screen.getByPlaceholderText('Type...');
   userEvent.type(input, 'John Doe');
+  // eslint-disable-next-line testing-library/no-node-access
   userEvent.click(input.parentElement?.querySelector('button')!);
-  expect(getByText('some nameJohn Doe')).toBeTruthy();
+  expect(screen.getByText('some nameJohn Doe')).toBeInTheDocument();
 
-  userEvent.click(getByTitle('Toggle Global vs Workspace Scope (Workspace Scope)'));
+  userEvent.click(screen.getByTitle('Toggle Global vs Workspace Scope (Workspace Scope)'));
   expect(setGlobalScope).toBeCalledTimes(1);
 
-  userEvent.click(getByLabelText('Open Settings'));
-  expect(getByText('SettingsDialog')).toBeTruthy();
-  userEvent.click(getByLabelText('Switch Theme'));
-  expect(getByText('ThemeDialog')).toBeTruthy();
-  userEvent.click(getByLabelText('Show Info'));
-  expect(getByText('InfoDialog')).toBeTruthy();
-  userEvent.click(getByLabelText('Send Feedback'));
-  expect(getByText('FeedbackDialog')).toBeTruthy();
+  userEvent.click(screen.getByLabelText('Open Settings'));
+  expect(screen.getByText('SettingsDialog')).toBeInTheDocument();
+  userEvent.click(screen.getByLabelText('Switch Theme'));
+  expect(screen.getByText('ThemeDialog')).toBeInTheDocument();
+  userEvent.click(screen.getByLabelText('Show Info'));
+  expect(screen.getByText('InfoDialog')).toBeInTheDocument();
+  userEvent.click(screen.getByLabelText('Send Feedback'));
+  expect(screen.getByText('FeedbackDialog')).toBeInTheDocument();
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Providers, App } from '../src';
 
@@ -20,14 +20,14 @@ jest.mock('../src/contexts/ModeContext', () => ({
 jest.mock('../src/Container', () => () => (<div>Container</div>));
 
 test('Providers', () => {
-  const { getByText } = render(<Providers>Foobar</Providers>);
-  expect(getByText('Foobar')).toBeTruthy();
+  render(<Providers>Foobar</Providers>);
+  expect(screen.getByText('Foobar')).toBeInTheDocument();
 });
 
 test('App', () => {
   window.vscode = { postMessage: jest.fn() };
 
-  const { getByText } = render(<App />);
-  expect(getByText('Container')).toBeTruthy();
+  render(<App />);
+  expect(screen.getByText('Container')).toBeInTheDocument();
   expect(window.vscode.postMessage).toBeCalledWith({ ready: true });
 });

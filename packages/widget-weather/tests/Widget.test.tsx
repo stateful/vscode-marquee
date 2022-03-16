@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { GlobalProvider, getEventListener } from '@vscode-marquee/utils';
 
 import Widget from '../src';
@@ -45,26 +45,26 @@ beforeAll(() => {
 
 test('renders component correctly', async () => {
   const listener = getEventListener<Events>('@vscode-marquee/welcome-widget');
-  const { getByRole, getByText, getAllByText, getByLabelText, getAllByRole, getByPlaceholderText } = render(
+  render(
     <GlobalProvider>
       <WeatherProvider>
         <Widget.component />
       </WeatherProvider>
     </GlobalProvider>
   );
-  expect(getByRole('progressbar')).toBeTruthy();
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
   await new Promise((r) => setTimeout(r, 100));
   expect(window.fetch).toBeCalledTimes(4);
-  expect(getByText('Weather in Berlin')).toBeTruthy();
-  expect(getAllByText('36°F')).toBeTruthy();
+  expect(screen.getByText('Weather in Berlin')).toBeInTheDocument();
+  expect(screen.getAllByText('36°F')).toHaveLength(4);
 
   act(() => { listener.emit('openWeatherDialog', true); });
-  userEvent.click(getByLabelText('Temperature scale'));
+  userEvent.click(screen.getByLabelText('Temperature scale'));
   await new Promise((r) => setTimeout(r, 100));
-  userEvent.click(getAllByRole('option')[1]);
-  expect(getAllByText('35°F')).toBeTruthy();
+  userEvent.click(screen.getAllByRole('option')[1]);
+  expect(screen.getByText('35°F')).toBeInTheDocument();
 
-  userEvent.type(getByPlaceholderText('City, State, Country'), 'San Francisco{enter}');
+  userEvent.type(screen.getByPlaceholderText('City, State, Country'), 'San Francisco{enter}');
   await new Promise((r) => setTimeout(r, 100));
   expect(window.fetch).toBeCalledTimes(4);
   expect((window.fetch as jest.Mock).mock.calls.pop().pop())

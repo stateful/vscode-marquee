@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import ThemeDialog from "../../src/dialogs/ThemeDialog";
 // @ts-expect-error
@@ -11,12 +11,12 @@ jest.mock('../../src/utils/backgrounds', () => jest.fn((bg) => bg));
 
 test('should render component properly', () => {
   const close = jest.fn();
-  const { getByText, container } = render(
+  const { container } = render(
     <GlobalProvider>
       <ThemeDialog close={close} />
     </GlobalProvider>
   );
-  userEvent.click(getByText('Close'));
+  userEvent.click(screen.getByText('Close'));
   expect(close).toBeCalledTimes(1);
 
   userEvent.click(container.querySelectorAll('.MuiTypography-body2')[7]);

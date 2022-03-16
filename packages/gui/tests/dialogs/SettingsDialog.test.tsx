@@ -18,27 +18,27 @@ jest.mock('../../src/components/ModeDialogContent', () => (
 test('renders ModeDialogContent component properly', () => {
   const close = jest.fn();
   render(<GlobalProvider><SettingsDialog close={close} /></GlobalProvider>);
-  expect(screen.queryByText('ModeDialogContent')).toBeTruthy();
+  expect(screen.getByText('ModeDialogContent')).toBeInTheDocument();
 });
 
 test('switches to import/export settings', () => {
   window.vscode = { postMessage: jest.fn() };
 
   const close = jest.fn();
-  const { getByText } = render(
+  render(
     <GlobalProvider>
       <SettingsDialog close={close} />
     </GlobalProvider>
   );
-  userEvent.click(getByText('Import / Export'));
-  expect(screen.queryByText('ModeDialogContent')).not.toBeTruthy();
+  userEvent.click(screen.getByText('Import / Export'));
+  expect(screen.queryByText('ModeDialogContent')).not.toBeInTheDocument();
 
-  userEvent.click(getByText('Import'));
+  userEvent.click(screen.getByText('Import'));
   expect(window.vscode.postMessage).toBeCalledWith({
     west: { execCommands: [{ command: "marquee.jsonImport" }] }
   });
 
-  userEvent.click(getByText('Export'));
+  userEvent.click(screen.getByText('Export'));
   expect(window.vscode.postMessage).toBeCalledWith({
     west: { execCommands: [{ command: "marquee.jsonExport" }] }
   });
@@ -50,13 +50,13 @@ test('should open Marquee settings in VSCode preference view', () => {
   window.vscode = { postMessage: jest.fn() };
 
   const close = jest.fn();
-  const { getByText } = render(
+  render(
     <GlobalProvider>
       <SettingsDialog close={close} />
     </GlobalProvider>
   );
 
-  userEvent.click(getByText('Marquee Settings'));
+  userEvent.click(screen.getByText('Marquee Settings'));
   expect(window.vscode.postMessage).toBeCalledWith({
     west: { execCommands: [{
       command: 'workbench.action.openSettings',

@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { BetterComplete } from '../../src';
 
@@ -10,7 +10,7 @@ const options = [
 ];
 
 test('should show no options', () => {
-  const { getByText, container } = render(<BetterComplete
+  const { container } = render(<BetterComplete
     field="foobarField"
     label="foobarLabel"
     variant='outlined'
@@ -21,11 +21,11 @@ test('should show no options', () => {
     onChange={jest.fn()}
   />);
   userEvent.type(container.querySelector('input')!, 'lol');
-  expect(getByText('No options')).toBeTruthy();
+  expect(screen.getByText('No options')).toBeInTheDocument();
 });
 
 test('should show options', () => {
-  const { getByText, queryByText, container } = render(<BetterComplete
+  const { container } = render(<BetterComplete
     field="foobarField"
     label="foobarLabel"
     variant='outlined'
@@ -36,7 +36,7 @@ test('should show options', () => {
     onChange={jest.fn()}
   />);
   userEvent.type(container.querySelector('input')!, 'foo');
-  expect(queryByText('No options')).not.toBeTruthy();
-  expect(getByText('barfooloo')).toBeTruthy();
-  expect(getByText('foobarloo')).toBeTruthy();
+  expect(screen.queryByText('No options')).not.toBeInTheDocument();
+  expect(screen.getByText('barfooloo')).toBeInTheDocument();
+  expect(screen.getByText('foobarloo')).toBeInTheDocument();
 });
