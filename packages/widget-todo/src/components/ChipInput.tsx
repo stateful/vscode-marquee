@@ -2,6 +2,13 @@ import React, { KeyboardEvent } from "react";
 import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import { InputAdornment, TextFieldProps } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+  textField: {
+    marginTop: 5,
+  },
+}));
 
 type Props = Omit<TextFieldProps, "value" | "onChange"> & {
   value: Array<string>;
@@ -15,9 +22,10 @@ export default function TagsInput({
   ...inputProps
 }: Props) {
   const [inputValue, setInputValue] = React.useState("");
+  const classes = useStyles();
 
   const addTag = () => {
-    if (!value.includes(inputValue)) {
+    if (inputValue.length > 0 && !value.includes(inputValue)) {
       // only add new tag if it's not a duplicate
       onChange([...value, inputValue]);
     }
@@ -60,6 +68,7 @@ export default function TagsInput({
     <TextField
       value={inputValue}
       InputProps={{
+        className:classes.textField,
         startAdornment: value.map((item) => (
           <InputAdornment key={item} position="start">
             <Chip

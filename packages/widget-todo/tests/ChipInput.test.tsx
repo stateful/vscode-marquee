@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ChipInput from "../src/components/ChipInput";
 import userEvent from "@testing-library/user-event";
 
@@ -85,15 +85,14 @@ test("Typing backspace when input is empty starts editing the last tag", async (
   render(<ChipInput value={oldTags} onChange={onChange} />);
 
   // hitting backspace when input has content just removes content
-  userEvent.type(screen.getByRole("textbox"), "ABC");
   userEvent.type(
     screen.getByRole("textbox"),
-    "{backspace}{backspace}{backspace}"
+    "ABC{backspace}{backspace}{backspace}"
   );
   expect(onChange).not.toHaveBeenCalled();
 
   // now that the input is empty, is starts editing the last tag
   userEvent.type(screen.getByRole("textbox"), "{backspace}");
   expect(onChange).toHaveBeenCalledWith([]);
-  expect(screen.getByDisplayValue(tagToEdit));
+  expect(screen.getByRole("textbox")).toHaveValue(tagToEdit);
 });

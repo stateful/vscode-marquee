@@ -8,7 +8,6 @@ import {
 import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
 import { jumpTo, theme } from '@vscode-marquee/utils';
 
-import ChipInputOld from "material-ui-chip-input";
 import LinkIcon from "@material-ui/icons/Link";
 
 import TodoContext from "../Context";
@@ -83,23 +82,6 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
           variant="filled"
           value={tags}
           onChange={tags => setTags(tags)}
-        />
-        <ChipInputOld
-          newChipKeyCodes={[13, 9]}
-          blurBehavior="add"
-          fullWidth
-          label="Add some tags!"
-          // helperText="Can be used in filtering."
-          variant="filled"
-          value={tags}
-          onAdd={(tag) => {
-            setTags([...tags, tag]);
-          }}
-          onDelete={(chip, index) => {
-            const newTags = [...tags];
-            newTags.splice(index, 1);
-            setTags(newTags);
-          }}
         />
       </DialogContent>
       <DialogActions style={{ paddingRight: theme.spacing(3) }}>

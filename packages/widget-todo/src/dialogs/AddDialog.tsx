@@ -5,7 +5,6 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
-import ChipInputOld from "material-ui-chip-input";
 
 import { theme, MarqueeWindow } from "@vscode-marquee/utils";
 import { SplitButton } from "@vscode-marquee/widget";
@@ -67,23 +66,6 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           variant="filled"
           value={tags}
           onChange={tags => setTags(tags)}
-        />
-        <ChipInputOld
-          newChipKeyCodes={[13, 9]}
-          blurBehavior="add"
-          fullWidth
-          label="Add some tags!"
-          // helperText="Can be used in filtering."
-          variant="filled"
-          value={tags}
-          onAdd={(tag) => {
-            setTags([...tags, tag]);
-          }}
-          onDelete={(chip, index) => {
-            const newTags = [...tags];
-            newTags.splice(index, 1);
-            setTags(newTags);
-          }}
         />
       </DialogContent>
       <DialogActions style={{ paddingRight: theme.spacing(3) }}>
