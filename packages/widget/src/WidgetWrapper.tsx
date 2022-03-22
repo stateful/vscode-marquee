@@ -22,6 +22,7 @@ const WidgetWrapper = ({ dragHandle, ...props }: any) => {
   return (
     <Box {...props} ref={props.innerref}>
       <Grid
+        aria-label={`${props.name}-widget`}
         container
         direction="column"
         style={{

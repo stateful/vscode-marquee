@@ -173,7 +173,7 @@ const WeatherDialogLauncher = () => {
 
   return (
     <>
-      <IconButton size="small" onClick={() => setShowDialog(true)}>
+      <IconButton aria-label="weather-settings" role="button" size="small" onClick={() => setShowDialog(true)}>
         <SettingsIcon fontSize="small" />
       </IconButton>
       { showDialog && ( <WeatherDialog close={() => setShowDialog(false)} /> )}
