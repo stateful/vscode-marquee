@@ -15,7 +15,14 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom",
+      "vscode",
+      "webpack-env"
+    ]
   },
   "include": [
     "packages/",
