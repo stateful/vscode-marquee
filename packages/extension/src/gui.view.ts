@@ -200,7 +200,7 @@ export class MarqueeGui extends EventEmitter {
       geoUrl: BACKEND_GEO_URL,
       fwdGeoUrl: BACKEND_FWDGEO_URL,
       cspSource: this.panel.webview.cspSource,
-      widgetStateConfigurations,
+      widgetStateConfigurations: Buffer.from(JSON.stringify(widgetStateConfigurations)).toString('base64'),
       widgetScripts,
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
