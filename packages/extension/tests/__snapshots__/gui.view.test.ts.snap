@@ -38,12 +38,7 @@ Array [
         "some": "props",
       },
       "widgetScripts": Array [],
-      "widgetStateConfigurations": Object {
-        "undefined": Object {
-          "configuration": Object {},
-          "state": Object {},
-        },
-      },
+      "widgetStateConfigurations": "eyJ1bmRlZmluZWQiOnsiY29uZmlndXJhdGlvbiI6e30sInN0YXRlIjp7fX19",
     },
   ],
 ]
