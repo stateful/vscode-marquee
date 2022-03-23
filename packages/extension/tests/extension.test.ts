@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import path from 'path';
 import vscode from 'vscode';
 import { MarqueeExtension } from '../src/extension';
 
@@ -36,7 +37,9 @@ test('should be initiated with no errors', () => {
     .toBeCalledWith(expect.any(Function));
   expect(ext['_stateMgr'].onWidget)
     .toBeCalledWith('openDialog', expect.any(Function));
-  expect(fs.rm).toBeCalledWith('/foo/bar/3rdParty', expect.any(Object));
+  expect(fs.rm).toBeCalledWith(
+    path.sep + path.join('foo', 'bar', '3rdParty'),
+    expect.any(Object));
   expect(context.subscriptions).toMatchSnapshot();
 });
 
@@ -150,15 +153,16 @@ test('_editTreeItem', async () => {
     }
   };
   await ext['_editTreeItem'](oldSnippetItem as any);
-  expect(vscode.workspace.openTextDocument)
-    .toBeCalledWith('parsedUri-snippet:/foobar/Untitled');
+  expect(vscode.workspace.openTextDocument).toBeCalledWith(
+    `parsedUri-snippet:${path.sep}${path.join('foobar', 'Untitled')}`
+  );
 
   const newSnippetItem = {
     type: 'Snippet',
     item: { path: '/foo/bar' }
   };
   await ext['_editTreeItem'](newSnippetItem as any);
-  expect(vscode.workspace.openTextDocument)
-    .toBeCalledWith('parsedUri-snippet:/foo/bar');
+  expect(vscode.workspace.openTextDocument).toBeCalledWith(
+    `parsedUri-snippet:${path.sep}${path.join('foo', 'bar')}`);
   expect(vscode.window.showTextDocument).toBeCalledTimes(2);
 });
