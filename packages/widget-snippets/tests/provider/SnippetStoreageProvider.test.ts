@@ -1,3 +1,4 @@
+import path from 'path';
 import SnippetStorageProvider from '../../src/provider/SnippetStorageProvider';
 
 const enc = new TextEncoder();
@@ -72,7 +73,7 @@ describe('SnippetStorageProvider', () => {
       id: '39d2f858-3522-4053-beb8-b75a1defd1d2',
       mtime: expect.any(Number),
       origin: undefined,
-      path: '/39d2f858-3522-4053-beb8-b75a1defd1d2/some input',
+      path: path.sep + path.join('39d2f858-3522-4053-beb8-b75a1defd1d2', 'some input'),
       size: 34,
       title: 'some input',
       type: '1',
@@ -97,7 +98,7 @@ describe('SnippetStorageProvider', () => {
       id: 'foobar',
       mtime: expect.any(Number),
       origin: undefined,
-      path: '/foobar/some title',
+      path: path.sep + path.join('foobar', 'some title'),
       size: 6,
       title: 'some title',
       type: '1',
