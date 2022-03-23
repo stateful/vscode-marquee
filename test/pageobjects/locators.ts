@@ -23,6 +23,21 @@ export const newsWidget = {
   articles: 'ul.MuiList-root.MuiList-dense.MuiList-padding > li.MuiListItem-root.MuiListItem-dense.MuiListItem-gutters'
 }
 
+export const githubWidget = {
+  ...commonWidgetLocators,
+  elem: webview.widget('github'),
+  articles: 'div[aria-labelledby="trend-entry"]',
+  filterBtn: 'button[aria-label="github-trends-filter"]',
+  filterInput: 'input[name="github-filter"]',
+  filterSettingsBtn: 'button[aria-label="filter-settings"]'
+}
+
+export const githubTrendItem = {
+  language: 'div[aria-label="language"]',
+  forks: 'div[aria-label="forks"]',
+  stars: 'div[aria-label="stars"]'
+}
+
 export const MuiDialog = {
   elem: '.MuiDialog-root',
   closeBtn: 'span=Close',
@@ -32,4 +47,9 @@ export const MuiDialog = {
 
 export const Select = {
   root: '.MuiSelect-root'
+}
+
+export const MuiAutocomplete = {
+  clearBtn: 'button[aria-label="Clear"]',
+  openOptionsBtn: 'button[aria-label="Open"]'
 }

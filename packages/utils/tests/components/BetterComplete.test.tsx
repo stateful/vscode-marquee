@@ -11,6 +11,7 @@ const options = [
 
 test('should show no options', () => {
   const { container } = render(<BetterComplete
+    id="foobar"
     field="foobarField"
     label="foobarLabel"
     variant='outlined'
@@ -26,6 +27,7 @@ test('should show no options', () => {
 
 test('should show options', () => {
   const { container } = render(<BetterComplete
+    id="foobar"
     field="foobarField"
     label="foobarLabel"
     variant='outlined'

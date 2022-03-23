@@ -1,5 +1,6 @@
 import { WeatherWidget } from '../pageobjects/widgets/weather'
 import { NewsWidget } from '../pageobjects/widgets/news'
+import { GithubWidget } from '../pageobjects/widgets/github'
 import { Webview } from '../pageobjects/webview'
 import * as locatorMap from '../pageobjects/locators'
 
@@ -70,6 +71,37 @@ describe('Marquee', () => {
 
         expect(typeof newFirstArticleText).toBe('string')
         expect(firstArticleText).not.toBe(newFirstArticleText)
+      })
+    })
+
+    describe('github widget', () => {
+      const githubWidget = new GithubWidget(locatorMap)
+
+      it('should display trends', async () => {
+        await expect(githubWidget.articles$$)
+          .toBeElementsArrayOfSize({ gte: 10 })
+      })
+
+      it('should filter articles', async () => {
+        await githubWidget.setFilter('a crazy filter that won\'t match anything')
+        await expect(githubWidget.articles$$).toBeElementsArrayOfSize(0)
+      })
+
+      it('should be able to clear the filter', async () => {
+        await githubWidget.clearFilter()
+        await expect(githubWidget.articles$$)
+          .toBeElementsArrayOfSize({ gte: 10 })
+      })
+
+      it('should be able to select a programming language', async () => {
+        await githubWidget.setFilterOption({ language: 'TypeScript' })
+        const trends = await githubWidget.getProjects()
+        expect(await trends[0].getProjectLanguage()).toBe('TypeScript')
+      })
+
+      it('should be able to select spoken language', async () => {
+        await githubWidget.setFilterOption({ spoken: 'Yoruba' })
+        await expect(githubWidget.articles$$).toBeElementsArrayOfSize(0)
       })
     })
   })

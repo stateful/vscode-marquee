@@ -127,6 +127,7 @@ const ScaleOption = React.memo(() => {
     >
       <Grid item xs>
         <BetterComplete
+          id="weather-widget-scale"
           field="scale"
           label="Temperature scale"
           options={SCALE_OPTIONS}

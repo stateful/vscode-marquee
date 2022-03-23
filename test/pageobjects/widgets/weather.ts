@@ -19,7 +19,7 @@ export class WeatherWidget extends BasePage<typeof weatherWidgetLocators, typeof
 
   public async selectScale (scale: 'Fahrenheit' | 'Celsius') {
     const dialog = await this.openSettings()
-    await dialog.select(scale)
+    await dialog.select('weather-widget-scale', scale)
     await dialog.close()
   }
 

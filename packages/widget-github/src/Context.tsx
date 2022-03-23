@@ -24,28 +24,28 @@ const TrendProvider = ({ children }: Props) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const _updateFilter = (trendFilter: string) => {
-    providerValues.setTrendFilter(trendFilter || undefined);
+    providerValues.setTrendFilter(trendFilter || '');
   };
 
   const _updateSince = (since?: Since) => {
     if (!since?.name) {
       return;
     }
-    providerValues.setSince(since.name as SinceConfiguration);
+    providerValues.setSince(since.name as SinceConfiguration || '');
   };
 
   const _updateLanguage = (language?: SpokenLanguage) => {
     if (!language?.name) {
       return;
     }
-    providerValues.setLanguage(language.name);
+    providerValues.setLanguage(language.name || '');
   };
 
   const _updateSpoken = (spoken?: SpokenLanguage) => {
     if (!spoken?.name) {
       return;
     }
-    providerValues.setSpoken(spoken.name);
+    providerValues.setSpoken(spoken.name || '');
   };
 
   useEffect(() => {

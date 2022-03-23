@@ -1,6 +1,5 @@
 import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
-import { MuiDialog } from '../components/dialog'
 import { Select } from '../components/inputs'
 import { newsWidget as newsWidgetLocators } from '../locators'
 
