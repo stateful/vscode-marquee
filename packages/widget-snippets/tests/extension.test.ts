@@ -1,3 +1,4 @@
+import os from 'os'
 import vscode from 'vscode';
 import { SnippetExtensionManager, activate } from '../src/extension';
 
@@ -62,8 +63,14 @@ test('_addSnippet', () => {
 
   (m.getTextSelection as jest.Mock).mockReturnValueOnce({ text: 'foobar', name: 'some name', lang: 'ts' });
   m['_addSnippet']({ document: { uri: { path: '/foo/bar' } } } as any);
-  expect((m.updateState as jest.Mock).mock.calls).toMatchSnapshot();
-  expect((m['broadcast'] as jest.Mock).mock.calls).toMatchSnapshot();
+
+  /**
+   * snapshots are failing on windows due to paths
+   */
+  if (!os.platform().startsWith('win')) {
+    expect((m.updateState as jest.Mock).mock.calls).toMatchSnapshot();
+    expect((m['broadcast'] as jest.Mock).mock.calls).toMatchSnapshot();
+  }
 
   expect(vscode.commands.executeCommand).toBeCalledWith('marquee.refreshCodeActions');
   expect(vscode.window.showInformationMessage).toBeCalledWith(
