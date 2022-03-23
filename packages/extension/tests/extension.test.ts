@@ -157,12 +157,13 @@ test('_editTreeItem', async () => {
     `parsedUri-snippet:${path.sep}${path.join('foobar', 'Untitled')}`
   );
 
+  const filePath = path.sep + path.join('foo', 'bar')
   const newSnippetItem = {
     type: 'Snippet',
-    item: { path: '/foo/bar' }
+    item: { path: filePath }
   };
   await ext['_editTreeItem'](newSnippetItem as any);
   expect(vscode.workspace.openTextDocument).toBeCalledWith(
-    `parsedUri-snippet:${path.sep}${path.join('foo', 'bar')}`);
+    `parsedUri-snippet:${filePath}`);
   expect(vscode.window.showTextDocument).toBeCalledTimes(2);
 });
