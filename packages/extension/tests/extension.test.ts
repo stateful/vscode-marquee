@@ -142,8 +142,9 @@ test('_editTreeItem', async () => {
     id: 'barfoo',
     type: 'Note'
   };
-  ext['_editTreeItem'](item as any);
+  await ext['_editTreeItem'](item as any);
   expect(ext['openDialog']).toBeCalledWith('foobar', 'barfoo');
+  (ext['openDialog'] as jest.Mock).mockClear()
 
   const oldSnippetItem = {
     type: 'Snippet',
@@ -156,6 +157,7 @@ test('_editTreeItem', async () => {
   expect(vscode.workspace.openTextDocument).toBeCalledWith(
     `parsedUri-snippet:${path.sep}${path.join('foobar', 'Untitled')}`
   );
+  (ext['openDialog'] as jest.Mock).mockClear()
 
   const filePath = path.sep + path.join('foo', 'bar')
   const newSnippetItem = {
