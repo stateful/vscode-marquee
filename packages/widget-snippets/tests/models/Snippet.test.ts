@@ -18,6 +18,7 @@ describe('Snippet', () => {
       workspaceId: null,
       createdAt: 123
     });
+    delete s.path
     expect(s).toMatchSnapshot();
     expect(s.data).toMatchSnapshot();
   });
