@@ -133,9 +133,9 @@ export class MarqueeExtension {
        * transform v2 snippets into v3 compatible ones
        */
       const snippet = item.item as Snippet;
-      if (!snippet.path?.startsWith('/')) {
+      if (!snippet.path?.startsWith(path.sep)) {
         const pathName = snippet.path ? path.basename(snippet.path) : snippet.title;
-        (item.item as Snippet).path = path.join(`/${snippet.id}`, pathName);
+        (item.item as Snippet).path = path.sep + path.join(`${snippet.id}`, pathName);
       }
 
       const setting: vscode.Uri = vscode.Uri.parse(`snippet:${(item.item as Snippet).path}`);
