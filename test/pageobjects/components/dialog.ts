@@ -18,9 +18,23 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
     return select.setValue(value)
   }
 
-  public async setInputValue (inputName: string, value: string) {
-    await this.input$(inputName).setValue(value)
+  public async setInputValue (name: string, value: string) {
+    await this.input$(name).setValue(value)
     await browser.keys(['Enter'])
+  }
+
+  public async setTextareaValue (name: string, value: string) {
+    const textarea = await this.textarea$(name)
+
+    // workaround as clearValue doesn't seem to work
+    await browser.pause(100)
+    await browser.execute((elem: HTMLTextAreaElement) => { elem.value = '' }, textarea as any)
+
+    await this.textarea$(name).setValue(value)
+  }
+
+  public save () {
+    return this.saveBtn$.click()
   }
 
   public close () {

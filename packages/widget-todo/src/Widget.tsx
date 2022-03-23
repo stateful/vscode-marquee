@@ -114,7 +114,7 @@ let Todo = () => {
                   <TodoFilter />
                 </Grid>
                 <Grid item>
-                  <IconButton size="small" onClick={() => setShowAddDialog(true)}>
+                  <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
                     <AddCircle fontSize="small" />
                   </IconButton>
                 </Grid>

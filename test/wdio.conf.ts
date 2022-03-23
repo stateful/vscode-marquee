@@ -142,7 +142,8 @@ export const config: Options.Testrunner = {
     // commands. Instead, they hook themselves up into the test process.
     services: [
       ['vscode', {
-        extensionPath: path.join(__dirname, '..')
+        extensionPath: path.join(__dirname, '..'),
+        workspacePath: path.join(__dirname, '..')
       }]
     ],
 

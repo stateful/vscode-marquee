@@ -23,7 +23,7 @@ let TodoItemPop = ({ todo }: { todo: Todo }) => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton aria-label="todo-options" size="small" onClick={handleClick}>
         <MoreVertIcon fontSize="small" />
       </IconButton>
 

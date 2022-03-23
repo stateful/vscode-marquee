@@ -2,7 +2,8 @@ export const webview = {
   widget: (name: string) => `div[aria-label="${name}-widget"]`,
   outerFrame: '.webview.ready',
   innerFrame: '#active-frame',
-  widgets: '.react-grid-layout > div'
+  widgets: '.react-grid-layout > div',
+  toggleScopeBtn: 'button[aria-label="toggle-scope"]'
 }
 
 const commonWidgetLocators = {
@@ -38,11 +39,35 @@ export const githubTrendItem = {
   stars: 'div[aria-label="stars"]'
 }
 
+export const todoWidget = {
+  ...commonWidgetLocators,
+  elem: webview.widget('todo'),
+  createTodoBtn: 'button=Create a todo',
+  addTodoBtn: 'button[aria-label="add-todo"]',
+  items: 'div[aria-label="todo-item"]',
+  filterBtn: 'button[aria-label="todo-filter"]',
+  filterInput: 'input[name="todo-filter"]',
+  autoDetectCheckbox: 'span[aria-label="Auto-detect TODOs"]',
+  hideCompleteCheckbox: 'span[aria-label="Hide completed"]',
+  showArchivedCheckbox: 'span[aria-label="Show archived"]'
+}
+
+export const todoItem = {
+  completeItemCheckbox: 'span[aria-label="Complete Todo"]',
+  label: 'p[aria-label="todo-label"]',
+  originLink: 'button[aria-label="todo-link"]',
+  tags: '.MuiChip-root',
+  optionsBtn: 'button[aria-label="todo-options"]'
+}
+
 export const MuiDialog = {
   elem: '.MuiDialog-root',
   closeBtn: 'span=Close',
   comboBox: 'div[role="combobox"] button[aria-label="Open"]',
-  input: (inputName: string) => `input[name="${inputName}"]`,
+  input: (name: string) => `input[name="${name}"]`,
+  textarea: (name: string) => `textarea[name="${name}"]`,
+  adornment: '.MuiInputAdornment-root svg',
+  saveBtn: 'span=Save'
 }
 
 export const Select = {
@@ -52,4 +77,9 @@ export const Select = {
 export const MuiAutocomplete = {
   clearBtn: 'button[aria-label="Clear"]',
   openOptionsBtn: 'button[aria-label="Open"]'
+}
+
+export const SplitButton = {
+  button: '.MuiButtonGroup-root',
+  popupBtn: 'button[aria-haspopup="menu"]'
 }

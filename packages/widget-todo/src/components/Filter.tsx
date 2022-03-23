@@ -28,7 +28,8 @@ let TodoFilterBox = () => {
       onChange={(e) => setTodoFilter(e.target.value)}
       // margin="none"
       size="small"
-      name="github-filter"
+      aria-label="todo-filter"
+      name="todo-filter"
       value={todoFilter}
       InputProps={{
         endAdornment: (
@@ -63,7 +64,7 @@ let TodoFilter = () => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton aria-label="todo-filter" size="small" onClick={handleClick}>
         <Badge
           color="secondary"
           variant="dot"

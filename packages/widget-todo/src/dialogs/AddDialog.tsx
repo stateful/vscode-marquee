@@ -65,6 +65,7 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           label="Add some tags!"
           variant="filled"
           value={tags}
+          name="todo-tags"
           onChange={tags => setTags(tags)}
         />
       </DialogContent>
