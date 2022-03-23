@@ -15,7 +15,7 @@ jobs:
       - name: 📦 Install Dependencies
         run: yarn
       - name: 🏗 Build Project
-        run: yarn build:prod
+        run: yarn build:dev
       - name: 🧪 Run Tests
         run: |
           sudo apt-get install xvfb
