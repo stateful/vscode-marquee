@@ -35,7 +35,7 @@ const config: Config.InitialOptions = {
   },
   restoreMocks: true,
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
-  bail: true
+  bail: false
 };
 
 export default config;
