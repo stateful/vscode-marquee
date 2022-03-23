@@ -1,4 +1,3 @@
-import os from 'os'
 import path from 'path';
 import vscode from 'vscode';
 import { SnippetExtensionManager, activate } from '../src/extension';
