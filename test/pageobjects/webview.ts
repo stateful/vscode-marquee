@@ -1,6 +1,6 @@
 import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { webview as webviewLocators } from '../locators'
+import * as locatorMap from './locators'
+import { webview as webviewLocators } from './locators'
 
 export interface Webview extends IPluginDecorator<typeof webviewLocators> { }
 @PluginDecorator(webviewLocators)

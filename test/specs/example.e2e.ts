@@ -1,5 +1,6 @@
 import { WeatherWidget } from '../pageobjects/widgets/weather'
-import { Webview } from '../pageobjects/widgets/webview'
+import { NewsWidget } from '../pageobjects/widgets/news'
+import { Webview } from '../pageobjects/webview'
 import * as locatorMap from '../pageobjects/locators'
 
 describe('Marquee', () => {
@@ -46,6 +47,29 @@ describe('Marquee', () => {
         await weatherWidget.selectCity('San Francisco')
         await expect(weatherWidget.title$).toHaveText(
           'Weather in SF')
+      })
+    })
+
+    describe('news widget', () => {
+      const newsWidget = new NewsWidget(locatorMap)
+
+      it('should display articles', async () => {
+        await expect(newsWidget.articles$$)
+          .toBeElementsArrayOfSize({ gte: 10 })
+      })
+
+      it('should be able to switch news channels', async () => {
+        const firstArticle = await newsWidget.getArticle(0)
+        const firstArticleText = await firstArticle.getText()
+        expect(typeof firstArticleText).toBe('string')
+
+        await newsWidget.switchChannel('Jobs')
+
+        const newFirstArticle = await newsWidget.getArticle(0)
+        const newFirstArticleText = await newFirstArticle.getText()
+
+        expect(typeof newFirstArticleText).toBe('string')
+        expect(firstArticleText).not.toBe(newFirstArticleText)
       })
     })
   })

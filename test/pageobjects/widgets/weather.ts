@@ -1,6 +1,6 @@
 import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
-import { Dialog } from './dialog'
+import { MuiDialog } from '../components/dialog'
 import { weatherWidget as weatherWidgetLocators } from '../locators'
 
 export interface WeatherWidget extends IPluginDecorator<typeof weatherWidgetLocators> { }
@@ -12,7 +12,7 @@ export class WeatherWidget extends BasePage<typeof weatherWidgetLocators, typeof
   public locatorKey = 'weatherWidget' as const
 
   public async openSettings () {
-    const dialog = new Dialog(this.locatorMap)
+    const dialog = new MuiDialog(this.locatorMap)
     await this.btnWeatherSettings$.click()
     return dialog
   }
