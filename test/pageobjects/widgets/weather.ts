@@ -1,5 +1,6 @@
 import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
+import { Dialog } from './dialog'
 import { weatherWidget as weatherWidgetLocators } from '../locators'
 
 export interface WeatherWidget extends IPluginDecorator<typeof weatherWidgetLocators> { }
@@ -10,14 +11,29 @@ export class WeatherWidget extends BasePage<typeof weatherWidgetLocators, typeof
    */
   public locatorKey = 'weatherWidget' as const
 
-  public async selectScale(scale: 'Fahrenheit' | 'Celsius') {
+  public async openSettings () {
+    const dialog = new Dialog(this.locatorMap)
     await this.btnWeatherSettings$.click()
-    await this.comboBox$.click()
-    await $(`li=${scale}`).click()
-    await $('.MuiDialog-root').$('span=Close').click()
+    return dialog
+  }
+
+  public async selectScale (scale: 'Fahrenheit' | 'Celsius') {
+    const dialog = await this.openSettings()
+    await dialog.select(scale)
+    await dialog.close()
+  }
+
+  public async selectCity (city: string) {
+    const dialog = await this.openSettings()
+    await dialog.setInputValue('city', city)
+    await dialog.close()
   }
 
   public getCurrentTemperatur () {
     return this.currentTemperature$.getText()
+  }
+
+  public getTitle () {
+    return this.title$.getText()
   }
 }
