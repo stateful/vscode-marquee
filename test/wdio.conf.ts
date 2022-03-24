@@ -308,7 +308,7 @@ export const config: Options.Testrunner = {
       const extensionLogs = await outputView.getText()
       console.log(
         "\n\n Marquee Extension Logs",
-        "\n ========================",
+        "\n========================\n",
         extensionLogs.join('\n')
       )
     }
