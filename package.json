@@ -2733,7 +2733,7 @@
     "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "prepare": "husky install",
     "test": "run-s test:*",
-    "test:lint": "eslint packages",
+    "test:lint": "eslint packages test website exampleWidget",
     "test:unit": "jest",
     "test:e2e": "wdio run ./test/wdio.conf.ts",
     "watch": "run-p watch:*",

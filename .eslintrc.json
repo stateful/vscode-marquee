@@ -13,7 +13,7 @@
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/semi": "warn",
+    "@typescript-eslint/semi": [1, "never"],
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",

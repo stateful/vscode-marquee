@@ -9,7 +9,7 @@ describe('Marquee', () => {
   before('should open by default', async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
-      (await workbench.getTitleBar().getTitle()).includes('Marquee')
+      (await workbench.getTitleBar().getTitle()).includes('vscode-marquee')
     ))
   })
 
@@ -27,7 +27,7 @@ describe('Marquee', () => {
     describe('mailbox widget', () => {
       it('should display message', async () => {
         await expect($('div[aria-label="welcome-widget"]'))
-          .toHaveTextContaining('Hey there 👋 you are using a pre-release version of Marquee.');
+          .toHaveTextContaining('Hey there 👋 you are using a pre-release version of Marquee.')
       })
     })
 
@@ -36,13 +36,13 @@ describe('Marquee', () => {
 
       it('should display weather forecast', async () => {
         await expect(weatherWidget.currentTemperature$)
-          .toHaveTextContaining('°F');
+          .toHaveTextContaining('°F')
       })
 
       it('should be able to update to Celsius', async () => {
         await weatherWidget.selectScale('Celsius')
         await expect(weatherWidget.currentTemperature$)
-          .toHaveTextContaining('°C');
+          .toHaveTextContaining('°C')
       })
 
       it('should be able to select a different city', async () => {
