@@ -1,4 +1,4 @@
-import { HN_CHANNELS } from "./constants"
+import { HN_CHANNELS } from './constants'
 
 export interface HackerNews {
   comments_count: number

@@ -40,11 +40,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this.broadcast({ snippets: newSnippets })
 
     this._openSnippet(snippet.path!)
-    await vscode.commands.executeCommand("workbench.action.closeActiveEditor")
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    await vscode.commands.executeCommand('workbench.action.closeActiveEditor')
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
       `Added ${snippet.title} to your snippets in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 
@@ -93,10 +93,10 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this.updateState('snippets', newSnippets)
     this.broadcast({ snippets: newSnippets })
 
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
       `Added ${name} to your snippets in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 

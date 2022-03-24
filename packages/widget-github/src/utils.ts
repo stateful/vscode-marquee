@@ -4,7 +4,7 @@ import { spokenLanguages, trendLanguages } from './constants'
 import type { SinceConfiguration } from './types'
 
 declare const window: MarqueeWindow
-const ERROR_MESSAGE = "Couldn't fetch GitHub trends!"
+const ERROR_MESSAGE = 'Couldn\'t fetch GitHub trends!'
 const CACHE_TIMEOUT = 1000 * 60 * 30 // 30min
 
 function getResourceURL (since?: SinceConfiguration, language?: string, spoken?: string) {

@@ -1,16 +1,16 @@
 import fs from 'fs/promises'
-import path from "path"
-import vscode from "vscode"
+import path from 'path'
+import vscode from 'vscode'
 import Channel from 'tangle/webviews'
 import { v4 as uuidv4 } from 'uuid'
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 import { render } from 'eta'
 import { getExtProps } from '@vscode-marquee/utils/extension'
 import type { Client } from 'tangle'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 
 import telemetry from './telemetry'
-import StateManager from "./stateManager"
+import StateManager from './stateManager'
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration, ExtensionExport } from './types'
 
@@ -80,8 +80,8 @@ export class MarqueeGui extends EventEmitter {
     }
 
     this.panel = vscode.window.createWebviewPanel(
-      "marqueeGui", // Identifies the type of the webview. Used internally
-      "Marquee", // Title of the this.panel displayed to the user
+      'marqueeGui', // Identifies the type of the webview. Used internally
+      'Marquee', // Title of the this.panel displayed to the user
       vscode.ViewColumn.One, // Editor column to show the new webview panel in.
       {
         enableScripts: true,
@@ -184,7 +184,7 @@ export class MarqueeGui extends EventEmitter {
           state: curr.exports.marquee?.disposable?.state || {},
         },
       }),
-      {} as Record<string, Pick<ExtensionExport, "configuration" | "state">>
+      {} as Record<string, Pick<ExtensionExport, 'configuration' | 'state'>>
     )
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
@@ -216,7 +216,7 @@ export class MarqueeGui extends EventEmitter {
     })
 
     if (!content) {
-      return vscode.window.showErrorMessage(`Couldn't load Marquee`)
+      return vscode.window.showErrorMessage('Couldn\'t load Marquee')
     }
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee')
@@ -255,7 +255,7 @@ export class MarqueeGui extends EventEmitter {
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
     telemetry.sendTelemetryEvent('executeCommand', { command })
-    if (args && args.length > 0 && command === "vscode.openFolder") {
+    if (args && args.length > 0 && command === 'vscode.openFolder') {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options)
     }
 

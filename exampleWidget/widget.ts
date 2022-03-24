@@ -1,5 +1,5 @@
 import Channel from 'tangle/webviews'
-import { faBrain } from "@fortawesome/free-solid-svg-icons/faBrain"
+import { faBrain } from '@fortawesome/free-solid-svg-icons/faBrain'
 
 import type { MarqueeWindow } from '../packages/utils'
 declare const window: MarqueeWindow

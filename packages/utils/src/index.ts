@@ -1,18 +1,18 @@
 /* istanbul ignore file */
 
 import { useState, useEffect } from 'react'
-import Channel from "tangle/webviews"
-import { createTheme } from "@material-ui/core/styles"
+import Channel from 'tangle/webviews'
+import { createTheme } from '@material-ui/core/styles'
 
 import type { Client } from 'tangle'
 
-import calculateTheme from "./calculateTheme"
+import calculateTheme from './calculateTheme'
 
-import BetterComplete from "./components/BetterComplete"
+import BetterComplete from './components/BetterComplete'
 import NetworkError from './components/NetworkError'
 import DoubleClickHelper from './components/DoubleClickHelper'
 
-import GlobalContext, { GlobalProvider } from "./contexts/Global"
+import GlobalContext, { GlobalProvider } from './contexts/Global'
 import type { MarqueeWindow, ContextProperties } from './types'
 
 const defaultChannel = 'vscode.marquee'
@@ -36,7 +36,7 @@ const jumpTo = (item: any) => {
     west: {
       execCommands: [
         {
-          command: "marquee.link",
+          command: 'marquee.link',
           args: [{ item }],
         },
       ],

@@ -5,9 +5,9 @@ export const CANONICAL = IS_PROD
   ? 'https://marquee.stateful.com'
   : 'localhost:3000'
 export const GOOGLE_ANALYTICS_ID = 'UA-170174976-2'
-export const INTERCOM_APP_ID = process.env.NODE_ENV === "development"
-  ? "ehnvut86"
-  : "b6aajb4w"
+export const INTERCOM_APP_ID = process.env.NODE_ENV === 'development'
+  ? 'ehnvut86'
+  : 'b6aajb4w'
 
 export const MAIN_COLOR = '#db2051'
 export const BG_COLOR = { light: 'gray.150', dark: 'gray.800' }
