@@ -304,7 +304,13 @@ export const config: Options.Testrunner = {
       await bottomBarPanel.toggle(true)
       const outputView = await bottomBarPanel.openOutputView()
       await outputView.selectChannel('Marquee')
-      console.log(await outputView.getText())
+
+      const extensionLogs = await outputView.getText()
+      console.log(
+        "\n\n Marquee Extension Logs",
+        "\n ========================",
+        extensionLogs.join('\n')
+      )
     }
     /**
      * Gets executed right after terminating the webdriver session.
