@@ -9,7 +9,7 @@ describe('Marquee', () => {
   before('should open by default', async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
-      (await workbench.getTitleBar().getTitle()).includes('vscode-marquee')
+      (await workbench.getTitleBar().getTitle()).includes('Marquee')
     ))
   })
 
