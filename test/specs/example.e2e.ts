@@ -20,7 +20,7 @@ describe('Marquee', () => {
       await webview.open()
     })
 
-    it.only('should load all widgets', async() => {
+    it('should load all widgets', async() => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
     })
 
