@@ -14,6 +14,6 @@ export default class Provider implements vscode.TextDocumentContentProvider {
   }
 
   get onDidChange () {
-		return this._onDidChange.event
-	}
+    return this._onDidChange.event
+  }
 }

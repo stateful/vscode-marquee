@@ -23,7 +23,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   /**
    * add note into text editor
    */
-   private _addNote (editor: vscode.TextEditor) {
+  private _addNote (editor: vscode.TextEditor) {
     const { text, name, path } = this.getTextSelection(editor)
 
     if (text.length < 1) {

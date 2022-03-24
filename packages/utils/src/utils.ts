@@ -6,7 +6,7 @@ export const getVSColor = () => {
   let vsCodeBgColor = process.env.NODE_ENV === 'test'
     ? '#000000'
     : getComputedStyle(document.documentElement)
-        .getPropertyValue("--vscode-sideBar-background")
+      .getPropertyValue("--vscode-sideBar-background")
 
   let vsRgba = hexRgb(vsCodeBgColor)
   return {

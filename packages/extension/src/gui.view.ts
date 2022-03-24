@@ -131,7 +131,7 @@ export class MarqueeGui extends EventEmitter {
        * only setup a communication channel to the extension backend, if
        */
       if (
-        /**
+      /**
          * the extension is active so we can access its exported APIs
          */
         extension.isActive &&
@@ -270,10 +270,10 @@ export class MarqueeGui extends EventEmitter {
     switch (type) {
       case 'error':
         vscode.window.showErrorMessage(message)
-      break
+        break
       case 'warning':
         vscode.window.showWarningMessage(message)
-      break
+        break
       default:
         vscode.window.showInformationMessage(message)
     }

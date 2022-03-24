@@ -18,7 +18,7 @@ describe('Snippet', () => {
       workspaceId: null,
       createdAt: 123
     })
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     const { path, ...snippet } = s
     expect(snippet).toMatchSnapshot()
     expect(s.data).toMatchSnapshot()

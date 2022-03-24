@@ -23,5 +23,5 @@ test('should render the component with default prop', () => {
       command: 'workbench.action.openSettings',
       args: ['Marquee']
     }],
-  }})
+    }})
 })
