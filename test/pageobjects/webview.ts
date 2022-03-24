@@ -11,6 +11,8 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
   public locatorKey = 'webview' as const
 
   public async open () {
+    console.log(await $('html').getHTML())
+
     const webviewContainer = await browser.findElement('css selector', this.locators.outerFrame)
     await browser.switchToFrame(webviewContainer)
     await this.innerFrame$.waitForExist()
