@@ -92,7 +92,9 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         continue
       }
 
-      this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`)
+      this._channel.appendLine(
+        `Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`
+      )
       this.broadcast({ [prop]: val } as any)
       break
     }
@@ -258,7 +260,13 @@ export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<State, Configuration>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  const stateManager = new ExtensionManager<State, Configuration>(
+    context,
+    channel,
+    'configuration',
+    DEFAULT_CONFIGURATION,
+    DEFAULT_STATE
+  )
   const aws = stateManager.getActiveWorkspace()
 
   /**

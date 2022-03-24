@@ -38,7 +38,7 @@ interface Elem {
 export class TreeView implements vscode.TreeDataProvider<Item> {
   private state = DEFAULT_STATE
 
-  private readonly _onDidChangeTreeData: vscode.EventEmitter<Item | undefined> = new vscode.EventEmitter<Item | undefined>()
+  private readonly _onDidChangeTreeData = new vscode.EventEmitter<Item | undefined>()
   readonly onDidChangeTreeData: vscode.Event<Item | undefined> = this._onDidChangeTreeData.event
   private readonly toplevel: Array<Elem> = Object.keys(DEFAULT_STATE).map((type, id) => ({
     id,
@@ -108,7 +108,10 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
 
   private update () {
     const aws = this.stateMgr.projectWidget.getActiveWorkspace()
-    const { globalScope } = this.context.globalState.get<{ globalScope: boolean }>('configuration', { globalScope: !aws })
+    const { globalScope } = this.context.globalState.get<{ globalScope: boolean }>(
+      'configuration',
+      { globalScope: !aws }
+    )
 
     this._updateTodos(aws, !aws || globalScope)
     this._updateNotes(aws, !aws || globalScope)

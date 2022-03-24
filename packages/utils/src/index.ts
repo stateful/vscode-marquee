@@ -79,7 +79,9 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      * - add it to the webview state so if a webview is being revived it
      *   receives its former configurations
      */
-    const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`
+    const firstLetter = (prop as string).slice(0, 1).toUpperCase()
+    const restLetters = (prop as string).slice(1)
+    const setProp = `set${firstLetter}${restLetters}` as `set${Capitalize<keyof T & string>}`
     contextValues[setProp] = ((val: any) => {
       setPropState(val)
       tangle.broadcast({ [prop]: val } as T & Events)

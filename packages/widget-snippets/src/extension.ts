@@ -27,7 +27,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.addEditor', this._addSnippet.bind(this)),
       vscode.workspace.registerTextDocumentContentProvider(ContentProvider.scheme, this._contentProvider),
-      vscode.workspace.registerFileSystemProvider(SnippetStorageProvider.scheme, this._fsProvider, { isCaseSensitive: true })
+      vscode.workspace.registerFileSystemProvider(
+        SnippetStorageProvider.scheme,
+        this._fsProvider,
+        { isCaseSensitive: true }
+      )
     )
 
     this._fsProvider.on('saveNewSnippet', this._saveNewSnippet.bind(this))
