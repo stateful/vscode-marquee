@@ -2,7 +2,7 @@ export const sinceOptions = [
   { name: "Daily", value: "daily" },
   { name: "Weekly", value: "weekly" },
   { name: "Monthly", value: "monthly" },
-];
+]
 
 export const spokenLanguages = [
   { urlParam: "ab", name: "Abkhazian" },
@@ -189,7 +189,7 @@ export const spokenLanguages = [
   { urlParam: "yo", name: "Yoruba" },
   { urlParam: "za", name: "Zhuang, Chuang" },
   { urlParam: "zu", name: "Zulu" },
-];
+]
 
 export const trendLanguages = [
   { urlParam: "1c-enterprise", name: "1C Enterprise" },
@@ -663,13 +663,13 @@ export const trendLanguages = [
   { urlParam: "yara", name: "YARA" },
   { urlParam: "zephir", name: "Zephir" },
   { urlParam: "zimpl", name: "Zimpl" },
-];
+]
 
 export const DEFAULT_CONFIGURATION = {
   since: undefined,
   language: undefined,
   spoken: undefined,
   trendFilter: undefined
-};
+}
 
-export const DEFAULT_STATE = {};
+export const DEFAULT_STATE = {}

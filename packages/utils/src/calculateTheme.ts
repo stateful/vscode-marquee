@@ -1,22 +1,22 @@
-import { createTheme, ThemeOptions } from "@material-ui/core/styles";
-import React from "react";
+import { createTheme, ThemeOptions } from "@material-ui/core/styles"
+import React from "react"
 
 export default () => {
   const fontSize = parseInt(
     window.getComputedStyle(document.documentElement)
       .getPropertyValue("--vscode-font-size")
       .replace("px", "")
-  );
+  )
 
-  const vscodeStyles = document.documentElement.style.cssText.split(";");
-  const vsCodeStyleMap: Record<string, string> = {};
+  const vscodeStyles = document.documentElement.style.cssText.split(";")
+  const vsCodeStyleMap: Record<string, string> = {}
 
   vscodeStyles.forEach((style) => {
     if (style.indexOf("--vscode") !== -1) {
-      const pair = style.replace(/\s/g, "").split(":");
-      vsCodeStyleMap[pair[0]] = pair[1];
+      const pair = style.replace(/\s/g, "").split(":")
+      vsCodeStyleMap[pair[0]] = pair[1]
     }
-  });
+  })
 
   const newTheme: ThemeOptions = {
     shape: {
@@ -74,7 +74,7 @@ export default () => {
         },
       },
     },
-  };
+  }
 
-  return createTheme(newTheme);
-};
+  return createTheme(newTheme)
+}

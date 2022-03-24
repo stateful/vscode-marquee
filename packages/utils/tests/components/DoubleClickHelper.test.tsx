@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
 
-import { DoubleClickHelper } from '../../src';
+import { DoubleClickHelper } from '../../src'
 
 test('should show no options', () => {
-  render(<DoubleClickHelper content="foobar" />);
-  expect(screen.getByTitle('foobar')).toBeInTheDocument();
-});
+  render(<DoubleClickHelper content="foobar" />)
+  expect(screen.getByTitle('foobar')).toBeInTheDocument()
+})

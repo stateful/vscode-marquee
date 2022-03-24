@@ -1,9 +1,9 @@
-import type { ContextProperties } from "@vscode-marquee/utils";
-import type { vscLanguages } from './constants';
-import SnippetModel from './models/Snippet';
+import type { ContextProperties } from "@vscode-marquee/utils"
+import type { vscLanguages } from './constants'
+import SnippetModel from './models/Snippet'
 
-export type VSCLanguages = keyof typeof vscLanguages;
-export type Snippet = SnippetModel;
+export type VSCLanguages = keyof typeof vscLanguages
+export type Snippet = SnippetModel
 
 export interface SnippetTreeItem {
   item: Snippet

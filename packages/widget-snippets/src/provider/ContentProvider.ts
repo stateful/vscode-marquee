@@ -1,19 +1,19 @@
-import vscode from 'vscode';
+import vscode from 'vscode'
 
 export default class Provider implements vscode.TextDocumentContentProvider {
-  static scheme = 'snippet';
+  static scheme = 'snippet'
 
-  private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
+  private _onDidChange = new vscode.EventEmitter<vscode.Uri>()
 
   provideTextDocumentContent(): string | Thenable<string> {
-    return '';
+    return ''
   }
 
   dispose() {
-    this._onDidChange.dispose();
+    this._onDidChange.dispose()
   }
 
   get onDidChange() {
-		return this._onDidChange.event;
+		return this._onDidChange.event
 	}
 }

@@ -1,11 +1,11 @@
-import Axios from 'axios';
-import vscode from 'vscode';
-import { activate } from "../src/extension";
+import Axios from 'axios'
+import vscode from 'vscode'
+import { activate } from "../src/extension"
 
 jest.mock('axios', () => ({
   get: jest.fn().mockResolvedValue({ data: [] }),
   post: jest.fn().mockResolvedValue({ data: [] })
-}));
+}))
 
 jest.mock('vscode', () => ({
   ConfigurationTarget: { Global: 1 },
@@ -18,8 +18,8 @@ jest.mock('vscode', () => ({
     showInformationMessage: jest.fn().mockResolvedValue({}),
     showErrorMessage: jest.fn().mockResolvedValue({})
   }
-}));
-const channel = { appendLine: jest.fn() };
+}))
+const channel = { appendLine: jest.fn() }
 
 test('should return expected interface', async () => {
   const tangle: any = {
@@ -28,23 +28,23 @@ test('should return expected interface', async () => {
     broadcast: jest.fn(),
     listen: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }),
     removeAllListeners: jest.fn()
-  };
-  const context = { globalState: new Map() };
+  }
+  const context = { globalState: new Map() }
   // @ts-expect-error
-  context.globalState.setKeysForSync = jest.fn();
-  context.globalState.set('persistence', {});
-  const result = activate(context as any, channel as any);
+  context.globalState.setKeysForSync = jest.fn()
+  context.globalState.set('persistence', {})
+  const result = activate(context as any, channel as any)
 
-  expect(result.marquee).toBeTruthy();
-  result.marquee.setup(tangle);
+  expect(result.marquee).toBeTruthy()
+  result.marquee.setup(tangle)
 
-  expect(Axios.get).toBeCalledWith('http://test/getTricks', {});
-  expect(tangle.on).toBeCalledWith('upvote', expect.any(Function));
+  expect(Axios.get).toBeCalledWith('http://test/getTricks', {})
+  expect(tangle.on).toBeCalledWith('upvote', expect.any(Function))
 
-  const upvoteTrick = tangle.on.mock.calls.pop().pop();
-  const config = vscode.workspace.getConfiguration();
-  config.set('configuration', { proxy: 'http://someproxy:8080' });
-  upvoteTrick(100);
+  const upvoteTrick = tangle.on.mock.calls.pop().pop()
+  const config = vscode.workspace.getConfiguration()
+  config.set('configuration', { proxy: 'http://someproxy:8080' })
+  upvoteTrick(100)
   expect(Axios.post).toBeCalledWith('http://test/voteTrick', {
     id: 100,
     op: 'upvote'
@@ -57,11 +57,11 @@ test('should return expected interface', async () => {
     }
   });
 
-  (Axios.post as jest.Mock).mockRejectedValue(new Error('ups'));
-  upvoteTrick(100);
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  (Axios.post as jest.Mock).mockRejectedValue(new Error('ups'))
+  upvoteTrick(100)
+  await new Promise((resolve) => setTimeout(resolve, 100))
   expect(vscode.window.showErrorMessage)
-    .toBeCalledWith('Failed to upvote trick!', 'ups');
+    .toBeCalledWith('Failed to upvote trick!', 'ups')
 
   result.marquee.disposable.emit = jest.fn();
   (Axios.get as jest.Mock).mockResolvedValue({
@@ -70,15 +70,15 @@ test('should return expected interface', async () => {
       active: true,
       title: 'foobar'
     }]
-  });
-  result.marquee.disposable.fetchData();
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  expect(vscode.window.showInformationMessage).toBeCalledWith('foobar', 'Learn more');
+  })
+  result.marquee.disposable.fetchData()
+  await new Promise((resolve) => setTimeout(resolve, 100))
+  expect(vscode.window.showInformationMessage).toBeCalledWith('foobar', 'Learn more')
   expect(result.marquee.disposable.emit).toBeCalledWith('gui.open');
 
-  (Axios.get as jest.Mock).mockRejectedValue(new Error('ups'));
-  result.marquee.disposable.fetchData();
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  (Axios.get as jest.Mock).mockRejectedValue(new Error('ups'))
+  result.marquee.disposable.fetchData()
+  await new Promise((resolve) => setTimeout(resolve, 100))
   expect((result.marquee.disposable.broadcast as jest.Mock).mock.calls)
-    .toMatchSnapshot();
-});
+    .toMatchSnapshot()
+})

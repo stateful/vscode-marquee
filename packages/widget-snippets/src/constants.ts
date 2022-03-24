@@ -1,14 +1,14 @@
-import type { State } from './types';
+import type { State } from './types'
 
-export const STATE_KEY = 'widgets.snippets';
-export const WIDGET_ID = '@vscode-marquee/snippets-widget';
+export const STATE_KEY = 'widgets.snippets'
+export const WIDGET_ID = '@vscode-marquee/snippets-widget'
 
 export const DEFAULT_STATE: State = {
   snippets: [],
   snippetFilter: '',
   snippetSelected: '',
   snippetSplitter: undefined
-};
+}
 
 export const languages = [
   { name: "python", value: "python" },
@@ -40,7 +40,7 @@ export const languages = [
   { name: "rust", value: "rust" },
   { name: "ruby", value: "ruby" },
   { name: "html", value: "htmlmixed" },
-] as const;
+] as const
 
 export const vscLanguages = {
   markdown: "markdown",
@@ -72,4 +72,4 @@ export const vscLanguages = {
   jsonc: "json",
   "objective-c": "objectivec",
   go: "go",
-} as const;
+} as const

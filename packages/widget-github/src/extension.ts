@@ -1,30 +1,30 @@
-import vscode from 'vscode';
+import vscode from 'vscode'
 
-import ExtensionManager, { DEPRECATED_GLOBAL_STORE_KEY } from '@vscode-marquee/utils/extension';
+import ExtensionManager, { DEPRECATED_GLOBAL_STORE_KEY } from '@vscode-marquee/utils/extension'
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
-import type { Configuration } from './types';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
+import type { Configuration } from './types'
 
-const STATE_KEY = 'widgets.github';
+const STATE_KEY = 'widgets.github'
 
 export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<{}, Configuration>(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE);
+  const stateManager = new ExtensionManager<{}, Configuration>(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
 
   /**
    * transform configurations from Marquee v2 -> v3
    */
-  const oldGlobalStore = context.globalState.get<any>(DEPRECATED_GLOBAL_STORE_KEY, {});
+  const oldGlobalStore = context.globalState.get<any>(DEPRECATED_GLOBAL_STORE_KEY, {})
   if (typeof oldGlobalStore.language?.name === 'string') {
-    stateManager.updateConfiguration('language', oldGlobalStore.language.name);
+    stateManager.updateConfiguration('language', oldGlobalStore.language.name)
   }
   if (typeof oldGlobalStore.since?.name === 'string') {
-    stateManager.updateConfiguration('since', oldGlobalStore.since.name);
+    stateManager.updateConfiguration('since', oldGlobalStore.since.name)
   }
   if (typeof oldGlobalStore.spoken?.name === 'string') {
-    stateManager.updateConfiguration('spoken', oldGlobalStore.spoken.name);
+    stateManager.updateConfiguration('spoken', oldGlobalStore.spoken.name)
   }
 
   return {
@@ -34,5 +34,5 @@ export function activate (
       defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
-  };
+  }
 }

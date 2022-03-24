@@ -1,4 +1,4 @@
-export const sendTelemetryEvent = jest.fn();
+export const sendTelemetryEvent = jest.fn()
 export default class TelemetryReporterMock {
-  public sendTelemetryEvent = sendTelemetryEvent;
+  public sendTelemetryEvent = sendTelemetryEvent
 }

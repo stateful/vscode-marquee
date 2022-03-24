@@ -93,7 +93,7 @@ export interface Context extends Configuration {
   setShowDialog: (show: boolean) => void
 }
 
-type ScaleUnits = 'Fahrenheit' | 'Celsius';
+type ScaleUnits = 'Fahrenheit' | 'Celsius'
 export interface Scale {
   name: ScaleUnits
   value: Lowercase<ScaleUnits>

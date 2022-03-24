@@ -1,4 +1,4 @@
-import { HN_CHANNELS } from "./constants";
+import { HN_CHANNELS } from "./constants"
 
 export interface HackerNews {
   comments_count: number
@@ -13,7 +13,7 @@ export interface HackerNews {
   user: string
 }
 
-export type HackerNewsChannels = typeof HN_CHANNELS[number];
+export type HackerNewsChannels = typeof HN_CHANNELS[number]
 
 export interface WidgetState {
   news: HackerNews[]

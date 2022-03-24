@@ -1,22 +1,22 @@
-import Welcome from "@vscode-marquee/widget-welcome";
-import Github from "@vscode-marquee/widget-github";
-import News from "@vscode-marquee/widget-news";
-import Weather from "@vscode-marquee/widget-weather";
-import Todo from "@vscode-marquee/widget-todo";
-import Notes from "@vscode-marquee/widget-notes";
-import Snippets from "@vscode-marquee/widget-snippets";
-import Projects from "@vscode-marquee/widget-projects";
+import Welcome from "@vscode-marquee/widget-welcome"
+import Github from "@vscode-marquee/widget-github"
+import News from "@vscode-marquee/widget-news"
+import Weather from "@vscode-marquee/widget-weather"
+import Todo from "@vscode-marquee/widget-todo"
+import Notes from "@vscode-marquee/widget-notes"
+import Snippets from "@vscode-marquee/widget-snippets"
+import Projects from "@vscode-marquee/widget-projects"
 
-import { WidgetConfig, Theme, State, Configuration, LayoutType } from "./types";
+import { WidgetConfig, Theme, State, Configuration, LayoutType } from "./types"
 
 export const DEFAULT_STATE: State = {
   modeName: 'default',
   prevMode: null
-};
+}
 
 export const DEFAULT_CONFIGURATION: Configuration = {
   modes: {}
-};
+}
 
 export const widgetConfig: WidgetConfig[] = [
   Welcome,
@@ -27,8 +27,8 @@ export const widgetConfig: WidgetConfig[] = [
   Projects,
   Snippets,
   Notes
-] as WidgetConfig[];
-export const SENTRY_DNS = "https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775";
+] as WidgetConfig[]
+export const SENTRY_DNS = "https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775"
 export const themes: Theme[] = [
   {
     id: 1,
@@ -128,19 +128,19 @@ export const themes: Theme[] = [
     description: "Simply light",
     author: "Archibald Kingsley",
   },
-];
+]
 
 export const NO_BACKGROUND_STYLE = {
   position: "fixed" as 'fixed',
   width: "100%",
   height: "100%"
-};
+}
 
 export const BACKGROUND_STYLE = {
   ...NO_BACKGROUND_STYLE,
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
-};
+}
 
 export const defaultLayout: LayoutType = {
   lg: [
@@ -193,7 +193,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 60, i: "notes", moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 23, i: "projects", moved: false, static: false },
   ],
-};
+}
 
 export const defaultEnabledWidgets = {
   news: true,
@@ -204,6 +204,6 @@ export const defaultEnabledWidgets = {
   welcome: true,
   snippets: true,
   projects: true,
-};
+}
 
-export const presetModes = ['default', 'work', 'play'] as string[];
+export const presetModes = ['default', 'work', 'play'] as string[]

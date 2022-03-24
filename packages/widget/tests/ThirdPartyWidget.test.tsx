@@ -1,15 +1,15 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { GlobalProvider } from '@vscode-marquee/utils';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import { GlobalProvider } from '@vscode-marquee/utils'
 
-import ThirdPartyWidget from '../src/ThirdPartyWidget';
+import ThirdPartyWidget from '../src/ThirdPartyWidget'
 
-jest.mock('../../utils/src/contexts/Global');
+jest.mock('../../utils/src/contexts/Global')
 
-const template = document.createElement('template');
+const template = document.createElement('template')
 template.innerHTML = /*html*/`
   <div>Hello World</div>
-`;
+`
 
 // class CustomWidget extends HTMLElement {
 //   constructor () {
@@ -30,8 +30,8 @@ xtest('should display custom widget', () => {
     <GlobalProvider>
       <ThirdPartyWidget name="some-custom-widget" label="Some custom Widget" />
     </GlobalProvider>
-  );
-  expect(screen.getByText('Some custom Widget')).toBeInTheDocument();
+  )
+  expect(screen.getByText('Some custom Widget')).toBeInTheDocument()
   // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-  expect(container.querySelector('some-custom-widget')).toBeInTheDocument();
-});
+  expect(container.querySelector('some-custom-widget')).toBeInTheDocument()
+})

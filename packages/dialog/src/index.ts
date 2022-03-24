@@ -1,4 +1,4 @@
-import DialogContainer from "./DialogContainer";
-import DialogTitle from "./DialogTitle";
+import DialogContainer from "./DialogContainer"
+import DialogTitle from "./DialogTitle"
 
-export { DialogContainer, DialogTitle };
+export { DialogContainer, DialogTitle }

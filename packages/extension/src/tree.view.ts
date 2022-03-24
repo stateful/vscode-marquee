@@ -1,14 +1,14 @@
-import vscode from "vscode";
+import vscode from "vscode"
 
-import type { Workspace } from "@vscode-marquee/utils/extension";
-import type { Snippet } from "@vscode-marquee/widget-snippets/extension";
-import type { Note } from "@vscode-marquee/widget-notes/extension";
-import type { Todo } from "@vscode-marquee/widget-todo/extension";
+import type { Workspace } from "@vscode-marquee/utils/extension"
+import type { Snippet } from "@vscode-marquee/widget-snippets/extension"
+import type { Note } from "@vscode-marquee/widget-notes/extension"
+import type { Todo } from "@vscode-marquee/widget-todo/extension"
 
-import StateManager from './stateManager';
-import { isExpanded, filterByScope } from './utils';
+import StateManager from './stateManager'
+import { isExpanded, filterByScope } from './utils'
 
-const DEFAULT_STATE: State = { todos: [], snippets: [], notes: [] };
+const DEFAULT_STATE: State = { todos: [], snippets: [], notes: [] }
 
 interface State {
   todos: Todo[]
@@ -36,16 +36,16 @@ interface Elem {
 }
 
 export class TreeView implements vscode.TreeDataProvider<Item> {
-  private state = DEFAULT_STATE;
+  private state = DEFAULT_STATE
 
-  private readonly _onDidChangeTreeData: vscode.EventEmitter<Item | undefined> = new vscode.EventEmitter<Item | undefined>();
-  readonly onDidChangeTreeData: vscode.Event<Item | undefined> = this._onDidChangeTreeData.event;
+  private readonly _onDidChangeTreeData: vscode.EventEmitter<Item | undefined> = new vscode.EventEmitter<Item | undefined>()
+  readonly onDidChangeTreeData: vscode.Event<Item | undefined> = this._onDidChangeTreeData.event
   private readonly toplevel: Array<Elem> = Object.keys(DEFAULT_STATE).map((type, id) => ({
     id,
     type: type as keyof typeof DEFAULT_STATE,
     caption: (type.slice(0, 1).toUpperCase() + type.slice(1)) as keyof typeof DEFAULT_STATE
-  }));
-  public focus: Item | null = null;
+  }))
+  public focus: Item | null = null
 
   constructor(
     private readonly context: vscode.ExtensionContext,
@@ -53,82 +53,82 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
   ) {
     this.context.subscriptions.push(
       vscode.commands.registerCommand("marquee.toggleScope", this.toggleScope.bind(this))
-    );
+    )
 
-    this.stateMgr.todoWidget.on('stateUpdate', this.update.bind(this));
-    this.stateMgr.snippetsWidget.on('stateUpdate', this.update.bind(this));
-    this.stateMgr.notesWidget.on('stateUpdate', this.update.bind(this));
-    this.stateMgr.global.on('stateUpdate', this.update.bind(this));
+    this.stateMgr.todoWidget.on('stateUpdate', this.update.bind(this))
+    this.stateMgr.snippetsWidget.on('stateUpdate', this.update.bind(this))
+    this.stateMgr.notesWidget.on('stateUpdate', this.update.bind(this))
+    this.stateMgr.global.on('stateUpdate', this.update.bind(this))
   }
 
   clearTree () {
-    this.state = DEFAULT_STATE;
+    this.state = DEFAULT_STATE
   }
 
   private _updateTodos (aws: Workspace | null, globalScope: boolean) {
-    const { todos } = this.context.globalState.get<{ todos?: Todo[] }>('widgets.todo', { todos: [] });
+    const { todos } = this.context.globalState.get<{ todos?: Todo[] }>('widgets.todo', { todos: [] })
 
     if (!todos) {
-      return;
+      return
     }
 
-    this.state.todos = filterByScope(todos, aws, globalScope);
+    this.state.todos = filterByScope(todos, aws, globalScope)
 
-    const openArr: Todo[] = [];
-    const closedArr: Todo[] = [];
+    const openArr: Todo[] = []
+    const closedArr: Todo[] = []
     this.state.todos.forEach((todo) => {
       if (todo.archived) {
-        return;
+        return
       }
       if (todo.checked === false) {
-        openArr.push(todo);
+        openArr.push(todo)
       } else {
-        closedArr.push(todo);
+        closedArr.push(todo)
       }
-    });
+    })
 
     let todoIndex = this.toplevel.findIndex((entry) => {
-      return entry.caption.indexOf("Todo") !== -1;
-    });
-    const scope = globalScope ? "global" : "workspace";
+      return entry.caption.indexOf("Todo") !== -1
+    })
+    const scope = globalScope ? "global" : "workspace"
     this.toplevel[
       todoIndex
-    ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`;
+    ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`
   }
 
   private _updateNotes (aws: Workspace | null, globalScope: boolean) {
-    const { notes } = this.context.globalState.get<{ notes?: Note[] }>('widgets.notes', { notes: [] });
-    this.state.notes = filterByScope(notes || [], aws, globalScope);
+    const { notes } = this.context.globalState.get<{ notes?: Note[] }>('widgets.notes', { notes: [] })
+    this.state.notes = filterByScope(notes || [], aws, globalScope)
   }
 
   private _updateSnippets (aws: Workspace | null, globalScope: boolean) {
-    const { snippets } = this.context.globalState.get<{ snippets?: Snippet[] }>('widgets.snippets', { snippets: [] });
-    this.state.snippets = filterByScope(snippets || [], aws, globalScope);
+    const { snippets } = this.context.globalState.get<{ snippets?: Snippet[] }>('widgets.snippets', { snippets: [] })
+    this.state.snippets = filterByScope(snippets || [], aws, globalScope)
   }
 
   private update () {
-    const aws = this.stateMgr.projectWidget.getActiveWorkspace();
-    const { globalScope } = this.context.globalState.get<{ globalScope: boolean }>('configuration', { globalScope: !aws });
+    const aws = this.stateMgr.projectWidget.getActiveWorkspace()
+    const { globalScope } = this.context.globalState.get<{ globalScope: boolean }>('configuration', { globalScope: !aws })
 
-    this._updateTodos(aws, !aws || globalScope);
-    this._updateNotes(aws, !aws || globalScope);
-    this._updateSnippets(aws, !aws || globalScope);
+    this._updateTodos(aws, !aws || globalScope)
+    this._updateNotes(aws, !aws || globalScope)
+    this._updateSnippets(aws, !aws || globalScope)
 
-    this.refresh();
+    this.refresh()
   }
 
   toggleScope() {
-    const aws = this.stateMgr.projectWidget.getActiveWorkspace();
+    const aws = this.stateMgr.projectWidget.getActiveWorkspace()
     if (!aws && this.stateMgr.global.state.globalScope) {
-      return vscode.window.showErrorMessage(`Marquee: can't switch to workspace scope because no workspace is active!`);
+      return vscode.window.showErrorMessage(`Marquee: can't switch to workspace scope because no workspace is active!`)
     }
 
-    this.stateMgr.global.updateState('globalScope', !this.stateMgr.global.state.globalScope);
-    this.update();
+    this.stateMgr.global.updateState('globalScope', !this.stateMgr.global.state.globalScope)
+    this.update()
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire(undefined);
+    this._onDidChangeTreeData.fire(undefined)
   }
 
   getChildren(element?: Item): Thenable<Item[]> {
@@ -140,49 +140,49 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
           isExpanded(elem.id),
           this.context.extensionUri,
           elem.type
-        );
-        item.contextValue = `${elem.type}Headline`;
+        )
+        item.contextValue = `${elem.type}Headline`
         if (item.contextValue === "todosHeadline") {
-          this.focus = item;
+          this.focus = item
         }
-        return item;
-      });
+        return item
+      })
 
-      return Promise.resolve(elems);
+      return Promise.resolve(elems)
     }
 
     if (element.label.indexOf("Todo") !== -1) {
       return Promise.resolve(
         TodoItem.map(this.state.todos || [], this.context.extensionUri)
-      );
+      )
     }
 
     if (element.label.indexOf("Snippets") !== -1) {
       return Promise.resolve(
         SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
-      );
+      )
     }
 
     if (element.label.indexOf("Notes") !== -1) {
       return Promise.resolve(
         NoteItem.map(this.state.notes || [], this.context.extensionUri)
-      );
+      )
     }
 
-    return Promise.resolve([]);
+    return Promise.resolve([])
   }
 
   getTreeItem(element: Item): vscode.TreeItem {
-    return element;
+    return element
   }
 
   getParent() {
-    return null;
+    return null
   }
 }
 
 export class Item extends vscode.TreeItem {
-  public isTreeItem = true;
+  public isTreeItem = true
 
   constructor(
     public readonly label: string,
@@ -194,48 +194,48 @@ export class Item extends vscode.TreeItem {
     public readonly checked?: boolean,
     public readonly archived?: boolean
   ) {
-    super(label, collapsibleState);
+    super(label, collapsibleState)
 
-    this.contextValue = this.type;
+    this.contextValue = this.type
 
-    const snippetsIconLight = this.getIconPath("snippets-light.svg");
-    const snippetsIconDark = this.getIconPath("snippets-dark.svg");
+    const snippetsIconLight = this.getIconPath("snippets-light.svg")
+    const snippetsIconDark = this.getIconPath("snippets-dark.svg")
 
-    const checkedIconDark = this.getIconPath("checked-dark.svg");
-    const checkedIconLight = this.getIconPath("checked-light.svg");
+    const checkedIconDark = this.getIconPath("checked-dark.svg")
+    const checkedIconLight = this.getIconPath("checked-light.svg")
 
-    const uncheckedIconDark = this.getIconPath("checked-border-dark.svg");
-    const uncheckedIconLight = this.getIconPath("checked-border-light.svg");
+    const uncheckedIconDark = this.getIconPath("checked-border-dark.svg")
+    const uncheckedIconLight = this.getIconPath("checked-border-light.svg")
 
-    const addIconDark = this.getIconPath("add-dark.svg");
-    const addIconLight = this.getIconPath("add-light.svg");
+    const addIconDark = this.getIconPath("add-dark.svg")
+    const addIconLight = this.getIconPath("add-light.svg")
 
     switch (this.type) {
       case "AddNew":
         this.iconPath = {
           light: addIconDark,
           dark: addIconLight,
-        };
-        break;
+        }
+        break
       case "Snippet":
         this.iconPath = {
           light: snippetsIconDark,
           dark: snippetsIconLight,
-        };
-        break;
+        }
+        break
       case "Todo":
         const checkedLight = checked
           ? checkedIconLight
-          : uncheckedIconLight;
+          : uncheckedIconLight
         const checkedDark = checked
           ? checkedIconDark
-          : uncheckedIconDark;
+          : uncheckedIconDark
 
         this.iconPath = {
           light: checkedDark,
           dark: checkedLight,
-        };
-        break;
+        }
+        break
     }
   }
 
@@ -244,14 +244,14 @@ export class Item extends vscode.TreeItem {
    * further context operation, e.g. jump to file
    */
   linkItem(item: TodoItem | SnippetItem) {
-    const i = item.item;
+    const i = item.item
     if (i.origin) {
-      this.contextValue = `Linked${this.contextValue}`;
+      this.contextValue = `Linked${this.contextValue}`
     }
   }
 
   protected getIconPath(file: string) {
-    return vscode.Uri.joinPath(this.basePath, "assets", file);
+    return vscode.Uri.joinPath(this.basePath, "assets", file)
   }
 }
 
@@ -276,21 +276,21 @@ class TodoItem extends Item implements ContextMenu {
       command,
       checked,
       archived
-    );
-    this.linkItem(this);
+    )
+    this.linkItem(this)
   }
 
   public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
-      return 'openEditTodoDialog';
+      return 'openEditTodoDialog'
     }
-    throw new Error(`Unknown dialog "${cmd}"`);
+    throw new Error(`Unknown dialog "${cmd}"`)
   }
 
   public static map(todos: Todo[], basePath: vscode.Uri) {
     const ts = todos
       .filter((todo) => {
-        return todo.archived === false;
+        return todo.archived === false
       })
       .map((todo) => {
         // new Todo
@@ -307,13 +307,13 @@ class TodoItem extends Item implements ContextMenu {
           },
           todo.checked,
           todo.archived
-        );
+        )
 
         if (t.command) {
-          t.command.arguments = [t];
+          t.command.arguments = [t]
         }
-        return t;
-      });
+        return t
+      })
     if (ts.length < 1) {
       ts.push(
         // todo empty state
@@ -329,10 +329,10 @@ class TodoItem extends Item implements ContextMenu {
             title: "Add new todo",
           }
         )
-      );
+      )
     }
 
-    return ts;
+    return ts
   }
 }
 
@@ -347,27 +347,27 @@ class SnippetItem extends Item implements ContextMenu {
     public readonly empty: boolean = false,
     public readonly type: string = "Snippet"
   ) {
-    super(label, id, collapsibleState, basePath, type);
+    super(label, id, collapsibleState, basePath, type)
     const dark = empty
       ? this.getIconPath("add-light.svg")
-      : this.getIconPath("snippets-light.svg");
+      : this.getIconPath("snippets-light.svg")
     const light = empty
       ? this.getIconPath("add-dark.svg")
-      : this.getIconPath("snippets-dark.svg");
+      : this.getIconPath("snippets-dark.svg")
 
     this.iconPath = {
       light,
       dark,
-    };
+    }
 
-    this.linkItem(this);
+    this.linkItem(this)
   }
 
   public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
-      return 'openEditSnippetDialog';
+      return 'openEditSnippetDialog'
     }
-    throw new Error(`Unknown dialog "${cmd}"`);
+    throw new Error(`Unknown dialog "${cmd}"`)
   }
 
   public static map(snippets: Array<Snippet>, basePath: vscode.Uri): Array<SnippetItem> {
@@ -382,14 +382,14 @@ class SnippetItem extends Item implements ContextMenu {
           command: "marquee.snippet.insert",
           title: "Insert Snippet",
         }
-      );
+      )
 
       if (t.command) {
-        t.command.arguments = [snippet];
+        t.command.arguments = [snippet]
       }
 
-      return t;
-    });
+      return t
+    })
 
     if (snps.length < 1) {
       snps.push(
@@ -406,10 +406,10 @@ class SnippetItem extends Item implements ContextMenu {
           true,
           "AddNew"
         )
-      );
+      )
     }
 
-    return snps;
+    return snps
   }
 }
 
@@ -437,26 +437,26 @@ class NoteItem extends SnippetItem {
       command,
       empty,
       type
-    );
+    )
 
     const dark = empty
       ? this.getIconPath("add-light.svg")
-      : this.getIconPath("notes-light.svg");
+      : this.getIconPath("notes-light.svg")
     const light = empty
       ? this.getIconPath("add-dark.svg")
-      : this.getIconPath("notes-dark.svg");
+      : this.getIconPath("notes-dark.svg")
 
     this.iconPath = {
       light,
       dark,
-    };
+    }
   }
 
   public getDialogs(cmd: 'edit'): string {
     if (cmd === 'edit') {
-      return 'openEditNoteDialog';
+      return 'openEditNoteDialog'
     }
-    throw new Error(`Unknown dialog "${cmd}"`);
+    throw new Error(`Unknown dialog "${cmd}"`)
   }
 
   public static map(notes: Array<Note>, basePath: vscode.Uri): Array<NoteItem> {
@@ -471,14 +471,14 @@ class NoteItem extends SnippetItem {
           command: "marquee.edit",
           title: "Open note",
         }
-      );
+      )
 
       if (t.command) {
-        t.command.arguments = [t];
+        t.command.arguments = [t]
       }
 
-      return t;
-    });
+      return t
+    })
 
     if (ns.length < 1) {
       ns.push(
@@ -495,9 +495,9 @@ class NoteItem extends SnippetItem {
           true,
           "AddNew"
         )
-      );
+      )
     }
 
-    return ns;
+    return ns
   }
 }

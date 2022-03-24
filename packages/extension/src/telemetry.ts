@@ -1,9 +1,9 @@
-import TelemetryReporter from '@vscode/extension-telemetry';
+import TelemetryReporter from '@vscode/extension-telemetry'
 
-import { pkg, EXTENSION_ID } from '@vscode-marquee/utils/extension';
+import { pkg, EXTENSION_ID } from '@vscode-marquee/utils/extension'
 
 // injected by webpack
-declare const INSTRUMENTATION_KEY: string;
+declare const INSTRUMENTATION_KEY: string
 
 const reporter = INSTRUMENTATION_KEY
   ? new TelemetryReporter(
@@ -14,6 +14,6 @@ const reporter = INSTRUMENTATION_KEY
   : {
     // noop
     sendTelemetryEvent: () => {}
-  };
+  }
 
-export default reporter as Pick<TelemetryReporter, 'sendTelemetryEvent'>;
+export default reporter as Pick<TelemetryReporter, 'sendTelemetryEvent'>

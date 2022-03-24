@@ -1,4 +1,4 @@
-import type { ContextProperties } from "@vscode-marquee/utils";
+import type { ContextProperties } from "@vscode-marquee/utils"
 
 export interface Todo {
   body: string

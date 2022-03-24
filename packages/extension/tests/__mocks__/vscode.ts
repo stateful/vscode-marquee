@@ -10,7 +10,7 @@ const vscode: any = {
     File: '1'
   },
   Disposable: class {
-    public dispose = jest.fn();
+    public dispose = jest.fn()
   },
   ConfigurationTarget: { Global: 1 },
   CodeActionKind: { QuickFix: 1 },
@@ -30,20 +30,20 @@ const vscode: any = {
     Desktop: 1,
     Web: 2
   }
-};
+}
 vscode.TreeItemCollapsibleState = {
   Expanded: 'foo',
   Collapsed: 'bar'
-};
+}
 
 vscode.commands = {
   registerCommand: jest.fn().mockImplementation((cmd: string) => cmd),
   registerTextEditorCommand: jest.fn(),
   executeCommand: jest.fn()
-};
+}
 
-vscode.TreeItem = jest.fn();
-vscode.EventEmitter = jest.fn();
+vscode.TreeItem = jest.fn()
+vscode.EventEmitter = jest.fn()
 vscode.workspace = {
   name: 'foobarWorkspace',
   workspaceFile: { path: '/foo/bar' },
@@ -58,10 +58,10 @@ vscode.workspace = {
   }),
   registerTextDocumentContentProvider: jest.fn(),
   registerFileSystemProvider: jest.fn()
-};
+}
 vscode.extensions = {
   all: []
-};
+}
 vscode.window = {
   createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
   createTreeView: jest.fn().mockReturnValue({ reveal: jest.fn() }),
@@ -86,6 +86,6 @@ vscode.window = {
   showTextDocument: jest.fn().mockResolvedValue({
     revealRange: jest.fn()
   })
-};
+}
 
-export default vscode;
+export default vscode

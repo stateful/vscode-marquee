@@ -1,4 +1,4 @@
-import type { ContextProperties } from "@vscode-marquee/utils";
+import type { ContextProperties } from "@vscode-marquee/utils"
 
 export interface Since {
   name: string
@@ -28,7 +28,7 @@ export interface Trend {
   builtBy: Contributor[]
 }
 
-export type SinceConfiguration = 'Daily' | 'Weekly' | 'Monthly';
+export type SinceConfiguration = 'Daily' | 'Weekly' | 'Monthly'
 export interface Configuration {
   since?: SinceConfiguration
   language?: string

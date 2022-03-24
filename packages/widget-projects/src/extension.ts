@@ -1,20 +1,20 @@
-import vscode from 'vscode';
+import vscode from 'vscode'
 
-import ExtensionManager from '@vscode-marquee/utils/extension';
+import ExtensionManager from '@vscode-marquee/utils/extension'
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants';
-import type { State, Configuration } from './types';
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
+import type { State, Configuration } from './types'
 
-const STATE_KEY = 'widgets.projects';
+const STATE_KEY = 'widgets.projects'
 
 export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (
     context: vscode.ExtensionContext,
     channel: vscode.OutputChannel
   ) {
-    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE);
+    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
 
-    const aws = this.getActiveWorkspace();
+    const aws = this.getActiveWorkspace()
     /**
      * add new workspace to list
      */
@@ -40,7 +40,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
        */
       typeof vscode.env.remoteName === 'undefined'
     ) {
-      this.updateState('workspaces', [...this._state.workspaces, aws]);
+      this.updateState('workspaces', [...this._state.workspaces, aws])
     }
   }
 }
@@ -49,7 +49,7 @@ export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ProjectsExtensionManager(context, channel);
+  const stateManager = new ProjectsExtensionManager(context, channel)
 
   return {
     marquee: {
@@ -58,7 +58,7 @@ export function activate (
       defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
-  };
+  }
 }
 
-export * from './types';
+export * from './types'
