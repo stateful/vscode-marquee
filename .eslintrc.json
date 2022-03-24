@@ -17,6 +17,8 @@
     "@typescript-eslint/semi": [2, "never"],
     "@typescript-eslint/restrict-template-expressions": 2,
     "@typescript-eslint/space-before-function-paren": [2, "always"],
+    "@typescript-eslint/indent": [2, 2],
+    "@typescript-eslint/comma-dangle": [2, "never"],
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",

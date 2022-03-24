@@ -19,7 +19,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
      * add new workspace to list
      */
     if (
-      /**
+    /**
        * the current workspace can be detected
        */
       aws &&

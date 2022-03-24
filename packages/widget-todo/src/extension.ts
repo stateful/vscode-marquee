@@ -26,7 +26,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       vscode.commands.registerCommand('marquee.todo.add', this._addTodo.bind(this)),
       vscode.commands.registerCommand("marquee.todo.addEmpty", () => this.emit(
         'openDialog', { event: 'openAddTodoDialog', payload: true
-      })),
+        })),
       vscode.commands.registerTextEditorCommand('marquee.todo.addEditor', this._addEditor.bind(this)),
 
       /**
@@ -212,7 +212,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
    * @param item TreeView item that represents a todo in a tree view
    * @returns (un)archived todo
    */
-   private _moveTodo (item: { id: string, archived: boolean }) {
+  private _moveTodo (item: { id: string, archived: boolean }) {
     const awsp = this.getActiveWorkspace()
 
     if (!awsp) {
