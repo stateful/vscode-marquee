@@ -10,7 +10,7 @@ export default class Snippet implements vscode.FileStat {
   ctime: number
   mtime: number
 
-  constructor(
+  constructor (
     public workspaceId: string | null = null,
     public title = 'New Snippet',
     public body = '',

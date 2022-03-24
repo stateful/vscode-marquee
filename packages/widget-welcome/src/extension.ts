@@ -49,7 +49,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
    * Make sure we have set proper proxy settings
    * @returns AxiosRequestConfig
    */
-  private _getRequestOptions() {
+  private _getRequestOptions () {
     const pref: any = config.get('configuration')
     const options: AxiosRequestConfig = {}
 
@@ -124,7 +124,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
     return this
   }
 
-  dispose() {
+  dispose () {
     super.dispose()
     clearInterval(this._interval)
   }

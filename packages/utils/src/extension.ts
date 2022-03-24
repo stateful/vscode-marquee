@@ -92,7 +92,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         continue
       }
 
-      this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val}`)
+      this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`)
       this.broadcast({ [prop]: val } as any)
       break
     }
@@ -119,7 +119,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
 
     const config = vscode.workspace.getConfiguration('marquee')
-    this._channel.appendLine(`Update configuration "${prop.toString()}": ${val}`)
+    this._channel.appendLine(`Update configuration "${prop.toString()}": ${val as any as string}`)
     this._configuration[prop] = val
     await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET)
     this._isConfigUpdateListenerDisabled = false
@@ -133,7 +133,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       return
     }
 
-    this._channel.appendLine(`Update state "${prop.toString()}": ${val}`)
+    this._channel.appendLine(`Update state "${prop.toString()}": ${val as any as string}`)
     this._state[prop] = val
     await this._context.globalState.update(this._key, this._state)
     this.emit('stateUpdate', this._state)
@@ -169,7 +169,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    * get current opened workspace
    * @returns workspace object or null if no workspace is opened
    */
-  public getActiveWorkspace(): Workspace | null {
+  public getActiveWorkspace (): Workspace | null {
     const wsp = vscode.workspace
     let name = wsp.name || ""
     let path = ""
@@ -197,7 +197,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    * @param editor vscode.TextEditor
    * @returns selected text
    */
-  public getTextSelection(editor: vscode.TextEditor) {
+  public getTextSelection (editor: vscode.TextEditor) {
     const textRange = new vscode.Range(
       editor.selection.start.line,
       editor.selection.start.character,
@@ -286,7 +286,7 @@ export function activate (
   }
 }
 
-export function getExtProps() {
+export function getExtProps () {
   const extProps: Record<string, string> = {}
 
   const config = vscode.workspace.getConfiguration(TELEMETRY_CONFIG_ID)

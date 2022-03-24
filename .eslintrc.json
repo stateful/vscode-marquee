@@ -3,7 +3,8 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.json", "./test/tsconfig.json", "./website/tsconfig.json"]
   },
   "plugins": [
     "@typescript-eslint",
@@ -14,6 +15,8 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/semi": [2, "never"],
+    "@typescript-eslint/restrict-template-expressions": 2,
+    "@typescript-eslint/space-before-function-paren": [2, "always"],
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",

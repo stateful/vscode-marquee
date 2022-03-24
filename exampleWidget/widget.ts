@@ -21,7 +21,7 @@ template.innerHTML = /*html*/`
 `
 
 class StatefulMarqueeWidget extends HTMLElement {
-  static get is() {
+  static get is () {
     return 'stateful-marquee-widget'
   }
 
@@ -36,7 +36,7 @@ class StatefulMarqueeWidget extends HTMLElement {
     })
   }
 
-  connectedCallback() {
+  connectedCallback () {
     this.shadowRoot?.appendChild(template.content.cloneNode(true))
   }
 }

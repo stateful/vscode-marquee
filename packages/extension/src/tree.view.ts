@@ -47,7 +47,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
   }))
   public focus: Item | null = null
 
-  constructor(
+  constructor (
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager
   ) {
@@ -117,7 +117,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.refresh()
   }
 
-  toggleScope() {
+  toggleScope () {
     const aws = this.stateMgr.projectWidget.getActiveWorkspace()
     if (!aws && this.stateMgr.global.state.globalScope) {
       return vscode.window.showErrorMessage(`Marquee: can't switch to workspace scope because no workspace is active!`)
@@ -127,11 +127,11 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.update()
   }
 
-  refresh(): void {
+  refresh (): void {
     this._onDidChangeTreeData.fire(undefined)
   }
 
-  getChildren(element?: Item): Thenable<Item[]> {
+  getChildren (element?: Item): Thenable<Item[]> {
     if (!element) {
       const elems = this.toplevel.map((elem) => {
         const item = new Item(
@@ -172,11 +172,11 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     return Promise.resolve([])
   }
 
-  getTreeItem(element: Item): vscode.TreeItem {
+  getTreeItem (element: Item): vscode.TreeItem {
     return element
   }
 
-  getParent() {
+  getParent () {
     return null
   }
 }
@@ -184,7 +184,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
 export class Item extends vscode.TreeItem {
   public isTreeItem = true
 
-  constructor(
+  constructor (
     public readonly label: string,
     public readonly id: string,
     public readonly collapsibleState: vscode.TreeItemCollapsibleState,
@@ -243,20 +243,20 @@ export class Item extends vscode.TreeItem {
    * Define item as LinkedTodo or LinkedSnippet to enable
    * further context operation, e.g. jump to file
    */
-  linkItem(item: TodoItem | SnippetItem) {
+  linkItem (item: TodoItem | SnippetItem) {
     const i = item.item
-    if (i.origin) {
+    if (i.origin && this.contextValue) {
       this.contextValue = `Linked${this.contextValue}`
     }
   }
 
-  protected getIconPath(file: string) {
+  protected getIconPath (file: string) {
     return vscode.Uri.joinPath(this.basePath, "assets", file)
   }
 }
 
 class TodoItem extends Item implements ContextMenu {
-  constructor(
+  constructor (
     public readonly label: string,
     public readonly id: string,
     public readonly item: Todo,
@@ -280,14 +280,14 @@ class TodoItem extends Item implements ContextMenu {
     this.linkItem(this)
   }
 
-  public getDialogs(cmd: 'edit'): string {
+  public getDialogs (cmd: string): string {
     if (cmd === 'edit') {
       return 'openEditTodoDialog'
     }
-    throw new Error(`Unknown dialog "${cmd}"`)
+    throw new Error(cmd ? `Unknown dialog "${cmd}"` : 'Command not defined')
   }
 
-  public static map(todos: Todo[], basePath: vscode.Uri) {
+  public static map (todos: Todo[], basePath: vscode.Uri) {
     const ts = todos
       .filter((todo) => {
         return todo.archived === false
@@ -337,7 +337,7 @@ class TodoItem extends Item implements ContextMenu {
 }
 
 class SnippetItem extends Item implements ContextMenu {
-  constructor(
+  constructor (
     public readonly label: string,
     public readonly id: string,
     public readonly item: Snippet | Note,
@@ -363,14 +363,14 @@ class SnippetItem extends Item implements ContextMenu {
     this.linkItem(this)
   }
 
-  public getDialogs(cmd: 'edit'): string {
+  public getDialogs (cmd: string): string {
     if (cmd === 'edit') {
       return 'openEditSnippetDialog'
     }
     throw new Error(`Unknown dialog "${cmd}"`)
   }
 
-  public static map(snippets: Array<Snippet>, basePath: vscode.Uri): Array<SnippetItem> {
+  public static map (snippets: Array<Snippet>, basePath: vscode.Uri): Array<SnippetItem> {
     const snps = snippets.slice(0, 12).map((snippet: Snippet) => {
       const t = new SnippetItem(
         snippet.title,
@@ -418,7 +418,7 @@ class SnippetItem extends Item implements ContextMenu {
 // Since `Note` does not inherit from `Snippet`, `NoteItem.map`
 // cannot inherit `Snippet.map`
 class NoteItem extends SnippetItem {
-  constructor(
+  constructor (
     public readonly label: string,
     public readonly id: string,
     public readonly item: Note,
@@ -452,14 +452,14 @@ class NoteItem extends SnippetItem {
     }
   }
 
-  public getDialogs(cmd: 'edit'): string {
+  public getDialogs (cmd: string): string {
     if (cmd === 'edit') {
       return 'openEditNoteDialog'
     }
     throw new Error(`Unknown dialog "${cmd}"`)
   }
 
-  public static map(notes: Array<Note>, basePath: vscode.Uri): Array<NoteItem> {
+  public static map (notes: Array<Note>, basePath: vscode.Uri): Array<NoteItem> {
     const ns = notes.slice(0, 12).map((note: Note) => {
       const t = new NoteItem(
         note.title,

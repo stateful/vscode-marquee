@@ -46,7 +46,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     )
   }
 
-  private _refreshActiveTextEditor(diagnostics: vscode.DiagnosticCollection) {
+  private _refreshActiveTextEditor (diagnostics: vscode.DiagnosticCollection) {
     if (vscode.window.activeTextEditor) {
       this._refreshDiagnostics(
         vscode.window.activeTextEditor.document,
@@ -55,7 +55,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
   }
 
-  private _refreshDiagnostics(
+  private _refreshDiagnostics (
     doc: vscode.TextDocument,
     snippetDiagnostics: vscode.DiagnosticCollection
   ): void {
@@ -88,7 +88,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     snippetDiagnostics.set(doc.uri, diagnostics)
   }
 
-  private _createDiagnostic(
+  private _createDiagnostic (
     doc: vscode.TextDocument,
     lineOfText: vscode.TextLine,
     lineIndex: number
@@ -120,11 +120,11 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
   private _addTodo (diagnostic: vscode.Diagnostic) {
     let body = vscode.window.activeTextEditor?.document.getText(diagnostic.range) || ''
 
-    if (body.length < 1) {
+    if (body.length < 1 || !vscode.window.activeTextEditor) {
       return
     }
 
-    const path = `${vscode.window.activeTextEditor?.document.uri.path}:${diagnostic.range.start.line}`
+    const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
     body = body.replace(/TODO[:]? /g, "").trim()
 
     const todo: Todo = {
@@ -236,7 +236,7 @@ class TodoInfo implements vscode.CodeActionProvider {
     vscode.CodeActionKind.QuickFix,
   ]
 
-  provideCodeActions(
+  provideCodeActions (
     document: vscode.TextDocument,
     range: vscode.Range | vscode.Selection,
     context: vscode.CodeActionContext,
@@ -248,7 +248,7 @@ class TodoInfo implements vscode.CodeActionProvider {
       })
   }
 
-  private createCommandCodeAction(
+  private createCommandCodeAction (
     diagnostic: vscode.Diagnostic
   ): vscode.CodeAction {
     const action = new vscode.CodeAction(

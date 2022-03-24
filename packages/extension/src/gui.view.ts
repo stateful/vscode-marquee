@@ -27,7 +27,7 @@ export class MarqueeGui extends EventEmitter {
   private _template: Thenable<Uint8Array>
   private _templateDecoded?: string
 
-  constructor(
+  constructor (
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager
   ) {
@@ -54,11 +54,11 @@ export class MarqueeGui extends EventEmitter {
     return this._templateDecoded
   }
 
-  public isActive() {
+  public isActive () {
     return this.guiActive
   }
 
-  public close() {
+  public close () {
     this.panel?.dispose()
   }
 
@@ -72,7 +72,7 @@ export class MarqueeGui extends EventEmitter {
     this.client.emit(event, payload)
   }
 
-  public async open() {
+  public async open () {
     if (this.guiActive && this.panel) {
       this.panel.reveal()
       this.emit('webview.open')
@@ -166,7 +166,7 @@ export class MarqueeGui extends EventEmitter {
 
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath))
-        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}"></script>`)
+        widgetScripts.push(`<script type="module" src="${src.toString()}" nonce="${nonce}"></script>`)
       }
     }
 

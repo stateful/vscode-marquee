@@ -26,6 +26,7 @@
   },
   "include": [
     "packages/",
+    "exampleWidget",
     "./jest-setup.ts"
   ]
 }

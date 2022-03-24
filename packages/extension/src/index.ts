@@ -5,7 +5,7 @@ import telemetry from './telemetry'
 import { MarqueeExtension } from "./extension"
 import { getExtProps } from '@vscode-marquee/utils/extension'
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate (context: vscode.ExtensionContext) {
   telemetry.sendTelemetryEvent('extensionActivate', getExtProps())
   new MarqueeExtension(context)
 
@@ -29,6 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {
+export function deactivate () {
   telemetry.sendTelemetryEvent('extensionDeactivate')
 }

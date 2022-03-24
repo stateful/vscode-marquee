@@ -22,7 +22,7 @@ export class MarqueeExtension {
   private readonly view: vscode.TreeView<any>
   private readonly treeView: TreeView
 
-  constructor(private readonly context: vscode.ExtensionContext) {
+  constructor (private readonly context: vscode.ExtensionContext) {
     this.gui = new MarqueeGui(this.context, this._stateMgr)
     this.treeView = new TreeView(this.context, this._stateMgr)
     this.setupCommands()
@@ -54,7 +54,7 @@ export class MarqueeExtension {
         this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
       )).then(
         () => this.openMarqueeOnStartup(config.get('configuration')),
-        (err) => this._channel.appendLine(`[Error]: ${err.message}`)
+        (err) => this._channel.appendLine(`[Error]: ${(err as Error).message}`)
       )
     }
   }
@@ -97,7 +97,7 @@ export class MarqueeExtension {
     this.gui.broadcast(event, payload)
   }
 
-  private async wipe() {
+  private async wipe () {
     telemetry.sendTelemetryEvent('clearPersistence')
     this.gui.broadcast('resetMarquee', true)
     this.treeView.clearTree()
@@ -112,7 +112,7 @@ export class MarqueeExtension {
     }
   }
 
-  private setupCommands(): vscode.Disposable[] {
+  private setupCommands (): vscode.Disposable[] {
     const disposables: vscode.Disposable[] = [
       vscode.commands.registerCommand("marquee.link", linkMarquee),
       vscode.commands.registerCommand("marquee.open", this._switchTo.bind(this)),
@@ -146,7 +146,7 @@ export class MarqueeExtension {
     this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id)
   }
 
-  public openView() {
+  public openView () {
     if (this.treeView.focus) {
       this.view.reveal(this.treeView.focus, {
         focus: false,
@@ -155,18 +155,18 @@ export class MarqueeExtension {
     }
   }
 
-  public openGui() {
+  public openGui () {
     const ret = new Promise<void>(
       (resolve) => this.gui.once('webview.open', resolve))
     this.gui.open()
     return ret
   }
 
-  public closeGui() {
+  public closeGui () {
     this.gui.close()
   }
 
-  public guiActive() {
+  public guiActive () {
     return this.gui.isActive()
   }
 }

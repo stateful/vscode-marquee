@@ -25,7 +25,7 @@ function init (userID?: string) {
   }
 }
 
-function setUserID(userID: string) {
+function setUserID (userID: string) {
   if (!userID) {
     return
   }
