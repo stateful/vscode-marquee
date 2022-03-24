@@ -295,8 +295,17 @@ export const config: Options.Testrunner = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: async function () {
+      await browser.switchToFrame(null)
+      await browser.switchToFrame(null)
+
+      const workbench = await browser.getWorkbench()
+      const bottomBarPanel = workbench.getBottomBar()
+      await bottomBarPanel.toggle(true)
+      const outputView = await bottomBarPanel.openOutputView()
+      await outputView.selectChannel('Marquee')
+      console.log(await outputView.getText())
+    }
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {Object} config wdio configuration object
