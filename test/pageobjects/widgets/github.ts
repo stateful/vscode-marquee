@@ -32,11 +32,14 @@ export class GithubWidget extends BasePage<typeof githubWidgetLocators, typeof l
   }
 
   public async clearFilter () {
-    const svg = await this.parent
-      .$(this.locators.filterInput)
-      .parentElement()
-      .$('svg')
-    await svg.click()
+    const filterInput = await this.parent.$(this.locators.filterInput)
+
+    if (!(await filterInput.isExisting())) {
+      await this.filterBtn$.click()
+    }
+
+    await filterInput.waitForExist()
+    await filterInput.parentElement().$('svg').click()
   }
 
   public async getProjects () {
