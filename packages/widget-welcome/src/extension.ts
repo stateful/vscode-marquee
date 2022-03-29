@@ -13,7 +13,6 @@ const FETCH_INTERVAL = process.env.NODE_ENV === 'development'
   ? 1000 * 5 // 5s
   : 5 * 1000 * 60 // 5min
 const config = vscode.workspace.getConfiguration('marquee')
-let i = 0
 
 class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout
@@ -86,8 +85,6 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
       return this.broadcast({ error: result })
     }
 
-    this._channel.appendLine(
-      `---> [${++i}] ${JSON.stringify(result)} - but ${this._prevtricks?.length.toString() || 'undefined'}`)
     if (this._prevtricks && this._prevtricks.length < result.length) {
       const newTrick = result.slice(this._prevtricks.length)
         .filter((trick) => trick.notify && trick.active)
