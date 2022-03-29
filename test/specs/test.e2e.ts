@@ -63,6 +63,10 @@ describe('Marquee', () => {
     describe('news widget', () => {
       const newsWidget = new NewsWidget(locatorMap)
 
+      before(async () => {
+        await newsWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+      })
+
       it('should display articles', async () => {
         await expect(newsWidget.articles$$)
           .toBeElementsArrayOfSize({ gte: 10 })
@@ -85,6 +89,10 @@ describe('Marquee', () => {
 
     describe('github widget', () => {
       const githubWidget = new GithubWidget(locatorMap)
+
+      before(async () => {
+        await githubWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+      })
 
       it('should display trends', async () => {
         await expect(githubWidget.articles$$)
@@ -117,8 +125,11 @@ describe('Marquee', () => {
     describe('todo widget', () => {
       const todoWidget = new TodoWidget(locatorMap)
 
-      it('should have no todos at the beginning', async () => {
+      before(async () => {
         await todoWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+      })
+
+      it('should have no todos at the beginning', async () => {
         await todoWidget.createTodoBtn$.waitForExist()
       })
 
