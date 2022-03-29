@@ -24,6 +24,7 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
 
   public async selectByValue (value: string) {
     await this.comboBox$.click()
+    await this.list$.waitForExist()
     await this.list$.$(`li=${value}`).click()
   }
 
