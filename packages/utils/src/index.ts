@@ -1,18 +1,18 @@
 /* istanbul ignore file */
 
 import { useState, useEffect } from 'react'
-import Channel from "tangle/webviews"
-import { createTheme } from "@material-ui/core/styles"
+import Channel from 'tangle/webviews'
+import { createTheme } from '@material-ui/core/styles'
 
 import type { Client } from 'tangle'
 
-import calculateTheme from "./calculateTheme"
+import calculateTheme from './calculateTheme'
 
-import BetterComplete from "./components/BetterComplete"
+import BetterComplete from './components/BetterComplete'
 import NetworkError from './components/NetworkError'
 import DoubleClickHelper from './components/DoubleClickHelper'
 
-import GlobalContext, { GlobalProvider } from "./contexts/Global"
+import GlobalContext, { GlobalProvider } from './contexts/Global'
 import type { MarqueeWindow, ContextProperties } from './types'
 
 const defaultChannel = 'vscode.marquee'
@@ -36,7 +36,7 @@ const jumpTo = (item: any) => {
     west: {
       execCommands: [
         {
-          command: "marquee.link",
+          command: 'marquee.link',
           args: [{ item }],
         },
       ],
@@ -79,7 +79,9 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      * - add it to the webview state so if a webview is being revived it
      *   receives its former configurations
      */
-    const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`
+    const firstLetter = (prop as string).slice(0, 1).toUpperCase()
+    const restLetters = (prop as string).slice(1)
+    const setProp = `set${firstLetter}${restLetters}` as `set${Capitalize<keyof T & string>}`
     contextValues[setProp] = ((val: any) => {
       setPropState(val)
       tangle.broadcast({ [prop]: val } as T & Events)

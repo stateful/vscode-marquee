@@ -1,5 +1,5 @@
 import { HN_API } from './constants'
-import type { WidgetState, HackerNews } from "./types"
+import type { WidgetState, HackerNews } from './types'
 
 export async function fetchNews (data: WidgetState) {
   const resp = await fetch(

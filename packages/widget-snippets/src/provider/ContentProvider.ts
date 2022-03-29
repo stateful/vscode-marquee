@@ -5,15 +5,15 @@ export default class Provider implements vscode.TextDocumentContentProvider {
 
   private _onDidChange = new vscode.EventEmitter<vscode.Uri>()
 
-  provideTextDocumentContent(): string | Thenable<string> {
+  provideTextDocumentContent (): string | Thenable<string> {
     return ''
   }
 
-  dispose() {
+  dispose () {
     this._onDidChange.dispose()
   }
 
-  get onDidChange() {
-		return this._onDidChange.event
-	}
+  get onDidChange () {
+    return this._onDidChange.event
+  }
 }

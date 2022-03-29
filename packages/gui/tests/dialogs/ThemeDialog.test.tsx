@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 
-import ThemeDialog from "../../src/dialogs/ThemeDialog"
+import ThemeDialog from '../../src/dialogs/ThemeDialog'
 // @ts-expect-error
 import { GlobalProvider, setBackground } from '@vscode-marquee/utils'
 

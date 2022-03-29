@@ -6,7 +6,7 @@ module.exports = withPWA({
     dest: 'public',
     runtimeCaching,
   },
-  async redirects() {
+  async redirects () {
     return [{
       source: '/docs',
       destination: '/docs/start',

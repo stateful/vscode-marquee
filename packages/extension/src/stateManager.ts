@@ -1,4 +1,4 @@
-import vscode from "vscode"
+import vscode from 'vscode'
 
 import ExtensionManager, {
   pkg as packageJson,
@@ -51,7 +51,7 @@ export default class StateManager implements vscode.Disposable {
       exports: activate(this._context, this._channel),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
-    }) as Pick<vscode.Extension<ExtensionExport>, "id" | "exports" | "isActive" | "packageJSON">
+    }) as Pick<vscode.Extension<ExtensionExport>, 'id' | 'exports' | 'isActive' | 'packageJSON'>
   )
 
   /**
@@ -65,8 +65,8 @@ export default class StateManager implements vscode.Disposable {
     private readonly _channel: vscode.OutputChannel
   ) {
     this._subscriptions.push(
-      vscode.commands.registerCommand("marquee.jsonImport", this._import.bind(this)),
-      vscode.commands.registerCommand("marquee.jsonExport", this._export.bind(this))
+      vscode.commands.registerCommand('marquee.jsonImport', this._import.bind(this)),
+      vscode.commands.registerCommand('marquee.jsonExport', this._export.bind(this))
     )
 
     /**
@@ -150,8 +150,8 @@ export default class StateManager implements vscode.Disposable {
       vscode.window.showInformationMessage(`Successfully imported Marquee state from ${filePath.path}`)
       this.global.emit('gui.close')
       return this.global.emit('gui.open', true)
-    } catch (err: any) {
-      vscode.window.showErrorMessage(`Error importing file: ${err.message}`)
+    } catch (err) {
+      vscode.window.showErrorMessage(`Error importing file: ${(err as Error).message}`)
     } finally {
       /**
        * re-enable config change listener again
@@ -197,9 +197,9 @@ export default class StateManager implements vscode.Disposable {
       vscode.window.showInformationMessage(
         `Successfully exported Marquee state to ${exportPath.fsPath}`
       )
-    } catch (err: any) {
+    } catch (err) {
       vscode.window.showErrorMessage(
-        `Error writing export file: ${err.message}`
+        `Error writing export file: ${(err as Error).message}`
       )
     }
   }
@@ -270,7 +270,7 @@ export default class StateManager implements vscode.Disposable {
   /**
    * clear all subscriptions
    */
-  dispose() {
+  dispose () {
     return Promise.all(this._subscriptions.map((s) => s.dispose()))
   }
 }

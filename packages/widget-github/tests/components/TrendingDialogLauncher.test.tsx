@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 
-import { TrendProvider } from "../../src/Context"
+import { TrendProvider } from '../../src/Context'
 import TrendingDialogLauncher from '../../src/components/TrendingDialog'
 
 const fetchOrig = window.fetch

@@ -1,5 +1,5 @@
 import Channel from 'tangle/webviews'
-import { faBrain } from "@fortawesome/free-solid-svg-icons/faBrain"
+import { faBrain } from '@fortawesome/free-solid-svg-icons/faBrain'
 
 import type { MarqueeWindow } from '../packages/utils'
 declare const window: MarqueeWindow
@@ -21,7 +21,7 @@ template.innerHTML = /*html*/`
 `
 
 class StatefulMarqueeWidget extends HTMLElement {
-  static get is() {
+  static get is () {
     return 'stateful-marquee-widget'
   }
 
@@ -36,7 +36,7 @@ class StatefulMarqueeWidget extends HTMLElement {
     })
   }
 
-  connectedCallback() {
+  connectedCallback () {
     this.shadowRoot?.appendChild(template.content.cloneNode(true))
   }
 }

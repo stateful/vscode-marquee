@@ -6,7 +6,7 @@ import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State, Todo } from './types'
 
 const STATE_KEY = 'widgets.todo'
-export const CODE_TODO = "marquee_todo"
+export const CODE_TODO = 'marquee_todo'
 export const TODO = /(TODO|ToDo|Todo|todo)[:]? /g
 
 export class TodoExtensionManager extends ExtensionManager<State, Configuration> {
@@ -24,15 +24,15 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       vscode.commands.registerCommand('marquee.todo.archive', this._archiveTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.move', this._moveTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.add', this._addTodo.bind(this)),
-      vscode.commands.registerCommand("marquee.todo.addEmpty", () => this.emit(
+      vscode.commands.registerCommand('marquee.todo.addEmpty', () => this.emit(
         'openDialog', { event: 'openAddTodoDialog', payload: true
-      })),
+        })),
       vscode.commands.registerTextEditorCommand('marquee.todo.addEditor', this._addEditor.bind(this)),
 
       /**
        * diagnostics
        */
-      vscode.languages.registerCodeActionsProvider("*", new TodoInfo(), {
+      vscode.languages.registerCodeActionsProvider('*', new TodoInfo(), {
         providedCodeActionKinds: TodoInfo.providedCodeActionKinds,
       }),
       vscode.window.onDidChangeActiveTextEditor(
@@ -41,12 +41,12 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
         (e) => this._refreshDiagnostics(e.document, diagnostics)),
       vscode.workspace.onDidCloseTextDocument(
         (doc) => diagnostics.delete(doc.uri)),
-      vscode.commands.registerCommand("marquee.refreshCodeActions",
+      vscode.commands.registerCommand('marquee.refreshCodeActions',
         () => this._refreshActiveTextEditor(diagnostics))
     )
   }
 
-  private _refreshActiveTextEditor(diagnostics: vscode.DiagnosticCollection) {
+  private _refreshActiveTextEditor (diagnostics: vscode.DiagnosticCollection) {
     if (vscode.window.activeTextEditor) {
       this._refreshDiagnostics(
         vscode.window.activeTextEditor.document,
@@ -55,7 +55,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
   }
 
-  private _refreshDiagnostics(
+  private _refreshDiagnostics (
     doc: vscode.TextDocument,
     snippetDiagnostics: vscode.DiagnosticCollection
   ): void {
@@ -70,7 +70,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
 
       const found = this.state.todos.find((todo: Todo) => {
         if (todo.path && vscode.Uri.parse(todo.path).fsPath.indexOf(doc.uri.fsPath) > -1) {
-          const splt = todo.path.split(":")
+          const splt = todo.path.split(':')
           const li = parseInt(splt[splt.length - 1], 10)
           return lineIndex === li
         }
@@ -88,13 +88,13 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     snippetDiagnostics.set(doc.uri, diagnostics)
   }
 
-  private _createDiagnostic(
+  private _createDiagnostic (
     doc: vscode.TextDocument,
     lineOfText: vscode.TextLine,
     lineIndex: number
   ): vscode.Diagnostic {
     const match = lineOfText.text.match(TODO)
-    const sub = match ? match[0] : "TODO "
+    const sub = match ? match[0] : 'TODO '
     const index = lineOfText.text.indexOf(sub)
     const range = new vscode.Range(
       lineIndex,
@@ -105,7 +105,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
 
     const diagnostic = new vscode.Diagnostic(
       range,
-      "Add todo to Marquee?",
+      'Add todo to Marquee?',
       vscode.DiagnosticSeverity.Information
     )
     diagnostic.code = CODE_TODO
@@ -120,12 +120,12 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
   private _addTodo (diagnostic: vscode.Diagnostic) {
     let body = vscode.window.activeTextEditor?.document.getText(diagnostic.range) || ''
 
-    if (body.length < 1) {
+    if (body.length < 1 || !vscode.window.activeTextEditor) {
       return
     }
 
-    const path = `${vscode.window.activeTextEditor?.document.uri.path}:${diagnostic.range.start.line}`
-    body = body.replace(/TODO[:]? /g, "").trim()
+    const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
+    body = body.replace(/TODO[:]? /g, '').trim()
 
     const todo: Todo = {
       archived: false,
@@ -141,7 +141,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)
     this.emit('gui.open')
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
   }
 
   /**
@@ -169,7 +169,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     this.broadcast({ todos: newTodos })
     vscode.window.showInformationMessage(
       `Added "${text}" to your todos in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 
@@ -212,7 +212,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
    * @param item TreeView item that represents a todo in a tree view
    * @returns (un)archived todo
    */
-   private _moveTodo (item: { id: string, archived: boolean }) {
+  private _moveTodo (item: { id: string, archived: boolean }) {
     const awsp = this.getActiveWorkspace()
 
     if (!awsp) {
@@ -236,7 +236,7 @@ class TodoInfo implements vscode.CodeActionProvider {
     vscode.CodeActionKind.QuickFix,
   ]
 
-  provideCodeActions(
+  provideCodeActions (
     document: vscode.TextDocument,
     range: vscode.Range | vscode.Selection,
     context: vscode.CodeActionContext,
@@ -248,16 +248,16 @@ class TodoInfo implements vscode.CodeActionProvider {
       })
   }
 
-  private createCommandCodeAction(
+  private createCommandCodeAction (
     diagnostic: vscode.Diagnostic
   ): vscode.CodeAction {
     const action = new vscode.CodeAction(
-      "Marquee: Add Todo",
+      'Marquee: Add Todo',
       vscode.CodeActionKind.QuickFix
     )
     action.command = {
-      command: "marquee.todo.add",
-      title: "Marquee: Add Todo",
+      command: 'marquee.todo.add',
+      title: 'Marquee: Add Todo',
       arguments: [diagnostic],
     }
     action.diagnostics = [diagnostic]

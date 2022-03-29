@@ -20,11 +20,11 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
     super()
   }
 
-  watch(): vscode.Disposable {
+  watch (): vscode.Disposable {
     return new vscode.Disposable(() => { })
   }
 
-  stat(uri: vscode.Uri): Snippet {
+  stat (uri: vscode.Uri): Snippet {
     if (uri.path.slice(1) === 'New Snippet') {
       return new Snippet(this._workspaceId)
     }
@@ -51,17 +51,17 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
     return Snippet.fromObject(snippet)
   }
 
-  readDirectory(): [string, vscode.FileType][] {
+  readDirectory (): [string, vscode.FileType][] {
     const state = this._context.globalState.get<State>(STATE_KEY)
     return state?.snippets.map((s) => [s.title, vscode.FileType.File]) || []
   }
 
-  readFile(uri: vscode.Uri): Uint8Array {
+  readFile (uri: vscode.Uri): Uint8Array {
     const snippet = this.stat(uri)
     return snippet.data
   }
 
-  async writeFile(uri: vscode.Uri, content: Uint8Array) {
+  async writeFile (uri: vscode.Uri, content: Uint8Array) {
     if (uri.path.slice(1) === 'New Snippet') {
       const snippetName = await vscode.window.showInputBox({
         title: 'Snippet Name',
@@ -78,7 +78,9 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
        * emit with delay so that VSCode can store the file and no prompt appears
        */
       setTimeout(() => this.emit('saveNewSnippet', snippet), 100)
-      this._channel.appendLine(`New snippet add "${snippetName}"` + this._workspaceId ? `, to workspace with id ${this._workspaceId}` : '')
+      this._channel.appendLine(
+        `New snippet add "${snippetName}"` + (this._workspaceId ? `, to workspace with id ${this._workspaceId}` : '')
+      )
       return
     }
 
@@ -89,7 +91,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
   }
 
   // Not needed/implemented
-  rename(): void {}
-  delete(): void {}
-  createDirectory(): void {}
+  rename (): void {}
+  delete (): void {}
+  createDirectory (): void {}
 }

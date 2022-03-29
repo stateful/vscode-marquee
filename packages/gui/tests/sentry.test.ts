@@ -1,6 +1,6 @@
-import * as Sentry from "@sentry/react"
-import { Integrations } from "@sentry/tracing"
-import { CaptureConsole } from "@sentry/integrations"
+import * as Sentry from '@sentry/react'
+import { Integrations } from '@sentry/tracing'
+import { CaptureConsole } from '@sentry/integrations'
 
 import SentryModule from '../src/sentry'
 

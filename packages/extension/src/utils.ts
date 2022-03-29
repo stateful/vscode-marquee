@@ -73,7 +73,7 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
 
   _onModeChange (event: vscode.ConfigurationChangeEvent) {
     if (
-      !event.affectsConfiguration(`marquee.configuration.modes`) ||
+      !event.affectsConfiguration('marquee.configuration.modes') ||
       (Date.now() - this._lastModesChange) < MODES_UPDATE_TIMEOUT
     ) {
       return
@@ -81,7 +81,7 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
 
     const config = vscode.workspace.getConfiguration('marquee')
     const val = config.get('configuration.modes') as Configuration[keyof Configuration]
-    this._channel.appendLine(`Update configuration.modes via configuration listener`)
+    this._channel.appendLine('Update configuration.modes via configuration listener')
     this.broadcast({ modes: JSON.parse(JSON.stringify(val)) })
   }
 }
@@ -109,12 +109,12 @@ export const linkMarquee = async (item: any) => {
     return
   }
 
-  let splt = file.split(":")
-  let ln = "1"
+  let splt = file.split(':')
+  let ln = '1'
   if (splt.length > 2) {
     ln = splt[splt.length - 1]
     splt = splt.splice(0, splt.length - 1)
-    file = splt.join(":")
+    file = splt.join(':')
   } else if (splt.length > 1) {
     [file, ln] = splt
   }

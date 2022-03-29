@@ -1,16 +1,16 @@
 import fs from 'fs/promises'
-import path from "path"
-import vscode from "vscode"
+import path from 'path'
+import vscode from 'vscode'
 import Channel from 'tangle/webviews'
 import { v4 as uuidv4 } from 'uuid'
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 import { render } from 'eta'
 import { getExtProps } from '@vscode-marquee/utils/extension'
 import type { Client } from 'tangle'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 
 import telemetry from './telemetry'
-import StateManager from "./stateManager"
+import StateManager from './stateManager'
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration, ExtensionExport } from './types'
 
@@ -27,7 +27,7 @@ export class MarqueeGui extends EventEmitter {
   private _template: Thenable<Uint8Array>
   private _templateDecoded?: string
 
-  constructor(
+  constructor (
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager
   ) {
@@ -54,11 +54,11 @@ export class MarqueeGui extends EventEmitter {
     return this._templateDecoded
   }
 
-  public isActive() {
+  public isActive () {
     return this.guiActive
   }
 
-  public close() {
+  public close () {
     this.panel?.dispose()
   }
 
@@ -72,7 +72,7 @@ export class MarqueeGui extends EventEmitter {
     this.client.emit(event, payload)
   }
 
-  public async open() {
+  public async open () {
     if (this.guiActive && this.panel) {
       this.panel.reveal()
       this.emit('webview.open')
@@ -80,8 +80,8 @@ export class MarqueeGui extends EventEmitter {
     }
 
     this.panel = vscode.window.createWebviewPanel(
-      "marqueeGui", // Identifies the type of the webview. Used internally
-      "Marquee", // Title of the this.panel displayed to the user
+      'marqueeGui', // Identifies the type of the webview. Used internally
+      'Marquee', // Title of the this.panel displayed to the user
       vscode.ViewColumn.One, // Editor column to show the new webview panel in.
       {
         enableScripts: true,
@@ -131,7 +131,7 @@ export class MarqueeGui extends EventEmitter {
        * only setup a communication channel to the extension backend, if
        */
       if (
-        /**
+      /**
          * the extension is active so we can access its exported APIs
          */
         extension.isActive &&
@@ -166,13 +166,18 @@ export class MarqueeGui extends EventEmitter {
 
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath))
-        widgetScripts.push(`<script type="module" src="${src}" nonce="${nonce}"></script>`)
+        widgetScripts.push(`<script type="module" src="${src.toString()}" nonce="${nonce}"></script>`)
       }
     }
 
     const aws = this.stateMgr.projectWidget.getActiveWorkspace()
     const cs = pref?.colorScheme
-    const colorScheme = typeof cs?.r === 'number' && typeof cs?.g === 'number' && typeof cs?.b === 'number' && typeof cs?.a === 'number'
+    const colorScheme = (
+      typeof cs?.r === 'number' &&
+      typeof cs?.g === 'number' &&
+      typeof cs?.b === 'number' &&
+      typeof cs?.a === 'number'
+    )
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
       : 'transparent'
 
@@ -184,7 +189,7 @@ export class MarqueeGui extends EventEmitter {
           state: curr.exports.marquee?.disposable?.state || {},
         },
       }),
-      {} as Record<string, Pick<ExtensionExport, "configuration" | "state">>
+      {} as Record<string, Pick<ExtensionExport, 'configuration' | 'state'>>
     )
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
@@ -216,7 +221,7 @@ export class MarqueeGui extends EventEmitter {
     })
 
     if (!content) {
-      return vscode.window.showErrorMessage(`Couldn't load Marquee`)
+      return vscode.window.showErrorMessage('Couldn\'t load Marquee')
     }
 
     const ch = new Channel<MarqueeEvents>('vscode.marquee')
@@ -255,7 +260,7 @@ export class MarqueeGui extends EventEmitter {
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
     telemetry.sendTelemetryEvent('executeCommand', { command })
-    if (args && args.length > 0 && command === "vscode.openFolder") {
+    if (args && args.length > 0 && command === 'vscode.openFolder') {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options)
     }
 
@@ -270,10 +275,10 @@ export class MarqueeGui extends EventEmitter {
     switch (type) {
       case 'error':
         vscode.window.showErrorMessage(message)
-      break
+        break
       case 'warning':
         vscode.window.showWarningMessage(message)
-      break
+        break
       default:
         vscode.window.showInformationMessage(message)
     }
