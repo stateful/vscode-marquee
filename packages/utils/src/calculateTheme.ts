@@ -1,5 +1,5 @@
-import { createTheme, DeprecatedThemeOptions, adaptV4Theme } from "@mui/material/styles"
-import React from "react"
+import { createTheme, DeprecatedThemeOptions, adaptV4Theme } from '@mui/material/styles'
+import React from 'react'
 
 export default () => {
   const fontSize = parseInt(
