@@ -24,8 +24,12 @@ describe('Marquee', () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
     })
 
-    describe('mailbox widget', () => {
-      it.only('should display message', async () => {
+    /**
+     * it seems that tricks don't get properly propagated into the UI
+     * when run in CI
+     */
+    describe.skip('mailbox widget', () => {
+      it('should display message', async () => {
         await expect($('div[aria-label="welcome-widget"]'))
           .toHaveTextContaining('you are using a pre-release version of Marquee.')
       })
