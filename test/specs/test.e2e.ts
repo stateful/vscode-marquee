@@ -118,7 +118,8 @@ describe('Marquee', () => {
       const todoWidget = new TodoWidget(locatorMap)
 
       it('should have no todos at the beginning', async () => {
-        await todoWidget.createTodoBtn$.waitForExist
+        await todoWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+        await todoWidget.createTodoBtn$.waitForExist()
       })
 
       it('can set a workspace todo', async () => {
