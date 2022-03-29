@@ -61,7 +61,7 @@ let Github = () => {
   }, [trends, trendFilter]);
 
   return (
-  <>
+    <>
       <Grid item xs={1} style={{ maxWidth: "100%" }}>
         <div className={classes.widgetTitle}>
           <Grid
@@ -161,7 +161,12 @@ let Github = () => {
                       alignItems="center"
                     >
                       <Grid item>
-                        <Link component="a" href={`${entry.url}`} target="_blank" underline="hover">
+                        <Link
+                          component="a"
+                          href={entry.url}
+                          target="_blank"
+                          underline="hover"
+                        >
                           <Typography variant="body2">
                             {entry.author}/{entry.name}
                           </Typography>
@@ -198,7 +203,7 @@ let Github = () => {
                       <Grid item>
                         <Grid container spacing={1}>
                           {entry.language && (
-                            <Grid item>
+                            <Grid aria-label="language" item>
                               <GChip
                                 label={entry.language}
                                 icon={
@@ -211,13 +216,13 @@ let Github = () => {
                               />
                             </Grid>
                           )}
-                          <Grid item>
+                          <Grid aria-label="forks" item>
                             <GChip
                               label={entry.forks.toLocaleString()}
                               icon={<FontAwesomeIcon icon={faCodeBranch} />}
                             />
                           </Grid>
-                          <Grid item>
+                          <Grid aria-label="stars" item>
                             <GChip
                               label={entry.stars.toLocaleString()}
                               icon={<StarIcon />}
