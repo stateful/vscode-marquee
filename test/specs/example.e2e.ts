@@ -25,7 +25,7 @@ describe('Marquee', () => {
     })
 
     describe('mailbox widget', () => {
-      it('should display message', async () => {
+      it.only('should display message', async () => {
         await expect($('div[aria-label="welcome-widget"]'))
           .toHaveTextContaining('Hey there 👋 you are using a pre-release version of Marquee.')
       })

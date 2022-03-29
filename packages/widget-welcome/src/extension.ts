@@ -85,6 +85,8 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
       return this.broadcast({ error: result })
     }
 
+    this._channel.appendLine(
+      `---> ${JSON.stringify(result)} - but ${this._prevtricks?.length.toString() || 'undefined'}`)
     if (this._prevtricks && this._prevtricks.length < result.length) {
       const newTrick = result.slice(this._prevtricks.length)
         .filter((trick) => trick.notify && trick.active)
