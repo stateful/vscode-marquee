@@ -136,7 +136,12 @@ let News = () => {
                           {entry.domain && (
                             <Typography variant="caption">
                               &nbsp;(
-                              <Link component="a" href={`${entry.url}`} target="_blank" underline="hover">
+                              <Link
+                                component="a"
+                                href={entry.url}
+                                target="_blank"
+                                underline="hover"
+                              >
                                 {entry.domain}
                               </Link>
                               )
