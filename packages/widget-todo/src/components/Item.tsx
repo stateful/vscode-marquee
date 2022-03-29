@@ -68,6 +68,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
       </Popover>
       <Grid
         {...dragProps}
+        aria-label="todo-item"
         container
         alignItems="center"
         direction="row"
@@ -141,7 +142,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                 placement="top"
                 arrow
               >
-                <Typography variant="body2" noWrap>
+                <Typography aria-label="todo-label" variant="body2" noWrap>
                   {todo.body}
                 </Typography>
               </Tooltip>
@@ -173,7 +174,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
               arrow
             >
               <Typography variant="body2" noWrap>
-                <IconButton size="small" tabIndex={-1} onClick={() => jumpTo(todo)}>
+                <IconButton aria-label="todo-link" size="small" tabIndex={-1} onClick={() => jumpTo(todo)}>
                   <LinkIcon />
                 </IconButton>
               </Typography>

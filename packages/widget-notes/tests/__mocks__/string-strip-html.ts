@@ -1,1 +1,1 @@
-export default jest.fn().mockReturnValue('<b>I am stripped</b>');
+export default jest.fn().mockReturnValue('<b>I am stripped</b>')

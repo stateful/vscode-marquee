@@ -127,6 +127,7 @@ const ScaleOption = React.memo(() => {
     >
       <Grid item xs>
         <BetterComplete
+          id="weather-widget-scale"
           field="scale"
           label="Temperature scale"
           options={SCALE_OPTIONS}
@@ -173,7 +174,7 @@ const WeatherDialogLauncher = () => {
 
   return (
     <>
-      <IconButton size="small" onClick={() => setShowDialog(true)}>
+      <IconButton aria-label="weather-settings" role="button" size="small" onClick={() => setShowDialog(true)}>
         <SettingsIcon fontSize="small" />
       </IconButton>
       { showDialog && ( <WeatherDialog close={() => setShowDialog(false)} /> )}

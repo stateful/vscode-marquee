@@ -27,7 +27,7 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick} className="fooabr">
+      <IconButton size="small" onClick={handleClick}>
         <MoreVertIcon fontSize="small" />
       </IconButton>
 

@@ -24,7 +24,7 @@ let HidePop = (props: Props) => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton aria-label="widget-settings" size="small" onClick={handleClick}>
         <MoreVertIcon fontSize="small" />
       </IconButton>
 

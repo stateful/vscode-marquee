@@ -65,7 +65,7 @@ let Filter = () => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton aria-label="github-trends-filter" size="small" onClick={handleClick}>
         <Badge
           color="secondary"
           variant="dot"

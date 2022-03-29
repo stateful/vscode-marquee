@@ -16,3 +16,5 @@ website/public/sitemap.xml
 
 .vercel
 .vscode-test-web
+.wdio-vscode-service
+test/screenshots

@@ -42,6 +42,7 @@ const SpokenLanguageOption = () => {
       </Grid>
       <Grid item xs>
         <BetterComplete
+          id="github-spoken-filter"
           variant="filled"
           field="spoken-language"
           label="Selection..."
@@ -73,6 +74,7 @@ const ProgrammingLanguageOption = () => {
       </Grid>
       <Grid item xs>
         <BetterComplete
+          id="github-language-filter"
           variant="filled"
           field="programming-language"
           label="Selection..."
@@ -104,6 +106,7 @@ const SinceOption = () => {
       </Grid>
       <Grid item xs>
         <BetterComplete
+          id="github-since-filter"
           variant="filled"
           field="since"
           label="Since..."
@@ -156,7 +159,7 @@ const TrendingDialogLauncher = () => {
 
   return (
     <>
-      <IconButton onClick={() => setShowDialog(true)} size="small">
+      <IconButton aria-label="filter-settings" onClick={() => setShowDialog(true)} size="small">
         <Badge
           color="secondary"
           variant="dot"

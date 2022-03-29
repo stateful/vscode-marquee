@@ -260,7 +260,10 @@ const Navigation = () => {
               wrap="nowrap"
             >
               {window.activeWorkspace && (<Grid item>
-                <Tooltip title={`Toggle Global vs Workspace Scope (${globalScope ? 'Global' : 'Workspace'} Scope)`}>
+                <Tooltip
+                  aria-label="toggle-scope"
+                  title={`Toggle Global vs Workspace Scope (${globalScope ? 'Global' : 'Workspace'} Scope)`}
+                >
                   <IconButton
                     size="small"
                     onClick={() => setGlobalScope(!globalScope)}

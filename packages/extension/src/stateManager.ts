@@ -1,4 +1,4 @@
-import vscode from "vscode";
+import vscode from 'vscode'
 
 import ExtensionManager, {
   pkg as packageJson,
@@ -7,19 +7,19 @@ import ExtensionManager, {
   Configuration as GlobalConfiguration,
   DEPRECATED_GLOBAL_STORE_KEY,
   MarqueeEvents
-} from '@vscode-marquee/utils/extension';
-import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension';
-import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension';
-import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension';
-import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension';
-import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension';
-import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension';
-import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension';
+} from '@vscode-marquee/utils/extension'
+import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension'
+import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension'
+import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension'
+import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension'
+import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension'
+import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
+import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 
-import telemetry from './telemetry';
-import { activateGUI } from './utils';
-import { FILE_FILTER, CONFIG_FILE_TYPE } from './constants';
-import type { ExtensionExport } from './types';
+import telemetry from './telemetry'
+import { activateGUI } from './utils'
+import { FILE_FILTER, CONFIG_FILE_TYPE } from './constants'
+import type { ExtensionExport } from './types'
 
 const MARQUEE_WIDGETS = {
   '@vscode-marquee/utils': activateUtils,
@@ -31,7 +31,7 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/todo-widget': activateTodoWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
   '@vscode-marquee/snippets-widget': activateSnippetsWidget
-};
+}
 
 interface ExportFormat<T = any> {
   type: typeof CONFIG_FILE_TYPE
@@ -51,29 +51,29 @@ export default class StateManager implements vscode.Disposable {
       exports: activate(this._context, this._channel),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
-    }) as Pick<vscode.Extension<ExtensionExport>, "id" | "exports" | "isActive" | "packageJSON">
-  );
+    }) as Pick<vscode.Extension<ExtensionExport>, 'id' | 'exports' | 'isActive' | 'packageJSON'>
+  )
 
   /**
    * widget subscriptions
    */
   private _subscriptions: vscode.Disposable[] = this.widgetExtensions.map(
-    (ex) => ex.exports.marquee.disposable);
+    (ex) => ex.exports.marquee.disposable)
 
   constructor (
     private readonly _context: vscode.ExtensionContext,
     private readonly _channel: vscode.OutputChannel
   ) {
     this._subscriptions.push(
-      vscode.commands.registerCommand("marquee.jsonImport", this._import.bind(this)),
-      vscode.commands.registerCommand("marquee.jsonExport", this._export.bind(this))
-    );
+      vscode.commands.registerCommand('marquee.jsonImport', this._import.bind(this)),
+      vscode.commands.registerCommand('marquee.jsonExport', this._export.bind(this))
+    )
 
     /**
      * delete old global state so that configurations stored in the globalState in v2
      * can be applied with v3
      */
-    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined);
+    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined)
   }
 
   private async _import () {
@@ -81,9 +81,9 @@ export default class StateManager implements vscode.Disposable {
      * disable config change listener during the time we import
      */
     this.widgetExtensions.forEach((ex) => (
-      ex.exports.marquee.disposable.setImportInProgress()));
+      ex.exports.marquee.disposable.setImportInProgress()))
 
-    telemetry.sendTelemetryEvent('import');
+    telemetry.sendTelemetryEvent('import')
     const importPath = await vscode.window.showOpenDialog({
       canSelectFiles: true,
       canSelectFolders: false,
@@ -91,25 +91,25 @@ export default class StateManager implements vscode.Disposable {
       openLabel: 'Import',
       filters: FILE_FILTER,
       title: 'Import Marquee Extension',
-    });
-    const filePath = (importPath || [])[0];
+    })
+    const filePath = (importPath || [])[0]
 
     if (!filePath) {
-      return;
+      return
     }
 
     try {
-      const dec = new TextDecoder('utf-8');
-      const importJSON = await vscode.workspace.fs.readFile(filePath);
-      const obj = JSON.parse(dec.decode(importJSON));
-      let jsonImport = obj as ExportFormat;
+      const dec = new TextDecoder('utf-8')
+      const importJSON = await vscode.workspace.fs.readFile(filePath)
+      const obj = JSON.parse(dec.decode(importJSON))
+      let jsonImport = obj as ExportFormat
 
       /**
        * ToDo(Christian): use "type" property to detect valid marquee extension
        * once everyone has updated
        */
       if (!obj.version) {
-        throw new Error('Invalid Marquee Configuration');
+        throw new Error('Invalid Marquee Configuration')
       }
 
       /**
@@ -135,34 +135,34 @@ export default class StateManager implements vscode.Disposable {
               spoken: obj.spoken?.name
             }
           }
-        };
+        }
       }
 
-      let promises: Promise<void>[] = [];
+      let promises: Promise<void>[] = []
       for (const [id, manager] of this.widgetExtensions.map((we) => [we.id, we.exports.marquee.disposable] as const)) {
         promises.push(...Object.entries(jsonImport.configuration[id] || {}).map(
-          ([key, val]) => manager.updateConfiguration(key, val)));
+          ([key, val]) => manager.updateConfiguration(key, val)))
         promises.push(...Object.entries(jsonImport.state[id] || {}).map(
-          ([key, val]) => manager.updateState(key, val).then(() => { manager.emit('stateUpdate', manager.state); })));
+          ([key, val]) => manager.updateState(key, val).then(() => { manager.emit('stateUpdate', manager.state) })))
       }
-      await Promise.all(promises);
+      await Promise.all(promises)
 
-      vscode.window.showInformationMessage(`Successfully imported Marquee state from ${filePath.path}`);
-      this.global.emit('gui.close');
-      return this.global.emit('gui.open', true);
-    } catch (err: any) {
-      vscode.window.showErrorMessage(`Error importing file: ${err.message}`);
+      vscode.window.showInformationMessage(`Successfully imported Marquee state from ${filePath.path}`)
+      this.global.emit('gui.close')
+      return this.global.emit('gui.open', true)
+    } catch (err) {
+      vscode.window.showErrorMessage(`Error importing file: ${(err as Error).message}`)
     } finally {
       /**
        * re-enable config change listener again
        */
       this.widgetExtensions.forEach((ex) => (
-        ex.exports.marquee.disposable.setImportInProgress(false)), 1000);
+        ex.exports.marquee.disposable.setImportInProgress(false)), 1000)
     }
   }
 
   private async _export () {
-    telemetry.sendTelemetryEvent('export');
+    telemetry.sendTelemetryEvent('export')
     const { state, configuration } = this.widgetExtensions.reduce((format, ext) => ({
       state: {
         ...format.state,
@@ -172,17 +172,17 @@ export default class StateManager implements vscode.Disposable {
         ...format.configuration,
         [ext.id]: ext.exports.marquee.disposable.configuration
       }
-    }), {} as Pick<ExportFormat, 'configuration' | 'state'>);
+    }), {} as Pick<ExportFormat, 'configuration' | 'state'>)
 
     try {
       const exportPath = await vscode.window.showSaveDialog({
         saveLabel: 'Export',
         filters: FILE_FILTER,
         title: 'Export Marquee Extension',
-      });
+      })
 
       if (!exportPath) {
-        return;
+        return
       }
 
       const jsonExport: ExportFormat = {
@@ -190,48 +190,48 @@ export default class StateManager implements vscode.Disposable {
         version: packageJson.version,
         state,
         configuration
-      };
+      }
 
-      var enc = new TextEncoder();
-      await vscode.workspace.fs.writeFile(exportPath, enc.encode(JSON.stringify(jsonExport, null, 1)));
+      var enc = new TextEncoder()
+      await vscode.workspace.fs.writeFile(exportPath, enc.encode(JSON.stringify(jsonExport, null, 1)))
       vscode.window.showInformationMessage(
         `Successfully exported Marquee state to ${exportPath.fsPath}`
-      );
-    } catch (err: any) {
+      )
+    } catch (err) {
       vscode.window.showErrorMessage(
-        `Error writing export file: ${err.message}`
-      );
+        `Error writing export file: ${(err as Error).message}`
+      )
     }
   }
 
   get projectWidget () {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/projects-widget'
-    )?.exports.marquee.disposable as ProjectsExtensionManager;
+    )?.exports.marquee.disposable as ProjectsExtensionManager
   }
 
   get notesWidget () {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/notes-widget'
-    )?.exports.marquee.disposable as NoteExtensionManager;
+    )?.exports.marquee.disposable as NoteExtensionManager
   }
 
   get todoWidget () {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/todo-widget'
-    )?.exports.marquee.disposable as TodoExtensionManager;
+    )?.exports.marquee.disposable as TodoExtensionManager
   }
 
   get snippetsWidget () {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/snippets-widget'
-    )?.exports.marquee.disposable as SnippetExtensionManager;
+    )?.exports.marquee.disposable as SnippetExtensionManager
   }
 
   get global () {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/utils'
-    )?.exports.marquee.disposable as ExtensionManager<GlobalState, GlobalConfiguration>;
+    )?.exports.marquee.disposable as ExtensionManager<GlobalState, GlobalConfiguration>
   }
 
   /**
@@ -239,7 +239,7 @@ export default class StateManager implements vscode.Disposable {
    */
   resetAll () {
     return Promise.all(this.widgetExtensions.map(
-      (w) => w.exports.marquee.disposable.reset()));
+      (w) => w.exports.marquee.disposable.reset()))
   }
 
   /**
@@ -247,7 +247,7 @@ export default class StateManager implements vscode.Disposable {
    */
   clearAll () {
     return Promise.all(this.widgetExtensions.map(
-      (w) => w.exports.marquee.disposable.clear()));
+      (w) => w.exports.marquee.disposable.clear()))
   }
 
   onWidget<EventName extends keyof MarqueeEvents>(
@@ -264,13 +264,13 @@ export default class StateManager implements vscode.Disposable {
       this.widgetExtensions.map((w) =>
         w.exports.marquee.disposable.on(eventName, listener)
       )
-    );
+    )
   }
 
   /**
    * clear all subscriptions
    */
-  dispose() {
-    return Promise.all(this._subscriptions.map((s) => s.dispose()));
+  dispose () {
+    return Promise.all(this._subscriptions.map((s) => s.dispose()))
   }
 }

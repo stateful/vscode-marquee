@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, Divider, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { HideWidgetContent } from "@vscode-marquee/widget";
 
@@ -28,7 +28,7 @@ const PopMenu = (props: PopMenuProps) => {
 
   return (
     <div>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton aria-label="widget-settings" size="small" onClick={handleClick}>
         <MoreVertIcon fontSize="small" />
       </IconButton>
 

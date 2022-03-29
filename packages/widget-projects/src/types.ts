@@ -1,6 +1,6 @@
-import type { Workspace, ContextProperties } from "@vscode-marquee/utils";
+import type { Workspace, ContextProperties } from '@vscode-marquee/utils'
 
-export type WorkspaceSortOrder = 'alphabetical' | 'usage';
+export type WorkspaceSortOrder = 'alphabetical' | 'usage'
 
 export interface Configuration {
   workspaceFilter?: string

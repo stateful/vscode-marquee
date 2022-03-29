@@ -1,4 +1,4 @@
-import { ContextProperties } from "@vscode-marquee/utils";
+import { ContextProperties } from '@vscode-marquee/utils'
 
 export interface Trick {
   order: number;

@@ -1,30 +1,30 @@
-import vscode from 'vscode';
-import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension';
+import vscode from 'vscode'
+import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension'
 
-import { MODES_UPDATE_TIMEOUT } from './constants';
+import { MODES_UPDATE_TIMEOUT } from './constants'
 
 export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
-  const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0;
+  const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0
 
   if (found) {
-    return vscode.TreeItemCollapsibleState.Expanded;
+    return vscode.TreeItemCollapsibleState.Expanded
   }
 
-  return vscode.TreeItemCollapsibleState.Collapsed;
-};
+  return vscode.TreeItemCollapsibleState.Collapsed
+}
 
 export const filterByScope = <T extends { workspaceId: string | null }>(
   obj: T[],
   aws: null | { id: string },
   globalScope: boolean
 ) => {
-  return obj.filter((n) => globalScope || (aws && aws.id === n.workspaceId));
-};
+  return obj.filter((n) => globalScope || (aws && aws.id === n.workspaceId))
+}
 
 export const DEFAULT_STATE = {
   modeName: 'default',
   prevMode: null
-};
+}
 
 export const DEFAULT_CONFIGURATION = {
   modes: defaultConfigurations['marquee.configuration.modes'].default,
@@ -33,13 +33,13 @@ export const DEFAULT_CONFIGURATION = {
   launchOnStartup: defaultConfigurations['marquee.configuration.launchOnStartup'].default,
   workspaceLaunch: defaultConfigurations['marquee.configuration.workspaceLaunch'].default,
   colorScheme: undefined
-};
+}
 
-type Configuration = typeof DEFAULT_CONFIGURATION;
-type State = typeof DEFAULT_STATE;
+type Configuration = typeof DEFAULT_CONFIGURATION
+type State = typeof DEFAULT_STATE
 
 class GUIExtensionManager extends ExtensionManager<State, Configuration> {
-  private _lastModesChange = Date.now();
+  private _lastModesChange = Date.now()
 
   constructor (
     context: vscode.ExtensionContext,
@@ -48,8 +48,8 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
     defaultConfiguration: Configuration,
     defaultState: State
   ) {
-    super(context, channel, key, defaultConfiguration, defaultState);
-    this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)));
+    super(context, channel, key, defaultConfiguration, defaultState)
+    this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)))
   }
 
   async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
@@ -59,30 +59,30 @@ class GUIExtensionManager extends ExtensionManager<State, Configuration> {
      * includes these broken ascii characters into the VSCode settings file
      */
     if (prop === 'modes') {
-      this._lastModesChange = Date.now();
+      this._lastModesChange = Date.now()
 
       for (const modeName of Object.keys(val)) {
         if (val[modeName].icon) {
-          delete val[modeName].icon.native;
+          delete val[modeName].icon.native
         }
       }
     }
 
-    super.updateConfiguration(prop, val);
+    super.updateConfiguration(prop, val)
   }
 
   _onModeChange (event: vscode.ConfigurationChangeEvent) {
     if (
-      !event.affectsConfiguration(`marquee.configuration.modes`) ||
+      !event.affectsConfiguration('marquee.configuration.modes') ||
       (Date.now() - this._lastModesChange) < MODES_UPDATE_TIMEOUT
     ) {
-      return;
+      return
     }
 
-    const config = vscode.workspace.getConfiguration('marquee');
-    const val = config.get('configuration.modes') as Configuration[keyof Configuration];
-    this._channel.appendLine(`Update configuration.modes via configuration listener`);
-    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) });
+    const config = vscode.workspace.getConfiguration('marquee')
+    const val = config.get('configuration.modes') as Configuration[keyof Configuration]
+    this._channel.appendLine('Update configuration.modes via configuration listener')
+    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) })
   }
 }
 
@@ -90,7 +90,7 @@ export function activateGUI (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new GUIExtensionManager(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE);
+  const stateManager = new GUIExtensionManager(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
 
   return {
     marquee: {
@@ -99,36 +99,36 @@ export function activateGUI (
       defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
-  };
+  }
 }
 
 export const linkMarquee = async (item: any) => {
-  let file = item?.item?.origin;
+  let file = item?.item?.origin
 
   if (!file) {
-    return;
+    return
   }
 
-  let splt = file.split(":");
-  let ln = "1";
+  let splt = file.split(':')
+  let ln = '1'
   if (splt.length > 2) {
-    ln = splt[splt.length - 1];
-    splt = splt.splice(0, splt.length - 1);
-    file = splt.join(":");
+    ln = splt[splt.length - 1]
+    splt = splt.splice(0, splt.length - 1)
+    file = splt.join(':')
   } else if (splt.length > 1) {
-    [file, ln] = splt;
+    [file, ln] = splt
   }
-  const rpath = vscode.Uri.parse(file).fsPath;
-  const doc = await vscode.workspace.openTextDocument(rpath);
+  const rpath = vscode.Uri.parse(file).fsPath
+  const doc = await vscode.workspace.openTextDocument(rpath)
   if (!doc) {
-    return;
+    return
   }
 
-  const editor = await vscode.window.showTextDocument(doc);
-  const r = doc.lineAt(parseInt(ln)).range;
+  const editor = await vscode.window.showTextDocument(doc)
+  const r = doc.lineAt(parseInt(ln)).range
   if (!editor || !r) {
-    return;
+    return
   }
 
-  editor.revealRange(r, vscode.TextEditorRevealType.InCenter);
-};
+  editor.revealRange(r, vscode.TextEditorRevealType.InCenter)
+}

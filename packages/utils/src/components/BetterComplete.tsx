@@ -4,6 +4,7 @@ import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 export interface Props {
+  id: string
   field: string,
   options: any,
   display: string
@@ -37,6 +38,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const BetterComplete = ({
+  id,
   field,
   options,
   display,
@@ -48,6 +50,7 @@ const BetterComplete = ({
 
   return (
     <Autocomplete
+      id={id}
       classes={{
         option: classes.option,
         input: classes.input,

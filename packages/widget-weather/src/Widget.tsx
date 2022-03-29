@@ -61,7 +61,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
           </Grid>
           <Grid item>
             <Grid container direction="column">
-              <Grid item>
+              <Grid aria-label="Current Temperature" item>
                 <Typography variant={"h5"}>
                   {scale === SCALE_OPTIONS[0].name && (
                     <>{kToF(current.temp)}&#176;F</>
@@ -121,6 +121,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                 spacing={1}
               >
                 {fiveHours.map((hour: any) => {
+                  const forecast = formatAMPM(new Date(hour.dt * 1000))
                   return (
                     <Grid item key={hour.dt}>
                       <Grid
@@ -139,7 +140,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                           />
                         </Grid>
 
-                        <Grid item style={{ paddingTop: "8px" }}>
+                        <Grid aria-label={`Weather Forecase for ${forecast}`} item style={{ paddingTop: "8px" }}>
                           <Typography variant="caption">
                             {scale === SCALE_OPTIONS[0].name && (
                               <>{kToF(hour.temp)}&#176;F</>
@@ -151,7 +152,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                         </Grid>
                         <Grid item>
                           <Typography variant="caption">
-                            {formatAMPM(new Date(hour.dt * 1000))}
+                            {forecast}
                           </Typography>
                         </Grid>
                       </Grid>

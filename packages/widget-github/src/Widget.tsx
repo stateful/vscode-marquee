@@ -148,6 +148,7 @@ let Github = () => {
               filteredTrends.map((entry) => {
                 return (
                   <Grid
+                    aria-labelledby="trend-entry"
                     key={entry.url}
                     container
                     direction="column"
@@ -201,7 +202,7 @@ let Github = () => {
                       <Grid item>
                         <Grid container spacing={1}>
                           {entry.language && (
-                            <Grid item>
+                            <Grid aria-label="language" item>
                               <GChip
                                 label={entry.language}
                                 icon={
@@ -214,13 +215,13 @@ let Github = () => {
                               />
                             </Grid>
                           )}
-                          <Grid item>
+                          <Grid aria-label="forks" item>
                             <GChip
                               label={entry.forks.toLocaleString()}
                               icon={<FontAwesomeIcon icon={faCodeBranch} />}
                             />
                           </Grid>
-                          <Grid item>
+                          <Grid aria-label="stars" item>
                             <GChip
                               label={entry.stars.toLocaleString()}
                               icon={<StarIcon />}
