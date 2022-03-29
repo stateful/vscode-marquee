@@ -14,7 +14,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       vscode.commands.registerTextEditorCommand('marquee.note.addEditor', this._addNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.delete', this._deleteNote.bind(this)),
-      vscode.commands.registerCommand("marquee.note.addEmpty", () => this.emit(
+      vscode.commands.registerCommand('marquee.note.addEmpty', () => this.emit(
         'openDialog', { event: 'openAddNoteDialog', payload: true }
       ))
     )
@@ -23,7 +23,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   /**
    * add note into text editor
    */
-   private _addNote (editor: vscode.TextEditor) {
+  private _addNote (editor: vscode.TextEditor) {
     const { text, name, path } = this.getTextSelection(editor)
 
     if (text.length < 1) {
@@ -43,10 +43,10 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
     this.updateState('notes', newNotes)
     this.broadcast({ notes: newNotes })
 
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
       `Added ${name} to your notes in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 

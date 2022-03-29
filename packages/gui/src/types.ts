@@ -1,4 +1,4 @@
-import type { ContextProperties } from "@vscode-marquee/utils"
+import type { ContextProperties } from '@vscode-marquee/utils'
 import type { EmojiData } from 'emoji-mart'
 import type { presetModes } from './constants'
 

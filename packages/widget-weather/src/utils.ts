@@ -12,7 +12,7 @@ export function kToC (k: number) {
 };
 
 const USER_GEO_LOCATION_ERROR = 'Couldn\'t fetch users geolocation!'
-const ERROR_MESSAGE = "Couldn't fetch weather data!"
+const ERROR_MESSAGE = 'Couldn\'t fetch weather data!'
 const REFETCH_TRESHOLD = 1000 * 60 * 30 // 30min
 
 /**

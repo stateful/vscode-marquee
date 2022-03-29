@@ -78,7 +78,9 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
        * emit with delay so that VSCode can store the file and no prompt appears
        */
       setTimeout(() => this.emit('saveNewSnippet', snippet), 100)
-      this._channel.appendLine(`New snippet add "${snippetName}"` + (this._workspaceId ? `, to workspace with id ${this._workspaceId}` : ''))
+      this._channel.appendLine(
+        `New snippet add "${snippetName}"` + (this._workspaceId ? `, to workspace with id ${this._workspaceId}` : '')
+      )
       return
     }
 

@@ -27,7 +27,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       vscode.commands.registerTextEditorCommand('marquee.snippet.insertEditor', this._insertEditor.bind(this)),
       vscode.commands.registerTextEditorCommand('marquee.snippet.addEditor', this._addSnippet.bind(this)),
       vscode.workspace.registerTextDocumentContentProvider(ContentProvider.scheme, this._contentProvider),
-      vscode.workspace.registerFileSystemProvider(SnippetStorageProvider.scheme, this._fsProvider, { isCaseSensitive: true })
+      vscode.workspace.registerFileSystemProvider(
+        SnippetStorageProvider.scheme,
+        this._fsProvider,
+        { isCaseSensitive: true }
+      )
     )
 
     this._fsProvider.on('saveNewSnippet', this._saveNewSnippet.bind(this))
@@ -40,11 +44,11 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this.broadcast({ snippets: newSnippets })
 
     this._openSnippet(snippet.path!)
-    await vscode.commands.executeCommand("workbench.action.closeActiveEditor")
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    await vscode.commands.executeCommand('workbench.action.closeActiveEditor')
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
       `Added ${snippet.title} to your snippets in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 
@@ -93,10 +97,10 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this.updateState('snippets', newSnippets)
     this.broadcast({ snippets: newSnippets })
 
-    vscode.commands.executeCommand("marquee.refreshCodeActions")
+    vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
       `Added ${name} to your snippets in Marquee`,
-      "Open Marquee"
+      'Open Marquee'
     ).then((item) => item && this.emit('gui.open'))
   }
 

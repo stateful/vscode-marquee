@@ -53,9 +53,9 @@ export interface MarqueeEvents {
 }
 
 export enum WorkspaceType {
-  WORKSPACE = "workspace",
-  FOLDER = "folder",
-  NONE = "none",
+  WORKSPACE = 'workspace',
+  FOLDER = 'folder',
+  NONE = 'none',
 }
 
 export interface Workspace {

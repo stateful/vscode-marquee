@@ -18,7 +18,13 @@ export default class ExtensionManagerMock {
   state: any
   config: any
 
-  constructor (public _context = {}, public _channel = defaultChannel, ___: any, defaultConfig: any, defaultState: any) {
+  constructor (
+    public _context = {},
+    public _channel = defaultChannel,
+    ___: any,
+    defaultConfig: any,
+    defaultState: any
+  ) {
     this.config = defaultConfig
     this.state = defaultState
   }
