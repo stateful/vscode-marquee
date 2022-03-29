@@ -28,6 +28,7 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     await this.settingsBtn$.click()
 
     const channelSelect = new Select(this.locatorMap, 'marquee-news-channel')
+    await channelSelect.wait()
     await channelSelect.selectByValue(channel)
   }
 }

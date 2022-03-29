@@ -20,6 +20,10 @@ describe('Marquee', () => {
       await webview.open()
     })
 
+    beforeEach(async () => {
+      await browser.keys(['Escape'])
+    })
+
     it('should load all widgets', async () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
     })

@@ -2769,7 +2769,7 @@
     "@typescript-eslint/parser": "^5.11.0",
     "@vscode/extension-telemetry": "^0.4.9",
     "@vscode/test-web": "^0.0.22",
-    "@wdio/cli": "^7.19.0",
+    "@wdio/cli": "^7.19.2",
     "@wdio/local-runner": "^7.19.0",
     "@wdio/mocha-framework": "^7.19.0",
     "@wdio/spec-reporter": "^7.19.0",
