@@ -22,7 +22,7 @@ test('renders component correctly', async () => {
   const listener = getEventListener<State & Events>(
     '@vscode-marquee/welcome-widget'
   )
-  const { container } = render(
+  render(
     <GlobalProvider>
       <TrickProvider>
         <Widget.component />
@@ -30,7 +30,7 @@ test('renders component correctly', async () => {
     </GlobalProvider>
   )
   const tipp =
-    'Hey there 👋 you are using a pre-release version of Marquee.' +
+    'Hey there 👋 you are using a pre-release version of Marquee. ' +
     'Thanks for testing out the extension and make sure to leave us feedback ☺️'
   expect(screen.getByText(tipp)).toBeInTheDocument()
   act(() => {
@@ -63,5 +63,4 @@ test('renders component correctly', async () => {
   userEvent.click(screen.getByText('Mark as read'))
   expect(screen.queryByText('Hello World!')).not.toBeInTheDocument()
   expect(screen.getByText(tipp)).toBeInTheDocument()
-  userEvent.click(container.querySelectorAll('button svg')[0])
 })
