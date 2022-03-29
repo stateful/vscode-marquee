@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import vscode from 'vscode'
-import { activate } from "../src/extension"
+import { activate } from '../src/extension'
 
 jest.mock('axios', () => ({
   get: jest.fn().mockResolvedValue({ data: [] }),

@@ -12,8 +12,8 @@ import type { Configuration, State, Workspace } from './types'
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
-const TELEMETRY_CONFIG_ID = "telemetry"
-const TELEMETRY_CONFIG_ENABLED_ID = "enableTelemetry"
+const TELEMETRY_CONFIG_ID = 'telemetry'
+const TELEMETRY_CONFIG_ENABLED_ID = 'enableTelemetry'
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
   protected _tangle?: Client<State & Configuration>
@@ -92,7 +92,9 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         continue
       }
 
-      this._channel.appendLine(`Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`)
+      this._channel.appendLine(
+        `Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`
+      )
       this.broadcast({ [prop]: val } as any)
       break
     }
@@ -171,8 +173,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
    */
   public getActiveWorkspace (): Workspace | null {
     const wsp = vscode.workspace
-    let name = wsp.name || ""
-    let path = ""
+    let name = wsp.name || ''
+    let path = ''
     let type = WorkspaceType.NONE
 
     if (wsp.workspaceFile) {
@@ -181,7 +183,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     } else if (wsp.workspaceFolders) {
       type = WorkspaceType.FOLDER
       path =
-        wsp.workspaceFolders.length > 0 ? wsp.workspaceFolders[0].uri.path : ""
+        wsp.workspaceFolders.length > 0 ? wsp.workspaceFolders[0].uri.path : ''
     }
 
     if (type && path) {
@@ -205,7 +207,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       editor.selection.end.character
     )
 
-    const hier = editor.document.uri.path.split("/")
+    const hier = editor.document.uri.path.split('/')
     const text = editor.document.getText(textRange)
     const name = hier[hier.length - 1]
     const path = `${editor.document.uri.path}:${editor.selection.start.line}`
@@ -258,7 +260,13 @@ export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<State, Configuration>(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  const stateManager = new ExtensionManager<State, Configuration>(
+    context,
+    channel,
+    'configuration',
+    DEFAULT_CONFIGURATION,
+    DEFAULT_STATE
+  )
   const aws = stateManager.getActiveWorkspace()
 
   /**
@@ -296,9 +304,9 @@ export function getExtProps () {
 
   if (globalThis.process) {
     extProps.os = os.platform()
-    extProps.platformversion = (os.release() || "").replace(
+    extProps.platformversion = (os.release() || '').replace(
       /^(\d+)(\.\d+)?(\.\d+)?(.*)/,
-      "$1$2$3"
+      '$1$2$3'
     )
   }
 
@@ -311,13 +319,13 @@ export function getExtProps () {
 
     switch (vscode.env.uiKind) {
       case vscode.UIKind.Web:
-        extProps.uikind = "web"
+        extProps.uikind = 'web'
         break
       case vscode.UIKind.Desktop:
-        extProps.uikind = "desktop"
+        extProps.uikind = 'desktop'
         break
       default:
-        extProps.uikind = "unknown"
+        extProps.uikind = 'unknown'
     }
   }
   return extProps

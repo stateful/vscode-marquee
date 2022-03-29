@@ -13,13 +13,27 @@ jest.mock('@vscode-marquee/utils/extension', () => ({
   pkg: { version: '1.2.3' },
   DEPRECATED_GLOBAL_STORE_KEY: 'foobar'
 }))
-jest.mock('@vscode-marquee/widget-welcome/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-projects/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-github/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-weather/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-todo/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-notes/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
-jest.mock('@vscode-marquee/widget-snippets/extension', () => ({ activate: () => ({ marquee: { disposable: require('disposableManager') }}) }))
+jest.mock('@vscode-marquee/widget-welcome/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-projects/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-github/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-weather/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-todo/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-notes/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
+jest.mock('@vscode-marquee/widget-snippets/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
 
 const encoder = new TextEncoder()
 const decoder = new TextDecoder();

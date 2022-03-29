@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 
-import InfoDialog from "../../src/dialogs/InfoDialog"
+import InfoDialog from '../../src/dialogs/InfoDialog'
 
 jest.mock('../../src/img/powered_by_google_on_non_white.png', () => {})
 jest.mock('../../src/img/powered_by_google_on_white.png', () => {})

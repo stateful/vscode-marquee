@@ -1,15 +1,15 @@
 import fs from 'fs/promises'
-import vscode from "vscode"
-import path from "path"
+import vscode from 'vscode'
+import path from 'path'
 import { WorkspaceType } from '@vscode-marquee/utils/extension'
-import type { MarqueeEvents } from "@vscode-marquee/utils"
-import type { Snippet } from "@vscode-marquee/widget-snippets/extension"
+import type { MarqueeEvents } from '@vscode-marquee/utils'
+import type { Snippet } from '@vscode-marquee/widget-snippets/extension'
 
 import telemetry from './telemetry'
-import StateManager from "./stateManager"
-import { MarqueeGui } from "./gui.view"
-import { TreeView } from "./tree.view"
-import { ContextMenu } from "./tree.view"
+import StateManager from './stateManager'
+import { MarqueeGui } from './gui.view'
+import { TreeView } from './tree.view'
+import { ContextMenu } from './tree.view'
 import { linkMarquee } from './utils'
 import { config, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration } from './types'
@@ -27,7 +27,7 @@ export class MarqueeExtension {
     this.treeView = new TreeView(this.context, this._stateMgr)
     this.setupCommands()
 
-    this.view = vscode.window.createTreeView("marquee", {
+    this.view = vscode.window.createTreeView('marquee', {
       treeDataProvider: this.treeView,
     })
 
@@ -36,7 +36,7 @@ export class MarqueeExtension {
     /**
      * allow widget to trigger extension methods
      */
-    this._stateMgr.onWidget("openDialog", ({ event, payload }) =>
+    this._stateMgr.onWidget('openDialog', ({ event, payload }) =>
       this.openDialog(event, payload)
     )
 
@@ -66,7 +66,7 @@ export class MarqueeExtension {
 
     this.gui.close()
     vscode.window.showInformationMessage(
-      `Please reload your Marquee View to apply the new theme.`
+      'Please reload your Marquee View to apply the new theme.'
     )
   }
 
@@ -114,11 +114,11 @@ export class MarqueeExtension {
 
   private setupCommands (): vscode.Disposable[] {
     const disposables: vscode.Disposable[] = [
-      vscode.commands.registerCommand("marquee.link", linkMarquee),
-      vscode.commands.registerCommand("marquee.open", this._switchTo.bind(this)),
-      vscode.commands.registerCommand("marquee.touchbar", this._switchTo.bind(this)),
-      vscode.commands.registerCommand("marquee.clear", this.wipe.bind(this)),
-      vscode.commands.registerCommand("marquee.edit", this._editTreeItem.bind(this))
+      vscode.commands.registerCommand('marquee.link', linkMarquee),
+      vscode.commands.registerCommand('marquee.open', this._switchTo.bind(this)),
+      vscode.commands.registerCommand('marquee.touchbar', this._switchTo.bind(this)),
+      vscode.commands.registerCommand('marquee.clear', this.wipe.bind(this)),
+      vscode.commands.registerCommand('marquee.edit', this._editTreeItem.bind(this))
     ]
 
     disposables.map((d) => this.context.subscriptions.push(d))
@@ -143,7 +143,7 @@ export class MarqueeExtension {
         .then((doc) => vscode.window.showTextDocument(doc, 2, false))
     }
 
-    this.openDialog(item.getDialogs("edit") as keyof MarqueeEvents, item.id)
+    this.openDialog(item.getDialogs('edit') as keyof MarqueeEvents, item.id)
   }
 
   public openView () {

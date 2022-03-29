@@ -3,7 +3,7 @@ import { act } from 'react-dom/test-utils'
 import { render } from '@testing-library/react'
 // @ts-expect-error
 import { MarqueeWindow, getEventListener, providerValues } from '@vscode-marquee/utils'
-import { faBrain } from "@fortawesome/free-solid-svg-icons/faBrain"
+import { faBrain } from '@fortawesome/free-solid-svg-icons/faBrain'
 
 import ModeContext, { ModeProvider } from '../../src/contexts/ModeContext'
 

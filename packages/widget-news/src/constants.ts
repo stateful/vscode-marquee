@@ -1,4 +1,4 @@
-import { WidgetState } from "./types"
+import { WidgetState } from './types'
 
 export const FETCH_DATA_TIMEOUT = 10000
 export const HN_API = 'https://api.hackerwebapp.com/'

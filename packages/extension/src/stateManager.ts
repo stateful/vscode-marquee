@@ -1,4 +1,4 @@
-import vscode from "vscode"
+import vscode from 'vscode'
 
 import ExtensionManager, {
   pkg as packageJson,
@@ -51,7 +51,7 @@ export default class StateManager implements vscode.Disposable {
       exports: activate(this._context, this._channel),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
-    }) as Pick<vscode.Extension<ExtensionExport>, "id" | "exports" | "isActive" | "packageJSON">
+    }) as Pick<vscode.Extension<ExtensionExport>, 'id' | 'exports' | 'isActive' | 'packageJSON'>
   )
 
   /**
@@ -65,8 +65,8 @@ export default class StateManager implements vscode.Disposable {
     private readonly _channel: vscode.OutputChannel
   ) {
     this._subscriptions.push(
-      vscode.commands.registerCommand("marquee.jsonImport", this._import.bind(this)),
-      vscode.commands.registerCommand("marquee.jsonExport", this._export.bind(this))
+      vscode.commands.registerCommand('marquee.jsonImport', this._import.bind(this)),
+      vscode.commands.registerCommand('marquee.jsonExport', this._export.bind(this))
     )
 
     /**

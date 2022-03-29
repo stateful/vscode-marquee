@@ -18,12 +18,14 @@
     "@typescript-eslint/restrict-template-expressions": 2,
     "@typescript-eslint/space-before-function-paren": [2, "always"],
     "@typescript-eslint/indent": [2, 2],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": 0,
+    "max-len": [2, 120],
+    "quotes": [2, "single"],
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
-    "semi": "off",
-    "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": 0
+    "semi": "off"
   },
   "overrides": [
     {

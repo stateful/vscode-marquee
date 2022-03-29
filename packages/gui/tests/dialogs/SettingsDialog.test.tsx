@@ -35,12 +35,12 @@ test('switches to import/export settings', () => {
 
   userEvent.click(screen.getByText('Import'))
   expect(window.vscode.postMessage).toBeCalledWith({
-    west: { execCommands: [{ command: "marquee.jsonImport" }] }
+    west: { execCommands: [{ command: 'marquee.jsonImport' }] }
   })
 
   userEvent.click(screen.getByText('Export'))
   expect(window.vscode.postMessage).toBeCalledWith({
-    west: { execCommands: [{ command: "marquee.jsonExport" }] }
+    west: { execCommands: [{ command: 'marquee.jsonExport' }] }
   })
 
   expect(close).toBeCalledTimes(2)
