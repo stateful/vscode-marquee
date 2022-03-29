@@ -172,7 +172,12 @@ export class MarqueeGui extends EventEmitter {
 
     const aws = this.stateMgr.projectWidget.getActiveWorkspace()
     const cs = pref?.colorScheme
-    const colorScheme = typeof cs?.r === 'number' && typeof cs?.g === 'number' && typeof cs?.b === 'number' && typeof cs?.a === 'number'
+    const colorScheme = (
+      typeof cs?.r === 'number' &&
+      typeof cs?.g === 'number' &&
+      typeof cs?.b === 'number' &&
+      typeof cs?.a === 'number'
+    )
       ? `rgba(${cs.r}, ${cs.g}, ${cs.b}, ${cs.a})`
       : 'transparent'
 

@@ -103,7 +103,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
      */
     if (!this._prevtricks || this._prevtricks.length < result.length) {
       this._prevtricks = result
-      this._channel.appendLine(`Broadcats ${result.length} tricks`)
+      this._channel.appendLine(`Broadcast ${result.length} tricks`)
       this.broadcast({ error: null, tricks: result })
     }
   }

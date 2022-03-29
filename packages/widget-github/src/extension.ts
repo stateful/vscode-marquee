@@ -11,7 +11,13 @@ export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<{}, Configuration>(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  const stateManager = new ExtensionManager<{}, Configuration>(
+    context,
+    channel,
+    STATE_KEY,
+    DEFAULT_CONFIGURATION,
+    DEFAULT_STATE
+  )
 
   /**
    * transform configurations from Marquee v2 -> v3

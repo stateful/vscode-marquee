@@ -30,7 +30,8 @@ test('renders component correctly', async () => {
     </GlobalProvider>
   )
   const tipp =
-    'Hey there 👋 you are using a pre-release version of Marquee. Thanks for testing out the extension and make sure to leave us feedback ☺️'
+    'Hey there 👋 you are using a pre-release version of Marquee.' +
+    'Thanks for testing out the extension and make sure to leave us feedback ☺️'
   expect(screen.getByText(tipp)).toBeInTheDocument()
   act(() => {
     listener.emit('tricks', [
