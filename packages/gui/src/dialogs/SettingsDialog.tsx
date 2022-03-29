@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react'
 import {
   DialogContent,
   Button,
@@ -12,17 +12,17 @@ import {
   Tabs,
   Tab,
   Box
-} from "@mui/material";
+} from '@mui/material'
 
-import { MarqueeWindow, GlobalContext } from "@vscode-marquee/utils";
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+import { MarqueeWindow, GlobalContext } from '@vscode-marquee/utils'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
-import ModeDialogContent from "../components/ModeDialogContent";
+import ModeDialogContent from '../components/ModeDialogContent'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
 const ImportExport = ({ close }: { close: () => void }) => {
-  const { setResetApp } = useContext(GlobalContext);
+  const { setResetApp } = useContext(GlobalContext)
 
   return (
     <Grid
@@ -39,11 +39,11 @@ const ImportExport = ({ close }: { close: () => void }) => {
             onClick={() => {
               window.vscode.postMessage({
                 west: { execCommands: [{
-                  command: "marquee.jsonImport",
+                  command: 'marquee.jsonImport',
                 }]},
-              });
-              setResetApp(true);
-              close();
+              })
+              setResetApp(true)
+              close()
             }}
           >
             Import
@@ -60,10 +60,10 @@ const ImportExport = ({ close }: { close: () => void }) => {
             onClick={() => {
               window.vscode.postMessage({
                 west: { execCommands: [{
-                  command: "marquee.jsonExport",
+                  command: 'marquee.jsonExport',
                 }]},
-              });
-              close();
+              })
+              close()
             }}
           >
             Export
@@ -72,11 +72,17 @@ const ImportExport = ({ close }: { close: () => void }) => {
         <Grid item>Generate a JSON file containing all your Marquee data.</Grid>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-function TabPanel(props: any) {
-  const { children, value, index, ...other } = props;
+interface TabPanelProps {
+  children?: React.ReactElement
+  value: number
+  index: number
+  style?: Record<string, any>
+}
+function TabPanel (props: TabPanelProps) {
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -86,16 +92,16 @@ function TabPanel(props: any) {
       {...other}
     >
       {value === index && (
-        <Box p={1} style={{ height: "100%" }}>
+        <Box p={1} style={{ height: '100%' }}>
           {children}
         </Box>
       )}
     </div>
-  );
+  )
 }
 
 const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0)
 
   const handleChange = (event: any, newValue: any) => {
     if (event.target.innerHTML === 'Marquee Settings') {
@@ -104,11 +110,11 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
           command: 'workbench.action.openSettings',
           args: ['@ext:stateful.marquee']
         }]},
-      });
+      })
     }
 
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
   return (
     <DialogContainer fullScreen={true}>
       <>
@@ -118,9 +124,9 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
             container
             wrap="nowrap"
             direction="column"
-            style={{ height: "100%" }}
+            style={{ height: '100%' }}
           >
-            <Grid item style={{ maxWidth: "100%" }}>
+            <Grid item style={{ maxWidth: '100%' }}>
               <AppBar position="static" color="inherit">
                 <Tabs
                   value={value}
@@ -137,10 +143,10 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
             <Grid
               item
               style={{
-                overflow: "auto",
+                overflow: 'auto',
               }}
             >
-              <TabPanel value={value} index={0} style={{ height: "100%" }}>
+              <TabPanel value={value} index={0} style={{ height: '100%' }}>
                 <ModeDialogContent />
               </TabPanel>
               <TabPanel value={value} index={1}>
@@ -160,7 +166,7 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
         </DialogContent>
       </>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default SettingsDialog;
+export default SettingsDialog

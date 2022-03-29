@@ -1,16 +1,16 @@
-import React from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStickyNote } from "@fortawesome/free-solid-svg-icons/faStickyNote";
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStickyNote } from '@fortawesome/free-solid-svg-icons/faStickyNote'
 
-import Notes from "./Widget";
+import Notes from './Widget'
 
 export default {
-  name: "notes",
+  name: 'notes',
   icon: <FontAwesomeIcon icon={faStickyNote} />,
-  tags: ["productivity", "organize"],
+  tags: ['productivity', 'organize'],
   label: 'Notes',
   description:
-    "Rich notes for planning, brainstorming and organizing ones thoughts.",
+    'Rich notes for planning, brainstorming and organizing ones thoughts.',
   component: Notes,
-};
-export { Notes };
+}
+export { Notes }

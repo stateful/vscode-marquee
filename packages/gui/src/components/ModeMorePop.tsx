@@ -1,33 +1,33 @@
-import React, { useState, useContext, useCallback } from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ModeContext from "../contexts/ModeContext";
+import React, { useState, useContext, useCallback } from 'react'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import ModeContext from '../contexts/ModeContext'
 import {
   Typography,
   ListItem,
   ListItemText,
   Popover,
   IconButton,
-} from "@mui/material";
+} from '@mui/material'
 
 const ModeMorePop = () => {
-  const { _resetModes } = useContext(ModeContext);
+  const { _resetModes } = useContext(ModeContext)
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
   const handleReset = () => {
-    _resetModes();
-  };
+    _resetModes()
+  }
 
-  const open = Boolean(anchorEl);
-  const id = open ? "hide-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'hide-popover' : undefined
 
   return (
     <div>
@@ -41,19 +41,19 @@ const ModeMorePop = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <ListItem
           button
           onClick={() => {
-            handleReset();
-            handleClose();
+            handleReset()
+            handleClose()
           }}
         >
           <ListItemText
@@ -64,7 +64,7 @@ const ModeMorePop = () => {
         </ListItem>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default ModeMorePop;
+export default ModeMorePop

@@ -1,9 +1,9 @@
-import React from "react";
-import { Grid, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import React from 'react'
+import { Grid, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
-import HidePop from './HidePop';
-import Dragger from './Dragger';
+import HidePop from './HidePop'
+import Dragger from './Dragger'
 
 interface Props {
   name: string;
@@ -12,18 +12,18 @@ interface Props {
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
+    borderBottom: '1px solid var(--vscode-foreground)',
+    padding: '8px',
   }
-}));
+}))
 
 const ThirdPartyWidget = ({ name, label }: Props) => {
-  const classes = useStyles();
-  const WidgetTag = name;
+  const classes = useStyles()
+  const WidgetTag = name
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <div className={classes.widgetTitle}>
           <Grid
             container
@@ -54,15 +54,15 @@ const ThirdPartyWidget = ({ name, label }: Props) => {
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
-          <Grid item xs style={{ overflow: "auto" }}>
+          <Grid item xs style={{ overflow: 'auto' }}>
             <WidgetTag />
           </Grid>
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default ThirdPartyWidget;
+export default ThirdPartyWidget

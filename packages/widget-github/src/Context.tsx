@@ -1,87 +1,87 @@
-import React, { createContext, useState, useEffect } from "react";
-import { connect, getEventListener, MarqueeWindow } from "@vscode-marquee/utils";
+import React, { createContext, useState, useEffect } from 'react'
+import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 
-import { fetchData, getFromCache } from './utils';
-import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration, Events } from './types';
+import { fetchData, getFromCache } from './utils'
+import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration, Events } from './types'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
-const TrendContext = createContext<Context>({} as any);
-const WIDGET_ID = '@vscode-marquee/github-widget';
+const TrendContext = createContext<Context>({} as any)
+const WIDGET_ID = '@vscode-marquee/github-widget'
 interface Props {
   children?: React.ReactNode;
 }
 
 const TrendProvider = ({ children }: Props) => {
-  const eventListener = getEventListener<Events>();
-  const widgetState = getEventListener<Configuration>(WIDGET_ID);
-  const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState);
+  const eventListener = getEventListener<Events>()
+  const widgetState = getEventListener<Configuration>(WIDGET_ID)
+  const providerValues = connect<Configuration>(window.marqueeStateConfiguration[WIDGET_ID].configuration, widgetState)
 
-  const [unmounted, setUnmounted] = useState(false);
-  const [error, setError] = useState<Error>();
-  const [isFetching, setIsFetching] = useState(false);
-  const [trends, setTrends] = useState<Trend[]>([]);
-  const [showDialog, setShowDialog] = useState(false);
+  const [unmounted, setUnmounted] = useState(false)
+  const [error, setError] = useState<Error>()
+  const [isFetching, setIsFetching] = useState(false)
+  const [trends, setTrends] = useState<Trend[]>([])
+  const [showDialog, setShowDialog] = useState(false)
 
   const _updateFilter = (trendFilter: string) => {
-    providerValues.setTrendFilter(trendFilter || '');
-  };
+    providerValues.setTrendFilter(trendFilter || '')
+  }
 
   const _updateSince = (since?: Since) => {
     if (!since?.name) {
-      return;
+      return
     }
-    providerValues.setSince(since.name as SinceConfiguration || '');
-  };
+    providerValues.setSince(since.name as SinceConfiguration || '')
+  }
 
   const _updateLanguage = (language?: SpokenLanguage) => {
     if (!language?.name) {
-      return;
+      return
     }
-    providerValues.setLanguage(language.name || '');
-  };
+    providerValues.setLanguage(language.name || '')
+  }
 
   const _updateSpoken = (spoken?: SpokenLanguage) => {
     if (!spoken?.name) {
-      return;
+      return
     }
-    providerValues.setSpoken(spoken.name || '');
-  };
+    providerValues.setSpoken(spoken.name || '')
+  }
 
   useEffect(() => {
-    eventListener.on('openGitHubDialog', setShowDialog);
+    eventListener.on('openGitHubDialog', setShowDialog)
     return () => {
-      setUnmounted(true);
-      widgetState.removeAllListeners();
-      eventListener.removeAllListeners();
-    };
-  }, []);
+      setUnmounted(true)
+      widgetState.removeAllListeners()
+      eventListener.removeAllListeners()
+    }
+  }, [])
 
   useEffect(() => {
     /**
      * don't fetch if we are already fetching something
      */
     if (isFetching || unmounted) {
-      return;
+      return
     }
 
-    const cache = getFromCache(providerValues.since, providerValues.language, providerValues.spoken);
+    const cache = getFromCache(providerValues.since, providerValues.language, providerValues.spoken)
     if (cache) {
-      return setTrends(cache);
+      return setTrends(cache)
     }
 
-    setIsFetching(true);
+    setIsFetching(true)
     fetchData(providerValues.since, providerValues.language, providerValues.spoken).then(
       (res) => {
         if (unmounted) {
-          return;
+          return
         }
-        setTrends(res as Trend[]);
-        setError(undefined);
+        setTrends(res as Trend[])
+        setError(undefined)
       },
       (e: Error) => !unmounted && setError(e)
-    ).finally(() => !unmounted && setIsFetching(false));
-  }, [providerValues.language, providerValues.since, providerValues.spoken]);
+    ).finally(() => !unmounted && setIsFetching(false))
+  }, [providerValues.language, providerValues.since, providerValues.spoken])
 
   return (
     <TrendContext.Provider
@@ -103,8 +103,8 @@ const TrendProvider = ({ children }: Props) => {
     >
       {children}
     </TrendContext.Provider>
-  );
-};
+  )
+}
 
-export default TrendContext;
-export { TrendProvider };
+export default TrendContext
+export { TrendProvider }

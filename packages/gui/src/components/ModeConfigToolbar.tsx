@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import Toolbar from "@mui/material/Toolbar";
-import { Grid, Button } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import React, { useState } from 'react'
+import Toolbar from '@mui/material/Toolbar'
+import { Grid, Button } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
-import ModeMorePop from "./ModeMorePop";
-import ModeAddDialog from "../dialogs/ModeAddDialog";
+import ModeMorePop from './ModeMorePop'
+import ModeAddDialog from '../dialogs/ModeAddDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   toolbar: {
-    borderBottom: "1px solid var(--vscode-foreground)",
+    borderBottom: '1px solid var(--vscode-foreground)',
   },
   vert: {
-    position: "relative",
+    position: 'relative',
     marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
+      width: 'auto',
     },
   },
-}));
+}))
 
 const ModeConfigToolbar = () => {
-  const classes = useStyles();
-  const [showModeAddDialog, setShowModeAddDialog] = useState(false);
+  const classes = useStyles()
+  const [showModeAddDialog, setShowModeAddDialog] = useState(false)
 
   return (
     <div className={classes.root}>
@@ -49,7 +49,7 @@ const ModeConfigToolbar = () => {
         </Grid>
       </Toolbar>
     </div>
-  );
-};
+  )
+}
 
-export default ModeConfigToolbar;
+export default ModeConfigToolbar

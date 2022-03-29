@@ -1,5 +1,5 @@
-import NextLink from "next/link";
-import { Box, Heading, Image, Link, SimpleGrid, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import NextLink from 'next/link'
+import { Box, Heading, Image, Link, SimpleGrid, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 const widgets = [{
   image: 'projects.png',
@@ -50,12 +50,20 @@ const widgets = [{
   description: <Box>
     Search for popular projects on GitHub to find code needed for your project.
   </Box>
-}];
+}]
 
 export const Widgets = () => (
   <Box mt={10}>
     <Heading>Widgets</Heading>
-    <Heading as='h3' fontSize={'1.5em'} mt={5} mb={10}>The ever growing collection of productivity widgets you can bring into your Marquee workspaces.</Heading>
+    <Heading
+      as='h3'
+      fontSize={'1.5em'}
+      mt={5}
+      mb={10}
+    >
+      The ever growing collection of productivity widgets you
+      can bring into your Marquee workspaces.
+    </Heading>
     <SimpleGrid minChildWidth={250} spacingX={{ sm: 10, md: 20 }} columns={{ sm: 1, md: 3}}>
       {widgets.map((w, i) => (
         <Box mb={10} key={i}>
@@ -74,7 +82,7 @@ export const Widgets = () => (
           <SkeletonText mt='4' noOfLines={4} spacing='4' />
         </Box>
         <Heading fontFamily={'monospace'} color={'marquee'} my={{ base: 4 }} as="h3" fontSize="1.5em">
-          {`<insert widget here />`}
+          {'<insert widget here />'}
         </Heading>
         <Box>
           Everyone can build their own widget and add it to Marquee. Check
@@ -83,4 +91,4 @@ export const Widgets = () => (
       </Box>
     </SimpleGrid>
   </Box>
-);
+)

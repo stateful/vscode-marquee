@@ -1,7 +1,7 @@
-import React, { ChangeEvent } from "react";
-import Autocomplete from '@mui/material/Autocomplete';
-import { TextField } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import React, { ChangeEvent } from 'react'
+import Autocomplete from '@mui/material/Autocomplete'
+import { TextField } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 export interface Props {
   id: string
@@ -9,7 +9,7 @@ export interface Props {
   options: any,
   display: string
   label: string
-  variant: "filled" | "standard" | "outlined" | undefined
+  variant: 'filled' | 'standard' | 'outlined' | undefined
   value: any
   getOptionSelected: (option: any, value: any) => boolean
   onChange: (e: ChangeEvent<{}>, v: any) => void
@@ -17,25 +17,25 @@ export interface Props {
 
 const useStyles = makeStyles(() => ({
   option: {
-    backgroundColor: "var(--vscode-editor-background)",
+    backgroundColor: 'var(--vscode-editor-background)',
 
     '&[data-focus="true"]': {
-      backgroundColor: "var(--vscode-editor-selectionBackground)",
-      color: "var(--vscode-input-foreground)",
+      backgroundColor: 'var(--vscode-editor-selectionBackground)',
+      color: 'var(--vscode-input-foreground)',
     },
     '&[aria-selected="true"]': {
-      backgroundColor: "var(--vscode-editor-selectionBackground)",
-      color: "var(--vscode-editor-foreground)",
+      backgroundColor: 'var(--vscode-editor-selectionBackground)',
+      color: 'var(--vscode-editor-foreground)',
     },
   },
   input: {
     // color: "black",
-    color: "var(--vscode-editor-foreground)",
+    color: 'var(--vscode-editor-foreground)',
   },
   label: {
-    color: "var(--vscode-editor-foreground)",
+    color: 'var(--vscode-editor-foreground)',
   },
-}));
+}))
 
 const BetterComplete = ({
   id,
@@ -46,7 +46,7 @@ const BetterComplete = ({
   variant,
   ...rest
 }: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Autocomplete
@@ -56,13 +56,13 @@ const BetterComplete = ({
         input: classes.input,
       }}
       options={options}
-      getOptionLabel={(option) => option[display] || ""}
+      getOptionLabel={(option) => option[display] || ''}
       renderInput={(params) => (
         <TextField
           {...params}
           label={label || field}
           fullWidth
-          variant={variant || "outlined"}
+          variant={variant || 'outlined'}
           InputLabelProps={{
             className: classes.label,
           }}
@@ -70,7 +70,7 @@ const BetterComplete = ({
       )}
       {...rest}
     />
-  );
-};
+  )
+}
 
-export default React.memo(BetterComplete);
+export default React.memo(BetterComplete)

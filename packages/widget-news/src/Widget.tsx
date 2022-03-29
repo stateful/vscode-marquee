@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   Grid,
   Link,
@@ -6,41 +6,41 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-} from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHackerNews } from "@fortawesome/free-brands-svg-icons/faHackerNews";
-import CircularProgress from "@mui/material/CircularProgress";
-import makeStyles from '@mui/styles/makeStyles';
+} from '@mui/material'
+import Typography from '@mui/material/Typography'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
+import CircularProgress from '@mui/material/CircularProgress'
+import makeStyles from '@mui/styles/makeStyles'
 
-import wrapper, { Dragger } from "@vscode-marquee/widget";
-import { NetworkError } from "@vscode-marquee/utils";
+import wrapper, { Dragger } from '@vscode-marquee/widget'
+import { NetworkError } from '@vscode-marquee/utils'
 
-import PopMenu from "./components/Pop";
-import { fetchNews } from './utils';
-import { DEFAULT_STATE } from "./constants";
-import type { WidgetState } from "./types";
+import PopMenu from './components/Pop'
+import { fetchNews } from './utils'
+import { DEFAULT_STATE } from './constants'
+import type { WidgetState } from './types'
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
+    borderBottom: '1px solid var(--vscode-foreground)',
+    padding: '8px',
   },
-}));
+}))
 
 let News = () => {
-  const classes = useStyles();
-  const [data, setData] = useState(DEFAULT_STATE);
+  const classes = useStyles()
+  const [data, setData] = useState(DEFAULT_STATE)
   useEffect(() => {
-    let _setData = (data: WidgetState) => setData(data);
-    setData({ ...data, isFetching: true });
-    fetchNews(data).then((data) => _setData(data));
-    return () => { _setData = () => {}; };
-  }, [data.channel]);
+    let _setData = (data: WidgetState) => setData(data)
+    setData({ ...data, isFetching: true })
+    fetchNews(data).then((data) => _setData(data))
+    return () => { _setData = () => {} }
+  }, [data.channel])
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <div className={classes.widgetTitle}>
           <Grid
             container
@@ -69,18 +69,18 @@ let News = () => {
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
-          <Grid item xs style={{ overflow: "auto" }}>
+          <Grid item xs style={{ overflow: 'auto' }}>
             {data.error && (
               <Grid
                 item
                 xs
                 style={{
-                  overflow: "auto",
-                  height: "100%",
-                  width: "100%",
-                  padding: "24px",
+                  overflow: 'auto',
+                  height: '100%',
+                  width: '100%',
+                  padding: '24px',
                 }}
               >
                 <NetworkError message={data.error.message} />
@@ -89,7 +89,7 @@ let News = () => {
             {data.isFetching && (
               <Grid
                 container
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
                 alignItems="center"
                 justifyContent="center"
                 direction="column"
@@ -102,7 +102,7 @@ let News = () => {
             {!data.isFetching && data.news.length === 0 && (
               <Grid
                 container
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
                 alignItems="center"
                 justifyContent="center"
                 direction="column"
@@ -150,7 +150,7 @@ let News = () => {
                         </>
                       }
                       secondary={
-                        <Typography style={{ fontSize: "10px" }}>
+                        <Typography style={{ fontSize: '10px' }}>
                           {entry.points} points by {entry.user} &nbsp;
                           {entry.time_ago}
                         </Typography>
@@ -164,7 +164,7 @@ let News = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default wrapper(News, 'news');
+export default wrapper(News, 'news')

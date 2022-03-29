@@ -1,7 +1,7 @@
-import { Nav } from '../components/Nav';
-import { Container } from '../components/Container';
-import { Footer } from '../components/Footer';
-import { Center, Heading, Text, Link } from '@chakra-ui/react';
+import { Nav } from '../components/Nav'
+import { Container } from '../components/Container'
+import { Footer } from '../components/Footer'
+import { Center, Heading, Text, Link } from '@chakra-ui/react'
 
 const Index = () => (
   <Container height="100vh">
@@ -14,6 +14,6 @@ const Index = () => (
     </Center>
     <Footer />
   </Container>
-);
+)
 
-export default Index;
+export default Index

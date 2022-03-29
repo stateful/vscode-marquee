@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect } from 'react'
+import ReactDOM from 'react-dom'
 
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/styles";
-import { StyledEngineProvider, Theme } from "@mui/material/styles";
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/styles'
+import { StyledEngineProvider, Theme } from '@mui/material/styles'
 
-import { theme, GlobalProvider } from "@vscode-marquee/utils";
-import type { MarqueeWindow } from '@vscode-marquee/utils';
+import { theme, GlobalProvider } from '@vscode-marquee/utils'
+import type { MarqueeWindow } from '@vscode-marquee/utils'
 
-import Sentry from "./sentry";
-import Container from "./Container";
+import Sentry from './sentry'
+import Container from './Container'
 
-import { ModeProvider } from "./contexts/ModeContext";
+import { ModeProvider } from './contexts/ModeContext'
 
-import "./css/index.css";
+import './css/index.css'
 
 
 declare module '@mui/styles/defaultTheme' {
@@ -22,10 +22,10 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
-window.vscode = window.acquireVsCodeApi() as MarqueeWindow['vscode'];
-Sentry.init();
+window.vscode = window.acquireVsCodeApi() as MarqueeWindow['vscode']
+Sentry.init()
 
 export const Providers = ({ children }: any) => {
   return (
@@ -34,14 +34,14 @@ export const Providers = ({ children }: any) => {
         {children}
       </GlobalProvider>
     </ModeProvider>
-  );
-};
+  )
+}
 
 export const App = () => {
   /**
    * tell extension backend that application is readyy
    */
-  useEffect(() => { window.vscode.postMessage({ ready: true }); }, []);
+  useEffect(() => { window.vscode.postMessage({ ready: true }) }, [])
 
   return (
     <StyledEngineProvider injectFirst>
@@ -52,9 +52,9 @@ export const App = () => {
         </Providers>
       </ThemeProvider>
     </StyledEngineProvider>
-  );
-};
+  )
+}
 
 if (process.env.NODE_ENV !== 'test') {
-  ReactDOM.render(<App />, document.getElementById("root"));
+  ReactDOM.render(<App />, document.getElementById('root'))
 }

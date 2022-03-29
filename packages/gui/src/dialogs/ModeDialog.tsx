@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
-} from "@mui/material";
+} from '@mui/material'
 
-import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
 
-import ModeDialogContent from "../components/ModeDialogContent";
+import ModeDialogContent from '../components/ModeDialogContent'
 
 const ModeDialog = React.memo(({ close }: { close: () => void }) => {
   return (
@@ -22,7 +22,7 @@ const ModeDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default ModeDialog;
+export default ModeDialog

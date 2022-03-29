@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo } from 'react'
 import {
   DialogContent,
   DialogActions,
@@ -11,30 +11,30 @@ import {
   ListSubheader,
   Divider,
   ListItemText,
-} from "@mui/material";
+} from '@mui/material'
 
-import { GlobalContext } from "@vscode-marquee/utils";
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+import { GlobalContext } from '@vscode-marquee/utils'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
 // @ts-expect-error no types for imported png files
-import google_icon_dark from "../img/powered_by_google_on_non_white.png";
+import google_icon_dark from '../img/powered_by_google_on_non_white.png'
 // @ts-expect-error no types for imported png files
-import google_icon_light from "../img/powered_by_google_on_white.png";
+import google_icon_light from '../img/powered_by_google_on_white.png'
 
-import { themes } from "../constants";
+import { themes } from '../constants'
 
 const InfoDialog = React.memo(({ close }: { close: () => void }) => {
-  const { background } = useContext(GlobalContext);
+  const { background } = useContext(GlobalContext)
 
   const theme = useMemo(() => {
     if (isNaN(+background)) {
-      return { title: 'Unknown', author: 'Unknown' };
+      return { title: 'Unknown', author: 'Unknown' }
     }
 
     return themes.filter((theme) => {
-      return theme.id === parseInt(background, 10);
-    })[0];
-  }, [background]);
+      return theme.id === parseInt(background, 10)
+    })[0]
+  }, [background])
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -60,7 +60,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
                 <Grid
                   container
                   direction="column"
-                  style={{ height: "100%", width: "100%" }}
+                  style={{ height: '100%', width: '100%' }}
                 >
                   <Grid item>
                     <Typography variant="body2">
@@ -115,15 +115,15 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
               primary={
                 <Grid container direction="row" justifyContent="flex-start">
                   <Grid item xs={4}>
-                    {document.body.classList[0] === "vscode-light" ? (
+                    {document.body.classList[0] === 'vscode-light' ? (
                       <img
-                        style={{ height: "14px" }}
+                        style={{ height: '14px' }}
                         src={google_icon_light}
                         alt="Powered by Google"
                       />
                     ) : (
                       <img
-                        style={{ height: "14px" }}
+                        style={{ height: '14px' }}
                         src={google_icon_dark}
                         alt="Powered by Google"
                       />
@@ -146,7 +146,7 @@ const InfoDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default InfoDialog;
+export default InfoDialog

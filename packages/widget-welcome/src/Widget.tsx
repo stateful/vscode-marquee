@@ -1,30 +1,36 @@
-import React, { useContext } from "react";
-import { Grid, Link, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter";
+import React, { useContext } from 'react'
+import { Grid, Link, Typography } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 
-import wrapper, { Dragger } from "@vscode-marquee/widget";
-import { NetworkError } from '@vscode-marquee/utils';
+import wrapper, { Dragger } from '@vscode-marquee/widget'
+import { NetworkError } from '@vscode-marquee/utils'
 
-import TrickContext, { TrickProvider } from './Context';
-import TrickContent from "./components/TrickContent";
-import PopMenu from "./components/Pop";
+import TrickContext, { TrickProvider } from './Context'
+import TrickContent from './components/TrickContent'
+import PopMenu from './components/Pop'
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
+    borderBottom: '1px solid var(--vscode-foreground)',
+    padding: '8px',
   },
-}));
+}))
 
 let Welcome = () => {
-  const { error } = useContext(TrickContext);
-  const classes = useStyles();
+  const { error } = useContext(TrickContext)
+  const classes = useStyles()
+
+  const tweetLink = 'https://marketplace.visualstudio.com/items?itemName=stateful.marquee'
+  const linkParams = new URLSearchParams({
+    text: `Check out the Marquee extension for VS Code! ${tweetLink}`
+  })
+  const link = `https://twitter.com/intent/tweet?${linkParams.toString()}`
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <div className={classes.widgetTitle}>
           <Grid
             container
@@ -53,17 +59,17 @@ let Welcome = () => {
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
           {error && (
             <Grid
               item
               xs
               style={{
-                overflow: "auto",
-                height: "100%",
-                width: "100%",
-                padding: "24px",
+                overflow: 'auto',
+                height: '100%',
+                width: '100%',
+                padding: '24px',
               }}
             >
               <NetworkError message={error.message} />
@@ -74,34 +80,34 @@ let Welcome = () => {
               item
               xs
               style={{
-                overflow: "auto",
-                paddingTop: "16px",
-                paddingRight: "16px",
-                paddingLeft: "16px",
-                paddingBottom: "8px",
+                overflow: 'auto',
+                paddingTop: '16px',
+                paddingRight: '16px',
+                paddingLeft: '16px',
+                paddingBottom: '8px',
               }}
             >
               <Grid
                 container
                 style={{
-                  height: "100%",
-                  width: "100%",
+                  height: '100%',
+                  width: '100%',
                 }}
                 direction="column"
                 wrap="nowrap"
               >
-                <Grid item xs={1} style={{ maxWidth: "100%" }}>
+                <Grid item xs={1} style={{ maxWidth: '100%' }}>
                   <Grid
                     container
                     justifyContent="flex-end"
                     alignItems="center"
-                    style={{ height: "100%", padding: "8px" }}
+                    style={{ height: '100%', padding: '8px' }}
                   >
                     <Grid item>
                       <Typography variant="caption">
                         <Link
                           component="a"
-                          href={`https://twitter.com/intent/tweet?text=Check%20out%20the%20Marquee%20extension%20for%20VS%20Code!%20https://marketplace.visualstudio.com/items?itemName=stateful.marquee`}
+                          href={link}
                           target="_blank"
                           underline="hover">
                           Share Marquee on &nbsp;
@@ -111,7 +117,7 @@ let Welcome = () => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={11} style={{ maxWidth: "100%" }}>
+                <Grid item xs={11} style={{ maxWidth: '100%' }}>
                   <TrickContent />
                 </Grid>
               </Grid>
@@ -120,12 +126,12 @@ let Welcome = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 const Widget = () => (
   <TrickProvider>
     <Welcome />
   </TrickProvider>
-);
-export default wrapper(Widget, 'welcome');
+)
+export default wrapper(Widget, 'welcome')

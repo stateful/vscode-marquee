@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, useEffect } from "react";
+import React, { useContext, useMemo, useState, useEffect } from 'react'
 import {
   Typography,
   Grid,
@@ -13,37 +13,37 @@ import {
   ListItemSecondaryAction,
   Tabs,
   Tab,
-} from "@mui/material";
-import withStyles from '@mui/styles/withStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import ViewCompactIcon from "@mui/icons-material/ViewCompact";
-import PropTypes from "prop-types";
-import { Emoji } from "emoji-mart";
+} from '@mui/material'
+import withStyles from '@mui/styles/withStyles'
+import makeStyles from '@mui/styles/makeStyles'
+import ViewCompactIcon from '@mui/icons-material/ViewCompact'
+import PropTypes from 'prop-types'
+import { Emoji } from 'emoji-mart'
 
-import ModeContext from "../contexts/ModeContext";
-import { widgetConfig } from "../constants";
+import ModeContext from '../contexts/ModeContext'
+import { widgetConfig } from '../constants'
 
-import ModeConfigToolbar from "./ModeConfigToolbar";
-import ModeTabPop from "./ModeTabPop";
-import { ucFirst } from "../utils";
-import { WidgetConfig, PresetModes } from "../types";
+import ModeConfigToolbar from './ModeConfigToolbar'
+import ModeTabPop from './ModeTabPop'
+import { ucFirst } from '../utils'
+import { WidgetConfig, PresetModes } from '../types'
 
 const VerticalTabs = withStyles(() => ({
   flexContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   indicator: {
-    display: "none",
+    display: 'none',
   },
-}))(Tabs);
+}))(Tabs)
 
 const MyTab = withStyles(() => ({
   selected: {
     borderLeft:
-      "2px solid var(--vscode-editorMarkerNavigationError-background)",
-    backgroundColor: "var(--vscode-editor-background)",
+      '2px solid var(--vscode-editorMarkerNavigationError-background)',
+    backgroundColor: 'var(--vscode-editor-background)',
   },
-}))(Tab);
+}))(Tab)
 
 interface TabPanelProps {
   children: any
@@ -51,8 +51,8 @@ interface TabPanelProps {
   index: number
 }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+function TabPanel (props: TabPanelProps) {
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -64,44 +64,44 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && <Box p={1}>{children}</Box>}
     </div>
-  );
+  )
 }
 
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    display: "flex",
-    height: "90%",
+    display: 'flex',
+    height: '90%',
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-    height: "100%",
+    height: '100%',
   },
-}));
+}))
 
 interface WidgetSelectorProps {
   widgetName: string
   targetModeName: string
 }
 const WidgetSelector = React.memo(({ widgetName, targetModeName }: WidgetSelectorProps) => {
-  const { modes, _setModeWidget } = useContext(ModeContext);
+  const { modes, _setModeWidget } = useContext(ModeContext)
 
   const checked = useMemo(() => {
-    if (modes[targetModeName] && modes[targetModeName]["widgets"][widgetName]) {
-      return modes[targetModeName]["widgets"][widgetName];
+    if (modes[targetModeName] && modes[targetModeName]['widgets'][widgetName]) {
+      return modes[targetModeName]['widgets'][widgetName]
     } else {
-      return false;
+      return false
     }
-  }, [modes, widgetName, targetModeName]);
+  }, [modes, widgetName, targetModeName])
 
   return (
-    <Tooltip title={"Enable/Disable"} placement="top" arrow>
+    <Tooltip title={'Enable/Disable'} placement="top" arrow>
       <FormControlLabel
         label=""
         aria-label={`Enable/Disable ${ucFirst(widgetName)} Widget`}
@@ -113,23 +113,23 @@ const WidgetSelector = React.memo(({ widgetName, targetModeName }: WidgetSelecto
             size="small"
             checked={checked}
             onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              _setModeWidget(targetModeName, widgetName, !checked);
+              e.preventDefault()
+              e.stopPropagation()
+              _setModeWidget(targetModeName, widgetName, !checked)
             }}
           />
         }
       />
     </Tooltip>
-  );
-});
+  )
+})
 
 interface WidgetListProps {
   name: string
 }
 const WidgetList = React.memo(({ name }: WidgetListProps) => {
-  const { modes, _setModeWidget, thirdPartyWidgets } = useContext(ModeContext);
-  const widgets: WidgetConfig[] = [...widgetConfig, ...thirdPartyWidgets];
+  const { modes, _setModeWidget, thirdPartyWidgets } = useContext(ModeContext)
+  const widgets: WidgetConfig[] = [...widgetConfig, ...thirdPartyWidgets]
 
   return (
     <>
@@ -141,18 +141,18 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
                 dense
                 button
                 onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                  e.preventDefault()
+                  e.stopPropagation()
                   _setModeWidget(
                     name,
                     widget.name,
-                    !modes[name]["widgets"][widget.name]
-                  );
+                    !modes[name]['widgets'][widget.name]
+                  )
                 }}
               >
                 <ListItemAvatar>
                   {React.cloneElement(widget.icon, {
-                    style: { fontSize: "16px" },
+                    style: { fontSize: '16px' },
                   })}
                 </ListItemAvatar>
                 <ListItemText
@@ -178,30 +178,30 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
               </ListItem>
             </List>
           </Grid>
-        );
+        )
       })}
     </>
-  );
-});
+  )
+})
 
 const ModeDialogContent = () => {
-  const classes = useStyles();
-  const { modes, modeName } = useContext(ModeContext);
-  const [value, setValue] = useState(0);
+  const classes = useStyles()
+  const { modes, modeName } = useContext(ModeContext)
+  const [value, setValue] = useState(0)
 
   useEffect(() => {
-    setValue(Object.keys(modes).indexOf(modeName));
-  }, []);
+    setValue(Object.keys(modes).indexOf(modeName))
+  }, [])
 
   useEffect(() => {
     if (!Object.keys(modes)[value]) {
-      setValue(Object.keys(modes).indexOf(modeName));
+      setValue(Object.keys(modes).indexOf(modeName))
     }
-  }, [modes]);
+  }, [modes])
 
   const handleChange = (event: any, newValue: any) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   return (
     <>
@@ -209,7 +209,7 @@ const ModeDialogContent = () => {
 
       <Box className={classes.root}>
         <Box flexGrow={1} display="flex" overflow="hidden">
-          <Box overflow="auto" style={{ minWidth: "150px" }}>
+          <Box overflow="auto" style={{ minWidth: '150px' }}>
             <VerticalTabs
               orientation="vertical"
               variant="scrollable"
@@ -233,7 +233,7 @@ const ModeDialogContent = () => {
                             wrap="nowrap"
                             spacing={1}
                           >
-                            <Grid item style={{ paddingTop: "8px" }}>
+                            <Grid item style={{ paddingTop: '8px' }}>
                               {modes[name].icon && (
                                 <Emoji emoji={modes[name].icon!} size={16} />
                               )}
@@ -256,11 +256,11 @@ const ModeDialogContent = () => {
                         </ModeTabPop>
                       }
                     />
-                  );
+                  )
                 })}
             </VerticalTabs>
           </Box>
-          <Box overflow="auto" style={{ width: "100%" }}>
+          <Box overflow="auto" style={{ width: '100%' }}>
             {modes &&
               Object.keys(modes).map((name) => {
                 return (
@@ -271,13 +271,13 @@ const ModeDialogContent = () => {
                   >
                     <WidgetList name={name} />
                   </TabPanel>
-                );
+                )
               })}
           </Box>
         </Box>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default ModeDialogContent;
+export default ModeDialogContent

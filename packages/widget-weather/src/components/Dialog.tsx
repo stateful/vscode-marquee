@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   DialogContent,
   DialogActions,
@@ -7,21 +7,21 @@ import {
   IconButton,
   Typography,
   Grid,
-} from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { DebounceInput } from "react-debounce-input";
+} from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
+import SettingsIcon from '@mui/icons-material/Settings'
+import { DebounceInput } from 'react-debounce-input'
 
-import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
-import { BetterComplete } from '@vscode-marquee/utils';
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
+import { BetterComplete } from '@vscode-marquee/utils'
 
-import WeatherContext from "../Context";
-import { SCALE_OPTIONS } from '../constants';
+import WeatherContext from '../Context'
+import { SCALE_OPTIONS } from '../constants'
 
 const LocationOption = React.memo(() => {
-  const { city, _updateCity } = useContext(WeatherContext);
-  const [cityValue, setCityValue] = useState("");
-  let cityInputRef: HTMLInputElement | null = null;
+  const { city, _updateCity } = useContext(WeatherContext)
+  const [cityValue, setCityValue] = useState('')
+  let cityInputRef: HTMLInputElement | null = null
 
   return (
     <Grid container direction="column">
@@ -39,8 +39,8 @@ const LocationOption = React.memo(() => {
           <Grid item>
             <Button
               onClick={() => {
-                setCityValue('');
-                _updateCity('');
+                setCityValue('')
+                _updateCity('')
               }}
             >
               Restore to auto-detected
@@ -52,7 +52,7 @@ const LocationOption = React.memo(() => {
         <Grid container direction="row" alignItems="center" spacing={2}>
           <Grid item xs>
             <DebounceInput
-              label={"Update your location"}
+              label={'Update your location'}
               variant="filled"
               fullWidth
               inputProps={{ ref: (input: HTMLInputElement) => (cityInputRef = input) }}
@@ -63,26 +63,26 @@ const LocationOption = React.memo(() => {
               onKeyDown={(e) => {
                 if (e.which === 13 || e.keyCode === 13) {
                   if (cityInputRef) {
-                    _updateCity(cityInputRef.value);
-                    cityInputRef.blur();
+                    _updateCity(cityInputRef.value)
+                    cityInputRef.blur()
                   }
 
-                  setCityValue('');
-                  e.stopPropagation();
-                  e.preventDefault();
+                  setCityValue('')
+                  e.stopPropagation()
+                  e.preventDefault()
                 }
               }}
               InputProps={{
                 endAdornment: (
                   <ClearIcon
                     fontSize="small"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     onClick={() => {
-                      setCityValue('');
-                      _updateCity('');
+                      setCityValue('')
+                      _updateCity('')
                       if (cityInputRef) {
-                        cityInputRef.value = "";
-                        cityInputRef.focus();
+                        cityInputRef.value = ''
+                        cityInputRef.focus()
                       }
                     }}
                   />
@@ -97,11 +97,11 @@ const LocationOption = React.memo(() => {
                  * than an HTML element which causes the input to be cleared
                  */
                 if (!e.target.tagName) {
-                  return;
+                  return
                 }
 
-                setCityValue(e.target.value);
-                _updateCity(e.target.value);
+                setCityValue(e.target.value)
+                _updateCity(e.target.value)
               }}
               name="city"
               value={cityValue}
@@ -110,12 +110,12 @@ const LocationOption = React.memo(() => {
         </Grid>
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 const ScaleOption = React.memo(() => {
-  const { scale, _updateScale } = useContext(WeatherContext);
-  const value = scale && SCALE_OPTIONS.find((s) => s.name === scale) || SCALE_OPTIONS[0];
+  const { scale, _updateScale } = useContext(WeatherContext)
+  const value = scale && SCALE_OPTIONS.find((s) => s.name === scale) || SCALE_OPTIONS[0]
 
   return (
     <Grid
@@ -135,7 +135,7 @@ const ScaleOption = React.memo(() => {
           value={value}
           variant="filled"
           getOptionSelected={(option, value) => {
-            return option.value === value.value;
+            return option.value === value.value
           }}
           onChange={(e, v) => v
             ? _updateScale(v)
@@ -143,8 +143,8 @@ const ScaleOption = React.memo(() => {
         />
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 const WeatherDialog = React.memo(({ close }: { close: () => void }) => {
   return (
@@ -166,11 +166,11 @@ const WeatherDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
 const WeatherDialogLauncher = () => {
-  const { showDialog, setShowDialog } = useContext(WeatherContext);
+  const { showDialog, setShowDialog } = useContext(WeatherContext)
 
   return (
     <>
@@ -179,7 +179,7 @@ const WeatherDialogLauncher = () => {
       </IconButton>
       { showDialog && ( <WeatherDialog close={() => setShowDialog(false)} /> )}
     </>
-  );
-};
+  )
+}
 
-export { WeatherDialogLauncher, WeatherDialog };
+export { WeatherDialogLauncher, WeatherDialog }

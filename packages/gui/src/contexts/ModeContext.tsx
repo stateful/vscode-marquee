@@ -3,52 +3,52 @@ import React, {
   useState,
   useEffect,
   useMemo
-} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { connect, getEventListener, MarqueeEvents } from "@vscode-marquee/utils";
-import wrapper, { ThirdPartyWidget } from '@vscode-marquee/widget';
-import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@vscode-marquee/utils';
-import type { EmojiData } from 'emoji-mart';
+import { connect, getEventListener, MarqueeEvents } from '@vscode-marquee/utils'
+import wrapper, { ThirdPartyWidget } from '@vscode-marquee/widget'
+import type { MarqueeWindow, MarqueeInterface, ThirdPartyWidgetOptions } from '@vscode-marquee/utils'
+import type { EmojiData } from 'emoji-mart'
 
-import { defaultLayout, defaultEnabledWidgets } from "../constants";
-import { Context, Mode, LayoutType, WidgetConfig, State, Configuration, ModeConfig } from "../types";
+import { defaultLayout, defaultEnabledWidgets } from '../constants'
+import { Context, Mode, LayoutType, WidgetConfig, State, Configuration, ModeConfig } from '../types'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
 interface Props {
   children: JSX.Element
 }
 
-const ModeContext = createContext<Context>({} as Context);
-const WIDGET_ID = '@vscode-marquee/gui';
+const ModeContext = createContext<Context>({} as Context)
+const WIDGET_ID = '@vscode-marquee/gui'
 
 const ModeProvider = ({ children }: Props) => {
-  const eventListener = getEventListener<MarqueeEvents>();
-  const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[]);
-  const modeState = getEventListener<State & Configuration>(WIDGET_ID);
+  const eventListener = getEventListener<MarqueeEvents>()
+  const [thirdPartyWidgets, setThirdPartyWidgets] = useState([] as WidgetConfig[])
+  const modeState = getEventListener<State & Configuration>(WIDGET_ID)
   const providerValues = connect<State & Configuration>(
     {
       ...window.marqueeStateConfiguration[WIDGET_ID].state,
       ...window.marqueeStateConfiguration[WIDGET_ID].configuration
     },
     modeState
-  );
+  )
 
   const _setModeName = (newModeName: string) => {
     if (newModeName !== providerValues.modeName) {
       eventListener.emit('telemetryEvent', {
         eventName: 'switchMode',
         properties: { modeName: newModeName }
-      });
+      })
 
       modeState.broadcast({
         modeName: newModeName,
         prevMode: providerValues.modeName,
         modes: providerValues.modes
-      });
+      })
     }
-  };
+  }
 
   const _setCurrentModeLayout = (newLayouts: ReactGridLayout.Layouts) => {
     const newModes: ModeConfig = {
@@ -57,14 +57,14 @@ const ModeProvider = ({ children }: Props) => {
         ...providerValues.modes[providerValues.modeName],
         layouts: newLayouts,
       } as Mode,
-    };
-
-    if(JSON.stringify(providerValues.modes) === JSON.stringify(newModes)) {
-      return;
     }
 
-    providerValues.setModes(newModes);
-  };
+    if(JSON.stringify(providerValues.modes) === JSON.stringify(newModes)) {
+      return
+    }
+
+    providerValues.setModes(newModes)
+  }
 
   const _setModeWidget = (targetMode: string, widgetName: string, value: ReactGridLayout.Layout | Boolean) => {
     providerValues.setModes({
@@ -76,26 +76,26 @@ const ModeProvider = ({ children }: Props) => {
           [widgetName]: value,
         },
       } as Mode,
-    });
-  };
+    })
+  }
 
   const _removeModeWidget = (widgetName: string) => {
-    _setModeWidget(providerValues.modeName || 'default', widgetName, false);
-  };
+    _setModeWidget(providerValues.modeName || 'default', widgetName, false)
+  }
 
   const _resetModes = () => {
-    modeState.emit<any>('clear', undefined);
-  };
+    modeState.emit<any>('clear', undefined)
+  }
 
   const _removeMode = (removeModeName: string) => {
     //it must exist
     if (!providerValues.modes[removeModeName]) {
-      return;
+      return
     }
 
     //if we are deleting the selected mode
     if (removeModeName === providerValues.modeName) {
-      providerValues.setModeName("default");
+      providerValues.setModeName('default')
     }
 
     providerValues.setModes(Object.assign(
@@ -103,30 +103,35 @@ const ModeProvider = ({ children }: Props) => {
       ...Object.entries(providerValues.modes)
         .filter(([k]) => k !== removeModeName)
         .map(([k, v]) => ({ [k]: v }))
-    ));
-  };
+    ))
+  }
 
-  const _addModeWithParams = (newModeName: string, emoji: EmojiData, layouts: LayoutType, widgets: Record<string, boolean>) => {
-    newModeName = newModeName.toLowerCase();
+  const _addModeWithParams = (
+    newModeName: string,
+    emoji: EmojiData,
+    layouts: LayoutType,
+    widgets: Record<string, boolean>
+  ) => {
+    newModeName = newModeName.toLowerCase()
 
     if (!providerValues.modes[newModeName]) {
       let newModeObj: Mode = {
         layouts: layouts,
         widgets: widgets,
         icon: emoji,
-      };
+      }
       providerValues.setModes({
         ...providerValues.modes,
         [newModeName]: newModeObj,
-      });
+      })
     }
-  };
+  }
 
   const _duplicateMode = (oldModeName: string, newModeName: string, newEmoji: EmojiData) => {
-    let prevLayouts = Object.assign({}, providerValues.modes[oldModeName].layouts);
-    let prevWidgets = Object.assign({}, providerValues.modes[oldModeName].widgets);
-    _addModeWithParams(newModeName, newEmoji, prevLayouts, prevWidgets);
-  };
+    let prevLayouts = Object.assign({}, providerValues.modes[oldModeName].layouts)
+    let prevWidgets = Object.assign({}, providerValues.modes[oldModeName].widgets)
+    _addModeWithParams(newModeName, newEmoji, prevLayouts, prevWidgets)
+  }
 
   const _addMode = (newModeName: string, emoji: EmojiData) => {
     _addModeWithParams(
@@ -134,8 +139,8 @@ const ModeProvider = ({ children }: Props) => {
       emoji,
       defaultLayout,
       defaultEnabledWidgets
-    );
-  };
+    )
+  }
 
   window.marqueeExtension = useMemo(() => ({
     defineWidget: (
@@ -143,7 +148,7 @@ const ModeProvider = ({ children }: Props) => {
       constructor: CustomElementConstructor,
       options?: ElementDefinitionOptions
     ) => {
-      customElements.define(widgetOptions.name, constructor, options);
+      customElements.define(widgetOptions.name, constructor, options)
       setThirdPartyWidgets([...thirdPartyWidgets, {
         name: widgetOptions.name,
         icon: <FontAwesomeIcon icon={widgetOptions.icon} />,
@@ -151,18 +156,18 @@ const ModeProvider = ({ children }: Props) => {
         tags: widgetOptions.tags,
         description: widgetOptions.description,
         component: wrapper(ThirdPartyWidget, widgetOptions.name),
-      }]);
+      }])
     }
-  } as MarqueeInterface), [thirdPartyWidgets]);
+  } as MarqueeInterface), [thirdPartyWidgets])
 
   useEffect(() => {
     eventListener.emit(
       'updateWidgetDisplay',
       providerValues.modes[providerValues.modeName].widgets
-    );
+    )
 
-    return () => { eventListener.removeAllListeners(); };
-  }, []);
+    return () => { eventListener.removeAllListeners() }
+  }, [])
 
   return (
     <ModeContext.Provider
@@ -183,8 +188,8 @@ const ModeProvider = ({ children }: Props) => {
     >
       {children}
     </ModeContext.Provider>
-  );
-};
+  )
+}
 
-export default ModeContext;
-export { ModeProvider };
+export default ModeContext
+export { ModeProvider }

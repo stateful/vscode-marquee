@@ -1,35 +1,35 @@
-import React, { useState, useContext, useMemo, MouseEvent } from "react";
-import makeStyles from '@mui/styles/makeStyles';
-import Popover from "@mui/material/Popover";
-import { IconButton, Grid, Badge } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import TrickContent from "./TrickContent";
-import TrickContext, { TrickProvider } from "../Context";
+import React, { useState, useContext, useMemo, MouseEvent } from 'react'
+import makeStyles from '@mui/styles/makeStyles'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, Badge } from '@mui/material'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import TrickContent from './TrickContent'
+import TrickContext, { TrickProvider } from '../Context'
 
 const useStyles = makeStyles(() => ({
   badge: {
-    minHeight: "16px",
-    minWidth: "16px",
-    height: "16px",
-    width: "16px",
+    minHeight: '16px',
+    minWidth: '16px',
+    height: '16px',
+    width: '16px',
   },
-}));
+}))
 
 let NavPop = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { tricks, read } = useContext(TrickContext);
+  const classes = useStyles()
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { tricks, read } = useContext(TrickContext)
 
   const handleClick = (event: MouseEvent) => {
-    setAnchorEl(event.currentTarget as any);
-  };
+    setAnchorEl(event.currentTarget as any)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const open = Boolean(anchorEl);
-  const id = open ? "nav-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'nav-popover' : undefined
 
   // calculate unread tricks
   // read array includes active and inactive tricks
@@ -38,10 +38,10 @@ let NavPop = () => {
   let unread = useMemo(() => {
     return tricks.filter((trick) => {
       if (read.indexOf(trick.id) === -1) {
-        return trick;
+        return trick
       }
-    });
-  }, [tricks, read]);
+    })
+  }, [tricks, read])
 
   return (
     <div>
@@ -61,27 +61,27 @@ let NavPop = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container style={{ padding: "16px" }} direction="column">
-          <Grid item style={{ width: "350px" }}>
+        <Grid container style={{ padding: '16px' }} direction="column">
+          <Grid item style={{ width: '350px' }}>
             <TrickContent />
           </Grid>
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
 const Component = () => (
   <TrickProvider>
     <NavPop />
   </TrickProvider>
-);
-export default React.memo(Component);
+)
+export default React.memo(Component)

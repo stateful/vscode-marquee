@@ -1,15 +1,15 @@
-import React, { useContext, useState, useMemo, useCallback, MouseEvent } from "react";
+import React, { useContext, useState, useMemo, useCallback, MouseEvent } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@mui/material";
+} from '@mui/material'
 
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
-import ModeContext from "../contexts/ModeContext";
-import EmojiPop from "../components/EmojiPop";
+import ModeContext from '../contexts/ModeContext'
+import EmojiPop from '../components/EmojiPop'
 
 interface ModeEditDialogProps {
   onClose: (event?: MouseEvent<HTMLButtonElement>) => void
@@ -17,23 +17,23 @@ interface ModeEditDialogProps {
 }
 
 const ModeEditDialog = React.memo(({ onClose, name }: ModeEditDialogProps) => {
-  const { modes, _duplicateMode } = useContext(ModeContext);
-  const [modeName, setModeName] = useState(name);
-  const [emoji, setEmoji] = useState(modes[name].icon);
-  let modeNameInputRef: HTMLButtonElement | null = null;
+  const { modes, _duplicateMode } = useContext(ModeContext)
+  const [modeName, setModeName] = useState(name)
+  const [emoji, setEmoji] = useState(modes[name].icon)
+  let modeNameInputRef: HTMLButtonElement | null = null
 
   const error = useMemo(() => {
-    return modeName === "";
-  }, [modeName]);
+    return modeName === ''
+  }, [modeName])
 
   const updateMode = useCallback(() => {
     if (!error) {
-      _duplicateMode(name, modeName, emoji!);
-      onClose();
+      _duplicateMode(name, modeName, emoji!)
+      onClose()
     } else {
-      modeNameInputRef!.focus();
+      modeNameInputRef!.focus()
     }
-  }, [name, modeName, emoji]);
+  }, [name, modeName, emoji])
 
   return (
     <DialogContainer fullWidth={true} onClose={onClose}>
@@ -50,8 +50,8 @@ const ModeEditDialog = React.memo(({ onClose, name }: ModeEditDialogProps) => {
           label="Mode Name"
           onKeyDown={(e) => {
             if (e.keyCode === 13 && e.metaKey) {
-              e.preventDefault();
-              updateMode();
+              e.preventDefault()
+              updateMode()
             }
           }}
         />
@@ -60,7 +60,7 @@ const ModeEditDialog = React.memo(({ onClose, name }: ModeEditDialogProps) => {
           <EmojiPop
             modeIcon={emoji}
             onSelect={(emoji) => {
-              setEmoji(emoji);
+              setEmoji(emoji)
             }}
           />
         </div>
@@ -82,7 +82,7 @@ const ModeEditDialog = React.memo(({ onClose, name }: ModeEditDialogProps) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export { ModeEditDialog };
+export { ModeEditDialog }

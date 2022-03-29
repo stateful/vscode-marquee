@@ -1,39 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@mui/material";
-import ChipInput from "material-ui-chip-input";
+} from '@mui/material'
+import ChipInput from 'material-ui-chip-input'
 
-import { theme, MarqueeWindow } from "@vscode-marquee/utils";
-import { SplitButton } from "@vscode-marquee/widget";
-import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
+import { theme, MarqueeWindow } from '@vscode-marquee/utils'
+import { SplitButton } from '@vscode-marquee/widget'
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
 
-import TodoContext from "../Context";
-import ChipInput from "../components/ChipInput";
+import TodoContext from '../Context'
+import ChipInput from '../components/ChipInput'
 
-declare const window: MarqueeWindow;
-const options = ['Add to Workspace', 'Add as Global Todo'];
+declare const window: MarqueeWindow
+const options = ['Add to Workspace', 'Add as Global Todo']
 
 const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
-  const { _addTodo } = useContext(TodoContext);
-  const [error, setError] = useState(false);
-  const [body, setBody] = useState("");
-  const [tags, setTags] = useState([] as string[]);
+  const { _addTodo } = useContext(TodoContext)
+  const [error, setError] = useState(false)
+  const [body, setBody] = useState('')
+  const [tags, setTags] = useState([] as string[])
 
   const submit = (index: number) => {
-    const isWorkspaceTodo = index === 0;
-    if (body !== "") {
-      _addTodo(body, tags, isWorkspaceTodo);
+    const isWorkspaceTodo = index === 0
+    if (body !== '') {
+      _addTodo(body, tags, isWorkspaceTodo)
     } else {
-      setError(true);
-      return;
+      setError(true)
+      return
     }
 
-    close();
-  };
+    close()
+  }
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -44,7 +44,7 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           fullWidth
           variant="filled"
           onChange={(e) => {
-            setBody(e.target.value);
+            setBody(e.target.value)
           }}
           name="body"
           multiline
@@ -54,13 +54,13 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
           placeholder="Type your todo..."
           onKeyDown={(e) => {
             if (e.keyCode === 13 && e.metaKey) {
-              e.preventDefault();
-              _addTodo(body, tags, true);
-              close();
+              e.preventDefault()
+              _addTodo(body, tags, true)
+              close()
             }
           }}
         />
-        <div style={{ height: "8px", minWidth: "100%" }} />
+        <div style={{ height: '8px', minWidth: '100%' }} />
         <ChipInput
           fullWidth
           label="Add some tags!"
@@ -76,21 +76,21 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
         {window.activeWorkspace
           ? <SplitButton
-              options={options}
-              onClick={submit}
-            />
+            options={options}
+            onClick={submit}
+          />
           : <Button
-              color="primary"
-              variant="contained"
-              onClick={() => submit(1)}
-            >
-              {options[1]}
-            </Button>
+            color="primary"
+            variant="contained"
+            onClick={() => submit(1)}
+          >
+            {options[1]}
+          </Button>
         }
 
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default TodoAddDialog;
+export default TodoAddDialog

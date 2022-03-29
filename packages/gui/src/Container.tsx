@@ -1,45 +1,45 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 
-import { Grid, CircularProgress } from "@mui/material";
-import { WidthProvider, Responsive } from "react-grid-layout";
-import "./css/react-grid-layout.css";
-import "react-resizable/css/styles.css";
+import { Grid, CircularProgress } from '@mui/material'
+import { WidthProvider, Responsive } from 'react-grid-layout'
+import './css/react-grid-layout.css'
+import 'react-resizable/css/styles.css'
 
-import { getEventListener, MarqueeEvents, GlobalContext, MarqueeWindow } from "@vscode-marquee/utils";
+import { getEventListener, MarqueeEvents, GlobalContext, MarqueeWindow } from '@vscode-marquee/utils'
 
-import ModeContext from "./contexts/ModeContext";
-import Navigation from "./components/Navigation";
-import SettingsDialog from './dialogs/SettingsDialog';
-import backgrounds from './utils/backgrounds';
-import { themes, widgetConfig, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from "./constants";
-import type { WidgetMap, WidgetConfig } from './types';
+import ModeContext from './contexts/ModeContext'
+import Navigation from './components/Navigation'
+import SettingsDialog from './dialogs/SettingsDialog'
+import backgrounds from './utils/backgrounds'
+import { themes, widgetConfig, NO_BACKGROUND_STYLE, BACKGROUND_STYLE } from './constants'
+import type { WidgetMap, WidgetConfig } from './types'
 
-declare const window: MarqueeWindow;
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const sizes = ["lg", "md", "sm", "xs", "xxs"] as const;
+declare const window: MarqueeWindow
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
+const sizes = ['lg', 'md', 'sm', 'xs', 'xxs'] as const
 
 /**
  * the `onLayoutChange` handler is triggered more often than desired
  * which can cause side effects as we have to update the modes
  * configuration
  */
-let allowedToChange = true;
+let allowedToChange = true
 
 export const WidgetLayout = React.memo(() => {
-  const { resetApp } = useContext(GlobalContext);
-  const { modeName, modes, _setCurrentModeLayout, thirdPartyWidgets } = useContext(ModeContext);
+  const { resetApp } = useContext(GlobalContext)
+  const { modeName, modes, _setCurrentModeLayout, thirdPartyWidgets } = useContext(ModeContext)
 
-  const mode = modes[modeName];
+  const mode = modes[modeName]
   const widgets: Record<string, WidgetMap> = useMemo(() => {
     const newMap: Record<string, WidgetMap> = {};
     [...widgetConfig, ...thirdPartyWidgets].map((widgetObj: WidgetConfig) => {
       newMap[widgetObj.name] = {
         label: widgetObj.label || 'Unknown Widget',
         element: widgetObj.component
-      };
-    });
-    return newMap;
-  }, [thirdPartyWidgets]);
+      }
+    })
+    return newMap
+  }, [thirdPartyWidgets])
 
   //if a new widget is introduced that doesn't exist in their current
   //stored layout, we patch the layout so that it displays properly
@@ -47,7 +47,7 @@ export const WidgetLayout = React.memo(() => {
   //this finds the missing entries and patches them
   const layoutConfig = useMemo(() => {
     if (!modeName || !modes[modeName]) {
-      return null;
+      return null
     }
 
     if (
@@ -55,13 +55,13 @@ export const WidgetLayout = React.memo(() => {
       Object.entries(modes).length !== 0 &&
       Object.entries(mode.layouts).length !== 0
     ) {
-      const newLayouts = mode.layouts;
-      let modified = false;
+      const newLayouts = mode.layouts
+      let modified = false
 
       sizes.forEach((size) => {
-        const sizeArr = newLayouts[size];
+        const sizeArr = newLayouts[size]
         Object.keys(widgets).forEach((widget) => {
-          const found = sizeArr.findIndex((entry) => entry.i === widget);
+          const found = sizeArr.findIndex((entry) => entry.i === widget)
           if (found === -1) {
             const widgetObject = {
               minW: 2,
@@ -73,42 +73,42 @@ export const WidgetLayout = React.memo(() => {
               h: 12,
               w: 4,
               i: widget,
-            };
+            }
 
-            newLayouts[size].push(widgetObject);
-            modified = true;
+            newLayouts[size].push(widgetObject)
+            modified = true
           }
-        });
-      });
+        })
+      })
 
       if (modified) {
-        return newLayouts;
+        return newLayouts
       } else {
-        return mode.layouts;
+        return mode.layouts
       }
     }
-    return null;
-  }, [mode, modes, modeName]);
+    return null
+  }, [mode, modes, modeName])
 
   let generateWidgets = () => {
     return Object.keys(widgets)
       .filter((widget) => modes[modeName] && modes[modeName].widgets[widget])
       .map((widget) => {
-        const Widget = widgets[widget].element;
+        const Widget = widgets[widget].element
         return React.cloneElement(<Widget />, {
           name: widget,
           label: widgets[widget].label,
           key: widget
-        });
+        })
       }
-    );
-  };
+      )
+  }
 
   if (!layoutConfig || resetApp || thirdPartyWidgets.length !== window.marqueeThirdPartyWidgets) {
     return (
       <Grid
         container
-        style={{ height: "100%" }}
+        style={{ height: '100%' }}
         alignItems="center"
         justifyContent="center"
         direction="column"
@@ -117,7 +117,7 @@ export const WidgetLayout = React.memo(() => {
           <CircularProgress color="secondary" />
         </Grid>
       </Grid>
-    );
+    )
   }
 
   return (
@@ -126,11 +126,11 @@ export const WidgetLayout = React.memo(() => {
       rowHeight={20}
       onLayoutChange={(_, newLayouts) => {
         if (!allowedToChange) {
-          return;
+          return
         }
-        allowedToChange = false;
-        _setCurrentModeLayout(newLayouts);
-        setTimeout(() => (allowedToChange = true), 100);
+        allowedToChange = false
+        _setCurrentModeLayout(newLayouts)
+        setTimeout(() => (allowedToChange = true), 100)
       }}
       layouts={layoutConfig}
       draggableHandle=".drag-handle"
@@ -142,13 +142,13 @@ export const WidgetLayout = React.memo(() => {
     >
       {generateWidgets()}
     </ResponsiveReactGridLayout>
-  );
-});
+  )
+})
 
 const Container = () => {
-  const { background, themeColor } = useContext(GlobalContext);
-  const { _removeModeWidget } = useContext(ModeContext);
-  const [showSettings, setShowSettings] = useState(false);
+  const { background, themeColor } = useContext(GlobalContext)
+  const { _removeModeWidget } = useContext(ModeContext)
+  const [showSettings, setShowSettings] = useState(false)
 
   const backgroundStyle = useMemo(() => {
     /**
@@ -156,15 +156,15 @@ const Container = () => {
      * ToDo(Christian): implement importing Unsplash images
      */
     if (isNaN(+background)) {
-      return NO_BACKGROUND_STYLE;
+      return NO_BACKGROUND_STYLE
     }
 
     const theme = themes.find((theme) => {
-      return theme.id === parseInt(background, 10);
-    });
+      return theme.id === parseInt(background, 10)
+    })
 
     if (!theme || (!theme.background && !theme.backgroundColor)) {
-      return NO_BACKGROUND_STYLE;
+      return NO_BACKGROUND_STYLE
     }
 
     return {
@@ -172,24 +172,24 @@ const Container = () => {
       ...(theme.background
         ? { backgroundImage: `url(${backgrounds(theme.background)})` }
         : { backgroundColor: theme.backgroundColor })
-    };
-  }, [background]);
+    }
+  }, [background])
 
   useEffect(() => {
-    const eventListener = getEventListener<MarqueeEvents>();
-    eventListener.on('openSettings', () => setShowSettings(true));
-    eventListener.on('removeWidget', (name: string) => _removeModeWidget(name));
-  }, []);
+    const eventListener = getEventListener<MarqueeEvents>()
+    eventListener.on('openSettings', () => setShowSettings(true))
+    eventListener.on('removeWidget', (name: string) => _removeModeWidget(name))
+  }, [])
 
   return (
-    <div className={`appContainer`} style={backgroundStyle}>
+    <div className={'appContainer'} style={backgroundStyle}>
       {showSettings && <SettingsDialog close={() => setShowSettings(false)} />}
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
-          width: "100vw",
+          width: '100vw',
           zIndex: 1000,
         }}
       >
@@ -198,16 +198,16 @@ const Container = () => {
       <Grid
         container
         style={{
-          height: "100vh",
-          width: "100vw",
-          overflow: "auto",
-          background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
+          height: '100vh',
+          width: '100vw',
+          overflow: 'auto',
+          background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
         }}
         direction="column"
         wrap="nowrap"
       >
-        <Grid item style={{ maxWidth: "100%", width: "100%" }}>
-          <div style={{ visibility: "hidden" }}>
+        <Grid item style={{ maxWidth: '100%', width: '100%' }}>
+          <div style={{ visibility: 'hidden' }}>
             <Navigation />
           </div>
         </Grid>
@@ -217,7 +217,7 @@ const Container = () => {
         </Grid>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(Container);
+export default React.memo(Container)

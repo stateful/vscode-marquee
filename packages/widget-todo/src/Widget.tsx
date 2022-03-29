@@ -1,30 +1,30 @@
-import React, { useContext, useMemo } from "react";
-import Typography from "@mui/material/Typography";
-import AddCircle from "@mui/icons-material/AddCircleOutlined";
-import { Grid, Button, IconButton } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import { List, arrayMove } from "react-movable";
+import React, { useContext, useMemo } from 'react'
+import Typography from '@mui/material/Typography'
+import AddCircle from '@mui/icons-material/AddCircleOutlined'
+import { Grid, Button, IconButton } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
+import { List, arrayMove } from 'react-movable'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow } from "@vscode-marquee/utils";
-import wrapper, { Dragger } from "@vscode-marquee/widget";
+import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
+import wrapper, { Dragger } from '@vscode-marquee/widget'
 
-import TodoContext, { TodoProvider } from "./Context";
-import TodoPop from "./components/Pop";
-import TodoInfo from "./components/Info";
-import TodoFilter from "./components/Filter";
-import TodoItem from "./components/Item";
+import TodoContext, { TodoProvider } from './Context'
+import TodoPop from './components/Pop'
+import TodoInfo from './components/Info'
+import TodoFilter from './components/Filter'
+import TodoItem from './components/Item'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
 const useStyles = makeStyles(() => ({
   widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
+    borderBottom: '1px solid var(--vscode-foreground)',
+    padding: '8px',
   },
-}));
+}))
 
 let Todo = () => {
-  const classes = useStyles();
+  const classes = useStyles()
   const {
     setTodos,
     setShowAddDialog,
@@ -32,63 +32,63 @@ let Todo = () => {
     todos,
     hide,
     todoFilter,
-  } = useContext(TodoContext);
-  const { globalScope } = useContext(GlobalContext);
+  } = useContext(TodoContext)
+  const { globalScope } = useContext(GlobalContext)
 
   let filteredItems = useMemo(() => {
-    let filteredItems = todos;
+    let filteredItems = todos
 
     if (!globalScope) {
       let filteredArr = filteredItems.filter((item) => {
-        if (item["workspaceId"] === window.activeWorkspace?.id) {
-          return true;
+        if (item['workspaceId'] === window.activeWorkspace?.id) {
+          return true
         }
-      });
-      filteredItems = filteredArr;
+      })
+      filteredItems = filteredArr
     }
 
     if (!showArchived) {
       let filteredArr = filteredItems.filter((item) => {
-        if (!item.hasOwnProperty("archived") || item.archived === false) {
-          return true;
+        if (!item.hasOwnProperty('archived') || item.archived === false) {
+          return true
         }
-      });
-      filteredItems = filteredArr;
+      })
+      filteredItems = filteredArr
     }
 
     if (todoFilter) {
       let filteredArr = filteredItems.filter((item) => {
         let inBody =
-          item.body.toLowerCase().indexOf(todoFilter.toLowerCase()) !== -1;
-        let inTags = false;
+          item.body.toLowerCase().indexOf(todoFilter.toLowerCase()) !== -1
+        let inTags = false
 
         if (item.tags && item.tags.length !== 0) {
           inTags =
             JSON.stringify(item.tags)
               .toLowerCase()
-              .indexOf(todoFilter.toLowerCase()) !== -1;
+              .indexOf(todoFilter.toLowerCase()) !== -1
         }
 
         if (inBody || inTags) {
-          return true;
+          return true
         }
-      });
-      filteredItems = filteredArr;
+      })
+      filteredItems = filteredArr
     }
 
     if (hide) {
       let hideArr = filteredItems.filter((item) => {
-        return item.checked === false;
-      });
-      filteredItems = hideArr;
+        return item.checked === false
+      })
+      filteredItems = hideArr
     }
 
-    return filteredItems;
-  }, [todos, globalScope, hide, todoFilter, showArchived]);
+    return filteredItems
+  }, [todos, globalScope, hide, todoFilter, showArchived])
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <div className={classes.widgetTitle}>
           <Grid
             container
@@ -137,15 +137,15 @@ let Todo = () => {
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
-          <Grid item xs style={{ overflow: "auto" }}>
+          <Grid item xs style={{ overflow: 'auto' }}>
             {filteredItems.length === 0 && (
               <Grid
                 container
                 alignItems="center"
                 justifyContent="center"
-                style={{ height: "80%", width: "100%" }}
+                style={{ height: '80%', width: '100%' }}
               >
                 <Grid item>
                   <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
@@ -158,29 +158,29 @@ let Todo = () => {
               lockVertically={true}
               values={filteredItems}
               onChange={({ oldIndex, newIndex }) => {
-                let constrainedArr = filteredItems;
-                let firstTodo = constrainedArr[oldIndex];
-                let secondTodo = constrainedArr[newIndex];
+                let constrainedArr = filteredItems
+                let firstTodo = constrainedArr[oldIndex]
+                let secondTodo = constrainedArr[newIndex]
 
                 let realFirstIndex = todos.findIndex((todo) => {
-                  return todo.id === firstTodo.id;
-                });
+                  return todo.id === firstTodo.id
+                })
                 let realSecondIndex = todos.findIndex((todo) => {
-                  return todo.id === secondTodo.id;
-                });
+                  return todo.id === secondTodo.id
+                })
 
                 let newTodos = arrayMove(
                   todos,
                   realFirstIndex,
                   realSecondIndex
-                );
-                setTodos(newTodos);
+                )
+                setTodos(newTodos)
               }}
               renderList={({ children, props }) => (
                 <Grid
                   container
                   direction="column"
-                  style={{ padding: "8px" }}
+                  style={{ padding: '8px' }}
                   {...props}
                 >
                   {children}
@@ -199,12 +199,12 @@ let Todo = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 const Widget = () => (
   <TodoProvider>
     <Todo />
   </TodoProvider>
-);
-export default wrapper(Widget, 'todo');
+)
+export default wrapper(Widget, 'todo')

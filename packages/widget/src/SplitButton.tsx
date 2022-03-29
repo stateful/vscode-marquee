@@ -1,13 +1,13 @@
-import React from 'react';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+import React from 'react'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
+import Grow from '@mui/material/Grow'
+import Paper from '@mui/material/Paper'
+import Popper from '@mui/material/Popper'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
 
 interface Props {
   options: string[]
@@ -15,34 +15,40 @@ interface Props {
 }
 
 export default function SplitButton ({ options, onClick }: Props) {
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [open, setOpen] = React.useState(false)
+  const anchorRef = React.useRef<HTMLDivElement>(null)
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number,
   ) => {
-    setSelectedIndex(index);
-    setOpen(false);
-  };
+    setSelectedIndex(index)
+    setOpen(false)
+  }
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+    setOpen((prevOpen) => !prevOpen)
+  }
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-      return;
+      return
     }
 
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <>
       <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
-        <Button size='small' variant='contained' onClick={() => onClick(selectedIndex)}>{options[selectedIndex]}</Button>
+        <Button
+          size='small'
+          variant='contained'
+          onClick={() => onClick(selectedIndex)}
+        >
+          {options[selectedIndex]}
+        </Button>
         <Button
           color="primary"
           size="small"
@@ -83,5 +89,5 @@ export default function SplitButton ({ options, onClick }: Props) {
         )}
       </Popper>
     </>
-  );
+  )
 }
