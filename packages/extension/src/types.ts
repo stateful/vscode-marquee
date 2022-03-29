@@ -1,7 +1,7 @@
-import type { EventEmitter } from 'events';
-import type { Client } from 'tangle';
-import type { Disposable } from 'vscode';
-import type ExtensionManager from '@vscode-marquee/utils/extension';
+import type { EventEmitter } from 'events'
+import type { Client } from 'tangle'
+import type { Disposable } from 'vscode'
+import type ExtensionManager from '@vscode-marquee/utils/extension'
 
 export interface ExtensionConfiguration {
   proxy?: string

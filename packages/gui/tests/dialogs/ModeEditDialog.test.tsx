@@ -1,18 +1,18 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import React from 'react'
+import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 
 // @ts-expect-error mock import
-import { ModeProvider, _duplicateMode } from '../../src/contexts/ModeContext';
-import { ModeEditDialog } from '../../src/dialogs/ModeEditDialog';
+import { ModeProvider, _duplicateMode } from '../../src/contexts/ModeContext'
+import { ModeEditDialog } from '../../src/dialogs/ModeEditDialog'
 
-jest.mock('../../src/contexts/ModeContext');
+jest.mock('../../src/contexts/ModeContext')
 
 test('should render component', () => {
-  const close = jest.fn();
+  const close = jest.fn()
   render(<ModeProvider>
     <ModeEditDialog onClose={close} name="default" />
-  </ModeProvider>);
-  userEvent.click(screen.getByText('Add'));
-  expect(_duplicateMode).toBeCalledWith('default', 'default', undefined);
-});
+  </ModeProvider>)
+  userEvent.click(screen.getByText('Add'))
+  expect(_duplicateMode).toBeCalledWith('default', 'default', undefined)
+})

@@ -1,27 +1,27 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import React from 'react'
+import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 
 // @ts-expect-error mock import
-import { ModeProvider, _removeModeWidget } from '../../src/contexts/ModeContext';
-import HideWidgetContent from '../../src/components/HideWidgetContent';
+import { ModeProvider, _removeModeWidget } from '../../src/contexts/ModeContext'
+import HideWidgetContent from '../../src/components/HideWidgetContent'
 
-jest.mock('../../src/contexts/ModeContext');
+jest.mock('../../src/contexts/ModeContext')
 jest.mock('../../src/dialogs/SettingsDialog', () => (
   () => <div>SettingsDialog</div>
-));
+))
 
 test('should render component correctly', () => {
   const { container } = render(
     <ModeProvider>
       <HideWidgetContent name="foobar" />
     </ModeProvider>
-  );
+  )
 
-  expect(_removeModeWidget).toBeCalledTimes(0);
-  userEvent.click(screen.getByText('Hide this widget'));
-  expect(_removeModeWidget).toBeCalledWith('foobar');
+  expect(_removeModeWidget).toBeCalledTimes(0)
+  userEvent.click(screen.getByText('Hide this widget'))
+  expect(_removeModeWidget).toBeCalledWith('foobar')
 
-  userEvent.click(container.querySelector('svg')!);
-  expect(screen.getByText('SettingsDialog')).toBeInTheDocument();
-});
+  userEvent.click(container.querySelector('svg')!)
+  expect(screen.getByText('SettingsDialog')).toBeInTheDocument()
+})

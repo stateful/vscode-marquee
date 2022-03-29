@@ -1,1 +1,1 @@
-export const CaptureConsole = jest.fn();
+export const CaptureConsole = jest.fn()

@@ -65,17 +65,23 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     const checkbox = $(this.locators.autoDetectCheckbox)
     await checkbox.waitForExist()
 
-    const isAutoDetectEnabled = Boolean(await $(this.locators.autoDetectCheckbox).$('input[type="checkbox"]').getValue())
+    const isAutoDetectEnabled = Boolean(
+      await $(this.locators.autoDetectCheckbox).$('input[type="checkbox"]').getValue()
+    )
     if (typeof options.autoDetect === 'boolean' && isAutoDetectEnabled !== !options.autoDetect) {
       await $(this.locators.autoDetectCheckbox).click()
     }
 
-    const isHideCompleted = Boolean(await $(this.locators.hideCompleteCheckbox).$('input[type="checkbox"]').getValue())
+    const isHideCompleted = Boolean(
+      await $(this.locators.hideCompleteCheckbox).$('input[type="checkbox"]').getValue()
+    )
     if (typeof options.hideComplete === 'boolean' && isHideCompleted !== !options.hideComplete) {
       await $(this.locators.hideCompleteCheckbox).click()
     }
 
-    const showArchived = Boolean(await $(this.locators.showArchivedCheckbox).$('input[type="checkbox"]').getValue())
+    const showArchived = Boolean(
+      await $(this.locators.showArchivedCheckbox).$('input[type="checkbox"]').getValue()
+    )
     if (typeof options.showArchived === 'boolean' && showArchived !== !options.showArchived) {
       await $(this.locators.showArchivedCheckbox).click()
     }

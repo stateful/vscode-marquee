@@ -1,10 +1,10 @@
-import type { ContextProperties } from "@vscode-marquee/utils";
-import type { EmojiData } from 'emoji-mart';
-import type { presetModes } from './constants';
+import type { ContextProperties } from '@vscode-marquee/utils'
+import type { EmojiData } from 'emoji-mart'
+import type { presetModes } from './constants'
 
-export type LayoutSize = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
-export type LayoutType = Record<LayoutSize, ReactGridLayout.Layout[]>;
-export type PresetModes = typeof presetModes[number];
+export type LayoutSize = 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
+export type LayoutType = Record<LayoutSize, ReactGridLayout.Layout[]>
+export type PresetModes = typeof presetModes[number]
 
 export interface Mode {
   layouts: LayoutType,
@@ -12,8 +12,8 @@ export interface Mode {
   icon?: EmojiData
 }
 
-export type ModeConfig = Record<PresetModes | string, Mode>;
-export type WidgetComponent = React.MemoExoticComponent<React.ForwardRefExoticComponent<React.RefAttributes<unknown>>>;
+export type ModeConfig = Record<PresetModes | string, Mode>
+export type WidgetComponent = React.MemoExoticComponent<React.ForwardRefExoticComponent<React.RefAttributes<unknown>>>
 export interface WidgetMap {
   label: string
   element: WidgetComponent

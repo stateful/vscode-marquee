@@ -1,11 +1,11 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core';
-import type { Webview } from 'vscode';
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
+import type { Webview } from 'vscode'
 
 export type ContextProperties<T> = {
   [t in keyof T]: T[t]
 } & {
   [t in keyof T & string as `set${Capitalize<t>}`]: (val: T[t]) => void
-};
+}
 
 interface VSCodeWebview extends Webview {
   getState: () => any
@@ -53,9 +53,9 @@ export interface MarqueeEvents {
 }
 
 export enum WorkspaceType {
-  WORKSPACE = "workspace",
-  FOLDER = "folder",
-  NONE = "none",
+  WORKSPACE = 'workspace',
+  FOLDER = 'folder',
+  NONE = 'none',
 }
 
 export interface Workspace {
@@ -70,7 +70,7 @@ export type RGBA = {
   g: number;
   b: number;
   a?: number;
-};
+}
 
 export interface Configuration {
   background: string

@@ -1,52 +1,52 @@
 /* istanbul ignore file */
 
-import { useState, useEffect } from 'react';
-import Channel from "tangle/webviews";
-import { createTheme } from "@material-ui/core/styles";
+import { useState, useEffect } from 'react'
+import Channel from 'tangle/webviews'
+import { createTheme } from '@material-ui/core/styles'
 
-import type { Client } from 'tangle';
+import type { Client } from 'tangle'
 
-import calculateTheme from "./calculateTheme";
+import calculateTheme from './calculateTheme'
 
-import BetterComplete from "./components/BetterComplete";
-import NetworkError from './components/NetworkError';
-import DoubleClickHelper from './components/DoubleClickHelper';
+import BetterComplete from './components/BetterComplete'
+import NetworkError from './components/NetworkError'
+import DoubleClickHelper from './components/DoubleClickHelper'
 
-import GlobalContext, { GlobalProvider } from "./contexts/Global";
-import type { MarqueeWindow, ContextProperties } from './types';
+import GlobalContext, { GlobalProvider } from './contexts/Global'
+import type { MarqueeWindow, ContextProperties } from './types'
 
-const defaultChannel = 'vscode.marquee';
-const theme = createTheme(calculateTheme());
+const defaultChannel = 'vscode.marquee'
+const theme = createTheme(calculateTheme())
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
-const tangleChannels = new Map<string, any>();
+const tangleChannels = new Map<string, any>()
 const getEventListener = <T>(channel = defaultChannel) => {
   if (!tangleChannels.has(channel)) {
-    const ch = new Channel<T>(channel);
-    const eventListener = ch.attach(window.vscode as any);
-    tangleChannels.set(channel, eventListener);
-    return eventListener;
+    const ch = new Channel<T>(channel)
+    const eventListener = ch.attach(window.vscode as any)
+    tangleChannels.set(channel, eventListener)
+    return eventListener
   }
-  return tangleChannels.get(channel)! as Client<T>;
-};
+  return tangleChannels.get(channel)! as Client<T>
+}
 
 const jumpTo = (item: any) => {
   window.vscode.postMessage({
     west: {
       execCommands: [
         {
-          command: "marquee.link",
+          command: 'marquee.link',
           args: [{ item }],
         },
       ],
     },
-  });
-};
+  })
+}
 
 type Entries<T> = {
   [K in keyof T]: [K, T[K]];
-}[keyof T][];
+}[keyof T][]
 
 /**
  * Helper method to connect a widget context with its configuration and
@@ -57,8 +57,8 @@ type Entries<T> = {
  * @returns object containing state values and its setter methods
  */
 function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
-  const prevState: any = window.vscode.getState() || {};
-  const contextValues: Partial<ContextProperties<T>> = {};
+  const prevState: any = window.vscode.getState() || {}
+  const contextValues: Partial<ContextProperties<T>> = {}
   for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
     /**
      * get default state either from:
@@ -67,10 +67,10 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      */
     const defaultState = typeof prevState[prop] === 'undefined'
       ? defaultVal
-      : prevState[prop];
+      : prevState[prop]
 
-    const [propState, setPropState] = useState<typeof defaultVal>(defaultState);
-    contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T];
+    const [propState, setPropState] = useState<typeof defaultVal>(defaultState)
+    contextValues[prop as keyof T] = propState as ContextProperties<T>[keyof T]
 
     /**
      * define a custom setter method for a state that:
@@ -79,15 +79,17 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      * - add it to the webview state so if a webview is being revived it
      *   receives its former configurations
      */
-    const setProp = `set${(prop as string).slice(0, 1).toUpperCase()}${(prop as string).slice(1)}` as `set${Capitalize<keyof T & string>}`;
+    const firstLetter = (prop as string).slice(0, 1).toUpperCase()
+    const restLetters = (prop as string).slice(1)
+    const setProp = `set${firstLetter}${restLetters}` as `set${Capitalize<keyof T & string>}`
     contextValues[setProp] = ((val: any) => {
-      setPropState(val);
-      tangle.broadcast({ [prop]: val } as T & Events);
+      setPropState(val)
+      tangle.broadcast({ [prop]: val } as T & Events)
       window.vscode.setState({
         ...(window.vscode.getState() || {}),
         [prop]: val
-      });
-    }) as any;
+      })
+    }) as any
 
     /**
      * listen to updates from the extension host and apply it to the property
@@ -95,18 +97,18 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
      */
     useEffect(() => {
       const subs = tangle.listen(prop as keyof T, (val: any) => {
-        setPropState(val);
+        setPropState(val)
         window.vscode.setState({
           ...(window.vscode.getState() || {}),
           [prop]: val
-        });
-      });
+        })
+      })
 
-      return () => { subs.unsubscribe(); };
-    }, []);
+      return () => { subs.unsubscribe() }
+    }, [])
   }
 
-  return contextValues as ContextProperties<T>;
+  return contextValues as ContextProperties<T>
 }
 
 export {
@@ -123,6 +125,6 @@ export {
   // contexts
   GlobalContext,
   GlobalProvider
-};
-export default theme;
-export * from './types';
+}
+export default theme
+export * from './types'

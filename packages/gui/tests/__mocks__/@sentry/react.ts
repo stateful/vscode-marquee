@@ -1,2 +1,2 @@
-export const init = jest.fn();
-export const configureScope = jest.fn();
+export const init = jest.fn()
+export const configureScope = jest.fn()

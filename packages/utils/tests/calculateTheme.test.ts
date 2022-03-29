@@ -1,5 +1,5 @@
-import calculateTheme from '../src/calculateTheme';
+import calculateTheme from '../src/calculateTheme'
 
 test('calculateTheme', () => {
-  expect(calculateTheme()).toMatchSnapshot();
-});
+  expect(calculateTheme()).toMatchSnapshot()
+})
