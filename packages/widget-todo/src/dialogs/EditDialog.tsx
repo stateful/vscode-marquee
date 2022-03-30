@@ -8,7 +8,6 @@ import {
 import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 import { jumpTo, theme } from '@vscode-marquee/utils'
 
-import ChipInput from 'material-ui-chip-input'
 import LinkIcon from '@mui/icons-material/Link'
 
 import TodoContext from '../Context'

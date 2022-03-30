@@ -17,7 +17,6 @@ test('renders component correctly', async () => {
   const Widget = wrapper((props: any) => <div {...props}>hello world</div>)
   render(
     <GlobalProvider>
-      {/* @ts-expect-error */}
       <Widget name="testWidget" dragHandle={dragHandle}>
         <div>fooloo</div>
       </Widget>
