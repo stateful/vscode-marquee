@@ -1,8 +1,8 @@
 import React, { KeyboardEvent } from 'react'
-import Chip from '@material-ui/core/Chip'
-import TextField from '@material-ui/core/TextField'
-import { InputAdornment, TextFieldProps } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import Chip from '@mui/material/Chip'
+import TextField from '@mui/material/TextField'
+import { InputAdornment, TextFieldProps } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles(() => ({
   textField: {

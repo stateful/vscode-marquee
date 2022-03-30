@@ -12,8 +12,6 @@
     "@chakra-ui/react": "^1.4.2",
     "@chakra-ui/system": "^1.9.1",
     "@chakra-ui/theme-tools": "1.1.2",
-    "@emotion/react": "11.1.5",
-    "@emotion/styled": "11.1.5",
     "framer-motion": "^5.6.0",
     "next": "latest",
     "next-mdx-remote": "^3.0.8",
