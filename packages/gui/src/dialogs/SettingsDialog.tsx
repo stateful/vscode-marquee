@@ -104,7 +104,7 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
   const [value, setValue] = useState(0)
 
   const handleChange = (event: any, newValue: any) => {
-    if (event.target.innerHTML === 'Marquee Settings') {
+    if (event.target.innerHTML.includes('Marquee Settings')) {
       return window.vscode.postMessage({
         west: { execCommands: [{
           command: 'workbench.action.openSettings',
