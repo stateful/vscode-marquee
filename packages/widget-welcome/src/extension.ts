@@ -1,5 +1,6 @@
 import vscode from 'vscode'
 import Axios, { AxiosRequestConfig } from 'axios'
+import axiosRetry from 'axios-retry'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 import { Client } from 'tangle'
 
@@ -75,6 +76,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
   async fetchData () {
     const url = `${this.backendUrl}/getTricks`
     this._channel.appendLine(`Fetching ${url}`)
+    axiosRetry(Axios, { retries: 10, retryDelay: axiosRetry.exponentialDelay })
     const result = await Axios.get(url, this._getRequestOptions()).then(
       (res) => res.data as Trick[],
       (err) => err as Error
