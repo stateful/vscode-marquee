@@ -19,12 +19,14 @@ export function activate (context: vscode.ExtensionContext) {
      */
     marquee: {
       setup: (tangle: Client<{ counter: number }>) => {
-        let i = 0
-        setInterval(() => {
-          tangle.emit('counter', ++i)
-        }, 1000)
-      }
-    }
+        return tangle.whenReady().then(() => {
+          let i = 0
+          setInterval(() => {
+            tangle.emit('counter', ++i)
+          }, 1000)
+        })
+      },
+    },
   }
 }
 

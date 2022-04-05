@@ -14,7 +14,9 @@ jest.mock('@vscode-marquee/utils/extension', () => ({
 
 jest.useFakeTimers()
 
-test('should activate extension manager', () => {
+test('should activate extension manager', async () => {
+  jest.clearAllTimers()
+
   let exp = activate('context' as any)
   expect(sendTelemetryEvent).toBeCalledWith('extensionActivate', expect.any(Object))
 
@@ -22,8 +24,8 @@ test('should activate extension manager', () => {
 
   process.env.NODE_ENV = 'development'
   exp = activate('context' as any)
-  const client = { emit: jest.fn() }
-  exp.marquee!.setup(client as any)
+  const client = { whenReady: jest.fn().mockResolvedValue({}), emit: jest.fn() }
+  await exp.marquee!.setup(client as any)
 
   jest.advanceTimersByTime(2000)
   expect(client.emit).toBeCalledWith('counter', 1)
