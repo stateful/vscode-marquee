@@ -14,6 +14,7 @@ const FETCH_INTERVAL = process.env.NODE_ENV === 'development'
   ? 1000 * 5 // 5s
   : 5 * 1000 * 60 // 5min
 const config = vscode.workspace.getConfiguration('marquee')
+axiosRetry(Axios, { retries: 10, retryDelay: axiosRetry.exponentialDelay })
 
 class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout
@@ -76,7 +77,6 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
   async fetchData () {
     const url = `${this.backendUrl}/getTricks`
     this._channel.appendLine(`Fetching ${url}`)
-    axiosRetry(Axios, { retries: 10, retryDelay: axiosRetry.exponentialDelay })
     const result = await Axios.get(url, this._getRequestOptions()).then(
       (res) => res.data as Trick[],
       (err) => err as Error
