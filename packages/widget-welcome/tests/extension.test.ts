@@ -2,6 +2,8 @@ import Axios from 'axios'
 import vscode from 'vscode'
 import { activate } from '../src/extension'
 
+jest.mock('axios-retry', () => jest.fn().mockReturnValue(Promise.resolve(Axios)))
+
 jest.mock('axios', () => ({
   get: jest.fn().mockResolvedValue({ data: [] }),
   post: jest.fn().mockResolvedValue({ data: [] })
