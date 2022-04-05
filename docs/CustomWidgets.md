@@ -33,7 +33,7 @@ To add your widget to Marquee add the following to your extension:
 
 ## Data Communication
 
-If your extension manages state data or other information you want to display, you can send them to your widget using [`tangle`](https://www.npmjs.com/package/tangle). Tangle is the data communication layer and allows to share state as well as events from your original extension and the Marquee webview. In order to iniate a communication channel return an object within your [activate method](https://code.visualstudio.com/api/get-started/extension-anatomy#extension-entry-file) or your extension entry file, e.g.:
+If your extension manages state data or other information you want to display, you can send them to your widget using [`tangle`](https://www.npmjs.com/package/tangle). Tangle is the data communication layer and allows to share state as well as events from your original extension and the Marquee webview. In order to iniate a communication channel return an object within your [activate method](https://code.visualstudio.com/api/get-started/extension-anatomy#extension-entry-file) or your extension entry file, please see below.
 
 > Please note that the `whenReady` hook below is optional and resolves once Marquee (counter-party JS sandbox) is ready to receive state updates. It's only required if sequence of events is important. For more information check out the [tangle docs](https://www.npmjs.com/package/tangle)' paragraph about lifecycle hooks.
 
