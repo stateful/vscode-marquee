@@ -1,11 +1,6 @@
 {
   "name": "Marquee",
   "short_name": "Marquee",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/favicon/android-chrome-192x192.png",
@@ -18,16 +13,13 @@
       "type": "image/png"
     },
     {
-      "src": "/images/appicons/maskable_icon.png",
+      "src": "/favicon/maskable_icon.png",
       "sizes": "196x196",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "shortcuts": [
-    {
-      "name": "Documentation",
-      "url": "/docs/start"
-    }
-  ]
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }
