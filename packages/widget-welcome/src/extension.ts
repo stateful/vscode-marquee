@@ -1,5 +1,6 @@
 import vscode from 'vscode'
 import Axios, { AxiosRequestConfig } from 'axios'
+import axiosRetry from 'axios-retry'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 import { Client } from 'tangle'
 
@@ -13,6 +14,7 @@ const FETCH_INTERVAL = process.env.NODE_ENV === 'development'
   ? 1000 * 5 // 5s
   : 5 * 1000 * 60 // 5min
 const config = vscode.workspace.getConfiguration('marquee')
+axiosRetry(Axios, { retries: 10, retryDelay: axiosRetry.exponentialDelay })
 
 class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout

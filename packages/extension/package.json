@@ -17,6 +17,7 @@
   "dependencies": {
     "@types/uuid": "^8.3.4",
     "axios": "^0.25.0",
+    "axios-retry": "^3.2.4",
     "tangle": "^1.0.5",
     "uuid": "^8.3.2"
   }
