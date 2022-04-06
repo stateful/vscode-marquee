@@ -63,8 +63,11 @@ jobs:
           NODE_ENV: production
           MARQUEE_INSTRUMENTATION_KEY: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY }}
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
-      - name: Run tests
-        run: yarn test
+      - name: Run Tests
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test
+          options: "-screen 0 1600x1200x24"
       - name: Create Changelog
         run: |
           git log $(git describe --tags --abbrev=0)..HEAD --oneline &> ${{ github.workspace }}-CHANGELOG.txt
