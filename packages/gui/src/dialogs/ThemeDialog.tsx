@@ -5,9 +5,8 @@ import {
   Button,
   Typography,
   Grid,
+  Box,
 } from '@mui/material'
-
-import makeStyles from '@mui/styles/makeStyles'
 
 import { GlobalContext } from '@vscode-marquee/utils'
 import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
@@ -15,16 +14,6 @@ import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 import backgrounds from '../utils/backgrounds'
 import { themes } from '../constants'
 import type { Theme } from '../types'
-
-const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
-  selectedButton: {
-    color: 'var(--vscode-foreground)',
-    border: '1px solid var(--vscode-button-foreground)',
-  }
-}))
 
 interface TileStyle {
   minHeight: string
@@ -37,7 +26,6 @@ interface TileStyle {
 }
 
 const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
-  const classes = useStyles()
   const { themeColor, background, setBackground } = useContext(GlobalContext)
   const isSelected = (tile: Theme) => !isNaN(+background) && tile.id === parseInt(background, 10)
 
@@ -46,7 +34,9 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
       <>
         <DialogTitle onClose={close}>Themes</DialogTitle>
         <DialogContent dividers={true}>
-          <div className={classes.root}>
+          <Box sx={{
+            flexGrow: 1,
+          }}>
             <Grid container spacing={3}>
               {themes.map((tile) => {
                 const tileStyle: Partial<TileStyle> = {
@@ -107,7 +97,10 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                             <Button
                               size="small"
                               variant="outlined"
-                              className={classes.selectedButton}
+                              sx={{
+                                color: 'var(--vscode-foreground)',
+                                border: '1px solid var(--vscode-button-foreground)',
+                              }}
                             >
                               <Typography style={{ fontWeight: 'bold' }}>Selected</Typography>
                             </Button>
@@ -119,7 +112,7 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                 )
               })}
             </Grid>
-          </div>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={close} variant="contained" color="primary">

@@ -1,5 +1,4 @@
 import React, { useState, useContext, useCallback, useMemo } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import {
   Typography,
   ListItem,
@@ -20,25 +19,6 @@ import type { Note, Events } from '../types'
 
 declare const window: MarqueeWindow
 
-const useStyles = makeStyles(() => ({
-  selected: {
-    color: 'var(--vscode-foreground)',
-
-    '&.Mui-selected': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.Mui-selected:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.MuiListItem-button:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-  },
-}))
-
 interface NoteListItemProps {
   note: Note
   index: number
@@ -50,7 +30,6 @@ interface NoteListItemProps {
 
 let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListItemProps) => {
   const eventListener = getEventListener<Events>()
-  const classes = useStyles()
   const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -103,7 +82,21 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
       button
       disableRipple
       disableTouchRipple
-      className={classes.selected}
+      sx={{
+        color: 'var(--vscode-foreground)',
+        '&.Mui-selected': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.Mui-selected:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.MuiListItem-button:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+      }}
       style={style}
       key={keyVal}
       onClick={(e: any) => {
@@ -161,7 +154,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               {!matchingWorkspace && (
                 <ListItem
                   button
-                  onClick={() => moveToCurrentWorkspace() }
+                  onClick={() => moveToCurrentWorkspace()}
                 >
                   <ListItemText
                     primary={

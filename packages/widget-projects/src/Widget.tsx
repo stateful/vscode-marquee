@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Typography, List, IconButton, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { Grid, Typography, List, IconButton, Button, Box } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
 
@@ -13,16 +12,7 @@ import ProjectListItem from './components/ListItem'
 import WorkspaceContext, { WorkspaceProvider } from './Context'
 
 declare const window: MarqueeWindow
-
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 let Projects = () => {
-  const classes = useStyles()
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
     workspaceSortOrder, openProjectInNewWindow
@@ -61,7 +51,10 @@ let Projects = () => {
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -125,7 +118,7 @@ let Projects = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid

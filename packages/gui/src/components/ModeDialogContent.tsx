@@ -15,7 +15,6 @@ import {
   Tab,
 } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
-import makeStyles from '@mui/styles/makeStyles'
 import ViewCompactIcon from '@mui/icons-material/ViewCompact'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
@@ -72,18 +71,6 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    display: 'flex',
-    height: '90%',
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    height: '100%',
-  },
-}))
 
 interface WidgetSelectorProps {
   widgetName: string
@@ -185,7 +172,6 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
 })
 
 const ModeDialogContent = () => {
-  const classes = useStyles()
   const { modes, modeName } = useContext(ModeContext)
   const [value, setValue] = useState(0)
 
@@ -207,7 +193,11 @@ const ModeDialogContent = () => {
     <>
       <ModeConfigToolbar />
 
-      <Box className={classes.root}>
+      <Box sx={{
+        flexGrow: 1,
+        display: 'flex',
+        height: '90%',
+      }}>
         <Box flexGrow={1} display="flex" overflow="hidden">
           <Box overflow="auto" style={{ minWidth: '150px' }}>
             <VerticalTabs
@@ -215,7 +205,10 @@ const ModeDialogContent = () => {
               variant="scrollable"
               value={value}
               onChange={handleChange}
-              className={classes.tabs}
+              sx={{
+                borderRight: theme => `1px solid ${theme.palette.divider}`,
+                height: '100%',
+              }}
             >
               {modes &&
                 Object.keys(modes).map((name) => {

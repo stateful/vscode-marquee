@@ -1,37 +1,21 @@
 import React, { useState } from 'react'
 import Toolbar from '@mui/material/Toolbar'
-import { Grid, Button } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { Grid, Button, Box } from '@mui/material'
 
 import ModeMorePop from './ModeMorePop'
 import ModeAddDialog from '../dialogs/ModeAddDialog'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  toolbar: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-  },
-  vert: {
-    position: 'relative',
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  },
-}))
-
 const ModeConfigToolbar = () => {
-  const classes = useStyles()
   const [showModeAddDialog, setShowModeAddDialog] = useState(false)
 
   return (
-    <div className={classes.root}>
+    <Box sx={{
+      flexGrow: 1,
+    }}>
       {showModeAddDialog && <ModeAddDialog close={() => setShowModeAddDialog(false)} />}
-      <Toolbar variant="dense" className={classes.toolbar}>
+      <Toolbar variant="dense" sx={{
+        borderBottom: '1px solid var(--vscode-foreground)',
+      }}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Button
@@ -48,7 +32,7 @@ const ModeConfigToolbar = () => {
           </Grid>
         </Grid>
       </Toolbar>
-    </div>
+    </Box>
   )
 }
 

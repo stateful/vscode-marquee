@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 
 import Tooltip from '@mui/material/Tooltip'
-import { Grid, Typography, IconButton, Chip, Badge } from '@mui/material'
+import { Grid, Typography, IconButton, Chip, Badge, Box } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import InfoIcon from '@mui/icons-material/Info'
 import MoreIcon from '@mui/icons-material/MoreVert'
@@ -29,12 +29,6 @@ import SettingsDialog from '../dialogs/SettingsDialog'
 declare const window: MarqueeWindow
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -195,7 +189,9 @@ const Navigation = () => {
   )
 
   return (
-    <div className={classes.grow}>
+    <Box sx={{
+      flexGrow: 1,
+    }}>
       {showFeedbackDialog && <FeedbackDialog close={() => setShowFeedbackDialog(false)} />}
       {showThemeDialog && <ThemeDialog close={() => setShowThemeDialog(false)} />}
       {showInfoDialog && <InfoDialog close={() => setShowInfoDialog(false)} />}
@@ -250,7 +246,9 @@ const Navigation = () => {
             </Grid>
           </Grid>
 
-          <div className={classes.grow} />
+          <Box sx={{
+            flexGrow: 1,
+          }} />
           <div className={classes.sectionDesktop}>
             <Grid
               container
@@ -354,7 +352,7 @@ const Navigation = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </Box>
   )
 }
 

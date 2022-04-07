@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useCallback } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
-import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
+import { Grid, Typography, TextField, IconButton, Button, Box } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -20,18 +19,6 @@ import NoteListItem from './components/ListItem'
 
 declare const window: MarqueeWindow
 
-const useStyles = makeStyles(() => ({
-  root: {
-    width: '100%',
-    height: '100%',
-    maxWidth: '100%',
-  },
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 interface RowRendererProps {
   key: React.Key
   index: number
@@ -39,7 +26,6 @@ interface RowRendererProps {
 }
 
 let Notes = () => {
-  const classes = useStyles()
   const { globalScope } = useContext(GlobalContext)
 
   const {
@@ -127,7 +113,10 @@ let Notes = () => {
   return (
     <>
       <Grid item style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -173,7 +162,7 @@ let Notes = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
@@ -219,7 +208,7 @@ let Notes = () => {
                           <ClearIcon
                             fontSize="small"
                             style={{ cursor: 'pointer' }}
-                            onClick={() => setNoteFilter('') }
+                            onClick={() => setNoteFilter('')}
                           />
                         ),
                       }}

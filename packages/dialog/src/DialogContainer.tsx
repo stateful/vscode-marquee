@@ -1,11 +1,10 @@
-import React, { MouseEventHandler } from 'react'
+import React, { ReactNode, MouseEventHandler } from 'react'
 import { Dialog } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 
-import { ClassNameMap } from '@mui/styles'
-
-interface Props extends Partial<React.PropsWithChildren<{ classes: ClassNameMap<string> }>> {
+interface Props {
+  children?: ReactNode | undefined,
   fullScreen?: boolean
   fullWidth?: boolean
   onClose?: MouseEventHandler<HTMLButtonElement>

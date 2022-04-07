@@ -2,8 +2,8 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import ModeConfigToolbar from '../../src/components/ModeConfigToolbar'
-import { ThemeProvider } from '@mui/styles'
 import { theme } from '@vscode-marquee/utils'
+import { ThemeProvider } from '@mui/system'
 
 jest.mock('../../src/components/ModeMorePop', () => () => (
   <div>ModeMorePop</div>

@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { GlobalProvider, setGlobalScope, theme } from '@vscode-marquee/utils'
 
 import Navigation from '../../src/components/Navigation'
-import { ThemeProvider } from '@mui/styles'
+import { ThemeProvider } from '@mui/system'
 
 jest.mock('../../../utils/src/contexts/Global')
 jest.mock('@vscode-marquee/widget-welcome', () => ({
