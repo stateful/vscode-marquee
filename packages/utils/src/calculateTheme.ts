@@ -1,4 +1,4 @@
-import { createTheme, DeprecatedThemeOptions, adaptV4Theme } from '@mui/material/styles'
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 import React from 'react'
 
 export default () => {
@@ -18,17 +18,27 @@ export default () => {
     }
   })
 
-  const newTheme: DeprecatedThemeOptions = {
+  const newTheme: ThemeOptions = {
     shape: {
       borderRadius: 0,
     },
-    props: {
+    components: {
       MuiSvgIcon: {
-        htmlColor: vsCodeStyleMap['--vscode-icon-foreground'],
+        defaultProps: {
+          htmlColor: vsCodeStyleMap['--vscode-icon-foreground'],
+        }
       },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            borderRadius: '0px',
+          }
+        }
+      }
     },
     palette: {
-      mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
+      // @ts-expect-error
+      type: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
       divider: vsCodeStyleMap['--vscode-foreground'],
       background: {
         default: vsCodeStyleMap['--vscode-editor-background'],
@@ -67,14 +77,7 @@ export default () => {
         textTransform: 'none',
       },
     },
-    overrides: {
-      MuiChip: {
-        root: {
-          borderRadius: '0px',
-        },
-      },
-    },
   }
 
-  return createTheme(adaptV4Theme(newTheme))
+  return createTheme(newTheme)
 }
