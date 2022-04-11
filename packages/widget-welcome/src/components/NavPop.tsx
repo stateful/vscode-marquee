@@ -17,7 +17,7 @@ import TrickContext, { TrickProvider } from '../Context'
 
 let NavPop = () => {
   // const classes = useStyles()
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const { tricks, read } = useContext(TrickContext)
 
   const handleClick = (event: MouseEvent) => {

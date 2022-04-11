@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useMemo } from 'react'
+import React, { useState, useContext, useCallback, useMemo, SyntheticEvent } from 'react'
 import {
   Typography,
   ListItem,
@@ -32,7 +32,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
   const eventListener = getEventListener<Events>()
   const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const matchingWorkspace = useMemo(() => {
     if (!window.activeWorkspace) {
@@ -59,12 +59,12 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
     setAnchorEl(null)
   }, [note])
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: SyntheticEvent) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }, [])
 
-  const handleClose = useCallback((e) => {
+  const handleClose = useCallback((e: SyntheticEvent) => {
     setAnchorEl(null)
     e.preventDefault()
     e.stopPropagation()

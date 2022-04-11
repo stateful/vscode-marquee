@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, SyntheticEvent } from 'react'
 import Popover from '@mui/material/Popover'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { IconButton } from '@mui/material'
@@ -8,9 +8,9 @@ import TodoPopItemContent from './PopItemContent'
 import type { Todo } from '../types'
 
 let TodoItemPop = ({ todo }: { todo: Todo }) => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

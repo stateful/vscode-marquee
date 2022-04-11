@@ -60,7 +60,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
     return snippets.filter((snippets: any) => snippets.workspaceId === workspace.id)
   }, [workspace, snippets])
 
-  const handleOpen = useCallback((ev) => {
+  const handleOpen = useCallback((ev: any) => {
     let target = ev.target
 
     /**

@@ -27,7 +27,7 @@ import ModeContext from '../contexts/ModeContext'
 import ModeDialog from '../dialogs/ModeDialog'
 import { ucFirst } from '../utils'
 
-const DenseListIcon = ({ children }: { children: React.ElementRef<any>[] }) => {
+const DenseListIcon = ({ children }: { children: React.ReactNode }) => {
   return (
     <ListItemIcon style={{ minWidth: '36px', margin: '0px' }}>
       {children}

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useState, useCallback, SyntheticEvent } from 'react'
 
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
@@ -49,9 +49,9 @@ let TodoFilterBox = () => {
 
 let TodoFilter = () => {
   const { todoFilter } = useContext(TodoContext)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

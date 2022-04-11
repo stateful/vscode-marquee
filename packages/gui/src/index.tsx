@@ -35,7 +35,7 @@ export const App = () => {
    * tell extension backend that application is readyy
    */
   useEffect(() => { window.vscode.postMessage({ ready: true }) }, [])
-
+  console.log(theme)
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>

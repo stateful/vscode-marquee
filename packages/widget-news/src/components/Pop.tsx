@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, SyntheticEvent } from 'react'
 import Popover from '@mui/material/Popover'
 import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -13,9 +13,9 @@ interface PopMenuProps {
 }
 
 const PopMenu = (props: PopMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

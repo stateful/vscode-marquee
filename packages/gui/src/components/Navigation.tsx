@@ -54,7 +54,7 @@ const Navigation = () => {
   const { name, themeColor, setName, globalScope, setGlobalScope } =
     useContext(GlobalContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false)
   const [showThemeDialog, setShowThemeDialog] = useState(false)
   const [showInfoDialog, setShowInfoDialog] = useState(false)

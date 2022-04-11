@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext, SyntheticEvent } from 'react'
 import Popover from '@mui/material/Popover'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { IconButton, ListItem, ListItemText, Typography } from '@mui/material'
@@ -11,9 +11,9 @@ declare const window: MarqueeWindow
 
 let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
   const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: SyntheticEvent) => {
     event.preventDefault()
     setAnchorEl(event.currentTarget)
   }, [])

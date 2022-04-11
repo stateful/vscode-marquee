@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, SyntheticEvent } from 'react'
 import Popover from '@mui/material/Popover'
 import { IconButton, Grid, Divider, Typography, Checkbox } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -105,9 +105,9 @@ const FilterByBox = React.memo(() => {
 })
 
 let ProjectPop = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: SyntheticEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

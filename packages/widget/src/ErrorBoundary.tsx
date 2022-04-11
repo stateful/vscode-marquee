@@ -4,12 +4,14 @@ interface State {
   hasError: boolean;
 }
 
+type Props = { children: React.ReactNode }
+
 /**
  * ErrorBoundary Component
  * ensures that widget is not rendered if an error is thrown during render
  */
-export class ErrorBoundary extends React.Component<unknown, State> {
-  constructor (props: unknown) {
+export class ErrorBoundary extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props)
     this.state = { hasError: false }
   }

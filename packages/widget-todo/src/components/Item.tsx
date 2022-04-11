@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useState, useCallback, SyntheticEvent } from 'react'
 
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import Chip from '@mui/material/Chip'
@@ -35,11 +35,11 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
   // const classes = useStyles()
   const { _updateTodo, setShowEditDialog } = useContext(TodoContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const open = Boolean(anchorEl)
   const id = open ? 'todo-item-popover' : undefined
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: SyntheticEvent) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }, [])

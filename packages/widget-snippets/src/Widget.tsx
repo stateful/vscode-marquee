@@ -80,7 +80,7 @@ let Snippets = () => {
     }
   }, [snippetFilter, globalScope])
 
-  const snippetItemClick = useCallback((e, index) => {
+  const snippetItemClick = useCallback((e: any, index: number) => {
     if (e.detail === 1) {
       if (snippetsArr[index] && snippetsArr[index].id) {
         setSnippetSelected(snippetsArr[index].id)
