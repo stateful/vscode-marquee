@@ -1,5 +1,4 @@
 import React, { useContext, MouseEvent, useState, useEffect } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 
@@ -25,31 +24,9 @@ import FeedbackDialog from '../dialogs/FeedbackDialog'
 import ThemeDialog from '../dialogs/ThemeDialog'
 import InfoDialog from '../dialogs/InfoDialog'
 import SettingsDialog from '../dialogs/SettingsDialog'
+import { ClassNames } from '@emotion/react'
 
 declare const window: MarqueeWindow
-
-const useStyles = makeStyles((theme) => ({
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  editInput: {
-    fontSize: 16,
-    backgroundColor: 'var(--vscode-editor-background)',
-    border: '0px solid black',
-    color: 'var(--vscode-editor-foreground)',
-    minWidth: '100px',
-    padding: '8px',
-  },
-}))
 
 const StyledEdiText = styled(EdiText)`
   button {
@@ -74,15 +51,17 @@ const StyledEdiText = styled(EdiText)`
 `
 
 const Navigation = () => {
-  const classes = useStyles()
-  const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext)
+  const { name, themeColor, setName, globalScope, setGlobalScope } =
+    useContext(GlobalContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false)
   const [showThemeDialog, setShowThemeDialog] = useState(false)
   const [showInfoDialog, setShowInfoDialog] = useState(false)
   const [showSettingsDialog, setShowSettingsDialog] = useState(false)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null))
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(
+    null as HTMLButtonElement | null
+  )
   const [, setInputName] = useState(name)
 
   const isMenuOpen = Boolean(anchorEl)
@@ -130,27 +109,33 @@ const Navigation = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {window.activeWorkspace && (<MenuItem onClick={() => { setGlobalScope(!globalScope) }}>
-        <Grid container direction="row" alignItems="stretch" spacing={1}>
-          <Grid item>
-            <Badge
-              color="secondary"
-              variant="dot"
-              overlap="circular"
-              badgeContent={globalScope ? 1 : 0}
-            >
-              <FilterListIcon fontSize="small" />
-            </Badge>
+      {window.activeWorkspace && (
+        <MenuItem
+          onClick={() => {
+            setGlobalScope(!globalScope)
+          }}
+        >
+          <Grid container direction="row" alignItems="stretch" spacing={1}>
+            <Grid item>
+              <Badge
+                color="secondary"
+                variant="dot"
+                overlap="circular"
+                badgeContent={globalScope ? 1 : 0}
+              >
+                <FilterListIcon fontSize="small" />
+              </Badge>
+            </Grid>
+            <Grid item>
+              <Typography variant="body2">
+                Global mode [{globalScope ? 'on' : 'off'}]
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="body2">
-              Global mode [{globalScope ? 'on' : 'off'}]
-            </Typography>
-          </Grid>
-        </Grid>
-      </MenuItem>)}
+        </MenuItem>
+      )}
       <MenuItem onClick={handleMobileMenuClose}>
-        <div onClick={() => setShowSettingsDialog(true)  }>
+        <div onClick={() => setShowSettingsDialog(true)}>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
             <Grid item>
               <SettingsIcon fontSize="small" />
@@ -173,7 +158,7 @@ const Navigation = () => {
           </Grid>
         </div>
       </MenuItem>
-      <MenuItem onClick={() => handleMobileMenuClose() } >
+      <MenuItem onClick={() => handleMobileMenuClose()}>
         <div onClick={() => setShowInfoDialog(true)}>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
             <Grid item>
@@ -189,13 +174,21 @@ const Navigation = () => {
   )
 
   return (
-    <Box sx={{
-      flexGrow: 1,
-    }}>
-      {showFeedbackDialog && <FeedbackDialog close={() => setShowFeedbackDialog(false)} />}
-      {showThemeDialog && <ThemeDialog close={() => setShowThemeDialog(false)} />}
+    <Box
+      sx={{
+        flexGrow: 1,
+      }}
+    >
+      {showFeedbackDialog && (
+        <FeedbackDialog close={() => setShowFeedbackDialog(false)} />
+      )}
+      {showThemeDialog && (
+        <ThemeDialog close={() => setShowThemeDialog(false)} />
+      )}
       {showInfoDialog && <InfoDialog close={() => setShowInfoDialog(false)} />}
-      {showSettingsDialog && <SettingsDialog close={() => setShowSettingsDialog(false)} />}
+      {showSettingsDialog && (
+        <SettingsDialog close={() => setShowSettingsDialog(false)} />
+      )}
       <AppBar
         position="static"
         elevation={0}
@@ -212,44 +205,63 @@ const Navigation = () => {
                   <Typography style={{ fontSize: 16 }}>Hi,</Typography>
                 </Grid>
                 <Grid item>
-                  <StyledEdiText
-                    onEditingStart={() => {
-                      setInputName('')
-                    }}
-                    onSave={(v: string) => {
-                      if (v !== '') {
-                        setName(v)
-                        setInputName(v)
-                      }
-                    }}
-                    submitOnEnter={true}
-                    type="text"
-                    value={name}
-                    editOnViewClick
-                    viewProps={{
-                      style: {
-                        fontSize: 16,
-                        cursor: 'pointer',
-                        fontWeight: 'bold',
-                      },
-                    }}
-                    inputProps={{
-                      placeholder: 'Type...',
-                      className: classes.editInput,
-                    }}
-                    showButtonsOnHover
-                    cancelOnEscape
-                    submitOnUnfocus
-                  />
+                  <ClassNames>
+                    {({ css }) => (
+                      <StyledEdiText
+                        onEditingStart={() => {
+                          setInputName('')
+                        }}
+                        onSave={(v: string) => {
+                          if (v !== '') {
+                            setName(v)
+                            setInputName(v)
+                          }
+                        }}
+                        submitOnEnter={true}
+                        type="text"
+                        value={name}
+                        editOnViewClick
+                        viewProps={{
+                          style: {
+                            fontSize: 16,
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                          },
+                        }}
+                        inputProps={{
+                          placeholder: 'Type...',
+                          className: css({
+                            fontSize: 16,
+                            backgroundColor: 'var(--vscode-editor-background)',
+                            border: '0px solid black',
+                            color: 'var(--vscode-editor-foreground)',
+                            minWidth: '100px',
+                            padding: '8px',
+                          }),
+                        }}
+                        showButtonsOnHover
+                        cancelOnEscape
+                        submitOnUnfocus
+                      />
+                    )}
+                  </ClassNames>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
 
+          <Box
+            sx={{
+              flexGrow: 1,
+            }}
+          />
           <Box sx={{
-            flexGrow: 1,
-          }} />
-          <div className={classes.sectionDesktop}>
+            display: {
+              xs: 'none',
+              sm: 'flex'
+            },
+          }}
+          >
             <Grid
               container
               direction="row"
@@ -257,37 +269,49 @@ const Navigation = () => {
               alignItems="center"
               wrap="nowrap"
             >
-              {window.activeWorkspace && (<Grid item>
-                <Tooltip
-                  aria-label="toggle-scope"
-                  title={`Toggle Global vs Workspace Scope (${globalScope ? 'Global' : 'Workspace'} Scope)`}
-                >
-                  <IconButton
-                    data-testid="navigation-toggle-global-scope"
-                    size="small"
-                    onClick={() => setGlobalScope(!globalScope)}
+              {window.activeWorkspace && (
+                <Grid item>
+                  <Tooltip
+                    aria-label="toggle-scope"
+                    title={`Toggle Global vs Workspace Scope (${
+                      globalScope ? 'Global' : 'Workspace'
+                    } Scope)`}
                   >
-                    <Badge
-                      color="secondary"
-                      variant="dot"
-                      overlap="circular"
-                      badgeContent={globalScope ? 1 : 0}
+                    <IconButton
+                      data-testid="navigation-toggle-global-scope"
+                      size="small"
+                      onClick={() => setGlobalScope(!globalScope)}
                     >
-                      <FilterListIcon fontSize="small" />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-              </Grid>)}
+                      <Badge
+                        color="secondary"
+                        variant="dot"
+                        overlap="circular"
+                        badgeContent={globalScope ? 1 : 0}
+                      >
+                        <FilterListIcon fontSize="small" />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              )}
               <Grid item>
                 <ModeSelector />
               </Grid>
               <Grid item>
-                <IconButton aria-label="Open Settings" size="small" onClick={() => setShowSettingsDialog(true) }>
+                <IconButton
+                  aria-label="Open Settings"
+                  size="small"
+                  onClick={() => setShowSettingsDialog(true)}
+                >
                   <SettingsIcon fontSize="small" />
                 </IconButton>
               </Grid>
               <Grid item>
-                <IconButton aria-label="Switch Theme" size="small" onClick={() => setShowThemeDialog(true) }>
+                <IconButton
+                  aria-label="Switch Theme"
+                  size="small"
+                  onClick={() => setShowThemeDialog(true)}
+                >
                   <PhotoLibraryIcon fontSize="small" />
                 </IconButton>
               </Grid>
@@ -295,14 +319,20 @@ const Navigation = () => {
                 <NavPop />
               </Grid>
               <Grid item>
-                <IconButton aria-label="Show Info" size="small" onClick={() => setShowInfoDialog(true) }>
+                <IconButton
+                  aria-label="Show Info"
+                  size="small"
+                  onClick={() => setShowInfoDialog(true)}
+                >
                   <InfoIcon fontSize="small" />
                 </IconButton>
               </Grid>
               <Grid item>&nbsp;</Grid>
               <Grid item>
                 <Chip
-                  icon={<SendIcon aria-label="Send Feedback" fontSize="small" />}
+                  icon={
+                    <SendIcon aria-label="Send Feedback" fontSize="small" />
+                  }
                   style={{ borderRadius: '0px' }}
                   size="small"
                   label="Feedback"
@@ -312,8 +342,15 @@ const Navigation = () => {
                 />
               </Grid>
             </Grid>
-          </div>
-          <div className={classes.sectionMobile}>
+          </Box>
+          <Box
+            sx={{
+              display: {
+                xs: 'flex',
+                sm: 'none',
+              }
+            }}
+          >
             <Grid
               container
               direction="row"
@@ -347,7 +384,7 @@ const Navigation = () => {
                 </IconButton>
               </Grid>
             </Grid>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

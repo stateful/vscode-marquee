@@ -1,7 +1,7 @@
 import React, { ReactNode, MouseEventHandler } from 'react'
 import { Dialog } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
+import { useTheme } from '@mui/system'
 
 interface Props {
   children?: ReactNode | undefined,

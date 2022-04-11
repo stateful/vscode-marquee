@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles'
+import { createTheme, ThemeOptions } from '@mui/system'
 import React from 'react'
 
 export default () => {
@@ -37,8 +37,7 @@ export default () => {
       }
     },
     palette: {
-      // @ts-expect-error
-      type: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
+      mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
       divider: vsCodeStyleMap['--vscode-foreground'],
       background: {
         default: vsCodeStyleMap['--vscode-editor-background'],

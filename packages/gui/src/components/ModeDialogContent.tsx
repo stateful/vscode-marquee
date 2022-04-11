@@ -14,7 +14,7 @@ import {
   Tabs,
   Tab,
 } from '@mui/material'
-import withStyles from '@mui/styles/withStyles'
+// import withStyles from '@mui/styles/withStyles'
 import ViewCompactIcon from '@mui/icons-material/ViewCompact'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
@@ -27,22 +27,26 @@ import ModeTabPop from './ModeTabPop'
 import { ucFirst } from '../utils'
 import { WidgetConfig, PresetModes } from '../types'
 
-const VerticalTabs = withStyles(() => ({
-  flexContainer: {
-    flexDirection: 'column',
-  },
-  indicator: {
-    display: 'none',
-  },
-}))(Tabs)
+// const VerticalTabs = withStyles(() => ({
+//   flexContainer: {
+//     flexDirection: 'column',
+//   },
+//   indicator: {
+//     display: 'none',
+//   },
+// }))(Tabs)
 
-const MyTab = withStyles(() => ({
-  selected: {
-    borderLeft:
-      '2px solid var(--vscode-editorMarkerNavigationError-background)',
-    backgroundColor: 'var(--vscode-editor-background)',
-  },
-}))(Tab)
+const VerticalTabs = Tabs
+
+// const MyTab = withStyles(() => ({
+//   selected: {
+//     borderLeft:
+//       '2px solid var(--vscode-editorMarkerNavigationError-background)',
+//     backgroundColor: 'var(--vscode-editor-background)',
+//   },
+// }))(Tab)
+
+const MyTab = Tab
 
 interface TabPanelProps {
   children: any

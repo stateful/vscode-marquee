@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import Autocomplete from '@mui/material/Autocomplete'
 import { TextField } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+// import makeStyles from '@mui/styles/makeStyles'
 
 export interface Props {
   id: string
@@ -15,27 +15,27 @@ export interface Props {
   onChange: (e: ChangeEvent<{}>, v: any) => void
 }
 
-const useStyles = makeStyles(() => ({
-  option: {
-    backgroundColor: 'var(--vscode-editor-background)',
+// const useStyles = makeStyles(() => ({
+//   option: {
+//     backgroundColor: 'var(--vscode-editor-background)',
 
-    '&[data-focus="true"]': {
-      backgroundColor: 'var(--vscode-editor-selectionBackground)',
-      color: 'var(--vscode-input-foreground)',
-    },
-    '&[aria-selected="true"]': {
-      backgroundColor: 'var(--vscode-editor-selectionBackground)',
-      color: 'var(--vscode-editor-foreground)',
-    },
-  },
-  input: {
-    // color: "black",
-    color: 'var(--vscode-editor-foreground)',
-  },
-  label: {
-    color: 'var(--vscode-editor-foreground)',
-  },
-}))
+//     '&[data-focus="true"]': {
+//       backgroundColor: 'var(--vscode-editor-selectionBackground)',
+//       color: 'var(--vscode-input-foreground)',
+//     },
+//     '&[aria-selected="true"]': {
+//       backgroundColor: 'var(--vscode-editor-selectionBackground)',
+//       color: 'var(--vscode-editor-foreground)',
+//     },
+//   },
+//   input: {
+//     // color: "black",
+//     color: 'var(--vscode-editor-foreground)',
+//   },
+//   label: {
+//     color: 'var(--vscode-editor-foreground)',
+//   },
+// }))
 
 const BetterComplete = ({
   id,
@@ -46,14 +46,14 @@ const BetterComplete = ({
   variant,
   ...rest
 }: Props) => {
-  const classes = useStyles()
+  // const classes = useStyles()
 
   return (
     <Autocomplete
       id={id}
       classes={{
-        option: classes.option,
-        input: classes.input,
+        // option: classes.option,
+        // input: classes.input,
       }}
       options={options}
       getOptionLabel={(option) => option[display] || ''}
@@ -64,7 +64,7 @@ const BetterComplete = ({
           fullWidth
           variant={variant || 'outlined'}
           InputLabelProps={{
-            className: classes.label,
+            // className: classes.label,
           }}
         />
       )}

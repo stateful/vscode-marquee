@@ -11,7 +11,7 @@ import {
   Typography,
   Popover,
 } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+// import makeStyles from '@mui/styles/makeStyles'
 import { jumpTo } from '@vscode-marquee/utils'
 import TodoItemPop from './ItemPop'
 import TodoPopItemContent from './PopItemContent'
@@ -19,11 +19,11 @@ import TodoPopItemContent from './PopItemContent'
 import TodoContext from '../Context'
 import type { Todo } from '../types'
 
-const useStyles = makeStyles(() => ({
-  customTooltip: {
-    borderRadius: '4px',
-  },
-}))
+// const useStyles = makeStyles(() => ({
+//   customTooltip: {
+//     borderRadius: '4px',
+//   },
+// }))
 
 interface TodoItemProps {
   todo: Todo
@@ -32,7 +32,7 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const { _updateTodo, setShowEditDialog } = useContext(TodoContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -137,7 +137,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                   <Typography variant="subtitle2">{todo.body}</Typography>
                 }
                 classes={{
-                  tooltip: classes.customTooltip,
+                  // tooltip: classes.customTooltip,
                 }}
                 placement="top"
                 arrow
@@ -169,7 +169,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
           <Grid item xs>
             <Tooltip
               title={<Typography variant="subtitle2">{todo.path}</Typography>}
-              classes={{ tooltip: classes.customTooltip }}
+              // classes={{ tooltip: classes.customTooltip }}
               placement="top"
               arrow
             >

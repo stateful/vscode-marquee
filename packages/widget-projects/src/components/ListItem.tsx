@@ -7,14 +7,14 @@ import {
   ListItemAvatar,
   Badge,
 } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+// import makeStyles from '@mui/styles/makeStyles'
 import LayersIcon from '@mui/icons-material/Layers'
 import FolderIcon from '@mui/icons-material/Folder'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CodeIcon from '@mui/icons-material/Code'
 import NoteIcon from '@mui/icons-material/Note'
 
-import { GlobalContext } from '@vscode-marquee/utils'
+// import { GlobalContext } from '@vscode-marquee/utils'
 import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils'
 
 import ProjectItemPop from './ItemPop'
@@ -22,29 +22,29 @@ import WorkspaceContext from '../Context'
 
 declare const window: MarqueeWindow
 
-interface StyleProps {
-  background: string
-}
+// interface StyleProps {
+//   background: string
+// }
 
-const useStyles = makeStyles(() => ({
-  badge: (props: StyleProps) => ({
-    minHeight: '16px',
-    minWidth: '16px',
-    height: '16px',
-    width: '16px',
-    background: props.background,
-  }),
-}))
+// const useStyles = makeStyles(() => ({
+//   badge: (props: StyleProps) => ({
+//     minHeight: '16px',
+//     minWidth: '16px',
+//     height: '16px',
+//     width: '16px',
+//     background: props.background,
+//   }),
+// }))
 
 interface ProjectListItemProps {
   workspace: Workspace
 }
 
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
-  const { themeColor } = useContext(GlobalContext)
-  const classes = useStyles({
-    background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
-  })
+  // const { themeColor } = useContext(GlobalContext)
+  // const classes = useStyles({
+  //   background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
+  // })
 
   const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext)
 
@@ -139,7 +139,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
                 >
                   <Grid item>
                     <Badge
-                      classes={{ badge: classes.badge }}
+                      // classes={{ badge: classes.badge }}
                       badgeContent={todoCount.length}
                       showZero
                     >
@@ -149,7 +149,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
 
                   <Grid item>
                     <Badge
-                      classes={{ badge: classes.badge }}
+                      // classes={{ badge: classes.badge }}
                       badgeContent={noteCount.length}
                       showZero
                     >
@@ -158,7 +158,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
                   </Grid>
                   <Grid item>
                     <Badge
-                      classes={{ badge: classes.badge }}
+                      // classes={{ badge: classes.badge }}
                       badgeContent={snippetCount.length}
                       showZero
                     >

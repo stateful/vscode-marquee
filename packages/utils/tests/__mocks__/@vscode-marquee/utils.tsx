@@ -1,13 +1,13 @@
 import React from 'react'
-import { createTheme, adaptV4Theme } from '@mui/material/styles'
 import { EventEmitter } from 'events'
 
 import GlobalContextImport from '../../../src/contexts/Global'
 import NetworkErrorImport from '../../../src/components/NetworkError'
 import BetterCompleteImport from '../../../src/components/BetterComplete'
 import DoubleClickHelperImport from '../../../src/components/DoubleClickHelper'
+import { createTheme } from '@mui/system'
 
-export const theme = createTheme(adaptV4Theme({
+export const theme = createTheme(({
   palette: {
     primary: {
       main: '#000'

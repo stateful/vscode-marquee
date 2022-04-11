@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 import CssBaseline from '@mui/material/CssBaseline'
-import { StyledEngineProvider } from '@mui/material/styles'
 
 import { theme, GlobalProvider } from '@vscode-marquee/utils'
 import type { MarqueeWindow } from '@vscode-marquee/utils'
@@ -13,7 +12,7 @@ import Container from './Container'
 import { ModeProvider } from './contexts/ModeContext'
 
 import './css/index.css'
-import { ThemeProvider } from '@mui/system'
+import { StyledEngineProvider, ThemeProvider } from '@mui/system'
 
 
 declare const window: MarqueeWindow
