@@ -2,8 +2,7 @@ import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import makeStyles from '@mui/styles/makeStyles'
-import { Grid, Typography, CircularProgress } from '@mui/material'
+import { Grid, Typography, CircularProgress, Box } from '@mui/material'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
@@ -13,19 +12,6 @@ import { WeatherDialogLauncher } from './components/Dialog'
 import { kToF, kToC, formatAMPM } from './utils'
 import { SCALE_OPTIONS } from './constants'
 import type { Forecast } from './types'
-
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-  sunset: {
-    paddingRight: '10px'
-  },
-  sunrise: {
-    paddingRight: '10px'
-  }
-}))
 
 let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'>) => {
   const { scale } = useContext(WeatherContext)
@@ -78,13 +64,17 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
               </Grid>
               <Grid item>
                 <Typography variant="body2">
-                  <span className={classes.sunrise}>🌅</span>
+                  <Box component="span" sx={{
+                    paddingRight: '10px'
+                  }}>🌅</Box>
                   {formatAMPM(new Date(current.sunrise * 1000))}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant="body2">
-                  <span className={classes.sunset}>🌇</span>
+                  <Box component="span" sx={{
+                    paddingRight: '10px'
+                  }}>🌇</Box>
                   {formatAMPM(new Date(current.sunset * 1000))}
                 </Typography>
               </Grid>
@@ -169,13 +159,15 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
 })
 
 const Weather = () => {
-  const classes = useStyles()
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
 
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -205,7 +197,7 @@ const Weather = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
