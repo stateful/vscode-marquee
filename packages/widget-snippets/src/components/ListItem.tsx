@@ -1,5 +1,4 @@
 import React, { useState, useContext, useCallback, useMemo } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import {
   Typography,
   ListItem,
@@ -21,25 +20,6 @@ import type { Events, Snippet } from '../types'
 
 declare const window: MarqueeWindow
 
-const useStyles = makeStyles(() => ({
-  selected: {
-    color: 'var(--vscode-foreground)',
-
-    '&.Mui-selected': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.Mui-selected:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.MuiListItem-button:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-  },
-}))
-
 interface SnippetListItemProps {
   snippet: Snippet | null
   index: number
@@ -57,7 +37,6 @@ let SnippetListItem = ({
   selected,
   click,
 }: SnippetListItemProps) => {
-  const classes = useStyles()
   const widgetEventListener = getEventListener<Events>(WIDGET_ID)
   const eventListener = getEventListener<Events>()
 
@@ -114,7 +93,22 @@ let SnippetListItem = ({
       button
       disableRipple
       disableTouchRipple
-      className={classes.selected}
+      sx={{
+        color: 'var(--vscode-foreground)',
+
+        '&.Mui-selected': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.Mui-selected:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.MuiListItem-button:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+      }}
       style={style}
       key={keyVal}
       onClick={(e: any) => {

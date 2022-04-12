@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useMemo, useCallback } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import {
   Grid,
   IconButton,
   Typography,
   TextField,
   Button,
+  Box,
 } from '@mui/material'
 
 import { AddCircle, Clear } from '@mui/icons-material'
@@ -26,18 +26,6 @@ import type { Events } from './types'
 
 declare const window: MarqueeWindow
 
-const useStyles = makeStyles(() => ({
-  root: {
-    width: '100%',
-    height: '100%',
-    maxWidth: '100%',
-  },
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 interface RowRendererProps {
   key: React.Key
   index: number
@@ -46,7 +34,6 @@ interface RowRendererProps {
 
 let Snippets = () => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
-  const classes = useStyles()
   const { globalScope } = useContext(GlobalContext)
 
   const {
@@ -137,7 +124,10 @@ let Snippets = () => {
   return (
     <>
       <Grid item style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid container direction="row" justifyContent="space-between">
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
@@ -181,7 +171,7 @@ let Snippets = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
