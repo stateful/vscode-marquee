@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import {
   DialogContent,
   DialogActions,
@@ -15,12 +15,12 @@ import backgrounds from '../utils/backgrounds'
 import { themes } from '../constants'
 import type { Theme } from '../types'
 
-const PREFIX = 'ThemeDialog';
+const PREFIX = 'ThemeDialog'
 
 const classes = {
   root: `${PREFIX}-root`,
   selectedButton: `${PREFIX}-selectedButton`
-};
+}
 
 const StyledDialogContainer = styled(DialogContainer)(() => ({
   [`& .${classes.root}`]: {
@@ -31,7 +31,7 @@ const StyledDialogContainer = styled(DialogContainer)(() => ({
     color: 'var(--vscode-foreground)',
     border: '1px solid var(--vscode-button-foreground)',
   }
-}));
+}))
 
 interface TileStyle {
   minHeight: string
@@ -135,7 +135,7 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
         </DialogActions>
       </>
     </StyledDialogContainer>
-  );
+  )
 })
 
 export default ThemeDialog

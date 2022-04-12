@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import {
   Typography,
   Grid,
@@ -27,7 +27,7 @@ import ModeTabPop from './ModeTabPop'
 import { ucFirst } from '../utils'
 import { WidgetConfig, PresetModes } from '../types'
 
-const PREFIX = 'ModeDialogContent';
+const PREFIX = 'ModeDialogContent'
 
 const classes = {
   flexContainer: `${PREFIX}-flexContainer`,
@@ -35,7 +35,7 @@ const classes = {
   selected: `${PREFIX}-selected`,
   root: `${PREFIX}-root`,
   tabs: `${PREFIX}-tabs`
-};
+}
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
 const Root = styled('div')((
@@ -53,7 +53,7 @@ const Root = styled('div')((
     borderRight: `1px solid ${theme.palette.divider}`,
     height: '100%',
   }
-}));
+}))
 
 const VerticalTabs = Tabs
 
@@ -183,7 +183,7 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
         )
       })}
     </Root>)
-  );
+  )
 })
 
 const ModeDialogContent = () => {
@@ -262,7 +262,7 @@ const ModeDialogContent = () => {
                     classes={{
                       selected: classes.selected
                     }} />
-                );
+                )
               })}
           </VerticalTabs>
         </Box>
@@ -282,7 +282,7 @@ const ModeDialogContent = () => {
         </Box>
       </Box>
     </Box>
-  </>;
+  </>
 }
 
 export default ModeDialogContent
