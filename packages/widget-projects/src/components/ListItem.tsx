@@ -6,8 +6,8 @@ import {
   ListItemText,
   ListItemAvatar,
   Badge,
+  styled,
 } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 import LayersIcon from '@mui/icons-material/Layers'
 import FolderIcon from '@mui/icons-material/Folder'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
@@ -26,14 +26,20 @@ interface StyleProps {
   background: string
 }
 
-const useStyles = makeStyles(() => ({
-  badge: (props: StyleProps) => ({
+const PREFIX = 'WidgetProjectsListItem'
+
+const classes = {
+  badge: `${PREFIX}-badge`,
+}
+
+const Root = styled('div')((props: StyleProps) => ({
+  [`&.${classes.badge}`]: {
     minHeight: '16px',
     minWidth: '16px',
     height: '16px',
     width: '16px',
     background: props.background,
-  }),
+  },
 }))
 
 interface ProjectListItemProps {
@@ -42,9 +48,6 @@ interface ProjectListItemProps {
 
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   const { themeColor } = useContext(GlobalContext)
-  const classes = useStyles({
-    background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
-  })
 
   const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext)
 
@@ -100,7 +103,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   }, [workspace, openProjectInNewWindow])
 
   return (
-    <>
+    <Root background={`rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`}>
       <ListItem
         selected={workspace.id === window.activeWorkspace?.id}
         dense
@@ -179,7 +182,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
           }
         />
       </ListItem>
-    </>
+    </Root>
   )
 }
 
