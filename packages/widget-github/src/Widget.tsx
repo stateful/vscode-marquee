@@ -1,11 +1,10 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from '@mui/material'
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress, Box } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import makeStyles from '@mui/styles/makeStyles'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
@@ -15,19 +14,6 @@ import { NetworkError } from '@vscode-marquee/utils'
 import TrendContext, { TrendProvider } from './Context'
 import TrendingDialogLauncher from './components/TrendingDialog'
 import Filter from './components/Filter'
-
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-  trendEntry: {
-    marginTop: '4px',
-    marginBottom: '4px',
-    padding: '16px',
-    borderBottom: '1px solid var(--vscode-foreground)',
-  },
-}))
 
 let GChip = ({ ...rest }) => {
   return (
@@ -41,7 +27,6 @@ let GChip = ({ ...rest }) => {
 }
 
 let Github = () => {
-  const classes = useStyles()
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
 
   const filteredTrends = useMemo(() => {
@@ -63,7 +48,10 @@ let Github = () => {
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -92,7 +80,7 @@ let Github = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
@@ -152,7 +140,12 @@ let Github = () => {
                     key={entry.url}
                     container
                     direction="column"
-                    className={classes.trendEntry}
+                    sx={{
+                      marginTop: '4px',
+                      marginBottom: '4px',
+                      padding: '16px',
+                      borderBottom: '1px solid var(--vscode-foreground)',
+                    }}
                   >
                     <Grid
                       container
