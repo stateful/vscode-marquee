@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
+  Box,
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
