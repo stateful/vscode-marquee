@@ -3,9 +3,8 @@ import { Dialog } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 
-import { ClassNameMap } from '@mui/styles'
-
-interface Props extends Partial<React.PropsWithChildren<{ classes: ClassNameMap<string> }>> {
+interface Props {
+  children: React.ReactNode,
   fullScreen?: boolean
   fullWidth?: boolean
   onClose?: MouseEventHandler<HTMLButtonElement>

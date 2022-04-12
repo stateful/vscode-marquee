@@ -1,5 +1,4 @@
 import React, { useContext, MouseEvent, useState, useEffect } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 
@@ -7,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 
 import Tooltip from '@mui/material/Tooltip'
-import { Grid, Typography, IconButton, Chip, Badge } from '@mui/material'
+import { Grid, Typography, IconButton, Chip, Badge, Box } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import InfoIcon from '@mui/icons-material/Info'
 import MoreIcon from '@mui/icons-material/MoreVert'
@@ -26,36 +25,24 @@ import ThemeDialog from '../dialogs/ThemeDialog'
 import InfoDialog from '../dialogs/InfoDialog'
 import SettingsDialog from '../dialogs/SettingsDialog'
 
-declare const window: MarqueeWindow
+const PREFIX = 'Navigation'
 
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  editInput: {
+const classes = {
+  editInput: `${PREFIX}-editInput`
+}
+
+const Root = styled('div')(() => ({
+  [`& .${classes.editInput}`]: {
     fontSize: 16,
     backgroundColor: 'var(--vscode-editor-background)',
     border: '0px solid black',
     color: 'var(--vscode-editor-foreground)',
     minWidth: '100px',
     padding: '8px',
-  },
+  }
 }))
+
+declare const window: MarqueeWindow
 
 const StyledEdiText = styled(EdiText)`
   button {
@@ -80,7 +67,7 @@ const StyledEdiText = styled(EdiText)`
 `
 
 const Navigation = () => {
-  const classes = useStyles()
+
   const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -156,7 +143,7 @@ const Navigation = () => {
         </Grid>
       </MenuItem>)}
       <MenuItem onClick={handleMobileMenuClose}>
-        <div onClick={() => setShowSettingsDialog(true)  }>
+        <Root onClick={() => setShowSettingsDialog(true)  }>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
             <Grid item>
               <SettingsIcon fontSize="small" />
@@ -165,7 +152,7 @@ const Navigation = () => {
               <Typography variant="body2">Settings</Typography>
             </Grid>
           </Grid>
-        </div>
+        </Root>
       </MenuItem>
       <MenuItem onClick={() => handleMobileMenuClose()}>
         <div onClick={() => setShowThemeDialog(true)}>
@@ -195,7 +182,9 @@ const Navigation = () => {
   )
 
   return (
-    <div className={classes.grow}>
+    <Box sx={{
+      flexGrow: 1,
+    }}>
       {showFeedbackDialog && <FeedbackDialog close={() => setShowFeedbackDialog(false)} />}
       {showThemeDialog && <ThemeDialog close={() => setShowThemeDialog(false)} />}
       {showInfoDialog && <InfoDialog close={() => setShowInfoDialog(false)} />}
@@ -250,8 +239,16 @@ const Navigation = () => {
             </Grid>
           </Grid>
 
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <Box sx={{
+            flexGrow: 1,
+          }} />
+          <Box sx={{
+            display: {
+              xs: 'none',
+              sm: 'flex'
+            },
+          }}
+          >
             <Grid
               container
               direction="row"
@@ -314,8 +311,14 @@ const Navigation = () => {
                 />
               </Grid>
             </Grid>
-          </div>
-          <div className={classes.sectionMobile}>
+          </Box>
+          <Box sx={{
+            display: {
+              xs: 'flex',
+              sm: 'none',
+            }
+          }}
+          >
             <Grid
               container
               direction="row"
@@ -349,12 +352,12 @@ const Navigation = () => {
                 </IconButton>
               </Grid>
             </Grid>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </Box>
   )
 }
 

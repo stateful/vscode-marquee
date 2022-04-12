@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 // @ts-expect-error mock import
 import { ModeProvider, _setModeWidget } from '../../src/contexts/ModeContext'
 import ModeDialogContent from '../../src/components/ModeDialogContent'
-import { ThemeProvider } from '@mui/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import { theme } from '@vscode-marquee/utils'
 
 jest.mock('../../src/contexts/ModeContext')

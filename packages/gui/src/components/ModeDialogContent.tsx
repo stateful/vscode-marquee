@@ -1,4 +1,5 @@
 import React, { useContext, useMemo, useState, useEffect } from 'react'
+import { styled } from '@mui/material/styles';
 import {
   Typography,
   Grid,
@@ -14,8 +15,6 @@ import {
   Tabs,
   Tab,
 } from '@mui/material'
-import withStyles from '@mui/styles/withStyles'
-import makeStyles from '@mui/styles/makeStyles'
 import ViewCompactIcon from '@mui/icons-material/ViewCompact'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
@@ -28,22 +27,37 @@ import ModeTabPop from './ModeTabPop'
 import { ucFirst } from '../utils'
 import { WidgetConfig, PresetModes } from '../types'
 
-const VerticalTabs = withStyles(() => ({
-  flexContainer: {
-    flexDirection: 'column',
-  },
-  indicator: {
-    display: 'none',
-  },
-}))(Tabs)
+const PREFIX = 'ModeDialogContent';
 
-const MyTab = withStyles(() => ({
-  selected: {
-    borderLeft:
-      '2px solid var(--vscode-editorMarkerNavigationError-background)',
-    backgroundColor: 'var(--vscode-editor-background)',
+const classes = {
+  flexContainer: `${PREFIX}-flexContainer`,
+  indicator: `${PREFIX}-indicator`,
+  selected: `${PREFIX}-selected`,
+  root: `${PREFIX}-root`,
+  tabs: `${PREFIX}-tabs`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '90%',
   },
-}))(Tab)
+
+  [`& .${classes.tabs}`]: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    height: '100%',
+  }
+}));
+
+const VerticalTabs = Tabs
+
+const MyTab = Tab
 
 interface TabPanelProps {
   children: any
@@ -72,18 +86,6 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    display: 'flex',
-    height: '90%',
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    height: '100%',
-  },
-}))
 
 interface WidgetSelectorProps {
   widgetName: string
@@ -132,7 +134,7 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
   const widgets: WidgetConfig[] = [...widgetConfig, ...thirdPartyWidgets]
 
   return (
-    <>
+    (<Root>
       {widgets.map((widget: any) => {
         return (
           <Grid item key={widget.name}>
@@ -180,12 +182,12 @@ const WidgetList = React.memo(({ name }: WidgetListProps) => {
           </Grid>
         )
       })}
-    </>
-  )
+    </Root>)
+  );
 })
 
 const ModeDialogContent = () => {
-  const classes = useStyles()
+
   const { modes, modeName } = useContext(ModeContext)
   const [value, setValue] = useState(0)
 
@@ -203,81 +205,84 @@ const ModeDialogContent = () => {
     setValue(newValue)
   }
 
-  return (
-    <>
-      <ModeConfigToolbar />
+  return <>
+    <ModeConfigToolbar />
 
-      <Box className={classes.root}>
-        <Box flexGrow={1} display="flex" overflow="hidden">
-          <Box overflow="auto" style={{ minWidth: '150px' }}>
-            <VerticalTabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value}
-              onChange={handleChange}
-              className={classes.tabs}
-            >
-              {modes &&
-                Object.keys(modes).map((name) => {
-                  return (
-                    <MyTab
-                      style={{ minWidth: 0 }}
-                      key={name}
-                      label={
-                        <ModeTabPop name={name as PresetModes}>
-                          <Grid
-                            container
-                            direction="row"
-                            justifyContent="flex-start"
-                            alignItems="center"
-                            wrap="nowrap"
-                            spacing={1}
-                          >
-                            <Grid item style={{ paddingTop: '8px' }}>
-                              {modes[name].icon && (
-                                <Emoji emoji={modes[name].icon!} size={16} />
-                              )}
-                              {!modes[name].icon && (
-                                <ViewCompactIcon fontSize="small" />
-                              )}
-                            </Grid>
-                            <Grid item>
-                              <Tooltip
-                                title={ucFirst(name)}
-                                placement="top"
-                                arrow
-                              >
-                                <Typography variant="body2">
-                                  {ucFirst(name)}
-                                </Typography>
-                              </Tooltip>
-                            </Grid>
-                          </Grid>
-                        </ModeTabPop>
-                      }
-                    />
-                  )
-                })}
-            </VerticalTabs>
-          </Box>
-          <Box overflow="auto" style={{ width: '100%' }}>
+    <Box className={classes.root}>
+      <Box flexGrow={1} display="flex" overflow="hidden">
+        <Box overflow="auto" style={{ minWidth: '150px' }}>
+          <VerticalTabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            className={classes.tabs}
+            classes={{
+              flexContainer: classes.flexContainer,
+              indicator: classes.indicator
+            }}>
             {modes &&
               Object.keys(modes).map((name) => {
                 return (
-                  <TabPanel
-                    value={value}
-                    index={Object.keys(modes).indexOf(name)}
+                  <MyTab
+                    style={{ minWidth: 0 }}
                     key={name}
-                  >
-                    <WidgetList name={name} />
-                  </TabPanel>
-                )
+                    label={
+                      <ModeTabPop name={name as PresetModes}>
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="flex-start"
+                          alignItems="center"
+                          wrap="nowrap"
+                          spacing={1}
+                        >
+                          <Grid item style={{ paddingTop: '8px' }}>
+                            {modes[name].icon && (
+                              <Emoji emoji={modes[name].icon!} size={16} />
+                            )}
+                            {!modes[name].icon && (
+                              <ViewCompactIcon fontSize="small" />
+                            )}
+                          </Grid>
+                          <Grid item>
+                            <Tooltip
+                              title={ucFirst(name)}
+                              placement="top"
+                              arrow
+                            >
+                              <Typography variant="body2">
+                                {ucFirst(name)}
+                              </Typography>
+                            </Tooltip>
+                          </Grid>
+                        </Grid>
+                      </ModeTabPop>
+                    }
+                    classes={{
+                      selected: classes.selected
+                    }} />
+                );
               })}
-          </Box>
+          </VerticalTabs>
+        </Box>
+        <Box overflow="auto" style={{ width: '100%' }}>
+          {modes &&
+            Object.keys(modes).map((name) => {
+              return (
+                <TabPanel
+                  value={value}
+                  index={Object.keys(modes).indexOf(name)}
+                  key={name}
+                >
+                  <WidgetList name={name} />
+                </TabPanel>
+              )
+            })}
         </Box>
       </Box>
-    </>
-  )
+    </Box>
+  </>;
 }
 
 export default ModeDialogContent
