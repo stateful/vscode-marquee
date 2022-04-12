@@ -17,7 +17,6 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
   const { scale } = useContext(WeatherContext)
   const { themeColor } = useContext(GlobalContext)
 
-  const classes = useStyles()
   const fiveHours = hourly.slice(0, 5)
 
   return (
