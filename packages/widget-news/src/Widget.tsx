@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
 import CircularProgress from '@mui/material/CircularProgress'
-import makeStyles from '@mui/styles/makeStyles'
 
 import wrapper, { Dragger } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -21,15 +20,7 @@ import { fetchNews } from './utils'
 import { DEFAULT_STATE } from './constants'
 import type { WidgetState } from './types'
 
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 let News = () => {
-  const classes = useStyles()
   const [data, setData] = useState(DEFAULT_STATE)
   useEffect(() => {
     let _setData = (data: WidgetState) => setData(data)
@@ -41,7 +32,10 @@ let News = () => {
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -62,7 +56,7 @@ let News = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
