@@ -1,11 +1,16 @@
 import React, { KeyboardEvent } from 'react'
 import Chip from '@mui/material/Chip'
 import TextField from '@mui/material/TextField'
-import { InputAdornment, TextFieldProps } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { InputAdornment, styled, TextFieldProps } from '@mui/material'
 
-const useStyles = makeStyles(() => ({
-  textField: {
+const PREFIX = 'ChipInput'
+
+const classes = {
+  textField: `${PREFIX}-textField`,
+}
+
+const StyledTextField = styled(TextField)(() => ({
+  [`&.${classes.textField}`]: {
     marginTop: 5,
   },
 }))
@@ -22,7 +27,6 @@ export default function TagsInput ({
   ...inputProps
 }: Props) {
   const [inputValue, setInputValue] = React.useState('')
-  const classes = useStyles()
 
   const addTag = () => {
     if (inputValue.length > 0 && !value.includes(inputValue)) {
@@ -65,10 +69,10 @@ export default function TagsInput ({
   }
 
   return (
-    <TextField
+    <StyledTextField
       value={inputValue}
       InputProps={{
-        className:classes.textField,
+        className: classes.textField,
         startAdornment: value.map((item) => (
           <InputAdornment key={item} position="start">
             <Chip

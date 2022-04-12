@@ -10,8 +10,8 @@ import {
   IconButton,
   Typography,
   Popover,
+  styled,
 } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 import { jumpTo } from '@vscode-marquee/utils'
 import TodoItemPop from './ItemPop'
 import TodoPopItemContent from './PopItemContent'
@@ -19,8 +19,14 @@ import TodoPopItemContent from './PopItemContent'
 import TodoContext from '../Context'
 import type { Todo } from '../types'
 
-const useStyles = makeStyles(() => ({
-  customTooltip: {
+const PREFIX = 'WidgetTodoItem'
+
+const classes = {
+  customTooltip: `${PREFIX}-customTooltip`,
+}
+
+const StyledTooltip = styled(Tooltip)(() => ({
+  [`&.${classes.customTooltip}`]: {
     borderRadius: '4px',
   },
 }))
@@ -32,7 +38,6 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
-  const classes = useStyles()
   const { _updateTodo, setShowEditDialog } = useContext(TodoContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -132,7 +137,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         >
           <Grid container direction="column" wrap="nowrap">
             <Grid item zeroMinWidth xs={12}>
-              <Tooltip
+              <StyledTooltip
                 title={
                   <Typography variant="subtitle2">{todo.body}</Typography>
                 }
@@ -145,7 +150,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                 <Typography aria-label="todo-label" variant="body2" noWrap>
                   {todo.body}
                 </Typography>
-              </Tooltip>
+              </StyledTooltip>
             </Grid>
             {todo.tags && (
               <Grid item xs={12}>
@@ -167,7 +172,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         </Grid>
         {todo.origin && (
           <Grid item xs>
-            <Tooltip
+            <StyledTooltip
               title={<Typography variant="subtitle2">{todo.path}</Typography>}
               classes={{ tooltip: classes.customTooltip }}
               placement="top"
@@ -178,7 +183,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                   <LinkIcon />
                 </IconButton>
               </Typography>
-            </Tooltip>
+            </StyledTooltip>
           </Grid>
         )}
         <Grid item xs style={{ margin: '4px' }}>
