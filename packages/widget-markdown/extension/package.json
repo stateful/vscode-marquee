@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-markdown-extension",
+  "description": "Extension logic for Markdown Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}
