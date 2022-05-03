@@ -1,37 +1,37 @@
-import fs from 'fs';
-import { TextDecoder, TextEncoder } from 'util';
-import '@testing-library/jest-dom/extend-expect';
+import fs from 'fs'
+import { TextDecoder, TextEncoder } from 'util'
+import '@testing-library/jest-dom/extend-expect'
 
-const pkg = JSON.parse(fs.readFileSync('./package.json').toString());
+const pkg = JSON.parse(fs.readFileSync('./package.json').toString())
 const vscode = {
   setState: jest.fn(),
   getState: jest.fn().mockReturnValue({
-    globalScope: true
-  })
-};
+    globalScope: true,
+  }),
+}
 // @ts-expect-error
-window.vscode = vscode;
+window.vscode = vscode
 // @ts-expect-error
-window.marqueeUserProps = '{"os":"darwin","platformversion":"21.2.0","extname":"activecove.marquee","extversion":"2.0.0-edge.2","vscodemachineid":"366db9dc84b42b265be19d881f97b45d623eb61f68f91c6f7c715dd6265d9eb6","vscodesessionid":"a78cfd2b-4773-4404-9367-e9dfca65c0411644419442497","vscodeversion":"1.64.0","uikind":"desktop"}';
+window.marqueeUserProps = '{"os":"darwin","platformversion":"21.2.0","extname":"activecove.marquee","extversion":"2.0.0-edge.2","vscodemachineid":"366db9dc84b42b265be19d881f97b45d623eb61f68f91c6f7c715dd6265d9eb6","vscodesessionid":"a78cfd2b-4773-4404-9367-e9dfca65c0411644419442497","vscodeversion":"1.64.0","uikind":"desktop"}'
 // @ts-expect-error
-window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode);
+window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode)
 
 // @ts-expect-error
-global.INSTRUMENTATION_KEY = 'INSTRUMENTATION_KEY_123';
+global.INSTRUMENTATION_KEY = 'INSTRUMENTATION_KEY_123'
 // @ts-expect-error
-global.__requireContext = jest.fn();
+global.__requireContext = jest.fn()
 // @ts-expect-error
-global.PACKAGE_JSON = pkg;
+global.PACKAGE_JSON = pkg
 // @ts-expect-error
-global.BACKEND_BASE_URL = 'http://BACKEND_BASE_URL.com';
+global.BACKEND_BASE_URL = 'http://BACKEND_BASE_URL.com'
 // @ts-expect-error
-global.BACKEND_GEO_URL = 'http://BACKEND_GEO_URL.com';
+global.BACKEND_GEO_URL = 'http://BACKEND_GEO_URL.com'
 // @ts-expect-error
-global.BACKEND_FWDGEO_URL = 'http://BACKEND_FWDGEO_URL.com';
+global.BACKEND_FWDGEO_URL = 'http://BACKEND_FWDGEO_URL.com'
 
 // @ts-expect-error
-global.TextDecoder = TextDecoder;
-global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder
+global.TextEncoder = TextEncoder
 
 const styles = {
   '--vscode-font-size': '13px',
@@ -48,192 +48,207 @@ const styles = {
   '--vscode-editor-inactiveSelectionBackground': '#3a3d41',
   '--vscode-font-family': '-apple-system, BlinkMacSystemFont, sans-serif',
   '--vscode-font-weight': 'normal',
-};
+}
 
 for (const [prop, val] of Object.entries(styles)) {
-  document.documentElement.style.setProperty(prop, val);
+  document.documentElement.style.setProperty(prop, val)
 }
 
 // @ts-ignore
 window.activeWorkspace = {
-  id: "012c54122a42128fc1b4ec29a7b5609995f41a5c",
-  name: "example",
-  type: "folder",
-  path: "/some/path/to/a/project"
-};
+  id: '012c54122a42128fc1b4ec29a7b5609995f41a5c',
+  name: 'example',
+  type: 'folder',
+  path: '/some/path/to/a/project',
+}
 
 // @ts-ignore
-window.marqueeThirdPartyWidgets = 0;
+window.marqueeThirdPartyWidgets = 0
 // @ts-ignore
-window.marqueeBackendBaseUrl = 'https://us-central1-marquee-backend-dev.cloudfunctions.net';
+window.marqueeBackendBaseUrl =
+  'https://us-central1-marquee-backend-dev.cloudfunctions.net'
 // @ts-ignore
-window.marqueeBackendGeoUrl = 'https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation';
+window.marqueeBackendGeoUrl =
+  'https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation'
 // @ts-ignore
-window.marqueeBackendFwdGeoUrl = 'https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation';
+window.marqueeBackendFwdGeoUrl =
+  'https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation'
 // @ts-ignore
 window.marqueeStateConfiguration = {
-  "@vscode-marquee/utils":{
+  '@vscode-marquee/utils': {
     configuration: {
-      background: "4",
-      name: "name here...",
-      proxy: "",
-      fontSize: 5,
-      colorScheme: {}
-    },
-    state: {
-      globalScope: true
-    }
-  },
-  "@vscode-marquee/gui": {
-    configuration: {
-      modes: pkg.contributes.configuration[0].properties['marquee.configuration.modes'].default,
-      proxy: "",
+      background: '4',
+      name: 'name here...',
+      proxy: '',
       fontSize: 5,
       colorScheme: {},
-      name: "name here...",
-      background: "4",
-      launchOnStartup: true,
-      workspaceLaunch: false
     },
     state: {
-      modeName: "default",
-      prevMode: null
-    }
+      globalScope: true,
+    },
   },
-  "@vscode-marquee/welcome-widget": {
+  '@vscode-marquee/gui': {
+    configuration: {
+      modes:
+        pkg.contributes.configuration[0].properties[
+          'marquee.configuration.modes'
+        ].default,
+      proxy: '',
+      fontSize: 5,
+      colorScheme: {},
+      name: 'name here...',
+      background: '4',
+      launchOnStartup: true,
+      workspaceLaunch: false,
+    },
+    state: {
+      modeName: 'default',
+      prevMode: null,
+    },
+  },
+  '@vscode-marquee/welcome-widget': {
     configuration: {},
     state: {
       tricks: [
         {
-          id: "-MuKr7KhHYODGehy0G0B",
+          id: '-MuKr7KhHYODGehy0G0B',
           active: true,
-          content: "Hey there 👋 you are using a pre-release version of Marquee. Thanks for testing out the extension and make sure to leave us feedback ☺️",
+          content: 'Hey there 👋 you are using a pre-release version of Marquee. Thanks for testing out the extension and make sure to leave us feedback ☺️',
           createdAt: 1643191764483,
           notify: true,
-          title: "Edge Release Note",
+          title: 'Edge Release Note',
           votes: {
-            upvote: 3
-          }
+            upvote: 3,
+          },
         },
         {
-          id: "-MuqDnTq4qlu6yE5plx-",
+          id: '-MuqDnTq4qlu6yE5plx-',
           active: true,
-          content: "bar",
+          content: 'bar',
           createdAt: 1643734841432,
           notify: true,
-          title: "foo",
+          title: 'foo',
           votes: {
-            upvote: 1
-          }
-        }
+            upvote: 1,
+          },
+        },
       ],
       read: [],
       liked: [],
-      error: null
-    }
+      error: null,
+    },
   },
-  "@vscode-marquee/projects-widget": {
+  '@vscode-marquee/projects-widget': {
     configuration: {
-      workspaceFilter: "",
-      workspaceSortOrder: "usage",
-      openProjectInNewWindow: false
+      workspaceFilter: '',
+      workspaceSortOrder: 'usage',
+      openProjectInNewWindow: false,
     },
     state: {
       workspaces: [
         {
-          id: "012c54122a42128fc1b4ec29a7b5609995f41a5c",
-          name: "example",
-          type: "folder",
-          path: "/Users/christianbromann/Sites/WebdriverIO/example"
-        }
-      ]
-    }
-  },
-  "@vscode-marquee/github-widget": {
-    configuration: {
-      since: "Weekly",
-      language: "",
-      spoken: "",
-      trendFilter: ""
+          id: '012c54122a42128fc1b4ec29a7b5609995f41a5c',
+          name: 'example',
+          type: 'folder',
+          path: '/Users/christianbromann/Sites/WebdriverIO/example',
+        },
+      ],
     },
-    state: {}
   },
-  "@vscode-marquee/weather-widget": {
+  '@vscode-marquee/github-widget': {
+    configuration: {
+      since: 'Weekly',
+      language: '',
+      spoken: '',
+      trendFilter: '',
+    },
+    state: {},
+  },
+  '@vscode-marquee/weather-widget': {
     configuration: {
       city: null,
-      scale: "Fahrenheit"
+      scale: 'Fahrenheit',
     },
-    state: {}
+    state: {},
   },
-  "@vscode-marquee/todo-widget": {
+  '@vscode-marquee/todo-widget': {
     configuration: {
-      todoFilter: "",
+      todoFilter: '',
       hide: false,
       showArchived: false,
-      autoDetect: true
+      autoDetect: true,
     },
     state: {
-      todos: [{
-        body: "some todo",
-        checked: true,
-        id: "foobar",
-        archived: false,
-        workspaceId: 'test123',
-        tags: []
-      }]
-    }
+      todos: [
+        {
+          body: 'some todo',
+          checked: true,
+          id: 'foobar',
+          archived: false,
+          workspaceId: 'test123',
+          tags: [],
+        },
+      ],
+    },
   },
-  "@vscode-marquee/notes-widget": {
+  '@vscode-marquee/notes-widget': {
     configuration: {},
     state: {
       notes: [
         {
-          id: "zs5jwheq",
+          id: 'zs5jwheq',
           archived: false,
           createdAt: 1644346731590,
           origin: null,
-          workspaceId: null
-        }
+          workspaceId: null,
+        },
       ],
-      noteFilter: "",
-      noteSelected: "zs5jwheq",
-      noteSplitter: 80
-    }
+      noteFilter: '',
+      noteSelected: 'zs5jwheq',
+      noteSplitter: 80,
+    },
   },
-  "@vscode-marquee/snippets-widget": {
+  '@vscode-marquee/snippets-widget': {
     configuration: {},
     state: {
       snippets: [
         {
-          id: "wtkr48c1",
+          id: 'wtkr48c1',
           archived: false,
           createdAt: 1644346734799,
-          workspaceId: null
+          workspaceId: null,
         },
         {
-          title: "sasdasa",
-          body: "dsadsan",
-          text: "dsadsan",
-          id: "vv09kgbd",
+          title: 'sasdasa',
+          body: 'dsadsan',
+          text: 'dsadsan',
+          id: 'vv09kgbd',
           archived: false,
           createdAt: 1644346392754,
           origin: null,
-          workspaceId: "012c54122a42128fc1b4ec29a7b5609995f41a5c"
+          workspaceId: '012c54122a42128fc1b4ec29a7b5609995f41a5c',
         },
         {
-          title: "sasdasa",
-          body: "dsadsan",
-          text: "dsadsan",
-          id: "b1fpl8s8",
+          title: 'sasdasa',
+          body: 'dsadsan',
+          text: 'dsadsan',
+          id: 'b1fpl8s8',
           archived: false,
           createdAt: 1644346333920,
           origin: null,
-          workspaceId: "012c54122a42128fc1b4ec29a7b5609995f41a5c"
-        }
+          workspaceId: '012c54122a42128fc1b4ec29a7b5609995f41a5c',
+        },
       ],
-      snippetFilter: "",
-      snippetSelected: "wtkr48c1",
-      snippetSplitter: 80
-    }
-  }
-};
+      snippetFilter: '',
+      snippetSelected: 'wtkr48c1',
+      snippetSplitter: 80,
+    },
+  },
+  '@vscode-marquee/markdown-widget': {
+    configuration: {},
+    state: {
+      markdownDocuments: [],
+      markdownDocumentSelected: undefined,
+    },
+  },
+}

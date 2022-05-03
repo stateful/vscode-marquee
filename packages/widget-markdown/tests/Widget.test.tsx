@@ -1,33 +1,43 @@
-// import React from 'react'
-// import userEvent from '@testing-library/user-event'
-// import { render, screen } from '@testing-library/react'
-// // @ts-expect-error
-// import { GlobalProvider, providerValues } from '@vscode-marquee/utils'
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import Widget from '../src'
+import { getEventListener, GlobalProvider } from '@vscode-marquee/utils'
+import { MarkdownDocument, State } from '../src/types'
+import { WIDGET_ID } from '../src/Context'
 
-// import Widget from '../src'
-// import { MarkdownProvider } from '../src/Context'
+const widgetChannel = getEventListener<State>(WIDGET_ID)
 
+const { component: Component } = Widget
 
-// test('renders component correctly', async () => {
-//   const { container } = render(
-//     <GlobalProvider>
-//       <MarkdownProvider>
-//         <Widget.component />
-//       </MarkdownProvider>
-//     </GlobalProvider>
-//   )
-//   expect(screen.queryByText('Add Note')).not.toBeInTheDocument()
-//   expect(screen.getByText('Create a note')).toBeInTheDocument()
-//   userEvent.click(screen.getByText('Create a note'))
+const mockFileList = (fileList: MarkdownDocument[]) => {
+  widgetChannel.broadcast({
+    markdownDocuments: fileList,
+    markdownDocumentSelected: undefined,
+  })
+  return fileList
+}
 
-//   expect(screen.getByText('Add Note')).toBeInTheDocument()
-//   expect(screen.getByPlaceholderText('Title of Note')).toBeInTheDocument()
-//   expect(container.querySelector('.ql-editor')).toBeTruthy()
+test('shows message when no markdown files is selected', async () => {
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
 
-//   userEvent.type(screen.getByPlaceholderText('Title of Note'), 'o')
-//   userEvent.type(container.querySelector('.noteEditorContainer-add')!, 'baaar{enter}')
+  expect(screen.getByText('No document selected')).toBeInTheDocument()
+})
 
-//   userEvent.click(screen.getByText('Add to Workspace'))
-//   expect(providerValues.setNotes).toBeCalledTimes(1)
-//   expect(providerValues.setNoteSelected).toBeCalledTimes(1)
-// })
+xtest('lets user select file, then indicates selected and shows content', async () => {
+  const fileToSelect = { id: '1', name: 'stuff.md', content: 'content' }
+
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
+
+  mockFileList([fileToSelect, { id: '2', name: 'other.md', content: 'other' }])
+
+  await screen.findByText(fileToSelect.name, undefined, { timeout: 1000 })
+
+})
