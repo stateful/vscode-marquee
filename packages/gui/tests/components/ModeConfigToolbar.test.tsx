@@ -12,12 +12,12 @@ jest.mock('../../src/dialogs/ModeAddDialog', () => () => (
   <div>ModeAddDialog</div>
 ))
 
-test('should render component correctly', () => {
+test('should render component correctly', async () => {
   render(
     <ThemeProvider theme={theme}>
       <ModeConfigToolbar />
     </ThemeProvider>
   )
-  userEvent.click(screen.getByText('Add new mode'))
+  await userEvent.click(screen.getByText('Add new mode'))
   expect(screen.getByText('ModeAddDialog')).toBeInTheDocument()
 })

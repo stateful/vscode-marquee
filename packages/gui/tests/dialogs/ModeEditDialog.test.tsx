@@ -8,11 +8,11 @@ import { ModeEditDialog } from '../../src/dialogs/ModeEditDialog'
 
 jest.mock('../../src/contexts/ModeContext')
 
-test('should render component', () => {
+test('should render component', async () => {
   const close = jest.fn()
   render(<ModeProvider>
     <ModeEditDialog onClose={close} name="default" />
   </ModeProvider>)
-  userEvent.click(screen.getByText('Add'))
+  await userEvent.click(screen.getByText('Add'))
   expect(_duplicateMode).toBeCalledWith('default', 'default', undefined)
 })

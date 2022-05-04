@@ -8,7 +8,7 @@ import ModeSelector from '../../src/components/ModeSelector'
 jest.mock('../../src/contexts/ModeContext')
 jest.mock('../../src/dialogs/ModeDialog', () => () => <div>ModeDialog</div>)
 
-test('should render component correctly', () => {
+test('should render component correctly', async () => {
   render(
     <ModeProvider>
       <ModeSelector />
@@ -16,6 +16,6 @@ test('should render component correctly', () => {
   )
 
   expect(_setModeName).toBeCalledTimes(0)
-  userEvent.click(screen.getByRole('button', { name: 'Set Mode' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Set Mode' }))
   expect(_setModeName).toBeCalledWith('play')
 })

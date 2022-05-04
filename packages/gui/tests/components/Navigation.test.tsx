@@ -23,7 +23,7 @@ jest.mock('../../src/dialogs/SettingsDialog', () => () => (
   <div>SettingsDialog</div>
 ))
 
-test('renders component correctly', () => {
+test('renders component correctly', async () => {
   render(
     <GlobalProvider>
       <ThemeProvider theme={theme}>
@@ -39,25 +39,25 @@ test('renders component correctly', () => {
   expect(screen.queryByText('ThemeDialog')).not.toBeInTheDocument()
   expect(screen.queryByText('InfoDialog')).not.toBeInTheDocument()
 
-  userEvent.click(screen.getByText('some name'))
+  await userEvent.click(screen.getByText('some name'))
   const input = screen.getByPlaceholderText('Type...')
-  userEvent.type(input, 'John Doe')
-  userEvent.click(input.parentElement?.querySelector('button')!)
+  await userEvent.type(input, 'John Doe')
+  await userEvent.click(input.parentElement?.querySelector('button')!)
   expect(screen.getByText('some nameJohn Doe')).toBeInTheDocument()
 
-  userEvent.click(screen.getByTestId('navigation-toggle-global-scope'))
+  await userEvent.click(screen.getByTestId('navigation-toggle-global-scope'))
 
   // userEvent.click(
   //   screen.getByText('Toggle Global vs Workspace Scope (Workspace Scope)')
   // )
   expect(setGlobalScope).toBeCalledTimes(1)
 
-  userEvent.click(screen.getByLabelText('Open Settings'))
+  await userEvent.click(screen.getByLabelText('Open Settings'))
   expect(screen.getByText('SettingsDialog')).toBeInTheDocument()
-  userEvent.click(screen.getByLabelText('Switch Theme'))
+  await userEvent.click(screen.getByLabelText('Switch Theme'))
   expect(screen.getByText('ThemeDialog')).toBeInTheDocument()
-  userEvent.click(screen.getByLabelText('Show Info'))
+  await userEvent.click(screen.getByLabelText('Show Info'))
   expect(screen.getByText('InfoDialog')).toBeInTheDocument()
-  userEvent.click(screen.getByLabelText('Send Feedback'))
+  await userEvent.click(screen.getByLabelText('Send Feedback'))
   expect(screen.getByText('FeedbackDialog')).toBeInTheDocument()
 })

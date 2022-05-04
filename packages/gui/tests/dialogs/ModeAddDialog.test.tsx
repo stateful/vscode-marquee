@@ -8,14 +8,14 @@ import ModeAddDialog from '../../src/dialogs/ModeAddDialog'
 
 jest.mock('../../src/contexts/ModeContext')
 
-test('should render component', () => {
+test('should render component', async () => {
   const close = jest.fn()
   render(<ModeProvider>
     <ModeAddDialog close={close} />
   </ModeProvider>)
-  userEvent.keyboard('foobar')
+  await userEvent.keyboard('foobar')
   expect(_addMode).toBeCalledTimes(0)
-  userEvent.click(screen.getByText('Add'))
+  await userEvent.click(screen.getByText('Add'))
   expect(_addMode).toBeCalledWith('foobar', null)
   expect(close).toBeCalledTimes(1)
 })

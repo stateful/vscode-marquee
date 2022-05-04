@@ -13,7 +13,7 @@ jest.mock('../../src/components/ModeConfigToolbar', () => () => (
 ))
 jest.mock('../../src/components/ModeTabPop', () => () => <div>ModeTabPop</div>)
 
-test('should render component correctly', () => {
+test('should render component correctly', async () => {
   render(
     <ThemeProvider theme={theme}>
       <ModeProvider>
@@ -31,8 +31,8 @@ test('should render component correctly', () => {
   expect(screen.getByText('Snippets')).toBeInTheDocument()
   expect(screen.getByText('Notes')).toBeInTheDocument()
 
-  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0])
+  await userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0])
   expect(_setModeWidget).toBeCalledWith('default', 'github', false)
-  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[1])
+  await userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[1])
   expect(_setModeWidget).toBeCalledTimes(2)
 })
