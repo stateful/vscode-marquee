@@ -64,6 +64,13 @@ export default () => {
           }
         }
       },
+      MuiPopover: {
+        styleOverrides: {
+          paper: {
+            backgroundImage: 'none'
+          }
+        }
+      },
       MuiTabs: {
         styleOverrides: {
           indicator: {
@@ -76,7 +83,7 @@ export default () => {
       mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
       divider: vsCodeStyleMap['--vscode-foreground'],
       background: {
-        default: vsCodeStyleMap['--vscode-editor-background'],
+        default: vsCodeStyleMap['--vscode-sideBar-background'],
         paper: vsCodeStyleMap['--vscode-sideBar-background'],
       },
       text: {

@@ -92,8 +92,6 @@ let TrickContent = () => {
         maxWidth: '100%',
         background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
         padding: '8px',
-        // margin: "4px",
-        borderRadius: '4px',
         height: '90%',
         width: '100%',
       }}

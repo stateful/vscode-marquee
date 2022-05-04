@@ -10,6 +10,9 @@ const classes = {
 }
 
 const StyledTextField = styled(TextField)(() => ({
+  '.MuiInputBase-input': {
+    paddingTop: '35px',
+  },
   [`&.${classes.textField}`]: {
     marginTop: 5,
   },
