@@ -38,26 +38,27 @@ const classes = {
 }
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme
-  }
-) => ({
+const Root = styled('div')(() => ({
   [`& .${classes.root}`]: {
     flexGrow: 1,
     display: 'flex',
     height: '90%',
-  },
+  }
+}))
 
-  [`& .${classes.tabs}`]: {
+const MyTab = styled(Tab)(() => ({
+  [`&.${classes.selected}`]: {
+    backgroundColor: 'var(--vscode-editor-background)',
+    color: 'var(--vscode-inputOption-activeForeground)'
+  }
+}))
+
+const VerticalTabs = styled(Tabs)(({ theme }) => ({
+  [`&.${classes.tabs}`]: {
     borderRight: `1px solid ${theme.palette.divider}`,
     height: '100%',
   }
 }))
-
-const VerticalTabs = Tabs
-
-const MyTab = Tab
 
 interface TabPanelProps {
   children: any
@@ -217,6 +218,7 @@ const ModeDialogContent = () => {
             value={value}
             onChange={handleChange}
             className={classes.tabs}
+            indicatorColor='secondary'
             classes={{
               flexContainer: classes.flexContainer,
               indicator: classes.indicator

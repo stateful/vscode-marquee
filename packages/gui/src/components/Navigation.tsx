@@ -44,7 +44,7 @@ const Root = styled('div')(() => ({
 
 declare const window: MarqueeWindow
 
-const StyledEdiText = styled(EdiText)`
+const StyledEditText = styled(EdiText)/* css */`
   button {
     color: var(--vscode-button-secondaryForeground);
     background-color: var(--vscode-button-secondaryBackground);
@@ -67,7 +67,6 @@ const StyledEdiText = styled(EdiText)`
 `
 
 const Navigation = () => {
-
   const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -205,7 +204,7 @@ const Navigation = () => {
                   <Typography style={{ fontSize: 16 }}>Hi,</Typography>
                 </Grid>
                 <Grid item>
-                  <StyledEdiText
+                  <StyledEditText
                     onEditingStart={() => {
                       setInputName('')
                     }}
