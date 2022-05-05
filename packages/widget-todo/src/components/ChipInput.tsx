@@ -64,7 +64,7 @@ export default function TagsInput ({
     onChange(value.filter((it) => it !== item))
   }
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     addTag()
     if (onBlur) {
       onBlur(event)
