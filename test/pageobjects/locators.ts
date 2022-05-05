@@ -62,16 +62,16 @@ export const todoItem = {
 
 export const MuiDialog = {
   elem: '.MuiDialog-root',
-  closeBtn: 'span=Close',
+  closeBtn: 'button=Close',
   comboBox: 'div[role="combobox"] button[aria-label="Open"]',
   input: (name: string) => `input[name="${name}"]`,
   textarea: (name: string) => `textarea[name="${name}"]`,
   adornment: '.MuiInputAdornment-root svg',
-  saveBtn: 'span=Save'
+  saveBtn: 'button=Save'
 }
 
 export const Select = {
-  root: '.MuiSelect-root'
+  root: '.MuiSelect-select'
 }
 
 export const MuiAutocomplete = {

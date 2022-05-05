@@ -55,11 +55,11 @@ test('should allow to switch channels', async () => {
       <Widget.component />
     </GlobalProvider>
   )
-  userEvent.click(container.querySelectorAll('button svg')[0])
+  await userEvent.click(container.querySelectorAll('button svg')[0])
   expect(screen.getByText('Hide this widget')).toBeInTheDocument()
   // await new Promise(r => setTimeout(r, 1000))
-  userEvent.click(screen.getByLabelText('Channel'))
-  userEvent.click(screen.getByText('Jobs'))
+  await userEvent.click(screen.getByLabelText('Channel'))
+  await userEvent.click(screen.getByText('Jobs'))
   expect(window.fetch).toBeCalledWith(
     'https://api.hackerwebapp.com/jobs',
     { mode: 'cors' }

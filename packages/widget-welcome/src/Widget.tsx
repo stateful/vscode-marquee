@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { Grid, Link, Typography } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { Box, Grid, Link, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 
@@ -11,16 +10,8 @@ import TrickContext, { TrickProvider } from './Context'
 import TrickContent from './components/TrickContent'
 import PopMenu from './components/Pop'
 
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 let Welcome = () => {
   const { error } = useContext(TrickContext)
-  const classes = useStyles()
 
   const tweetLink = 'https://marketplace.visualstudio.com/items?itemName=stateful.marquee'
   const linkParams = new URLSearchParams({
@@ -31,7 +22,10 @@ let Welcome = () => {
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -52,7 +46,7 @@ let Welcome = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid

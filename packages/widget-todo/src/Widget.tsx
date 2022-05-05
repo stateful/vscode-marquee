@@ -1,8 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { Grid, Button, IconButton, Box } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
@@ -16,15 +15,7 @@ import TodoItem from './components/Item'
 
 declare const window: MarqueeWindow
 
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  },
-}))
-
 let Todo = () => {
-  const classes = useStyles()
   const {
     setTodos,
     setShowAddDialog,
@@ -89,7 +80,10 @@ let Todo = () => {
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -130,7 +124,7 @@ let Todo = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid

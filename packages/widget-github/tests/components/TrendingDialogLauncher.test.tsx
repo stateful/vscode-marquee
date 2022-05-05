@@ -19,7 +19,7 @@ test.only('renders component correctly', async () => {
       <TrendingDialogLauncher />
     </TrendProvider>
   )
-  userEvent.click(container.querySelector('button')!)
+  await userEvent.click(container.querySelector('button')!)
   expect(screen.getAllByText('Selection...')).toHaveLength(2)
   expect(screen.getByText('Since...')).toBeInTheDocument()
 })

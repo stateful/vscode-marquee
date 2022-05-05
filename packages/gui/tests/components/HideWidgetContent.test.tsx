@@ -11,7 +11,7 @@ jest.mock('../../src/dialogs/SettingsDialog', () => (
   () => <div>SettingsDialog</div>
 ))
 
-test('should render component correctly', () => {
+test('should render component correctly', async () => {
   const { container } = render(
     <ModeProvider>
       <HideWidgetContent name="foobar" />
@@ -19,9 +19,9 @@ test('should render component correctly', () => {
   )
 
   expect(_removeModeWidget).toBeCalledTimes(0)
-  userEvent.click(screen.getByText('Hide this widget'))
+  await userEvent.click(screen.getByText('Hide this widget'))
   expect(_removeModeWidget).toBeCalledWith('foobar')
 
-  userEvent.click(container.querySelector('svg')!)
+  await userEvent.click(container.querySelector('svg')!)
   expect(screen.getByText('SettingsDialog')).toBeInTheDocument()
 })
