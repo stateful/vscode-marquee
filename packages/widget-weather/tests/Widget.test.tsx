@@ -59,12 +59,12 @@ test('renders component correctly', async () => {
   expect(screen.getAllByText('36°F')).toHaveLength(4)
 
   act(() => { listener.emit('openWeatherDialog', true) })
-  userEvent.click(screen.getByLabelText('Temperature scale'))
+  await userEvent.click(screen.getByLabelText('Temperature scale'))
   await new Promise((r) => setTimeout(r, 100))
-  userEvent.click(screen.getAllByRole('option')[1])
+  await userEvent.click(screen.getAllByRole('option')[1])
   expect(screen.getByText('35°F')).toBeInTheDocument()
 
-  userEvent.type(screen.getByPlaceholderText('City, State, Country'), 'San Francisco{enter}')
+  await userEvent.type(screen.getByPlaceholderText('City, State, Country'), 'San Francisco{enter}')
   await new Promise((r) => setTimeout(r, 100))
   expect(window.fetch).toBeCalledTimes(4)
   expect((window.fetch as jest.Mock).mock.calls.pop().pop())

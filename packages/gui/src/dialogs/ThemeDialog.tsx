@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { styled } from '@mui/material/styles'
 import {
   DialogContent,
   DialogActions,
@@ -7,8 +8,6 @@ import {
   Grid,
 } from '@mui/material'
 
-import makeStyles from '@mui/styles/makeStyles'
-
 import { GlobalContext } from '@vscode-marquee/utils'
 import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
@@ -16,11 +15,19 @@ import backgrounds from '../utils/backgrounds'
 import { themes } from '../constants'
 import type { Theme } from '../types'
 
-const useStyles = makeStyles(() => ({
-  root: {
+const PREFIX = 'ThemeDialog'
+
+const classes = {
+  root: `${PREFIX}-root`,
+  selectedButton: `${PREFIX}-selectedButton`
+}
+
+const StyledDialogContainer = styled(DialogContainer)(() => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  selectedButton: {
+
+  [`& .${classes.selectedButton}`]: {
     color: 'var(--vscode-foreground)',
     border: '1px solid var(--vscode-button-foreground)',
   }
@@ -37,12 +44,12 @@ interface TileStyle {
 }
 
 const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
-  const classes = useStyles()
+
   const { themeColor, background, setBackground } = useContext(GlobalContext)
   const isSelected = (tile: Theme) => !isNaN(+background) && tile.id === parseInt(background, 10)
 
   return (
-    <DialogContainer fullScreen={true}>
+    <StyledDialogContainer fullScreen={true}>
       <>
         <DialogTitle onClose={close}>Themes</DialogTitle>
         <DialogContent dividers={true}>
@@ -127,7 +134,7 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
           </Button>
         </DialogActions>
       </>
-    </DialogContainer>
+    </StyledDialogContainer>
   )
 })
 

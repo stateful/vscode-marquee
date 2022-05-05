@@ -1,6 +1,5 @@
 import React from 'react'
-import { Grid, Typography } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { Box, Grid, Typography } from '@mui/material'
 
 import HidePop from './HidePop'
 import Dragger from './Dragger'
@@ -10,21 +9,16 @@ interface Props {
   label: string;
 }
 
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: '1px solid var(--vscode-foreground)',
-    padding: '8px',
-  }
-}))
-
 const ThirdPartyWidget = ({ name, label }: Props) => {
-  const classes = useStyles()
   const WidgetTag = name
 
   return (
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <div className={classes.widgetTitle}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -47,7 +41,7 @@ const ThirdPartyWidget = ({ name, label }: Props) => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid

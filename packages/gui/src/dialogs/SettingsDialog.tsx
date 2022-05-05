@@ -13,6 +13,7 @@ import {
   Tab,
   Box
 } from '@mui/material'
+import { styled } from '@mui/material/styles'
 
 import { MarqueeWindow, GlobalContext } from '@vscode-marquee/utils'
 import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
@@ -100,11 +101,21 @@ function TabPanel (props: TabPanelProps) {
   )
 }
 
+const HorizontalTabs = styled(Tabs)(() => ({
+  button: {
+    paddingLeft: '3em',
+    paddingRight: '3em'
+  },
+  ['button.Mui-selected']: {
+    color: 'var(--vscode-tab-activeForeground)'
+  }
+}))
+
 const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
   const [value, setValue] = useState(0)
 
   const handleChange = (event: any, newValue: any) => {
-    if (event.target.innerHTML === 'Marquee Settings') {
+    if (event.target.innerHTML.includes('Marquee Settings')) {
       return window.vscode.postMessage({
         west: { execCommands: [{
           command: 'workbench.action.openSettings',
@@ -128,16 +139,17 @@ const SettingsDialog = React.memo(({ close }: { close: () => void }) => {
           >
             <Grid item style={{ maxWidth: '100%' }}>
               <AppBar position="static" color="inherit">
-                <Tabs
+                <HorizontalTabs
                   value={value}
                   onChange={handleChange}
                   variant="scrollable"
+                  indicatorColor="secondary"
                   scrollButtons
                   allowScrollButtonsMobile>
                   <Tab label="Widgets" />
                   <Tab label="Import / Export" />
                   <Tab label="Marquee Settings" />
-                </Tabs>
+                </HorizontalTabs>
               </AppBar>
             </Grid>
             <Grid

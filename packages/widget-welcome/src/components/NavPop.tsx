@@ -1,13 +1,20 @@
 import React, { useState, useContext, useMemo, MouseEvent } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
 import Popover from '@mui/material/Popover'
-import { IconButton, Grid, Badge } from '@mui/material'
+import { IconButton, Grid, Badge, styled } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import TrickContent from './TrickContent'
 import TrickContext, { TrickProvider } from '../Context'
 
-const useStyles = makeStyles(() => ({
-  badge: {
+
+
+const PREFIX = 'WidgetProjectsListItem'
+
+const classes = {
+  badge: `${PREFIX}-badge`,
+}
+
+const Root = styled('div')(() => ({
+  [`&.${classes.badge}`]: {
     minHeight: '16px',
     minWidth: '16px',
     height: '16px',
@@ -16,7 +23,6 @@ const useStyles = makeStyles(() => ({
 }))
 
 let NavPop = () => {
-  const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const { tricks, read } = useContext(TrickContext)
 
@@ -44,7 +50,7 @@ let NavPop = () => {
   }, [tricks, read])
 
   return (
-    <div>
+    <Root>
       <IconButton size="small" onClick={handleClick}>
         <Badge
           classes={{ badge: classes.badge }}
@@ -75,7 +81,7 @@ let NavPop = () => {
           </Grid>
         </Grid>
       </Popover>
-    </div>
+    </Root>
   )
 }
 

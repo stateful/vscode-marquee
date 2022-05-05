@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import Autocomplete from '@mui/material/Autocomplete'
-import { TextField } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
+import { styled, TextField } from '@mui/material'
 
 export interface Props {
   id: string
@@ -15,8 +14,15 @@ export interface Props {
   onChange: (e: ChangeEvent<{}>, v: any) => void
 }
 
-const useStyles = makeStyles(() => ({
-  option: {
+const PREFIX = 'BetterComplete'
+const classes = {
+  option: `${PREFIX}-option`,
+  input: `${PREFIX}-input`,
+  label: `${PREFIX}-label`,
+}
+
+const Root = styled('div')(() => ({
+  [`&.${classes.option}`]: {
     backgroundColor: 'var(--vscode-editor-background)',
 
     '&[data-focus="true"]': {
@@ -28,11 +34,11 @@ const useStyles = makeStyles(() => ({
       color: 'var(--vscode-editor-foreground)',
     },
   },
-  input: {
+  [`& .${classes.input}`]: {
     // color: "black",
     color: 'var(--vscode-editor-foreground)',
   },
-  label: {
+  [`& .${classes.label}`]: {
     color: 'var(--vscode-editor-foreground)',
   },
 }))
@@ -46,30 +52,31 @@ const BetterComplete = ({
   variant,
   ...rest
 }: Props) => {
-  const classes = useStyles()
 
   return (
-    <Autocomplete
-      id={id}
-      classes={{
-        option: classes.option,
-        input: classes.input,
-      }}
-      options={options}
-      getOptionLabel={(option) => option[display] || ''}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label || field}
-          fullWidth
-          variant={variant || 'outlined'}
-          InputLabelProps={{
-            className: classes.label,
-          }}
-        />
-      )}
-      {...rest}
-    />
+    <Root>
+      <Autocomplete
+        id={id}
+        classes={{
+          option: classes.option,
+          input: classes.input,
+        }}
+        options={options}
+        getOptionLabel={(option) => option[display] || ''}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label || field}
+            fullWidth
+            variant={variant || 'outlined'}
+            InputLabelProps={{
+              className: classes.label,
+            }}
+          />
+        )}
+        {...rest}
+      />
+    </Root>
   )
 }
 
