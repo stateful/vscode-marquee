@@ -1,29 +1,29 @@
-import React, { useState, useCallback, useContext } from "react";
-import Popover from "@mui/material/Popover";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { IconButton, ListItem, ListItemText, Typography } from "@mui/material";
-import { MarqueeWindow } from '@vscode-marquee/utils';
-import type { Workspace } from '@vscode-marquee/utils';
+import React, { useState, useCallback, useContext } from 'react'
+import Popover from '@mui/material/Popover'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton, ListItem, ListItemText, Typography } from '@mui/material'
+import { MarqueeWindow } from '@vscode-marquee/utils'
+import type { Workspace } from '@vscode-marquee/utils'
 
-import WorkspaceContext from '../Context';
+import WorkspaceContext from '../Context'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
 let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
-  const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
-    event.preventDefault();
-    setAnchorEl(event.currentTarget);
-  }, []);
+    event.preventDefault()
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "todo-item-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-item-popover' : undefined
 
   return (
     <div>
@@ -37,20 +37,20 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <ListItem
           button
           onClick={(e) => {
-            e.preventDefault();
-            _removeWorkspace(workspace.id);
-            handleClose();
+            e.preventDefault()
+            _removeWorkspace(workspace.id)
+            handleClose()
           }}
         >
           <ListItemText
@@ -58,14 +58,14 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
           />
         </ListItem>
         <ListItem button onClick={(e) => {
-          e.preventDefault();
+          e.preventDefault()
           window.vscode.postMessage({
             west: { execCommands: [{
-              command: "vscode.openFolder",
+              command: 'vscode.openFolder',
               args: [workspace.path],
               options: { forceNewWindow: openProjectInNewWindow }
             }],
-          }});
+            }})
         }}>
           <ListItemText
             primary={
@@ -77,7 +77,7 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
         </ListItem>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(TodoItemPop);
+export default React.memo(TodoItemPop)

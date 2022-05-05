@@ -1,42 +1,30 @@
-import React, { useContext, useEffect, useMemo, useCallback } from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import React, { useContext, useEffect, useMemo, useCallback } from 'react'
 import {
   Grid,
   IconButton,
   Typography,
   TextField,
   Button,
-} from "@mui/material";
+  Box,
+} from '@mui/material'
 
-import { AddCircle, Clear } from "@mui/icons-material";
-import LinkIcon from "@mui/icons-material/Link";
-import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
+import { AddCircle, Clear } from '@mui/icons-material'
+import LinkIcon from '@mui/icons-material/Link'
+import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
+import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from '@vscode-marquee/utils'
 
-import SplitterLayout from "react-splitter-layout";
-import { List, AutoSizer } from "react-virtualized";
-import "react-virtualized/styles.css";
-import "../css/react-splitter-layout.css";
+import SplitterLayout from 'react-splitter-layout'
+import { List, AutoSizer } from 'react-virtualized'
+import 'react-virtualized/styles.css'
+import '../css/react-splitter-layout.css'
 
-import SnippetContext, { SnippetProvider } from "./Context";
+import SnippetContext, { SnippetProvider } from './Context'
 
-import SnippetListItem from "./components/ListItem";
-import { WIDGET_ID } from "./constants";
-import type { Events } from './types';
+import SnippetListItem from './components/ListItem'
+import { WIDGET_ID } from './constants'
+import type { Events } from './types'
 
-declare const window: MarqueeWindow;
-
-const useStyles = makeStyles(() => ({
-  root: {
-    width: "100%",
-    height: "100%",
-    maxWidth: "100%",
-  },
-  widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
-  },
-}));
+declare const window: MarqueeWindow
 
 interface RowRendererProps {
   key: React.Key
@@ -45,9 +33,8 @@ interface RowRendererProps {
 }
 
 let Snippets = () => {
-  const eventListener = getEventListener<Events>(WIDGET_ID);
-  const classes = useStyles();
-  const { globalScope } = useContext(GlobalContext);
+  const eventListener = getEventListener<Events>(WIDGET_ID)
+  const { globalScope } = useContext(GlobalContext)
 
   const {
     setSnippetFilter,
@@ -57,70 +44,70 @@ let Snippets = () => {
     snippetFilter,
     snippetSelected,
     snippetSplitter,
-  } = useContext(SnippetContext);
+  } = useContext(SnippetContext)
 
   const snippet = useMemo(() => {
-    return snippets.find((snippet) => snippet.id === snippetSelected);
-  }, [snippetSelected, snippets]);
+    return snippets.find((snippet) => snippet.id === snippetSelected)
+  }, [snippetSelected, snippets])
 
   const snippetLinkFileName = useMemo(() => {
     if (snippet && snippet.origin) {
-      return snippet.origin.split("/").reverse()[0].toUpperCase();
+      return snippet.origin.split('/').reverse()[0].toUpperCase()
     }
-  }, [snippet]);
+  }, [snippet])
 
   const snippetsArr = useMemo(() => {
-    let filteredItems = snippets;
+    let filteredItems = snippets
 
     if (!globalScope) {
       filteredItems = filteredItems.filter((item) => (
         item.workspaceId && item.workspaceId === window.activeWorkspace?.id
-      ));
+      ))
     }
 
     if (snippetFilter) {
       filteredItems = filteredItems.filter((item) => (
         item.title.toLowerCase().indexOf(snippetFilter.toLowerCase()) !== -1
-      ));
+      ))
     }
 
-    return filteredItems;
-  }, [globalScope, snippets, snippetFilter]);
+    return filteredItems
+  }, [globalScope, snippets, snippetFilter])
 
   useEffect(() => {
     if (snippetsArr.length !== 0) {
-      setSnippetSelected(snippetsArr[0].id);
+      setSnippetSelected(snippetsArr[0].id)
     }
-  }, [snippetFilter, globalScope]);
+  }, [snippetFilter, globalScope])
 
   const snippetItemClick = useCallback((e, index) => {
     if (e.detail === 1) {
       if (snippetsArr[index] && snippetsArr[index].id) {
-        setSnippetSelected(snippetsArr[index].id);
+        setSnippetSelected(snippetsArr[index].id)
       } else {
         console.error({
           message:
-            "Trying to set selected snippet to an entry that doesn't exist in the array",
+            'Trying to set selected snippet to an entry that doesn\'t exist in the array',
           eventObj: e,
-        });
+        })
       }
     }
 
     if (e.detail === 2) {
-      let path = snippetsArr[index].path || '';
+      let path = snippetsArr[index].path || ''
       /**
        * transform v2 snippets to make them editable in v3
        */
       if (!path.startsWith('/')) {
-        path = `/${snippetsArr[index].id}/${path}`;
+        path = `/${snippetsArr[index].id}/${path}`
       }
 
-      return eventListener.emit('openSnippet', path);
+      return eventListener.emit('openSnippet', path)
     }
-  }, [snippetsArr]);
+  }, [snippetsArr])
 
   const rowRenderer = ({ key, index, style }: RowRendererProps) => {
-    const snippetEntry = snippetsArr[index];
+    const snippetEntry = snippetsArr[index]
     return (
       <SnippetListItem
         key={key}
@@ -131,13 +118,16 @@ let Snippets = () => {
         selected={snippetSelected}
         click={snippetItemClick}
       />
-    );
-  };
+    )
+  }
 
   return (
     <>
-      <Grid item style={{ maxWidth: "100%" }}>
-        <div className={classes.widgetTitle}>
+      <Grid item style={{ maxWidth: '100%' }}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid container direction="row" justifyContent="space-between">
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
@@ -181,16 +171,16 @@ let Snippets = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
-          <Grid item xs style={{ overflow: "hidden" }}>
+          <Grid item xs style={{ overflow: 'hidden' }}>
             <SplitterLayout
               percentage={true}
               primaryIndex={0}
@@ -201,8 +191,8 @@ let Snippets = () => {
             >
               <div
                 style={{
-                  height: "100%",
-                  overflow: "hidden",
+                  height: '100%',
+                  overflow: 'hidden',
                 }}
               >
                 <Grid
@@ -210,11 +200,11 @@ let Snippets = () => {
                   wrap="nowrap"
                   direction="column"
                   style={{
-                    height: "100%",
-                    overflow: "hidden",
+                    height: '100%',
+                    overflow: 'hidden',
                   }}
                 >
-                  <Grid item style={{ maxWidth: "100%", padding: "8px" }}>
+                  <Grid item style={{ maxWidth: '100%', padding: '8px' }}>
                     <TextField
                       margin="dense"
                       placeholder="Filter..."
@@ -226,14 +216,14 @@ let Snippets = () => {
                         endAdornment: (
                           <Clear
                             fontSize="small"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => setSnippetFilter("") }
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setSnippetFilter('') }
                           />
                         ),
                       }}
                     />
                   </Grid>
-                  <Grid item xs style={{ maxWidth: "100%" }}>
+                  <Grid item xs style={{ maxWidth: '100%' }}>
                     <AutoSizer>
                       {({ height, width }) => (
                         <List
@@ -248,20 +238,20 @@ let Snippets = () => {
                   </Grid>
                 </Grid>
               </div>
-              <div style={{ height: "100%" }}>
-                <Grid container style={{ width: "100%", height: "100%" }}>
+              <div style={{ height: '100%' }}>
+                <Grid container style={{ width: '100%', height: '100%' }}>
                   <Grid
                     item
                     style={{
-                      height: "100%",
-                      width: "100%",
-                      overflow: "auto",
+                      height: '100%',
+                      width: '100%',
+                      overflow: 'auto',
                     }}
                   >
                     {snippetsArr.length === 0 && (
                       <Grid
                         container
-                        style={{ height: "100%" }}
+                        style={{ height: '100%' }}
                         alignItems="center"
                         justifyContent="center"
                         direction="column"
@@ -292,11 +282,11 @@ let Snippets = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 export default wrapper(() => (
   <SnippetProvider>
     <Snippets />
   </SnippetProvider>
-), 'snippets');
+), 'snippets')

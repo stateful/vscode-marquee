@@ -14,14 +14,16 @@ test('should render the component with message pro', () => {
   expect(screen.getByText('foobar')).toBeInTheDocument()
 })
 
-test('should render the component with default prop', () => {
+test('should render the component with default prop', async () => {
   window.vscode = { postMessage: jest.fn() }
   render(<NetworkError />)
-  userEvent.click(screen.getByText('Marquee settings'))
+  await userEvent.click(screen.getByText('Marquee settings'))
   expect(window.vscode.postMessage).toBeCalledWith({
-    west: { execCommands: [{
-      command: 'workbench.action.openSettings',
-      args: ['Marquee']
-    }],
-    }})
+    west: {
+      execCommands: [{
+        command: 'workbench.action.openSettings',
+        args: ['Marquee']
+      }],
+    }
+  })
 })

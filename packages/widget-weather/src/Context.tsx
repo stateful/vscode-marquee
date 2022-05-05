@@ -1,86 +1,86 @@
-import React, { createContext, useState, useEffect } from "react";
-import { getEventListener, connect, MarqueeWindow } from "@vscode-marquee/utils";
+import React, { createContext, useState, useEffect } from 'react'
+import { getEventListener, connect, MarqueeWindow } from '@vscode-marquee/utils'
 
-import { fetchGeoData, fetchWeather, forecastCache, geoDataCache } from './utils';
-import type { Context, Configuration, Forecast, Scale, Location, Events } from './types';
+import { fetchGeoData, fetchWeather, forecastCache, geoDataCache } from './utils'
+import type { Context, Configuration, Forecast, Scale, Location, Events } from './types'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
-const WeatherContext = createContext<Context>({} as Context);
-const WIDGET_ID = '@vscode-marquee/weather-widget';
+const WeatherContext = createContext<Context>({} as Context)
+const WIDGET_ID = '@vscode-marquee/weather-widget'
 
 const WeatherProvider = function ({ children }: { children: React.ReactElement }) {
-  const eventListener = getEventListener<Events>();
-  const widgetState = getEventListener<Configuration>(WIDGET_ID);
+  const eventListener = getEventListener<Events>()
+  const widgetState = getEventListener<Configuration>(WIDGET_ID)
   const providerValues = connect<Configuration>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration
-  }, widgetState);
+  }, widgetState)
 
-  const [unmounted, setUnmounted] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState<Error>();
-  const [coords, setCoords] = useState<Location>();
-  const [forecast, setForecast] = useState<Forecast>();
-  const [showDialog, setShowDialog] = useState(false);
+  const [unmounted, setUnmounted] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
+  const [error, setError] = useState<Error>()
+  const [coords, setCoords] = useState<Location>()
+  const [forecast, setForecast] = useState<Forecast>()
+  const [showDialog, setShowDialog] = useState(false)
 
   const _updateScale = (scale: Scale) => {
-    providerValues.setScale(scale.name);
-  };
+    providerValues.setScale(scale.name)
+  }
 
   const _updateCity = (city?: string) => {
-    providerValues.setCity(city);
-  };
+    providerValues.setCity(city)
+  }
 
   useEffect(() => {
     if (unmounted) {
-      return;
+      return
     }
 
-    const cachedData = geoDataCache(providerValues.city);
+    const cachedData = geoDataCache(providerValues.city)
     if (cachedData) {
-      return setCoords(cachedData);
+      return setCoords(cachedData)
     }
 
-    setIsFetching(true);
+    setIsFetching(true)
     fetchGeoData(providerValues.city).then(
       (location) => {
         if (unmounted) {
-          return;
+          return
         }
 
-        setError(undefined);
-        setCoords(location);
+        setError(undefined)
+        setCoords(location)
       },
       (e: Error) => !unmounted && setError(e)
-    ).finally(() => !unmounted && setIsFetching(false));
-  }, [providerValues.city]);
+    ).finally(() => !unmounted && setIsFetching(false))
+  }, [providerValues.city])
 
   useEffect(() => {
     if (!coords || unmounted) {
-      return;
+      return
     }
 
-    const weatherCache = forecastCache(coords?.lat, coords?.lng);
+    const weatherCache = forecastCache(coords?.lat, coords?.lng)
     if (weatherCache) {
-      return setForecast(weatherCache);
+      return setForecast(weatherCache)
     }
 
-    setIsFetching(true);
+    setIsFetching(true)
     fetchWeather(coords?.lat, coords?.lng).then(
       (res) => !unmounted && setForecast(res),
       (e: Error) => !unmounted && setError(e)
-    ).finally(() => !unmounted && setIsFetching(false));
-  }, [coords?.lat, coords?.lng]);
+    ).finally(() => !unmounted && setIsFetching(false))
+  }, [coords?.lat, coords?.lng])
 
   useEffect(() => {
-    eventListener.on('openWeatherDialog', setShowDialog);
+    eventListener.on('openWeatherDialog', setShowDialog)
     return () => {
-      setUnmounted(true);
-      widgetState.removeAllListeners();
-      eventListener.removeAllListeners();
-    };
-  }, []);
+      setUnmounted(true)
+      widgetState.removeAllListeners()
+      eventListener.removeAllListeners()
+    }
+  }, [])
 
   return (
     <WeatherContext.Provider
@@ -98,8 +98,8 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
     >
       {children}
     </WeatherContext.Provider>
-  );
-};
+  )
+}
 
-export default WeatherContext;
-export { WeatherProvider };
+export default WeatherContext
+export { WeatherProvider }

@@ -7,13 +7,13 @@ import ModeMorePop from '../../src/components/ModeMorePop'
 
 jest.mock('../../src/contexts/ModeContext')
 
-test('should render component correcty', () => {
+test('should render component correcty', async () => {
   render(
     <ModeProvider>
       <ModeMorePop />
     </ModeProvider>
   )
-  userEvent.click(screen.getByLabelText('More'))
-  userEvent.click(screen.getByText('Reset to factory defaults'))
+  await userEvent.click(screen.getByLabelText('More'))
+  await userEvent.click(screen.getByText('Reset to factory defaults'))
   expect(_resetModes).toBeCalledTimes(1)
 })

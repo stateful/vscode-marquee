@@ -1,21 +1,23 @@
-import App from 'next/app';
-import Head from 'next/head';
-import { ChakraProvider } from '@chakra-ui/react';
-import { DefaultSeo } from 'next-seo';
-import { IntercomProvider } from "react-use-intercom";
+import App from 'next/app'
+import Head from 'next/head'
+import { ChakraProvider } from '@chakra-ui/react'
+import { DefaultSeo } from 'next-seo'
+import { IntercomProvider } from 'react-use-intercom'
 
-import theme from '../theme';
-import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID } from '../constants';
+import theme from '../theme'
+import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID } from '../constants'
 export default class MarqueeApp extends App {
   render () {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps } = this.props
 
     return (
       <ChakraProvider resetCSS theme={theme}>
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+          <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
           <link rel="manifest" href="/site.webmanifest" />
           <link
@@ -61,6 +63,6 @@ export default class MarqueeApp extends App {
           <Component {...pageProps} />
         </IntercomProvider>
       </ChakraProvider>
-    );
+    )
   }
-};
+}

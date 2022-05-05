@@ -1,40 +1,40 @@
-import React, { useContext, useState, useMemo, useCallback } from "react";
-import Popover from "@mui/material/Popover";
+import React, { useContext, useState, useMemo, useCallback } from 'react'
+import Popover from '@mui/material/Popover'
 import {
   IconButton,
   Grid,
   Divider,
   Button,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+} from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 
-import TodoContext from "../Context";
-import type { Todo } from '../types';
+import TodoContext from '../Context'
+import type { Todo } from '../types'
 
 let Totals = () => {
-  const { todos } = useContext(TodoContext);
+  const { todos } = useContext(TodoContext)
   const archived = useMemo(() => {
     return todos.filter((item) => {
-      return item.archived === true;
-    });
-  }, [todos]);
+      return item.archived === true
+    })
+  }, [todos])
 
   const filterArchived = (item: Todo) => {
-    return item.archived === false;
-  };
+    return item.archived === false
+  }
 
   const checked = useMemo(() => {
     return todos.filter(filterArchived).filter((item) => {
-      return item.checked === true;
-    });
-  }, [todos]);
+      return item.checked === true
+    })
+  }, [todos])
 
   const unchecked = useMemo(() => {
     return todos.filter(filterArchived).filter((item) => {
-      return item.checked === false;
-    });
-  }, [todos]);
+      return item.checked === false
+    })
+  }, [todos])
 
   return (
     <Grid container direction="column" spacing={1}>
@@ -46,11 +46,11 @@ let Totals = () => {
       </Grid>
       <Grid item>Total: {todos.length}</Grid>
     </Grid>
-  );
-};
+  )
+}
 
 let ResetBox = React.memo(() => {
-  const { _resetTodos } = useContext(TodoContext);
+  const { _resetTodos } = useContext(TodoContext)
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -60,29 +60,29 @@ let ResetBox = React.memo(() => {
           variant="contained"
           color="secondary"
           onClick={() => {
-            _resetTodos();
+            _resetTodos()
           }}
         >
           Delete all todos
         </Button>
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 let TodoInfo = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "todo-info-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-info-popover' : undefined
 
   return (
     <div>
@@ -96,15 +96,15 @@ let TodoInfo = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container style={{ padding: "16px" }} direction="column">
+        <Grid container style={{ padding: '16px' }} direction="column">
           <Grid item>
             <Totals />
           </Grid>
@@ -115,7 +115,7 @@ let TodoInfo = () => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(TodoInfo);
+export default React.memo(TodoInfo)

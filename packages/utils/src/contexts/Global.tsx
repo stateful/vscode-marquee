@@ -1,44 +1,44 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from 'react'
 
-import { getEventListener, connect } from '../';
-import { getVSColor } from '../utils';
-import type { Configuration, Context, State, RGBA, MarqueeWindow, MarqueeEvents } from '../types';
+import { getEventListener, connect } from '../'
+import { getVSColor } from '../utils'
+import type { Configuration, Context, State, RGBA, MarqueeWindow, MarqueeEvents } from '../types'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
-const GlobalContext = createContext<Context>({} as Context);
-const rgba = ['r', 'g', 'b', 'a'] as const;
-const WIDGET_ID = '@vscode-marquee/utils';
+const GlobalContext = createContext<Context>({} as Context)
+const rgba = ['r', 'g', 'b', 'a'] as const
+const WIDGET_ID = '@vscode-marquee/utils'
 
 const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
-  const globalState = getEventListener<State & Configuration>(WIDGET_ID);
+  const globalState = getEventListener<State & Configuration>(WIDGET_ID)
   const providerValues = connect<State & Configuration>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration
-  }, globalState);
+  }, globalState)
 
-  const [resetApp, setResetApp] = useState(false);
+  const [resetApp, setResetApp] = useState(false)
   useEffect(() => {
-    window.vscode.setState({});
-    const eventListener = getEventListener<MarqueeEvents>();
-    eventListener.on('resetMarquee', () => setResetApp(true));
-  }, []);
+    window.vscode.setState({})
+    const eventListener = getEventListener<MarqueeEvents>()
+    eventListener.on('resetMarquee', () => setResetApp(true))
+  }, [])
 
   /**
    * theme color propagated into template
    */
   const cssThemeValue = window.getComputedStyle(document.documentElement)
     .getPropertyValue('--marquee-theme-color')
-    .trim();
+    .trim()
   const themeColor = cssThemeValue === 'transparent' || !cssThemeValue.match(/[\.\d]+/g)
     ? getVSColor()
     : cssThemeValue
-        .match(/[\.\d]+/g)!
-        .map(Number)
-        .reduce((acc, val, i) => {
-          acc[rgba[i]] = val;
-          return acc;
-        }, {} as RGBA);
+      .match(/[\.\d]+/g)!
+      .map(Number)
+      .reduce((acc, val, i) => {
+        acc[rgba[i]] = val
+        return acc
+      }, {} as RGBA)
 
   return (
     <GlobalContext.Provider
@@ -56,8 +56,8 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
     >
       {children}
     </GlobalContext.Provider>
-  );
-};
+  )
+}
 
-export default GlobalContext;
-export { GlobalProvider };
+export default GlobalContext
+export { GlobalProvider }

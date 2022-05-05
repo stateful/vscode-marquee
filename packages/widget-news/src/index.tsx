@@ -1,15 +1,15 @@
-import React from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faNewspaper } from "@fortawesome/free-solid-svg-icons/faNewspaper";
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper'
 
-import News from "./Widget";
+import News from './Widget'
 
 export default {
-  name: "news",
+  name: 'news',
   icon: <FontAwesomeIcon icon={faNewspaper} />,
   label: 'News',
-  tags: ["hackernews", "HNN", "programing", "entertainment"],
-  description: "The Hacker News feed, with more feeds coming soon.",
+  tags: ['hackernews', 'HNN', 'programing', 'entertainment'],
+  description: 'The Hacker News feed, with more feeds coming soon.',
   component: News,
-};
-export { News };
+}
+export { News }

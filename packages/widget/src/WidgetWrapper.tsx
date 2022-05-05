@@ -1,22 +1,29 @@
-import React, { useContext, useState } from "react";
-import { Box, Grid } from "@mui/material";
-import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils';
+import React, { useContext, useState } from 'react'
+import { Box, Grid } from '@mui/material'
+import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils'
 
-import { GlobalContext } from "@vscode-marquee/utils";
+import { GlobalContext } from '@vscode-marquee/utils'
 
-import { ErrorBoundary } from './ErrorBoundary';
+import { ErrorBoundary } from './ErrorBoundary'
 
-const WidgetWrapper = ({ dragHandle, ...props }: any) => {
-  const { themeColor } = useContext(GlobalContext);
-  const [ shouldBeDisplayed, setShouldBeDisplayed ] = useState(true);
+interface WidgetWrapper {
+  dragHandle: React.ReactNode
+  name: string
+  innerref: React.Ref<any>
+  children: React.ReactChildren
+}
 
-  const eventListener = getEventListener<MarqueeEvents>();
+const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
+  const { themeColor } = useContext(GlobalContext)
+  const [ shouldBeDisplayed, setShouldBeDisplayed ] = useState(true)
+
+  const eventListener = getEventListener<MarqueeEvents>()
   eventListener.on('updateWidgetDisplay', (widgets) => {
-    setShouldBeDisplayed(widgets[props.name]);
-  });
+    setShouldBeDisplayed(widgets[props.name])
+  })
 
   if (!shouldBeDisplayed) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -26,8 +33,8 @@ const WidgetWrapper = ({ dragHandle, ...props }: any) => {
         container
         direction="column"
         style={{
-          height: "100%",
-          background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
+          height: '100%',
+          background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
         }}
         wrap="nowrap"
       >
@@ -35,15 +42,15 @@ const WidgetWrapper = ({ dragHandle, ...props }: any) => {
       </Grid>
       {dragHandle}
     </Box>
-  );
-};
+  )
+}
 
-export default (Widget: any, name?: string) => React.memo(React.forwardRef((props, ref) => {
+export default (Widget: any, name?: string) => React.memo(React.forwardRef((props: any, ref) => {
   return (
     <ErrorBoundary>
-      <WidgetWrapper innerref={ref} name={name} dragHandle={props.children} {...props}>
+      <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
         <Widget {...props} />
       </WidgetWrapper>
     </ErrorBoundary>
-  );
-}));
+  )
+}))

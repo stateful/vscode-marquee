@@ -1,37 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@mui/material";
-import { SplitButton } from '@vscode-marquee/widget';
-import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
-import { theme, MarqueeWindow } from "@vscode-marquee/utils";
+} from '@mui/material'
+import { SplitButton } from '@vscode-marquee/widget'
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
+import { theme, MarqueeWindow } from '@vscode-marquee/utils'
 
-import NoteContext from "../Context";
-import NoteEditor from "../components/Editor";
+import NoteContext from '../Context'
+import NoteEditor from '../components/Editor'
 
-declare const window: MarqueeWindow;
-const options = ['Add to Workspace', 'Add as Global Note'];
+declare const window: MarqueeWindow
+const options = ['Add to Workspace', 'Add as Global Note']
 
 const AddDialog = React.memo(({ close }: { close: () => void }) => {
-  const { _addNote, setNoteSelected } = useContext(NoteContext);
-  const [error, setError] = useState(false);
-  const [body, setBody] = useState("");
-  const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
+  const { _addNote, setNoteSelected } = useContext(NoteContext)
+  const [error, setError] = useState(false)
+  const [body, setBody] = useState('')
+  const [text, setText] = useState('')
+  const [title, setTitle] = useState('')
 
   const submit = (index: number) => {
-    const isWorkspaceTodo = index === 0;
-    if (title === "") {
-      setError(true);
-      return;
+    const isWorkspaceTodo = index === 0
+    if (title === '') {
+      setError(true)
+      return
     }
 
-    setNoteSelected(_addNote({ title, body, text }, isWorkspaceTodo));
-    close();
-  };
+    setNoteSelected(_addNote({ title, body, text }, isWorkspaceTodo))
+    close()
+  }
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -42,7 +42,7 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
           fullWidth
           variant="filled"
           onChange={(e) => {
-            setTitle(e.target.value);
+            setTitle(e.target.value)
           }}
           name="title"
           autoFocus
@@ -51,14 +51,14 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
           placeholder="Title of Note"
           aria-labelledby="Title"
         />
-        <div style={{ height: "8px", minWidth: "100%" }} />
+        <div style={{ height: '8px', minWidth: '100%' }} />
 
         <NoteEditor
           border="1px solid var(--vscode-foreground)"
           name="add"
           _change={(newBody, newText) => {
-            setBody(newBody);
-            setText(newText);
+            setBody(newBody)
+            setText(newText)
           }}
           body={body}
           text={text}
@@ -70,20 +70,20 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
         {window.activeWorkspace
           ? <SplitButton
-              options={options}
-              onClick={submit}
-            />
+            options={options}
+            onClick={submit}
+          />
           : <Button
-              color="primary"
-              variant="contained"
-              onClick={() => submit(1)}
-            >
-              {options[1]}
-            </Button>
+            color="primary"
+            variant="contained"
+            onClick={() => submit(1)}
+          >
+            {options[1]}
+          </Button>
         }
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default AddDialog;
+export default AddDialog

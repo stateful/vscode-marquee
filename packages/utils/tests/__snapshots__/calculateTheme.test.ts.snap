@@ -25,10 +25,46 @@ Object {
     },
   },
   "components": Object {
+    "MuiButton": Object {
+      "styleOverrides": Object {
+        "root": Object {
+          "&:hover": Object {
+            "backgroundColor": "var(--vscode-tree-tableOddRowsBackground)",
+            "borderColor": "var(--vscode-tab-inactiveForeground)",
+            "color": "rgb(204, 204, 204)",
+          },
+          "borderColor": "var(--vscode-editorGhostText-foreground)",
+          "color": "rgb(204, 204, 204)",
+        },
+      },
+    },
+    "MuiButtonGroup": Object {
+      "styleOverrides": Object {
+        "grouped": Object {
+          "&:not(:last-of-type)": Object {
+            "borderRight": "1px solid rgba(255, 255, 255, 0.23)",
+          },
+        },
+      },
+    },
     "MuiChip": Object {
       "styleOverrides": Object {
         "root": Object {
           "borderRadius": "0px",
+        },
+      },
+    },
+    "MuiDialog": Object {
+      "styleOverrides": Object {
+        "paper": Object {
+          "backgroundImage": "none",
+        },
+      },
+    },
+    "MuiPopover": Object {
+      "styleOverrides": Object {
+        "paper": Object {
+          "backgroundImage": "none",
         },
       },
     },
@@ -37,10 +73,16 @@ Object {
         "htmlColor": "#c5c5c5",
       },
     },
+    "MuiTabs": Object {
+      "styleOverrides": Object {
+        "indicator": Object {
+          "left": 0,
+        },
+      },
+    },
   },
   "direction": "ltr",
   "mixins": Object {
-    "gutters": [Function],
     "toolbar": Object {
       "@media (min-width:0px) and (orientation: landscape)": Object {
         "minHeight": 48,
@@ -67,7 +109,7 @@ Object {
     },
     "augmentColor": [Function],
     "background": Object {
-      "default": "#1e1e1e",
+      "default": "#252526",
       "paper": "#252526",
     },
     "common": Object {
@@ -131,7 +173,6 @@ Object {
       "secondary": "#cccccc",
     },
     "tonalOffset": 0.2,
-    "type": "dark",
     "warning": Object {
       "contrastText": "rgba(0, 0, 0, 0.87)",
       "dark": "#f57c00",

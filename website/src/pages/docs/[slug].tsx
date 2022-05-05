@@ -1,20 +1,20 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'fs/promises'
+import path from 'path'
 
-import NextLink from 'next/link';
-import { serialize } from 'next-mdx-remote/serialize';
-import { NextSeo } from 'next-seo';
-import { HStack, Flex, Link } from '@chakra-ui/react';
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import NextLink from 'next/link'
+import { serialize } from 'next-mdx-remote/serialize'
+import { NextSeo } from 'next-seo'
+import { HStack, Flex, Link } from '@chakra-ui/react'
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 
-import { Nav } from '../../components/Nav';
-import { Container } from '../../components/Container';
-import { Main } from '../../components/Main';
-import { Footer } from '../../components/Footer';
-import { DocsContainer } from '../../components/docs/Container';
-import { DOCS_CONTENT, TITLE } from '../../constants';
+import { Nav } from '../../components/Nav'
+import { Container } from '../../components/Container'
+import { Main } from '../../components/Main'
+import { Footer } from '../../components/Footer'
+import { DocsContainer } from '../../components/docs/Container'
+import { DOCS_CONTENT, TITLE } from '../../constants'
 
-const ROOT = path.join(__dirname, '..', '..', '..', '..', '..');
+const ROOT = path.join(__dirname, '..', '..', '..', '..', '..')
 
 interface Props {
   currentSlug: string,
@@ -68,30 +68,30 @@ const Docs = ({ source, currentSlug, currentTitle }: Props) => {
         <Footer />
       </Container>
     </>
-  );
-};
+  )
+}
 
 export async function getStaticProps ({ params }) {
   const [title, meta] = Object.entries(DOCS_CONTENT)
-    .find(([, d]) => d.href.replace('/docs/', '') === params.slug)!;
-  const docPath = path.join(ROOT, meta.content);
-  const source = (await fs.readFile(docPath)).toString();
-  const mdxSource = await serialize(source);
+    .find(([, d]) => d.href.replace('/docs/', '') === params.slug)!
+  const docPath = path.join(ROOT, meta.content)
+  const source = (await fs.readFile(docPath)).toString()
+  const mdxSource = await serialize(source)
   const props: Props = {
     source: mdxSource,
     currentSlug: params.slug,
     currentTitle: title
-  };
-  return { props };
+  }
+  return { props }
 }
 
-export async function getStaticPaths() {
+export async function getStaticPaths () {
   return {
     paths: Object.values(DOCS_CONTENT).map((doc) => (
       { params: { slug: doc.href.replace('/docs/', '') } }
     )),
     fallback: false
-  };
+  }
 }
 
-export default Docs;
+export default Docs

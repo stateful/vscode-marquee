@@ -1,7 +1,12 @@
-import { Avatar, Box, Flex, Stat, StatLabel, StatNumber, Text, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Stat, StatLabel, StatNumber, Text, useColorModeValue } from '@chakra-ui/react'
 
 export const Review = () => (
-  <Flex my={{ base: 10, md: 20 }} align={'center'} flexDirection={{ base: 'column', md: 'row'}} justifyContent={'space-between'}>
+  <Flex
+    my={{ base: 10, md: 20 }}
+    align={'center'}
+    flexDirection={{ base: 'column', md: 'row'}}
+    justifyContent={'space-between'}
+  >
     <Box my={10}>
       <Text as="div" fontSize={'4xl'}>
         Supercharge your VS Code
@@ -36,4 +41,4 @@ export const Review = () => (
       </Box>
     </Flex>
   </Flex>
-);
+)

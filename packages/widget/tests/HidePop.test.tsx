@@ -6,8 +6,8 @@ import HidePop from '../src/HidePop'
 
 jest.mock('../src/HideWidgetContent', () => ({ name }: any) => <div>{name}</div>)
 
-test('should propagate name', () => {
+test('should propagate name', async () => {
   const { container } = render(<HidePop name="foobar" />)
-  userEvent.click(container.querySelector('button')!)
+  await userEvent.click(container.querySelector('button')!)
   expect(screen.getByText('foobar')).toBeInTheDocument()
 })

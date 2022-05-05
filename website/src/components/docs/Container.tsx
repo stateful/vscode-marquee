@@ -1,7 +1,7 @@
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { MDXRemote } from 'next-mdx-remote';
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { MDXRemote } from 'next-mdx-remote'
 
-import components from './components';
+import components from './components'
 
 interface Props {
   source: MDXRemoteSerializeResult<Record<string, unknown>>
@@ -10,5 +10,5 @@ interface Props {
 export const DocsContainer = ({ source }: Props) => {
   return (
     <MDXRemote components={components} {...source} />
-  );
-};
+  )
+}

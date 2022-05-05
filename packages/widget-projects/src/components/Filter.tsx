@@ -1,16 +1,16 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 
-import ClearIcon from "@mui/icons-material/Clear";
-import SearchIcon from "@mui/icons-material/Search";
-import Popover from "@mui/material/Popover";
-import { IconButton, Grid, TextField, Badge } from "@mui/material";
-import { DebounceInput } from "react-debounce-input";
+import ClearIcon from '@mui/icons-material/Clear'
+import SearchIcon from '@mui/icons-material/Search'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, TextField, Badge } from '@mui/material'
+import { DebounceInput } from 'react-debounce-input'
 
-import WorkspaceContext from "../Context";
+import WorkspaceContext from '../Context'
 
 let ProjectsFilterBox = () => {
-  const { setWorkspaceFilter, workspaceFilter } = useContext(WorkspaceContext);
-  let filterInput: HTMLInputElement | null = null;
+  const { setWorkspaceFilter, workspaceFilter } = useContext(WorkspaceContext)
+  let filterInput: HTMLInputElement | null = null
 
   return (
     <DebounceInput
@@ -22,11 +22,11 @@ let ProjectsFilterBox = () => {
       InputLabelProps={{
         shrink: true,
       }}
-      label={"Filter"}
+      label={'Filter'}
       variant="filled"
       placeholder="Type here..."
       onChange={(e) => {
-        setWorkspaceFilter(e.target.value);
+        setWorkspaceFilter(e.target.value)
       }}
       // margin="none"
       size="small"
@@ -36,32 +36,32 @@ let ProjectsFilterBox = () => {
         endAdornment: (
           <ClearIcon
             fontSize="small"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
-              setWorkspaceFilter("");
-              filterInput!.focus();
+              setWorkspaceFilter('')
+              filterInput!.focus()
             }}
           />
         ),
       }}
     />
-  );
-};
+  )
+}
 
 let ProjectsFilter = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { workspaceFilter } = useContext(WorkspaceContext);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { workspaceFilter } = useContext(WorkspaceContext)
 
   const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "project-filter-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'project-filter-popover' : undefined
 
   return (
     <div>
@@ -82,12 +82,12 @@ let ProjectsFilter = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <Grid container>
@@ -97,7 +97,7 @@ let ProjectsFilter = () => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(ProjectsFilter);
+export default React.memo(ProjectsFilter)

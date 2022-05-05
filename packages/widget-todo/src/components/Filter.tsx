@@ -1,16 +1,16 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 
-import ClearIcon from "@mui/icons-material/Clear";
-import SearchIcon from "@mui/icons-material/Search";
-import Popover from "@mui/material/Popover";
-import { IconButton, Grid, TextField, Badge } from "@mui/material";
-import { DebounceInput } from "react-debounce-input";
+import ClearIcon from '@mui/icons-material/Clear'
+import SearchIcon from '@mui/icons-material/Search'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, TextField, Badge } from '@mui/material'
+import { DebounceInput } from 'react-debounce-input'
 
-import TodoContext from "../Context";
+import TodoContext from '../Context'
 
 let TodoFilterBox = () => {
-  const { setTodoFilter, todoFilter } = useContext(TodoContext);
-  let filterInput: HTMLInputElement | null = null;
+  const { setTodoFilter, todoFilter } = useContext(TodoContext)
+  let filterInput: HTMLInputElement | null = null
 
   return (
     <DebounceInput
@@ -22,7 +22,7 @@ let TodoFilterBox = () => {
       InputLabelProps={{
         shrink: true,
       }}
-      label={"Filter"}
+      label={'Filter'}
       variant="filled"
       placeholder="Type here..."
       onChange={(e) => setTodoFilter(e.target.value)}
@@ -35,32 +35,32 @@ let TodoFilterBox = () => {
         endAdornment: (
           <ClearIcon
             fontSize="small"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
-              setTodoFilter("");
-              filterInput!.focus();
+              setTodoFilter('')
+              filterInput!.focus()
             }}
           />
         ),
       }}
     />
-  );
-};
+  )
+}
 
 let TodoFilter = () => {
-  const { todoFilter } = useContext(TodoContext);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { todoFilter } = useContext(TodoContext)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "todo-filter-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-filter-popover' : undefined
 
   return (
     <div>
@@ -81,12 +81,12 @@ let TodoFilter = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <Grid container>
@@ -96,7 +96,7 @@ let TodoFilter = () => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(TodoFilter);
+export default React.memo(TodoFilter)

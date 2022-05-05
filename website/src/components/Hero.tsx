@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
-import { Flex, Box, Heading, Image, useColorMode, Text, Button, useColorModeValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion'
+import { Flex, Box, Heading, Image, useColorMode, Text, Button, useColorModeValue } from '@chakra-ui/react'
 
-import { MAIN_COLOR, HERO_BG_COLOR } from '../constants';
+import { MAIN_COLOR, HERO_BG_COLOR } from '../constants'
 
 export const Hero = () => {
-  const { colorMode } = useColorMode();
+  const { colorMode } = useColorMode()
   return (
     <Flex
       bg={HERO_BG_COLOR[colorMode]}
@@ -22,14 +22,33 @@ export const Hero = () => {
         </Heading>
       </Box>
       <Box my={6} maxWidth={'1200px'}>
-        <Heading as="h2" fontSize={{ base: '1.2em', md: "1.8em"}} textAlign={'center'} mx={5} mb={{ base: 5, sm: 0 }}>
+        <Heading as="h2" fontSize={{ base: '1.2em', md: '1.8em'}} textAlign={'center'} mx={5} mb={{ base: 5, sm: 0 }}>
           Marquee is a <Text as="span" color={'marquee'} d={'inline'}>VS Code extension</Text> that
           brings a fully extensible homescreen right into your favorite IDE for minimal
           context switching.
         </Heading>
-        <Text display={{ base: 'none', sm: 'block' }} fontSize={'small'} my={3} textAlign={'center'}>Install via:</Text>
-        <Flex display={{ base: 'none', sm: 'flex' }} align={'center'} flexFlow={{ base: 'wrap', sm: 'nowrap' }} justifyContent={'center'} flexDirection={'row'}>
-          <Text mx={3} fontFamily={'monospace'} backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')} p={3} rounded={8}>
+        <Text
+          display={{ base: 'none', sm: 'block' }}
+          fontSize={'small'}
+          my={3}
+          textAlign={'center'}
+        >
+          Install via:
+        </Text>
+        <Flex
+          display={{ base: 'none', sm: 'flex' }}
+          align={'center'}
+          flexFlow={{ base: 'wrap', sm: 'nowrap' }}
+          justifyContent={'center'}
+          flexDirection={'row'}
+        >
+          <Text
+            mx={3}
+            fontFamily={'monospace'}
+            backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')}
+            p={3}
+            rounded={8}
+          >
             $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
           </Text>
           <Text fontSize={'small'}>or</Text>
@@ -75,5 +94,5 @@ export const Hero = () => {
         </motion.div>
       </Box>
     </Flex>
-  );
-};
+  )
+}

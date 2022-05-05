@@ -9,9 +9,6 @@ test('should fail gracefully on error', () => {
     throw new Error('ups')
     return <div {...props}>hello world</div>
   })
-  render(
-    // @ts-expect-error
-    <Widget name="testWidget" dragHandle={dragHandle} />
-  )
+  render(<Widget name="testWidget" dragHandle={dragHandle} />)
   expect(screen.queryByText('hello world')).not.toBeInTheDocument()
 })

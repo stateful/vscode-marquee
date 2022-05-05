@@ -1,29 +1,35 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 
-import DragHandleIcon from "@mui/icons-material/DragHandle";
-import Chip from "@mui/material/Chip";
-import LinkIcon from "@mui/icons-material/Link";
-import Tooltip from "@mui/material/Tooltip";
+import DragHandleIcon from '@mui/icons-material/DragHandle'
+import Chip from '@mui/material/Chip'
+import LinkIcon from '@mui/icons-material/Link'
+import Tooltip from '@mui/material/Tooltip'
 import {
   Grid,
   Checkbox,
   IconButton,
   Typography,
   Popover,
-} from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import { jumpTo } from '@vscode-marquee/utils';
-import TodoItemPop from "./ItemPop";
-import TodoPopItemContent from "./PopItemContent";
+  styled,
+} from '@mui/material'
+import { jumpTo } from '@vscode-marquee/utils'
+import TodoItemPop from './ItemPop'
+import TodoPopItemContent from './PopItemContent'
 
-import TodoContext from "../Context";
-import type { Todo } from '../types';
+import TodoContext from '../Context'
+import type { Todo } from '../types'
 
-const useStyles = makeStyles(() => ({
-  customTooltip: {
-    borderRadius: "4px",
+const PREFIX = 'WidgetTodoItem'
+
+const classes = {
+  customTooltip: `${PREFIX}-customTooltip`,
+}
+
+const StyledTooltip = styled(Tooltip)(() => ({
+  [`&.${classes.customTooltip}`]: {
+    borderRadius: '4px',
   },
-}));
+}))
 
 interface TodoItemProps {
   todo: Todo
@@ -32,21 +38,20 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
-  const classes = useStyles();
-  const { _updateTodo, setShowEditDialog } = useContext(TodoContext);
+  const { _updateTodo, setShowEditDialog } = useContext(TodoContext)
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const id = open ? "todo-item-popover" : undefined;
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-item-popover' : undefined
 
   const handleRightClick = useCallback((e) => {
-    e.preventDefault();
-    setAnchorEl(e.currentTarget);
-  }, []);
+    e.preventDefault()
+    setAnchorEl(e.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
   return (
     <>
@@ -56,12 +61,12 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <TodoPopItemContent todo={todo} close={handleClose} />
@@ -78,7 +83,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         spacing={1}
         onContextMenu={handleRightClick}
       >
-        <Grid item xs style={{ margin: "4px" }}>
+        <Grid item xs style={{ margin: '4px' }}>
           <Grid
             container
             direction="row"
@@ -92,7 +97,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                 data-movable-handle
                 tabIndex={-1}
                 style={{
-                  cursor: isDragged ? "grabbing" : "grab",
+                  cursor: isDragged ? 'grabbing' : 'grab',
                 }}
               >
                 <DragHandleIcon fontSize="small" />
@@ -101,17 +106,17 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
             <Grid item>
               <Checkbox
                 aria-label="Complete Todo"
-                style={{ padding: "4px" }}
+                style={{ padding: '4px' }}
                 size="small"
                 disableRipple
                 checked={todo.checked}
                 onClick={(e) => {
-                  let newTodo = todo;
-                  newTodo.checked = !todo.checked;
-                  _updateTodo(newTodo);
-                  e.preventDefault();
-                  e.stopPropagation();
-                  return false;
+                  let newTodo = todo
+                  newTodo.checked = !todo.checked
+                  _updateTodo(newTodo)
+                  e.preventDefault()
+                  e.stopPropagation()
+                  return false
                 }}
               />
             </Grid>
@@ -120,19 +125,19 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         <Grid
           item
           xs={9}
-          style={{ cursor: "pointer", margin: "4px" }}
+          style={{ cursor: 'pointer', margin: '4px' }}
           onClick={(e) => {
             if (e.detail === 2) {
-              setShowEditDialog(todo.id);
+              setShowEditDialog(todo.id)
             }
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault()
+            e.stopPropagation()
           }}
           zeroMinWidth
         >
           <Grid container direction="column" wrap="nowrap">
             <Grid item zeroMinWidth xs={12}>
-              <Tooltip
+              <StyledTooltip
                 title={
                   <Typography variant="subtitle2">{todo.body}</Typography>
                 }
@@ -145,7 +150,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                 <Typography aria-label="todo-label" variant="body2" noWrap>
                   {todo.body}
                 </Typography>
-              </Tooltip>
+              </StyledTooltip>
             </Grid>
             {todo.tags && (
               <Grid item xs={12}>
@@ -153,8 +158,8 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                   <Chip
                     key={`tag-${tag}`}
                     style={{
-                      borderRadius: "4px",
-                      margin: "2px",
+                      borderRadius: '4px',
+                      margin: '2px',
                     }}
                     size="small"
                     label={<Typography variant="caption">{tag}</Typography>}
@@ -167,7 +172,7 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
         </Grid>
         {todo.origin && (
           <Grid item xs>
-            <Tooltip
+            <StyledTooltip
               title={<Typography variant="subtitle2">{todo.path}</Typography>}
               classes={{ tooltip: classes.customTooltip }}
               placement="top"
@@ -178,15 +183,15 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
                   <LinkIcon />
                 </IconButton>
               </Typography>
-            </Tooltip>
+            </StyledTooltip>
           </Grid>
         )}
-        <Grid item xs style={{ margin: "4px" }}>
+        <Grid item xs style={{ margin: '4px' }}>
           <TodoItemPop todo={todo} />
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default React.memo(TodoItem);
+export default React.memo(TodoItem)

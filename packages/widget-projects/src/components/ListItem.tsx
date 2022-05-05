@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useMemo } from "react";
+import React, { useContext, useCallback, useMemo } from 'react'
 import {
   Grid,
   Typography,
@@ -6,71 +6,74 @@ import {
   ListItemText,
   ListItemAvatar,
   Badge,
-} from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import LayersIcon from "@mui/icons-material/Layers";
-import FolderIcon from "@mui/icons-material/Folder";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CodeIcon from "@mui/icons-material/Code";
-import NoteIcon from "@mui/icons-material/Note";
+  styled,
+} from '@mui/material'
+import LayersIcon from '@mui/icons-material/Layers'
+import FolderIcon from '@mui/icons-material/Folder'
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
+import CodeIcon from '@mui/icons-material/Code'
+import NoteIcon from '@mui/icons-material/Note'
 
-import { GlobalContext } from "@vscode-marquee/utils";
-import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils';
+import { GlobalContext } from '@vscode-marquee/utils'
+import type { Workspace, MarqueeWindow } from '@vscode-marquee/utils'
 
-import ProjectItemPop from "./ItemPop";
-import WorkspaceContext from '../Context';
+import ProjectItemPop from './ItemPop'
+import WorkspaceContext from '../Context'
 
-declare const window: MarqueeWindow;
+declare const window: MarqueeWindow
 
 interface StyleProps {
   background: string
 }
 
-const useStyles = makeStyles(() => ({
-  badge: (props: StyleProps) => ({
-    minHeight: "16px",
-    minWidth: "16px",
-    height: "16px",
-    width: "16px",
+const PREFIX = 'WidgetProjectsListItem'
+
+const classes = {
+  badge: `${PREFIX}-badge`,
+}
+
+const Root = styled('div')((props: StyleProps) => ({
+  [`&.${classes.badge}`]: {
+    minHeight: '16px',
+    minWidth: '16px',
+    height: '16px',
+    width: '16px',
     background: props.background,
-  }),
-}));
+  },
+}))
 
 interface ProjectListItemProps {
   workspace: Workspace
 }
 
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
-  const { themeColor } = useContext(GlobalContext);
-  const classes = useStyles({
-    background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
-  });
+  const { themeColor } = useContext(GlobalContext)
 
-  const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext);
+  const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext)
 
   let todoCount = useMemo(() => {
-    return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived);
-  }, [workspace, todos]);
+    return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived)
+  }, [workspace, todos])
 
   let noteCount = useMemo(() => {
-    return notes.filter((notes: any) => notes.workspaceId === workspace.id);
-  }, [workspace, notes]);
+    return notes.filter((notes: any) => notes.workspaceId === workspace.id)
+  }, [workspace, notes])
 
   let snippetCount = useMemo(() => {
-    return snippets.filter((snippets: any) => snippets.workspaceId === workspace.id);
-  }, [workspace, snippets]);
+    return snippets.filter((snippets: any) => snippets.workspaceId === workspace.id)
+  }, [workspace, snippets])
 
   const handleOpen = useCallback((ev) => {
-    let target = ev.target;
+    let target = ev.target
 
     /**
      * don't trigger open if "More" icon was clicked
      */
     if (['svg', 'path'].includes(target.tagName.toLowerCase())) {
       while (target.parentElement) {
-        target = target.parentElement;
+        target = target.parentElement
         if (target.tagName.toLowerCase() === 'button') {
-          return;
+          return
         }
       }
     }
@@ -83,24 +86,24 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
       target.parentElement &&
       target.parentElement.getAttribute('role') === 'presentation'
     ) {
-      return;
+      return
     }
 
     window.vscode.postMessage({
       west: {
         execCommands: [
           {
-            command: "vscode.openFolder",
+            command: 'vscode.openFolder',
             args: [workspace.path],
             options: { forceNewWindow: openProjectInNewWindow }
           },
         ],
       },
-    });
-  }, [workspace, openProjectInNewWindow]);
+    })
+  }, [workspace, openProjectInNewWindow])
 
   return (
-    <>
+    <Root background={`rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`}>
       <ListItem
         selected={workspace.id === window.activeWorkspace?.id}
         dense
@@ -108,13 +111,13 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
         disableRipple
         disableTouchRipple
         key={workspace.id}
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
         onClick={handleOpen}
       >
-        <ListItemAvatar style={{ minWidth: "40px" }}>
+        <ListItemAvatar style={{ minWidth: '40px' }}>
           <>
-            {workspace.type === "workspace" && <LayersIcon />}
-            {workspace.type === "folder" && <FolderIcon />}
+            {workspace.type === 'workspace' && <LayersIcon />}
+            {workspace.type === 'folder' && <FolderIcon />}
           </>
         </ListItemAvatar>
         <ListItemText
@@ -173,14 +176,14 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
             </Grid>
           }
           secondary={
-            <Typography variant="caption" noWrap style={{ display: "block" }}>
+            <Typography variant="caption" noWrap style={{ display: 'block' }}>
               {workspace.path}
             </Typography>
           }
         />
       </ListItem>
-    </>
-  );
-};
+    </Root>
+  )
+}
 
-export default React.memo(ProjectListItem);
+export default React.memo(ProjectListItem)
