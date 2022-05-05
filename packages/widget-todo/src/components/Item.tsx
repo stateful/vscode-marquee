@@ -40,11 +40,11 @@ interface TodoItemProps {
 const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
   const { _updateTodo, setShowEditDialog } = useContext(TodoContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const open = Boolean(anchorEl)
   const id = open ? 'todo-item-popover' : undefined
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }, [])

@@ -83,7 +83,7 @@ let Notes = () => {
     }
   }, [noteFilter, globalScope])
 
-  const noteItemClick = useCallback((e, index) => {
+  const noteItemClick = useCallback((e: any, index: number) => {
     if (e.detail === 1) {
       let noteId = notesArr[index].id
       return setNoteSelected(noteId)

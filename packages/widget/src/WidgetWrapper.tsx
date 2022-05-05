@@ -10,7 +10,7 @@ interface WidgetWrapper {
   dragHandle: React.ReactNode
   name: string
   innerref: React.Ref<any>
-  children: React.ReactChildren
+  children: React.ReactElement
 }
 
 const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {

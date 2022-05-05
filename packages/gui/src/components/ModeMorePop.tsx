@@ -12,9 +12,9 @@ import {
 const ModeMorePop = () => {
   const { _resetModes } = useContext(ModeContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

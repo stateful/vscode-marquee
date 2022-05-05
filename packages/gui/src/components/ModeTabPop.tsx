@@ -11,11 +11,11 @@ interface ModeTabPopProps {
 }
 
 const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const [showModeTab, setShowModeTab] = useState(false)
   const { _removeMode } = useContext(ModeContext)
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     //if this isn't one of the preset modes
     if (!presetModes.includes(name)) {

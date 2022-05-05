@@ -49,9 +49,9 @@ let TodoFilterBox = () => {
 
 let TodoFilter = () => {
   const { todoFilter } = useContext(TodoContext)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

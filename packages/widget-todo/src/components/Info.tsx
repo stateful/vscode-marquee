@@ -71,9 +71,9 @@ let ResetBox = React.memo(() => {
 })
 
 let TodoInfo = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

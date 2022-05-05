@@ -59,7 +59,7 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
     )
   }, [body, email])
 
-  const emailChange = useCallback((e) => {
+  const emailChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.value !== '') {
       if (!validator.validate(e.target.value)) {
         setEmailError(true)
@@ -72,7 +72,7 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
     setEmail(e.target.value)
   }, [])
 
-  const msgChange = useCallback((e) => {
+  const msgChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.value === '') {
       setMsgError(true)
     } else {

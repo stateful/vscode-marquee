@@ -8,8 +8,8 @@ interface State {
  * ErrorBoundary Component
  * ensures that widget is not rendered if an error is thrown during render
  */
-export class ErrorBoundary extends React.Component<unknown, State> {
-  constructor (props: unknown) {
+export class ErrorBoundary extends React.Component<any, State> {
+  constructor (props: any) {
     super(props)
     this.state = { hasError: false }
   }
