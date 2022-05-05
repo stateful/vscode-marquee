@@ -4,20 +4,22 @@ import { render, screen } from '@testing-library/react'
 // @ts-expect-error mock import
 import { ModeProvider, _setModeWidget } from '../../src/contexts/ModeContext'
 import ModeDialogContent from '../../src/components/ModeDialogContent'
+import { ThemeProvider } from '@mui/material/styles'
+import { theme } from '@vscode-marquee/utils'
 
 jest.mock('../../src/contexts/ModeContext')
-jest.mock('../../src/components/ModeConfigToolbar', () => (
-  () => <div>ModeConfigToolbar</div>
+jest.mock('../../src/components/ModeConfigToolbar', () => () => (
+  <div>ModeConfigToolbar</div>
 ))
-jest.mock('../../src/components/ModeTabPop', () => (
-  () => <div>ModeTabPop</div>
-))
+jest.mock('../../src/components/ModeTabPop', () => () => <div>ModeTabPop</div>)
 
-test('should render component correctly', () => {
+test('should render component correctly', async () => {
   render(
-    <ModeProvider>
-      <ModeDialogContent />
-    </ModeProvider>
+    <ThemeProvider theme={theme}>
+      <ModeProvider>
+        <ModeDialogContent />
+      </ModeProvider>
+    </ThemeProvider>
   )
 
   expect(screen.getByText('Mailbox')).toBeInTheDocument()
@@ -29,8 +31,8 @@ test('should render component correctly', () => {
   expect(screen.getByText('Snippets')).toBeInTheDocument()
   expect(screen.getByText('Notes')).toBeInTheDocument()
 
-  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0])
+  await userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0])
   expect(_setModeWidget).toBeCalledWith('default', 'github', false)
-  userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[1])
+  await userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[1])
   expect(_setModeWidget).toBeCalledTimes(2)
 })

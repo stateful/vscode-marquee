@@ -6,19 +6,7 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.0.0",
-    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@vscode-marquee/widget": "^0.1.0"
-  },
-  "devDependencies": {},
-  "peerDependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@types/react": "^17.0.37",
-    "react": "^17.0.2"
-  },
-  "peerDependenciesMeta": {
-    "@types/react": {
-      "optional": true
-    }
   }
 }

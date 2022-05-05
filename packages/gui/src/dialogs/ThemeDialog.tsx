@@ -1,30 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react'
+import { styled } from '@mui/material/styles'
 import {
   DialogContent,
   DialogActions,
   Button,
   Typography,
   Grid,
-} from "@material-ui/core";
+} from '@mui/material'
 
-import { makeStyles } from "@material-ui/core/styles";
+import { GlobalContext } from '@vscode-marquee/utils'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
-import { GlobalContext } from "@vscode-marquee/utils";
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+import backgrounds from '../utils/backgrounds'
+import { themes } from '../constants'
+import type { Theme } from '../types'
 
-import backgrounds from '../utils/backgrounds';
-import { themes } from "../constants";
-import type { Theme } from '../types';
+const PREFIX = 'ThemeDialog'
 
-const useStyles = makeStyles(() => ({
-  root: {
+const classes = {
+  root: `${PREFIX}-root`,
+  selectedButton: `${PREFIX}-selectedButton`
+}
+
+const StyledDialogContainer = styled(DialogContainer)(() => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1,
   },
-  selectedButton: {
-    color: "var(--vscode-foreground)",
-    border: "1px solid var(--vscode-button-foreground)",
+
+  [`& .${classes.selectedButton}`]: {
+    color: 'var(--vscode-foreground)',
+    border: '1px solid var(--vscode-button-foreground)',
   }
-}));
+}))
 
 interface TileStyle {
   minHeight: string
@@ -37,12 +44,12 @@ interface TileStyle {
 }
 
 const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
-  const classes = useStyles();
-  const { themeColor, background, setBackground } = useContext(GlobalContext);
-  const isSelected = (tile: Theme) => !isNaN(+background) && tile.id === parseInt(background, 10);
+
+  const { themeColor, background, setBackground } = useContext(GlobalContext)
+  const isSelected = (tile: Theme) => !isNaN(+background) && tile.id === parseInt(background, 10)
 
   return (
-    <DialogContainer fullScreen={true}>
+    <StyledDialogContainer fullScreen={true}>
       <>
         <DialogTitle onClose={close}>Themes</DialogTitle>
         <DialogContent dividers={true}>
@@ -50,18 +57,16 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
             <Grid container spacing={3}>
               {themes.map((tile) => {
                 const tileStyle: Partial<TileStyle> = {
-                  minHeight: "200px",
-                  borderRadius: "4px",
-                };
+                  minHeight: '200px',
+                  borderRadius: '4px',
+                }
                 if (!tile.background) {
-                  tileStyle.backgroundColor = tile.backgroundColor;
+                  tileStyle.backgroundColor = tile.backgroundColor
                 } else {
-                  tileStyle.backgroundImage = `url("${
-                    backgrounds(tile.background)
-                  }")`;
-                  tileStyle.backgroundSize = "100% auto";
-                  tileStyle.backgroundRepeat = "no-repeat";
-                  tileStyle.backgroundPositionY = "50%";
+                  tileStyle.backgroundImage = `url("${backgrounds(tile.background)}")`
+                  tileStyle.backgroundSize = '100% auto'
+                  tileStyle.backgroundRepeat = 'no-repeat'
+                  tileStyle.backgroundPositionY = '50%'
                 }
                 return (
                   <Grid
@@ -75,12 +80,18 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                     onClick={() => setBackground(tile.id.toString())}
                   >
                     <Grid container style={tileStyle} alignContent="flex-end">
-                      <Grid item style={{ width: "100%" }}>
+                      <Grid item style={{ width: '100%' }}>
                         <Grid
                           container
                           style={{
-                            padding: "8px",
-                            background: `linear-gradient(to right, rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.9) 0%, rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.5) 100%)`,
+                            padding: '8px',
+                            background: (
+                              'linear-gradient('
+                              + 'to right, '
+                              + `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.9) 0%, `
+                              + `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 0.5) 100%`
+                              + ')'
+                            )
                           }}
                           justifyContent="space-between"
                           alignItems="center"
@@ -88,7 +99,7 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                           <Grid item>
                             <Grid container direction="column">
                               <Grid item>
-                                <Typography style={{ fontWeight: "bold" }}>
+                                <Typography style={{ fontWeight: 'bold' }}>
                                   {tile.title}
                                 </Typography>
                               </Grid>
@@ -105,14 +116,14 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
                               variant="outlined"
                               className={classes.selectedButton}
                             >
-                              <Typography style={{ fontWeight: "bold" }}>Selected</Typography>
+                              <Typography style={{ fontWeight: 'bold' }}>Selected</Typography>
                             </Button>
                           </Grid>}
                         </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                );
+                )
               })}
             </Grid>
           </div>
@@ -123,8 +134,8 @@ const ThemeDialog = React.memo(({ close }: { close: () => void }) => {
           </Button>
         </DialogActions>
       </>
-    </DialogContainer>
-  );
-});
+    </StyledDialogContainer>
+  )
+})
 
-export default ThemeDialog;
+export default ThemeDialog

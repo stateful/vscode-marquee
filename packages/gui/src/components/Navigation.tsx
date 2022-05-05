@@ -1,63 +1,50 @@
-import React, { useContext, MouseEvent, useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import React, { useContext, MouseEvent, useState, useEffect } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
 
-import Tooltip from "@material-ui/core/Tooltip";
-import { Grid, Typography, IconButton, Chip, Badge } from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
-import InfoIcon from "@material-ui/icons/Info";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import SettingsIcon from "@material-ui/icons/Settings";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
-import styled from "@emotion/styled";
-import EdiText from "react-editext";
+import Tooltip from '@mui/material/Tooltip'
+import { Grid, Typography, IconButton, Chip, Badge, Box } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
+import InfoIcon from '@mui/icons-material/Info'
+import MoreIcon from '@mui/icons-material/MoreVert'
+import SettingsIcon from '@mui/icons-material/Settings'
+import FilterListIcon from '@mui/icons-material/FilterList'
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary'
+import styled from '@emotion/styled'
+import EdiText from 'react-editext'
 
-import { GlobalContext, MarqueeWindow } from "@vscode-marquee/utils";
-import { NavPop } from "@vscode-marquee/widget-welcome";
+import { GlobalContext, MarqueeWindow } from '@vscode-marquee/utils'
+import { NavPop } from '@vscode-marquee/widget-welcome'
 
-import ModeSelector from "./ModeSelector";
-import FeedbackDialog from "../dialogs/FeedbackDialog";
-import ThemeDialog from "../dialogs/ThemeDialog";
-import InfoDialog from "../dialogs/InfoDialog";
-import SettingsDialog from "../dialogs/SettingsDialog";
+import ModeSelector from './ModeSelector'
+import FeedbackDialog from '../dialogs/FeedbackDialog'
+import ThemeDialog from '../dialogs/ThemeDialog'
+import InfoDialog from '../dialogs/InfoDialog'
+import SettingsDialog from '../dialogs/SettingsDialog'
 
-declare const window: MarqueeWindow;
+const PREFIX = 'Navigation'
 
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "flex",
-    },
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
-  editInput: {
+const classes = {
+  editInput: `${PREFIX}-editInput`
+}
+
+const Root = styled('div')(() => ({
+  [`& .${classes.editInput}`]: {
     fontSize: 16,
-    backgroundColor: `var(--vscode-editor-background)`,
-    border: "0px solid black",
-    color: "var(--vscode-editor-foreground)",
-    minWidth: "100px",
-    padding: "8px",
-  },
-}));
+    backgroundColor: 'var(--vscode-editor-background)',
+    border: '0px solid black',
+    color: 'var(--vscode-editor-foreground)',
+    minWidth: '100px',
+    padding: '8px',
+  }
+}))
 
-const StyledEdiText = styled(EdiText)`
+declare const window: MarqueeWindow
+
+const StyledEditText = styled(EdiText)/* css */`
   button {
     color: var(--vscode-button-secondaryForeground);
     background-color: var(--vscode-button-secondaryBackground);
@@ -77,66 +64,65 @@ const StyledEdiText = styled(EdiText)`
       background-color: var(--vscode-button-secondaryHoverBackground);
     }
   }
-`;
+`
 
 const Navigation = () => {
-  const classes = useStyles();
-  const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext);
+  const { name, themeColor, setName, globalScope, setGlobalScope } = useContext(GlobalContext)
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
-  const [showThemeDialog, setShowThemeDialog] = useState(false);
-  const [showInfoDialog, setShowInfoDialog] = useState(false);
-  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null));
-  const [, setInputName] = useState(name);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false)
+  const [showThemeDialog, setShowThemeDialog] = useState(false)
+  const [showInfoDialog, setShowInfoDialog] = useState(false)
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null as (HTMLButtonElement | null))
+  const [, setInputName] = useState(name)
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isMenuOpen = Boolean(anchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-  useEffect(() => setInputName(name), [name]);
+  useEffect(() => setInputName(name), [name])
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+    setMobileMoreAnchorEl(null)
+  }
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
 
   const handleMobileMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
 
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
-  );
+  )
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {window.activeWorkspace && (<MenuItem onClick={() => { setGlobalScope(!globalScope); }}>
+      {window.activeWorkspace && (<MenuItem onClick={() => { setGlobalScope(!globalScope) }}>
         <Grid container direction="row" alignItems="stretch" spacing={1}>
           <Grid item>
             <Badge
@@ -150,13 +136,13 @@ const Navigation = () => {
           </Grid>
           <Grid item>
             <Typography variant="body2">
-              Global mode [{globalScope ? "on" : "off"}]
+              Global mode [{globalScope ? 'on' : 'off'}]
             </Typography>
           </Grid>
         </Grid>
       </MenuItem>)}
       <MenuItem onClick={handleMobileMenuClose}>
-        <div onClick={() => setShowSettingsDialog(true)  }>
+        <Root onClick={() => setShowSettingsDialog(true)  }>
           <Grid container direction="row" alignItems="stretch" spacing={1}>
             <Grid item>
               <SettingsIcon fontSize="small" />
@@ -165,7 +151,7 @@ const Navigation = () => {
               <Typography variant="body2">Settings</Typography>
             </Grid>
           </Grid>
-        </div>
+        </Root>
       </MenuItem>
       <MenuItem onClick={() => handleMobileMenuClose()}>
         <div onClick={() => setShowThemeDialog(true)}>
@@ -192,10 +178,12 @@ const Navigation = () => {
         </div>
       </MenuItem>
     </Menu>
-  );
+  )
 
   return (
-    <div className={classes.grow}>
+    <Box sx={{
+      flexGrow: 1,
+    }}>
       {showFeedbackDialog && <FeedbackDialog close={() => setShowFeedbackDialog(false)} />}
       {showThemeDialog && <ThemeDialog close={() => setShowThemeDialog(false)} />}
       {showInfoDialog && <InfoDialog close={() => setShowInfoDialog(false)} />}
@@ -205,7 +193,7 @@ const Navigation = () => {
         elevation={0}
         style={{
           background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, 1)`,
-          color: "var(--vscode-foreground)",
+          color: 'var(--vscode-foreground)',
         }}
       >
         <Toolbar variant="dense">
@@ -216,14 +204,14 @@ const Navigation = () => {
                   <Typography style={{ fontSize: 16 }}>Hi,</Typography>
                 </Grid>
                 <Grid item>
-                  <StyledEdiText
+                  <StyledEditText
                     onEditingStart={() => {
-                      setInputName('');
+                      setInputName('')
                     }}
                     onSave={(v: string) => {
-                      if (v !== "") {
-                        setName(v);
-                        setInputName(v);
+                      if (v !== '') {
+                        setName(v)
+                        setInputName(v)
                       }
                     }}
                     submitOnEnter={true}
@@ -233,12 +221,12 @@ const Navigation = () => {
                     viewProps={{
                       style: {
                         fontSize: 16,
-                        cursor: "pointer",
-                        fontWeight: "bold",
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
                       },
                     }}
                     inputProps={{
-                      placeholder: "Type...",
+                      placeholder: 'Type...',
                       className: classes.editInput,
                     }}
                     showButtonsOnHover
@@ -250,8 +238,16 @@ const Navigation = () => {
             </Grid>
           </Grid>
 
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <Box sx={{
+            flexGrow: 1,
+          }} />
+          <Box sx={{
+            display: {
+              xs: 'none',
+              sm: 'flex'
+            },
+          }}
+          >
             <Grid
               container
               direction="row"
@@ -265,6 +261,7 @@ const Navigation = () => {
                   title={`Toggle Global vs Workspace Scope (${globalScope ? 'Global' : 'Workspace'} Scope)`}
                 >
                   <IconButton
+                    data-testid="navigation-toggle-global-scope"
                     size="small"
                     onClick={() => setGlobalScope(!globalScope)}
                   >
@@ -304,7 +301,7 @@ const Navigation = () => {
               <Grid item>
                 <Chip
                   icon={<SendIcon aria-label="Send Feedback" fontSize="small" />}
-                  style={{ borderRadius: "0px" }}
+                  style={{ borderRadius: '0px' }}
                   size="small"
                   label="Feedback"
                   color="primary"
@@ -313,8 +310,14 @@ const Navigation = () => {
                 />
               </Grid>
             </Grid>
-          </div>
-          <div className={classes.sectionMobile}>
+          </Box>
+          <Box sx={{
+            display: {
+              xs: 'flex',
+              sm: 'none',
+            }
+          }}
+          >
             <Grid
               container
               direction="row"
@@ -348,13 +351,13 @@ const Navigation = () => {
                 </IconButton>
               </Grid>
             </Grid>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
-  );
-};
+    </Box>
+  )
+}
 
-export default React.memo(Navigation);
+export default React.memo(Navigation)

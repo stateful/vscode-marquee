@@ -6,19 +6,6 @@
   "main": "./build",
   "types": "./build/index.d.ts",
   "dependencies": {
-    "@vscode-marquee/utils": "^0.1.0",
-    "tangle": "^1.0.5"
-  },
-  "devDependencies": {},
-  "peerDependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@types/react": "^17.0.37",
-    "react": "^17.0.2"
-  },
-  "peerDependenciesMeta": {
-    "@types/react": {
-      "optional": true
-    }
+    "@vscode-marquee/utils": "^0.1.0"
   }
 }

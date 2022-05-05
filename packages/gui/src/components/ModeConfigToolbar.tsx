@@ -1,35 +1,49 @@
-import React, { useState } from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import { Grid, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from 'react'
+import { styled } from '@mui/material/styles'
+import Toolbar from '@mui/material/Toolbar'
+import { Grid, Button } from '@mui/material'
 
-import ModeMorePop from "./ModeMorePop";
-import ModeAddDialog from "../dialogs/ModeAddDialog";
+import ModeMorePop from './ModeMorePop'
+import ModeAddDialog from '../dialogs/ModeAddDialog'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'ModeConfigToolbar'
+
+const classes = {
+  root: `${PREFIX}-root`,
+  toolbar: `${PREFIX}-toolbar`,
+  vert: `${PREFIX}-vert`
+}
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     flexGrow: 1,
   },
-  toolbar: {
-    borderBottom: "1px solid var(--vscode-foreground)",
+
+  [`& .${classes.toolbar}`]: {
+    borderBottom: '1px solid var(--vscode-foreground)',
   },
-  vert: {
-    position: "relative",
+
+  [`& .${classes.vert}`]: {
+    position: 'relative',
     marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
+      width: 'auto',
     },
-  },
-}));
+  }
+}))
 
 const ModeConfigToolbar = () => {
-  const classes = useStyles();
-  const [showModeAddDialog, setShowModeAddDialog] = useState(false);
+
+  const [showModeAddDialog, setShowModeAddDialog] = useState(false)
 
   return (
-    <div className={classes.root}>
+    <Root className={classes.root}>
       {showModeAddDialog && <ModeAddDialog close={() => setShowModeAddDialog(false)} />}
       <Toolbar variant="dense" className={classes.toolbar}>
         <Grid container justifyContent="space-between" alignItems="center">
@@ -48,8 +62,8 @@ const ModeConfigToolbar = () => {
           </Grid>
         </Grid>
       </Toolbar>
-    </div>
-  );
-};
+    </Root>
+  )
+}
 
-export default ModeConfigToolbar;
+export default ModeConfigToolbar

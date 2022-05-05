@@ -1,74 +1,81 @@
-import React, { KeyboardEvent } from "react";
-import Chip from "@material-ui/core/Chip";
-import TextField from "@material-ui/core/TextField";
-import { InputAdornment, TextFieldProps } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { KeyboardEvent } from 'react'
+import Chip from '@mui/material/Chip'
+import TextField from '@mui/material/TextField'
+import { InputAdornment, styled, TextFieldProps } from '@mui/material'
 
-const useStyles = makeStyles(() => ({
-  textField: {
+const PREFIX = 'ChipInput'
+
+const classes = {
+  textField: `${PREFIX}-textField`,
+}
+
+const StyledTextField = styled(TextField)(() => ({
+  '.MuiInputBase-input': {
+    paddingTop: '35px',
+  },
+  [`&.${classes.textField}`]: {
     marginTop: 5,
   },
-}));
+}))
 
-type Props = Omit<TextFieldProps, "value" | "onChange"> & {
+type Props = Omit<TextFieldProps, 'value' | 'onChange'> & {
   value: Array<string>;
   onChange: (tags: Array<string>) => void;
-};
+}
 
-export default function TagsInput({
+export default function TagsInput ({
   onChange,
   value,
   onBlur,
   ...inputProps
 }: Props) {
-  const [inputValue, setInputValue] = React.useState("");
-  const classes = useStyles();
+  const [inputValue, setInputValue] = React.useState('')
 
   const addTag = () => {
     if (inputValue.length > 0 && !value.includes(inputValue)) {
       // only add new tag if it's not a duplicate
-      onChange([...value, inputValue]);
+      onChange([...value, inputValue])
     }
-    setInputValue("");
-  };
+    setInputValue('')
+  }
 
   const handleKeyDown = (
     event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (event.key === "Enter") {
-      addTag();
+    if (event.key === 'Enter') {
+      addTag()
     }
     if (
-      event.key === "Backspace" &&
+      event.key === 'Backspace' &&
       value.length > 0 &&
       inputValue.length === 0
     ) {
       // Removing last tag on backspace, and populating the text input with the
       // respective value.
-      event.preventDefault();
+      event.preventDefault()
 
-      const lastItem = value.slice(-1).pop()!;
-      setInputValue(lastItem);
-      onChange(value.slice(0, -1));
+      const lastItem = value.slice(-1).pop()!
+      setInputValue(lastItem)
+      onChange(value.slice(0, -1))
     }
-  };
+  }
 
   const handleDelete = (item: string) => () => {
-    onChange(value.filter((it) => it !== item));
-  };
+    onChange(value.filter((it) => it !== item))
+  }
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
-    addTag();
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    addTag()
     if (onBlur) {
-      onBlur(event);
+      onBlur(event)
     }
-  };
+  }
 
   return (
-    <TextField
+    <StyledTextField
       value={inputValue}
       InputProps={{
-        className:classes.textField,
+        className: classes.textField,
         startAdornment: value.map((item) => (
           <InputAdornment key={item} position="start">
             <Chip
@@ -85,5 +92,5 @@ export default function TagsInput({
       }}
       {...inputProps}
     />
-  );
+  )
 }

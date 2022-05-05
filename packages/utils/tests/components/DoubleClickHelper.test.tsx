@@ -5,5 +5,5 @@ import { DoubleClickHelper } from '../../src'
 
 test('should show no options', () => {
   render(<DoubleClickHelper content="foobar" />)
-  expect(screen.getByTitle('foobar')).toBeInTheDocument()
+  expect(screen.getByLabelText('foobar')).toBeInTheDocument()
 })

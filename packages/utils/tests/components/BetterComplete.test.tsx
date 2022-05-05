@@ -9,7 +9,7 @@ const options = [
   { value: 'foobarloo' }
 ]
 
-test('should show no options', () => {
+test('should show no options', async () => {
   const { container } = render(<BetterComplete
     id="foobar"
     field="foobarField"
@@ -21,11 +21,11 @@ test('should show no options', () => {
     getOptionSelected={jest.fn()}
     onChange={jest.fn()}
   />)
-  userEvent.type(container.querySelector('input')!, 'lol')
+  await userEvent.type(container.querySelector('input')!, 'lol')
   expect(screen.getByText('No options')).toBeInTheDocument()
 })
 
-test('should show options', () => {
+test('should show options', async () => {
   const { container } = render(<BetterComplete
     id="foobar"
     field="foobarField"
@@ -37,7 +37,7 @@ test('should show options', () => {
     getOptionSelected={jest.fn()}
     onChange={jest.fn()}
   />)
-  userEvent.type(container.querySelector('input')!, 'foo')
+  await userEvent.type(container.querySelector('input')!, 'foo')
   expect(screen.queryByText('No options')).not.toBeInTheDocument()
   expect(screen.getByText('barfooloo')).toBeInTheDocument()
   expect(screen.getByText('foobarloo')).toBeInTheDocument()

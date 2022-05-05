@@ -1,35 +1,41 @@
-import React, { useState, useContext, useMemo, MouseEvent } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, Badge } from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import TrickContent from "./TrickContent";
-import TrickContext, { TrickProvider } from "../Context";
+import React, { useState, useContext, useMemo, MouseEvent } from 'react'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, Badge, styled } from '@mui/material'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import TrickContent from './TrickContent'
+import TrickContext, { TrickProvider } from '../Context'
 
-const useStyles = makeStyles(() => ({
-  badge: {
-    minHeight: "16px",
-    minWidth: "16px",
-    height: "16px",
-    width: "16px",
+
+
+const PREFIX = 'WidgetProjectsListItem'
+
+const classes = {
+  badge: `${PREFIX}-badge`,
+}
+
+const Root = styled('div')(() => ({
+  [`&.${classes.badge}`]: {
+    minHeight: '16px',
+    minWidth: '16px',
+    height: '16px',
+    width: '16px',
   },
-}));
+}))
 
 let NavPop = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { tricks, read } = useContext(TrickContext);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { tricks, read } = useContext(TrickContext)
 
   const handleClick = (event: MouseEvent) => {
-    setAnchorEl(event.currentTarget as any);
-  };
+    setAnchorEl(event.currentTarget as any)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const open = Boolean(anchorEl);
-  const id = open ? "nav-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'nav-popover' : undefined
 
   // calculate unread tricks
   // read array includes active and inactive tricks
@@ -38,13 +44,13 @@ let NavPop = () => {
   let unread = useMemo(() => {
     return tricks.filter((trick) => {
       if (read.indexOf(trick.id) === -1) {
-        return trick;
+        return trick
       }
-    });
-  }, [tricks, read]);
+    })
+  }, [tricks, read])
 
   return (
-    <div>
+    <Root>
       <IconButton size="small" onClick={handleClick}>
         <Badge
           classes={{ badge: classes.badge }}
@@ -61,27 +67,27 @@ let NavPop = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container style={{ padding: "16px" }} direction="column">
-          <Grid item style={{ width: "350px" }}>
+        <Grid container style={{ padding: '16px' }} direction="column">
+          <Grid item style={{ width: '350px' }}>
             <TrickContent />
           </Grid>
         </Grid>
       </Popover>
-    </div>
-  );
-};
+    </Root>
+  )
+}
 
 const Component = () => (
   <TrickProvider>
     <NavPop />
   </TrickProvider>
-);
-export default React.memo(Component);
+)
+export default React.memo(Component)

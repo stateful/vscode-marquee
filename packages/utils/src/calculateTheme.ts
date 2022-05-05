@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from '@material-ui/core/styles'
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 import React from 'react'
 
 export default () => {
@@ -22,16 +22,68 @@ export default () => {
     shape: {
       borderRadius: 0,
     },
-    props: {
+    components: {
       MuiSvgIcon: {
-        htmlColor: vsCodeStyleMap['--vscode-icon-foreground'],
+        defaultProps: {
+          htmlColor: vsCodeStyleMap['--vscode-icon-foreground']
+        }
       },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            borderRadius: '0px',
+          }
+        }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: 'rgb(204, 204, 204)',
+            borderColor: 'var(--vscode-editorGhostText-foreground)',
+            '&:hover': {
+              backgroundColor: 'var(--vscode-tree-tableOddRowsBackground)',
+              color: 'rgb(204, 204, 204)',
+              borderColor: 'var(--vscode-tab-inactiveForeground)'
+            }
+          }
+        }
+      },
+      MuiButtonGroup: {
+        styleOverrides: {
+          grouped: {
+            '&:not(:last-of-type)': {
+              borderRight: '1px solid rgba(255, 255, 255, 0.23)'
+            }
+          }
+        }
+      },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            backgroundImage: 'none'
+          }
+        }
+      },
+      MuiPopover: {
+        styleOverrides: {
+          paper: {
+            backgroundImage: 'none'
+          }
+        }
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            left: 0
+          }
+        }
+      }
     },
     palette: {
-      type: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
+      mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
       divider: vsCodeStyleMap['--vscode-foreground'],
       background: {
-        default: vsCodeStyleMap['--vscode-editor-background'],
+        default: vsCodeStyleMap['--vscode-sideBar-background'],
         paper: vsCodeStyleMap['--vscode-sideBar-background'],
       },
       text: {
@@ -66,14 +118,7 @@ export default () => {
       button: {
         textTransform: 'none',
       },
-    },
-    overrides: {
-      MuiChip: {
-        root: {
-          borderRadius: '0px',
-        },
-      },
-    },
+    }
   }
 
   return createTheme(newTheme)

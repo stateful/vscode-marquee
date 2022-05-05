@@ -12,8 +12,6 @@
     "@chakra-ui/react": "^1.4.2",
     "@chakra-ui/system": "^1.9.1",
     "@chakra-ui/theme-tools": "1.1.2",
-    "@emotion/react": "11.1.5",
-    "@emotion/styled": "11.1.5",
     "framer-motion": "^5.6.0",
     "next": "latest",
     "next-mdx-remote": "^3.0.8",
@@ -28,8 +26,8 @@
   },
   "devDependencies": {
     "@types/node": "^14.6.0",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
     "next-sitemap": "^1.9.12",
     "typescript": "4.3.2"
   }

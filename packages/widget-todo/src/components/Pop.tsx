@@ -1,19 +1,19 @@
-import React, { useState, useContext, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
+import React, { useState, useContext, useCallback } from 'react'
+import Popover from '@mui/material/Popover'
 import {
   IconButton,
   Grid,
   Divider,
   Checkbox,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Tooltip from "@material-ui/core/Tooltip";
-import { HideWidgetContent } from "@vscode-marquee/widget";
+} from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Tooltip from '@mui/material/Tooltip'
+import { HideWidgetContent } from '@vscode-marquee/widget'
 
-import TodoContext from "../Context";
+import TodoContext from '../Context'
 
 let HideBox = React.memo(() => {
-  const { setHide, hide } = useContext(TodoContext);
+  const { setHide, hide } = useContext(TodoContext)
 
   return (
     <Grid
@@ -35,11 +35,11 @@ let HideBox = React.memo(() => {
         />
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 let ArchivedBox = React.memo(() => {
-  const { setShowArchived, showArchived } = useContext(TodoContext);
+  const { setShowArchived, showArchived } = useContext(TodoContext)
 
   return (
     <Grid
@@ -61,11 +61,11 @@ let ArchivedBox = React.memo(() => {
         />
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 let AutoDetectBox = React.memo(() => {
-  const { setAutoDetect, autoDetect } = useContext(TodoContext);
+  const { setAutoDetect, autoDetect } = useContext(TodoContext)
   return (
     <Grid
       container
@@ -94,22 +94,22 @@ let AutoDetectBox = React.memo(() => {
         />
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 let TodoPop = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+  const handleClick = useCallback((event: React.MouseEvent) => {
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "todo-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-popover' : undefined
 
   return (
     <div>
@@ -123,15 +123,15 @@ let TodoPop = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container style={{ padding: "16px" }} direction="column">
+        <Grid container style={{ padding: '16px' }} direction="column">
           <Grid item>
             <AutoDetectBox />
           </Grid>
@@ -152,7 +152,7 @@ let TodoPop = () => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(TodoPop);
+export default React.memo(TodoPop)

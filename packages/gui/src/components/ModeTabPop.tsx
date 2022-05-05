@@ -1,9 +1,9 @@
-import React, { useState, useContext, useCallback } from "react";
-import { Typography, ListItem, ListItemText, Popover } from "@material-ui/core";
+import React, { useState, useContext, useCallback } from 'react'
+import { Typography, ListItem, ListItemText, Popover } from '@mui/material'
 
-import ModeContext from "../contexts/ModeContext";
-import { ModeEditDialog } from "../dialogs/ModeEditDialog";
-import { presetModes } from '../constants';
+import ModeContext from '../contexts/ModeContext'
+import { ModeEditDialog } from '../dialogs/ModeEditDialog'
+import { presetModes } from '../constants'
 
 interface ModeTabPopProps {
   name: string
@@ -11,38 +11,38 @@ interface ModeTabPopProps {
 }
 
 const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [showModeTab, setShowModeTab] = useState(false);
-  const { _removeMode } = useContext(ModeContext);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
+  const [showModeTab, setShowModeTab] = useState(false)
+  const { _removeMode } = useContext(ModeContext)
 
-  const handleRightClick = useCallback((e) => {
-    e.preventDefault();
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
     //if this isn't one of the preset modes
     if (!presetModes.includes(name)) {
-      setAnchorEl(e.currentTarget);
+      setAnchorEl(e.currentTarget)
     }
-  }, [name]);
+  }, [name])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
   const handleDelete = useCallback(
     () => {
-      _removeMode(name);
+      _removeMode(name)
     },
     [name]
-  );
+  )
 
-  const open = Boolean(anchorEl);
-  const id = open ? "project-item-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'project-item-popover' : undefined
 
   return (
     <>
       {showModeTab && (
         <ModeEditDialog onClose={() => setShowModeTab(false)} name={name} />
       )}
-      <div style={{ width: "100%" }} onContextMenu={handleRightClick}>
+      <div style={{ width: '100%' }} onContextMenu={handleRightClick}>
         {children}
       </div>
       <Popover
@@ -51,19 +51,19 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
+          vertical: 'center',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left',
         }}
       >
         <ListItem
           button
           onClick={() => {
-            setShowModeTab(true);
-            handleClose();
+            setShowModeTab(true)
+            handleClose()
           }}
         >
           <ListItemText
@@ -73,8 +73,8 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
         <ListItem
           button
           onClick={() => {
-            handleDelete();
-            handleClose();
+            handleDelete()
+            handleClose()
           }}
         >
           <ListItemText
@@ -83,7 +83,7 @@ const ModeTabPop = ({ name, children }: ModeTabPopProps) => {
         </ListItem>
       </Popover>
     </>
-  );
-};
+  )
+}
 
-export default React.memo(ModeTabPop);
+export default React.memo(ModeTabPop)

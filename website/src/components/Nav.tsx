@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import NextLink from 'next/link'
 import {
   Box,
   Flex,
@@ -13,14 +13,14 @@ import {
   Collapse,
   Stack,
   Icon
-} from '@chakra-ui/react';
-import { BG_COLOR, HERO_BG_COLOR, NAVIGATION, Navigation } from '../constants';
-import { ChevronDownIcon, CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react'
+import { BG_COLOR, HERO_BG_COLOR, NAVIGATION, Navigation } from '../constants'
+import { ChevronDownIcon, CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 
 export const Nav = () => {
-  const { isOpen, onToggle } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode();
-  const isDark = colorMode === 'dark';
+  const { isOpen, onToggle } = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode()
+  const isDark = colorMode === 'dark'
 
   return (
     <Box as='nav' width={'100%'}>
@@ -35,10 +35,18 @@ export const Nav = () => {
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}
       >
-        <Flex my={'0'} mx={'auto'} align={'center'} maxWidth={'75rem'} justifyContent={'space-between'} flex={{ base: 1 }} justify={{ base: 'center', md: 'left' }}>
+        <Flex
+          my={'0'}
+          mx={'auto'}
+          align={'center'}
+          maxWidth={'75rem'}
+          justifyContent={'space-between'}
+          flex={{ base: 1 }}
+          justify={{ base: 'center', md: 'left' }}
+        >
           <Link href="https://stateful.com" isExternal>
             <Image
-              src={useColorModeValue("/assets/logo.png", "/assets/logo_white.png")}
+              src={useColorModeValue('/assets/logo.png', '/assets/logo_white.png')}
               padding={'10px'}
               width={'200px'}
             />
@@ -49,32 +57,32 @@ export const Nav = () => {
               icon={ isOpen ? <CloseIcon w={15} h={15} /> : <HamburgerIcon w={30} h={30} /> }
               variant={'outline'}
               aria-label={'Toggle Navigation'}
-            />
+              size="large" />
           </Flex>
-          <Flex align={"center"} justify={{ base: 'right' }} ml={10}>
+          <Flex align={'center'} justify={{ base: 'right' }} ml={10}>
             <Box display={{ base: 'none', sm: 'flex' }}>
               {Object.entries(NAVIGATION).map(([title, { href }], i) => (
                 href.startsWith('http')
                   ? <Button
-                      key={i}
+                    key={i}
+                    as="a"
+                    href={href}
+                    bg={BG_COLOR[colorMode]}
+                    ml={2}
+                    target={'_blank'}
+                    rel='noopener noreferrer'
+                  >
+                    {title}
+                  </Button>
+                  : <NextLink key={i} href={href} passHref>
+                    <Button
                       as="a"
-                      href={href}
                       bg={BG_COLOR[colorMode]}
                       ml={2}
-                      target={'_blank'}
-                      rel='noopener noreferrer'
                     >
                       {title}
                     </Button>
-                  : <NextLink key={i} href={href} passHref>
-                      <Button
-                        as="a"
-                        bg={BG_COLOR[colorMode]}
-                        ml={2}
-                      >
-                        {title}
-                      </Button>
-                    </NextLink>
+                  </NextLink>
               ))}
             </Box>
             <Flex ml={{ base: -5, sm: 2}}>
@@ -112,8 +120,8 @@ export const Nav = () => {
         <MobileNav />
       </Collapse>
     </Box>
-  );
-};
+  )
+}
 
 interface NavItem {
   label: string;
@@ -123,7 +131,7 @@ interface NavItem {
 }
 
 const MobileNav = () => {
-  const { colorMode } = useColorMode();
+  const { colorMode } = useColorMode()
   return (
     <Stack
       bg={HERO_BG_COLOR[colorMode]}
@@ -133,11 +141,11 @@ const MobileNav = () => {
         <MobileNavItem key={i} label={label} href={href} children={children} />
       ))}
     </Stack>
-  );
-};
+  )
+}
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure()
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -187,5 +195,5 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         </Stack>
       </Collapse>
     </Stack>
-  );
-};
+  )
+}

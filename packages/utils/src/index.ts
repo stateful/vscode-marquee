@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Channel from 'tangle/webviews'
-import { createTheme } from '@material-ui/core/styles'
 
 import type { Client } from 'tangle'
 
@@ -16,7 +15,7 @@ import GlobalContext, { GlobalProvider } from './contexts/Global'
 import type { MarqueeWindow, ContextProperties } from './types'
 
 const defaultChannel = 'vscode.marquee'
-const theme = createTheme(calculateTheme())
+const theme = calculateTheme()
 
 declare const window: MarqueeWindow
 
@@ -45,7 +44,7 @@ const jumpTo = (item: any) => {
 }
 
 type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
+  [K in keyof T]: [K, T[K]]
 }[keyof T][]
 
 /**

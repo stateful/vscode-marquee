@@ -15,7 +15,7 @@ test('renders component correctly', async () => {
     </GlobalProvider>
   )
   expect(screen.getByText('Create a todo')).toBeInTheDocument()
-  userEvent.click(screen.getByText('Create a todo'))
-  userEvent.type(screen.getByPlaceholderText('Type your todo...'), 'Some Todo')
-  userEvent.click(screen.getByText('Add to Workspace'))
+  await userEvent.click(screen.getByText('Create a todo'))
+  await userEvent.type(screen.getByPlaceholderText('Type your todo...'), 'Some Todo')
+  await userEvent.click(screen.getByText('Add to Workspace'))
 })

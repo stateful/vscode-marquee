@@ -1,34 +1,34 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState, useMemo } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
-import type { EmojiData } from "emoji-mart";
+} from '@mui/material'
+import type { EmojiData } from 'emoji-mart'
 
-import { DialogTitle, DialogContainer } from "@vscode-marquee/dialog";
-import EmojiPop from "../components/EmojiPop";
-import ModeContext from "../contexts/ModeContext";
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
+import EmojiPop from '../components/EmojiPop'
+import ModeContext from '../contexts/ModeContext'
 
 const ModeAddDialog = React.memo(({ close }: { close: () => void }) => {
-  const [modeName, setModeName] = useState("");
-  const { _addMode } = useContext(ModeContext);
-  const [emoji, setEmoji] = useState(null as (EmojiData | null));
-  let modeNameInputRef: HTMLButtonElement | null = null;
+  const [modeName, setModeName] = useState('')
+  const { _addMode } = useContext(ModeContext)
+  const [emoji, setEmoji] = useState(null as (EmojiData | null))
+  let modeNameInputRef: HTMLButtonElement | null = null
 
   const error = useMemo(() => {
-    return modeName === "";
-  }, [modeName]);
+    return modeName === ''
+  }, [modeName])
 
   const addMode = () => {
     if (!error) {
-      _addMode(modeName, emoji!);
-      close();
+      _addMode(modeName, emoji!)
+      close()
     } else {
-      modeNameInputRef!.focus();
+      modeNameInputRef!.focus()
     }
-  };
+  }
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -45,8 +45,8 @@ const ModeAddDialog = React.memo(({ close }: { close: () => void }) => {
           label="Mode Name"
           onKeyDown={(e) => {
             if (e.keyCode === 13 && e.metaKey) {
-              e.preventDefault();
-              addMode();
+              e.preventDefault()
+              addMode()
             }
           }}
         />
@@ -68,7 +68,7 @@ const ModeAddDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default ModeAddDialog;
+export default ModeAddDialog

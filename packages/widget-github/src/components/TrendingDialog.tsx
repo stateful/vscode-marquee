@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react'
 import {
   DialogContent,
   DialogActions,
@@ -6,28 +6,28 @@ import {
   IconButton,
   Grid,
   Badge
-} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
+} from '@mui/material'
+import SettingsIcon from '@mui/icons-material/Settings'
 
-import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog';
-import { BetterComplete } from '@vscode-marquee/utils';
+import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
+import { BetterComplete } from '@vscode-marquee/utils'
 
-import TrendContext from "../Context";
-import { sinceOptions, trendLanguages, spokenLanguages } from "../constants";
-import type { Since, SpokenLanguage } from '../types';
+import TrendContext from '../Context'
+import { sinceOptions, trendLanguages, spokenLanguages } from '../constants'
+import type { Since, SpokenLanguage } from '../types'
 
 function getOptionSelected (defaultOption: { name: string }) {
   return (option: SpokenLanguage, value: SpokenLanguage) => {
     if (!value) {
-      return defaultOption.name === option.name;
+      return defaultOption.name === option.name
     };
-    return option.name === value.name;
-  };
+    return option.name === value.name
+  }
 }
 
 const SpokenLanguageOption = () => {
-  const { spoken, _updateSpoken } = useContext(TrendContext);
-  const value = (spoken && spokenLanguages.find((s) => s.name === spoken)) || '';
+  const { spoken, _updateSpoken } = useContext(TrendContext)
+  const value = (spoken && spokenLanguages.find((s) => s.name === spoken)) || ''
 
   return (
     <Grid
@@ -54,12 +54,12 @@ const SpokenLanguageOption = () => {
         />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
 const ProgrammingLanguageOption = () => {
-  const { language, _updateLanguage } = useContext(TrendContext);
-  const value = (language && trendLanguages.find((s) => s.name === language)) || '';
+  const { language, _updateLanguage } = useContext(TrendContext)
+  const value = (language && trendLanguages.find((s) => s.name === language)) || ''
 
   return (
     <Grid
@@ -86,12 +86,12 @@ const ProgrammingLanguageOption = () => {
         />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
 const SinceOption = () => {
-  const { since, _updateSince } = useContext(TrendContext);
-  const value = (since && sinceOptions.find((s) => s.name === since)) || '';
+  const { since, _updateSince } = useContext(TrendContext)
+  const value = (since && sinceOptions.find((s) => s.name === since)) || ''
 
   return (
     <Grid
@@ -118,8 +118,8 @@ const SinceOption = () => {
         />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
 const GithubTrendingDialog = React.memo(({ close }: { close: () => void }) => {
   return (
@@ -144,18 +144,18 @@ const GithubTrendingDialog = React.memo(({ close }: { close: () => void }) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
 const TrendingDialogLauncher = () => {
-  const { language, since, spoken, showDialog, setShowDialog } = useContext(TrendContext);
+  const { language, since, spoken, showDialog, setShowDialog } = useContext(TrendContext)
 
   /**
    * show badge if settings are changed from default
    */
   const badgeContent = (since || spoken || language)
     ? 1
-    : 0;
+    : 0
 
   return (
     <>
@@ -171,7 +171,7 @@ const TrendingDialogLauncher = () => {
       </IconButton>
       { showDialog && ( <GithubTrendingDialog close={() => setShowDialog(false)} /> )}
     </>
-  );
-};
+  )
+}
 
-export default TrendingDialogLauncher;
+export default TrendingDialogLauncher

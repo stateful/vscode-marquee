@@ -1,18 +1,18 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
-import { jumpTo, theme } from '@vscode-marquee/utils';
+} from '@mui/material'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
+import { jumpTo, theme } from '@vscode-marquee/utils'
 
-import LinkIcon from "@material-ui/icons/Link";
+import LinkIcon from '@mui/icons-material/Link'
 
-import TodoContext from "../Context";
-import type { Todo } from '../types';
-import ChipInput from "../components/ChipInput";
+import TodoContext from '../Context'
+import type { Todo } from '../types'
+import ChipInput from '../components/ChipInput'
 
 interface TodoEditDialogParams {
   close: () => void
@@ -20,19 +20,19 @@ interface TodoEditDialogParams {
 }
 
 const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
-  const { _updateTodo, _removeTodo } = useContext(TodoContext);
+  const { _updateTodo, _removeTodo } = useContext(TodoContext)
 
-  let [error, setError] = useState(false);
-  let [body, setBody] = useState(todo.body);
-  let [tags, setTags] = useState(todo.tags);
+  let [error, setError] = useState(false)
+  let [body, setBody] = useState(todo.body)
+  let [tags, setTags] = useState(todo.tags)
 
   let saveTodo = useCallback(() => {
-    if (body === "") {
-      return setError(true);
+    if (body === '') {
+      return setError(true)
     }
-    _updateTodo({ ...todo, body, tags });
-    close();
-  }, [todo, body, tags]);
+    _updateTodo({ ...todo, body, tags })
+    close()
+  }, [todo, body, tags])
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -44,13 +44,13 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
             startIcon={<LinkIcon />}
             disableFocusRipple
             onClick={() => {
-              jumpTo(todo);
+              jumpTo(todo)
               if (close) {
-                close();
+                close()
               }
             }}
           >
-            {todo.path.split("/").reverse()[0].toUpperCase()}
+            {todo.path.split('/').reverse()[0].toUpperCase()}
           </Button>
         )}
       </DialogTitle>
@@ -60,7 +60,7 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
           fullWidth
           variant="filled"
           onChange={(e) => {
-            setBody(e.target.value);
+            setBody(e.target.value)
           }}
           name="body"
           multiline
@@ -71,11 +71,11 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
           placeholder="Type your todo..."
           onKeyDown={async (e) => {
             if (e.keyCode === 13 && e.metaKey) {
-              saveTodo();
+              saveTodo()
             }
           }}
         />
-        <div style={{ height: "8px", minWidth: "100%" }} />
+        <div style={{ height: '8px', minWidth: '100%' }} />
         <ChipInput
           fullWidth
           label="Add some tags!"
@@ -101,7 +101,7 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default TodoEditDialog;
+export default TodoEditDialog

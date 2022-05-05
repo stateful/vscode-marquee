@@ -1,25 +1,25 @@
-import React, { useState, useCallback, useContext } from "react";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, Divider, Button } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { HideWidgetContent } from "@vscode-marquee/widget";
+import React, { useState, useCallback, useContext } from 'react'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, Divider, Button } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { HideWidgetContent } from '@vscode-marquee/widget'
 
-import TrickContext from '../Context';
+import TrickContext from '../Context'
 
 const PopMenu = () => {
-  const { read, _resetRead } = useContext(TrickContext);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { read, _resetRead } = useContext(TrickContext)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+  const handleClick = useCallback((event: React.MouseEvent) => {
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "hide-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'hide-popover' : undefined
 
   return (
     <div>
@@ -33,15 +33,15 @@ const PopMenu = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container direction="column" style={{ minHeight: "80px", padding: "16px" }}>
+        <Grid container direction="column" style={{ minHeight: '80px', padding: '16px' }}>
           {read.length !== 0 ? (
             <>
               <Grid item>
@@ -56,8 +56,8 @@ const PopMenu = () => {
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        _resetRead();
-                        handleClose();
+                        _resetRead()
+                        handleClose()
                       }}
                     >
                       Reset Read Notifications
@@ -78,7 +78,7 @@ const PopMenu = () => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(PopMenu);
+export default React.memo(PopMenu)

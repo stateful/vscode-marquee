@@ -1,47 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
-import WeatherIcon from "react-icons-weather";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, CircularProgress } from "@material-ui/core";
+import WeatherIcon from 'react-icons-weather'
+import { Grid, Typography, CircularProgress, Box } from '@mui/material'
 
-import { GlobalContext, NetworkError } from "@vscode-marquee/utils";
-import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
+import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
+import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
 
-import WeatherContext, { WeatherProvider } from "./Context";
-import { WeatherDialogLauncher } from "./components/Dialog";
-import { kToF, kToC, formatAMPM } from './utils';
-import { SCALE_OPTIONS } from './constants';
-import type { Forecast } from './types';
-
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
-  },
-  sunset: {
-    paddingRight: '10px'
-  },
-  sunrise: {
-    paddingRight: '10px'
-  }
-}));
+import WeatherContext, { WeatherProvider } from './Context'
+import { WeatherDialogLauncher } from './components/Dialog'
+import { kToF, kToC, formatAMPM } from './utils'
+import { SCALE_OPTIONS } from './constants'
+import type { Forecast } from './types'
 
 let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'>) => {
-  const { scale } = useContext(WeatherContext);
-  const { themeColor } = useContext(GlobalContext);
+  const { scale } = useContext(WeatherContext)
+  const { themeColor } = useContext(GlobalContext)
 
-  const classes = useStyles();
-  const fiveHours = hourly.slice(0, 5);
+  const fiveHours = hourly.slice(0, 5)
 
   return (
     <Grid
       container
       direction="column"
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: '100%', width: '100%' }}
       wrap="nowrap"
     >
-      <Grid item xs={6} style={{ maxWidth: "100%" }}>
+      <Grid item xs={6} style={{ maxWidth: '100%' }}>
         <Grid
           container
           direction="row"
@@ -56,13 +41,13 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
               iconId={`${current.weather[0].id}`}
               flip="horizontal"
               rotate="90"
-              style={{ fontSize: "75px" }}
+              style={{ fontSize: '75px' }}
             />
           </Grid>
           <Grid item>
             <Grid container direction="column">
               <Grid aria-label="Current Temperature" item>
-                <Typography variant={"h5"}>
+                <Typography variant={'h5'}>
                   {scale === SCALE_OPTIONS[0].name && (
                     <>{kToF(current.temp)}&#176;F</>
                   )}
@@ -78,13 +63,17 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
               </Grid>
               <Grid item>
                 <Typography variant="body2">
-                  <span className={classes.sunrise}>🌅</span>
+                  <Box component="span" sx={{
+                    paddingRight: '10px'
+                  }}>🌅</Box>
                   {formatAMPM(new Date(current.sunrise * 1000))}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography variant="body2">
-                  <span className={classes.sunset}>🌇</span>
+                  <Box component="span" sx={{
+                    paddingRight: '10px'
+                  }}>🌇</Box>
                   {formatAMPM(new Date(current.sunset * 1000))}
                 </Typography>
               </Grid>
@@ -97,14 +86,14 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
         item
         xs={6}
         style={{
-          maxWidth: "100%",
+          maxWidth: '100%',
         }}
       >
         <div
           style={{
-            background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a})`,
-            padding: "8px",
-            borderRadius: "4px",
+            background: `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${themeColor.a || 1})`,
+            padding: '8px',
+            borderRadius: '4px',
           }}
         >
           <Grid container direction="column">
@@ -120,7 +109,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                 wrap="nowrap"
                 spacing={1}
               >
-                {fiveHours.map((hour: any) => {
+                {fiveHours.map((hour) => {
                   const forecast = formatAMPM(new Date(hour.dt * 1000))
                   return (
                     <Grid item key={hour.dt}>
@@ -136,11 +125,11 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                             iconId={`${hour.weather[0].id}`}
                             flip="horizontal"
                             rotate="90"
-                            style={{ fontSize: "30px" }}
+                            style={{ fontSize: '30px' }}
                           />
                         </Grid>
 
-                        <Grid aria-label={`Weather Forecase for ${forecast}`} item style={{ paddingTop: "8px" }}>
+                        <Grid aria-label={`Weather Forecase for ${forecast}`} item style={{ paddingTop: '8px' }}>
                           <Typography variant="caption">
                             {scale === SCALE_OPTIONS[0].name && (
                               <>{kToF(hour.temp)}&#176;F</>
@@ -157,7 +146,7 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
                         </Grid>
                       </Grid>
                     </Grid>
-                  );
+                  )
                 })}
               </Grid>
             </Grid>
@@ -165,17 +154,19 @@ let Today = React.memo(({ current, hourly }: Pick<Forecast, 'current' | 'hourly'
         </div>
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 const Weather = () => {
-  const classes = useStyles();
-  const { city, forecast, error, isFetching } = useContext(WeatherContext);
+  const { city, forecast, error, isFetching } = useContext(WeatherContext)
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
-        <div className={classes.widgetTitle}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -185,8 +176,8 @@ const Weather = () => {
             <Grid item xs={8}>
               {city && (
                 <Typography variant="subtitle1">
-                  Weather in{" "}
-                  {city.replace(", United States", "").replace(", USA", "")}
+                  Weather in{' '}
+                  {city.replace(', United States', '').replace(', USA', '')}
                 </Typography>
               )}
               {!city && <Typography variant="subtitle1">Weather</Typography>}
@@ -205,24 +196,24 @@ const Weather = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
           {error && (
             <Grid
               item
               xs
               style={{
-                overflow: "auto",
-                height: "100%",
-                width: "100%",
-                padding: "24px",
+                overflow: 'auto',
+                height: '100%',
+                width: '100%',
+                padding: '24px',
               }}
             >
               <NetworkError message={error.message} />
@@ -231,7 +222,7 @@ const Weather = () => {
           {!error && isFetching && (
             <Grid
               container
-              style={{ height: "100%" }}
+              style={{ height: '100%' }}
               alignItems="center"
               justifyContent="center"
               direction="column"
@@ -245,10 +236,10 @@ const Weather = () => {
             item
             xs
             style={{
-              overflow: "auto",
-              height: "100%",
-              width: "100%",
-              padding: "24px",
+              overflow: 'auto',
+              height: '100%',
+              width: '100%',
+              padding: '24px',
             }}
           >
             <Today current={forecast.current} hourly={forecast.hourly} />
@@ -256,11 +247,11 @@ const Weather = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 export default wrapper(() => (
   <WeatherProvider>
     <Weather />
   </WeatherProvider>
-), 'weather');
+), 'weather')

@@ -1,8 +1,8 @@
-import Script from 'next/script';
-import { Flex, FlexProps, Text, Link, Image, useColorModeValue, Icon, Box } from '@chakra-ui/react';
-import { SiGithub, SiTwitter, SiDiscord, SiGitter } from "react-icons/si";
+import Script from 'next/script'
+import { Flex, FlexProps, Text, Link, Image, useColorModeValue, Icon, Box } from '@chakra-ui/react'
+import { SiGithub, SiTwitter, SiDiscord, SiGitter } from 'react-icons/si'
 
-import { GOOGLE_ANALYTICS_ID, IS_PROD } from '../constants';
+import { GOOGLE_ANALYTICS_ID, IS_PROD } from '../constants'
 
 const socialLinks = [{
   href: 'https://twitter.com/statefulhq',
@@ -16,7 +16,7 @@ const socialLinks = [{
 }, {
   href: 'https://gitter.im/vscode-marquee/community',
   icon: SiGitter
-}];
+}]
 
 export const Footer = (props: FlexProps) => {
   return (
@@ -38,7 +38,7 @@ export const Footer = (props: FlexProps) => {
               display={'inline-block'}
               lineHeight={'2em'}
               position={'relative'}
-              color={useColorModeValue('gray.600', "gray.400")}
+              color={useColorModeValue('gray.600', 'gray.400')}
               transitionProperty={'color, bottom'}
               transitionDuration={'0.5s'}
               _hover={{ color: 'marquee', bottom: '5px' }}
@@ -52,7 +52,7 @@ export const Footer = (props: FlexProps) => {
           <Image
             w={100}
             filter={'grayscale(100%)'}
-            src={useColorModeValue("/assets/logo.png", "/assets/logo_white.png")}
+            src={useColorModeValue('/assets/logo.png', '/assets/logo_white.png')}
             padding={'10px'}
             width={'200px'}
           />
@@ -72,5 +72,5 @@ export const Footer = (props: FlexProps) => {
         </>
       )}
     </>
-  );
-};
+  )
+}

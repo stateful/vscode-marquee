@@ -1,5 +1,4 @@
-import React, { useState, useContext, useCallback, useMemo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useContext, useCallback, useMemo } from 'react'
 import {
   Typography,
   ListItem,
@@ -7,37 +6,18 @@ import {
   Popover,
   Grid,
   Tooltip,
-} from "@material-ui/core";
-import NoteIcon from "@material-ui/icons/Note";
-import copy from "copy-to-clipboard";
-import { stripHtml } from "string-strip-html";
-import { unescape } from "html-escaper";
+} from '@mui/material'
+import NoteIcon from '@mui/icons-material/Note'
+import copy from 'copy-to-clipboard'
+import { stripHtml } from 'string-strip-html'
+import { unescape } from 'html-escaper'
 
-import { MarqueeWindow, getEventListener } from "@vscode-marquee/utils";
+import { MarqueeWindow, getEventListener } from '@vscode-marquee/utils'
 
-import NoteContext from "../Context";
-import type { Note, Events } from '../types';
+import NoteContext from '../Context'
+import type { Note, Events } from '../types'
 
-declare const window: MarqueeWindow;
-
-const useStyles = makeStyles(() => ({
-  selected: {
-    color: "var(--vscode-foreground)",
-
-    "&.Mui-selected": {
-      backgroundColor: "var(--vscode-dropdown-background)",
-      color: "var(--vscode-foreground)",
-    },
-    "&.Mui-selected:hover": {
-      backgroundColor: "var(--vscode-dropdown-background)",
-      color: "var(--vscode-foreground)",
-    },
-    "&.MuiListItem-button:hover": {
-      backgroundColor: "var(--vscode-dropdown-background)",
-      color: "var(--vscode-foreground)",
-    },
-  },
-}));
+declare const window: MarqueeWindow
 
 interface NoteListItemProps {
   note: Note
@@ -49,15 +29,14 @@ interface NoteListItemProps {
 }
 
 let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListItemProps) => {
-  const eventListener = getEventListener<Events>();
-  const classes = useStyles();
-  const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext);
+  const eventListener = getEventListener<Events>()
+  const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext)
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const matchingWorkspace = useMemo(() => {
     if (!window.activeWorkspace) {
-      return true;
+      return true
     }
 
     if (
@@ -65,37 +44,37 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
       note && note.workspaceId &&
       window.activeWorkspace.id === note.workspaceId
     ) {
-      return true;
+      return true
     }
 
-    return false;
-  }, [note]);
+    return false
+  }, [note])
 
   const moveToCurrentWorkspace = useCallback(() => {
     if (!window.activeWorkspace || !window.activeWorkspace.id) {
-      return;
+      return
     }
 
-    _updateNote({ ...note, workspaceId: window.activeWorkspace.id });
-    setAnchorEl(null);
-  }, [note]);
+    _updateNote({ ...note, workspaceId: window.activeWorkspace.id })
+    setAnchorEl(null)
+  }, [note])
 
   const handleRightClick = useCallback((e) => {
-    e.preventDefault();
-    setAnchorEl(e.currentTarget);
-  }, []);
+    e.preventDefault()
+    setAnchorEl(e.currentTarget)
+  }, [])
 
   const handleClose = useCallback((e) => {
-    setAnchorEl(null);
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
+    setAnchorEl(null)
+    e.preventDefault()
+    e.stopPropagation()
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "note-item-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'note-item-popover' : undefined
 
   if (!note) {
-    return <></>;
+    return <></>
   }
   return (
     <ListItem
@@ -103,14 +82,29 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
       button
       disableRipple
       disableTouchRipple
-      className={classes.selected}
+      sx={{
+        color: 'var(--vscode-foreground)',
+
+        '&.Mui-selected': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.Mui-selected:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+        '&.MuiListItem-button:hover': {
+          backgroundColor: 'var(--vscode-dropdown-background)',
+          color: 'var(--vscode-foreground)',
+        },
+      }}
       style={style}
       key={keyVal}
       onClick={(e: any) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.target.innerHTML !== "Copy to clipboard") {
-          click(e, index);
+        e.preventDefault()
+        e.stopPropagation()
+        if (e.target.innerHTML !== 'Copy to clipboard') {
+          click(e, index)
         }
       }}
       onContextMenu={handleRightClick}
@@ -126,19 +120,19 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
-                vertical: "center",
-                horizontal: "center",
+                vertical: 'center',
+                horizontal: 'center',
               }}
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
             >
               <ListItem
                 button
                 onClick={(e) => {
-                  setShowEditDialog(note.id);
-                  handleClose(e);
+                  setShowEditDialog(note.id)
+                  handleClose(e)
                 }}
               >
                 <ListItemText
@@ -148,8 +142,8 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               <ListItem
                 button
                 onClick={(e) => {
-                  copy(note.body);
-                  handleClose(e);
+                  copy(note.body)
+                  handleClose(e)
                 }}
               >
                 <ListItemText
@@ -176,16 +170,16 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               <ListItem
                 button
                 onClick={(e) => {
-                  let newSnippet = note;
+                  let newSnippet = note
                   if (typeof note.text === 'string' && note.text.length > 0) {
-                    newSnippet.body = unescape(note.text);
+                    newSnippet.body = unescape(note.text)
                   } else {
-                    newSnippet.body = stripHtml(note.body).result;
+                    newSnippet.body = stripHtml(note.body).result
                   }
 
-                  _removeNote(note.id);
-                  eventListener.emit('addSnippet', newSnippet);
-                  handleClose(e);
+                  _removeNote(note.id)
+                  eventListener.emit('addSnippet', newSnippet)
+                  handleClose(e)
                 }}
               >
                 <ListItemText
@@ -197,8 +191,8 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               <ListItem
                 button
                 onClick={(e) => {
-                  _removeNote(note.id);
-                  handleClose(e);
+                  _removeNote(note.id)
+                  handleClose(e)
                 }}
               >
                 <ListItemText
@@ -214,7 +208,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               justifyContent="flex-start"
               alignItems="stretch"
               direction="row"
-              style={{ paddingTop: "4px" }}
+              style={{ paddingTop: '4px' }}
             >
               <Grid item>
                 <NoteIcon fontSize="small" />
@@ -231,7 +225,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
         }
       />
     </ListItem>
-  );
-};
+  )
+}
 
-export default React.memo(NoteListItem);
+export default React.memo(NoteListItem)

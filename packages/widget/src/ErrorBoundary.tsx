@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 interface State {
   hasError: boolean;
@@ -8,21 +8,21 @@ interface State {
  * ErrorBoundary Component
  * ensures that widget is not rendered if an error is thrown during render
  */
-export class ErrorBoundary extends React.Component<unknown, State> {
-  constructor(props: unknown) {
-    super(props);
-    this.state = { hasError: false };
+export class ErrorBoundary extends React.Component<any, State> {
+  constructor (props: any) {
+    super(props)
+    this.state = { hasError: false }
   }
 
-  componentDidCatch() {
-    this.setState({ hasError: true });
+  componentDidCatch () {
+    this.setState({ hasError: true })
   }
 
-  render() {
+  render () {
     if (this.state.hasError) {
-      return null;
+      return null
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }

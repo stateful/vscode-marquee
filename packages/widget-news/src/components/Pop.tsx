@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from "react";
-import Popover from "@material-ui/core/Popover";
-import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { HideWidgetContent } from "@vscode-marquee/widget";
+import React, { useState, useCallback } from 'react'
+import Popover from '@mui/material/Popover'
+import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { HideWidgetContent } from '@vscode-marquee/widget'
 
-import { HN_CHANNELS } from '../constants';
-import type { HackerNewsChannels } from '../types';
+import { HN_CHANNELS } from '../constants'
+import type { HackerNewsChannels } from '../types'
 
 interface PopMenuProps {
   value: HackerNewsChannels
@@ -13,18 +13,18 @@ interface PopMenuProps {
 }
 
 const PopMenu = (props: PopMenuProps) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+  const handleClick = useCallback((event: React.MouseEvent) => {
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const open = Boolean(anchorEl);
-  const id = open ? "hide-popover" : undefined;
+  const open = Boolean(anchorEl)
+  const id = open ? 'hide-popover' : undefined
 
   return (
     <div>
@@ -38,15 +38,15 @@ const PopMenu = (props: PopMenuProps) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <Grid container direction="column" style={{ minHeight: "80px", padding: "16px" }}>
+        <Grid container direction="column" style={{ minHeight: '80px', padding: '16px' }}>
           <Grid item>
             <FormControl fullWidth>
               <InputLabel id="marquee-news-channel">Channel</InputLabel>
@@ -55,8 +55,8 @@ const PopMenu = (props: PopMenuProps) => {
                 value={props.value}
                 label="Age"
                 onChange={(e) => {
-                  props.onChannelChange(e.target.value as HackerNewsChannels);
-                  handleClose();
+                  props.onChannelChange(e.target.value as HackerNewsChannels)
+                  handleClose()
                 }}
               >
                 {HN_CHANNELS.map(([first, ...rest], i) => (
@@ -77,7 +77,7 @@ const PopMenu = (props: PopMenuProps) => {
         </Grid>
       </Popover>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(PopMenu);
+export default React.memo(PopMenu)

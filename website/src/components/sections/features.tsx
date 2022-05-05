@@ -1,5 +1,5 @@
-import { CheckCircleIcon, EditIcon, CopyIcon } from "@chakra-ui/icons";
-import { SimpleGrid, Box, Flex, Heading, IconButton } from "@chakra-ui/react";
+import { CheckCircleIcon, EditIcon, CopyIcon } from '@chakra-ui/icons'
+import { SimpleGrid, Box, Flex, Heading, IconButton } from '@chakra-ui/react'
 
 const features = [{
   title: 'Productivity Tools',
@@ -25,12 +25,17 @@ const features = [{
     to avoid leaving the editor. You can also automatically generate
     todo's from code comments and create or insert code snippets with
   </Box>
-}];
+}]
 
 export const Features = () => (
   <SimpleGrid minChildWidth={300} spacingX={{ sm: 10, md: 20 }} columns={{ sm: 1, md: 1}}>
     {features.map((f, i) => (
-      <Flex key={i} mb={{ base: 10 }} flexFlow={{ base: 'row wrap', sm: 'wrap' }} flexDirection={{ base: 'row', sm: 'column' }}>
+      <Flex
+        key={i}
+        mb={{ base: 10 }}
+        flexFlow={{ base: 'row wrap', sm: 'wrap' }}
+        flexDirection={{ base: 'row', sm: 'column' }}
+      >
         <IconButton
           as='div'
           aria-label={f.title}
@@ -40,10 +45,10 @@ export const Features = () => (
           mr={5}
           _hover={{}}
           _active={{}}
-        />
+          size="large" />
         <Heading w={{ base: 'auto', sm: 'full' }} mb={{ base: 4 }} as="h3" fontSize="2em">{f.title}</Heading>
         {f.description}
       </Flex>
     ))}
   </SimpleGrid>
-);
+)

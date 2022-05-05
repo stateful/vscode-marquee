@@ -2,7 +2,7 @@ import React, {
   useState,
   useRef,
   useCallback,
-} from "react";
+} from 'react'
 import {
   DialogContent,
   DialogActions,
@@ -12,74 +12,74 @@ import {
   InputAdornment,
   Typography,
   Divider,
-} from "@material-ui/core";
-import EmailIcon from "@material-ui/icons/Email";
-import validator from "email-validator";
+} from '@mui/material'
+import EmailIcon from '@mui/icons-material/Email'
+import validator from 'email-validator'
 
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
-import { sendFeedbackRequest } from '../utils';
+import { sendFeedbackRequest } from '../utils'
 
 const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
-  const [sentError, setSentError] = useState<Error | undefined>();
-  const [msgError, setMsgError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [body, setBody] = useState("");
-  const [email, setEmail] = useState("");
-  const [sendingData, isSendingData] = useState(false);
-  const msgInput = useRef();
+  const [sentError, setSentError] = useState<Error | undefined>()
+  const [msgError, setMsgError] = useState(false)
+  const [emailError, setEmailError] = useState(false)
+  const [body, setBody] = useState('')
+  const [email, setEmail] = useState('')
+  const [sendingData, isSendingData] = useState(false)
+  const msgInput = useRef()
 
   const sendFeedback = useCallback(() => {
     if (msgError) {
       // @ts-expect-error no definition of `current`
-      msgInput.current.focus();
-      return;
+      msgInput.current.focus()
+      return
     }
     if (emailError) {
-      return;
+      return
     }
     if (!body) {
-      return setMsgError(true);
+      return setMsgError(true)
     }
     if (!email) {
-      return setEmailError(true);
+      return setEmailError(true)
     }
 
-    isSendingData(true);
+    isSendingData(true)
     sendFeedbackRequest(body, email).then(
       () => {
-        isSendingData(false);
-        setSentError(undefined);
-        close();
+        isSendingData(false)
+        setSentError(undefined)
+        close()
       },
       (err: Error) => {
-        setSentError(err);
-        isSendingData(false);
+        setSentError(err)
+        isSendingData(false)
       }
-    );
-  }, [body, email]);
+    )
+  }, [body, email])
 
-  const emailChange = useCallback((e) => {
-    if (e.target.value !== "") {
+  const emailChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.target.value !== '') {
       if (!validator.validate(e.target.value)) {
-        setEmailError(true);
+        setEmailError(true)
       } else {
-        setEmailError(false);
+        setEmailError(false)
       }
     } else {
-      setEmailError(false);
+      setEmailError(false)
     }
-    setEmail(e.target.value);
-  }, []);
+    setEmail(e.target.value)
+  }, [])
 
-  const msgChange = useCallback((e) => {
-    if (e.target.value === "") {
-      setMsgError(true);
+  const msgChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.target.value === '') {
+      setMsgError(true)
     } else {
-      setMsgError(false);
+      setMsgError(false)
     }
-    setBody(e.target.value);
-  }, []);
+    setBody(e.target.value)
+  }, [])
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -120,7 +120,7 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
                   onChange={msgChange}
                   onKeyDown={async (e) => {
                     if (e.keyCode === 13 && e.metaKey) {
-                      sendFeedback();
+                      sendFeedback()
                     }
                   }}
                   name="body"
@@ -141,7 +141,7 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
                   onChange={emailChange}
                   onKeyDown={async (e) => {
                     if (e.keyCode === 13 && e.metaKey) {
-                      sendFeedback();
+                      sendFeedback()
                     }
                   }}
                   name="email"
@@ -172,7 +172,7 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
         </>
       )}
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default FeedbackDialog;
+export default FeedbackDialog

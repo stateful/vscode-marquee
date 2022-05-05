@@ -1,18 +1,18 @@
-import React, { MouseEventHandler } from "react";
-import { Dialog } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import React, { MouseEventHandler } from 'react'
+import { Dialog } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 
-interface Props extends Partial<React.PropsWithChildren<{ classes: ClassNameMap<string> }>> {
+interface Props {
+  children: React.ReactNode,
   fullScreen?: boolean
   fullWidth?: boolean
   onClose?: MouseEventHandler<HTMLButtonElement>
 }
 
 const DialogContainer = ({ children, fullScreen, ...props }: Props) => {
-  const materialTheme = useTheme();
-  const isFullScreen = useMediaQuery(materialTheme.breakpoints.down("xs"));
+  const materialTheme = useTheme()
+  const isFullScreen = useMediaQuery(materialTheme.breakpoints.down('sm'))
   return (
     <Dialog
       open={true}
@@ -21,7 +21,7 @@ const DialogContainer = ({ children, fullScreen, ...props }: Props) => {
     >
       {children}
     </Dialog>
-  );
-};
+  )
+}
 
-export default React.memo(DialogContainer);
+export default React.memo(DialogContainer)

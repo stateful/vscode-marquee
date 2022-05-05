@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*",

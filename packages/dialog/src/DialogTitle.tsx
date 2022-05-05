@@ -1,48 +1,39 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler } from 'react'
 
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
-import { withStyles, Theme } from "@material-ui/core/styles";
-import { Styles, ClassNameMap } from "@material-ui/core/styles/withStyles";
+import MuiDialogTitle from '@mui/material/DialogTitle'
+import CloseIcon from '@mui/icons-material/Close'
 
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 
-import { theme } from "@vscode-marquee/utils";
-
-const styles = (theme: Theme): Styles<Theme, {}> => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-interface Props extends React.PropsWithChildren<{ classes: ClassNameMap<string> }> {
+interface Props {
+  children: React.ReactNode,
   onClose?: MouseEventHandler<HTMLButtonElement>
 }
 
-const DialogTitle = withStyles(styles(theme))((props: Props) => {
-  const { children, classes, onClose, ...other } = props;
+const DialogTitle = (({ children, onClose, ...other }: Props) => {
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+    <MuiDialogTitle sx={{
+      margin: 0,
+      padding: theme => theme.spacing(2),
+    }} {...other}>
+      <Typography variant="h6" component="span">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
-          className={classes.closeButton}
+          sx={{
+            position: 'absolute',
+            right: theme => theme.spacing(1),
+            top: theme => theme.spacing(1),
+            color: theme => theme.palette.grey[500],
+          }}
           onClick={onClose}
-        >
+          size="large">
           <CloseIcon />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
-  );
-});
+  )
+})
 
-export default DialogTitle;
+export default DialogTitle

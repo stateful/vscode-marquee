@@ -56,11 +56,11 @@ test('renders component correctly', async () => {
   })
 
   expect(window.vscode.postMessage).toBeCalledTimes(0)
-  userEvent.click(screen.getByText('Like'))
+  await userEvent.click(screen.getByText('Like'))
   expect(window.vscode.postMessage).toBeCalledTimes(1)
   expect(window.vscode.postMessage.mock.calls).toMatchSnapshot()
 
-  userEvent.click(screen.getByText('Mark as read'))
+  await userEvent.click(screen.getByText('Mark as read'))
   expect(screen.queryByText('Hello World!')).not.toBeInTheDocument()
   expect(screen.getByText(tipp)).toBeInTheDocument()
 })

@@ -1,16 +1,16 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from 'react'
 import {
   DialogContent,
   DialogActions,
   Button,
   TextField,
-} from "@material-ui/core";
-import { theme } from '@vscode-marquee/utils';
-import { DialogContainer, DialogTitle } from "@vscode-marquee/dialog";
+} from '@mui/material'
+import { theme } from '@vscode-marquee/utils'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 
-import NoteEditor from "../components/Editor";
-import NoteContext from "../Context";
-import type { Note } from '../types';
+import NoteEditor from '../components/Editor'
+import NoteContext from '../Context'
+import type { Note } from '../types'
 
 interface NoteEditDialogProps {
   close: () => void
@@ -18,21 +18,21 @@ interface NoteEditDialogProps {
 }
 
 const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
-  const { _updateNote, setNoteSelected, _removeNote } = useContext(NoteContext);
-  const [error, setError] = useState(false);
-  const [body, setBody] = useState(note.body);
-  const [text, setText] = useState(note.text);
-  const [title, setTitle] = useState(note.title);
+  const { _updateNote, setNoteSelected, _removeNote } = useContext(NoteContext)
+  const [error, setError] = useState(false)
+  const [body, setBody] = useState(note.body)
+  const [text, setText] = useState(note.text)
+  const [title, setTitle] = useState(note.title)
 
   const updateNote = useCallback(() => {
-    if (title === "") {
-      return setError(true);
+    if (title === '') {
+      return setError(true)
     }
 
-    _updateNote({ ...note, body, title, text });
-    setNoteSelected(note.id);
-    close();
-  }, [title, body]);
+    _updateNote({ ...note, body, title, text })
+    setNoteSelected(note.id)
+    close()
+  }, [title, body])
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
@@ -43,7 +43,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
           fullWidth
           variant="filled"
           onChange={(e) => {
-            setTitle(e.target.value);
+            setTitle(e.target.value)
           }}
           label="Title"
           placeholder="Title of Note"
@@ -52,19 +52,19 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
           value={title}
           onKeyDown={(e) => {
             if (e.keyCode === 13 && e.metaKey) {
-              e.preventDefault();
-              updateNote();
+              e.preventDefault()
+              updateNote()
             }
           }}
         />
-        <div style={{ height: "8px", minWidth: "100%" }} />
+        <div style={{ height: '8px', minWidth: '100%' }} />
 
         <NoteEditor
           border="1px solid var(--vscode-foreground)"
           name="add"
           _change={(newBody, newText) => {
-            setBody(newBody);
-            setText(newText);
+            setBody(newBody)
+            setText(newText)
           }}
           body={body}
           text={text}
@@ -82,7 +82,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
         </Button>
       </DialogActions>
     </DialogContainer>
-  );
-});
+  )
+})
 
-export default EditDialog;
+export default EditDialog

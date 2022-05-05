@@ -1,69 +1,57 @@
-import React, { useContext, useMemo } from "react";
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from "@material-ui/core";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
-import wrapper, { Dragger, HidePop } from "@vscode-marquee/widget";
-import StarIcon from "@material-ui/icons/Star";
-import StarHalfIcon from "@material-ui/icons/StarHalf";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useContext, useMemo } from 'react'
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress, Box } from '@mui/material'
+import AvatarGroup from '@mui/material/AvatarGroup'
+import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
+import StarIcon from '@mui/icons-material/Star'
+import StarHalfIcon from '@mui/icons-material/StarHalf'
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCodeBranch } from "@fortawesome/free-solid-svg-icons/faCodeBranch";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
 
-import { NetworkError } from "@vscode-marquee/utils";
+import { NetworkError } from '@vscode-marquee/utils'
 
-import TrendContext, { TrendProvider } from "./Context";
-import TrendingDialogLauncher from "./components/TrendingDialog";
-import Filter from "./components/Filter";
-
-const useStyles = makeStyles(() => ({
-  widgetTitle: {
-    borderBottom: "1px solid var(--vscode-foreground)",
-    padding: "8px",
-  },
-  trendEntry: {
-    marginTop: "4px",
-    marginBottom: "4px",
-    padding: "16px",
-    borderBottom: "1px solid var(--vscode-foreground)",
-  },
-}));
+import TrendContext, { TrendProvider } from './Context'
+import TrendingDialogLauncher from './components/TrendingDialog'
+import Filter from './components/Filter'
 
 let GChip = ({ ...rest }) => {
   return (
     <Chip
       variant="outlined"
-      style={{ fontSize: "12px", border: 0 }}
+      style={{ fontSize: '12px', border: 0 }}
       size="small"
       {...rest}
     />
-  );
-};
+  )
+}
 
 let Github = () => {
-  const classes = useStyles();
-  const { trends, isFetching, error, trendFilter } = useContext(TrendContext);
+  const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
 
   const filteredTrends = useMemo(() => {
-    let filteredTrends = trends;
+    let filteredTrends = trends
 
     if (trendFilter) {
       let filteredArr = filteredTrends.filter((entry) => {
         return (
           entry.description.toLowerCase().indexOf(trendFilter.toLowerCase()) !==
           -1
-        );
-      });
-      filteredTrends = filteredArr;
+        )
+      })
+      filteredTrends = filteredArr
     }
 
-    return filteredTrends;
-  }, [trends, trendFilter]);
+    return filteredTrends
+  }, [trends, trendFilter])
 
   return (
     <>
-      <Grid item xs={1} style={{ maxWidth: "100%" }}>
-        <div className={classes.widgetTitle}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-foreground)',
+          padding: '8px',
+        }}>
           <Grid
             container
             direction="row"
@@ -92,25 +80,25 @@ let Github = () => {
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Grid>
       <Grid item xs>
         <Grid
           container
           wrap="nowrap"
           direction="column"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
-          <Grid item xs style={{ overflow: "auto" }}>
+          <Grid item xs style={{ overflow: 'auto' }}>
             {error && (
               <Grid
                 item
                 xs
                 style={{
-                  overflow: "auto",
-                  height: "100%",
-                  width: "100%",
-                  padding: "24px",
+                  overflow: 'auto',
+                  height: '100%',
+                  width: '100%',
+                  padding: '24px',
                 }}
               >
                 <NetworkError message={error.message} />
@@ -119,7 +107,7 @@ let Github = () => {
             {isFetching && (
               <Grid
                 container
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
                 alignItems="center"
                 justifyContent="center"
                 direction="column"
@@ -132,7 +120,7 @@ let Github = () => {
             {!isFetching && !error && filteredTrends.length === 0 && (
               <Grid
                 container
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
                 alignItems="center"
                 justifyContent="center"
                 direction="column"
@@ -152,7 +140,12 @@ let Github = () => {
                     key={entry.url}
                     container
                     direction="column"
-                    className={classes.trendEntry}
+                    sx={{
+                      marginTop: '4px',
+                      marginBottom: '4px',
+                      padding: '16px',
+                      borderBottom: '1px solid var(--vscode-foreground)',
+                    }}
                   >
                     <Grid
                       container
@@ -163,8 +156,9 @@ let Github = () => {
                       <Grid item>
                         <Link
                           component="a"
-                          href={`${entry.url}`}
+                          href={entry.url}
                           target="_blank"
+                          underline="hover"
                         >
                           <Typography variant="body2">
                             {entry.author}/{entry.name}
@@ -236,31 +230,31 @@ let Github = () => {
                               <Avatar
                                 key={contributor.username}
                                 style={{
-                                  height: "22px",
-                                  width: "22px",
+                                  height: '22px',
+                                  width: '22px',
                                   border: 0,
                                 }}
                                 src={contributor.avatar}
                                 alt={contributor.username}
                               />
-                            );
+                            )
                           })}
                         </AvatarGroup>
                       </Grid>
                     </Grid>
                   </Grid>
-                );
+                )
               })}
           </Grid>
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 const Widget = () => (
   <TrendProvider>
     <Github />
   </TrendProvider>
-);
-export default wrapper(Widget, 'github');
+)
+export default wrapper(Widget, 'github')

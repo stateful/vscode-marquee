@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { Grid, Button, Typography, IconButton } from "@material-ui/core";
+import React, { useContext, useState } from 'react'
+import SettingsIcon from '@mui/icons-material/Settings'
+import { Grid, Button, Typography, IconButton } from '@mui/material'
 
-import ModeContext from "../contexts/ModeContext";
-import SettingsDialog from "../dialogs/SettingsDialog";
+import ModeContext from '../contexts/ModeContext'
+import SettingsDialog from '../dialogs/SettingsDialog'
 
 interface HideWidgetContentProp {
   name: string
 }
 
 const HideWidgetContent = ({ name }: HideWidgetContentProp) => {
-  const { _removeModeWidget } = useContext(ModeContext);
-  const [showSettings, setShowSettings] = useState(false);
+  const { _removeModeWidget } = useContext(ModeContext)
+  const [showSettings, setShowSettings] = useState(false)
 
   return (
     <Grid container spacing={1} direction="column" alignItems="center">
@@ -33,7 +33,7 @@ const HideWidgetContent = ({ name }: HideWidgetContentProp) => {
         {showSettings && <SettingsDialog close={() => setShowSettings(false)} />}
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default React.memo(HideWidgetContent);
+export default React.memo(HideWidgetContent)
