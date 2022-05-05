@@ -16,6 +16,7 @@ import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-ma
 import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@vscode-marquee/widget-markdown/extension'
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
+import { activate as activateProjectInfoWidget, ProjectInfoExtensionManager } from '@vscode-marquee/widget-project-info/extension'
 
 import telemetry from './telemetry'
 import { activateGUI } from './utils'
@@ -32,7 +33,8 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/todo-widget': activateTodoWidget,
   '@vscode-marquee/markdown-widget': activateMarkdownWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
-  '@vscode-marquee/snippets-widget': activateSnippetsWidget
+  '@vscode-marquee/snippets-widget': activateSnippetsWidget,
+  '@vscode-marquee/project-info': activateProjectInfoWidget
 }
 
 interface ExportFormat<T = any> {
@@ -234,6 +236,12 @@ export default class StateManager implements vscode.Disposable {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/snippets-widget'
     )?.exports.marquee.disposable as SnippetExtensionManager
+  }
+
+  get projectInfoWidget () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/project-info-widget'
+    )?.exports.marquee.disposable as ProjectInfoExtensionManager
   }
 
   get global () {

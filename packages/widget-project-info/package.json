@@ -1,0 +1,23 @@
+{
+  "name": "@vscode-marquee/widget-project-info",
+  "description": "Marquee Project Info Widget",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@vscode-marquee/utils": "^0.1.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@types/react": "^17.0.37",
+    "react": "^17.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
+}
