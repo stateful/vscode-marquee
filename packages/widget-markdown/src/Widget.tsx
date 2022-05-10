@@ -4,43 +4,22 @@ import {
   Grid,
   ListItem,
   ListItemText,
-  makeStyles,
   TextField,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 
 import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
 import SplitterLayout from 'react-splitter-layout'
-import ClearIcon from '@material-ui/icons/Clear'
+import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
 import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 
-const useStyles = makeStyles(() => ({
-  selected: {
-    color: 'var(--vscode-foreground)',
-
-    '&.Mui-selected': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.Mui-selected:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-    '&.MuiListItem-button:hover': {
-      backgroundColor: 'var(--vscode-dropdown-background)',
-      color: 'var(--vscode-foreground)',
-    },
-  },
-}))
-
 const Markdown = () => {
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
-  const classes = useStyles()
 
   const {
     markdownDocuments,
@@ -166,7 +145,25 @@ const Markdown = () => {
                               button
                               disableRipple
                               disableTouchRipple
-                              className={classes.selected}
+                              sx={{
+                                color: 'var(--vscode-foreground)',
+
+                                '&.Mui-selected': {
+                                  backgroundColor:
+                                    'var(--vscode-dropdown-background)',
+                                  color: 'var(--vscode-foreground)',
+                                },
+                                '&.Mui-selected:hover': {
+                                  backgroundColor:
+                                    'var(--vscode-dropdown-background)',
+                                  color: 'var(--vscode-foreground)',
+                                },
+                                '&.MuiListItem-button:hover': {
+                                  backgroundColor:
+                                    'var(--vscode-dropdown-background)',
+                                  color: 'var(--vscode-foreground)',
+                                },
+                              }}
                               style={style}
                               key={key}
                               onClick={(e: any) => {
