@@ -206,6 +206,10 @@ const Markdown = () => {
                 <ReactMarkdown>
                   {selectedDocument?.content ?? 'No document selected'}
                 </ReactMarkdown>
+                <div
+                  // hack to get some padding under the markdown
+                  style={{ height: '16px' }}
+                />
               </div>
             </SplitterLayout>
           </Grid>
