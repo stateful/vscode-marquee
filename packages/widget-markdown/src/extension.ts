@@ -7,18 +7,23 @@ import { v5 as uuid } from 'uuid'
 
 const STATE_KEY = 'widgets.markdown'
 
-const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
+const getMarkdownDocumentId = (path: string) => {
+  // derive deterministic ID for files from path
+  const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
+  return uuid(path, FILE_UUID_NAMESPACE)
+}
+
+const uriToMarkdownDocument = async (fileUri: vscode.Uri) => ({
+  id: getMarkdownDocumentId(fileUri.path),
+  name: path.basename(fileUri.path),
+  content: (await vscode.workspace.fs.readFile(fileUri)).toString(),
+})
 
 const loadMarkdownDocuments = async () => {
   const { workspace } = vscode
   const fileUris = await workspace.findFiles('*.md')
   const markdownDocuments = await Promise.all(
-    fileUris.map(async (fileUri) => ({
-      // derive deterministic ID for files from path
-      id: uuid(fileUri.path, FILE_UUID_NAMESPACE),
-      name: path.basename(fileUri.path),
-      content: (await workspace.fs.readFile(fileUri)).toString(),
-    }))
+    fileUris.map(uriToMarkdownDocument)
   )
 
   return markdownDocuments
@@ -33,6 +38,44 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
       {},
       { markdownDocuments: [], markdownDocumentSelected: undefined }
     )
+
+    // Load initial documents
+    loadMarkdownDocuments().then((markdownDocuments) => {
+      this.updateState('markdownDocuments', markdownDocuments)
+      this.broadcast({ markdownDocuments })
+      if (markdownDocuments.length > 0) {
+        this.updateState('markdownDocumentSelected', markdownDocuments[0].id)
+        this.broadcast({ markdownDocumentSelected: markdownDocuments[0].id })
+      }
+    })
+
+    // keep watching for changes
+    const watcher = vscode.workspace.createFileSystemWatcher(
+      '**/*.md',
+      false,
+      true,
+      false
+    )
+    watcher.onDidCreate(this.addMarkdownDocument)
+    watcher.onDidDelete(this.removeMarkdownDocument)
+  }
+
+  private async addMarkdownDocument (uri: vscode.Uri) {
+    const doc = await uriToMarkdownDocument(uri)
+    const oldMarkdownDocuments = this.state.markdownDocuments
+    const updatedMarkdownDocuments = [...oldMarkdownDocuments, doc]
+    this.updateState('markdownDocuments', updatedMarkdownDocuments)
+    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
+  }
+
+  private removeMarkdownDocument (uri: vscode.Uri) {
+    const id = getMarkdownDocumentId(uri.path)
+    const oldMarkdownDocuments = this.state.markdownDocuments
+    const updatedMarkdownDocuments = oldMarkdownDocuments.filter(
+      (doc) => doc.id !== id
+    )
+    this.updateState('markdownDocuments', updatedMarkdownDocuments)
+    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
 }
 
@@ -41,12 +84,6 @@ export function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new MarkdownExtensionManager(context, channel)
-  loadMarkdownDocuments().then((markdownDocuments) => {
-    stateManager.updateState('markdownDocuments', markdownDocuments)
-    if (markdownDocuments.length > 0) {
-      stateManager.updateState('markdownDocumentSelected', markdownDocuments[0].id)
-    }
-  })
 
   return {
     marquee: {
