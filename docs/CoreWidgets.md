@@ -81,6 +81,10 @@ Create several notes for your development process that help you get back to info
 
 <img src="https://marquee-seven.vercel.app/assets/widgets/notes.png" alt="Notes Widget" width="600" />
 
+## Markdown
+
+Renders local and remote markdown files to help you navigate through the code base.
+
 ### Features
 
 - Format notes using a [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) editor
