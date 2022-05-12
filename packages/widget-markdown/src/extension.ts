@@ -66,12 +66,15 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
       console.log(markdownDocumentSelected)
     })
 
-    this._tangle?.listen('markdownDocumentSelected', (markdownDocumentSelected) => {
-      console.log('!!!!!!')
-      console.log('!!!!!!')
-      console.log('!!!!!!')
-      console.log(markdownDocumentSelected)
-    })
+    this._tangle?.listen(
+      'markdownDocumentSelected',
+      (markdownDocumentSelected) => {
+        console.log('!!!!!!')
+        console.log('!!!!!!')
+        console.log('!!!!!!')
+        console.log(markdownDocumentSelected)
+      }
+    )
 
     this._tangle?.whenReady().then(() => {
       console.log('READY!!!')
@@ -102,6 +105,20 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     this.updateState('markdownDocuments', updatedMarkdownDocuments)
     this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
+
+  listenToMarkdownSelection = () => {
+    console.log('BINGO BONGO', !!this._tangle)
+    if (this._tangle) {
+      console.log('BINGO!')
+      this._subscriptions.push(
+        this._tangle.listen('markdownDocumentSelected', (val) =>
+          console.log({ val })
+        )
+      )
+
+      console.log(this._tangle.eventNames())
+    }
+  }
 }
 
 export function activate (
@@ -109,9 +126,7 @@ export function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new MarkdownExtensionManager(context, channel)
-
-  console.log(stateManager.listeners)
-
+  stateManager.listenToMarkdownSelection()
   return {
     marquee: {
       disposable: stateManager,
