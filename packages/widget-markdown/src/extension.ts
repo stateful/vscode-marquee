@@ -58,6 +58,31 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     )
     watcher.onDidCreate(this.addMarkdownDocument)
     watcher.onDidDelete(this.removeMarkdownDocument)
+
+    this.addListener('markdownDocumentSelected', (markdownDocumentSelected) => {
+      console.log('!!!!!!')
+      console.log('!!!!!!')
+      console.log('!!!!!!')
+      console.log(markdownDocumentSelected)
+    })
+
+    this._tangle?.listen('markdownDocumentSelected', (markdownDocumentSelected) => {
+      console.log('!!!!!!')
+      console.log('!!!!!!')
+      console.log('!!!!!!')
+      console.log(markdownDocumentSelected)
+    })
+
+    this._tangle?.whenReady().then(() => {
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+      console.log('READY!!!')
+    })
   }
 
   private addMarkdownDocument = async (uri: vscode.Uri) => {
@@ -84,6 +109,8 @@ export function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new MarkdownExtensionManager(context, channel)
+
+  console.log(stateManager.listeners)
 
   return {
     marquee: {
