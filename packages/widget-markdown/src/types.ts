@@ -3,7 +3,8 @@ import type { ContextProperties } from '@vscode-marquee/utils'
 export interface MarkdownDocument {
   id: string;
   name: string;
-  content: string;
+  path: string;
+  content?: string;
 }
 
 export interface State {

@@ -1,9 +1,10 @@
 import vscode from 'vscode'
 
 import ExtensionManager from '@vscode-marquee/utils/extension'
-import { State } from './types'
+import { MarkdownDocument, State } from './types'
 import path from 'path'
 import { v5 as uuid } from 'uuid'
+import { Client } from 'tangle'
 
 const STATE_KEY = 'widgets.markdown'
 
@@ -13,18 +14,17 @@ const getMarkdownDocumentId = (path: string) => {
   return uuid(path, FILE_UUID_NAMESPACE)
 }
 
-const uriToMarkdownDocument = async (fileUri: vscode.Uri) => ({
+const uriToMarkdownDocument = (fileUri: vscode.Uri) => ({
   id: getMarkdownDocumentId(fileUri.path),
+  path: fileUri.path,
   name: path.basename(fileUri.path),
-  content: (await vscode.workspace.fs.readFile(fileUri)).toString(),
+  content: undefined,
 })
 
 const loadMarkdownDocuments = async () => {
   const { workspace } = vscode
   const fileUris = await workspace.findFiles('*.md')
-  const markdownDocuments = await Promise.all(
-    fileUris.map(uriToMarkdownDocument)
-  )
+  const markdownDocuments = fileUris.map(uriToMarkdownDocument)
 
   return markdownDocuments
 }
@@ -58,34 +58,12 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     )
     watcher.onDidCreate(this.addMarkdownDocument)
     watcher.onDidDelete(this.removeMarkdownDocument)
+  }
 
-    this.addListener('markdownDocumentSelected', (markdownDocumentSelected) => {
-      console.log('!!!!!!')
-      console.log('!!!!!!')
-      console.log('!!!!!!')
-      console.log(markdownDocumentSelected)
-    })
-
-    this._tangle?.listen(
-      'markdownDocumentSelected',
-      (markdownDocumentSelected) => {
-        console.log('!!!!!!')
-        console.log('!!!!!!')
-        console.log('!!!!!!')
-        console.log(markdownDocumentSelected)
-      }
-    )
-
-    this._tangle?.whenReady().then(() => {
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-      console.log('READY!!!')
-    })
+  loadMarkdownContent = async (doc: MarkdownDocument) => {
+    const uri = vscode.Uri.file(doc.path)
+    const content = (await vscode.workspace.fs.readFile(uri)).toString()
+    return { ...doc, content }
   }
 
   private addMarkdownDocument = async (uri: vscode.Uri) => {
@@ -106,18 +84,17 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
 
-  listenToMarkdownSelection = () => {
-    console.log('BINGO BONGO', !!this._tangle)
-    if (this._tangle) {
-      console.log('BINGO!')
-      this._subscriptions.push(
-        this._tangle.listen('markdownDocumentSelected', (val) =>
-          console.log({ val })
-        )
-      )
-
-      console.log(this._tangle.eventNames())
-    }
+  updateMarkdownDocument = async (updatedDoc: MarkdownDocument) => {
+    const updatedMarkdownDocuments = this.state.markdownDocuments.map(
+      (currDoc) => {
+        if (currDoc.id === updatedDoc.id) {
+          return updatedDoc
+        }
+        return currDoc
+      }
+    )
+    this.updateState('markdownDocuments', updatedMarkdownDocuments)
+    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
 }
 
@@ -126,13 +103,33 @@ export function activate (
   channel: vscode.OutputChannel
 ) {
   const stateManager = new MarkdownExtensionManager(context, channel)
-  stateManager.listenToMarkdownSelection()
   return {
     marquee: {
       disposable: stateManager,
       defaultState: stateManager.state,
       defaultConfiguration: stateManager.configuration,
-      setup: stateManager.setBroadcaster.bind(stateManager),
+      setup: (tangle: Client<State>) => {
+        // load content when file is selected
+        tangle.whenReady().then(() => {
+          tangle.listen(
+            'markdownDocumentSelected',
+            (markdownDocumentSelectedId) => {
+              const selectedDoc = stateManager.state.markdownDocuments.find(
+                (doc) => doc.id === markdownDocumentSelectedId
+              )
+              if (!selectedDoc) {
+                return
+              }
+              stateManager
+                .loadMarkdownContent(selectedDoc)
+                .then((docWithContent) => {
+                  stateManager.updateMarkdownDocument(docWithContent)
+                })
+            }
+          )
+        })
+        return stateManager.setBroadcaster(tangle)
+      },
     },
   }
 }
