@@ -60,7 +60,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     watcher.onDidDelete(this.removeMarkdownDocument)
   }
 
-  private async addMarkdownDocument (uri: vscode.Uri) {
+  private addMarkdownDocument = async (uri: vscode.Uri) => {
     const doc = await uriToMarkdownDocument(uri)
     const oldMarkdownDocuments = this.state.markdownDocuments
     const updatedMarkdownDocuments = [...oldMarkdownDocuments, doc]
@@ -68,7 +68,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
 
-  private removeMarkdownDocument (uri: vscode.Uri) {
+  private removeMarkdownDocument = (uri: vscode.Uri) => {
     const id = getMarkdownDocumentId(uri.path)
     const oldMarkdownDocuments = this.state.markdownDocuments
     const updatedMarkdownDocuments = oldMarkdownDocuments.filter(
