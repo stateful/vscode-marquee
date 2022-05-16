@@ -208,7 +208,7 @@ export const defaultEnabledWidgets = {
   todo: true,
   weather: true,
   notes: true,
-  // markdown: true,
+  markdown: true,
   welcome: true,
   snippets: true,
   projects: true,
