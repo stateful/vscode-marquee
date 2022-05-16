@@ -7,10 +7,10 @@ import { v5 as uuid } from 'uuid'
 import { Client } from 'tangle'
 
 const STATE_KEY = 'widgets.markdown'
+const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
 
 const getMarkdownDocumentId = (path: string) => {
   // derive deterministic ID for files from path
-  const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
   return uuid(path, FILE_UUID_NAMESPACE)
 }
 
