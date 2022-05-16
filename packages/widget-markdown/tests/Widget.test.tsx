@@ -1,43 +1,101 @@
-// import React from 'react'
-// import { render, screen } from '@testing-library/react'
-// import Widget from '../src'
-// import { getEventListener, GlobalProvider } from '@vscode-marquee/utils'
-// import { MarkdownDocument, State } from '../src/types'
-// import { WIDGET_ID } from '../src/Context'
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import Widget from '../src'
+import { GlobalProvider, connect } from '@vscode-marquee/utils'
+import userEvent from '@testing-library/user-event'
+const { component: Component } = Widget
 
-// const widgetChannel = getEventListener<State>(WIDGET_ID)
+const mockConnect = jest.mocked(connect)
 
-// const { component: Component } = Widget
+test('shows message when no markdown files is selected', async () => {
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
 
-// const mockFileList = (fileList: MarkdownDocument[]) => {
-//   widgetChannel.broadcast({
-//     markdownDocuments: fileList,
-//     markdownDocumentSelected: undefined,
-//   })
-//   return fileList
-// }
+  expect(screen.getByText('No document selected')).toBeInTheDocument()
+})
 
-// test('shows message when no markdown files is selected', async () => {
-//   render(
-//     <GlobalProvider>
-//       <Component />
-//     </GlobalProvider>
-//   )
+test('renders selected content', async () => {
+  const content = 'Some markdown content'
 
-//   expect(screen.getByText('No document selected')).toBeInTheDocument()
-// })
+  mockConnect.mockReturnValue({
+    markdownDocuments: [],
+    markdownDocumentSelected: undefined,
+    selectedMarkdownContent: content,
+  })
 
-// xtest('lets user select file, then indicates selected and shows content', async () => {
-//   const fileToSelect = { id: '1', name: 'stuff.md', content: 'content' }
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
 
-//   render(
-//     <GlobalProvider>
-//       <Component />
-//     </GlobalProvider>
-//   )
+  expect(await screen.findByText(content)).toBeInTheDocument()
+})
 
-//   mockFileList([fileToSelect, { id: '2', name: 'other.md', content: 'other' }])
+test('renders all documents in overview', async () => {
+  const mockedDocuments = [
+    {
+      id: 1,
+      name: 'one.md',
+      path: '/Users/user/two.md',
+    },
+    {
+      id: 2,
+      name: 'two.md',
+      path: '/Users/user/two.md',
+    },
+  ]
 
-//   await screen.findByText(fileToSelect.name, undefined, { timeout: 1000 })
+  mockConnect.mockReturnValue({
+    markdownDocuments: mockedDocuments,
+    markdownDocumentSelected: undefined,
+    selectedMarkdownContent: undefined,
+  })
 
-// })
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
+
+  expect(await screen.findByText(mockedDocuments[0].name)).toBeInTheDocument()
+  expect(await screen.findByText(mockedDocuments[1].name)).toBeInTheDocument()
+})
+
+test('signals document selected', async () => {
+
+  const documentToSelect = {
+    id: 1,
+    name: 'one.md',
+    path: '/Users/user/two.md',
+  }
+
+  const setMarkdownDocumentSelected = jest.fn()
+
+  mockConnect.mockReturnValue({
+    markdownDocuments: [
+      documentToSelect,
+      {
+        id: 2,
+        name: 'two.md',
+        path: '/Users/user/two.md',
+      },
+    ],
+    markdownDocumentSelected: undefined,
+    selectedMarkdownContent: undefined,
+    setMarkdownDocumentSelected
+  })
+
+  render(
+    <GlobalProvider>
+      <Component />
+    </GlobalProvider>
+  )
+
+  const fileName = screen.getByText(documentToSelect.name)
+  await userEvent.click(fileName)
+  expect(setMarkdownDocumentSelected).toHaveBeenCalledWith(1)
+})

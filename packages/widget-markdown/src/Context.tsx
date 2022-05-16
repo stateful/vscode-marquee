@@ -10,7 +10,6 @@ export const WIDGET_ID = '@vscode-marquee/markdown-widget'
 export const MarkdownProvider = ({ children }: { children: React.ReactElement }) => {
   const widgetState = getEventListener<State>(WIDGET_ID)
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState)
-
   useEffect(() => {
     return () => {
       widgetState.removeAllListeners()
