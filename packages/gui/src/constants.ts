@@ -153,7 +153,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 6, y: 24, i: 'notes', moved: false, static: false },
-    // { minW: 2, minH: 6, w: 6, h: 13, x: 6, y: 24, i: 'markdown', moved: false, static: false },
+    { minW: 2, minH: 6, w: 6, h: 13, x: 6, y: 24, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false },
   ],
   md: [
