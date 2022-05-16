@@ -4,12 +4,12 @@ export interface MarkdownDocument {
   id: string;
   name: string;
   path: string;
-  content?: string;
 }
 
 export interface State {
   markdownDocuments: MarkdownDocument[];
   markdownDocumentSelected?: MarkdownDocument['id'];
+  selectedMarkdownContent?: string;
 }
 
 export interface Context extends ContextProperties<State> {}

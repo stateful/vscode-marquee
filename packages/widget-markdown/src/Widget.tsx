@@ -24,6 +24,7 @@ const Markdown = () => {
   const {
     markdownDocuments,
     markdownDocumentSelected,
+    selectedMarkdownContent,
     setMarkdownDocumentSelected,
   } = useMarkdownContext()
 
@@ -32,10 +33,6 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
-
-  const selectedDocument = markdownDocuments.find(
-    (md) => md.id === markdownDocumentSelected
-  )
 
   return (
     <>
@@ -204,7 +201,7 @@ const Markdown = () => {
               </div>
               <div style={{ height: '100%', padding: '16px' }}>
                 <ReactMarkdown>
-                  {selectedDocument?.content ?? 'No document selected'}
+                  {selectedMarkdownContent ?? 'No document selected'}
                 </ReactMarkdown>
                 <div
                   // hack to get some padding under the markdown

@@ -36,7 +36,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
       channel,
       STATE_KEY,
       {},
-      { markdownDocuments: [], markdownDocumentSelected: undefined }
+      { markdownDocuments: [], selectedMarkdownContent: undefined }
     )
 
     // Load initial documents
@@ -44,8 +44,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
       this.updateState('markdownDocuments', markdownDocuments)
       this.broadcast({ markdownDocuments })
       if (markdownDocuments.length > 0) {
-        this.updateState('markdownDocumentSelected', markdownDocuments[0].id)
-        this.broadcast({ markdownDocumentSelected: markdownDocuments[0].id })
+        this.loadMarkdownContent(markdownDocuments[0])
       }
     })
 
@@ -62,8 +61,11 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
 
   loadMarkdownContent = async (doc: MarkdownDocument) => {
     const uri = vscode.Uri.file(doc.path)
-    const content = (await vscode.workspace.fs.readFile(uri)).toString()
-    return { ...doc, content }
+    const selectedMarkdownContent = (
+      await vscode.workspace.fs.readFile(uri)
+    ).toString()
+    this.updateState('selectedMarkdownContent', selectedMarkdownContent)
+    this.broadcast({ selectedMarkdownContent })
   }
 
   private addMarkdownDocument = async (uri: vscode.Uri) => {
@@ -79,19 +81,6 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     const oldMarkdownDocuments = this.state.markdownDocuments
     const updatedMarkdownDocuments = oldMarkdownDocuments.filter(
       (doc) => doc.id !== id
-    )
-    this.updateState('markdownDocuments', updatedMarkdownDocuments)
-    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
-  }
-
-  updateMarkdownDocument = async (updatedDoc: MarkdownDocument) => {
-    const updatedMarkdownDocuments = this.state.markdownDocuments.map(
-      (currDoc) => {
-        if (currDoc.id === updatedDoc.id) {
-          return updatedDoc
-        }
-        return currDoc
-      }
     )
     this.updateState('markdownDocuments', updatedMarkdownDocuments)
     this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
@@ -120,11 +109,7 @@ export function activate (
               if (!selectedDoc) {
                 return
               }
-              stateManager
-                .loadMarkdownContent(selectedDoc)
-                .then((docWithContent) => {
-                  stateManager.updateMarkdownDocument(docWithContent)
-                })
+              stateManager.loadMarkdownContent(selectedDoc)
             }
           )
         })
