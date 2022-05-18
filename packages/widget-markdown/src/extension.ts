@@ -104,10 +104,6 @@ export function activate (
           tangle.listen(
             'markdownDocumentSelected',
             (markdownDocumentSelectedId) => {
-              console.log({
-                old: stateManager.state.markdownDocumentSelected,
-                new: markdownDocumentSelectedId,
-              })
               if (stateManager.state.markdownDocumentSelected === markdownDocumentSelectedId) {
                 // Check if the selected document actually changed.
                 // Otherwise we end up in an infinite state updating loop.
