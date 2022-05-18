@@ -2706,6 +2706,16 @@
             "scope": "window",
             "default": true,
             "markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
+          },
+          "marquee.widgets.markdown.externalMarkdownFiles": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "markdown link"
+            },
+            "scope": "window",
+            "default": [],
+            "markdownDescription": "Add remote markdown documents"
           }
         }
       }

@@ -10,6 +10,7 @@
     "@types/react-virtualized": "^9.21.20",
     "@vscode-marquee/utils": "^0.1.0",
     "@vscode-marquee/widget": "^0.1.0",
+    "node-fetch": "^3.2.4",
     "react-markdown": "^8.0.2",
     "react-splitter-layout": "^4.0.0",
     "react-virtualized": "^9.22.3",

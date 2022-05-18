@@ -1,46 +1,43 @@
 import vscode from 'vscode'
 
 import ExtensionManager from '@vscode-marquee/utils/extension'
-import { MarkdownDocument, State } from './types'
+import { Configuration, MarkdownDocument, State } from './types'
 import path from 'path'
 import { v5 as uuid } from 'uuid'
 import { Client } from 'tangle'
+import fetch from 'node-fetch'
 
 const STATE_KEY = 'widgets.markdown'
 const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
+const MARKDOWN_FETCH_ERROR_MESSAGE = 'Couldn\'t fetch markdown file!'
 
 const getMarkdownDocumentId = (path: string) => {
   // derive deterministic ID for files from path
   return uuid(path, FILE_UUID_NAMESPACE)
 }
 
-const uriToMarkdownDocument = (fileUri: vscode.Uri) => ({
-  id: getMarkdownDocumentId(fileUri.path),
-  path: fileUri.path,
-  name: path.basename(fileUri.path),
-  content: undefined,
+const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
+  id: getMarkdownDocumentId(uri),
+  path: uri,
+  name: path.basename(uri),
+  isRemote,
 })
 
-const loadMarkdownDocuments = async () => {
-  const { workspace } = vscode
-  const fileUris = await workspace.findFiles('*.md')
-  const markdownDocuments = fileUris.map(uriToMarkdownDocument)
-
-  return markdownDocuments
-}
-
-export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
+export class MarkdownExtensionManager extends ExtensionManager<
+State,
+Configuration
+> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(
       context,
       channel,
       STATE_KEY,
-      {},
+      { externalMarkdownFiles: [] },
       { markdownDocuments: [], selectedMarkdownContent: undefined }
     )
 
     // Load initial documents
-    loadMarkdownDocuments().then((markdownDocuments) => {
+    this.loadMarkdownDocuments().then((markdownDocuments) => {
       this.updateState('markdownDocuments', markdownDocuments)
       this.broadcast({ markdownDocuments })
       if (markdownDocuments.length > 0) {
@@ -59,18 +56,40 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
     watcher.onDidDelete(this.removeMarkdownDocument)
   }
 
+  loadMarkdownDocuments = async () => {
+    const { workspace } = vscode
+    const fileUris = await workspace.findFiles('*.md')
+    const markdownDocuments = [
+      ...fileUris.map((fileUri) =>
+        uriToMarkdownDocument(fileUri.fsPath, false)
+      ),
+      ...this.configuration.externalMarkdownFiles.map((path) =>
+        uriToMarkdownDocument(path, true)
+      ),
+    ]
+
+    return markdownDocuments
+  }
+
   loadMarkdownContent = async (doc: MarkdownDocument) => {
-    const uri = vscode.Uri.file(doc.path)
-    const selectedMarkdownContent = (
-      await vscode.workspace.fs.readFile(uri)
-    ).toString()
+    let selectedMarkdownContent
+    if (doc.isRemote) {
+      selectedMarkdownContent = await fetchRemoteDocument(doc.path)
+      console.log(fetchRemoteDocument)
+    } else {
+      const uri = vscode.Uri.file(doc.path)
+      selectedMarkdownContent = (
+        await vscode.workspace.fs.readFile(uri)
+      ).toString()
+    }
+
     this.updateState('selectedMarkdownContent', selectedMarkdownContent)
     this.updateState('markdownDocumentSelected', doc.id)
     this.broadcast({ selectedMarkdownContent })
   }
 
   private addMarkdownDocument = async (uri: vscode.Uri) => {
-    const doc = await uriToMarkdownDocument(uri)
+    const doc = await uriToMarkdownDocument(uri.fsPath, false)
     const oldMarkdownDocuments = this.state.markdownDocuments
     const updatedMarkdownDocuments = [...oldMarkdownDocuments, doc]
     this.updateState('markdownDocuments', updatedMarkdownDocuments)
@@ -98,13 +117,16 @@ export function activate (
       disposable: stateManager,
       defaultState: stateManager.state,
       defaultConfiguration: stateManager.configuration,
-      setup: (tangle: Client<State>) => {
+      setup: (tangle: Client<State & Configuration>) => {
         // load content when file is selected
         tangle.whenReady().then(() => {
           tangle.listen(
             'markdownDocumentSelected',
             (markdownDocumentSelectedId) => {
-              if (stateManager.state.markdownDocumentSelected === markdownDocumentSelectedId) {
+              if (
+                stateManager.state.markdownDocumentSelected ===
+                markdownDocumentSelectedId
+              ) {
                 // Check if the selected document actually changed.
                 // Otherwise we end up in an infinite state updating loop.
                 // See https://github.com/stateful/tangle/issues/35
@@ -124,4 +146,19 @@ export function activate (
       },
     },
   }
+}
+
+export async function fetchRemoteDocument (url: string) {
+  console.log(`Fetch markdown document via: ${url}`)
+  const res = await fetch(url).catch(() => {
+    throw new Error(MARKDOWN_FETCH_ERROR_MESSAGE)
+  })
+
+  if (!res.ok) {
+    throw new Error(`${MARKDOWN_FETCH_ERROR_MESSAGE} (status: ${res.status})`)
+  }
+
+  const data = await res.text()
+
+  return data
 }
