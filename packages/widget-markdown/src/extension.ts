@@ -65,6 +65,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, {}> {
       await vscode.workspace.fs.readFile(uri)
     ).toString()
     this.updateState('selectedMarkdownContent', selectedMarkdownContent)
+    this.updateState('markdownDocumentSelected', doc.id)
     this.broadcast({ selectedMarkdownContent })
   }
 
@@ -103,6 +104,16 @@ export function activate (
           tangle.listen(
             'markdownDocumentSelected',
             (markdownDocumentSelectedId) => {
+              console.log({
+                old: stateManager.state.markdownDocumentSelected,
+                new: markdownDocumentSelectedId,
+              })
+              if (stateManager.state.markdownDocumentSelected === markdownDocumentSelectedId) {
+                // Check if the selected document actually changed.
+                // Otherwise we end up in an infinite state updating loop.
+                // See https://github.com/stateful/tangle/issues/35
+                return
+              }
               const selectedDoc = stateManager.state.markdownDocuments.find(
                 (doc) => doc.id === markdownDocumentSelectedId
               )
