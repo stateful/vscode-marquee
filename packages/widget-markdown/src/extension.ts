@@ -54,8 +54,6 @@ Configuration
     )
     watcher.onDidCreate(this.addMarkdownDocument)
     watcher.onDidDelete(this.removeMarkdownDocument)
-
-    console.log({ tangle: this._tangle})
   }
 
   loadMarkdownDocuments = async () => {
@@ -140,6 +138,12 @@ export function activate (
                 return
               }
               stateManager.loadMarkdownContent(selectedDoc)
+            }
+          )
+          tangle.listen(
+            'externalMarkdownFiles',
+            (externalMarkdownFiles) => {
+              console.log({externalMarkdownFiles})
             }
           )
         })
