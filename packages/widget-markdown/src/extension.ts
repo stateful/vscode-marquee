@@ -54,6 +54,8 @@ Configuration
     )
     watcher.onDidCreate(this.addMarkdownDocument)
     watcher.onDidDelete(this.removeMarkdownDocument)
+
+    console.log({ tangle: this._tangle})
   }
 
   loadMarkdownDocuments = async () => {
@@ -75,7 +77,6 @@ Configuration
     let selectedMarkdownContent
     if (doc.isRemote) {
       selectedMarkdownContent = await fetchRemoteDocument(doc.path)
-      console.log(fetchRemoteDocument)
     } else {
       const uri = vscode.Uri.file(doc.path)
       selectedMarkdownContent = (
