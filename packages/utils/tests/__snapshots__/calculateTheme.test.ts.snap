@@ -84,8 +84,10 @@ Object {
   "direction": "ltr",
   "mixins": Object {
     "toolbar": Object {
-      "@media (min-width:0px) and (orientation: landscape)": Object {
-        "minHeight": 48,
+      "@media (min-width:0px)": Object {
+        "@media (orientation: landscape)": Object {
+          "minHeight": 48,
+        },
       },
       "@media (min-width:600px)": Object {
         "minHeight": 64,
@@ -97,6 +99,7 @@ Object {
     "action": Object {
       "activatedOpacity": 0.24,
       "active": "#cccccc",
+      "activeChannel": "255 255 255",
       "disabled": "#3a3d41",
       "disabledBackground": "#3a3d41",
       "disabledOpacity": 0.38,
