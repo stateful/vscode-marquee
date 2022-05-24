@@ -140,8 +140,6 @@ Object {
       "A200": "#eeeeee",
       "A400": "#bdbdbd",
       "A700": "#616161",
-      "dark": "#616161",
-      "darkChannel": "97 97 97",
     },
     "info": Object {
       "contrastText": "rgba(0, 0, 0, 0.87)",
@@ -172,9 +170,7 @@ Object {
       "disabled": "rgba(255, 255, 255, 0.5)",
       "icon": "rgba(255, 255, 255, 0.5)",
       "primary": "#cccccc",
-      "primaryChannel": "255 255 255",
       "secondary": "#cccccc",
-      "secondaryChannel": "255 255 255",
     },
     "tonalOffset": 0.2,
     "warning": Object {
@@ -327,7 +323,6 @@ Object {
   "zIndex": Object {
     "appBar": 1100,
     "drawer": 1200,
-    "fab": 1050,
     "mobileStepper": 1000,
     "modal": 1300,
     "snackbar": 1400,
