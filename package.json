@@ -52,6 +52,7 @@
       "packages/dialog",
       "packages/widget-github",
       "packages/widget-news",
+      "packages/widget-markdown",
       "packages/widget-notes",
       "packages/widget-projects",
       "packages/widget-snippets",
@@ -2705,6 +2706,16 @@
             "scope": "window",
             "default": true,
             "markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
+          },
+          "marquee.widgets.markdown.externalMarkdownFiles": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "markdown link"
+            },
+            "scope": "window",
+            "default": [],
+            "markdownDescription": "Add remote markdown documents"
           }
         }
       }
@@ -2727,6 +2738,7 @@
     "compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
     "compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
     "compile:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json",
+    "compile:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json",
     "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
@@ -2749,6 +2761,7 @@
     "watch:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json --watch",
     "watch:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json --watch",
     "watch:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json --watch",
+    "watch:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json --watch",
     "watch:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json --watch",
     "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
     "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
@@ -2809,14 +2822,14 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@mui/icons-material": "5.5.1",
-    "@mui/material": "5.5.0",
+    "@mui/material": "5.7.0",
     "@types/vscode": "^1.65.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "tangle": "^1.0.5"
   },
   "resolutions": {
-    "@types/react": "17.0.2",
-    "@types/react-dom": "17.0.2"
+    "@types/react": "17.0.45",
+    "@types/react-dom": "17.0.16"
   }
 }

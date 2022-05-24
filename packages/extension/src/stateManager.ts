@@ -13,6 +13,7 @@ import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@v
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension'
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension'
 import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension'
+import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@vscode-marquee/widget-markdown/extension'
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 
@@ -29,6 +30,7 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/github-widget': activateGitHubWidget,
   '@vscode-marquee/weather-widget': activateWeatherWidget,
   '@vscode-marquee/todo-widget': activateTodoWidget,
+  '@vscode-marquee/markdown-widget': activateMarkdownWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
   '@vscode-marquee/snippets-widget': activateSnippetsWidget
 }
@@ -208,6 +210,12 @@ export default class StateManager implements vscode.Disposable {
     return this.widgetExtensions.find(
       (e) => e.id === '@vscode-marquee/projects-widget'
     )?.exports.marquee.disposable as ProjectsExtensionManager
+  }
+
+  get markdownWidget () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/markdown-widget'
+    )?.exports.marquee.disposable as MarkdownExtensionManager
   }
 
   get notesWidget () {

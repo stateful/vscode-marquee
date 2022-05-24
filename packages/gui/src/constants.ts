@@ -4,6 +4,7 @@ import News from '@vscode-marquee/widget-news'
 import Weather from '@vscode-marquee/widget-weather'
 import Todo from '@vscode-marquee/widget-todo'
 import Notes from '@vscode-marquee/widget-notes'
+import Markdown from '@vscode-marquee/widget-markdown'
 import Snippets from '@vscode-marquee/widget-snippets'
 import Projects from '@vscode-marquee/widget-projects'
 
@@ -26,7 +27,8 @@ export const widgetConfig: WidgetConfig[] = [
   Weather,
   Projects,
   Snippets,
-  Notes
+  Notes,
+  Markdown
 ] as WidgetConfig[]
 export const SENTRY_DNS = 'https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775'
 export const themes: Theme[] = [
@@ -151,6 +153,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 6, y: 24, i: 'notes', moved: false, static: false },
+    { minW: 2, minH: 6, w: 6, h: 13, x: 6, y: 24, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false },
   ],
   md: [
@@ -161,6 +164,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 5, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 5, h: 13, x: 5, y: 24, i: 'notes', moved: false, static: false },
+    { minW: 2, minH: 6, w: 5, h: 13, x: 5, y: 24, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
   ],
   sm: [
@@ -171,6 +175,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 0, y: 36, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 6, h: 13, x: 0, y: 49, i: 'notes', moved: false, static: false },
+    { minW: 2, minH: 6, w: 6, h: 13, x: 0, y: 49, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
   ],
   xs: [
@@ -181,6 +186,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 61, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 35, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 48, i: 'notes', moved: false, static: false },
+    { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 48, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false },
   ],
   xxs: [
@@ -191,6 +197,7 @@ export const defaultLayout: LayoutType = {
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 73, i: 'news', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 47, i: 'snippets', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 60, i: 'notes', moved: false, static: false },
+    { minW: 2, minH: 6, w: 4, h: 13, x: 0, y: 60, i: 'markdown', moved: false, static: false },
     { minW: 2, minH: 6, w: 4, h: 12, x: 0, y: 23, i: 'projects', moved: false, static: false },
   ],
 }
@@ -201,6 +208,7 @@ export const defaultEnabledWidgets = {
   todo: true,
   weather: true,
   notes: true,
+  markdown: true,
   welcome: true,
   snippets: true,
   projects: true,
