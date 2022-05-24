@@ -4,6 +4,11 @@ export interface MarkdownDocument {
   id: string;
   name: string;
   path: string;
+  isRemote: boolean;
+}
+
+export interface Configuration {
+  externalMarkdownFiles: string[]
 }
 
 export interface State {
