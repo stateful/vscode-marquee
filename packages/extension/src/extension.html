@@ -39,12 +39,18 @@
       }
     </style>
     <script nonce="<%= it.nonce %>">
+      function b64DecodeUnicode(str) {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(atob(str).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+      }
       window.activeWorkspace = <%~ JSON.stringify(it.aws) %>;
       window.marqueeUserProps = '<%~ JSON.stringify(it.props) %>';
       window.marqueeBackendBaseUrl = '<%= it.baseUrl %>';
       window.marqueeBackendGeoUrl = '<%= it.geoUrl %>';
       window.marqueeBackendFwdGeoUrl = '<%= it.fwdGeoUrl %>';
-      window.marqueeStateConfiguration = JSON.parse(atob('<%= it.widgetStateConfigurations %>'));
+      window.marqueeStateConfiguration = JSON.parse(b64DecodeUnicode('<%= it.widgetStateConfigurations %>'));
       window.marqueeThirdPartyWidgets = <%= it.widgetScripts.length %>;
     </script>
 </head>
