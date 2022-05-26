@@ -141,10 +141,16 @@ export function activate (
 ) {
   stateManager = new StateManager(context, channel)
 
+  // don't allow errors to be recovered from default state
+  const defaultState = stateManager.state
+  if (defaultState.error) {
+    defaultState.error = null
+  }
+
   return {
     marquee: {
       disposable: stateManager,
-      defaultState: stateManager.state,
+      defaultState,
       defaultConfiguration: stateManager.configuration,
       setup: stateManager.setBroadcaster.bind(stateManager)
     }
