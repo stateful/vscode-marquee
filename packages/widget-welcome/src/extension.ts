@@ -103,7 +103,9 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
     /**
      * only broadcast if we haven't before or a new trick was received
      */
-    if (!this._prevtricks || this._prevtricks.length < result.length) {
+    const prevTrickIds = new Set(this._prevtricks?.map((trick) => trick.id) ?? [])
+    const netNewTrickIds = new Set(result.filter(resTrick => !prevTrickIds.has(resTrick.id)))
+    if (!this._prevtricks || netNewTrickIds.size > 0) {
       this._prevtricks = result
       this._channel.appendLine(`Broadcast ${result.length} tricks`)
       this.broadcast({ error: null, tricks: result })
