@@ -65,7 +65,7 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
         />
       </DialogContent>
       <DialogActions style={{ paddingRight: theme.spacing(3) }}>
-        <Button onClick={close} color="secondary">
+        <Button onClick={close} color="secondary" style={{ padding: '4px 8px', margin: '0 5px' }}>
           Close
         </Button>
         {window.activeWorkspace

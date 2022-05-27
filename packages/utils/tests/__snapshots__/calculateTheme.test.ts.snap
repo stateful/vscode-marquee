@@ -27,14 +27,18 @@ Object {
   "components": Object {
     "MuiButton": Object {
       "styleOverrides": Object {
+        "outlined": Object {
+          "backgroundColor": "transparent",
+          "color": "var(--vscode-button-background)",
+        },
         "root": Object {
           "&:hover": Object {
-            "backgroundColor": "var(--vscode-tree-tableOddRowsBackground)",
+            "backgroundColor": "var(--vscode-button-hoverBackground)",
             "borderColor": "var(--vscode-tab-inactiveForeground)",
-            "color": "rgb(204, 204, 204)",
           },
+          "backgroundColor": "var(--vscode-button-background)",
           "borderColor": "var(--vscode-editorGhostText-foreground)",
-          "color": "rgb(204, 204, 204)",
+          "color": "var(--vscode-button-foreground)",
         },
       },
     },
@@ -58,6 +62,16 @@ Object {
       "styleOverrides": Object {
         "paper": Object {
           "backgroundImage": "none",
+        },
+      },
+    },
+    "MuiListItem": Object {
+      "styleOverrides": Object {
+        "root": Object {
+          "&:hover": Object {
+            "backgroundColor": "var(--vscode-button-secondaryHoverBackground)",
+            "color": "var(--vscode-button-secondaryForeground)",
+          },
         },
       },
     },
