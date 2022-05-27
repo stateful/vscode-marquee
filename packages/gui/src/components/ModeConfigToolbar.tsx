@@ -24,7 +24,7 @@ const Root = styled('div')((
   },
 
   [`& .${classes.toolbar}`]: {
-    borderBottom: '1px solid var(--vscode-foreground)',
+    borderBottom: '1px solid var(--vscode-editorGroup-border)',
   },
 
   [`& .${classes.vert}`]: {

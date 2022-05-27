@@ -125,7 +125,7 @@ let Snippets = () => {
     <>
       <Grid item style={{ maxWidth: '100%' }}>
         <Box sx={{
-          borderBottom: '1px solid var(--vscode-foreground)',
+          borderBottom: '1px solid var(--vscode-editorGroup-border)',
           padding: '8px',
         }}>
           <Grid container direction="row" justifyContent="space-between">
@@ -140,7 +140,11 @@ let Snippets = () => {
                       size="small"
                       startIcon={<LinkIcon />}
                       disableFocusRipple
-                      style={{ padding: '0 5px' }}
+                      style={{
+                        padding: '0 5px',
+                        background: 'transparent',
+                        color: 'inherit'
+                      }}
                       onClick={() => jumpTo(snippet)}
                     >
                       {snippetLinkFileName}

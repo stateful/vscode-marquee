@@ -49,7 +49,7 @@ let Github = () => {
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <Box sx={{
-          borderBottom: '1px solid var(--vscode-foreground)',
+          borderBottom: '1px solid var(--vscode-editorGroup-border)',
           padding: '8px',
         }}>
           <Grid
@@ -144,7 +144,7 @@ let Github = () => {
                       marginTop: '4px',
                       marginBottom: '4px',
                       padding: '16px',
-                      borderBottom: '1px solid var(--vscode-foreground)',
+                      borderBottom: '1px solid var(--vscode-editorGroup-border)',
                     }}
                   >
                     <Grid

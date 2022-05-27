@@ -22,3 +22,7 @@ a:hover {
 a:active {
   color: var(--vscode-textLink-foreground);
 }
+
+.splitter-layout .layout-pane::-webkit-scrollbar-corner {
+  background-color: transparent;
+}

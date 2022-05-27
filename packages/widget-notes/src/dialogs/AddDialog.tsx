@@ -54,7 +54,7 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
         <div style={{ height: '8px', minWidth: '100%' }} />
 
         <NoteEditor
-          border="1px solid var(--vscode-foreground)"
+          border="1px solid var(--vscode-editorGroup-border)"
           name="add"
           _change={(newBody, newText) => {
             setBody(newBody)
@@ -65,7 +65,7 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
         />
       </DialogContent>
       <DialogActions style={{ paddingRight: theme.spacing(3) }}>
-        <Button onClick={close} color="secondary">
+        <Button onClick={close} color="secondary" style={{ padding: '4px 8px', margin: '0 5px' }}>
           Close
         </Button>
         {window.activeWorkspace

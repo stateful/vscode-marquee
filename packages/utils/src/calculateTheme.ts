@@ -38,12 +38,26 @@ export default () => {
       MuiButton: {
         styleOverrides: {
           root: {
-            color: 'rgb(204, 204, 204)',
+            color: 'var(--vscode-button-foreground)',
+            backgroundColor: 'var(--vscode-button-background)',
             borderColor: 'var(--vscode-editorGhostText-foreground)',
             '&:hover': {
-              backgroundColor: 'var(--vscode-tree-tableOddRowsBackground)',
-              color: 'rgb(204, 204, 204)',
+              backgroundColor: 'var(--vscode-button-hoverBackground)',
               borderColor: 'var(--vscode-tab-inactiveForeground)'
+            }
+          },
+          outlined: {
+            backgroundColor: 'transparent',
+            color: 'var(--vscode-button-background)',
+          }
+        }
+      },
+      MuiListItem: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: 'var(--vscode-button-secondaryHoverBackground)',
+              color: 'var(--vscode-button-secondaryForeground)'
             }
           }
         }

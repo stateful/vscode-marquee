@@ -86,6 +86,7 @@ const ModeSelector = () => {
           onClick={handleClick}
           size="small"
           disabled={disabled}
+          style={{background: 'transparent'}}
         >
           {!mode.icon && (
             <ViewCompactIcon fontSize="small" className="modeIcon" />
@@ -100,6 +101,7 @@ const ModeSelector = () => {
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
+          style={{background: 'transparent'}}
         >
           <ArrowDropDownIcon />
         </Button>
