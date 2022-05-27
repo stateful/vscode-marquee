@@ -140,7 +140,11 @@ let Snippets = () => {
                       size="small"
                       startIcon={<LinkIcon />}
                       disableFocusRipple
-                      style={{ padding: '0 5px' }}
+                      style={{
+                        padding: '0 5px',
+                        background: 'transparent',
+                        color: 'inherit'
+                      }}
                       onClick={() => jumpTo(snippet)}
                     >
                       {snippetLinkFileName}
