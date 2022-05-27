@@ -36,7 +36,7 @@ export const Hero = () => {
         >
           Install via:
         </Text>
-        <Flex  
+        <Flex
           display={{ base: 'none', sm: 'flex' }}
           align={'center'}
           flexFlow={{ base: 'wrap', sm: 'nowrap' }}
@@ -56,7 +56,7 @@ export const Hero = () => {
             _hover={{
               bg: 'pink.300',
             }}>
-              VS Code Marketplace
+            VS Code Marketplace
           </Button>
           <Text fontSize={'small'}>or</Text>
           <Text
@@ -67,7 +67,7 @@ export const Hero = () => {
             rounded={8}
             width={{md:360}}
           >
-              $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
+            $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
           </Text>
         </Flex>
         <Flex
