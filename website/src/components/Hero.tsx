@@ -46,6 +46,7 @@ export const Hero = () => {
           <Button
             as="a"
             mx={3}
+            width={{md:360}}
             px={{ base: 10 }}
             fontSize={'sm'}
             fontWeight={600}
@@ -64,6 +65,7 @@ export const Hero = () => {
             backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')}
             p={3}
             rounded={8}
+            width={{md:360}}
           >
             $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
           </Text>
@@ -79,7 +81,8 @@ export const Hero = () => {
             href="https://discord.gg/BQm8zRCBUY"
             isExternal
             bottom={0}
-            display={'inline-block'}
+            display={'flex'}
+            alignItems={'center'}
             lineHeight={'4em'}
             position={'relative'}
             color={useColorModeValue('gray.600', 'gray.400')}
