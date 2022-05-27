@@ -1,21 +1,15 @@
 import Script from 'next/script'
 import { Flex, FlexProps, Text, Link, Image, useColorModeValue, Icon, Box } from '@chakra-ui/react'
-import { SiGithub, SiTwitter, SiDiscord, SiGitter } from 'react-icons/si'
+import { SiGithub, SiDiscord } from 'react-icons/si'
 
 import { GOOGLE_ANALYTICS_ID, IS_PROD } from '../constants'
 
 const socialLinks = [{
-  href: 'https://twitter.com/statefulhq',
-  icon: SiTwitter
+  href: 'https://discord.gg/BQm8zRCBUY',
+  icon: SiDiscord
 }, {
   href: 'https://github.com/stateful/vscode-marquee',
   icon: SiGithub
-}, {
-  href: 'https://discord.com/channels/878764303052865537/900787619728871484',
-  icon: SiDiscord
-}, {
-  href: 'https://gitter.im/vscode-marquee/community',
-  icon: SiGitter
 }]
 
 export const Footer = (props: FlexProps) => {

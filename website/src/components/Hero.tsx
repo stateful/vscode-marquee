@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Flex, Box, Heading, Image, useColorMode, Text, Button, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Box, Heading, Image, Link, Icon, useColorMode, Text, Button, useColorModeValue } from '@chakra-ui/react'
+import { SiDiscord } from 'react-icons/si'
 
 import { MAIN_COLOR, HERO_BG_COLOR } from '../constants'
 
@@ -42,19 +43,10 @@ export const Hero = () => {
           justifyContent={'center'}
           flexDirection={'row'}
         >
-          <Text
-            mx={3}
-            fontFamily={'monospace'}
-            backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')}
-            p={3}
-            rounded={8}
-          >
-            $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
-          </Text>
-          <Text fontSize={'small'}>or</Text>
           <Button
             as="a"
             mx={3}
+            width={{md:360}}
             px={{ base: 10 }}
             fontSize={'sm'}
             fontWeight={600}
@@ -64,8 +56,43 @@ export const Hero = () => {
             _hover={{
               bg: 'pink.300',
             }}>
-            VSCode Marketplace
+            VS Code Marketplace
           </Button>
+          <Text fontSize={'small'}>or</Text>
+          <Text
+            mx={3}
+            fontFamily={'monospace'}
+            backgroundColor={useColorModeValue('gray.300', 'whiteAlpha.200')}
+            p={3}
+            rounded={8}
+            width={{md:360}}
+          >
+            $ <Text as='span' d={'inline'} color={'red'}>code</Text> --install-extension stateful.marquee
+          </Text>
+        </Flex>
+        <Flex
+          display={{ base: 'none', sm: 'flex' }}
+          align={'center'}
+          flexFlow={{ base: 'wrap', sm: 'nowrap' }}
+          justifyContent={'center'}
+          flexDirection={'row'}
+        >
+          <Link
+            href="https://discord.gg/BQm8zRCBUY"
+            isExternal
+            bottom={0}
+            display={'flex'}
+            alignItems={'center'}
+            lineHeight={'4em'}
+            position={'relative'}
+            color={useColorModeValue('gray.600', 'gray.400')}
+            transitionProperty={'color, bottom'}
+            transitionDuration={'0.5s'}
+            _hover={{ color: 'marquee', bottom: '5px' }}
+          >
+              Join Discord
+            <Icon mx={2} boxSize={5} as={SiDiscord} />
+          </Link>
         </Flex>
       </Box>
       <Box maxWidth={1000} width={{ base: 370, xs: 480, sm: 700, md: 1000 }}>

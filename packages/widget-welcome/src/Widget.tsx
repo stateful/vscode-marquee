@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Box, Grid, Link, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
 
 import wrapper, { Dragger } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -13,11 +13,7 @@ import PopMenu from './components/Pop'
 let Welcome = () => {
   const { error } = useContext(TrickContext)
 
-  const tweetLink = 'https://marketplace.visualstudio.com/items?itemName=stateful.marquee'
-  const linkParams = new URLSearchParams({
-    text: `Check out the Marquee extension for VS Code! ${tweetLink}`
-  })
-  const link = `https://twitter.com/intent/tweet?${linkParams.toString()}`
+  const link = 'https://discord.gg/BQm8zRCBUY'
 
   return (
     <>
@@ -104,8 +100,8 @@ let Welcome = () => {
                           href={link}
                           target="_blank"
                           underline="hover">
-                          Share Marquee on &nbsp;
-                          <FontAwesomeIcon icon={faTwitter} />
+                          Join Discord &nbsp;
+                          <FontAwesomeIcon icon={faDiscord} />
                         </Link>
                       </Typography>
                     </Grid>

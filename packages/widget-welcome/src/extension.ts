@@ -13,8 +13,11 @@ const STATE_KEY = 'widgets.welcome'
 const FETCH_INTERVAL = process.env.NODE_ENV === 'development'
   ? 1000 * 5 // 5s
   : 5 * 1000 * 60 // 5min
+const AXIOS_RETRIES = process.env.NODE_ENV === 'development'
+  ? 1
+  : 10
 const config = vscode.workspace.getConfiguration('marquee')
-axiosRetry(Axios, { retries: 10, retryDelay: axiosRetry.exponentialDelay })
+axiosRetry(Axios, { retries: AXIOS_RETRIES, retryDelay: axiosRetry.exponentialDelay })
 
 class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout
