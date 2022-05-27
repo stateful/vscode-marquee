@@ -16,7 +16,7 @@ const ThirdPartyWidget = ({ name, label }: Props) => {
     <>
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <Box sx={{
-          borderBottom: '1px solid var(--vscode-foreground)',
+          borderBottom: '1px solid var(--vscode-editorGroup-border)',
           padding: '8px',
         }}>
           <Grid
