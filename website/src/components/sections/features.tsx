@@ -45,6 +45,9 @@ export const Features = () => (
           mr={5}
           _hover={{}}
           _active={{}}
+          width={10} 
+          height={10} 
+          p={3}
           size="large" />
         <Heading w={{ base: 'auto', sm: 'full' }} mb={{ base: 4 }} as="h3" fontSize="2em">{f.title}</Heading>
         {f.description}
