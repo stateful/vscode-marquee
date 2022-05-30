@@ -7,7 +7,7 @@ import type { Configuration, State, Todo } from './types'
 
 const STATE_KEY = 'widgets.todo'
 export const CODE_TODO = 'marquee_todo'
-export const TODO = /(TODO|ToDo|Todo|todo)[:]? /g
+export const TODO = /(TODO|ToDo|Todo|todo)[:]? /
 
 export class TodoExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {

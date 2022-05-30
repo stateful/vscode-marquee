@@ -48,6 +48,8 @@ vscode.workspace = {
   name: 'foobarWorkspace',
   workspaceFile: { path: '/foo/bar' },
   getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn() }),
+  onDidCloseTextDocument: jest.fn(),
+  onDidChangeTextDocument: jest.fn(),
   onDidChangeConfiguration: jest.fn(),
   fs: {
     readFile: jest.fn().mockResolvedValue('some file'),
@@ -66,6 +68,7 @@ vscode.window = {
   createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
   createTreeView: jest.fn().mockReturnValue({ reveal: jest.fn() }),
   onDidChangeActiveColorTheme: jest.fn(),
+  onDidChangeActiveTextEditor: jest.fn(),
   showOpenDialog: jest.fn().mockResolvedValue(['/foo/bar']),
   showErrorMessage: jest.fn(),
   showWarningMessage: jest.fn(),
@@ -86,6 +89,11 @@ vscode.window = {
   showTextDocument: jest.fn().mockResolvedValue({
     revealRange: jest.fn()
   })
+}
+
+vscode.languages = {
+  createDiagnosticCollection: jest.fn(),
+  registerCodeActionsProvider: jest.fn()
 }
 
 export default vscode
