@@ -27,7 +27,7 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
   const _setGlobalScope = (enabled: boolean) => {
     eventListener.emit('telemetryEvent', {
       eventName: 'setGlobalScope',
-      properties: { enabled }
+      properties: { enabled: enabled.toString() }
     })
     return providerValues.setGlobalScope(enabled)
   }
