@@ -134,7 +134,7 @@ const ScaleOption = React.memo(() => {
           display="name"
           value={value}
           variant="filled"
-          getOptionSelected={(option, value) => {
+          isOptionEqualToValue={(option, value) => {
             return option.value === value.value
           }}
           onChange={(e, v) => v

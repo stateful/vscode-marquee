@@ -16,7 +16,7 @@ import TrendContext from '../Context'
 import { sinceOptions, trendLanguages, spokenLanguages } from '../constants'
 import type { Since, SpokenLanguage } from '../types'
 
-function getOptionSelected (defaultOption: { name: string }) {
+function isOptionEqualToValue (defaultOption: { name: string }) {
   return (option: SpokenLanguage, value: SpokenLanguage) => {
     if (!value) {
       return defaultOption.name === option.name
@@ -49,7 +49,7 @@ const SpokenLanguageOption = () => {
           options={spokenLanguages}
           display="name"
           value={value}
-          getOptionSelected={getOptionSelected(spokenLanguages[0])}
+          isOptionEqualToValue={isOptionEqualToValue(spokenLanguages[0])}
           onChange={(e: any, v: SpokenLanguage) => _updateSpoken(v)}
         />
       </Grid>
@@ -81,7 +81,7 @@ const ProgrammingLanguageOption = () => {
           options={trendLanguages}
           display="name"
           value={value}
-          getOptionSelected={getOptionSelected(trendLanguages[0])}
+          isOptionEqualToValue={isOptionEqualToValue(trendLanguages[0])}
           onChange={(e: any, v: SpokenLanguage) => _updateLanguage(v)}
         />
       </Grid>
@@ -113,7 +113,7 @@ const SinceOption = () => {
           options={sinceOptions}
           display="name"
           value={value}
-          getOptionSelected={getOptionSelected(sinceOptions[0])}
+          isOptionEqualToValue={isOptionEqualToValue(sinceOptions[0])}
           onChange={(e: any, v: Since) => _updateSince(v)}
         />
       </Grid>

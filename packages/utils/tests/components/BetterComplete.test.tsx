@@ -18,7 +18,7 @@ test('should show no options', async () => {
     options={options}
     value="foo"
     display='value'
-    getOptionSelected={jest.fn()}
+    isOptionEqualToValue={jest.fn()}
     onChange={jest.fn()}
   />)
   await userEvent.type(container.querySelector('input')!, 'lol')
@@ -34,7 +34,7 @@ test('should show options', async () => {
     options={options}
     value="foo"
     display='value'
-    getOptionSelected={jest.fn()}
+    isOptionEqualToValue={jest.fn()}
     onChange={jest.fn()}
   />)
   await userEvent.type(container.querySelector('input')!, 'foo')
