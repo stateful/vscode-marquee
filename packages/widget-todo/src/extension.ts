@@ -212,7 +212,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
 
     this.state.todos[todoIndex].checked = !item.checked
-    this.updateState('todos', this.state.todos)
+    this.emitStateUpdate()
     this.broadcast({ todos: this.state.todos })
   }
 
@@ -229,7 +229,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
 
     this.state.todos[todoIndex].archived = !item.archived
-    this.updateState('todos', this.state.todos)
+    this.emitStateUpdate()
     this.broadcast({ todos: this.state.todos })
   }
 
@@ -252,7 +252,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
 
     this.state.todos[todoIndex].workspaceId = awsp.id
-    this.updateState('todos', this.state.todos)
+    this.emitStateUpdate()
     this.broadcast({ todos: this.state.todos })
   }
 }
