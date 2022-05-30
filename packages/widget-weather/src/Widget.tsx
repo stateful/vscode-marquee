@@ -165,15 +165,22 @@ const Weather = () => {
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <Box sx={{
           borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px',
+          padding: '8px 8px 4px',
         }}>
           <Grid
             container
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            flexWrap="nowrap"
+            minWidth={0}
           >
-            <Grid item xs={8}>
+            <Grid item xs={8} style={{
+              flexBasis: 'auto',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
               {city && (
                 <Typography variant="subtitle1">
                   Weather in{' '}
@@ -182,7 +189,7 @@ const Weather = () => {
               )}
               {!city && <Typography variant="subtitle1">Weather</Typography>}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4} style={{ minWidth: 105 }}>
               <Grid container direction="row" spacing={1} justifyContent="flex-end">
                 <Grid item>
                   <WeatherDialogLauncher />

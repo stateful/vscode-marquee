@@ -85,8 +85,13 @@ let TodoInfo = () => {
   const id = open ? 'todo-info-popover' : undefined
 
   return (
-    <div>
-      <IconButton aria-label="Open Todo Info" size="small" onClick={handleClick}>
+    <>
+      <IconButton
+        aria-label="Open Todo Info"
+        size="small"
+        onClick={handleClick}
+        style={{ display: 'inline-block', height: '1.7em' }}
+      >
         <ExpandMoreIcon fontSize="small" />
       </IconButton>
 
@@ -114,7 +119,7 @@ let TodoInfo = () => {
           </Grid>
         </Grid>
       </Popover>
-    </div>
+    </>
   )
 }
 

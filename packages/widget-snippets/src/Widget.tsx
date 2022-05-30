@@ -126,9 +126,14 @@ let Snippets = () => {
       <Grid item style={{ maxWidth: '100%' }}>
         <Box sx={{
           borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px',
+          padding: '8px 8px 4px',
         }}>
-          <Grid container direction="row" justifyContent="space-between">
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
                 <Grid item>

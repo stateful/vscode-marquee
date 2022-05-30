@@ -25,7 +25,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
   const [title, setTitle] = useState(note.title)
 
   const updateNote = useCallback(() => {
-    if (title === '') {
+    if (title.trim() === '') {
       return setError(true)
     }
 
@@ -42,9 +42,7 @@ const EditDialog = React.memo(({ close, note }: NoteEditDialogProps) => {
           error={error}
           fullWidth
           variant="filled"
-          onChange={(e) => {
-            setTitle(e.target.value)
-          }}
+          onChange={(e) => setTitle(e.target.value)}
           label="Title"
           placeholder="Title of Note"
           name="title"

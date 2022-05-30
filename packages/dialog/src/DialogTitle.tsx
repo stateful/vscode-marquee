@@ -24,7 +24,7 @@ const DialogTitle = (({ children, onClose, ...other }: Props) => {
           sx={{
             position: 'absolute',
             right: theme => theme.spacing(1),
-            top: theme => theme.spacing(1),
+            top: theme => theme.spacing(0.5),
             color: theme => theme.palette.grey[500],
           }}
           onClick={onClose}

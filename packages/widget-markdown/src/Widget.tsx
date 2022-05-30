@@ -40,21 +40,19 @@ const Markdown = () => {
         <Box
           sx={{
             borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px',
+            padding: '8px 8px 4px',
           }}
         >
           <Grid
             container
             direction="row"
-            justifyContent="space-between"
+            wrap="nowrap"
+            alignContent="stretch"
             alignItems="center"
+            justifyContent="space-between"
           >
             <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <Typography variant="subtitle1">Markdown</Typography>
-                </Grid>
-              </Grid>
+              <Typography variant="subtitle1">Markdown</Typography>
             </Grid>
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
