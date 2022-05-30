@@ -25,8 +25,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       vscode.commands.registerCommand('marquee.todo.move', this._moveTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.add', this._addTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.addEmpty', () => this.emit(
-        'openDialog', { event: 'openAddTodoDialog', payload: true
-        })),
+        'openDialog', { event: 'openAddTodoDialog', payload: true })),
       vscode.commands.registerTextEditorCommand('marquee.todo.addEditor', this._addEditor.bind(this)),
 
       /**
@@ -125,7 +124,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
 
     const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
-    body = body.replace(/TODO[:]? /g, '').trim()
+    body = body.replace(TODO, '').trim()
 
     const todo: Todo = {
       archived: false,
@@ -141,6 +140,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)
     this.emit('gui.open')
+    this.broadcast({ todos: newTodos })
     vscode.commands.executeCommand('marquee.refreshCodeActions')
   }
 
