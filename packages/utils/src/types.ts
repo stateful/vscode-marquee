@@ -48,7 +48,7 @@ export interface MarqueeEvents {
   resetMarquee?: boolean
   telemetryEvent: {
     eventName: string
-    properties?: Record<string, string>
+    properties?: Record<string, string | boolean>
   }
 }
 
