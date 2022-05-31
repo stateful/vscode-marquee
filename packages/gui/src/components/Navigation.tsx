@@ -13,6 +13,8 @@ import MoreIcon from '@mui/icons-material/MoreVert'
 import SettingsIcon from '@mui/icons-material/Settings'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary'
+import LanguageIcon from '@mui/icons-material/Language'
+import WorkspacesIcon from '@mui/icons-material/Workspaces'
 import styled from '@emotion/styled'
 import EdiText from 'react-editext'
 
@@ -271,8 +273,10 @@ const Navigation = () => {
                       overlap="circular"
                       badgeContent={globalScope ? 1 : 0}
                     >
-                      <FilterListIcon fontSize="small" />
-                    </Badge>
+                      {globalScope ? 
+                        <LanguageIcon fontSize="small"/> : <WorkspacesIcon fontSize="small" />
+                      }
+                    </Badge> 
                   </IconButton>
                 </Tooltip>
               </Grid>)}
