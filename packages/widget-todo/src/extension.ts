@@ -125,7 +125,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     }
 
     const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
-    body = body.replace(/TODO[:]? /g, '').trim()
+    body = body.replace(TODO, '').trim()
 
     const todo: Todo = {
       archived: false,
@@ -148,15 +148,41 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
    * add todo from editor
    */
   private _addEditor (editor: vscode.TextEditor) {
-    const { text, path } = this.getTextSelection(editor)
+    let { text, path } = this.getTextSelection(editor as vscode.TextEditor)
 
     if (text.length < 1) {
-      return vscode.window.showWarningMessage('Marquee: no text selected')
+      /**
+       * in case someone just does a right click on the todo line and clicks
+       * on "Add Todo to Marquee" we have to select the whole line
+       */
+      const { text: textWholeLine, path: pathWholeLine } = this.getTextSelection({
+        ...editor,
+        ...{
+          selection: {
+            active: editor.selection.active,
+            anchor: editor.selection.anchor,
+            start: { line: editor.selection.start.line, character: 0 },
+            end: { line: editor.selection.end.line, character: Infinity }
+          }
+        }
+      } as vscode.TextEditor)
+
+      const todoMatch = textWholeLine.match(TODO)
+      if (!todoMatch || !todoMatch[0]) {
+        return vscode.window.showWarningMessage('Marquee: no text selected')
+      }
+
+      /**
+       * check if line contains todo match and then strip it
+       */
+      text = textWholeLine.slice(textWholeLine.indexOf(todoMatch[0]))
+      path = pathWholeLine
     }
 
+    const body = text.replace(TODO, '').trim()
     const todo: Todo = {
       archived: false,
-      body: text,
+      body,
       checked: false,
       id: this.generateId(),
       tags: [],
