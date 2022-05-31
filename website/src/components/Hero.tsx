@@ -14,14 +14,17 @@ export const Hero = () => {
       w={'full'}
       py={12}
     >
-      <Box
+      <Flex
         bgGradient={`linear(to-l, #7928CA, ${MAIN_COLOR})`}
         bgClip="text"
+        alignItems={'center'}
+        justifyContent={'space-between'}
       >
-        <Heading as="h1" fontSize={{ base: '4em', sm: '6em', md: '9em'}}>
+        <Heading as="h1" mr={{base:2, sm:4, md:10}} fontSize={{ base: '4em', sm: '6em', md: '9em'}}>
           Marquee
         </Heading>
-      </Box>
+        <Image src='/assets/marquee.png' width={{base:55, sm:75 ,md:150}} height={{base:45, sm:75 ,md:125}}/>
+      </Flex>
       <Box my={6} maxWidth={'1200px'}>
         <Heading as="h2" fontSize={{ base: '1.2em', md: '1.8em'}} textAlign={'center'} mx={5} mb={{ base: 5, sm: 0 }}>
           Marquee is a <Text as="span" color={'marquee'} d={'inline'}>VS Code extension</Text> that
