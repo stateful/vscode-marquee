@@ -59,6 +59,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.stateMgr.snippetsWidget.on('stateUpdate', this.update.bind(this))
     this.stateMgr.notesWidget.on('stateUpdate', this.update.bind(this))
     this.stateMgr.global.on('stateUpdate', this.update.bind(this))
+    this.update()
   }
 
   clearTree () {
@@ -321,7 +322,7 @@ class TodoItem extends Item implements ContextMenu {
       ts.push(
         // todo empty state
         new TodoItem(
-          'Add new todo',
+          'Add new todosss',
           'addtodos',
           {} as Todo,
           vscode.TreeItemCollapsibleState.None,
