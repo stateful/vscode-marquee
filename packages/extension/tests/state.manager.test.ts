@@ -103,6 +103,7 @@ test('access to individual disposables', () => {
   expect(stateManager.todoWidget).toEqual(manager)
   expect(stateManager.snippetsWidget).toEqual(manager)
   expect(stateManager.global).toEqual(manager)
+  expect(stateManager.gui).toEqual(manager)
 })
 
 test('clearAll', async () => {

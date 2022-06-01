@@ -11,6 +11,7 @@ import type { MarqueeEvents } from '@vscode-marquee/utils'
 
 import telemetry from './telemetry'
 import StateManager from './stateManager'
+import { DEFAULT_STATE } from './utils'
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration, ExtensionExport } from './types'
 
@@ -29,7 +30,8 @@ export class MarqueeGui extends EventEmitter {
 
   constructor (
     private readonly context: vscode.ExtensionContext,
-    private readonly stateMgr: StateManager
+    private readonly stateMgr: StateManager,
+    private readonly channel: vscode.OutputChannel
   ) {
     super()
     this._template = vscode.workspace.fs.readFile(vscode.Uri.joinPath(this._baseUri, 'dist', 'extension.html'))
@@ -72,7 +74,20 @@ export class MarqueeGui extends EventEmitter {
     this.client.emit(event, payload)
   }
 
+  private async _verifyWidgetStates () {
+    /**
+     * check if current selected mode was removed and switch to the default
+     * mode if so
+     */
+    if (this.stateMgr.gui.state.modeName && !this.stateMgr.gui.configuration.modes[this.stateMgr.gui.state.modeName]) {
+      this.channel.appendLine(`Couldn't find selected mode "${this.stateMgr.gui.state.modeName}", switching to default`)
+      await this.stateMgr.gui.updateState('modeName', DEFAULT_STATE.modeName)
+    }
+  }
+
   public async open () {
+    await this._verifyWidgetStates()
+
     if (this.guiActive && this.panel) {
       this.panel.reveal()
       this.emit('webview.open')

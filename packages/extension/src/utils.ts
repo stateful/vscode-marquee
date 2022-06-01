@@ -38,7 +38,7 @@ export const DEFAULT_CONFIGURATION = {
 type Configuration = typeof DEFAULT_CONFIGURATION
 type State = typeof DEFAULT_STATE
 
-class GUIExtensionManager extends ExtensionManager<State, Configuration> {
+export class GUIExtensionManager extends ExtensionManager<State, Configuration> {
   private _lastModesChange = Date.now()
 
   constructor (

@@ -23,7 +23,7 @@ export class MarqueeExtension {
   private readonly treeView: TreeView
 
   constructor (private readonly context: vscode.ExtensionContext) {
-    this.gui = new MarqueeGui(this.context, this._stateMgr)
+    this.gui = new MarqueeGui(this.context, this._stateMgr, this._channel)
     this.treeView = new TreeView(this.context, this._stateMgr)
     this.setupCommands()
 
