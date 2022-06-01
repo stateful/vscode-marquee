@@ -29,7 +29,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   constructor (
     protected _context: vscode.ExtensionContext,
     protected _channel: vscode.OutputChannel,
-    private _key: string,
+    protected _key: string,
     private _defaultConfiguration: Configuration,
     private _defaultState: State
   ) {
