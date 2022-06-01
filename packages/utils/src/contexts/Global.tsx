@@ -11,6 +11,7 @@ const rgba = ['r', 'g', 'b', 'a'] as const
 const WIDGET_ID = '@vscode-marquee/utils'
 
 const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
+  const eventListener = getEventListener<MarqueeEvents>()
   const globalState = getEventListener<State & Configuration>(WIDGET_ID)
   const providerValues = connect<State & Configuration>({
     ...window.marqueeStateConfiguration[WIDGET_ID].state,
@@ -20,9 +21,16 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
   const [resetApp, setResetApp] = useState(false)
   useEffect(() => {
     window.vscode.setState({})
-    const eventListener = getEventListener<MarqueeEvents>()
     eventListener.on('resetMarquee', () => setResetApp(true))
   }, [])
+
+  const _setGlobalScope = (enabled: boolean) => {
+    eventListener.emit('telemetryEvent', {
+      eventName: 'setGlobalScope',
+      properties: { enabled: enabled.toString() }
+    })
+    return providerValues.setGlobalScope(enabled)
+  }
 
   /**
    * theme color propagated into template
@@ -44,6 +52,7 @@ const GlobalProvider = ({ children }: { children: React.ReactElement }) => {
     <GlobalContext.Provider
       value={{
         ...providerValues,
+        setGlobalScope: _setGlobalScope,
         /**
          * overwrite global scope value to ensure we always
          * are locked into it when we don't have a workspace open

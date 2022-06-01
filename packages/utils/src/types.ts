@@ -1,4 +1,5 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core'
+import type { TelemetryEventProperties } from '@vscode/extension-telemetry'
 import type { Webview } from 'vscode'
 
 export type ContextProperties<T> = {
@@ -48,7 +49,7 @@ export interface MarqueeEvents {
   resetMarquee?: boolean
   telemetryEvent: {
     eventName: string
-    properties?: Record<string, string>
+    properties?: TelemetryEventProperties
   }
 }
 
