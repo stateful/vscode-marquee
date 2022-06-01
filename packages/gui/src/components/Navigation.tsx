@@ -24,6 +24,8 @@ import FeedbackDialog from '../dialogs/FeedbackDialog'
 import ThemeDialog from '../dialogs/ThemeDialog'
 import InfoDialog from '../dialogs/InfoDialog'
 import SettingsDialog from '../dialogs/SettingsDialog'
+import LanguageIcon from '@mui/icons-material/Language'
+import WorkspacesIcon from '@mui/icons-material/Workspaces'
 
 const PREFIX = 'Navigation'
 
@@ -271,7 +273,9 @@ const Navigation = () => {
                       overlap="circular"
                       badgeContent={globalScope ? 1 : 0}
                     >
-                      <FilterListIcon fontSize="small" />
+                      {globalScope ? 
+                        <LanguageIcon fontSize="small"/> : <WorkspacesIcon fontSize="small" />
+                      }
                     </Badge>
                   </IconButton>
                 </Tooltip>
