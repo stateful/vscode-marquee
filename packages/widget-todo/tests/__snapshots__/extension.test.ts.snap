@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`_addTodo sets todo properly 1`] = `
+Array [
+  Array [
+    "todos",
+    Array [
+      Object {
+        "archived": false,
+        "body": "some new todo here",
+        "checked": false,
+        "id": "123457890",
+        "origin": "/some/path.js:123",
+        "path": "/some/path.js:123",
+        "tags": Array [],
+        "workspaceId": null,
+      },
+    ],
+  ],
+]
+`;
+
+exports[`_addTodo sets todo properly 2`] = `
+Array [
+  Array [
+    Object {
+      "todos": Array [
+        Object {
+          "archived": false,
+          "body": "some new todo here",
+          "checked": false,
+          "id": "123457890",
+          "origin": "/some/path.js:123",
+          "path": "/some/path.js:123",
+          "tags": Array [],
+          "workspaceId": null,
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`generate proper default state and configuration 1`] = `undefined`;
+
+exports[`generate proper default state and configuration 2`] = `
+Object {
+  "todos": Array [],
+}
+`;
