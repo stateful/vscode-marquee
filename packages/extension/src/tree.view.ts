@@ -322,7 +322,7 @@ class TodoItem extends Item implements ContextMenu {
       ts.push(
         // todo empty state
         new TodoItem(
-          'Add new todosss',
+          'Add new todo',
           'addtodos',
           {} as Todo,
           vscode.TreeItemCollapsibleState.None,
