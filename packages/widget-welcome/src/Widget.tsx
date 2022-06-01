@@ -20,7 +20,7 @@ let Welcome = () => {
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <Box sx={{
           borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px',
+          padding: '8px 8px 4px',
         }}>
           <Grid
             container

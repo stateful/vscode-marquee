@@ -24,7 +24,7 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
 
   const submit = (index: number) => {
     const isWorkspaceTodo = index === 0
-    if (title === '') {
+    if (title.trim() === '') {
       setError(true)
       return
     }
@@ -35,15 +35,13 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
 
   return (
     <DialogContainer fullWidth={true} onClose={close}>
-      <DialogTitle onClose={close}>{title || 'Add Note'}</DialogTitle>
+      <DialogTitle onClose={close}>{title.trim() || 'Add Note'}</DialogTitle>
       <DialogContent dividers={true}>
         <TextField
           error={error}
           fullWidth
           variant="filled"
-          onChange={(e) => {
-            setTitle(e.target.value)
-          }}
+          onChange={(e) => setTitle(e.target.value)}
           name="title"
           autoFocus
           value={title}

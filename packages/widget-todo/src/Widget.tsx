@@ -82,7 +82,7 @@ let Todo = () => {
       <Grid item xs={1} style={{ maxWidth: '100%' }}>
         <Box sx={{
           borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px',
+          padding: '8px 8px 4px',
         }}>
           <Grid
             container
@@ -91,19 +91,12 @@ let Todo = () => {
             alignItems="stretch"
             alignContent="stretch"
           >
-            <Grid item>
-              <Grid container direction="row">
-                <Grid item>
-                  <Typography variant="subtitle1">Todo</Typography>
-                </Grid>
-                <Grid item>
-                  <TodoInfo />
-                </Grid>
-              </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
             </Grid>
 
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
+            <Grid item xs={8}>
+              <Grid container justifyContent="right" direction="row" spacing={1}>
                 <Grid item>
                   <TodoFilter />
                 </Grid>
