@@ -155,6 +155,12 @@
         "enablement": "editorHasSelection"
       },
       {
+        "command": "marquee.todo.addEditor",
+        "title": "Add to Todos",
+        "category": "Marquee",
+        "enablement": "!editorHasSelection"
+      },
+      {
         "command": "marquee.todo.move",
         "title": "Move todo to current workspace",
         "category": "Marquee",
