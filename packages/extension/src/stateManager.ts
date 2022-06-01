@@ -18,7 +18,7 @@ import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-m
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 
 import telemetry from './telemetry'
-import { activateGUI } from './utils'
+import { activateGUI, GUIExtensionManager } from './utils'
 import { FILE_FILTER, CONFIG_FILE_TYPE } from './constants'
 import type { ExtensionExport } from './types'
 
@@ -204,6 +204,12 @@ export default class StateManager implements vscode.Disposable {
         `Error writing export file: ${(err as Error).message}`
       )
     }
+  }
+
+  get gui () {
+    return this.widgetExtensions.find(
+      (e) => e.id === '@vscode-marquee/gui'
+    )?.exports.marquee.disposable as GUIExtensionManager
   }
 
   get projectWidget () {

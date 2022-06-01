@@ -3,7 +3,8 @@ import { TextEncoder } from 'util'
 import { render } from 'eta'
 import { MarqueeGui } from '../src/gui.view'
 
-const stateMgr = {
+const context: any = {}
+const stateMgr: any = {
   widgetExtensions: [
     {
       exports: { marquee: { disposable: {
@@ -18,18 +19,30 @@ const stateMgr = {
       packageJSON: {}
     }
   ],
+  gui: {
+    state: { modeName: 'foobar' },
+    configuration: {
+      modes: {
+        default: {},
+        foobar: {}
+      }
+    },
+    updateState: jest.fn()
+  },
   projectWidget: {
     getActiveWorkspace: jest.fn().mockReturnValue({ id: 'foobar' })
   }
 }
+const channel: any = {
+  appendLine: jest.fn()
+}
 
-jest.mock('@vscode-marquee/utils/extension', () => ({
-  getExtProps: jest.fn().mockReturnValue({ some: 'props' }),
-  pkg: { version: '1.2.3' }
-}))
+beforeEach(() => {
+  channel.appendLine.mockClear()
+})
 
 test('constructor', () => {
-  new MarqueeGui('context' as any, stateMgr as any)
+  new MarqueeGui(context, stateMgr, channel)
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on).toBeCalledTimes(2)
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on)
     .toBeCalledWith('gui.open', expect.any(Function))
@@ -38,13 +51,13 @@ test('constructor', () => {
 })
 
 test('isActive', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['guiActive'] = 'foobar' as any
   expect(gui.isActive()).toBe('foobar')
 })
 
 test('close', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui.close()
   gui['panel'] = { dispose: jest.fn() } as any
   gui.close()
@@ -52,7 +65,7 @@ test('close', () => {
 })
 
 test('broadcast', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   expect(gui.broadcast('removeWidget', 'foobar')).toBe(false)
 
   gui['client'] = { emit: jest.fn() } as any
@@ -61,7 +74,7 @@ test('broadcast', () => {
 })
 
 test('_executeCommand', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['_executeCommand']({ command: 'vscode.openFolder', args: ['foo', 'bar'], options: 'foobar' as any})
   expect(vscode.commands.executeCommand).toBeCalledWith('vscode.openFolder', 'parsedUri-foo', 'foobar')
 
@@ -73,7 +86,7 @@ test('_executeCommand', () => {
 })
 
 test('_handleNotifications', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['_handleNotifications']({ type: 'error', message: 'foobar' })
   expect(vscode.window.showErrorMessage).toBeCalledWith('foobar')
 
@@ -85,7 +98,7 @@ test('_handleNotifications', () => {
 })
 
 test('open an already open webview', async () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['panel'] = { reveal: jest.fn() } as any
   gui['guiActive'] = true
   await gui.open()
@@ -93,21 +106,33 @@ test('open an already open webview', async () => {
 })
 
 test('open webview', async () => {
-  const context = {
+  const context: any = {
     extensionUri: '/some/uri',
     extensionPath: '/some/path'
   }
-  const gui = new MarqueeGui(context as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   const encoder = new TextEncoder()
   gui['_template'] = Promise.resolve(encoder.encode('<html></html>'))
+  gui['_verifyWidgetStates'] = jest.fn()
   await gui.open()
 
+  expect(gui['_verifyWidgetStates']).toBeCalledTimes(1)
   expect(gui['panel']?.iconPath).toMatchSnapshot()
   expect((render as jest.Mock).mock.calls).toMatchSnapshot()
 })
 
+test('_verifyWidgetStates', async () => {
+  const gui = new MarqueeGui(context, stateMgr, channel)
+  gui['_templateDecoded'] = 'foo'
+  await gui.open()
+  expect(stateMgr.gui.updateState).toBeCalledTimes(0)
+  delete gui['stateMgr'].gui.configuration.modes['foobar']
+  await gui.open()
+  expect(stateMgr.gui.updateState).toBeCalledWith('modeName', 'default')
+})
+
 test('_disposePanel', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['guiActive'] = true
   gui['panel'] = {} as any
   gui.emit = jest.fn()
@@ -124,7 +149,7 @@ test('_disposePanel', () => {
 })
 
 test('_handleWebviewMessage', () => {
-  const gui = new MarqueeGui('context' as any, stateMgr as any)
+  const gui = new MarqueeGui(context, stateMgr, channel)
   gui['_executeCommand'] = jest.fn()
   gui['_handleNotifications'] = jest.fn()
   gui['emit'] = jest.fn()

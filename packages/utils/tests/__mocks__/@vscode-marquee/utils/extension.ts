@@ -35,6 +35,7 @@ export default class ExtensionManagerMock {
   }
 }
 
+export const getExtProps = jest.fn().mockReturnValue({ some: 'props' })
 export const WorkspaceType = actualExport.WorkspaceType
 export const pkg = actualExport.pkg
 export const defaultConfigurations = actualExport.defaultConfigurations

@@ -43,6 +43,17 @@ const ModeSelector = () => {
   const anchorRef = useRef(null)
   const mode = modes[modeName]
 
+  /**
+   * if user deletes the selected mode within the settings.json while
+   * the webview is open, we have to switch back to default
+   */
+  if (!mode) {
+    const newDefaultMode = Object.keys(modes)[0]
+    console.warn(`Can't find mode "${modeName}" anymore, switching back to "${newDefaultMode}"`)
+    _setModeName(newDefaultMode)
+    return null
+  }
+
   const setModeName = (newMode: string) => {
     /**
      * switching modes is a very costly operation, let's ensure we
