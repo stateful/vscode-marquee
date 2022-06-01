@@ -49,7 +49,7 @@ test('activateGUI', () => {
   expect(extExport.marquee.disposable.state).toEqual('foobar')
 })
 
-test('extension manager removes native icon', () => {
+test('extension manager removes native icon', async () => {
   const context = {
     globalState: {
       get: jest.fn().mockReturnValue({}),
@@ -57,7 +57,7 @@ test('extension manager removes native icon', () => {
     }
   }
   const extExport = activateGUI(context as any, {} as any)
-  extExport.marquee.disposable.updateConfiguration('modes', {
+  await extExport.marquee.disposable.updateConfiguration('modes', {
     foobar: {
       icon: { foo: 'bar', native: 123 }
     }
@@ -65,6 +65,32 @@ test('extension manager removes native icon', () => {
   expect(extExport.marquee.disposable.configuration).toEqual({
     modes: {
       foobar: { icon: { foo: 'bar' } }
+    }
+  })
+})
+
+test('extension manager removes workspace modes', async () => {
+  const context = {
+    globalState: {
+      get: jest.fn().mockReturnValue({}),
+      setKeysForSync: jest.fn()
+    }
+  }
+  const extExport = activateGUI(context as any, {} as any)
+  // @ts-expect-error
+  vscode.workspace.workspaceFolders = ['/foo/bar']
+  ;(vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(JSON.stringify({
+    'marquee.configuration.modes': { foobar: {} }
+  }))
+  await extExport.marquee.disposable.updateConfiguration('modes', {
+    default: {},
+    foobar: {
+      icon: { foo: 'bar', native: 123 }
+    }
+  })
+  expect(extExport.marquee.disposable.configuration).toEqual({
+    modes: {
+      default: {}
     }
   })
 })

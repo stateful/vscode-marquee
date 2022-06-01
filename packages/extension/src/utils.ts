@@ -66,9 +66,27 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
           delete val[modeName].icon.native
         }
       }
+
+      /**
+       * in order to prevent storing modes into the global workspace we should check weather
+       * they are part of the workspace settings
+       */
+      const workspaceFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0]
+      if (workspaceFolder) {
+        try {
+          const workspaceSettings: Record<string, any> = JSON.parse((await vscode.workspace.fs.readFile(
+            vscode.Uri.joinPath(workspaceFolder.uri, '.vscode', 'settings.json')
+          )).toString())
+          for (const workspaceMode of Object.keys(workspaceSettings['marquee.configuration.modes'])) {
+            delete val[workspaceMode]
+          }
+        } catch (err) {
+          // no-op
+        }
+      }
     }
 
-    super.updateConfiguration(prop, val)
+    return super.updateConfiguration(prop, val)
   }
 
   _onModeChange (event: vscode.ConfigurationChangeEvent) {
