@@ -10,7 +10,7 @@ export interface Props {
   label: string
   variant: 'filled' | 'standard' | 'outlined' | undefined
   value: any
-  getOptionSelected: (option: any, value: any) => boolean
+  isOptionEqualToValue: (option: any, value: any) => boolean
   onChange: (e: ChangeEvent<{}>, v: any) => void
 }
 
