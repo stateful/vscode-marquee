@@ -59,6 +59,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.stateMgr.snippetsWidget.on('stateUpdate', this.update.bind(this))
     this.stateMgr.notesWidget.on('stateUpdate', this.update.bind(this))
     this.stateMgr.global.on('stateUpdate', this.update.bind(this))
+    this.update()
   }
 
   clearTree () {
