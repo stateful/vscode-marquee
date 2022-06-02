@@ -17,4 +17,9 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
     const webviewInner = await browser.findElement('css selector', this.locators.innerFrame)
     await browser.switchToFrame(webviewInner)
   }
+
+  public async close () {
+    await browser.switchToFrame(null)
+    await browser.switchToFrame(null)
+  }
 }
