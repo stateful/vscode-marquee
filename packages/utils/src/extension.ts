@@ -137,6 +137,10 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
     this._channel.appendLine(`Update state "${prop.toString()}": ${val as any as string}`)
     this._state[prop] = val
+    await this.emitStateUpdate()
+  }
+
+  async emitStateUpdate () {
     await this._context.globalState.update(this._key, this._state)
     this.emit('stateUpdate', this._state)
   }
