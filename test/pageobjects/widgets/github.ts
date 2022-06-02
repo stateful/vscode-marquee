@@ -1,4 +1,4 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
 import { MuiAutocomplete } from '../components/inputs'
 import {
@@ -6,8 +6,8 @@ import {
   githubTrendItem as githubTrendItemLocators
 } from '../locators'
 
-export interface GithubWidget extends IPluginDecorator<typeof githubWidgetLocators> { }
-@PluginDecorator(githubWidgetLocators)
+export interface GithubWidget extends IPageDecorator<typeof githubWidgetLocators> { }
+@PageDecorator(githubWidgetLocators)
 export class GithubWidget extends BasePage<typeof githubWidgetLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
@@ -72,8 +72,8 @@ export class GithubWidget extends BasePage<typeof githubWidgetLocators, typeof l
   }
 }
 
-export interface GithubTrendItem extends IPluginDecorator<typeof githubTrendItemLocators> { }
-@PluginDecorator(githubTrendItemLocators)
+export interface GithubTrendItem extends IPageDecorator<typeof githubTrendItemLocators> { }
+@PageDecorator(githubTrendItemLocators)
 export class GithubTrendItem extends BasePage<typeof githubTrendItemLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)

@@ -1,4 +1,4 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
 import { MuiDialog } from '../components/dialog'
 import { todoWidget as todoWidgetLocators, todoItem as todoItemLocators } from '../locators'
@@ -10,8 +10,8 @@ interface WidgetOptions {
   showArchived?: boolean
 }
 
-export interface TodoWidget extends IPluginDecorator<typeof todoWidgetLocators> { }
-@PluginDecorator(todoWidgetLocators)
+export interface TodoWidget extends IPageDecorator<typeof todoWidgetLocators> { }
+@PageDecorator(todoWidgetLocators)
 export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
@@ -93,8 +93,8 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
   }
 }
 
-export interface TodoItem extends IPluginDecorator<typeof todoItemLocators> { }
-@PluginDecorator(todoItemLocators)
+export interface TodoItem extends IPageDecorator<typeof todoItemLocators> { }
+@PageDecorator(todoItemLocators)
 export class TodoItem extends BasePage<typeof todoItemLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)

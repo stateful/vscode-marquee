@@ -1,12 +1,12 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
 import { Select } from '../components/inputs'
 import { newsWidget as newsWidgetLocators } from '../locators'
 
 type NewsChannels = 'News' | 'Newest' | 'Ask' | 'Show' | 'Jobs' | 'Best'
 
-export interface NewsWidget extends IPluginDecorator<typeof newsWidgetLocators> { }
-@PluginDecorator(newsWidgetLocators)
+export interface NewsWidget extends IPageDecorator<typeof newsWidgetLocators> { }
+@PageDecorator(newsWidgetLocators)
 export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)

@@ -1,9 +1,9 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
 import { Select as SelectLocators, MuiAutocomplete as MuiAutocompleteLocators } from '../locators'
 
-export interface Select extends IPluginDecorator<typeof SelectLocators> { }
-@PluginDecorator(SelectLocators)
+export interface Select extends IPageDecorator<typeof SelectLocators> { }
+@PageDecorator(SelectLocators)
 export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
@@ -34,8 +34,8 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
   }
 }
 
-export interface MuiAutocomplete extends IPluginDecorator<typeof MuiAutocompleteLocators> { }
-@PluginDecorator(MuiAutocompleteLocators)
+export interface MuiAutocomplete extends IPageDecorator<typeof MuiAutocompleteLocators> { }
+@PageDecorator(MuiAutocompleteLocators)
 export class MuiAutocomplete extends BasePage<typeof MuiAutocompleteLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)

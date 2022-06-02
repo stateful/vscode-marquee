@@ -1,11 +1,11 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 
 import * as locatorMap from '../locators'
 import { MuiAutocomplete } from './inputs'
 import { MuiDialog as MuiDialogLocators } from '../locators'
 
-export interface MuiDialog extends IPluginDecorator<typeof MuiDialogLocators> { }
-@PluginDecorator(MuiDialogLocators)
+export interface MuiDialog extends IPageDecorator<typeof MuiDialogLocators> { }
+@PageDecorator(MuiDialogLocators)
 export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
