@@ -19,9 +19,11 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
   public locatorKey = 'todoWidget' as const
 
   public async createTodo (todo: string, tags: string[], scope: 'workspace' | 'global') {
-    await this.addTodoBtn$.click()
-
     const dialog = new MuiDialog(this.locatorMap)
+    if (!await dialog.isOpen()) {
+      await this.addTodoBtn$.click()
+    }
+
     await dialog.setTextareaValue('body', todo)
     for (const tag of tags) {
       await dialog.setInputValue('todo-tags', tag)
@@ -111,9 +113,11 @@ export class TodoItem extends BasePage<typeof todoItemLocators, typeof locatorMa
     return this.tags$$.map((tag) => tag.getText())
   }
 
-  public async edit (option: { todo: string, tags: string[] }) {
-    await this.optionsBtn$.click()
-    await $('p=Edit').click()
+  public async edit (option: { todo: string, tags: string[] }, isDialogOpen = false) {
+    if (!isDialogOpen) {
+      await this.optionsBtn$.click()
+      await $('p=Edit').click()
+    }
 
     const dialog = new MuiDialog(this.locatorMap)
     if (option.todo) {

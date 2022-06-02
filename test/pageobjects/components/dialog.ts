@@ -18,6 +18,10 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
     return select.setValue(value)
   }
 
+  public async isOpen () {
+    return this.elem.isExisting()
+  }
+
   public async setInputValue (name: string, value: string) {
     await this.input$(name).setValue(value)
     await browser.keys(['Enter'])
