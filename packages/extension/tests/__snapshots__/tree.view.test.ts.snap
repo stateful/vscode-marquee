@@ -175,55 +175,20 @@ Array [
     "checked": undefined,
     "collapsibleState": undefined,
     "command": Object {
-      "arguments": Array [
-        Object {
-          "workspaceId": "123",
-        },
-      ],
-      "command": "marquee.snippet.insert",
-      "title": "Insert Snippet",
+      "command": "marquee.snippet.addEmpty",
+      "title": "Add New Snippet",
     },
-    "contextValue": "Snippet",
-    "empty": false,
+    "contextValue": "AddNew",
+    "empty": true,
     "iconPath": Object {
-      "dark": "/foo/bar/assets/snippets-light.svg",
-      "light": "/foo/bar/assets/snippets-dark.svg",
+      "dark": "/foo/bar/assets/add-light.svg",
+      "light": "/foo/bar/assets/add-dark.svg",
     },
-    "id": undefined,
+    "id": "addItemSnippet",
     "isTreeItem": true,
-    "item": Object {
-      "workspaceId": "123",
-    },
-    "label": undefined,
-    "type": "Snippet",
-  },
-  SnippetItem {
-    "archived": undefined,
-    "basePath": "/foo/bar",
-    "checked": undefined,
-    "collapsibleState": undefined,
-    "command": Object {
-      "arguments": Array [
-        Object {
-          "workspaceId": "321",
-        },
-      ],
-      "command": "marquee.snippet.insert",
-      "title": "Insert Snippet",
-    },
-    "contextValue": "Snippet",
-    "empty": false,
-    "iconPath": Object {
-      "dark": "/foo/bar/assets/snippets-light.svg",
-      "light": "/foo/bar/assets/snippets-dark.svg",
-    },
-    "id": undefined,
-    "isTreeItem": true,
-    "item": Object {
-      "workspaceId": "321",
-    },
-    "label": undefined,
-    "type": "Snippet",
+    "item": Object {},
+    "label": "Add New Snippet",
+    "type": "AddNew",
   },
 ]
 `;
@@ -236,51 +201,20 @@ Array [
     "checked": undefined,
     "collapsibleState": undefined,
     "command": Object {
-      "arguments": Array [
-        [Circular],
-      ],
-      "command": "marquee.edit",
-      "title": "Open note",
+      "command": "marquee.note.addEmpty",
+      "title": "Add new note",
     },
-    "contextValue": "Note",
-    "empty": false,
+    "contextValue": "AddNew",
+    "empty": true,
     "iconPath": Object {
-      "dark": "/foo/bar/assets/notes-light.svg",
-      "light": "/foo/bar/assets/notes-dark.svg",
+      "dark": "/foo/bar/assets/add-light.svg",
+      "light": "/foo/bar/assets/add-dark.svg",
     },
-    "id": undefined,
+    "id": "addItemNote",
     "isTreeItem": true,
-    "item": Object {
-      "workspaceId": "123",
-    },
-    "label": undefined,
-    "type": "Note",
-  },
-  NoteItem {
-    "archived": undefined,
-    "basePath": "/foo/bar",
-    "checked": undefined,
-    "collapsibleState": undefined,
-    "command": Object {
-      "arguments": Array [
-        [Circular],
-      ],
-      "command": "marquee.edit",
-      "title": "Open note",
-    },
-    "contextValue": "Note",
-    "empty": false,
-    "iconPath": Object {
-      "dark": "/foo/bar/assets/notes-light.svg",
-      "light": "/foo/bar/assets/notes-dark.svg",
-    },
-    "id": undefined,
-    "isTreeItem": true,
-    "item": Object {
-      "workspaceId": "321",
-    },
-    "label": undefined,
-    "type": "Note",
+    "item": Object {},
+    "label": "Add new note",
+    "type": "AddNew",
   },
 ]
 `;

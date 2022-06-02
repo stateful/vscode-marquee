@@ -25,8 +25,9 @@ describe('TreeView', () => {
   test('constructor', () => {
     jest.spyOn(TreeView.prototype, 'update' as any)
       .mockImplementation(() => ({} as any))
-    new TreeView(context as any, stateMgr)
+    const tree = new TreeView(context as any, stateMgr)
     expect(context.subscriptions).toEqual(['marquee.toggleScope'])
+    expect(tree['update']).toBeCalledTimes(1)
   })
 
   test('clearTree', () => {
@@ -43,10 +44,12 @@ describe('TreeView', () => {
     const tree = new TreeView(context as any, stateMgr)
     tree.toggleScope()
     expect(tree['stateMgr'].global.updateState).toBeCalledWith('globalScope', false)
-    expect(tree['update']).toBeCalledTimes(1)
+    expect(tree['update']).toBeCalledTimes(2)
   })
 
   test('_updateTodos', () => {
+    jest.spyOn(TreeView.prototype, 'update' as any)
+      .mockImplementation(() => ({} as any))
     const tree = new TreeView(context as any, stateMgr)
     tree['_updateTodos']({} as any, true)
     expect(tree['state'].todos).toHaveLength(0)
@@ -60,6 +63,8 @@ describe('TreeView', () => {
   })
 
   test('_updateNotes', () => {
+    jest.spyOn(TreeView.prototype, 'update' as any)
+      .mockImplementation(() => ({} as any))
     const tree = new TreeView(context as any, stateMgr)
     tree['_updateNotes']({} as any, true)
     expect(tree['state'].notes).toHaveLength(0)
@@ -73,6 +78,8 @@ describe('TreeView', () => {
   })
 
   test('_updateSnippets', () => {
+    jest.spyOn(TreeView.prototype, 'update' as any)
+      .mockImplementation(() => ({} as any))
     const tree = new TreeView(context as any, stateMgr)
     tree['_updateSnippets']({} as any, true)
     expect(tree['state'].snippets).toHaveLength(0)
@@ -86,6 +93,8 @@ describe('TreeView', () => {
   })
 
   test('update', () => {
+    jest.spyOn(TreeView.prototype, 'refresh' as any)
+      .mockImplementation(() => ({} as any))
     const tree = new TreeView(context as any, stateMgr)
     context.globalState.get.mockReturnValue({
       globalScope: true
