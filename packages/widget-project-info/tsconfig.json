@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/**/*",
+    "../../@types"
+  ]
+}
