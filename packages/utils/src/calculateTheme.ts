@@ -99,13 +99,6 @@ export default () => {
           }
         }
       },
-      MuiDialogActions: {
-        styleOverrides: {
-          root: {
-            borderTop: '1px solid var(--vscode-editorGroup-border)'
-          }
-        }
-      }
     },
     palette: {
       mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
