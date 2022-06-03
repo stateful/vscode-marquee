@@ -29,4 +29,11 @@ export class TreeView extends BasePage<typeof TreeViewLocators, typeof locatorMa
     const items = await this.getItems()
     return Promise.all(items.map((i) => i.getLabel()))
   }
+
+  async getItem (label: string): Promise<CustomTreeItem | undefined> {
+    const items = await this.getItems()
+    const itemLabels = await this.getItemLabels()
+    const index = itemLabels.findIndex((i) => i === label)
+    return items[index]
+  }
 }

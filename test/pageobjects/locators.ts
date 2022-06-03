@@ -60,6 +60,10 @@ export const todoItem = {
   optionsBtn: 'button[aria-label="todo-options"]'
 }
 
+export const noteWidget = {
+  addNoteBtn: 'button[aria-label="Add Note"]'
+}
+
 export const MuiDialog = {
   elem: '.MuiDialog-root',
   closeBtn: 'button=Close',
@@ -67,7 +71,8 @@ export const MuiDialog = {
   input: (name: string) => `input[name="${name}"]`,
   textarea: (name: string) => `textarea[name="${name}"]`,
   adornment: '.MuiInputAdornment-root svg',
-  saveBtn: 'button=Save'
+  saveBtn: 'button=Save',
+  quillEditor: '.ql-editor'
 }
 
 export const Select = {

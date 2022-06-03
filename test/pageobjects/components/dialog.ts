@@ -23,6 +23,11 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
   }
 
   public async setInputValue (name: string, value: string) {
+    // delete input first (not possible with clearValue)
+    await this.input$(name).click()
+    await browser.keys(['Meta', 'a'])
+    await browser.keys(['Delete'])
+
     await this.input$(name).setValue(value)
     await browser.keys(['Enter'])
   }
@@ -35,6 +40,11 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
     await browser.execute((elem: HTMLTextAreaElement) => { elem.value = '' }, textarea as any)
 
     await this.textarea$(name).setValue(value)
+  }
+
+  public async setQuillContainerValue (value: string) {
+    await this.quillEditor$.click()
+    await browser.keys(value)
   }
 
   public save () {
