@@ -4,6 +4,8 @@ import { MuiDialog } from '../components/dialog'
 import { noteWidget as noteWidgetLocators } from '../locators'
 import { SplitButton } from '../components/button'
 
+const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
+
 export interface NoteWidget extends IPageDecorator<typeof noteWidgetLocators> { }
 @PageDecorator(noteWidgetLocators)
 export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locatorMap> {
@@ -33,7 +35,7 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
     if (params.title) {
       // delete input first (not possible with clearValue)
       await dialog.input$('title').click()
-      await browser.keys(['Meta', 'a'])
+      await browser.keys([CMD_KEY, 'a'])
       await browser.keys(['Delete'])
       await dialog.setInputValue('title', params.title)
     }
