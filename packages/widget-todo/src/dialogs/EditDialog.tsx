@@ -86,9 +86,6 @@ const TodoEditDialog = React.memo(({ close, todo }: TodoEditDialogParams) => {
         />
       </DialogContent>
       <DialogActions style={{ paddingRight: theme.spacing(3) }}>
-        <Button onClick={close} color="secondary" style={{ padding: '4px 8px', margin: '0 5px' }}>
-          Close
-        </Button>
         <Button variant="contained" color="secondary" onClick={() => _removeTodo(todo.id)}>
           Delete
         </Button>
