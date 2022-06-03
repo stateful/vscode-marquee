@@ -42,6 +42,8 @@ vscode.commands = {
   executeCommand: jest.fn()
 }
 
+const lineAtMock = jest.fn().mockReturnValue({ range: 'some range'})
+
 vscode.TreeItem = jest.fn()
 vscode.EventEmitter = jest.fn()
 vscode.workspace = {
@@ -56,8 +58,9 @@ vscode.workspace = {
     writeFile: jest.fn().mockResolvedValue({})
   },
   openTextDocument: jest.fn().mockResolvedValue({
-    lineAt: jest.fn().mockReturnValue({ range: 'some range'})
+    lineAt: lineAtMock
   }),
+  lineAtMock,
   registerTextDocumentContentProvider: jest.fn(),
   registerFileSystemProvider: jest.fn()
 }
