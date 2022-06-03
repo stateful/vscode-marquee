@@ -91,6 +91,13 @@ export default () => {
             left: 0
           }
         }
+      },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: {
+            borderTop: '1px solid var(--vscode-editorGroup-border)'
+          }
+        }
       }
     },
     palette: {
