@@ -31,6 +31,10 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
   public async editNote (params: { title?: string, noteText?: string }) {
     const dialog = new MuiDialog(this.locatorMap)
     if (params.title) {
+      // delete input first (not possible with clearValue)
+      await dialog.input$('title').click()
+      await browser.keys(['Meta', 'a'])
+      await browser.keys(['Delete'])
       await dialog.setInputValue('title', params.title)
     }
     if (params.noteText) {

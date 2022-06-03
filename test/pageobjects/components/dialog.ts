@@ -23,11 +23,6 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
   }
 
   public async setInputValue (name: string, value: string) {
-    // delete input first (not possible with clearValue)
-    await this.input$(name).click()
-    await browser.keys(['Meta', 'a'])
-    await browser.keys(['Delete'])
-
     await this.input$(name).setValue(value)
     await browser.keys(['Enter'])
   }
