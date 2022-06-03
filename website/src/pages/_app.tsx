@@ -6,7 +6,19 @@ import { IntercomProvider } from 'react-use-intercom'
 
 import theme from '../theme'
 import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID } from '../constants'
+import {useAnalytics} from '../components/UseAnalytics'
+import { Router } from 'next/router'
+const {init, trackPageViewed} = useAnalytics()
 export default class MarqueeApp extends App {
+  componentDidMount (){
+    init('G-Y4EB2N534S')
+    trackPageViewed(window.location.pathname + window.location.search)
+  }
+  componentDidUpdate (){
+    Router.events.on('routeChangeComplete', () => {
+      trackPageViewed(window.location.pathname + window.location.search)
+    })
+  }
   render () {
     const { Component, pageProps } = this.props
 
