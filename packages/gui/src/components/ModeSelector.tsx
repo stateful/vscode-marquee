@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from 'react'
 
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewCompactIcon from '@mui/icons-material/ViewCompact'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import CheckIcon from '@mui/icons-material/Check'
 import { Emoji } from 'emoji-mart'
 import {
@@ -106,7 +105,6 @@ const ModeSelector = () => {
           <ViewCompactIcon fontSize="small" className="modeIcon" />
         )}
         {mode.icon && <Emoji emoji={mode.icon} size={16} />}
-        <ArrowDropDownIcon />
       </Button>
       <Popper
         open={open}
