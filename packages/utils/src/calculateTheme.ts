@@ -95,6 +95,13 @@ export default () => {
       MuiDialogContent: {
         styleOverrides: {
           root: {
+            border: '1px solid var(--vscode-editorGroup-border)'
+          }
+        }
+      },
+      MuiDialogActions: {
+        styleOverrides: {
+          root: {
             borderTop: '1px solid var(--vscode-editorGroup-border)'
           }
         }
