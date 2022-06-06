@@ -38,7 +38,7 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
-  console.log('selectedMarkdownContent',selectedMarkdownContent)
+
   return (
     <>
       <Grid item style={{ maxWidth: '100%' }}>
