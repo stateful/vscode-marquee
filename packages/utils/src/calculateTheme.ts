@@ -91,6 +91,19 @@ export default () => {
             left: 0
           }
         }
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            background: '#0078d7',
+            borderRadius: '8px'
+          },
+          arrow: {
+            '&:before': {
+              color: '#0078d7'
+            }
+          },
+        }
       }
     },
     palette: {
