@@ -91,7 +91,14 @@ export default () => {
             left: 0
           }
         }
-      }
+      },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: {
+            border: '1px solid var(--vscode-editorGroup-border)'
+          }
+        }
+      },
     },
     palette: {
       mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
