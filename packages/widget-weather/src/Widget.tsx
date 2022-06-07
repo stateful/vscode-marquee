@@ -33,19 +33,26 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
       <Grid item xs={6} style={{ maxWidth: '100%' }}>
         <Grid
           container
-          direction="row"
+          direction={fullscreenMode ? 'column' : 'row'}
           spacing={2}
           alignItems="center"
           wrap="nowrap"
           justifyContent="space-evenly"
         >
-          <Grid item>
+          <Grid item sx={{
+            fontSize: {
+              xs: '75px',
+              sm: '150px',
+              md: '200px',
+              lg: '300px'
+            }
+          }}>
             <WeatherIcon
               name="owm"
               iconId={`${current.weather[0].id}`}
               flip="horizontal"
               rotate="90"
-              style={{ fontSize: fullscreenMode ? '300px' : '75px'}}
+              style={{ fontSize: fullscreenMode ? 'inherit' : '75px'}}
             />
           </Grid>
           <Grid item>
