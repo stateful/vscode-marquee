@@ -1,11 +1,11 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton, Box } from '@mui/material'
+import { Grid, Button, IconButton, Dialog } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
-import wrapper, { Dragger } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
 
 import TodoContext, { TodoProvider } from './Context'
 import TodoPop from './components/Pop'
@@ -24,6 +24,7 @@ let Todo = () => {
     hide,
     todoFilter,
   } = useContext(TodoContext)
+  const [fullscreenMode, setFullscreenMode] = useState(false)
   const { globalScope } = useContext(GlobalContext)
 
   let filteredItems = useMemo(() => {
@@ -77,20 +78,79 @@ let Todo = () => {
     return filteredItems
   }, [todos, globalScope, hide, todoFilter, showArchived])
 
-  return (
-    <>
-      <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <Box sx={{
-          borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px 8px 4px',
-        }}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="stretch"
-            alignContent="stretch"
-          >
+  const TodoUIBody = () => (
+    <Grid item xs>
+      <Grid
+        container
+        wrap="nowrap"
+        direction="column"
+        style={{ height: '100%' }}
+      >
+        <Grid item xs style={{ overflow: 'auto' }}>
+          {filteredItems.length === 0 && (
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="center"
+              style={{ height: '80%', width: '100%' }}
+            >
+              <Grid item>
+                <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
+                  Create a todo
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+          <List
+            lockVertically={true}
+            values={filteredItems}
+            onChange={({ oldIndex, newIndex }) => {
+              let constrainedArr = filteredItems
+              let firstTodo = constrainedArr[oldIndex]
+              let secondTodo = constrainedArr[newIndex]
+
+              let realFirstIndex = todos.findIndex((todo) => {
+                return todo.id === firstTodo.id
+              })
+              let realSecondIndex = todos.findIndex((todo) => {
+                return todo.id === secondTodo.id
+              })
+
+              let newTodos = arrayMove(
+                todos,
+                realFirstIndex,
+                realSecondIndex
+              )
+              setTodos(newTodos)
+            }}
+            renderList={({ children, props }) => (
+              <Grid
+                container
+                direction="column"
+                style={{ padding: '8px' }}
+                {...props}
+              >
+                {children}
+              </Grid>
+            )}
+            renderItem={({ value, props, isDragged }) => (
+              <TodoItem
+                key={value.id}
+                todo={value}
+                isDragged={isDragged}
+                dragProps={props}
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+  if(!fullscreenMode){
+    return (
+      <>
+        <HeaderWrapper>
+          <>
             <Grid item xs={4}>
               <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
             </Grid>
@@ -112,81 +172,57 @@ let Todo = () => {
                   <TodoPop />
                 </Grid>
                 <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
                   <Dragger />
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </Grid>
-      <Grid item xs>
-        <Grid
-          container
-          wrap="nowrap"
-          direction="column"
-          style={{ height: '100%' }}
-        >
-          <Grid item xs style={{ overflow: 'auto' }}>
-            {filteredItems.length === 0 && (
-              <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                style={{ height: '80%', width: '100%' }}
-              >
+          </>
+        </HeaderWrapper> 
+        <TodoUIBody />  
+      </>
+    )
+  } else {
+    return (
+      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+        <HeaderWrapper>
+          <>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
+            </Grid>
+
+            <Grid item xs={8}>
+              <Grid container justifyContent="right" direction="row" spacing={1}>
                 <Grid item>
-                  <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
-                    Create a todo
-                  </Button>
+                  <TodoFilter />
+                </Grid>
+                <Grid item>
+                  <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+                    <AddCircle fontSize="small" />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <DoubleClickHelper />
+                </Grid>
+                <Grid item>
+                  <TodoPop />
+                </Grid>
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
+                  <Dragger />
                 </Grid>
               </Grid>
-            )}
-            <List
-              lockVertically={true}
-              values={filteredItems}
-              onChange={({ oldIndex, newIndex }) => {
-                let constrainedArr = filteredItems
-                let firstTodo = constrainedArr[oldIndex]
-                let secondTodo = constrainedArr[newIndex]
-
-                let realFirstIndex = todos.findIndex((todo) => {
-                  return todo.id === firstTodo.id
-                })
-                let realSecondIndex = todos.findIndex((todo) => {
-                  return todo.id === secondTodo.id
-                })
-
-                let newTodos = arrayMove(
-                  todos,
-                  realFirstIndex,
-                  realSecondIndex
-                )
-                setTodos(newTodos)
-              }}
-              renderList={({ children, props }) => (
-                <Grid
-                  container
-                  direction="column"
-                  style={{ padding: '8px' }}
-                  {...props}
-                >
-                  {children}
-                </Grid>
-              )}
-              renderItem={({ value, props, isDragged }) => (
-                <TodoItem
-                  key={value.id}
-                  todo={value}
-                  isDragged={isDragged}
-                  dragProps={props}
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-    </>
-  )
+            </Grid>
+          </>
+        </HeaderWrapper>   
+        <TodoUIBody />
+      </Dialog>
+    )
+  }
 }
 
 const Widget = () => (

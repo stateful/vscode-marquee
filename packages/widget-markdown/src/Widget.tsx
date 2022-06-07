@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   Box,
+  Dialog,
   Grid,
   ListItem,
   ListItemText,
@@ -8,7 +9,7 @@ import {
   Typography,
 } from '@mui/material'
 
-import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import SplitterLayout from 'react-splitter-layout'
 import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
@@ -18,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 
 const Markdown = () => {
+  const [fullscreenMode, setFullscreenMode] = useState(false)
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
 
@@ -33,40 +35,10 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
+  
 
-  return (
-    <>
-      <Grid item style={{ maxWidth: '100%' }}>
-        <Box
-          sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}
-        >
-          <Grid
-            container
-            direction="row"
-            wrap="nowrap"
-            alignContent="stretch"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid item>
-              <Typography variant="subtitle1">Markdown</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <HidePop name="markdown" />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </Grid>
+  const MarkdownUIBody = () => {
+    return (
       <Grid item xs>
         <Grid
           container
@@ -210,8 +182,55 @@ const Markdown = () => {
           </Grid>
         </Grid>
       </Grid>
-    </>
-  )
+    )
+  }
+  if(!fullscreenMode) {
+    return (
+      <>
+        <HeaderWrapper>
+          <>
+            <Grid item>
+              <Typography variant="subtitle1">Markdown</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1} alignItems="center">
+                <Grid item>
+                  <HidePop name="markdown" />
+                </Grid>
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
+                  <Dragger />
+                </Grid>
+              </Grid>
+            </Grid>
+          </>
+        </HeaderWrapper>  
+        <MarkdownUIBody />
+      </>
+    )
+  } else {
+    return (
+      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+        <HeaderWrapper>
+          <>
+            <Grid item>
+              <Typography variant="subtitle1">Markdown</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1} alignItems="center">
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+              </Grid>
+            </Grid> 
+          </>
+        </HeaderWrapper>
+        <MarkdownUIBody />
+      </Dialog>
+    )
+  }
 }
 
 export default wrapper(
