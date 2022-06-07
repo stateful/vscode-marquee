@@ -2,9 +2,7 @@ import React, { useContext, useState, useRef } from 'react'
 
 import SettingsIcon from '@mui/icons-material/Settings'
 import ViewCompactIcon from '@mui/icons-material/ViewCompact'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import CheckIcon from '@mui/icons-material/Check'
-import { IconButton } from '@mui/material'
 import { Emoji } from 'emoji-mart'
 import {
   Popper,
@@ -12,7 +10,6 @@ import {
   Paper,
   Button,
   Grid,
-  ButtonGroup,
   ListItemIcon,
   Typography,
   ListItem,
@@ -21,6 +18,7 @@ import {
   ListItemSecondaryAction,
   Divider,
   ClickAwayListener,
+  IconButton
 } from '@mui/material'
 
 import ModeContext from '../contexts/ModeContext'
@@ -39,7 +37,7 @@ const ModeSelector = () => {
   const [open, setOpen] = useState(false)
   const [disabled, setDisabled] = useState(false)
   const [showModeDialog, setShowModeDialog] = useState(false)
-  const { modeName, _setModeName, prevMode, modes } = useContext(ModeContext)
+  const { modeName, _setModeName, modes } = useContext(ModeContext)
   const anchorRef = useRef(null)
   const mode = modes[modeName]
 
@@ -64,26 +62,6 @@ const ModeSelector = () => {
     _setModeName(newMode)
   }
 
-  const handleClick = () => {
-    setDisabled(true)
-    setTimeout(() => setDisabled(false), 1000)
-
-    //if there was a previous mode, switch to that
-    if (prevMode) {
-      setModeName(prevMode)
-      return
-    }
-
-    //if there was no previous mode
-    //find the next mode and go there
-    //if that doesn't exist, goto default 0
-    let modesArr = Object.keys(modes)
-    let currModeIndex = modesArr.indexOf(modeName)
-    return modesArr[currModeIndex + 1]
-      ? setModeName(modesArr[currModeIndex + 1])
-      : setModeName(modesArr[0])
-  }
-
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
   }
@@ -91,38 +69,30 @@ const ModeSelector = () => {
   return (
     <div>
       {showModeDialog && <ModeDialog close={() => setShowModeDialog(false)} />}
-      <ButtonGroup variant="text" ref={anchorRef} aria-label="split button">
-        <Button
-          aria-label="Set Mode"
-          onClick={handleClick}
-          size="small"
-          disabled={disabled}
-          style={{background: 'transparent'}}
-        >
-          {!mode.icon && (
-            <ViewCompactIcon fontSize="small" className="modeIcon" />
-          )}
-          {mode.icon && <Emoji emoji={mode.icon} size={16} />}
-        </Button>
-        <Button
-          disabled={disabled}
-          size="small"
-          aria-controls={open ? 'split-button-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-label="select merge strategy"
-          aria-haspopup="menu"
-          onClick={handleToggle}
-          style={{background: 'transparent'}}
-        >
-          <ArrowDropDownIcon />
-        </Button>
-      </ButtonGroup>
+      <Button
+        disabled={disabled}
+        size="medium"
+        aria-controls={open ? 'split-button-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-label="select merge strategy"
+        aria-haspopup="menu"
+        onClick={handleToggle}
+        onMouseEnter={handleToggle}
+        sx={{display:'flex', background: 'transparent', margin:0, minHeight:0, minWidth:0}}
+        ref={anchorRef}
+      >
+        {!mode.icon && (
+          <ViewCompactIcon fontSize="small" className="modeIcon" />
+        )}
+        {mode.icon && <Emoji emoji={mode.icon} size={16} />}
+      </Button>
       <Popper
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
         transition
         disablePortal
+        onMouseLeave={handleToggle}
       >
         {({ TransitionProps, placement }) => (
           <Grow
