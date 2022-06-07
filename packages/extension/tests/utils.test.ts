@@ -129,4 +129,12 @@ test('linkMarquee', async () => {
   expect(parse).toBeCalledWith('/some/file:123')
   await linkMarquee({ item: { origin: '/some/file:124' } })
   expect(parse).toBeCalledWith('/some/file')
+
+  // @ts-expect-error mock feature
+  vscode.workspace.lineAtMock.mockImplementation(() => {
+    throw new Error('ups')
+  })
+  const logSpy = jest.spyOn(console, 'warn')
+  await linkMarquee({ item: { origin: '/some/file:124' } })
+  expect(logSpy).toBeCalledWith('Marquee: ups')
 })
