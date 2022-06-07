@@ -95,12 +95,12 @@ export default () => {
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
-            background: '#0078d7',
+            background: 'var(--vscode-charts-blue)',
             borderRadius: '8px'
           },
           arrow: {
             '&:before': {
-              color: '#0078d7'
+              color: 'var(--vscode-charts-blue)'
             }
           },
         }
