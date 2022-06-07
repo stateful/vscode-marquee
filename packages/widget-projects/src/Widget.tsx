@@ -171,75 +171,74 @@ let Projects = () => {
         <ProjectWidgetBody />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Projects</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <ProjectsFilter />
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    aria-label="Open Folder"
-                    size="small"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.vscode.postMessage({
-                        west: {
-                          execCommands: [{
-                            command: 'vscode.openFolder',
-                            options: { forceNewWindow: openProjectInNewWindow }
-                          }],
-                        },
-                      })
-                    }}
-                  >
-                    <AddCircle fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    aria-label="Open Recent"
-                    size="small"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.vscode.postMessage({
-                        west: {
-                          execCommands: [
-                            {
-                              command: 'workbench.action.quickOpenRecent',
-                            },
-                          ],
-                        },
-                      })
-                    }}
-                  >
-                    <PageviewIcon fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <ProjectPop />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
+  } 
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item>
+            <Typography variant="subtitle1">Projects</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1}>
+              <Grid item>
+                <ProjectsFilter />
+              </Grid>
+              <Grid item>
+                <IconButton
+                  aria-label="Open Folder"
+                  size="small"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.vscode.postMessage({
+                      west: {
+                        execCommands: [{
+                          command: 'vscode.openFolder',
+                          options: { forceNewWindow: openProjectInNewWindow }
+                        }],
+                      },
+                    })
+                  }}
+                >
+                  <AddCircle fontSize="small" />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  aria-label="Open Recent"
+                  size="small"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.vscode.postMessage({
+                      west: {
+                        execCommands: [
+                          {
+                            command: 'workbench.action.quickOpenRecent',
+                          },
+                        ],
+                      },
+                    })
+                  }}
+                >
+                  <PageviewIcon fontSize="small" />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <ProjectPop />
+              </Grid>
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+              <Grid item>
+                <Dragger />
               </Grid>
             </Grid>
-          </>
-        </HeaderWrapper>
-        <ProjectWidgetBody />
-      </Dialog>
-    )
-  }
+          </Grid>
+        </>
+      </HeaderWrapper>
+      <ProjectWidgetBody />
+    </Dialog>
+  )
 }
 
 const Widget = () => (

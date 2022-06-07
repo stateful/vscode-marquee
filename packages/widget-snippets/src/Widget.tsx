@@ -224,7 +224,6 @@ const WidgetBody = ({ snippets, snippet } : {snippets: Snippet[], snippet: Snipp
 
 let Snippets = () => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
-  // const { globalScope } = useContext(GlobalContext)
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const { snippets, snippetSelected} = useContext(SnippetContext)
 
@@ -237,71 +236,6 @@ let Snippets = () => {
       return snippet.origin.split('/').reverse()[0].toUpperCase()
     }
   }, [snippet])
-
-  // const snippetsArr = useMemo(() => {
-  //   let filteredItems = snippets
-
-  //   if (!globalScope) {
-  //     filteredItems = filteredItems.filter((item) => (
-  //       item.workspaceId && item.workspaceId === window.activeWorkspace?.id
-  //     ))
-  //   }
-
-  //   if (snippetFilter) {
-  //     filteredItems = filteredItems.filter((item) => (
-  //       item.title.toLowerCase().indexOf(snippetFilter.toLowerCase()) !== -1
-  //     ))
-  //   }
-
-  //   return filteredItems
-  // }, [globalScope, snippets, snippetFilter])
-
-  // useEffect(() => {
-  //   if (snippetsArr.length !== 0) {
-  //     setSnippetSelected(snippetsArr[0].id)
-  //   }
-  // }, [snippetFilter, globalScope])
-
-  // const snippetItemClick = useCallback((e: any, index: number) => {
-  //   if (e.detail === 1) {
-  //     if (snippetsArr[index] && snippetsArr[index].id) {
-  //       setSnippetSelected(snippetsArr[index].id)
-  //     } else {
-  //       console.error({
-  //         message:
-  //           'Trying to set selected snippet to an entry that doesn\'t exist in the array',
-  //         eventObj: e,
-  //       })
-  //     }
-  //   }
-
-  //   if (e.detail === 2) {
-  //     let path = snippetsArr[index].path || ''
-  //     /**
-  //      * transform v2 snippets to make them editable in v3
-  //      */
-  //     if (!path.startsWith('/')) {
-  //       path = `/${snippetsArr[index].id}/${path}`
-  //     }
-
-  //     return eventListener.emit('openSnippet', path)
-  //   }
-  // }, [snippetsArr])
-
-  // const rowRenderer = ({ key, index, style }: RowRendererProps) => {
-  //   const snippetEntry = snippetsArr[index]
-  //   return (
-  //     <SnippetListItem
-  //       key={key}
-  //       keyVal={key}
-  //       index={index}
-  //       style={style}
-  //       snippet={snippetEntry}
-  //       selected={snippetSelected}
-  //       click={snippetItemClick}
-  //     />
-  //   )
-  // }
 
   if(!fullscreenMode){
     return (
@@ -361,65 +295,64 @@ let Snippets = () => {
         <WidgetBody snippet={snippet} snippets={snippets}/>
       </>
     )
-  }else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <Typography variant="subtitle1">Snippets</Typography>
-                </Grid>
-                <Grid item>
-                  {snippet && snippetLinkFileName && (
-                    <Button
-                      size="small"
-                      startIcon={<LinkIcon />}
-                      disableFocusRipple
-                      style={{
-                        padding: '0 5px',
-                        background: 'transparent',
-                        color: 'inherit'
-                      }}
-                      onClick={() => jumpTo(snippet)}
-                    >
-                      {snippetLinkFileName}
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <IconButton
-                    size="small"
-                    onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-                  >
-                    <AddCircle fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
-                </Grid>
-                <Grid item>
-                  <HidePop name="snippets" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody snippet={snippet} snippets={snippets}/>
-      </Dialog>
-    )
   }
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item>
+            <Grid container direction="row" spacing={1} alignItems="center">
+              <Grid item>
+                <Typography variant="subtitle1">Snippets</Typography>
+              </Grid>
+              <Grid item>
+                {snippet && snippetLinkFileName && (
+                  <Button
+                    size="small"
+                    startIcon={<LinkIcon />}
+                    disableFocusRipple
+                    style={{
+                      padding: '0 5px',
+                      background: 'transparent',
+                      color: 'inherit'
+                    }}
+                    onClick={() => jumpTo(snippet)}
+                  >
+                    {snippetLinkFileName}
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1} alignItems="center">
+              <Grid item>
+                <IconButton
+                  size="small"
+                  onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+                >
+                  <AddCircle fontSize="small" />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+              </Grid>
+              <Grid item>
+                <HidePop name="snippets" />
+              </Grid>
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+              <Grid item>
+                <Dragger />
+              </Grid>
+            </Grid>
+          </Grid>
+        </>
+      </HeaderWrapper>
+      <WidgetBody snippet={snippet} snippets={snippets}/>
+    </Dialog>
+  )
 }
 
 export default wrapper(() => (

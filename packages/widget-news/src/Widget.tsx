@@ -158,34 +158,32 @@ let News = () => {
         <WidgetBody />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">News</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
+  } 
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item>
+            <Typography variant="subtitle1">News</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1}>
+              <Grid item>
+                <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+              </Grid>
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+              <Grid item>
+                <Dragger />
               </Grid>
             </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </Dialog>
-    )
-  }
-  
+          </Grid>
+        </>
+      </HeaderWrapper>
+      <WidgetBody />
+    </Dialog>
+  )
 }
 
 export default wrapper(News, 'news')

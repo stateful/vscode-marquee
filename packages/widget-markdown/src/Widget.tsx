@@ -210,27 +210,26 @@ const Markdown = () => {
         <MarkdownUIBody />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Markdown</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
+  } 
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item>
+            <Typography variant="subtitle1">Markdown</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1} alignItems="center">
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
               </Grid>
-            </Grid> 
-          </>
-        </HeaderWrapper>
-        <MarkdownUIBody />
-      </Dialog>
-    )
-  }
+            </Grid>
+          </Grid> 
+        </>
+      </HeaderWrapper>
+      <MarkdownUIBody />
+    </Dialog>
+  )
 }
 
 export default wrapper(

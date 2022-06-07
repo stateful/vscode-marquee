@@ -263,48 +263,46 @@ const Weather = () => {
         <WidgetBody />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item xs={8} style={{
-              flexBasis: 'auto',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {city && (
-                <Typography variant="subtitle1">
-                  Weather in{' '}
-                  {city.replace(', United States', '').replace(', USA', '')}
-                </Typography>
-              )}
-              {!city && <Typography variant="subtitle1">Weather</Typography>}
-            </Grid>
-            <Grid item xs={4} style={{ minWidth: 105 }}>
-              <Grid container direction="row" spacing={1} justifyContent="flex-end">
-                <Grid item>
-                  <WeatherDialogLauncher />
-                </Grid>
-                <Grid item>
-                  <HidePop name="weather" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
+  }
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item xs={8} style={{
+            flexBasis: 'auto',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}>
+            {city && (
+              <Typography variant="subtitle1">
+                Weather in{' '}
+                {city.replace(', United States', '').replace(', USA', '')}
+              </Typography>
+            )}
+            {!city && <Typography variant="subtitle1">Weather</Typography>}
+          </Grid>
+          <Grid item xs={4} style={{ minWidth: 105 }}>
+            <Grid container direction="row" spacing={1} justifyContent="flex-end">
+              <Grid item>
+                <WeatherDialogLauncher />
+              </Grid>
+              <Grid item>
+                <HidePop name="weather" />
+              </Grid>
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+              <Grid item>
+                <Dragger />
               </Grid>
             </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </Dialog>
-    )
-  }
-  
+          </Grid>
+        </>
+      </HeaderWrapper>
+      <WidgetBody />
+    </Dialog>
+  )
 }
 
 export default wrapper(() => (

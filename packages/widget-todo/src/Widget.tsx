@@ -184,45 +184,44 @@ let Todo = () => {
         <TodoUIBody />  
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <HeaderWrapper>
-          <>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
-            </Grid>
+  } 
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item xs={4}>
+            <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
+          </Grid>
 
-            <Grid item xs={8}>
-              <Grid container justifyContent="right" direction="row" spacing={1}>
-                <Grid item>
-                  <TodoFilter />
-                </Grid>
-                <Grid item>
-                  <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                    <AddCircle fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <DoubleClickHelper />
-                </Grid>
-                <Grid item>
-                  <TodoPop />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
+          <Grid item xs={8}>
+            <Grid container justifyContent="right" direction="row" spacing={1}>
+              <Grid item>
+                <TodoFilter />
+              </Grid>
+              <Grid item>
+                <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+                  <AddCircle fontSize="small" />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <DoubleClickHelper />
+              </Grid>
+              <Grid item>
+                <TodoPop />
+              </Grid>
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+              <Grid item>
+                <Dragger />
               </Grid>
             </Grid>
-          </>
-        </HeaderWrapper>   
-        <TodoUIBody />
-      </Dialog>
-    )
-  }
+          </Grid>
+        </>
+      </HeaderWrapper>   
+      <TodoUIBody />
+    </Dialog>
+  )
 }
 
 const Widget = () => (

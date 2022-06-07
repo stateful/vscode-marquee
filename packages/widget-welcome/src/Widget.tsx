@@ -127,43 +127,42 @@ let Welcome = () => {
         <WidgetBody />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <Grid item xs={1} style={{ maxWidth: '100%' }}>
-          <Box sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography variant="subtitle1">Mailbox</Typography>
-              </Grid>
-              <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <PopMenu />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
+  }
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-editorGroup-border)',
+          padding: '8px 8px 4px',
+        }}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid item>
+              <Typography variant="subtitle1">Mailbox</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1}>
+                <Grid item>
+                  <PopMenu />
+                </Grid>
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
+                  <Dragger />
                 </Grid>
               </Grid>
             </Grid>
-          </Box>
-        </Grid>
-        <WidgetBody />
-      </Dialog>
-    )
-  }
+          </Grid>
+        </Box>
+      </Grid>
+      <WidgetBody />
+    </Dialog>
+  )
 }
 
 const Widget = () => (

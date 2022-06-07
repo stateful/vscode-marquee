@@ -67,45 +67,44 @@ const ThirdPartyWidget = ({ name, label }: Props) => {
         <WidgetBody name={name} />
       </>
     )
-  } else {
-    return (
-      <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-        <Grid item xs={1} style={{ maxWidth: '100%' }}>
-          <Box sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}>
-            <Grid
-              container
-              direction="row"
-              wrap="nowrap"
-              alignItems="stretch"
-              alignContent="stretch"
-              justifyContent="space-between"
-            >
-              <Grid item>
-                <Typography variant="subtitle1">{label}</Typography>
-              </Grid>
-              <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <HidePop name={name} />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
+  }
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <Grid item xs={1} style={{ maxWidth: '100%' }}>
+        <Box sx={{
+          borderBottom: '1px solid var(--vscode-editorGroup-border)',
+          padding: '8px 8px 4px',
+        }}>
+          <Grid
+            container
+            direction="row"
+            wrap="nowrap"
+            alignItems="stretch"
+            alignContent="stretch"
+            justifyContent="space-between"
+          >
+            <Grid item>
+              <Typography variant="subtitle1">{label}</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1}>
+                <Grid item>
+                  <HidePop name={name} />
+                </Grid>
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
+                  <Dragger />
                 </Grid>
               </Grid>
             </Grid>
-          </Box>
-        </Grid>
-        <WidgetBody name={name} />
-      </Dialog>
-    )
-  }
+          </Grid>
+        </Box>
+      </Grid>
+      <WidgetBody name={name} />
+    </Dialog>
+  )
 }
 
 export default ThirdPartyWidget
