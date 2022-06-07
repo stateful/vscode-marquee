@@ -23,7 +23,6 @@ export const filterByScope = <T extends { workspaceId: string | null }>(
 
 export const DEFAULT_STATE = {
   modeName: 'default',
-  prevMode: null
 }
 
 export const DEFAULT_CONFIGURATION = {

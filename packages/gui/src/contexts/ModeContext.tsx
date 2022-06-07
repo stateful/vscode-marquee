@@ -44,7 +44,6 @@ const ModeProvider = ({ children }: Props) => {
 
       modeState.broadcast({
         modeName: newModeName,
-        prevMode: providerValues.modeName,
         modes: providerValues.modes
       })
     }

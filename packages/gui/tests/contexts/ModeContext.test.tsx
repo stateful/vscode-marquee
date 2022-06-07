@@ -49,7 +49,6 @@ test('WidgetLayout filters non display widgets', () => {
   const listener = getEventListener()
   expect(listener.broadcast).toBeCalledWith({
     modeName: 'work',
-    prevMode: 'default',
     modes: expect.any(Object)
   })
 

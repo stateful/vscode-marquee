@@ -103,7 +103,6 @@ window.marqueeStateConfiguration = {
     },
     state: {
       modeName: 'default',
-      prevMode: null,
     },
   },
   '@vscode-marquee/welcome-widget': {
