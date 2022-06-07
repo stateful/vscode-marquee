@@ -39,7 +39,6 @@ export interface Theme {
 
 export interface State {
   modeName: string
-  prevMode: string | null
 }
 
 export interface Configuration {
