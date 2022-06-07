@@ -62,26 +62,6 @@ const ModeSelector = () => {
     _setModeName(newMode)
   }
 
-  // const handleClick = () => {
-  //   setDisabled(true)
-  //   setTimeout(() => setDisabled(false), 1000)
-
-  //   //if there was a previous mode, switch to that
-  //   if (prevMode) {
-  //     setModeName(prevMode)
-  //     return
-  //   }
-
-  //   //if there was no previous mode
-  //   //find the next mode and go there
-  //   //if that doesn't exist, goto default 0
-  //   let modesArr = Object.keys(modes)
-  //   let currModeIndex = modesArr.indexOf(modeName)
-  //   return modesArr[currModeIndex + 1]
-  //     ? setModeName(modesArr[currModeIndex + 1])
-  //     : setModeName(modesArr[0])
-  // }
-
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
   }
