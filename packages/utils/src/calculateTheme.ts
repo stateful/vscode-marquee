@@ -92,6 +92,13 @@ export default () => {
           }
         }
       },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: {
+            border: '1px solid var(--vscode-editorGroup-border)'
+          }
+        }
+      },
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
