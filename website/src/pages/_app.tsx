@@ -6,9 +6,8 @@ import { IntercomProvider } from 'react-use-intercom'
 
 import theme from '../theme'
 import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID, GOOGLE_ANALYTICS_4_ID } from '../constants'
-import { useAnalytics } from '../components/UseAnalytics'
 import { Router } from 'next/router'
-const { init, trackPageViewed } = useAnalytics()
+import { init, trackPageViewed } from '../utils/GoogleAnalytics'
 export default class MarqueeApp extends App {
   componentDidMount (){
     init(GOOGLE_ANALYTICS_4_ID)
