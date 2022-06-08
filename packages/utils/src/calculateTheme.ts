@@ -91,6 +91,26 @@ export default () => {
             left: 0
           }
         }
+      },
+      MuiDialogContent: {
+        styleOverrides: {
+          root: {
+            border: '1px solid var(--vscode-editorGroup-border)'
+          }
+        }
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            background: 'var(--vscode-charts-blue)',
+            borderRadius: '8px'
+          },
+          arrow: {
+            '&:before': {
+              color: 'var(--vscode-charts-blue)'
+            }
+          },
+        }
       }
     },
     palette: {

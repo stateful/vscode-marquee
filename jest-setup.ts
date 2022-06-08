@@ -102,8 +102,7 @@ window.marqueeStateConfiguration = {
       workspaceLaunch: false,
     },
     state: {
-      modeName: 'default',
-      prevMode: null,
+      modeName: 'default'
     },
   },
   '@vscode-marquee/welcome-widget': {

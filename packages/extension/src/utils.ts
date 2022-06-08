@@ -22,8 +22,7 @@ export const filterByScope = <T extends { workspaceId: string | null }>(
 }
 
 export const DEFAULT_STATE = {
-  modeName: 'default',
-  prevMode: null
+  modeName: 'default'
 }
 
 export const DEFAULT_CONFIGURATION = {
@@ -142,11 +141,15 @@ export const linkMarquee = async (item: any) => {
     return
   }
 
-  const editor = await vscode.window.showTextDocument(doc)
-  const r = doc.lineAt(parseInt(ln)).range
-  if (!editor || !r) {
-    return
-  }
+  try {
+    const editor = await vscode.window.showTextDocument(doc)
+    const r = doc.lineAt(parseInt(ln)).range
+    if (!editor || !r) {
+      return
+    }
 
-  editor.revealRange(r, vscode.TextEditorRevealType.InCenter)
+    editor.revealRange(r, vscode.TextEditorRevealType.InCenter)
+  } catch (err: any) {
+    console.warn(`Marquee: ${(err as Error).message}`)
+  }
 }

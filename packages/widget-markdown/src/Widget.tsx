@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import {
   Box,
+  Dialog,
   Grid,
+  IconButton,
   ListItem,
   ListItemText,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material'
 
-import wrapper, { Dragger, HidePop } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import SplitterLayout from 'react-splitter-layout'
 import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
@@ -16,10 +19,14 @@ import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const Markdown = () => {
+  const [fullscreenMode, setFullscreenMode] = useState(false)
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const {
     markdownDocuments,
@@ -33,40 +40,34 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
-
-  return (
-    <>
-      <Grid item style={{ maxWidth: '100%' }}>
-        <Box
-          sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}
-        >
-          <Grid
-            container
-            direction="row"
-            wrap="nowrap"
-            alignContent="stretch"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid item>
-              <Typography variant="subtitle1">Markdown</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <HidePop name="markdown" />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
+    
+  const CopyToClipboardButton = () => {
+    if (selectedMarkdownContent){
+      return (
+        <CopyToClipboard text={selectedMarkdownContent} onCopy={() => setCopied(true)}>
+          <Grid item>
+            <Tooltip arrow title='Copied' open={copied} leaveDelay={800} 
+              onClose={() => setCopied(false)} disableTouchListener
+            >
+              <IconButton sx={{ display: 'flex', alignItems: 'center', 
+                justifyContent: 'center', direction: 'column'}}
+              >
+                <FontAwesomeIcon
+                  fontSize="small"
+                  icon={faCopy}
+                />
+              </IconButton>
+            </Tooltip>
           </Grid>
-        </Box>
-      </Grid>
+        </CopyToClipboard>
+      )
+    }
+    return <></>
+  }
+  
+
+  const MarkdownUIBody = () => {
+    return (
       <Grid item xs>
         <Grid
           container
@@ -210,7 +211,55 @@ const Markdown = () => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    )
+  }
+  if(!fullscreenMode) {
+    return (
+      <>
+        <HeaderWrapper>
+          <>
+            <Grid item>
+              <Typography variant="subtitle1">Markdown</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" spacing={1} alignItems="center">
+                <CopyToClipboardButton />
+                <Grid item>
+                  <HidePop name="markdown" />
+                </Grid>
+                <Grid item>
+                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                </Grid>
+                <Grid item>
+                  <Dragger />
+                </Grid>
+              </Grid>
+            </Grid>
+          </>
+        </HeaderWrapper>  
+        <MarkdownUIBody />
+      </>
+    )
+  } 
+  return (
+    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+      <HeaderWrapper>
+        <>
+          <Grid item>
+            <Typography variant="subtitle1">Markdown</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1} alignItems="center">
+              <CopyToClipboardButton />
+              <Grid item>
+                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+              </Grid>
+            </Grid>
+          </Grid> 
+        </>
+      </HeaderWrapper>
+      <MarkdownUIBody />
+    </Dialog>
   )
 }
 

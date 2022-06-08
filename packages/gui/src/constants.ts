@@ -11,8 +11,7 @@ import Projects from '@vscode-marquee/widget-projects'
 import { WidgetConfig, Theme, State, Configuration, LayoutType } from './types'
 
 export const DEFAULT_STATE: State = {
-  modeName: 'default',
-  prevMode: null
+  modeName: 'default'
 }
 
 export const DEFAULT_CONFIGURATION: Configuration = {
