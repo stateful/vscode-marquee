@@ -3,9 +3,11 @@ import {
   Box,
   Dialog,
   Grid,
+  IconButton,
   ListItem,
   ListItemText,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material'
 
@@ -17,11 +19,14 @@ import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const Markdown = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const {
     markdownDocuments,
@@ -35,6 +40,30 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
+    
+  const CopyToClipboardButton = () => {
+    if (selectedMarkdownContent){
+      return (
+        <CopyToClipboard text={selectedMarkdownContent} onCopy={() => setCopied(true)}>
+          <Grid item>
+            <Tooltip arrow title='Copied' open={copied} leaveDelay={800} 
+              onClose={() => setCopied(false)} disableTouchListener
+            >
+              <IconButton sx={{ display: 'flex', alignItems: 'center', 
+                justifyContent: 'center', direction: 'column'}}
+              >
+                <FontAwesomeIcon
+                  fontSize="small"
+                  icon={faCopy}
+                />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </CopyToClipboard>
+      )
+    }
+    return <></>
+  }
   
 
   const MarkdownUIBody = () => {
@@ -194,6 +223,7 @@ const Markdown = () => {
             </Grid>
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
+                <CopyToClipboardButton />
                 <Grid item>
                   <HidePop name="markdown" />
                 </Grid>
@@ -220,6 +250,7 @@ const Markdown = () => {
           </Grid>
           <Grid item>
             <Grid container direction="row" spacing={1} alignItems="center">
+              <CopyToClipboardButton />
               <Grid item>
                 <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
               </Grid>

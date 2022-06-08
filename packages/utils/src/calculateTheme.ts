@@ -99,6 +99,19 @@ export default () => {
           }
         }
       },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            background: 'var(--vscode-charts-blue)',
+            borderRadius: '8px'
+          },
+          arrow: {
+            '&:before': {
+              color: 'var(--vscode-charts-blue)'
+            }
+          },
+        }
+      }
     },
     palette: {
       mode: document.body.classList[0] === 'vscode-light' ? 'light' : 'dark',
