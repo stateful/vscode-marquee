@@ -5,13 +5,13 @@ import { DefaultSeo } from 'next-seo'
 import { IntercomProvider } from 'react-use-intercom'
 
 import theme from '../theme'
-import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID } from '../constants'
-import {useAnalytics} from '../components/UseAnalytics'
+import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID, GOOGLE_ANALYTICS_4_ID } from '../constants'
+import { useAnalytics } from '../components/UseAnalytics'
 import { Router } from 'next/router'
-const {init, trackPageViewed} = useAnalytics()
+const { init, trackPageViewed } = useAnalytics()
 export default class MarqueeApp extends App {
   componentDidMount (){
-    init('G-Y4EB2N534S')
+    init(GOOGLE_ANALYTICS_4_ID)
     trackPageViewed(window.location.pathname + window.location.search)
   }
   componentDidUpdate (){
