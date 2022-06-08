@@ -5,8 +5,19 @@ import { DefaultSeo } from 'next-seo'
 import { IntercomProvider } from 'react-use-intercom'
 
 import theme from '../theme'
-import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID } from '../constants'
+import { TITLE, DESCRIPTION, CANONICAL, INTERCOM_APP_ID, GOOGLE_ANALYTICS_4_ID } from '../constants'
+import { Router } from 'next/router'
+import { init, trackPageViewed } from '../utils/GoogleAnalytics'
 export default class MarqueeApp extends App {
+  componentDidMount (){
+    init(GOOGLE_ANALYTICS_4_ID)
+    trackPageViewed(window.location.pathname + window.location.search)
+  }
+  componentDidUpdate (){
+    Router.events.on('routeChangeComplete', () => {
+      trackPageViewed(window.location.pathname + window.location.search)
+    })
+  }
   render () {
     const { Component, pageProps } = this.props
 
