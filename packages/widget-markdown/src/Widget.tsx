@@ -199,8 +199,7 @@ const Markdown = () => {
             </Grid>
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
-                {
-                  selectedMarkdownContent && 
+                {selectedMarkdownContent && 
                  <CopyToClipboard 
                    text={selectedMarkdownContent} 
                    onCopy={() => setCopied(true)}
