@@ -74,7 +74,7 @@ const ModeSelector = () => {
         size="medium"
         aria-controls={open ? 'split-button-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
-        aria-label="select merge strategy"
+        aria-label="Set Mode"
         aria-haspopup="menu"
         onClick={handleToggle}
         onMouseEnter={handleToggle}

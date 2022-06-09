@@ -16,6 +16,7 @@ test('should render component correctly', async () => {
   )
 
   expect(_setModeName).toBeCalledTimes(0)
-  await userEvent.click(screen.getByRole('button', { name: 'Set Mode' }))
+  await userEvent.hover(screen.getByRole('button', { name: 'Set Mode' }))
+  await userEvent.click(screen.queryByText('Play')!)
   expect(_setModeName).toBeCalledWith('play')
 })

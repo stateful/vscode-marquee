@@ -65,6 +65,13 @@ Object {
         },
       },
     },
+    "MuiDialogContent": Object {
+      "styleOverrides": Object {
+        "root": Object {
+          "border": "1px solid var(--vscode-editorGroup-border)",
+        },
+      },
+    },
     "MuiListItem": Object {
       "styleOverrides": Object {
         "root": Object {
@@ -91,6 +98,19 @@ Object {
       "styleOverrides": Object {
         "indicator": Object {
           "left": 0,
+        },
+      },
+    },
+    "MuiTooltip": Object {
+      "styleOverrides": Object {
+        "arrow": Object {
+          "&:before": Object {
+            "color": "var(--vscode-charts-blue)",
+          },
+        },
+        "tooltip": Object {
+          "background": "var(--vscode-charts-blue)",
+          "borderRadius": "8px",
         },
       },
     },
