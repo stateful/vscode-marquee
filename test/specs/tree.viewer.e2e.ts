@@ -5,6 +5,8 @@ import { TreeView } from '../pageobjects/components/treeview'
 import { Webview } from '../pageobjects/webview'
 import * as locatorMap from '../pageobjects/locators'
 
+export const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
+
 describe('Marquee Tree Viewer', () => {
   let marqueeItem: ViewControl
 
@@ -112,7 +114,7 @@ describe('Marquee Tree Viewer', () => {
       // write snippet content
       await browser.keys('This is a snippet')
       // save
-      await browser.keys(['Command', 's'])
+      await browser.keys([CMD_KEY, 's'])
       await browser.pause(100)
       // enter name of snippet into the prompt
       await browser.keys('My new snippet')
