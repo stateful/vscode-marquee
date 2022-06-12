@@ -125,6 +125,17 @@ describe('Marquee Tree Viewer', () => {
       const newSnippet = await treeView.getItem('My new snippet')
       expect(newSnippet).toBeTruthy()
     })
+
+    after(async () => {
+      const workbench = await driver.getWorkbench()
+      await workbench.elem.waitUntil(async () => {
+        const notifications = await workbench.getNotifications()
+        for (const n of notifications) {
+          await n.dismiss()
+        }
+        return (await workbench.getNotifications()).length === 0
+      })
+    })
   })
 
   describe('notes', () => {
