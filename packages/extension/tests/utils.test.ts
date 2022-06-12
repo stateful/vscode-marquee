@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/utils'
 
 jest.mock('@vscode-marquee/utils/extension', () => class {
-  static defaultConfigurations = {
+  static defaultConfigurations: Record<string, { default: string }> = {
     'marquee.configuration.modes': { default: 'marquee.configuration.modes' },
     'marquee.configuration.proxy': { default: 'marquee.configuration.proxy' },
     'marquee.configuration.fontSize': { default: 'marquee.configuration.fontSize' },

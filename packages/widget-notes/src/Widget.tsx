@@ -265,7 +265,7 @@ let Notes = () => {
             <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
                 <Grid item>
-                  <IconButton size="small" onClick={() => setShowAddDialog(true)}>
+                  <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
                     <AddCircleIcon fontSize="small" />
                   </IconButton>
                 </Grid>

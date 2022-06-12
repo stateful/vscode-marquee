@@ -1,11 +1,11 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 
 import * as locatorMap from '../locators'
 import { MuiAutocomplete } from './inputs'
 import { MuiDialog as MuiDialogLocators } from '../locators'
 
-export interface MuiDialog extends IPluginDecorator<typeof MuiDialogLocators> { }
-@PluginDecorator(MuiDialogLocators)
+export interface MuiDialog extends IPageDecorator<typeof MuiDialogLocators> { }
+@PageDecorator(MuiDialogLocators)
 export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
@@ -16,6 +16,10 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
     const select = new MuiAutocomplete(this.locatorMap, id)
     await select.clearValue()
     return select.setValue(value)
+  }
+
+  public async isOpen () {
+    return this.elem.isExisting()
   }
 
   public async setInputValue (name: string, value: string) {
@@ -31,6 +35,11 @@ export class MuiDialog extends BasePage<typeof MuiDialogLocators, typeof locator
     await browser.execute((elem: HTMLTextAreaElement) => { elem.value = '' }, textarea as any)
 
     await this.textarea$(name).setValue(value)
+  }
+
+  public async setQuillContainerValue (value: string) {
+    await this.quillEditor$.click()
+    await browser.keys(value)
   }
 
   public save () {

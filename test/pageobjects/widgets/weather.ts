@@ -1,10 +1,10 @@
-import { PluginDecorator, IPluginDecorator, BasePage } from 'wdio-vscode-service'
+import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 import * as locatorMap from '../locators'
 import { MuiDialog } from '../components/dialog'
 import { weatherWidget as weatherWidgetLocators } from '../locators'
 
-export interface WeatherWidget extends IPluginDecorator<typeof weatherWidgetLocators> { }
-@PluginDecorator(weatherWidgetLocators)
+export interface WeatherWidget extends IPageDecorator<typeof weatherWidgetLocators> { }
+@PageDecorator(weatherWidgetLocators)
 export class WeatherWidget extends BasePage<typeof weatherWidgetLocators, typeof locatorMap> {
   /**
    * @private locator key to identify locator map (see locators.ts)
