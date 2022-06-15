@@ -22,6 +22,7 @@ axiosRetry(Axios, { retries: AXIOS_RETRIES, retryDelay: axiosRetry.exponentialDe
 class StateManager extends ExtensionManager<State & Events, Configuration> {
   private _interval: NodeJS.Timeout
   private _prevtricks?: Trick[]
+  private _retainTricks: boolean = false
 
   constructor (
     context: vscode.ExtensionContext,
@@ -108,7 +109,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
      */
     const prevTrickIds = new Set(this._prevtricks?.map((trick) => trick.id) ?? [])
     const netNewTrickIds = new Set(result.filter(resTrick => !prevTrickIds.has(resTrick.id)))
-    if (!this._prevtricks || netNewTrickIds.size > 0) {
+    if (this._retainTricks && (!this._prevtricks || netNewTrickIds.size > 0)) {
       this._prevtricks = result
       this._channel.appendLine(`Broadcast ${result.length} tricks`)
       this.broadcast({ error: null, tricks: result })
@@ -126,7 +127,10 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
 
   setBroadcaster (tangle: Client<State & Events>) {
     super.setBroadcaster(tangle)
-    this.fetchData()
+    tangle.whenReady().then(() => {
+      this._retainTricks = true
+      return this.fetchData()
+    })
     tangle.on('upvote', this._upvoteTrick.bind(this))
     return this
   }
