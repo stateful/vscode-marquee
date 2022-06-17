@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
-import { Grid, Typography, TextField, IconButton, Button, Dialog } from '@mui/material'
+import React, { useContext, useEffect, useMemo, useCallback, useState, useRef, MouseEvent } from 'react'
+import { Grid, Typography, TextField, IconButton, Button, Dialog, Popover } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -12,6 +12,7 @@ import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vsc
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
@@ -26,7 +27,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
+const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
   const { globalScope } = useContext(GlobalContext)
   const {
     _updateNote,
@@ -142,7 +143,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
                         <ClearIcon
                           fontSize="small"
                           style={{ cursor: 'pointer' }}
-                          onClick={() => setNoteFilter('') }
+                          onClick={() => setNoteFilter('')}
                         />
                       ),
                     }}
@@ -221,11 +222,36 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
 }
 let Notes = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
   const {
     notes,
     noteSelected,
     setShowAddDialog
   } = useContext(NoteContext)
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleToggleFullScreen = () => {
+    setFullscreenMode(!fullscreenMode)
+    handleClose()
+  }
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
+
+  useEffect(() => {
+    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+  }, [ref.current?.offsetWidth])
 
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
@@ -237,9 +263,9 @@ let Notes = () => {
     }
   }, [note])
 
-  if(!fullscreenMode){
+  if (!fullscreenMode) {
     return (
-      <>
+      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <HeaderWrapper>
           <>
             <Grid item>
@@ -262,7 +288,7 @@ let Notes = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item>
+            {!minimizeNavIcon && <Grid item>
               <Grid container direction="row" spacing={1} alignItems="center">
                 <Grid item>
                   <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
@@ -276,19 +302,62 @@ let Notes = () => {
                   <HidePop name="notes" />
                 </Grid>
                 <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                  <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
                 </Grid>
                 <Grid item>
                   <Dragger />
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid>}
+            {minimizeNavIcon &&
+              <Grid item>
+
+                <Grid container justifyContent="right" direction="row" spacing={1}>
+                  <Grid item>
+                    <IconButton onClick={handleClick}>
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                    <Popover
+                      open={open}
+                      id={id}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    >
+                      <Grid item padding={1}>
+                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
+                          <Grid item>
+                            <IconButton size="small" onClick={() => setShowAddDialog(true)}>
+                              <AddCircleIcon fontSize="small" />
+                            </IconButton>
+                          </Grid>
+                          <Grid item>
+                            <DoubleClickHelper
+                              content="Double-click a note title to edit and right-click for copy & paste"
+                            />
+                          </Grid>
+                          <Grid item>
+                            <HidePop name="notes" />
+                          </Grid>
+                          <Grid item>
+                            <ToggleFullScreen
+                              toggleFullScreen={handleToggleFullScreen}
+                              isFullScreenMode={fullscreenMode}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Popover>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
           </>
         </HeaderWrapper>
-        <WidgetBody note={note} notes={notes}/>
-      </>
+        <WidgetBody note={note} notes={notes} />
+      </div>
     )
-  } 
+  }
   return (
     <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
       <HeaderWrapper>
@@ -336,7 +405,7 @@ let Notes = () => {
           </Grid>
         </>
       </HeaderWrapper>
-      <WidgetBody note={note} notes={notes}/>
+      <WidgetBody note={note} notes={notes} />
     </Dialog>
   )
 }

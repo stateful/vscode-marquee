@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { Box, Dialog, Grid, Link, Typography } from '@mui/material'
+import React, { MouseEvent, useContext, useEffect, useRef, useState } from 'react'
+import { Box, Dialog, Grid, IconButton, Link, Popover, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
 
@@ -9,6 +9,7 @@ import { NetworkError } from '@vscode-marquee/utils'
 import TrickContext, { TrickProvider } from './Context'
 import TrickContent from './components/TrickContent'
 import PopMenu from './components/Pop'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 const WidgetBody = () => {
   const { error } = useContext(TrickContext)
@@ -90,10 +91,34 @@ const WidgetBody = () => {
 
 let Welcome = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
-  
-  if(!fullscreenMode){
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleToggleFullScreen = () => {
+    setFullscreenMode(!fullscreenMode)
+    handleClose()
+  }
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
+
+  useEffect(() => {
+    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+  }, [ref.current?.offsetWidth])
+
+  if (!fullscreenMode) {
     return (
-      <>
+      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Grid item xs={1} style={{ maxWidth: '100%' }}>
           <Box sx={{
             borderBottom: '1px solid var(--vscode-editorGroup-border)',
@@ -108,24 +133,61 @@ let Welcome = () => {
               <Grid item>
                 <Typography variant="subtitle1">Mailbox</Typography>
               </Grid>
-              <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <PopMenu />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
+              {!minimizeNavIcon &&
+                <Grid item>
+                  <Grid container direction="row" spacing={1}>
+                    <Grid item>
+                      <PopMenu />
+                    </Grid>
+                    <Grid item>
+                      <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
+                    </Grid>
+                    <Grid item>
+                      <Dragger />
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              }
+              {minimizeNavIcon &&
+                <Grid item xs={8}>
+                  <Grid container justifyContent="right" direction="row" spacing={1}>
+                    <Grid item>
+                      <IconButton onClick={handleClick}>
+                        <MoreVertIcon fontSize="small" />
+                      </IconButton>
+                      <Popover
+                        open={open}
+                        id={id}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                      >
+                        <Grid item padding={1}>
+                          <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
+                            <Grid item>
+                              <PopMenu />
+                            </Grid>
+                            <Grid item>
+                              <ToggleFullScreen
+                                toggleFullScreen={handleToggleFullScreen}
+                                isFullScreenMode={fullscreenMode}
+                              />
+                            </Grid>
+                            <Grid item>
+                              <Dragger />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Popover>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              }
             </Grid>
           </Box>
         </Grid>
         <WidgetBody />
-      </>
+      </div>
     )
   }
   return (
@@ -150,10 +212,7 @@ let Welcome = () => {
                   <PopMenu />
                 </Grid>
                 <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
+                  <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
                 </Grid>
               </Grid>
             </Grid>

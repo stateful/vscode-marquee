@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import {
   Box,
   Dialog,
@@ -6,6 +6,7 @@ import {
   IconButton,
   ListItem,
   ListItemText,
+  Popover,
   TextField,
   Tooltip,
   Typography,
@@ -21,12 +22,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 const Markdown = () => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleToggleFullScreen = () => {
+    setFullscreenMode(!fullscreenMode)
+    handleClose()
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
 
   const {
     markdownDocuments,
@@ -40,17 +60,26 @@ const Markdown = () => {
       md.name.toLowerCase().includes(filter.toLowerCase())
     )
     : markdownDocuments
-    
+
+  useEffect(() => {
+    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+  }, [ref.current?.offsetWidth])
+
   const CopyToClipboardButton = () => {
-    if (selectedMarkdownContent){
+    if (selectedMarkdownContent) {
       return (
         <CopyToClipboard text={selectedMarkdownContent} onCopy={() => setCopied(true)}>
           <Grid item>
-            <Tooltip arrow title='Copied' open={copied} leaveDelay={800} 
+            <Tooltip arrow title='Copied' open={copied} leaveDelay={800}
               onClose={() => setCopied(false)} disableTouchListener
             >
-              <IconButton sx={{ display: 'flex', alignItems: 'center', 
-                justifyContent: 'center', direction: 'column'}}
+              <IconButton sx={{
+                display: 'flex', alignItems: 'center',
+                justifyContent: 'center', direction: 'column'
+              }}
               >
                 <FontAwesomeIcon
                   fontSize="small"
@@ -64,7 +93,7 @@ const Markdown = () => {
     }
     return <></>
   }
-  
+
 
   const MarkdownUIBody = () => {
     return (
@@ -213,34 +242,71 @@ const Markdown = () => {
       </Grid>
     )
   }
-  if(!fullscreenMode) {
+  if (!fullscreenMode) {
     return (
-      <>
+      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <HeaderWrapper>
           <>
             <Grid item>
               <Typography variant="subtitle1">Markdown</Typography>
             </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <CopyToClipboardButton />
-                <Grid item>
-                  <HidePop name="markdown" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
+            {!minimizeNavIcon &&
+              <Grid item>
+                <Grid container direction="row" spacing={1} alignItems="center">
+                  <CopyToClipboardButton />
+                  <Grid item>
+                    <HidePop name="markdown" />
+                  </Grid>
+                  <Grid item>
+                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
+                  </Grid>
+                  <Grid item>
+                    <Dragger />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            }
+            {minimizeNavIcon &&
+              <Grid item>
+                <Grid container justifyContent="right" direction="row" spacing={1}>
+                  <Grid item>
+                    <IconButton onClick={handleClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Popover
+                      open={open}
+                      id={id}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    >
+                      <Grid item padding={1}>
+                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
+                          <Grid item>
+                            <CopyToClipboardButton />
+                          </Grid>
+                          <Grid item>
+                            <HidePop name="markdown" />
+                          </Grid>
+                          <Grid item>
+                            <ToggleFullScreen
+                              toggleFullScreen={handleToggleFullScreen}
+                              isFullScreenMode={fullscreenMode}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Popover>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
           </>
-        </HeaderWrapper>  
+        </HeaderWrapper>
         <MarkdownUIBody />
-      </>
+      </div>
     )
-  } 
+  }
   return (
     <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
       <HeaderWrapper>
@@ -252,10 +318,10 @@ const Markdown = () => {
             <Grid container direction="row" spacing={1} alignItems="center">
               <CopyToClipboardButton />
               <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
               </Grid>
             </Grid>
-          </Grid> 
+          </Grid>
         </>
       </HeaderWrapper>
       <MarkdownUIBody />

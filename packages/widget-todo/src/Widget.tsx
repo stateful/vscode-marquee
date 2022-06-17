@@ -1,11 +1,12 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton, Dialog } from '@mui/material'
+import { Grid, Button, IconButton, Dialog, Popover } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import TodoContext, { TodoProvider } from './Context'
 import TodoPop from './components/Pop'
@@ -26,6 +27,30 @@ let Todo = () => {
   } = useContext(TodoContext)
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const { globalScope } = useContext(GlobalContext)
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleToggleFullScreen = () => {
+    setFullscreenMode(!fullscreenMode)
+    handleClose()
+  }
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
+
+  useEffect(() => {
+    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+  }, [ref.current?.offsetWidth])
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -146,16 +171,16 @@ let Todo = () => {
       </Grid>
     </Grid>
   )
-  if(!fullscreenMode){
+  if (!fullscreenMode) {
     return (
-      <>
+      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <HeaderWrapper>
           <>
             <Grid item xs={4}>
               <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
             </Grid>
 
-            <Grid item xs={8}>
+            {!minimizeNavIcon && <Grid item xs={8}>
               <Grid container justifyContent="right" direction="row" spacing={1}>
                 <Grid item>
                   <TodoFilter />
@@ -172,19 +197,66 @@ let Todo = () => {
                   <TodoPop />
                 </Grid>
                 <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
+                  <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
                 </Grid>
                 <Grid item>
                   <Dragger />
                 </Grid>
               </Grid>
             </Grid>
+            }
+            {minimizeNavIcon &&
+              <Grid item xs={8}>
+                <Grid container justifyContent="right" direction="row" spacing={1}>
+                  <Grid item>
+                    <IconButton onClick={handleClick}>
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                    <Popover
+                      open={open}
+                      id={id}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    >
+                      <Grid item padding={1}>
+                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
+                          <Grid item>
+                            <TodoFilter />
+                          </Grid>
+                          <Grid item>
+                            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+                              <AddCircle fontSize="small" />
+                            </IconButton>
+                          </Grid>
+                          <Grid item>
+                            <DoubleClickHelper />
+                          </Grid>
+                          <Grid item>
+                            <TodoPop />
+                          </Grid>
+                          <Grid item>
+                            <ToggleFullScreen
+                              toggleFullScreen={handleToggleFullScreen}
+                              isFullScreenMode={fullscreenMode}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Dragger />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Popover>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
           </>
-        </HeaderWrapper> 
-        <TodoUIBody />  
-      </>
+        </HeaderWrapper>
+        <TodoUIBody />
+      </div >
     )
-  } 
+  }
   return (
     <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
       <HeaderWrapper>
@@ -210,15 +282,12 @@ let Todo = () => {
                 <TodoPop />
               </Grid>
               <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
+                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
               </Grid>
             </Grid>
           </Grid>
         </>
-      </HeaderWrapper>   
+      </HeaderWrapper>
       <TodoUIBody />
     </Dialog>
   )

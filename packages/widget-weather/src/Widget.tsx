@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useRef, useState } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box, Dialog } from '@mui/material'
+import { Grid, Typography, CircularProgress, Box, Dialog, Popover, IconButton } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
@@ -17,7 +18,7 @@ interface TodayPropTypes {
   hourly: Forecast['hourly']
   fullscreenMode: boolean
 }
-let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) => {
+let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => {
   const { scale } = useContext(WeatherContext)
   const { themeColor } = useContext(GlobalContext)
 
@@ -52,7 +53,7 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
               iconId={`${current.weather[0].id}`}
               flip="horizontal"
               rotate="90"
-              style={{ fontSize: fullscreenMode ? 'inherit' : '75px'}}
+              style={{ fontSize: fullscreenMode ? 'inherit' : '75px' }}
             />
           </Grid>
           <Grid item>
@@ -171,6 +172,30 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
 const Weather = () => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
   const [fullscreenMode, setFullscreenMode] = useState(false)
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleToggleFullScreen = () => {
+    setFullscreenMode(!fullscreenMode)
+    handleClose()
+  }
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
+
+  useEffect(() => {
+    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+  }, [ref.current?.offsetWidth])
 
   const WidgetBody = () => (
     <Grid item xs>
@@ -217,21 +242,21 @@ const Weather = () => {
             padding: '24px',
           }}
         >
-          <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode}/>
+          <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode} />
         </Grid>)}
       </Grid>
     </Grid>
   )
 
-  if(!fullscreenMode){
+  if (!fullscreenMode) {
     return (
-      <>
+      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <HeaderWrapper>
           <>
             <Grid item xs={8} style={{
               flexBasis: 'auto',
               whiteSpace: 'nowrap',
-              overflow: 'hidden',
+              // overflow: 'hidden',
               textOverflow: 'ellipsis'
             }}>
               {city && (
@@ -242,26 +267,66 @@ const Weather = () => {
               )}
               {!city && <Typography variant="subtitle1">Weather</Typography>}
             </Grid>
-            <Grid item xs={4} style={{ minWidth: 105 }}>
-              <Grid container direction="row" spacing={1} justifyContent="flex-end">
-                <Grid item>
-                  <WeatherDialogLauncher />
-                </Grid>
-                <Grid item>
-                  <HidePop name="weather" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
+            {!minimizeNavIcon &&
+              <Grid item xs={6}>
+                <Grid container direction="row" spacing={1} justifyContent="flex-end">
+                  <Grid item>
+                    <WeatherDialogLauncher />
+                  </Grid>
+                  <Grid item>
+                    <HidePop name="weather" />
+                  </Grid>
+                  <Grid item>
+                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
+                  </Grid>
+                  <Grid item>
+                    <Dragger />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            }
+            {minimizeNavIcon &&
+              <Grid item >
+                <Grid container justifyContent="right" direction="row" spacing={1}>
+                  <Grid item>
+                    <IconButton onClick={handleClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Popover
+                      open={open}
+                      id={id}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    >
+                      <Grid item padding={1}>
+                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
+                          <Grid item>
+                            <WeatherDialogLauncher />
+                          </Grid>
+                          <Grid item>
+                            <HidePop name="weather" />
+                          </Grid>
+                          <Grid item>
+                            <ToggleFullScreen
+                              toggleFullScreen={handleToggleFullScreen}
+                              isFullScreenMode={fullscreenMode}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Dragger />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Popover>
+                  </Grid>
+                </Grid>
+              </Grid>
+            }
           </>
         </HeaderWrapper>
         <WidgetBody />
-      </>
+      </div>
     )
   }
   return (
@@ -291,10 +356,7 @@ const Weather = () => {
                 <HidePop name="weather" />
               </Grid>
               <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
+                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
               </Grid>
             </Grid>
           </Grid>
