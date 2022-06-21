@@ -52,6 +52,7 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
     ...props,
     ToggleFullScreen: () => (
       <ToggleFullScreen
+        widgetName={props.name}
         toggleFullScreen={setFullscreenMode}
         isFullScreenMode={fullscreenMode} />
     ),
@@ -63,7 +64,13 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
       <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
         { fullscreenMode
           ? (
-            <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+            <Dialog
+              fullScreen
+              open={fullscreenMode}
+              onClose={() => setFullscreenMode(false)}
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              aria-labelledby={`${props.name}Fullscreen`}
+            >
               <Widget { ...widgetProps } />
             </Dialog>
           )

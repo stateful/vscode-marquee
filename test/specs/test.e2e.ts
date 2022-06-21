@@ -5,6 +5,8 @@ import { TodoWidget } from '../pageobjects/widgets/todo'
 import { Webview } from '../pageobjects/webview'
 import * as locatorMap from '../pageobjects/locators'
 
+const WIDGETS = ['welcome', 'projects', 'weather', 'news', 'github', 'todo', 'snippets', 'notes']
+
 describe('Marquee', () => {
   before('should open by default', async () => {
     const workbench = await browser.getWorkbench()
@@ -26,6 +28,18 @@ describe('Marquee', () => {
 
     it('should load all widgets', async () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
+    })
+
+    describe('fullscreen feature', () => {
+      for (const widget of WIDGETS) {
+        it(`${widget} widget`, async () => {
+          const modalSelector = `.MuiModal-root div[aria-labelledby="${widget}Fullscreen"]`
+          await $(`button[aria-label="Toggle ${widget} widget to fullscreen"]`).click()
+          await expect($(modalSelector)).toBeExisting()
+          await browser.keys(['Escape'])
+          await expect($(modalSelector)).not.toBeExisting()
+        })
+      }
     })
 
     /**
