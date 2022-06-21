@@ -58,8 +58,6 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
     fullscreenMode
   }
 
-  console.log('RENDER!!!!', props.name)
-
   return (
     <ErrorBoundary>
       <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
