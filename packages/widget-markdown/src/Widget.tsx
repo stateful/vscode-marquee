@@ -42,31 +42,51 @@ const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     : markdownDocuments
 
   const CopyToClipboardButton = () => {
-    if (selectedMarkdownContent){
-      return (
-        <CopyToClipboard text={selectedMarkdownContent} onCopy={() => setCopied(true)}>
-          <Grid item>
-            <Tooltip arrow title='Copied' open={copied} leaveDelay={800}
-              onClose={() => setCopied(false)} disableTouchListener
-            >
-              <IconButton sx={{ display: 'flex', alignItems: 'center',
-                justifyContent: 'center', direction: 'column'}}
-              >
-                <FontAwesomeIcon
-                  fontSize="small"
-                  icon={faCopy}
-                />
-              </IconButton>
-            </Tooltip>
-          </Grid>
-        </CopyToClipboard>
-      )
+    if (!selectedMarkdownContent){
+      return <></>
     }
-    return <></>
+
+    return (
+      <CopyToClipboard text={selectedMarkdownContent} onCopy={() => setCopied(true)}>
+        <Grid item>
+          <Tooltip arrow title='Copied' open={copied} leaveDelay={800}
+            onClose={() => setCopied(false)} disableTouchListener
+          >
+            <IconButton sx={{ display: 'flex', alignItems: 'center',
+              justifyContent: 'center', direction: 'column'}}
+            >
+              <FontAwesomeIcon
+                fontSize="small"
+                icon={faCopy}
+              />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+      </CopyToClipboard>
+    )
   }
 
-  const WidgetBody = () => {
-    return (
+  return (
+    <>
+      <HeaderWrapper>
+        <Grid item>
+          <Typography variant="subtitle1">Markdown</Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <CopyToClipboardButton />
+            <Grid item>
+              <HidePop name="markdown" />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
       <Grid item xs>
         <Grid
           container
@@ -210,35 +230,6 @@ const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           </Grid>
         </Grid>
       </Grid>
-    )
-  }
-
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item>
-        <Typography variant="subtitle1">Markdown</Typography>
-      </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <CopyToClipboardButton />
-          <Grid item>
-            <HidePop name="markdown" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
-  return (
-    <>
-      <WidgetHeader />
-      <WidgetBody />
     </>
   )
 }

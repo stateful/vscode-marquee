@@ -9,7 +9,7 @@ import { List, AutoSizer } from 'react-virtualized'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
-import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
+// import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
@@ -220,7 +220,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
     </Grid>
   )
 }
-let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Notes = () => {
   const {
     notes,
     noteSelected,
@@ -237,62 +237,58 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [note])
 
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Notes</Typography>
-          </Grid>
-          <Grid item>
-            {note && noteLinkFileName && (
-              <Button
-                size="small"
-                startIcon={<LinkIcon />}
-                disableFocusRipple
-                onClick={() => jumpTo(note)}
-                style={{ padding: '0 5px' }}
-              >
-                {noteLinkFileName}
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircleIcon fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-          </Grid>
-          <Grid item>
-            <HidePop name="notes" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
   return (
     <>
-      <WidgetHeader />
+      <HeaderWrapper>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="subtitle1">Notes</Typography>
+            </Grid>
+            <Grid item>
+              {note && noteLinkFileName && (
+                <Button
+                  size="small"
+                  startIcon={<LinkIcon />}
+                  disableFocusRipple
+                  onClick={() => jumpTo(note)}
+                  style={{ padding: '0 5px' }}
+                >
+                  {noteLinkFileName}
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+                <AddCircleIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+            </Grid>
+            <Grid item>
+              <HidePop name="notes" />
+            </Grid>
+            <Grid item>
+              {/* <ToggleFullScreen /> */}
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
       <WidgetBody note={note} notes={notes}/>
     </>
   )
 }
 
-export default wrapper((props: any) => (
+export default wrapper(() => (
   <NoteProvider>
-    <Notes {...props} />
+    <Notes />
   </NoteProvider>
 ), 'notes')

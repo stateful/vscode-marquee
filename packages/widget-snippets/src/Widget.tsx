@@ -236,62 +236,58 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [snippet])
 
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Snippets</Typography>
-          </Grid>
-          <Grid item>
-            {snippet && snippetLinkFileName && (
-              <Button
-                size="small"
-                startIcon={<LinkIcon />}
-                disableFocusRipple
-                style={{
-                  padding: '0 5px',
-                  background: 'transparent',
-                  color: 'inherit'
-                }}
-                onClick={() => jumpTo(snippet)}
-              >
-                {snippetLinkFileName}
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <IconButton
-              size="small"
-              onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-            >
-              <AddCircle fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
-          </Grid>
-          <Grid item>
-            <HidePop name="snippets" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
   return (
     <>
-      <WidgetHeader />
+      <HeaderWrapper>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="subtitle1">Snippets</Typography>
+            </Grid>
+            <Grid item>
+              {snippet && snippetLinkFileName && (
+                <Button
+                  size="small"
+                  startIcon={<LinkIcon />}
+                  disableFocusRipple
+                  style={{
+                    padding: '0 5px',
+                    background: 'transparent',
+                    color: 'inherit'
+                  }}
+                  onClick={() => jumpTo(snippet)}
+                >
+                  {snippetLinkFileName}
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <IconButton
+                size="small"
+                onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+              >
+                <AddCircle fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+            </Grid>
+            <Grid item>
+              <HidePop name="snippets" />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
       <WidgetBody snippet={snippet} snippets={snippets}/>
     </>
   )

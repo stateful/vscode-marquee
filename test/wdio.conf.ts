@@ -169,6 +169,9 @@ export const config: Options.Testrunner = {
     retries: 3
   },
   //
+  // WebdriverIO logs
+  outputDir: path.join(__dirname, 'logs'),
+  //
   // =====
   // Hooks
   // =====

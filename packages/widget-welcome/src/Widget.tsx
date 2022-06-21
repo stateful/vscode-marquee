@@ -90,30 +90,26 @@ const WidgetBody = () => {
 }
 
 let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item>
-        <Typography variant="subtitle1">Mailbox</Typography>
-      </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <PopMenu />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
   return (
     <>
-      <WidgetHeader />
+      <HeaderWrapper>
+        <Grid item>
+          <Typography variant="subtitle1">Mailbox</Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <PopMenu />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
       <WidgetBody />
     </>
   )

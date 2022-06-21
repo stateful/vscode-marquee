@@ -78,122 +78,116 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     return filteredItems
   }, [todos, globalScope, hide, todoFilter, showArchived])
 
-  const WidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        <Grid item xs style={{ overflow: 'auto' }}>
-          {filteredItems.length === 0 && (
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              style={{ height: '80%', width: '100%' }}
-            >
-              <Grid item>
-                <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
-                  Create a todo
-                </Button>
-              </Grid>
-            </Grid>
-          )}
-          <List
-            lockVertically={true}
-            values={filteredItems}
-            onChange={({ oldIndex, newIndex }) => {
-              let constrainedArr = filteredItems
-              let firstTodo = constrainedArr[oldIndex]
-              let secondTodo = constrainedArr[newIndex]
-
-              let realFirstIndex = todos.findIndex((todo) => {
-                return todo.id === firstTodo.id
-              })
-              let realSecondIndex = todos.findIndex((todo) => {
-                return todo.id === secondTodo.id
-              })
-
-              let newTodos = arrayMove(
-                todos,
-                realFirstIndex,
-                realSecondIndex
-              )
-              setTodos(newTodos)
-            }}
-            renderList={({ children, props }) => (
-              <Grid
-                container
-                direction="column"
-                style={{ padding: '8px' }}
-                {...props}
-              >
-                {children}
-              </Grid>
-            )}
-            renderItem={({ value, props, isDragged }) => (
-              <TodoItem
-                key={value.id}
-                todo={value}
-                isDragged={isDragged}
-                dragProps={props}
-              />
-            )}
-          />
-        </Grid>
-      </Grid>
-    </Grid>
-  )
-
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item xs={4}>
-        <Typography variant="subtitle1">
-          Todo
-          <TodoInfo />
-        </Typography>
-      </Grid>
-
-      <Grid item xs={8}>
-        <Grid container justifyContent="right" direction="row" spacing={1}>
-          <Grid item>
-            <TodoFilter />
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircle fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper />
-          </Grid>
-          <Grid item>
-            <TodoPop />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
   return (
     <>
-      <WidgetHeader />
-      <WidgetBody />
+      <HeaderWrapper>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1">
+            Todo
+            <TodoInfo />
+          </Typography>
+        </Grid>
+
+        <Grid item xs={8}>
+          <Grid container justifyContent="right" direction="row" spacing={1}>
+            <Grid item>
+              <TodoFilter />
+            </Grid>
+            <Grid item>
+              <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+                <AddCircle fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <DoubleClickHelper />
+            </Grid>
+            <Grid item>
+              <TodoPop />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          <Grid item xs style={{ overflow: 'auto' }}>
+            {filteredItems.length === 0 && (
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                style={{ height: '80%', width: '100%' }}
+              >
+                <Grid item>
+                  <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
+                    Create a todo
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+            <List
+              lockVertically={true}
+              values={filteredItems}
+              onChange={({ oldIndex, newIndex }) => {
+                let constrainedArr = filteredItems
+                let firstTodo = constrainedArr[oldIndex]
+                let secondTodo = constrainedArr[newIndex]
+
+                let realFirstIndex = todos.findIndex((todo) => {
+                  return todo.id === firstTodo.id
+                })
+                let realSecondIndex = todos.findIndex((todo) => {
+                  return todo.id === secondTodo.id
+                })
+
+                let newTodos = arrayMove(
+                  todos,
+                  realFirstIndex,
+                  realSecondIndex
+                )
+                setTodos(newTodos)
+              }}
+              renderList={({ children, props }) => (
+                <Grid
+                  container
+                  direction="column"
+                  style={{ padding: '8px' }}
+                  {...props}
+                >
+                  {children}
+                </Grid>
+              )}
+              renderItem={({ value, props, isDragged }) => (
+                <TodoItem
+                  key={value.id}
+                  todo={value}
+                  isDragged={isDragged}
+                  dragProps={props}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   )
 }
 
-const Widget = (props: any) => (
-  <TodoProvider>
-    <Todo {...props} />
-  </TodoProvider>
-)
+const Widget = (props: any) => {
+  return (
+    <TodoProvider>
+      <Todo {...props} />
+    </TodoProvider>
+  )
+}
 export default wrapper(Widget, 'todo')

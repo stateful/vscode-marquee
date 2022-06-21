@@ -50,63 +50,9 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [workspaces, workspaceFilter, workspaceSortOrder])
 
-  const ProjectWidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        <Grid item xs style={{ overflow: 'auto' }}>
-          {filteredProjects.length === 0 && (
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              style={{ height: '80%', width: '100%' }}
-            >
-              <Grid item>
-                <Button
-                  startIcon={<AddCircle />}
-                  variant="outlined"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.vscode.postMessage({
-                      west: {
-                        execCommands: [{
-                          command: 'vscode.openFolder',
-                          options: { forceNewWindow: openProjectInNewWindow }
-                        }],
-                      },
-                    })
-                  }}
-                >
-                  Add a project
-                </Button>
-              </Grid>
-            </Grid>
-          )}
-          {filteredProjects.length !== 0 && (
-            <List dense={true}>
-              {filteredProjects.map((workspace) => {
-                return (
-                  <ProjectListItem
-                    key={workspace.id}
-                    workspace={workspace}
-                  />
-                )
-              })}
-            </List>
-          )}
-        </Grid>
-      </Grid>
-    </Grid>
-  )
-
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <>
+  return (
+    <>
+      <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Projects</Typography>
         </Grid>
@@ -165,14 +111,58 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-      </>
-    </HeaderWrapper>
-  )
-
-  return (
-    <>
-      <WidgetHeader />
-      <ProjectWidgetBody />
+      </HeaderWrapper>
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          <Grid item xs style={{ overflow: 'auto' }}>
+            {filteredProjects.length === 0 && (
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                style={{ height: '80%', width: '100%' }}
+              >
+                <Grid item>
+                  <Button
+                    startIcon={<AddCircle />}
+                    variant="outlined"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      window.vscode.postMessage({
+                        west: {
+                          execCommands: [{
+                            command: 'vscode.openFolder',
+                            options: { forceNewWindow: openProjectInNewWindow }
+                          }],
+                        },
+                      })
+                    }}
+                  >
+                    Add a project
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+            {filteredProjects.length !== 0 && (
+              <List dense={true}>
+                {filteredProjects.map((workspace) => {
+                  return (
+                    <ProjectListItem
+                      key={workspace.id}
+                      workspace={workspace}
+                    />
+                  )
+                })}
+              </List>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   )
 }
