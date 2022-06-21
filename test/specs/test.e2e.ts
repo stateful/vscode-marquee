@@ -192,5 +192,24 @@ describe('Marquee', () => {
       })
     })
   })
+
+  describe('fullscreen feature', () => {
+    /**
+     * remove sticky header otherwise it might overlay the widget header
+     */
+    before(() => {
+      browser.execute(() => document.querySelector('.marqueeNavigation').remove())
+    })
+
+    for (const widget of WIDGETS) {
+      it(`${widget} widget`, async () => {
+        const modalSelector = `.MuiModal-root div[aria-labelledby="${widget}Fullscreen"]`
+        await $(`button[aria-label="Toggle ${widget} widget to fullscreen"]`).click()
+        await expect($(modalSelector)).toBeExisting()
+        await browser.keys(['Escape'])
+        await expect($(modalSelector)).not.toBeExisting()
+      })
+    }
+  })
 })
 

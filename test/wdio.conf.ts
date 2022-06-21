@@ -224,7 +224,7 @@ export const config: Options.Testrunner = {
    * @param {Object}         browser      instance of created browser/device session
    */
   before: async function () {
-    await browser.maximizeWindow()
+    await browser.setWindowSize(1600, 1200)
   },
   /**
    * Runs before a WebdriverIO command gets executed.
