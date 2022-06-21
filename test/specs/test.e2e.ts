@@ -1,6 +1,3 @@
-import fs from 'fs/promises'
-import path from 'path'
-
 import { WeatherWidget } from '../pageobjects/widgets/weather'
 import { NewsWidget } from '../pageobjects/widgets/news'
 import { GithubWidget } from '../pageobjects/widgets/github'
@@ -31,29 +28,6 @@ describe('Marquee', () => {
 
     it('should load all widgets', async () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
-    })
-
-    describe('fullscreen feature', () => {
-      for (const widget of WIDGETS) {
-        it(`${widget} widget`, async () => {
-          const modalSelector = `.MuiModal-root div[aria-labelledby="${widget}Fullscreen"]`
-          await $(`button[aria-label="Toggle ${widget} widget to fullscreen"]`).click()
-          await expect($(modalSelector)).toBeExisting()
-          await browser.keys(['Escape'])
-          await expect($(modalSelector)).not.toBeExisting()
-
-          /**
-           * scroll back to the top so our sticky header doesn't overlay on top
-           * of a widget header
-           */
-          await browser.pause(1000)
-          await browser.execute(() => window.scrollTo(0, 0))
-
-          const screenshotDir = path.join(__dirname, '..', 'screenshots')
-          await fs.mkdir(screenshotDir, { recursive: true })
-          await browser.saveScreenshot(path.join(screenshotDir, `after-${widget}.png`))
-        })
-      }
     })
 
     /**
@@ -205,6 +179,25 @@ describe('Marquee', () => {
         expect(await todoWidget.items$$).toHaveLength(0)
       })
     })
+  })
+
+  describe('fullscreen feature', () => {
+    /**
+     * remove sticky header otherwise it might overlay the widget header
+     */
+    before(() => {
+      browser.execute(() => document.querySelector('.marqueeNavigation').remove())
+    })
+
+    for (const widget of WIDGETS) {
+      it(`${widget} widget`, async () => {
+        const modalSelector = `.MuiModal-root div[aria-labelledby="${widget}Fullscreen"]`
+        await $(`button[aria-label="Toggle ${widget} widget to fullscreen"]`).click()
+        await expect($(modalSelector)).toBeExisting()
+        await browser.keys(['Escape'])
+        await expect($(modalSelector)).not.toBeExisting()
+      })
+    }
   })
 })
 
