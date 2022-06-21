@@ -16,7 +16,7 @@ export class SplitButton extends BasePage<typeof SplitButtonLocators, typeof loc
     await popupBtn.click()
     await browser.pause(200)
 
-    const controls = await popupBtn.getAttribute('aria-controls')
+    const controls: string = await popupBtn.getAttribute('aria-controls')
     const items = await this.elem.$$(`#${controls} > li`)
     const itemValues = await Promise.all(items.map((i) => i.getText()))
 

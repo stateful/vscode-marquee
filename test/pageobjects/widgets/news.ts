@@ -18,7 +18,7 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     const articles = await this.articles$$
 
     if (!articles[index]) {
-      throw new Error(`Article with index ${index} not found, only ${articles.length} available`)
+      throw new Error(`Article with index ${index} not found, only ${articles.length as string} available`)
     }
 
     return articles[index]
