@@ -1,7 +1,7 @@
 import React, { ReactChild } from 'react'
 import { Box, Grid } from '@mui/material'
 
-let HeaderWrapper = ({ children }: { children: ReactChild }) => {
+export default ({ children }: { children: ReactChild | ReactChild[] }) => {
   return (
     <Grid item style={{ maxWidth: '100%' }}>
       <Box
@@ -24,5 +24,3 @@ let HeaderWrapper = ({ children }: { children: ReactChild }) => {
     </Grid>
   )
 }
-
-export default HeaderWrapper

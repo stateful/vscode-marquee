@@ -26,9 +26,14 @@ template.innerHTML = /*html*/`
 // TODO: this test needs to be fixed. It passes without the CustomWidget defined
 // Either the test isnt testing anything meaningful or the Widget is not needed
 xtest('should display custom widget', () => {
+  const ToggleFullScreen = () => <div></div>
   const { container } = render(
     <GlobalProvider>
-      <ThirdPartyWidget name="some-custom-widget" label="Some custom Widget" />
+      <ThirdPartyWidget
+        ToggleFullScreen={ToggleFullScreen}
+        fullscreenMode={false}
+        name="some-custom-widget"
+        label="Some custom Widget" />
     </GlobalProvider>
   )
   expect(screen.getByText('Some custom Widget')).toBeInTheDocument()

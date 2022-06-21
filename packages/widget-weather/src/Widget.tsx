@@ -1,18 +1,19 @@
-import React, { MouseEvent, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box, Dialog, Popover, IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Grid, Typography, CircularProgress, Box } from '@mui/material'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HidePop, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import WeatherContext, { WeatherProvider } from './Context'
 import { WeatherDialogLauncher } from './components/Dialog'
 import { kToF, kToC, formatAMPM } from './utils'
 import { SCALE_OPTIONS } from './constants'
 import type { Forecast } from './types'
+
 interface TodayPropTypes {
   current: Forecast['current']
   hourly: Forecast['hourly']
@@ -41,12 +42,12 @@ let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => 
           justifyContent="space-evenly"
         >
           <Grid item sx={{
-            fontSize: {
+            fontSize: fullscreenMode ? {
               xs: '75px',
               sm: '150px',
               md: '200px',
               lg: '300px'
-            }
+            } : {}
           }}>
             <WeatherIcon
               name="owm"
@@ -169,33 +170,43 @@ let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => 
   )
 })
 
-const Weather = () => {
+const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
-  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleToggleFullScreen = () => {
-    setFullscreenMode(!fullscreenMode)
-    handleClose()
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? 'todo-nav-popover' : undefined
-
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item xs={8} style={{
+        flexBasis: 'auto',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }}>
+        {city && (
+          <Typography variant="subtitle1">
+            Weather in{' '}
+            {city.replace(', United States', '').replace(', USA', '')}
+          </Typography>
+        )}
+        {!city && <Typography variant="subtitle1">Weather</Typography>}
+      </Grid>
+      <Grid item xs={4} style={{ minWidth: 145 }}>
+        <Grid container direction="row" spacing={1} justifyContent="flex-end">
+          <Grid item>
+            <WeatherDialogLauncher />
+          </Grid>
+          <Grid item>
+            <HidePop name="weather" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
 
   const WidgetBody = () => (
     <Grid item xs>
@@ -248,127 +259,16 @@ const Weather = () => {
     </Grid>
   )
 
-  if (!fullscreenMode) {
-    return (
-      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <HeaderWrapper>
-          <>
-            <Grid item xs={8} style={{
-              flexBasis: 'auto',
-              whiteSpace: 'nowrap',
-              // overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {city && (
-                <Typography variant="subtitle1">
-                  Weather in{' '}
-                  {city.replace(', United States', '').replace(', USA', '')}
-                </Typography>
-              )}
-              {!city && <Typography variant="subtitle1">Weather</Typography>}
-            </Grid>
-            {!minimizeNavIcon &&
-              <Grid item xs={6}>
-                <Grid container direction="row" spacing={1} justifyContent="flex-end">
-                  <Grid item>
-                    <WeatherDialogLauncher />
-                  </Grid>
-                  <Grid item>
-                    <HidePop name="weather" />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-            {minimizeNavIcon &&
-              <Grid item >
-                <Grid container justifyContent="right" direction="row" spacing={1}>
-                  <Grid item>
-                    <IconButton onClick={handleClick}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Popover
-                      open={open}
-                      id={id}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                      <Grid item padding={1}>
-                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
-                          <Grid item>
-                            <WeatherDialogLauncher />
-                          </Grid>
-                          <Grid item>
-                            <HidePop name="weather" />
-                          </Grid>
-                          <Grid item>
-                            <ToggleFullScreen
-                              toggleFullScreen={handleToggleFullScreen}
-                              isFullScreenMode={fullscreenMode}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Dragger />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Popover>
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </div>
-    )
-  }
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item xs={8} style={{
-            flexBasis: 'auto',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}>
-            {city && (
-              <Typography variant="subtitle1">
-                Weather in{' '}
-                {city.replace(', United States', '').replace(', USA', '')}
-              </Typography>
-            )}
-            {!city && <Typography variant="subtitle1">Weather</Typography>}
-          </Grid>
-          <Grid item xs={4} style={{ minWidth: 105 }}>
-            <Grid container direction="row" spacing={1} justifyContent="flex-end">
-              <Grid item>
-                <WeatherDialogLauncher />
-              </Grid>
-              <Grid item>
-                <HidePop name="weather" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-export default wrapper(() => (
+export default wrapper((props: any) => (
   <WeatherProvider>
-    <Weather />
+    <Weather {...props} />
   </WeatherProvider>
 ), 'weather')

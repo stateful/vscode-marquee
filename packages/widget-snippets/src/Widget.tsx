@@ -1,19 +1,17 @@
-import React, { useContext, useEffect, useMemo, useCallback, useState, useRef, MouseEvent } from 'react'
+import React, { useContext, useEffect, useMemo, useCallback } from 'react'
 import {
   Grid,
   IconButton,
   Typography,
   TextField,
-  Button,
-  Dialog,
-  Popover,
+  Button
 } from '@mui/material'
 
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from '@vscode-marquee/utils'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
@@ -224,34 +222,9 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
   )
 }
 
-let Snippets = () => {
+let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
   const { snippets, snippetSelected } = useContext(SnippetContext)
-  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleToggleFullScreen = () => {
-    setFullscreenMode(!fullscreenMode)
-    handleClose()
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? 'todo-nav-popover' : undefined
-
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
 
   const snippet = useMemo(() => {
     return snippets.find((snippet) => snippet.id === snippetSelected)
@@ -263,176 +236,69 @@ let Snippets = () => {
     }
   }, [snippet])
 
-  if (!fullscreenMode) {
-    return (
-      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <Typography variant="subtitle1">Snippets</Typography>
-                </Grid>
-                <Grid item>
-                  {snippet && snippetLinkFileName && (
-                    <Button
-                      size="small"
-                      startIcon={<LinkIcon />}
-                      disableFocusRipple
-                      style={{
-                        padding: '0 5px',
-                        background: 'transparent',
-                        color: 'inherit'
-                      }}
-                      onClick={() => jumpTo(snippet)}
-                    >
-                      {snippetLinkFileName}
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-            {!minimizeNavIcon &&
-              <Grid item>
-                <Grid container direction="row" spacing={1} alignItems="center">
-                  <Grid item>
-                    <IconButton
-                      size="small"
-                      onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-                    >
-                      <AddCircle fontSize="small" />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <DoubleClickHelper
-                      content="Double-click a snippet title to edit and right-click for copy & paste"
-                    />
-                  </Grid>
-                  <Grid item>
-                    <HidePop name="snippets" />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-            {minimizeNavIcon &&
-              <Grid item xs={8}>
-                <Grid container justifyContent="right" direction="row" spacing={1}>
-                  <Grid item>
-                    <IconButton onClick={handleClick}>
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                    <Popover
-                      open={open}
-                      id={id}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                      <Grid item padding={1}>
-                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
-                          <Grid item>
-                            <IconButton
-                              size="small"
-                              onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-                            >
-                              <AddCircle fontSize="small" />
-                            </IconButton>
-                          </Grid>
-                          <Grid item>
-                            <DoubleClickHelper
-                              content="Double-click a snippet title to edit and right-click for copy & paste"
-                            />
-                          </Grid>
-                          <Grid item>
-                            <HidePop name="snippets" />
-                          </Grid>
-                          <Grid item>
-                            <ToggleFullScreen
-                              toggleFullScreen={handleToggleFullScreen}
-                              isFullScreenMode={fullscreenMode}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Dragger />
-                          </Grid>
-                        </Grid>
-                      </Grid>
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid item>
+            <Typography variant="subtitle1">Snippets</Typography>
+          </Grid>
+          <Grid item>
+            {snippet && snippetLinkFileName && (
+              <Button
+                size="small"
+                startIcon={<LinkIcon />}
+                disableFocusRipple
+                style={{
+                  padding: '0 5px',
+                  background: 'transparent',
+                  color: 'inherit'
+                }}
+                onClick={() => jumpTo(snippet)}
+              >
+                {snippetLinkFileName}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid item>
+            <IconButton
+              size="small"
+              onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+            >
+              <AddCircle fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+          </Grid>
+          <Grid item>
+            <HidePop name="snippets" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
 
-                    </Popover>
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-          </>
-        </HeaderWrapper >
-        <WidgetBody snippet={snippet} snippets={snippets} />
-      </div >
-    )
-  }
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <Grid item>
-                <Typography variant="subtitle1">Snippets</Typography>
-              </Grid>
-              <Grid item>
-                {snippet && snippetLinkFileName && (
-                  <Button
-                    size="small"
-                    startIcon={<LinkIcon />}
-                    disableFocusRipple
-                    style={{
-                      padding: '0 5px',
-                      background: 'transparent',
-                      color: 'inherit'
-                    }}
-                    onClick={() => jumpTo(snippet)}
-                  >
-                    {snippetLinkFileName}
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <Grid item>
-                <IconButton
-                  size="small"
-                  onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-                >
-                  <AddCircle fontSize="small" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
-              </Grid>
-              <Grid item>
-                <HidePop name="snippets" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody snippet={snippet} snippets={snippets} />
-    </Dialog>
+    </>
   )
 }
 
-export default wrapper(() => (
+export default wrapper((props: any) => (
   <SnippetProvider>
-    <Snippets />
+    <Snippets {...props} />
   </SnippetProvider>
 ), 'snippets')

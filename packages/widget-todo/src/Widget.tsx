@@ -1,12 +1,12 @@
-import React, { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useMemo } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton, Dialog, Popover } from '@mui/material'
+import { Grid, Button, IconButton } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TodoContext, { TodoProvider } from './Context'
 import TodoPop from './components/Pop'
@@ -16,7 +16,7 @@ import TodoItem from './components/Item'
 
 declare const window: MarqueeWindow
 
-let Todo = () => {
+let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     setTodos,
     setShowAddDialog,
@@ -25,7 +25,6 @@ let Todo = () => {
     hide,
     todoFilter,
   } = useContext(TodoContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
   const { globalScope } = useContext(GlobalContext)
   const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -103,7 +102,7 @@ let Todo = () => {
     return filteredItems
   }, [todos, globalScope, hide, todoFilter, showArchived])
 
-  const TodoUIBody = () => (
+  const WidgetBody = () => (
     <Grid item xs>
       <Grid
         container
@@ -171,131 +170,54 @@ let Todo = () => {
       </Grid>
     </Grid>
   )
-  if (!fullscreenMode) {
-    return (
-      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <HeaderWrapper>
-          <>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
-            </Grid>
 
-            {!minimizeNavIcon && <Grid item xs={8}>
-              <Grid container justifyContent="right" direction="row" spacing={1}>
-                <Grid item>
-                  <TodoFilter />
-                </Grid>
-                <Grid item>
-                  <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                    <AddCircle fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <DoubleClickHelper />
-                </Grid>
-                <Grid item>
-                  <TodoPop />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-            }
-            {minimizeNavIcon &&
-              <Grid item xs={8}>
-                <Grid container justifyContent="right" direction="row" spacing={1}>
-                  <Grid item>
-                    <IconButton onClick={handleClick}>
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                    <Popover
-                      open={open}
-                      id={id}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                      <Grid item padding={1}>
-                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
-                          <Grid item>
-                            <TodoFilter />
-                          </Grid>
-                          <Grid item>
-                            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                              <AddCircle fontSize="small" />
-                            </IconButton>
-                          </Grid>
-                          <Grid item>
-                            <DoubleClickHelper />
-                          </Grid>
-                          <Grid item>
-                            <TodoPop />
-                          </Grid>
-                          <Grid item>
-                            <ToggleFullScreen
-                              toggleFullScreen={handleToggleFullScreen}
-                              isFullScreenMode={fullscreenMode}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Dragger />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Popover>
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-          </>
-        </HeaderWrapper>
-        <TodoUIBody />
-      </div >
-    )
-  }
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item xs={4}>
+        <Typography variant="subtitle1">
+          Todo
+          <TodoInfo />
+        </Typography>
+      </Grid>
+
+      <Grid item xs={8}>
+        <Grid container justifyContent="right" direction="row" spacing={1}>
+          <Grid item>
+            <TodoFilter />
+          </Grid>
+          <Grid item>
+            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+              <AddCircle fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper />
+          </Grid>
+          <Grid item>
+            <TodoPop />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1">Todo <TodoInfo /></Typography>
-          </Grid>
-
-          <Grid item xs={8}>
-            <Grid container justifyContent="right" direction="row" spacing={1}>
-              <Grid item>
-                <TodoFilter />
-              </Grid>
-              <Grid item>
-                <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                  <AddCircle fontSize="small" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <DoubleClickHelper />
-              </Grid>
-              <Grid item>
-                <TodoPop />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
-      <TodoUIBody />
-    </Dialog>
+    <>
+      <WidgetHeader />
+      <WidgetBody />
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <TodoProvider>
-    <Todo />
+    <Todo {...props} />
   </TodoProvider>
 )
 export default wrapper(Widget, 'todo')

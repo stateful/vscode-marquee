@@ -1,16 +1,16 @@
-import React, { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress, Dialog, IconButton, Popover } from '@mui/material'
+import React, { useContext, useMemo } from 'react'
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
 
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TrendContext, { TrendProvider } from './Context'
 import TrendingDialogLauncher from './components/TrendingDialog'
@@ -27,34 +27,8 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = () => {
+let Github = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
-  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleToggleFullScreen = () => {
-    setFullscreenMode(!fullscreenMode)
-    handleClose()
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? 'todo-nav-popover' : undefined
-
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
-
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
 
@@ -240,115 +214,44 @@ let Github = () => {
     </Grid>
   )
 
-  if (!fullscreenMode) {
-    return (
-      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Trending on Github</Typography>
-            </Grid>
-            {!minimizeNavIcon &&
-              <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <Filter />
-                  </Grid>
-                  <Grid item>
-                    <TrendingDialogLauncher />
-                  </Grid>
-                  <Grid item>
-                    <HidePop name="github" />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-            {minimizeNavIcon &&
-              <Grid item xs={8}>
-                <Grid container justifyContent="right" direction="row" spacing={1}>
-                  <Grid item>
-                    <IconButton onClick={handleClick}>
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                    <Popover
-                      open={open}
-                      id={id}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                      <Grid item padding={1}>
-                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
-                          <Grid item>
-                            <Filter />
-                          </Grid>
-                          <Grid item>
-                            <TrendingDialogLauncher />
-                          </Grid>
-                          <Grid item>
-                            <HidePop name="github" />
-                          </Grid>
-                          <Grid item>
-                            <ToggleFullScreen
-                              toggleFullScreen={handleToggleFullScreen}
-                              isFullScreenMode={fullscreenMode}
-                            />
-                          </Grid>
-                          <Grid item>
-                            <Dragger />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Popover>
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </div>
-    )
-  }
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Typography variant="subtitle1">Trending on Github</Typography>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1}>
+          <Grid item>
+            <Filter />
+          </Grid>
+          <Grid item>
+            <TrendingDialogLauncher />
+          </Grid>
+          <Grid item>
+            <HidePop name="github" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">Trending on Github</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <Filter />
-              </Grid>
-              <Grid item>
-                <TrendingDialogLauncher />
-              </Grid>
-              <Grid item>
-                <HidePop name="github" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <TrendProvider>
-    <Github />
+    <Github {...props} />
   </TrendProvider>
 )
 export default wrapper(Widget, 'github')

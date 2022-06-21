@@ -1,7 +1,6 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react'
 import {
   Box,
-  Dialog,
   Grid,
   IconButton,
   ListItem,
@@ -12,7 +11,6 @@ import {
   Typography,
 } from '@mui/material'
 
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import SplitterLayout from 'react-splitter-layout'
 import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
@@ -24,8 +22,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-const Markdown = () => {
-  const [fullscreenMode, setFullscreenMode] = useState(false)
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
+
+const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
@@ -61,13 +61,6 @@ const Markdown = () => {
     )
     : markdownDocuments
 
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
-
   const CopyToClipboardButton = () => {
     if (selectedMarkdownContent) {
       return (
@@ -94,8 +87,7 @@ const Markdown = () => {
     return <></>
   }
 
-
-  const MarkdownUIBody = () => {
+  const WidgetBody = () => {
     return (
       <Grid item xs>
         <Grid
@@ -242,98 +234,39 @@ const Markdown = () => {
       </Grid>
     )
   }
-  if (!fullscreenMode) {
-    return (
-      <div ref={ref} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Markdown</Typography>
-            </Grid>
-            {!minimizeNavIcon &&
-              <Grid item>
-                <Grid container direction="row" spacing={1} alignItems="center">
-                  <CopyToClipboardButton />
-                  <Grid item>
-                    <HidePop name="markdown" />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-            {minimizeNavIcon &&
-              <Grid item>
-                <Grid container justifyContent="right" direction="row" spacing={1}>
-                  <Grid item>
-                    <IconButton onClick={handleClick}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Popover
-                      open={open}
-                      id={id}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                      <Grid item padding={1}>
-                        <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
-                          <Grid item>
-                            <CopyToClipboardButton />
-                          </Grid>
-                          <Grid item>
-                            <HidePop name="markdown" />
-                          </Grid>
-                          <Grid item>
-                            <ToggleFullScreen
-                              toggleFullScreen={handleToggleFullScreen}
-                              isFullScreenMode={fullscreenMode}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Popover>
-                  </Grid>
-                </Grid>
-              </Grid>
-            }
-          </>
-        </HeaderWrapper>
-        <MarkdownUIBody />
-      </div>
-    )
-  }
+
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Typography variant="subtitle1">Markdown</Typography>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1} alignItems="center">
+          <CopyToClipboardButton />
+          <Grid item>
+            <HidePop name="markdown" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">Markdown</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <CopyToClipboardButton />
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
-      <MarkdownUIBody />
-    </Dialog>
+    <>
+      <WidgetHeader />
+      <WidgetBody />
+    </>
   )
 }
 
-export default wrapper(
-  () => (
-    <MarkdownProvider>
-      <Markdown />
-    </MarkdownProvider>
-  ),
-  'markdown'
-)
+export default wrapper((props: any) => (
+  <MarkdownProvider>
+    <Markdown {...props} />
+  </MarkdownProvider>
+), 'markdown')
