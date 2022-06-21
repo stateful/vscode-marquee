@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Dialog } from '@mui/material'
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils'
 
 import { GlobalContext } from '@vscode-marquee/utils'
 
 import { ErrorBoundary } from './ErrorBoundary'
+import { ToggleFullScreen } from './ToggleFullScreen'
 
 interface WidgetWrapper {
   dragHandle: React.ReactNode
@@ -46,10 +47,29 @@ const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
 }
 
 export default (Widget: any, name?: string) => React.memo(React.forwardRef((props: any, ref) => {
+  const [fullscreenMode, setFullscreenMode] = useState(false)
+  const widgetProps = {
+    ...props,
+    ToggleFullScreen: () => (
+      <ToggleFullScreen
+        toggleFullScreen={setFullscreenMode}
+        isFullScreenMode={fullscreenMode} />
+    ),
+    fullscreenMode
+  }
+
   return (
     <ErrorBoundary>
       <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
-        <Widget {...props} />
+        { fullscreenMode
+          ? (
+            <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
+              <Widget { ...widgetProps } />
+            </Dialog>
+          )
+          : <Widget { ...widgetProps } />
+        }
+
       </WidgetWrapper>
     </ErrorBoundary>
   )

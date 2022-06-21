@@ -1,7 +1,6 @@
-import React, { useContext, useMemo, useState } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress, Dialog } from '@mui/material'
+import React, { useContext, useMemo } from 'react'
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
@@ -9,7 +8,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
 
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TrendContext, { TrendProvider } from './Context'
 import TrendingDialogLauncher from './components/TrendingDialog'
@@ -26,9 +27,8 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = () => {
+let Github = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
 
@@ -44,7 +44,7 @@ let Github = () => {
 
     return filteredTrends
   }, [trends, trendFilter])
-  
+
   const WidgetBody = () => (
     <Grid item xs>
       <Grid
@@ -214,75 +214,44 @@ let Github = () => {
     </Grid>
   )
 
-  if(!fullscreenMode){
-    return (
-      <>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Trending on Github</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <Filter />
-                </Grid>
-                <Grid item>
-                  <TrendingDialogLauncher />
-                </Grid>
-                <Grid item>
-                  <HidePop name="github" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </>
-    )
-  } 
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Typography variant="subtitle1">Trending on Github</Typography>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1}>
+          <Grid item>
+            <Filter />
+          </Grid>
+          <Grid item>
+            <TrendingDialogLauncher />
+          </Grid>
+          <Grid item>
+            <HidePop name="github" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">Trending on Github</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <Filter />
-              </Grid>
-              <Grid item>
-                <TrendingDialogLauncher />
-              </Grid>
-              <Grid item>
-                <HidePop name="github" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <TrendProvider>
-    <Github />
+    <Github {...props} />
   </TrendProvider>
 )
 export default wrapper(Widget, 'github')

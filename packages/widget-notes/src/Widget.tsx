@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
-import { Grid, Typography, TextField, IconButton, Button, Dialog } from '@mui/material'
+import React, { useContext, useEffect, useMemo, useCallback } from 'react'
+import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -8,7 +8,8 @@ import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
@@ -219,8 +220,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
     </Grid>
   )
 }
-let Notes = () => {
-  const [fullscreenMode, setFullscreenMode] = useState(false)
+let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     notes,
     noteSelected,
@@ -237,112 +237,62 @@ let Notes = () => {
     }
   }, [note])
 
-  if(!fullscreenMode){
-    return (
-      <>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <Typography variant="subtitle1">Notes</Typography>
-                </Grid>
-                <Grid item>
-                  {note && noteLinkFileName && (
-                    <Button
-                      size="small"
-                      startIcon={<LinkIcon />}
-                      disableFocusRipple
-                      onClick={() => jumpTo(note)}
-                      style={{ padding: '0 5px' }}
-                    >
-                      {noteLinkFileName}
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1} alignItems="center">
-                <Grid item>
-                  <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-                    <AddCircleIcon fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-                </Grid>
-                <Grid item>
-                  <HidePop name="notes" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody note={note} notes={notes}/>
-      </>
-    )
-  } 
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid item>
+            <Typography variant="subtitle1">Notes</Typography>
+          </Grid>
+          <Grid item>
+            {note && noteLinkFileName && (
+              <Button
+                size="small"
+                startIcon={<LinkIcon />}
+                disableFocusRipple
+                onClick={() => jumpTo(note)}
+                style={{ padding: '0 5px' }}
+              >
+                {noteLinkFileName}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid item>
+            <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+              <AddCircleIcon fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+          </Grid>
+          <Grid item>
+            <HidePop name="notes" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <Grid item>
-                <Typography variant="subtitle1">Notes</Typography>
-              </Grid>
-              <Grid item>
-                {note && noteLinkFileName && (
-                  <Button
-                    size="small"
-                    startIcon={<LinkIcon />}
-                    disableFocusRipple
-                    onClick={() => jumpTo(note)}
-                    style={{ padding: '0 5px' }}
-                  >
-                    {noteLinkFileName}
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1} alignItems="center">
-              <Grid item>
-                <IconButton size="small" onClick={() => setShowAddDialog(true)}>
-                  <AddCircleIcon fontSize="small" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-              </Grid>
-              <Grid item>
-                <HidePop name="notes" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody note={note} notes={notes}/>
-    </Dialog>
+    </>
   )
 }
 
-export default wrapper(() => (
+export default wrapper((props: any) => (
   <NoteProvider>
-    <Notes />
+    <Notes {...props} />
   </NoteProvider>
 ), 'notes')

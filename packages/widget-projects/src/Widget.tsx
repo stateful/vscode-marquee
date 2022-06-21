@@ -1,10 +1,11 @@
-import React, { useContext, useMemo, useState } from 'react'
-import { Grid, Typography, List, IconButton, Button, Dialog } from '@mui/material'
+import React, { useContext, useMemo } from 'react'
+import { Grid, Typography, List, IconButton, Button } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
 
-import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { MarqueeWindow } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import ProjectsFilter from './components/Filter'
 import ProjectPop from './components/Pop'
@@ -13,12 +14,11 @@ import WorkspaceContext, { WorkspaceProvider } from './Context'
 
 declare const window: MarqueeWindow
 
-let Projects = () => {
+let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
     workspaceSortOrder, openProjectInNewWindow
   } = useContext(WorkspaceContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
 
   const totalLen = (wspid: string) => {
     let todoCount = todos.filter(
@@ -49,6 +49,7 @@ let Projects = () => {
       return filteredProjects.sort((a, b) => a.name.localeCompare(b.name))
     }
   }, [workspaces, workspaceFilter, workspaceSortOrder])
+
   const ProjectWidgetBody = () => (
     <Grid item xs>
       <Grid
@@ -103,147 +104,82 @@ let Projects = () => {
     </Grid>
   )
 
-  if(!fullscreenMode){
-    return (
+  const WidgetHeader = () => (
+    <HeaderWrapper>
       <>
-        <HeaderWrapper>
-          <>
+        <Grid item>
+          <Typography variant="subtitle1">Projects</Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1}>
             <Grid item>
-              <Typography variant="subtitle1">Projects</Typography>
+              <ProjectsFilter />
             </Grid>
             <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <ProjectsFilter />
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    aria-label="Open Folder"
-                    size="small"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.vscode.postMessage({
-                        west: {
-                          execCommands: [{
-                            command: 'vscode.openFolder',
-                            options: { forceNewWindow: openProjectInNewWindow }
-                          }],
-                        },
-                      })
-                    }}
-                  >
-                    <AddCircle fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    aria-label="Open Recent"
-                    size="small"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.vscode.postMessage({
-                        west: {
-                          execCommands: [
-                            {
-                              command: 'workbench.action.quickOpenRecent',
-                            },
-                          ],
-                        },
-                      })
-                    }}
-                  >
-                    <PageviewIcon fontSize="small" />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <ProjectPop />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
+              <IconButton
+                aria-label="Open Folder"
+                size="small"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.vscode.postMessage({
+                    west: {
+                      execCommands: [{
+                        command: 'vscode.openFolder',
+                        options: { forceNewWindow: openProjectInNewWindow }
+                      }],
+                    },
+                  })
+                }}
+              >
+                <AddCircle fontSize="small" />
+              </IconButton>
             </Grid>
-          </>
-        </HeaderWrapper>
-        <ProjectWidgetBody />
+            <Grid item>
+              <IconButton
+                aria-label="Open Recent"
+                size="small"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.vscode.postMessage({
+                    west: {
+                      execCommands: [
+                        {
+                          command: 'workbench.action.quickOpenRecent',
+                        },
+                      ],
+                    },
+                  })
+                }}
+              >
+                <PageviewIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <ProjectPop />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
       </>
-    )
-  } 
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">Projects</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <ProjectsFilter />
-              </Grid>
-              <Grid item>
-                <IconButton
-                  aria-label="Open Folder"
-                  size="small"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.vscode.postMessage({
-                      west: {
-                        execCommands: [{
-                          command: 'vscode.openFolder',
-                          options: { forceNewWindow: openProjectInNewWindow }
-                        }],
-                      },
-                    })
-                  }}
-                >
-                  <AddCircle fontSize="small" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  aria-label="Open Recent"
-                  size="small"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.vscode.postMessage({
-                      west: {
-                        execCommands: [
-                          {
-                            command: 'workbench.action.quickOpenRecent',
-                          },
-                        ],
-                      },
-                    })
-                  }}
-                >
-                  <PageviewIcon fontSize="small" />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <ProjectPop />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <ProjectWidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <WorkspaceProvider>
-    <Projects />
+    <Projects {...props} />
   </WorkspaceProvider>
 )
 export default wrapper(Widget, 'projects')

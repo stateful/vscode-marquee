@@ -5,25 +5,25 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
-  Dialog,
+  ListItemAvatar
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import PopMenu from './components/Pop'
 import { fetchNews } from './utils'
 import { DEFAULT_STATE } from './constants'
 import type { WidgetState } from './types'
 
-let News = () => {
+let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const [data, setData] = useState(DEFAULT_STATE)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
+
   useEffect(() => {
     let _setData = (data: WidgetState) => setData(data)
     setData({ ...data, isFetching: true })
@@ -132,57 +132,33 @@ let News = () => {
       </Grid>
     </Grid>
   )
-  if(!fullscreenMode){
-    return (
-      <>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">News</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </>
-    )
-  } 
+
+  const WidgetHeader = () => (
+    <HeaderWrapper>
+      <Grid item>
+        <Typography variant="subtitle1">News</Typography>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" spacing={1}>
+          <Grid item>
+            <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    </HeaderWrapper>
+  )
+
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">News</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
+    <>
+      <WidgetHeader />
       <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
