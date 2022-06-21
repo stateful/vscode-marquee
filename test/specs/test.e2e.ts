@@ -1,3 +1,6 @@
+import fs from 'fs/promises'
+import path from 'path'
+
 import { WeatherWidget } from '../pageobjects/widgets/weather'
 import { NewsWidget } from '../pageobjects/widgets/news'
 import { GithubWidget } from '../pageobjects/widgets/github'
@@ -44,6 +47,10 @@ describe('Marquee', () => {
            * of a widget header
            */
           await browser.execute(() => window.scrollTo(0, 0))
+
+          const screenshotDir = path.join(__dirname, '..', 'screenshots')
+          await fs.mkdir(screenshotDir, { recursive: true })
+          await browser.saveScreenshot(path.join(screenshotDir, `after-${widget}.png`))
         })
       }
     })
