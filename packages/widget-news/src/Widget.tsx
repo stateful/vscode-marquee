@@ -15,8 +15,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+
+import PopMenu from './components/Pop'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 // import PopMenu from './components/Pop'
@@ -175,11 +177,8 @@ let News = () => {
                   <Grid item>
                     <Grid container direction="row" spacing={1}>
                       <Grid item>
-                        <HidePop name="news" />
-                      </Grid>
-                      {/* <Grid item>
                         <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-                      </Grid> */}
+                      </Grid>
                       <Grid item>
                         <ToggleFullScreen
                           toggleFullScreen={handleToggleFullScreen}
@@ -209,13 +208,10 @@ let News = () => {
                           <Grid item padding={1}>
                             <Grid container justifyContent="right" direction="column-reverse" spacing={1}>
                               <Grid item>
-                                {/* <PopMenu
+                                <PopMenu
                                   value={data.channel}
                                   onChannelChange={(channel) => setData({ ...data, channel })}
-                                /> */}
-                                <Grid item>
-                                  <HidePop name="news" />
-                                </Grid>
+                                />
                               </Grid>
                               <Grid item>
                                 <ToggleFullScreen
@@ -251,11 +247,8 @@ let News = () => {
           <Grid item>
             <Grid container direction="row" spacing={1}>
               <Grid item>
-                <HidePop name="news" />
-              </Grid>
-              {/* <Grid item>
                 <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-              </Grid> */}
+              </Grid>
               <Grid item>
                 <ToggleFullScreen toggleFullScreen={handleToggleFullScreen} isFullScreenMode={fullscreenMode} />
               </Grid>

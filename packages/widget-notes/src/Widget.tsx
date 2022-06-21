@@ -398,9 +398,6 @@ let Notes = () => {
               <Grid item>
                 <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
               </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
             </Grid>
           </Grid>
         </>
