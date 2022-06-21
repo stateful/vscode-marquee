@@ -46,6 +46,7 @@ describe('Marquee', () => {
            * scroll back to the top so our sticky header doesn't overlay on top
            * of a widget header
            */
+          await browser.pause(1000)
           await browser.execute(() => window.scrollTo(0, 0))
 
           const screenshotDir = path.join(__dirname, '..', 'screenshots')
