@@ -38,6 +38,12 @@ describe('Marquee', () => {
           await expect($(modalSelector)).toBeExisting()
           await browser.keys(['Escape'])
           await expect($(modalSelector)).not.toBeExisting()
+
+          /**
+           * scroll back to the top so our sticky header doesn't overlay on top
+           * of a widget header
+           */
+          await browser.execute(() => window.scrollTo(0, 0))
         })
       }
     })
