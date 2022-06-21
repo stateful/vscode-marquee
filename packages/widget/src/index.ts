@@ -8,8 +8,4 @@ import HeaderWrapper from './HeaderWrapper'
 
 export default WidgetWrapper
 export { Dragger, HidePop, ThirdPartyWidget, HideWidgetContent, SplitButton, HeaderWrapper }
-
-export interface MarqueeWidgetProps {
-  fullscreenMode: boolean
-  ToggleFullScreen: () => JSX.Element
-}
+export * from './types'

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box, Grid, Typography } from '@mui/material'
-import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import HidePop from './HidePop'
 import Dragger from './Dragger'
+import type { MarqueeWidgetProps } from './types'
 
 interface Props extends MarqueeWidgetProps {
   name: string
