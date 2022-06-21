@@ -9,7 +9,7 @@ import { List, AutoSizer } from 'react-virtualized'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
-// import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
@@ -220,7 +220,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
     </Grid>
   )
 }
-let Notes = () => {
+let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     notes,
     noteSelected,
@@ -274,7 +274,7 @@ let Notes = () => {
               <HidePop name="notes" />
             </Grid>
             <Grid item>
-              {/* <ToggleFullScreen /> */}
+              <ToggleFullScreen />
             </Grid>
             <Grid item>
               <Dragger />
@@ -287,8 +287,8 @@ let Notes = () => {
   )
 }
 
-export default wrapper(() => (
+export default wrapper((props: any) => (
   <NoteProvider>
-    <Notes />
+    <Notes {...props} />
   </NoteProvider>
 ), 'notes')
