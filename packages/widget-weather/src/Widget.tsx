@@ -1,17 +1,19 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box, Dialog } from '@mui/material'
+import { Grid, Typography, CircularProgress, Box } from '@mui/material'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HidePop, HeaderWrapper, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import WeatherContext, { WeatherProvider } from './Context'
 import { WeatherDialogLauncher } from './components/Dialog'
 import { kToF, kToC, formatAMPM } from './utils'
 import { SCALE_OPTIONS } from './constants'
 import type { Forecast } from './types'
+
 interface TodayPropTypes {
   current: Forecast['current']
   hourly: Forecast['hourly']
@@ -40,12 +42,12 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
           justifyContent="space-evenly"
         >
           <Grid item sx={{
-            fontSize: {
+            fontSize: fullscreenMode ? {
               xs: '75px',
               sm: '150px',
               md: '200px',
               lg: '300px'
-            }
+            } : {}
           }}>
             <WeatherIcon
               name="owm"
@@ -168,20 +170,78 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
   )
 })
 
-const Weather = () => {
+const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
 
-  const WidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        {error && (
-          <Grid
+  return (
+    <>
+      <HeaderWrapper>
+        <Grid item xs={8} style={{
+          flexBasis: 'auto',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}>
+          {city && (
+            <Typography variant="subtitle1">
+              Weather in{' '}
+              {city.replace(', United States', '').replace(', USA', '')}
+            </Typography>
+          )}
+          {!city && <Typography variant="subtitle1">Weather</Typography>}
+        </Grid>
+        <Grid item xs={4} style={{ minWidth: 145 }}>
+          <Grid container direction="row" spacing={1} justifyContent="flex-end">
+            <Grid item>
+              <WeatherDialogLauncher />
+            </Grid>
+            <Grid item>
+              <HidePop name="weather" />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          {error && (
+            <Grid
+              item
+              xs
+              style={{
+                overflow: 'auto',
+                height: '100%',
+                width: '100%',
+                padding: '24px',
+              }}
+            >
+              <NetworkError message={error.message} />
+            </Grid>
+          )}
+          {!error && isFetching && (
+            <Grid
+              container
+              style={{ height: '100%' }}
+              alignItems="center"
+              justifyContent="center"
+              direction="column"
+            >
+              <Grid item>
+                <CircularProgress color="secondary" />
+              </Grid>
+            </Grid>
+          )}
+          {!error && !isFetching && forecast && (<Grid
             item
             xs
             style={{
@@ -191,122 +251,16 @@ const Weather = () => {
               padding: '24px',
             }}
           >
-            <NetworkError message={error.message} />
-          </Grid>
-        )}
-        {!error && isFetching && (
-          <Grid
-            container
-            style={{ height: '100%' }}
-            alignItems="center"
-            justifyContent="center"
-            direction="column"
-          >
-            <Grid item>
-              <CircularProgress color="secondary" />
-            </Grid>
-          </Grid>
-        )}
-        {!error && !isFetching && forecast && (<Grid
-          item
-          xs
-          style={{
-            overflow: 'auto',
-            height: '100%',
-            width: '100%',
-            padding: '24px',
-          }}
-        >
-          <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode}/>
-        </Grid>)}
+            <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode}/>
+          </Grid>)}
+        </Grid>
       </Grid>
-    </Grid>
-  )
-
-  if(!fullscreenMode){
-    return (
-      <>
-        <HeaderWrapper>
-          <>
-            <Grid item xs={8} style={{
-              flexBasis: 'auto',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {city && (
-                <Typography variant="subtitle1">
-                  Weather in{' '}
-                  {city.replace(', United States', '').replace(', USA', '')}
-                </Typography>
-              )}
-              {!city && <Typography variant="subtitle1">Weather</Typography>}
-            </Grid>
-            <Grid item xs={4} style={{ minWidth: 105 }}>
-              <Grid container direction="row" spacing={1} justifyContent="flex-end">
-                <Grid item>
-                  <WeatherDialogLauncher />
-                </Grid>
-                <Grid item>
-                  <HidePop name="weather" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </>
-    )
-  }
-  return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item xs={8} style={{
-            flexBasis: 'auto',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}>
-            {city && (
-              <Typography variant="subtitle1">
-                Weather in{' '}
-                {city.replace(', United States', '').replace(', USA', '')}
-              </Typography>
-            )}
-            {!city && <Typography variant="subtitle1">Weather</Typography>}
-          </Grid>
-          <Grid item xs={4} style={{ minWidth: 105 }}>
-            <Grid container direction="row" spacing={1} justifyContent="flex-end">
-              <Grid item>
-                <WeatherDialogLauncher />
-              </Grid>
-              <Grid item>
-                <HidePop name="weather" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
-      <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-export default wrapper(() => (
+export default wrapper((props: any) => (
   <WeatherProvider>
-    <Weather />
+    <Weather {...props} />
   </WeatherProvider>
 ), 'weather')

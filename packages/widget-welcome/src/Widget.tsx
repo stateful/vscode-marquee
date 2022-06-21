@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
-import { Box, Dialog, Grid, Link, Typography } from '@mui/material'
+import React, { useContext } from 'react'
+import { Grid, Link, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
 
-import wrapper, { Dragger, ToggleFullScreen } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TrickContext, { TrickProvider } from './Context'
 import TrickContent from './components/TrickContent'
@@ -88,86 +89,35 @@ const WidgetBody = () => {
   )
 }
 
-let Welcome = () => {
-  const [fullscreenMode, setFullscreenMode] = useState(false)
-  
-  if(!fullscreenMode){
-    return (
-      <>
-        <Grid item xs={1} style={{ maxWidth: '100%' }}>
-          <Box sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography variant="subtitle1">Mailbox</Typography>
-              </Grid>
-              <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <PopMenu />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-        <WidgetBody />
-      </>
-    )
-  }
+let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <Box sx={{
-          borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px 8px 4px',
-        }}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+    <>
+      <HeaderWrapper>
+        <Grid item>
+          <Typography variant="subtitle1">Mailbox</Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1}>
             <Grid item>
-              <Typography variant="subtitle1">Mailbox</Typography>
+              <PopMenu />
             </Grid>
             <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <PopMenu />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
             </Grid>
           </Grid>
-        </Box>
-      </Grid>
+        </Grid>
+      </HeaderWrapper>
       <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <TrickProvider>
-    <Welcome />
+    <Welcome {...props} />
   </TrickProvider>
 )
 export default wrapper(Widget, 'welcome')

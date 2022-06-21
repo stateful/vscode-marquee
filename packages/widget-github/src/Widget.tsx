@@ -1,7 +1,6 @@
-import React, { useContext, useMemo, useState } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress, Dialog } from '@mui/material'
+import React, { useContext, useMemo } from 'react'
+import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import wrapper, { Dragger, HeaderWrapper, HidePop, ToggleFullScreen } from '@vscode-marquee/widget'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
@@ -9,7 +8,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
 
+import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TrendContext, { TrendProvider } from './Context'
 import TrendingDialogLauncher from './components/TrendingDialog'
@@ -26,9 +27,8 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = () => {
+let Github = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
-  const [fullscreenMode, setFullscreenMode] = useState(false)
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
 
@@ -44,245 +44,206 @@ let Github = () => {
 
     return filteredTrends
   }, [trends, trendFilter])
-  
-  const WidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        <Grid item xs style={{ overflow: 'auto' }}>
-          {error && (
-            <Grid
-              item
-              xs
-              style={{
-                overflow: 'auto',
-                height: '100%',
-                width: '100%',
-                padding: '24px',
-              }}
-            >
-              <NetworkError message={error.message} />
+
+  return (
+    <>
+      <HeaderWrapper>
+        <Grid item>
+          <Typography variant="subtitle1">Trending on Github</Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <Filter />
             </Grid>
-          )}
-          {isFetching && (
-            <Grid
-              container
-              style={{ height: '100%' }}
-              alignItems="center"
-              justifyContent="center"
-              direction="column"
-            >
-              <Grid item>
-                <CircularProgress color="secondary" />
-              </Grid>
+            <Grid item>
+              <TrendingDialogLauncher />
             </Grid>
-          )}
-          {!isFetching && !error && filteredTrends.length === 0 && (
-            <Grid
-              container
-              style={{ height: '100%' }}
-              alignItems="center"
-              justifyContent="center"
-              direction="column"
-            >
-              <Grid item>
-                <Typography variant="body2">
-                  There are no matches for your search criteria.
-                </Typography>
-              </Grid>
+            <Grid item>
+              <HidePop name="github" />
             </Grid>
-          )}
-          {!isFetching && !error && filteredTrends.length !== 0 &&
-          filteredTrends.map((entry) => {
-            return (
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          <Grid item xs style={{ overflow: 'auto' }}>
+            {error && (
               <Grid
-                aria-labelledby="trend-entry"
-                key={entry.url}
-                container
-                direction="column"
-                sx={{
-                  marginTop: '4px',
-                  marginBottom: '4px',
-                  padding: '16px',
-                  borderBottom: '1px solid var(--vscode-editorGroup-border)',
+                item
+                xs
+                style={{
+                  overflow: 'auto',
+                  height: '100%',
+                  width: '100%',
+                  padding: '24px',
                 }}
               >
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Grid item>
-                    <Link
-                      component="a"
-                      href={entry.url}
-                      target="_blank"
-                      underline="hover"
-                    >
-                      <Typography variant="body2">
-                        {entry.author}/{entry.name}
-                      </Typography>
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <GChip
-                      label={entry.currentPeriodStars.toLocaleString()}
-                      icon={<StarHalfIcon />}
-                    />
-                  </Grid>
+                <NetworkError message={error.message} />
+              </Grid>
+            )}
+            {isFetching && (
+              <Grid
+                container
+                style={{ height: '100%' }}
+                alignItems="center"
+                justifyContent="center"
+                direction="column"
+              >
+                <Grid item>
+                  <CircularProgress color="secondary" />
                 </Grid>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Grid item>
-                    <Typography variant="caption">
-                      {entry.description}
-                    </Typography>
-                  </Grid>
+              </Grid>
+            )}
+            {!isFetching && !error && filteredTrends.length === 0 && (
+              <Grid
+                container
+                style={{ height: '100%' }}
+                alignItems="center"
+                justifyContent="center"
+                direction="column"
+              >
+                <Grid item>
+                  <Typography variant="body2">
+                    There are no matches for your search criteria.
+                  </Typography>
                 </Grid>
-                <Grid container>
-                  <Grid item>&nbsp;</Grid>
-                </Grid>
+              </Grid>
+            )}
+            {!isFetching && !error && filteredTrends.length !== 0 &&
+            filteredTrends.map((entry) => {
+              return (
                 <Grid
+                  aria-labelledby="trend-entry"
+                  key={entry.url}
                   container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="flex-end"
+                  direction="column"
+                  sx={{
+                    marginTop: '4px',
+                    marginBottom: '4px',
+                    padding: '16px',
+                    borderBottom: '1px solid var(--vscode-editorGroup-border)',
+                  }}
                 >
-                  <Grid item>
-                    <Grid container spacing={1}>
-                      {entry.language && (
-                        <Grid aria-label="language" item>
-                          <GChip
-                            label={entry.language}
-                            icon={
-                              <FiberManualRecordIcon
-                                style={{
-                                  fill: `${entry.languageColor}`,
-                                }}
-                              />
-                            }
-                          />
-                        </Grid>
-                      )}
-                      <Grid aria-label="forks" item>
-                        <GChip
-                          label={entry.forks.toLocaleString()}
-                          icon={<FontAwesomeIcon icon={faCodeBranch} />}
-                        />
-                      </Grid>
-                      <Grid aria-label="stars" item>
-                        <GChip
-                          label={entry.stars.toLocaleString()}
-                          icon={<StarIcon />}
-                        />
-                      </Grid>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Link
+                        component="a"
+                        href={entry.url}
+                        target="_blank"
+                        underline="hover"
+                      >
+                        <Typography variant="body2">
+                          {entry.author}/{entry.name}
+                        </Typography>
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <GChip
+                        label={entry.currentPeriodStars.toLocaleString()}
+                        icon={<StarHalfIcon />}
+                      />
                     </Grid>
                   </Grid>
-                  <Grid item>
-                    <AvatarGroup>
-                      {entry.builtBy.map((contributor) => {
-                        return (
-                          <Avatar
-                            key={contributor.username}
-                            style={{
-                              height: '22px',
-                              width: '22px',
-                              border: 0,
-                            }}
-                            src={contributor.avatar}
-                            alt={contributor.username}
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Typography variant="caption">
+                        {entry.description}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container>
+                    <Grid item>&nbsp;</Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="flex-end"
+                  >
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        {entry.language && (
+                          <Grid aria-label="language" item>
+                            <GChip
+                              label={entry.language}
+                              icon={
+                                <FiberManualRecordIcon
+                                  style={{
+                                    fill: `${entry.languageColor}`,
+                                  }}
+                                />
+                              }
+                            />
+                          </Grid>
+                        )}
+                        <Grid aria-label="forks" item>
+                          <GChip
+                            label={entry.forks.toLocaleString()}
+                            icon={<FontAwesomeIcon icon={faCodeBranch} />}
                           />
-                        )
-                      })}
-                    </AvatarGroup>
+                        </Grid>
+                        <Grid aria-label="stars" item>
+                          <GChip
+                            label={entry.stars.toLocaleString()}
+                            icon={<StarIcon />}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <AvatarGroup>
+                        {entry.builtBy.map((contributor) => {
+                          return (
+                            <Avatar
+                              key={contributor.username}
+                              style={{
+                                height: '22px',
+                                width: '22px',
+                                border: 0,
+                              }}
+                              src={contributor.avatar}
+                              alt={contributor.username}
+                            />
+                          )
+                        })}
+                      </AvatarGroup>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            )
-          })}
+              )
+            })}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  )
-
-  if(!fullscreenMode){
-    return (
-      <>
-        <HeaderWrapper>
-          <>
-            <Grid item>
-              <Typography variant="subtitle1">Trending on Github</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <Filter />
-                </Grid>
-                <Grid item>
-                  <TrendingDialogLauncher />
-                </Grid>
-                <Grid item>
-                  <HidePop name="github" />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        </HeaderWrapper>
-        <WidgetBody />
-      </>
-    )
-  } 
-  return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <HeaderWrapper>
-        <>
-          <Grid item>
-            <Typography variant="subtitle1">Trending on Github</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" spacing={1}>
-              <Grid item>
-                <Filter />
-              </Grid>
-              <Grid item>
-                <TrendingDialogLauncher />
-              </Grid>
-              <Grid item>
-                <HidePop name="github" />
-              </Grid>
-              <Grid item>
-                <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-              </Grid>
-              <Grid item>
-                <Dragger />
-              </Grid>
-            </Grid>
-          </Grid>
-        </>
-      </HeaderWrapper>
-      <WidgetBody />
-    </Dialog>
+    </>
   )
 }
 
-const Widget = () => (
+const Widget = (props: any) => (
   <TrendProvider>
-    <Github />
+    <Github {...props} />
   </TrendProvider>
 )
 export default wrapper(Widget, 'github')

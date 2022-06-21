@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { Box, Dialog, Grid, Typography } from '@mui/material'
+import React from 'react'
+import { Box, Grid, Typography } from '@mui/material'
 
 import HidePop from './HidePop'
 import Dragger from './Dragger'
-import ToggleFullScreen from './ToggleFullScreen'
+import type { MarqueeWidgetProps } from './types'
 
-interface Props {
-  name: string;
-  label: string;
+interface Props extends MarqueeWidgetProps {
+  name: string
+  label: string
 }
+
 const WidgetBody = ({ name } : { name:string }) => {
   const WidgetTag = name
   return(
@@ -27,83 +28,47 @@ const WidgetBody = ({ name } : { name:string }) => {
   )
 }
 
-const ThirdPartyWidget = ({ name, label }: Props) => {
-  const [fullscreenMode, setFullscreenMode] = useState(false)
-  if(!fullscreenMode){
-    return (
-      <>
-        <Grid item xs={1} style={{ maxWidth: '100%' }}>
-          <Box sx={{
-            borderBottom: '1px solid var(--vscode-editorGroup-border)',
-            padding: '8px 8px 4px',
-          }}>
-            <Grid
-              container
-              direction="row"
-              wrap="nowrap"
-              alignItems="stretch"
-              alignContent="stretch"
-              justifyContent="space-between"
-            >
+const ThirdPartyWidget = ({ name, label, ToggleFullScreen }: Props) => {
+  const WidgetHeader = () => (
+    <Grid item xs={1} style={{ maxWidth: '100%' }}>
+      <Box sx={{
+        borderBottom: '1px solid var(--vscode-editorGroup-border)',
+        padding: '8px 8px 4px',
+      }}>
+        <Grid
+          container
+          direction="row"
+          wrap="nowrap"
+          alignItems="stretch"
+          alignContent="stretch"
+          justifyContent="space-between"
+        >
+          <Grid item>
+            <Typography variant="subtitle1">{label}</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container direction="row" spacing={1}>
               <Grid item>
-                <Typography variant="subtitle1">{label}</Typography>
+                <HidePop name={name} />
               </Grid>
               <Grid item>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item>
-                    <HidePop name={name} />
-                  </Grid>
-                  <Grid item>
-                    <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                  </Grid>
-                  <Grid item>
-                    <Dragger />
-                  </Grid>
-                </Grid>
+                <ToggleFullScreen />
               </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-        <WidgetBody name={name} />
-      </>
-    )
-  }
-  return (
-    <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-      <Grid item xs={1} style={{ maxWidth: '100%' }}>
-        <Box sx={{
-          borderBottom: '1px solid var(--vscode-editorGroup-border)',
-          padding: '8px 8px 4px',
-        }}>
-          <Grid
-            container
-            direction="row"
-            wrap="nowrap"
-            alignItems="stretch"
-            alignContent="stretch"
-            justifyContent="space-between"
-          >
-            <Grid item>
-              <Typography variant="subtitle1">{label}</Typography>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" spacing={1}>
-                <Grid item>
-                  <HidePop name={name} />
-                </Grid>
-                <Grid item>
-                  <ToggleFullScreen toggleFullScreen={setFullscreenMode} isFullScreenMode={fullscreenMode} />
-                </Grid>
-                <Grid item>
-                  <Dragger />
-                </Grid>
+              <Grid item>
+                <Dragger />
               </Grid>
             </Grid>
           </Grid>
-        </Box>
-      </Grid>
+        </Grid>
+      </Box>
+    </Grid>
+  )
+
+  return (
+    <>
+      <WidgetHeader />
       <WidgetBody name={name} />
-    </Dialog>
+    </>
   )
 }
 

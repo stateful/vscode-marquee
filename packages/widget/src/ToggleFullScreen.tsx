@@ -5,17 +5,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpand } from '@fortawesome/free-solid-svg-icons/faExpand'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 
-interface ToggleFSProps {
-  isFullScreenMode: boolean, 
+interface ToggleFullScreenProps {
+  widgetName: string
+  isFullScreenMode: boolean
   toggleFullScreen: React.Dispatch<React.SetStateAction<boolean>>
 }
-let ToggleFullScreen = ({ isFullScreenMode, toggleFullScreen } : ToggleFSProps) => {
+export const ToggleFullScreen = ({ widgetName, isFullScreenMode, toggleFullScreen } : ToggleFullScreenProps) => {
   return (
-    <IconButton focusRipple={false} onClick={() => toggleFullScreen(!isFullScreenMode)}>
+    <IconButton
+      aria-label={`Toggle ${widgetName} widget to fullscreen`}
+      focusRipple={false}
+      onClick={() => toggleFullScreen(!isFullScreenMode)}
+    >
       {!isFullScreenMode && <FontAwesomeIcon icon={faExpand} fontSize='small' />}
       {isFullScreenMode && <FontAwesomeIcon icon={faClose} fontSize='small' />}
     </IconButton>
   )
 }
-
-export default ToggleFullScreen
