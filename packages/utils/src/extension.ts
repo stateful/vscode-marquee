@@ -46,7 +46,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * preserve state across different machines
      */
-    this._context.globalState.setKeysForSync(Object.keys(this._defaultState))
+    setKeysForSync(this._context, this._key)
 
     this._configuration = {
       ...this._defaultConfiguration,
@@ -267,7 +267,7 @@ export function activate (
   const stateManager = new ExtensionManager<State, Configuration>(
     context,
     channel,
-    'configuration',
+    'gui',
     DEFAULT_CONFIGURATION,
     DEFAULT_STATE
   )
@@ -333,6 +333,29 @@ export function getExtProps () {
     }
   }
   return extProps
+}
+
+let logTimeout: NodeJS.Timeout | undefined
+export const widgetsToSync = new Set<string>()
+export function setKeysForSync (context: vscode.ExtensionContext, widget: string) {
+  if (widgetsToSync.has(widget)) {
+    throw new Error(`A widget with key ${widget} is already synced`)
+  }
+
+  widgetsToSync.add(widget)
+  const keysToSync = [...widgetsToSync.values()]
+  context.globalState.setKeysForSync(keysToSync)
+
+  /**
+   * Log all keys to be synced after all widgets were initialised. Given we don't
+   * know when this method is being called last we assume all widgets have been
+   * initialised after 2 seconds
+   */
+  clearTimeout(logTimeout)
+  logTimeout = setTimeout(
+    () => console.debug(`Marquee - syncing state for following widgets: ${keysToSync.join(', ')}`),
+    2000
+  )
 }
 
 /**

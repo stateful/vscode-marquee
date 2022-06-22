@@ -31,6 +31,8 @@ Object {
 }
 `;
 
+exports[`setKeysForSync 1`] = `"A widget with key bar is already synced"`;
+
 exports[`should apply old configuration if available 1`] = `
 Object {
   "defaultConfig": "old config",
