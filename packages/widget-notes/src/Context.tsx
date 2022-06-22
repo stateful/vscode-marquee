@@ -4,7 +4,6 @@ import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode
 import AddDialog from './dialogs/AddDialog'
 import EditDialog from './dialogs/EditDialog'
 import type { State, Context, Note, Events } from './types'
-import FeatureInterestDialog from './components/FeatureInterestDialog'
 
 declare const window: MarqueeWindow
 const NoteContext = createContext<Context>({} as Context)
@@ -28,7 +27,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>()
-  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   const _addNote = (note: Pick<Note, 'title' | 'body' | 'text'>, isWorkspaceTodo: boolean): string => {
     eventListener.emit('telemetryEvent', { eventName: 'addNote' })
@@ -78,12 +76,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     globalNotes[index] = note
     setNotes(globalNotes)
   }
-  const _isInterestedInSyncFeature = (interested: boolean) => {
-    if (interested) {
-      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
-    }
-    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
-  }
 
   useEffect(() => {
     eventListener.on('openAddNoteDialog', setShowAddDialog)
@@ -92,7 +84,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
       note,
       note.workspaceId === window.activeWorkspace?.id
     ))
-    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
     return () => {
       widgetState.removeAllListeners()
       eventListener.removeAllListeners()
@@ -106,8 +97,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
         _addNote,
         _removeNote,
         _updateNote,
-        showCloudSyncFeature,
-        setShowCloudSyncFeature,
 
         showAddDialog,
         setShowAddDialog,
@@ -122,12 +111,6 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
       {showEditDialog && notes.find((n) => n.id === showEditDialog) && (
         <EditDialog note={notes.find((n) => n.id === showEditDialog)!} close={() => setShowEditDialog(undefined)} />
       )}
-      {showCloudSyncFeature &&
-        <FeatureInterestDialog
-          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
-          setShowCloudSyncFeature={setShowCloudSyncFeature}
-        />
-      }
       {children}
     </NoteContext.Provider>
   )

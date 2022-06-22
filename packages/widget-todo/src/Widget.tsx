@@ -1,10 +1,10 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import { Grid, Button, IconButton } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
+import { GlobalContext, DoubleClickHelper, MarqueeWindow, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -15,21 +15,35 @@ import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud } from '@fortawesome/free-solid-svg-icons'
+import { Events } from './types'
+import FeatureInterestDialog from '@vscode-marquee/utils/src/components/FeatureInterestDialog'
 
 
 declare const window: MarqueeWindow
 
 let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     setTodos,
     setShowAddDialog,
     showArchived,
-    setShowCloudSyncFeature,
     todos,
     hide,
     todoFilter,
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
+
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -84,6 +98,12 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
 
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item xs={4}>
           <Typography variant="subtitle1">

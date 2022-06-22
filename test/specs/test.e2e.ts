@@ -30,17 +30,6 @@ describe('Marquee', () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
     })
 
-    describe('fullscreen feature', () => {
-      for (const widget of WIDGETS) {
-        it(`${widget} widget`, async () => {
-          const modalSelector = `.MuiModal-root div[aria-labelledby="${widget}Fullscreen"]`
-          await $(`button[aria-label="Toggle ${widget} widget to fullscreen"]`).click()
-          await expect($(modalSelector)).toBeExisting()
-          await browser.keys(['Escape'])
-          await expect($(modalSelector)).not.toBeExisting()
-        })
-      }
-    })
 
     /**
      * it seems that tricks don't get properly propagated into the UI

@@ -37,5 +37,4 @@ export interface Context extends ContextProperties<State> {
   ) => string
   _removeSnippet: (id: string) => void
   _updateSnippet: (snippet: any) => void
-  setShowCloudSyncFeature: (show:boolean) => void
 }

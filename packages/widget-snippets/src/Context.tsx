@@ -3,7 +3,6 @@ import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode
 
 import { WIDGET_ID } from './constants'
 import type { State, Context, Snippet, Events } from './types'
-import FeatureInterestDialog from './components/FeatureInterestDialog'
 
 declare const window: MarqueeWindow
 const SnippetContext = createContext<Context>({} as Context)
@@ -20,7 +19,6 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
    * to maintain a local state
    */
   const [snippets, _setSnippets] = useState<Snippet[]>(providerValues.snippets)
-  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   const setSnippets = (snippets: Snippet[]) => {
     _setSnippets(snippets)
@@ -55,7 +53,6 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       snippet,
       snippet.workspaceId === window.activeWorkspace?.id
     ))
-    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
     return () => {
       widgetState.removeAllListeners()
       eventListener.removeAllListeners()
@@ -87,12 +84,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     globalSnippets[index] = snippet
     setSnippets(globalSnippets)
   }
-  const _isInterestedInSyncFeature = (interested: boolean) => {
-    if (interested) {
-      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
-    }
-    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
-  }
+
 
   return (
     <SnippetContext.Provider
@@ -101,15 +93,8 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
         _addSnippet,
         _removeSnippet,
         _updateSnippet,
-        setShowCloudSyncFeature
       }}
     >
-      {showCloudSyncFeature &&
-        <FeatureInterestDialog
-          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
-          setShowCloudSyncFeature={setShowCloudSyncFeature}
-        />
-      }
       {children}
     </SnippetContext.Provider>
   )

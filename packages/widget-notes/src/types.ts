@@ -37,6 +37,4 @@ export interface Context extends ContextProperties<State> {
   setShowAddDialog: (show: boolean) => void
   showEditDialog?: string
   setShowEditDialog: (id?: string) => void
-  showCloudSyncFeature: boolean
-  setShowCloudSyncFeature: (show:boolean) => void
 }

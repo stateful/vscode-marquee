@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useCallback } from 'react'
+import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
 import {
   Grid,
   IconButton,
@@ -9,7 +9,14 @@ import {
 
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
-import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  jumpTo,
+  DoubleClickHelper,
+  MarqueeWindow,
+  getEventListener,
+  MarqueeEvents
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -26,6 +33,7 @@ import type { Events } from './types'
 import Snippet from './models/Snippet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud } from '@fortawesome/free-solid-svg-icons'
+import FeatureInterestDialog from '@vscode-marquee/utils/src/components/FeatureInterestDialog'
 
 declare const window: MarqueeWindow
 
@@ -225,8 +233,16 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
 }
 
 let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const eventListener = getEventListener<Events>(WIDGET_ID)
-  const { snippets, snippetSelected, setShowCloudSyncFeature } = useContext(SnippetContext)
+  const eventListener = getEventListener<Events & MarqueeEvents>(WIDGET_ID)
+  const { snippets, snippetSelected } = useContext(SnippetContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
 
   const snippet = useMemo(() => {
     return snippets.find((snippet) => snippet.id === snippetSelected)
@@ -238,8 +254,18 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [snippet])
 
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
+
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">

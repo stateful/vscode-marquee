@@ -4,7 +4,6 @@ import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode
 import AddDialog from './dialogs/AddDialog'
 import EditDialog from './dialogs/EditDialog'
 import type { Todo, Context, Configuration, State, Events } from './types'
-import FeatureInterestDialog from './components/FeatureInterestDialog'
 
 declare const window: MarqueeWindow
 
@@ -21,7 +20,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>()
-  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+  // const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   let _addTodo = (body: string, tags: string[] = [], isWorkspaceTodo = true) => {
     eventListener.emit('telemetryEvent', { eventName: 'addTodo' })
@@ -60,17 +59,9 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     providerValues.setTodos([])
   }
 
-  let _isInterestedInSyncFeature = (interested: boolean) => {
-    if (interested) {
-      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
-    }
-    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
-  }
-
   useEffect(() => {
     eventListener.on('openAddTodoDialog', setShowAddDialog)
     eventListener.on('openEditTodoDialog', setShowEditDialog)
-    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
     return () => {
       widgetState.removeAllListeners()
       eventListener.removeAllListeners()
@@ -81,13 +72,10 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     <TodoContext.Provider
       value={{
         ...providerValues,
-
         showAddDialog,
         setShowAddDialog,
         showEditDialog,
         setShowEditDialog,
-        showCloudSyncFeature,
-        setShowCloudSyncFeature,
 
         _resetTodos,
         _addTodo,
@@ -104,12 +92,6 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
           todo={providerValues.todos.find((t) => showEditDialog === t.id)!}
         />
       )}
-      {showCloudSyncFeature &&
-        <FeatureInterestDialog
-          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
-          setShowCloudSyncFeature={setShowCloudSyncFeature}
-        />
-      }
       {children}
     </TodoContext.Provider>
   )

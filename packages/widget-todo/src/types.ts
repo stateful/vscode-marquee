@@ -25,7 +25,6 @@ export interface Configuration {
 export interface ContextValues extends Configuration, State {
   showAddDialog: boolean
   showEditDialog?: string
-  showCloudSyncFeature: boolean
 }
 
 export interface Events {
