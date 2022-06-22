@@ -16,7 +16,7 @@ interface WidgetWrapper {
 
 const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
   const { themeColor } = useContext(GlobalContext)
-  const [ shouldBeDisplayed, setShouldBeDisplayed ] = useState(true)
+  const [shouldBeDisplayed, setShouldBeDisplayed] = useState(true)
 
   const eventListener = getEventListener<MarqueeEvents>()
   eventListener.on('updateWidgetDisplay', (widgets) => {
@@ -52,6 +52,7 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
     ...props,
     ToggleFullScreen: () => (
       <ToggleFullScreen
+        widgetName={props.name}
         toggleFullScreen={setFullscreenMode}
         isFullScreenMode={fullscreenMode} />
     ),
@@ -61,13 +62,19 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
   return (
     <ErrorBoundary>
       <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
-        { fullscreenMode
+        {fullscreenMode
           ? (
-            <Dialog fullScreen open={fullscreenMode} onClose={() => setFullscreenMode(false)}>
-              <Widget { ...widgetProps } />
+            <Dialog
+              fullScreen
+              open={fullscreenMode}
+              onClose={() => setFullscreenMode(false)}
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              aria-labelledby={`${props.name}Fullscreen`}
+            >
+              <Widget {...widgetProps} />
             </Dialog>
           )
-          : <Widget { ...widgetProps } />
+          : <Widget {...widgetProps} />
         }
 
       </WidgetWrapper>

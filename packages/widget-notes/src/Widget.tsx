@@ -228,27 +228,27 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     setShowAddDialog
   } = useContext(NoteContext)
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const handleToggleFullScreen = () => {
-    setFullscreenMode(!fullscreenMode)
-    handleClose()
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? 'todo-nav-popover' : undefined
+  // const handleToggleFullScreen = () => {
+  //   setFullscreenMode(!fullscreenMode)
+  //   handleClose()
+  // }
+  // const open = Boolean(anchorEl)
+  // const id = open ? 'todo-nav-popover' : undefined
 
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
+  // useEffect(() => {
+  //   if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+  //     return setMinimizeNavIcon(true)
+  //   }
+  //   setMinimizeNavIcon(false)
+  // }, [ref.current?.offsetWidth])
 
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
@@ -260,55 +260,51 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [note])
 
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <Typography variant="subtitle1">Notes</Typography>
-          </Grid>
-          <Grid item>
-            {note && noteLinkFileName && (
-              <Button
-                size="small"
-                startIcon={<LinkIcon />}
-                disableFocusRipple
-                onClick={() => jumpTo(note)}
-                style={{ padding: '0 5px' }}
-              >
-                {noteLinkFileName}
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={1} alignItems="center">
-          <Grid item>
-            <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircleIcon fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-          </Grid>
-          <Grid item>
-            <HidePop name="notes" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
   return (
     <>
-      <WidgetHeader />
+      <HeaderWrapper>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="subtitle1">Notes</Typography>
+            </Grid>
+            <Grid item>
+              {note && noteLinkFileName && (
+                <Button
+                  size="small"
+                  startIcon={<LinkIcon />}
+                  disableFocusRipple
+                  onClick={() => jumpTo(note)}
+                  style={{ padding: '0 5px' }}
+                >
+                  {noteLinkFileName}
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+                <AddCircleIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+            </Grid>
+            <Grid item>
+              <HidePop name="notes" />
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
+          </Grid>
+        </Grid>
+      </HeaderWrapper>
       <WidgetBody note={note} notes={notes} />
     </>
   )

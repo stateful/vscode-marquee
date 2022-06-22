@@ -185,6 +185,7 @@ const Container = () => {
     <div className={'appContainer'} style={backgroundStyle}>
       {showSettings && <SettingsDialog close={() => setShowSettings(false)} />}
       <div
+        className={'marqueeNavigation'}
         style={{
           position: 'absolute',
           top: 0,

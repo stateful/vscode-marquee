@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import { Grid, Typography, List, IconButton, Button } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+// import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { MarqueeWindow } from '@vscode-marquee/utils'
@@ -51,63 +51,9 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [workspaces, workspaceFilter, workspaceSortOrder])
 
-  const ProjectWidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        <Grid item xs style={{ overflow: 'auto' }}>
-          {filteredProjects.length === 0 && (
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              style={{ height: '80%', width: '100%' }}
-            >
-              <Grid item>
-                <Button
-                  startIcon={<AddCircle />}
-                  variant="outlined"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.vscode.postMessage({
-                      west: {
-                        execCommands: [{
-                          command: 'vscode.openFolder',
-                          options: { forceNewWindow: openProjectInNewWindow }
-                        }],
-                      },
-                    })
-                  }}
-                >
-                  Add a project
-                </Button>
-              </Grid>
-            </Grid>
-          )}
-          {filteredProjects.length !== 0 && (
-            <List dense={true}>
-              {filteredProjects.map((workspace) => {
-                return (
-                  <ProjectListItem
-                    key={workspace.id}
-                    workspace={workspace}
-                  />
-                )
-              })}
-            </List>
-          )}
-        </Grid>
-      </Grid>
-    </Grid>
-  )
-
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <>
+  return (
+    <>
+      <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Projects</Typography>
         </Grid>
@@ -165,15 +111,59 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <Dragger />
             </Grid>
           </Grid>
+        </Grid >
+      </HeaderWrapper >
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          <Grid item xs style={{ overflow: 'auto' }}>
+            {filteredProjects.length === 0 && (
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                style={{ height: '80%', width: '100%' }}
+              >
+                <Grid item>
+                  <Button
+                    startIcon={<AddCircle />}
+                    variant="outlined"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      window.vscode.postMessage({
+                        west: {
+                          execCommands: [{
+                            command: 'vscode.openFolder',
+                            options: { forceNewWindow: openProjectInNewWindow }
+                          }],
+                        },
+                      })
+                    }}
+                  >
+                    Add a project
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+            {filteredProjects.length !== 0 && (
+              <List dense={true}>
+                {filteredProjects.map((workspace) => {
+                  return (
+                    <ProjectListItem
+                      key={workspace.id}
+                      workspace={workspace}
+                    />
+                  )
+                })}
+              </List>
+            )}
+          </Grid>
         </Grid>
-      </>
-    </HeaderWrapper>
-  )
-
-  return (
-    <>
-      <WidgetHeader />
-      <ProjectWidgetBody />
+      </Grid>
     </>
   )
 }
