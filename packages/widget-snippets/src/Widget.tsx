@@ -24,6 +24,8 @@ import SnippetListItem from './components/ListItem'
 import { WIDGET_ID } from './constants'
 import type { Events } from './types'
 import Snippet from './models/Snippet'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
 declare const window: MarqueeWindow
 
@@ -33,7 +35,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({ snippets, snippet } : {snippets: Snippet[], snippet: Snippet | undefined}) =>  {
+const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snippet | undefined }) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
   const { globalScope } = useContext(GlobalContext)
   const {
@@ -155,7 +157,7 @@ const WidgetBody = ({ snippets, snippet } : {snippets: Snippet[], snippet: Snipp
                         <Clear
                           fontSize="small"
                           style={{ cursor: 'pointer' }}
-                          onClick={() => setSnippetFilter('') }
+                          onClick={() => setSnippetFilter('')}
                         />
                       ),
                     }}
@@ -224,7 +226,7 @@ const WidgetBody = ({ snippets, snippet } : {snippets: Snippet[], snippet: Snipp
 
 let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
-  const { snippets, snippetSelected} = useContext(SnippetContext)
+  const { snippets, snippetSelected, setShowCloudSyncFeature } = useContext(SnippetContext)
 
   const snippet = useMemo(() => {
     return snippets.find((snippet) => snippet.id === snippetSelected)
@@ -280,6 +282,11 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <HidePop name="snippets" />
             </Grid>
             <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
+            </Grid>
+            <Grid item>
               <ToggleFullScreen />
             </Grid>
             <Grid item>
@@ -288,7 +295,7 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           </Grid>
         </Grid>
       </HeaderWrapper>
-      <WidgetBody snippet={snippet} snippets={snippets}/>
+      <WidgetBody snippet={snippet} snippets={snippets} />
     </>
   )
 }

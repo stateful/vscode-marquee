@@ -18,6 +18,8 @@ import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
 import { Note } from './types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
 declare const window: MarqueeWindow
 
@@ -27,7 +29,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
+const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
   const { globalScope } = useContext(GlobalContext)
   const {
     _updateNote,
@@ -143,7 +145,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
                         <ClearIcon
                           fontSize="small"
                           style={{ cursor: 'pointer' }}
-                          onClick={() => setNoteFilter('') }
+                          onClick={() => setNoteFilter('')}
                         />
                       ),
                     }}
@@ -224,7 +226,8 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     notes,
     noteSelected,
-    setShowAddDialog
+    setShowAddDialog,
+    setShowCloudSyncFeature
   } = useContext(NoteContext)
 
   const note = useMemo(() => {
@@ -274,6 +277,11 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <HidePop name="notes" />
             </Grid>
             <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
+            </Grid>
+            <Grid item>
               <ToggleFullScreen />
             </Grid>
             <Grid item>
@@ -282,7 +290,7 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           </Grid>
         </Grid>
       </HeaderWrapper>
-      <WidgetBody note={note} notes={notes}/>
+      <WidgetBody note={note} notes={notes} />
     </>
   )
 }

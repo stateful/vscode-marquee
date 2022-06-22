@@ -13,6 +13,9 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
+
 
 declare const window: MarqueeWindow
 
@@ -21,6 +24,7 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     setTodos,
     setShowAddDialog,
     showArchived,
+    setShowCloudSyncFeature,
     todos,
     hide,
     todoFilter,
@@ -87,9 +91,8 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <TodoInfo />
           </Typography>
         </Grid>
-
         <Grid item xs={8}>
-          <Grid container justifyContent="right" direction="row" spacing={1}>
+          <Grid container justifyContent="right" direction={'row'} spacing={1}>
             <Grid item>
               <TodoFilter />
             </Grid>
@@ -103,6 +106,11 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
             <Grid item>
               <TodoPop />
+            </Grid>
+            <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
             </Grid>
             <Grid item>
               <ToggleFullScreen />

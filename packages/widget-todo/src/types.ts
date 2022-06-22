@@ -25,11 +25,13 @@ export interface Configuration {
 export interface ContextValues extends Configuration, State {
   showAddDialog: boolean
   showEditDialog?: string
+  showCloudSyncFeature: boolean
 }
 
 export interface Events {
   openAddTodoDialog: boolean
   openEditTodoDialog?: string
+  openCloudSyncFeatureInterest: boolean
 }
 
 export interface Context extends Omit<ContextProperties<ContextValues>, 'setActiveWorkspaceId'> {
@@ -37,4 +39,5 @@ export interface Context extends Omit<ContextProperties<ContextValues>, 'setActi
   _addTodo: (body: string, tags: string[], isWorkspaceTodo: boolean) => void
   _removeTodo: (id: string) => void
   _updateTodo: (todo: Todo) => void
+  _isInterestedInSyncFeature: (interested: boolean) => void
 }

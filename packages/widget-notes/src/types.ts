@@ -15,6 +15,7 @@ export interface Events {
   openEditNoteDialog?: string
   addSnippet: Pick<Note, keyof Note>
   addNote: Note
+  openCloudSyncFeatureInterest: boolean
 }
 
 export interface State {
@@ -36,4 +37,6 @@ export interface Context extends ContextProperties<State> {
   setShowAddDialog: (show: boolean) => void
   showEditDialog?: string
   setShowEditDialog: (id?: string) => void
+  showCloudSyncFeature: boolean
+  setShowCloudSyncFeature: (show:boolean) => void
 }

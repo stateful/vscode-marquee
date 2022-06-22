@@ -3,6 +3,8 @@ import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode
 
 import { WIDGET_ID } from './constants'
 import type { State, Context, Snippet, Events } from './types'
+import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material'
 
 declare const window: MarqueeWindow
 const SnippetContext = createContext<Context>({} as Context)
@@ -19,6 +21,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
    * to maintain a local state
    */
   const [snippets, _setSnippets] = useState<Snippet[]>(providerValues.snippets)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   const setSnippets = (snippets: Snippet[]) => {
     _setSnippets(snippets)
@@ -53,7 +56,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       snippet,
       snippet.workspaceId === window.activeWorkspace?.id
     ))
-
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
     return () => {
       widgetState.removeAllListeners()
       eventListener.removeAllListeners()
@@ -85,6 +88,12 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     globalSnippets[index] = snippet
     setSnippets(globalSnippets)
   }
+  const _isInterestedInSyncFeature = () => {
+    eventListener.emit('telemetryEvent', {
+      eventName: 'noteSyncInterest',
+      properties: { 'interestedIn': 'noteSyncFeature' }
+    })
+  }
 
   return (
     <SnippetContext.Provider
@@ -93,8 +102,30 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
         _addSnippet,
         _removeSnippet,
         _updateSnippet,
+        setShowCloudSyncFeature
       }}
     >
+      {showCloudSyncFeature &&
+        <DialogContainer fullWidth={true} onClose={() => setShowCloudSyncFeature(false)} >
+          <DialogTitle onClose={() => setShowCloudSyncFeature(false)} >
+            <Typography style={{ width: '75%' }}>
+              Would you like to have the optional auth and sync notes/todos with the Stateful Backend ?
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            <p>This new feature will be syncing todos and notes from the stateful extension.
+              If you are interested press yes, if not press no.
+            </p>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowCloudSyncFeature(false)} >No</Button>
+            <Button onClick={() => {
+              _isInterestedInSyncFeature()
+              setShowCloudSyncFeature(false)
+            }}>Yes</Button>
+          </DialogActions>
+        </DialogContainer>
+      }
       {children}
     </SnippetContext.Provider>
   )
