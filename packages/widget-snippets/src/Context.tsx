@@ -3,8 +3,7 @@ import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode
 
 import { WIDGET_ID } from './constants'
 import type { State, Context, Snippet, Events } from './types'
-import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
-import { Button, DialogActions, DialogContent, Typography } from '@mui/material'
+import FeatureInterestDialog from './components/FeatureInterestDialog'
 
 declare const window: MarqueeWindow
 const SnippetContext = createContext<Context>({} as Context)
@@ -89,10 +88,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     setSnippets(globalSnippets)
   }
   const _isInterestedInSyncFeature = () => {
-    eventListener.emit('telemetryEvent', {
-      eventName: 'noteSyncInterest',
-      properties: { 'interestedIn': 'noteSyncFeature' }
-    })
+    eventListener.emit('telemetryEvent', { eventName: 'noteSyncInterest', })
   }
 
   return (
@@ -106,25 +102,10 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       }}
     >
       {showCloudSyncFeature &&
-        <DialogContainer fullWidth={true} onClose={() => setShowCloudSyncFeature(false)} >
-          <DialogTitle onClose={() => setShowCloudSyncFeature(false)} >
-            <Typography style={{ width: '75%' }}>
-              Would you like to have the optional auth and sync notes/todos with the Stateful Backend ?
-            </Typography>
-          </DialogTitle>
-          <DialogContent>
-            <p>This new feature will be syncing todos and notes from the stateful extension.
-              If you are interested press yes, if not press no.
-            </p>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setShowCloudSyncFeature(false)} >No</Button>
-            <Button onClick={() => {
-              _isInterestedInSyncFeature()
-              setShowCloudSyncFeature(false)
-            }}>Yes</Button>
-          </DialogActions>
-        </DialogContainer>
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
       }
       {children}
     </SnippetContext.Provider>
