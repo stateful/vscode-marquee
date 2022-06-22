@@ -30,7 +30,6 @@ describe('Marquee', () => {
       await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
     })
 
-
     /**
      * it seems that tricks don't get properly propagated into the UI
      * when run in CI
