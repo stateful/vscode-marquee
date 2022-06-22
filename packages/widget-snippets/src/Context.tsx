@@ -85,7 +85,6 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     setSnippets(globalSnippets)
   }
 
-
   return (
     <SnippetContext.Provider
       value={{

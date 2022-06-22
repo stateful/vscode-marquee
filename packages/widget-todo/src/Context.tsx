@@ -20,7 +20,6 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState<string | undefined>()
-  // const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   let _addTodo = (body: string, tags: string[] = [], isWorkspaceTodo = true) => {
     eventListener.emit('telemetryEvent', { eventName: 'addTodo' })
@@ -80,13 +79,13 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
         _resetTodos,
         _addTodo,
         _removeTodo,
-        _updateTodo,
+        _updateTodo
       }}
     >
-      {showAddDialog && (
+      { showAddDialog && (
         <AddDialog close={() => setShowAddDialog(false)} />
       )}
-      {showEditDialog && providerValues.todos.find((t) => showEditDialog === t.id) && (
+      { showEditDialog && providerValues.todos.find((t) => showEditDialog === t.id) && (
         <EditDialog
           close={() => setShowEditDialog(undefined)}
           todo={providerValues.todos.find((t) => showEditDialog === t.id)!}
