@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useCallback } from 'react'
-import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
+import { Grid, Typography, TextField, IconButton, Button, Popover } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -19,6 +19,8 @@ import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
 import { Note } from './types'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 declare const window: MarqueeWindow
 
@@ -221,13 +223,21 @@ const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
     </Grid>
   )
 }
-let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Notes = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  handleClick,
+  handleClose,
+  id }: MarqueeWidgetProps) => {
   const {
     notes,
     noteSelected,
     setShowAddDialog
   } = useContext(NoteContext)
-
+  console.log('vscode window', window)
+  console.log('minimizeNavIcon', minimizeNavIcon)
   // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
   //   setAnchorEl(event.currentTarget)
   // }
@@ -260,6 +270,31 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [note])
 
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1} alignItems="center">
+          <Grid item>
+            <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+              <AddCircleIcon fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+          </Grid>
+          <Grid item>
+            <HidePop name="notes" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>)
+  }
+
   return (
     <>
       <HeaderWrapper>
@@ -283,7 +318,24 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
+        {minimizeNavIcon ?
+          <Grid>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
+          </Grid>
+          :
+          <NavButtons />
+        }
+        {/* <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
               <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
@@ -303,7 +355,7 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <Dragger />
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
       </HeaderWrapper>
       <WidgetBody note={note} notes={notes} />
     </>

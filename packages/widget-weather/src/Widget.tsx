@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box } from '@mui/material'
+import { Grid, Typography, CircularProgress, Box, IconButton, Popover } from '@mui/material'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
@@ -13,6 +13,8 @@ import { WeatherDialogLauncher } from './components/Dialog'
 import { kToF, kToC, formatAMPM } from './utils'
 import { SCALE_OPTIONS } from './constants'
 import type { Forecast } from './types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 interface TodayPropTypes {
   current: Forecast['current']
@@ -170,9 +172,36 @@ let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => 
   )
 })
 
-const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
+const Weather = ({
+  ToggleFullScreen,
+  fullscreenMode,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
-
+  const NavButtons = () => {
+    return (
+      <Grid item >
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+          <Grid item>
+            <WeatherDialogLauncher />
+          </Grid>
+          <Grid item>
+            <HidePop name="weather" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
   return (
     <>
       <HeaderWrapper>
@@ -190,22 +219,25 @@ const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
           )}
           {!city && <Typography variant="subtitle1">Weather</Typography>}
         </Grid>
-        <Grid item xs={4} style={{ minWidth: 145 }}>
-          <Grid container direction="row" spacing={1} justifyContent="flex-end">
-            <Grid item>
-              <WeatherDialogLauncher />
-            </Grid>
-            <Grid item>
-              <HidePop name="weather" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={6}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid

@@ -4,7 +4,8 @@ import {
   IconButton,
   Typography,
   TextField,
-  Button
+  Button,
+  Popover
 } from '@mui/material'
 
 import { AddCircle, Clear } from '@mui/icons-material'
@@ -24,6 +25,8 @@ import SnippetListItem from './components/ListItem'
 import { WIDGET_ID } from './constants'
 import type { Events } from './types'
 import Snippet from './models/Snippet'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 declare const window: MarqueeWindow
 
@@ -222,7 +225,14 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
   )
 }
 
-let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Snippets = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
   const { snippets, snippetSelected } = useContext(SnippetContext)
 
@@ -236,6 +246,34 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [snippet])
 
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+          <Grid item>
+            <IconButton
+              size="small"
+              onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+            >
+              <AddCircle fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+          </Grid>
+          <Grid item>
+            <HidePop name="snippets" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
   return (
     <>
       <HeaderWrapper>
@@ -263,30 +301,25 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <Grid item>
-              <IconButton
-                size="small"
-                onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-              >
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
-            </Grid>
-            <Grid item>
-              <HidePop name="snippets" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <WidgetBody snippet={snippet} snippets={snippets} />
     </>

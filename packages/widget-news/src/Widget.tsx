@@ -5,7 +5,9 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar
+  ListItemAvatar,
+  IconButton,
+  Popover
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,8 +23,16 @@ import PopMenu from './components/Pop'
 import { fetchNews } from './utils'
 import { DEFAULT_STATE } from './constants'
 import type { WidgetState } from './types'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
-let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let News = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const [data, setData] = useState(DEFAULT_STATE)
 
   useEffect(() => {
@@ -31,26 +41,49 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     fetchNews(data).then((data) => _setData(data))
     return () => { _setData = () => { } }
   }, [data.channel])
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
 
+          <Grid item>
+            <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">News</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid

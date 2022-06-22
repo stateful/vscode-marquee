@@ -5,6 +5,7 @@ import {
   IconButton,
   ListItem,
   ListItemText,
+  Popover,
   TextField,
   Tooltip,
   Typography,
@@ -18,34 +19,23 @@ import { MarkdownProvider, useMarkdownContext } from './Context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 // import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
-const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+const Markdown = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
-  // const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  // const ref = useRef<HTMLDivElement>(null)
-  // const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-
-  // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget)
-  // }
-  // const handleClose = () => {
-  //   setAnchorEl(null)
-  // }
-
-  // const handleToggleFullScreen = () => {
-
-  //   handleClose()
-  // }
-
-  // const open = Boolean(anchorEl)
-  // const id = open ? 'todo-nav-popover' : undefined
 
   const {
     markdownDocuments,
@@ -86,6 +76,25 @@ const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
       </CopyToClipboard>
     )
   }
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+          <CopyToClipboardButton />
+          <Grid item>
+            <HidePop name="markdown" />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
+
 
   return (
     <>
@@ -93,20 +102,25 @@ const Markdown = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         <Grid item>
           <Typography variant="subtitle1">Markdown</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <CopyToClipboardButton />
-            <Grid item>
-              <HidePop name="markdown" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Grid, Link, Typography } from '@mui/material'
+import { Grid, IconButton, Link, Popover, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
 
@@ -10,6 +10,7 @@ import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 import TrickContext, { TrickProvider } from './Context'
 import TrickContent from './components/TrickContent'
 import PopMenu from './components/Pop'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 const WidgetBody = () => {
   const { error } = useContext(TrickContext)
@@ -89,14 +90,59 @@ const WidgetBody = () => {
   )
 }
 
-let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Welcome = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
+
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+          <Grid item>
+            <PopMenu />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
+
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Mailbox</Typography>
         </Grid>
-        <Grid item>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
+          </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
+        {/* <Grid item>
           <Grid container direction="row" spacing={1}>
             <Grid item>
               <PopMenu />
@@ -108,7 +154,7 @@ let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <Dragger />
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
       </HeaderWrapper>
       <WidgetBody />
     </>

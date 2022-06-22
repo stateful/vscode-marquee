@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton } from '@mui/material'
+import { Grid, Button, IconButton, Popover } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
@@ -13,10 +13,19 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 declare const window: MarqueeWindow
 
-let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Todo = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  id,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const {
     setTodos,
     setShowAddDialog,
@@ -26,30 +35,35 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     todoFilter,
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
-  // const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  // const ref = useRef<HTMLDivElement>(null)
-  // const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-  // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget)
-  // }
 
-  // const handleClose = () => {
-  //   setAnchorEl(null)
-  // }
-
-  // const handleToggleFullScreen = () => {
-  //   setFullscreenMode(!fullscreenMode)
-  //   handleClose()
-  // }
-  // const open = Boolean(anchorEl)
-  // const id = open ? 'todo-nav-popover' : undefined
-
-  // useEffect(() => {
-  //   if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-  //     return setMinimizeNavIcon(true)
-  //   }
-  //   setMinimizeNavIcon(false)
-  // }, [ref.current?.offsetWidth])
+  const NavButtons = () => {
+    return (
+      <Grid item>
+        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+          <Grid item>
+            <TodoFilter />
+          </Grid>
+          <Grid item>
+            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+              <AddCircle fontSize="small" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <DoubleClickHelper />
+          </Grid>
+          <Grid item>
+            <TodoPop />
+          </Grid>
+          <Grid item>
+            <ToggleFullScreen />
+          </Grid>
+          <Grid item>
+            <Dragger />
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+  }
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -111,31 +125,25 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <TodoInfo />
           </Typography>
         </Grid>
-
-        <Grid item xs={8}>
-          <Grid container justifyContent="right" direction="row" spacing={1}>
-            <Grid item>
-              <TodoFilter />
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper />
-            </Grid>
-            <Grid item>
-              <TodoPop />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={id}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid
