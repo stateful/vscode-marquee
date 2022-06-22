@@ -11,12 +11,13 @@ const FeatureInterestDialog = ({ setShowCloudSyncFeature, _isInterestedInSyncFea
     <DialogContainer fullWidth={true} onClose={() => setShowCloudSyncFeature(false)} >
       <DialogTitle onClose={() => setShowCloudSyncFeature(false)} >
         <Typography style={{ width: '85%', fontWeight: 'bold' }}>
-          Would you like to have the optional auth and sync notes/todos with the Stateful Backend ?
+          Want to sync your notes to the cloud?
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <p>Cloud sync feature will sync your todos, notes and clipboard/snippets from the Stateful Extension.
-          If you are interested in this feature press yes, if not interested press no.
+        <p>This feature would push your todo's, note’s
+          and snippets to the Stateful service and make them available anywhere you have Marquee or
+          Stateful installed. If you’re interested click “yes”, otherwise - “No”. Thank you for the feedback!
         </p>
       </DialogContent>
       <DialogActions>
