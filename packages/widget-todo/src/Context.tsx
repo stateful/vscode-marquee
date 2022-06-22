@@ -90,7 +90,6 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
         _addTodo,
         _removeTodo,
         _updateTodo,
-        _isInterestedInSyncFeature
       }}
     >
       {showAddDialog && (
@@ -109,7 +108,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
         />
       }
       {children}
-    </TodoContext.Provider >
+    </TodoContext.Provider>
   )
 }
 
