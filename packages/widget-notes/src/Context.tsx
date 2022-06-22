@@ -101,10 +101,10 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
         showAddDialog,
         setShowAddDialog,
         showEditDialog,
-        setShowEditDialog,
+        setShowEditDialog
       }}
     >
-      { showAddDialog && (
+      {showAddDialog && (
         <AddDialog close={() => setShowAddDialog(false)} />
       )}
       { showEditDialog && notes.find((n) => n.id === showEditDialog) && (

@@ -71,6 +71,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     <TodoContext.Provider
       value={{
         ...providerValues,
+        
         showAddDialog,
         setShowAddDialog,
         showEditDialog,

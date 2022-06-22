@@ -53,6 +53,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
       snippet,
       snippet.workspaceId === window.activeWorkspace?.id
     ))
+
     return () => {
       widgetState.removeAllListeners()
       eventListener.removeAllListeners()
