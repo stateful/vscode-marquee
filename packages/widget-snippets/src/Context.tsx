@@ -87,8 +87,11 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     globalSnippets[index] = snippet
     setSnippets(globalSnippets)
   }
-  const _isInterestedInSyncFeature = () => {
-    eventListener.emit('telemetryEvent', { eventName: 'noteSyncInterest', })
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
   }
 
   return (

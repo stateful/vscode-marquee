@@ -60,8 +60,11 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     providerValues.setTodos([])
   }
 
-  let _isInterestedInSyncFeature = () => {
-    eventListener.emit('telemetryEvent', { eventName: 'noteSyncInterest', })
+  let _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
   }
 
   useEffect(() => {

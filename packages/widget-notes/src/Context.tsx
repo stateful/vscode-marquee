@@ -78,8 +78,11 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     globalNotes[index] = note
     setNotes(globalNotes)
   }
-  const _isInterestedInSyncFeature = () => {
-    eventListener.emit('telemetryEvent', { eventName: 'noteSyncInterest' })
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'yesNoteSyncInterest' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'noNoteSyncInterest' })
   }
 
   useEffect(() => {
