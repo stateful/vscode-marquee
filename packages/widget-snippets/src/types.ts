@@ -27,7 +27,6 @@ export interface Events {
   selectSnippet: string
   addSnippet: Snippet
   addNote: Pick<Snippet, keyof Snippet>
-  openCloudSyncFeatureInterest: boolean
 }
 
 export interface Context extends ContextProperties<State> {

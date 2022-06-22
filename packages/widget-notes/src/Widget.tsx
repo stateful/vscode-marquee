@@ -3,6 +3,8 @@ import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
@@ -13,7 +15,8 @@ import {
   MarqueeWindow,
   jumpTo,
   MarqueeEvents,
-  getEventListener
+  getEventListener,
+  FeatureInterestDialog
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
@@ -25,9 +28,7 @@ import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
 import { Events, Note } from './types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
-import FeatureInterestDialog from '@vscode-marquee/utils/src/components/FeatureInterestDialog'
+
 
 declare const window: MarqueeWindow
 

@@ -6,16 +6,19 @@ import {
   TextField,
   Button
 } from '@mui/material'
-
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
+
 import {
   GlobalContext,
   jumpTo,
   DoubleClickHelper,
   MarqueeWindow,
   getEventListener,
-  MarqueeEvents
+  MarqueeEvents,
+  FeatureInterestDialog
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
@@ -31,9 +34,7 @@ import SnippetListItem from './components/ListItem'
 import { WIDGET_ID } from './constants'
 import type { Events } from './types'
 import Snippet from './models/Snippet'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
-import FeatureInterestDialog from '@vscode-marquee/utils/src/components/FeatureInterestDialog'
+
 
 declare const window: MarqueeWindow
 

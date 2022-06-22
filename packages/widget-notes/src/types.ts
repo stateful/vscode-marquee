@@ -15,7 +15,6 @@ export interface Events {
   openEditNoteDialog?: string
   addSnippet: Pick<Note, keyof Note>
   addNote: Note
-  openCloudSyncFeatureInterest: boolean
 }
 
 export interface State {

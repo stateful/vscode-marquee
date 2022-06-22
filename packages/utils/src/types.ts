@@ -51,6 +51,7 @@ export interface MarqueeEvents {
     eventName: string
     properties?: TelemetryEventProperties
   }
+  openCloudSyncFeatureInterest: boolean
 }
 
 export enum WorkspaceType {

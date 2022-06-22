@@ -3,8 +3,17 @@ import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import { Grid, Button, IconButton } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  MarqueeEvents,
+  getEventListener,
+  FeatureInterestDialog
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -13,10 +22,7 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
 import { Events } from './types'
-import FeatureInterestDialog from '@vscode-marquee/utils/src/components/FeatureInterestDialog'
 
 
 declare const window: MarqueeWindow

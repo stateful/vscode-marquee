@@ -30,7 +30,6 @@ export interface ContextValues extends Configuration, State {
 export interface Events {
   openAddTodoDialog: boolean
   openEditTodoDialog?: string
-  openCloudSyncFeatureInterest: boolean
 }
 
 export interface Context extends Omit<ContextProperties<ContextValues>, 'setActiveWorkspaceId'> {
