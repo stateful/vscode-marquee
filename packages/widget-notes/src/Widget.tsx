@@ -13,7 +13,7 @@ import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+// import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'

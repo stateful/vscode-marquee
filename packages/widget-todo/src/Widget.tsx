@@ -26,30 +26,30 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     todoFilter,
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
-  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  // const ref = useRef<HTMLDivElement>(null)
+  // const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+  // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const handleToggleFullScreen = () => {
-    setFullscreenMode(!fullscreenMode)
-    handleClose()
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? 'todo-nav-popover' : undefined
+  // const handleToggleFullScreen = () => {
+  //   setFullscreenMode(!fullscreenMode)
+  //   handleClose()
+  // }
+  // const open = Boolean(anchorEl)
+  // const id = open ? 'todo-nav-popover' : undefined
 
-  useEffect(() => {
-    if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-      return setMinimizeNavIcon(true)
-    }
-    setMinimizeNavIcon(false)
-  }, [ref.current?.offsetWidth])
+  // useEffect(() => {
+  //   if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
+  //     return setMinimizeNavIcon(true)
+  //   }
+  //   setMinimizeNavIcon(false)
+  // }, [ref.current?.offsetWidth])
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -102,29 +102,6 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     return filteredItems
   }, [todos, globalScope, hide, todoFilter, showArchived])
 
-<<<<<<< HEAD
-  const WidgetBody = () => (
-    <Grid item xs>
-      <Grid
-        container
-        wrap="nowrap"
-        direction="column"
-        style={{ height: '100%' }}
-      >
-        <Grid item xs style={{ overflow: 'auto' }}>
-          {filteredItems.length === 0 && (
-            <Grid
-              container
-              alignItems="center"
-              justifyContent="center"
-              style={{ height: '80%', width: '100%' }}
-            >
-              <Grid item>
-                <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
-                  Create a todo
-                </Button>
-              </Grid>
-=======
   return (
     <>
       <HeaderWrapper>
@@ -144,7 +121,6 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
                 <AddCircle fontSize="small" />
               </IconButton>
->>>>>>> dc4ca2d4c22a288f95d02690a09392f02a106829
             </Grid>
             <Grid item>
               <DoubleClickHelper />
@@ -229,58 +205,6 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
       </Grid>
     </>
   )
-<<<<<<< HEAD
-
-  const WidgetHeader = () => (
-    <HeaderWrapper>
-      <Grid item xs={4}>
-        <Typography variant="subtitle1">
-          Todo
-          <TodoInfo />
-        </Typography>
-      </Grid>
-
-      <Grid item xs={8}>
-        <Grid container justifyContent="right" direction="row" spacing={1}>
-          <Grid item>
-            <TodoFilter />
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircle fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper />
-          </Grid>
-          <Grid item>
-            <TodoPop />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
-        </Grid>
-      </Grid>
-    </HeaderWrapper>
-  )
-
-  return (
-    <>
-      <WidgetHeader />
-      <WidgetBody />
-    </>
-  )
-}
-
-const Widget = (props: any) => (
-  <TodoProvider>
-    <Todo {...props} />
-  </TodoProvider>
-)
-=======
 }
 
 const Widget = (props: any) => {
@@ -290,5 +214,4 @@ const Widget = (props: any) => {
     </TodoProvider>
   )
 }
->>>>>>> dc4ca2d4c22a288f95d02690a09392f02a106829
 export default wrapper(Widget, 'todo')
