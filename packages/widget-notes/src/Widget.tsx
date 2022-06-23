@@ -1,13 +1,23 @@
-import React, { useContext, useEffect, useMemo, useCallback } from 'react'
+import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
 import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  jumpTo,
+  MarqueeEvents,
+  getEventListener,
+  FeatureInterestDialog
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -17,7 +27,8 @@ import '../css/react-splitter-layout.css'
 import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
-import { Note } from './types'
+import { Events, Note } from './types'
+
 
 declare const window: MarqueeWindow
 
@@ -27,7 +38,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
+const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
   const { globalScope } = useContext(GlobalContext)
   const {
     _updateNote,
@@ -143,7 +154,7 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
                         <ClearIcon
                           fontSize="small"
                           style={{ cursor: 'pointer' }}
-                          onClick={() => setNoteFilter('') }
+                          onClick={() => setNoteFilter('')}
                         />
                       ),
                     }}
@@ -221,11 +232,24 @@ const WidgetBody = ({notes, note} : {notes: Note[], note:any}) => {
   )
 }
 let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
     noteSelected,
-    setShowAddDialog
+    setShowAddDialog,
   } = useContext(NoteContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
+
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
 
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
@@ -239,6 +263,12 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
 
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
@@ -274,6 +304,11 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <HidePop name="notes" />
             </Grid>
             <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
+            </Grid>
+            <Grid item>
               <ToggleFullScreen />
             </Grid>
             <Grid item>
@@ -282,7 +317,7 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           </Grid>
         </Grid>
       </HeaderWrapper>
-      <WidgetBody note={note} notes={notes}/>
+      <WidgetBody note={note} notes={notes} />
     </>
   )
 }

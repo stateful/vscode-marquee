@@ -1,10 +1,19 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import { Grid, Button, IconButton } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  MarqueeEvents,
+  getEventListener,
+  FeatureInterestDialog
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -13,10 +22,13 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
+import { Events } from './types'
+
 
 declare const window: MarqueeWindow
 
 let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     setTodos,
     setShowAddDialog,
@@ -26,6 +38,18 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     todoFilter,
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
+
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -80,6 +104,12 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
 
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item xs={4}>
           <Typography variant="subtitle1">
@@ -87,9 +117,8 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <TodoInfo />
           </Typography>
         </Grid>
-
         <Grid item xs={8}>
-          <Grid container justifyContent="right" direction="row" spacing={1}>
+          <Grid container justifyContent="right" direction={'row'} spacing={1}>
             <Grid item>
               <TodoFilter />
             </Grid>
@@ -103,6 +132,11 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
             <Grid item>
               <TodoPop />
+            </Grid>
+            <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
             </Grid>
             <Grid item>
               <ToggleFullScreen />
