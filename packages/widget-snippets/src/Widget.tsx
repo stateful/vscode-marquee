@@ -271,7 +271,7 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
-              <Typography variant="subtitle1">Snippets</Typography>
+              <Typography variant="subtitle1">Clipboard</Typography>
             </Grid>
             <Grid item>
               {snippet && snippetLinkFileName && (

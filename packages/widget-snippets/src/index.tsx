@@ -5,10 +5,10 @@ import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
 import Snippets from './Widget'
 
 export default {
-  name: 'snippets',
+  name: 'clipboard',
   icon: <FontAwesomeIcon icon={faCode} />,
   tags: ['productivity', 'workflow', 'search', 'organize'],
-  label: 'Snippets',
+  label: 'Clipboard',
   description:
     'Create or extract code snippets then edit, organize and insert them directly into code.',
   component: Snippets,
