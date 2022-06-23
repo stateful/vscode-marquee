@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, DialogActions, DialogContent, Link, Typography } from '@mui/material'
+import { Button, DialogActions, DialogContent, Grid, Link, Typography } from '@mui/material'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
 import { DialogContainer, DialogTitle } from '..'
 
@@ -18,18 +18,20 @@ const FeatureInterestDialog = ({ setShowCloudSyncFeature, _isInterestedInSyncFea
     : 'Do you want to sync your Notes, Todos and Snippets across multiple machines?'
 
   const DialogBody = showCloudSyncFeedbackResponse
-    ? <DialogContent>
-      Join our
-      <Link
-        component="a"
-        href={discordLink}
-        target="_blank"
-        underline="hover">
-        &nbsp;discord &nbsp;
-        <FontAwesomeIcon icon={faDiscord} />
-      </Link>
-      {' '}channel if you like to stay updated with
-      upcoming features or if you have other feature requests.
+    ? <DialogContent sx={{ padding: '2px' }}>
+      <Grid padding={2}>
+        Join our
+        <Link
+          component="a"
+          href={discordLink}
+          target="_blank"
+          underline="hover">
+          &nbsp;discord &nbsp;
+          <FontAwesomeIcon icon={faDiscord} />
+        </Link>
+        {' '}channel if you like to stay updated with
+        upcoming features or if you have other feature requests.
+      </Grid>
     </DialogContent>
     : <DialogActions>
       <Button onClick={() => {
