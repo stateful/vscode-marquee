@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, DialogActions, DialogContent, Link, Typography } from '@mui/material'
-import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
+import { DialogContainer, DialogTitle } from '..'
 
 const discordLink = 'https://discord.gg/BQm8zRCBUY'
 

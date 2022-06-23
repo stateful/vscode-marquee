@@ -11,10 +11,10 @@ import {
   DoubleClickHelper,
   MarqueeWindow,
   MarqueeEvents,
-  getEventListener,
-  FeatureInterestDialog
+  getEventListener
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TodoContext, { TodoProvider } from './Context'

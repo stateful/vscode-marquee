@@ -17,10 +17,10 @@ import {
   DoubleClickHelper,
   MarqueeWindow,
   getEventListener,
-  MarqueeEvents,
-  FeatureInterestDialog
+  MarqueeEvents
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import SplitterLayout from 'react-splitter-layout'

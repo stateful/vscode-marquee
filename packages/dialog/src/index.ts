@@ -1,4 +1,5 @@
 import DialogContainer from './DialogContainer'
 import DialogTitle from './DialogTitle'
+import FeatureInterestDialog from './components/FeatureInterestDialog'
 
-export { DialogContainer, DialogTitle }
+export { DialogContainer, DialogTitle, FeatureInterestDialog }

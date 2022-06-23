@@ -16,9 +16,9 @@ import {
   jumpTo,
   MarqueeEvents,
   getEventListener,
-  FeatureInterestDialog
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'

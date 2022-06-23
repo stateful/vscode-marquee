@@ -10,7 +10,6 @@ import calculateTheme from './calculateTheme'
 import BetterComplete from './components/BetterComplete'
 import NetworkError from './components/NetworkError'
 import DoubleClickHelper from './components/DoubleClickHelper'
-import FeatureInterestDialog from './components/FeatureInterestDialog'
 
 import GlobalContext, { GlobalProvider } from './contexts/Global'
 import type { MarqueeWindow, ContextProperties } from './types'
@@ -121,7 +120,6 @@ export {
   BetterComplete,
   NetworkError,
   DoubleClickHelper,
-  FeatureInterestDialog,
 
   // contexts
   GlobalContext,
