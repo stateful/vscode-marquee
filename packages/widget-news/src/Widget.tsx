@@ -30,7 +30,6 @@ let News = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const [data, setData] = useState(DEFAULT_STATE)
@@ -41,24 +40,28 @@ let News = ({
     fetchNews(data).then((data) => _setData(data))
     return () => { _setData = () => { } }
   }, [data.channel])
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-
-          <Grid item>
-            <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
+    </Grid>
+  )
+
   return (
     <>
       <HeaderWrapper>
@@ -72,7 +75,7 @@ let News = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-news-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>

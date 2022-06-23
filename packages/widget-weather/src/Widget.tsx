@@ -178,30 +178,36 @@ const Weather = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
-  const NavButtons = () => {
-    return (
-      <Grid item >
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-          <Grid item>
-            <WeatherDialogLauncher />
-          </Grid>
-          <Grid item>
-            <HidePop name="weather" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+
+  const NavButtons = () => (
+    <Grid item >
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <WeatherDialogLauncher />
+        </Grid>
+        <Grid item>
+          <HidePop name="weather" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
+    </Grid>
+  )
+
   return (
     <>
       <HeaderWrapper>
@@ -226,7 +232,7 @@ const Weather = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-weather-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>

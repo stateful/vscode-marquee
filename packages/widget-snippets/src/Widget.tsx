@@ -230,7 +230,6 @@ let Snippets = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
@@ -246,34 +245,40 @@ let Snippets = ({
     }
   }, [snippet])
 
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-          <Grid item>
-            <IconButton
-              size="small"
-              onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
-            >
-              <AddCircle fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
-          </Grid>
-          <Grid item>
-            <HidePop name="snippets" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <IconButton
+            size="small"
+            onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+          >
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+        </Grid>
+        <Grid item>
+          <HidePop name="snippets" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
+    </Grid>
+  )
+
   return (
     <>
       <HeaderWrapper>
@@ -308,7 +313,7 @@ let Snippets = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-snippets-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>

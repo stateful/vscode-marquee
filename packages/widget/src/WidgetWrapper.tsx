@@ -1,4 +1,4 @@
-import React, { MouseEvent, useContext, useEffect, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useRef, useState } from 'react'
 import { Box, Grid, Dialog } from '@mui/material'
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils'
 
@@ -49,7 +49,7 @@ const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
 export default (Widget: any, name?: string) => React.memo(React.forwardRef((props: any, ref) => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-
+  const wrapperWidthRef = useRef<HTMLDivElement>(null)
   const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -66,11 +66,13 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
     if (fullscreenMode) {
       handleClose()
       return setMinimizeNavIcon(false)
-    } else if (!fullscreenMode && ref!.current!.offsetWidth < 330) {
+      // @ts-ignore
+    } else if (!fullscreenMode && ref.current!.offsetWidth < 330) {
       return setMinimizeNavIcon(true)
     }
     setMinimizeNavIcon(false)
-  }, [fullscreenMode, ref!.current?.offsetWidth])
+    // @ts-ignore
+  }, [fullscreenMode, ref.current?.offsetWidth])
 
   const widgetProps = {
     ...props,
@@ -87,6 +89,7 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
     anchorEl,
     handleClose,
     handleClick,
+    wrapperWidthRef
   }
 
   return (

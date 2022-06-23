@@ -33,7 +33,6 @@ let Github = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
@@ -53,30 +52,34 @@ let Github = ({
     return filteredTrends
   }, [trends, trendFilter])
 
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-          <Grid item>
-            <Filter />
-          </Grid>
-          <Grid item>
-            <TrendingDialogLauncher />
-          </Grid>
-          <Grid item>
-            <HidePop name="github" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <Filter />
+        </Grid>
+        <Grid item>
+          <TrendingDialogLauncher />
+        </Grid>
+        <Grid item>
+          <HidePop name="github" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
-
+    </Grid>
+  )
 
   return (
     <>
@@ -91,7 +94,7 @@ let Github = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-github-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>

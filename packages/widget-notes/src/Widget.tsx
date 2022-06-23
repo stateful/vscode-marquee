@@ -230,35 +230,12 @@ let Notes = ({
   anchorEl,
   handleClick,
   handleClose,
-  id }: MarqueeWidgetProps) => {
+}: MarqueeWidgetProps) => {
   const {
     notes,
     noteSelected,
     setShowAddDialog
   } = useContext(NoteContext)
-  console.log('vscode window', window)
-  console.log('minimizeNavIcon', minimizeNavIcon)
-  // const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget)
-  // }
-
-  // const handleClose = () => {
-  //   setAnchorEl(null)
-  // }
-
-  // const handleToggleFullScreen = () => {
-  //   setFullscreenMode(!fullscreenMode)
-  //   handleClose()
-  // }
-  // const open = Boolean(anchorEl)
-  // const id = open ? 'todo-nav-popover' : undefined
-
-  // useEffect(() => {
-  //   if ((ref !== null && ref.current !== null) && ref.current?.offsetWidth < 330) {
-  //     return setMinimizeNavIcon(true)
-  //   }
-  //   setMinimizeNavIcon(false)
-  // }, [ref.current?.offsetWidth])
 
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
@@ -270,30 +247,37 @@ let Notes = ({
     }
   }, [note])
 
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1} alignItems="center">
-          <Grid item>
-            <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircleIcon fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-          </Grid>
-          <Grid item>
-            <HidePop name="notes" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+            <AddCircleIcon fontSize="small" />
+          </IconButton>
         </Grid>
-      </Grid>)
-  }
+        <Grid item>
+          <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+        </Grid>
+        <Grid item>
+          <HidePop name="notes" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+
 
   return (
     <>
@@ -325,7 +309,7 @@ let Notes = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-notes-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
@@ -335,27 +319,6 @@ let Notes = ({
           :
           <NavButtons />
         }
-        {/* <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <Grid item>
-              <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-                <AddCircleIcon fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-            </Grid>
-            <Grid item>
-              <HidePop name="notes" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
-          </Grid>
-        </Grid> */}
       </HeaderWrapper>
       <WidgetBody note={note} notes={notes} />
     </>

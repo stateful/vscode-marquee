@@ -30,7 +30,6 @@ const Markdown = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const [splitterSize, setSplitterSize] = useState(80)
@@ -76,25 +75,29 @@ const Markdown = ({
       </CopyToClipboard>
     )
   }
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-          <CopyToClipboardButton />
-          <Grid item>
-            <HidePop name="markdown" />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <CopyToClipboardButton />
+        <Grid item>
+          <HidePop name="markdown" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
-
+    </Grid>
+  )
 
   return (
     <>
@@ -109,7 +112,7 @@ const Markdown = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-markdown-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>

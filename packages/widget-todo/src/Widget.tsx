@@ -23,7 +23,6 @@ let Todo = ({
   minimizeNavIcon,
   open,
   anchorEl,
-  id,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
   const {
@@ -36,34 +35,40 @@ let Todo = ({
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
 
-  const NavButtons = () => {
-    return (
-      <Grid item>
-        <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
-          <Grid item>
-            <TodoFilter />
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-              <AddCircle fontSize="small" />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <DoubleClickHelper />
-          </Grid>
-          <Grid item>
-            <TodoPop />
-          </Grid>
-          <Grid item>
-            <ToggleFullScreen />
-          </Grid>
-          <Grid item>
-            <Dragger />
-          </Grid>
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <TodoFilter />
+        </Grid>
+        <Grid item>
+          <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper />
+        </Grid>
+        <Grid item>
+          <TodoPop />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
         </Grid>
       </Grid>
-    )
-  }
+    </Grid>
+  )
+
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -119,7 +124,7 @@ let Todo = ({
   return (
     <>
       <HeaderWrapper>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <Typography variant="subtitle1">
             Todo
             <TodoInfo />
@@ -132,7 +137,7 @@ let Todo = ({
             </IconButton>
             <Popover
               open={open}
-              id={id}
+              id={'widget-todos-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
