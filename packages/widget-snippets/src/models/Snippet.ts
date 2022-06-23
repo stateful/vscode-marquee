@@ -12,7 +12,7 @@ export default class Snippet implements vscode.FileStat {
 
   constructor (
     public workspaceId: string | null = null,
-    public title = 'New Snippet',
+    public title = 'New Clipboard',
     public body = '',
     public archived = false,
     public createdAt = Date.now(),

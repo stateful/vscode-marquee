@@ -46,7 +46,7 @@ test('_addEmptySnippet', () => {
   const m = new SnippetExtensionManager({} as any, {} as any)
   m['_openSnippet'] = jest.fn()
   m['_addEmptySnippet']()
-  expect(m['_openSnippet']).toBeCalledWith('/New Snippet')
+  expect(m['_openSnippet']).toBeCalledWith('/New Clipboard')
 })
 
 test('_openSnippet', async () => {

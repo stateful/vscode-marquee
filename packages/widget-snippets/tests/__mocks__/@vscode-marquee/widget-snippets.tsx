@@ -15,6 +15,6 @@ export default {
   icon: <div>SnippetsIcon</div>,
   tags: ['productivity', 'workflow', 'search', 'organize'],
   description:
-    'Create or extract code snippets then edit, organize and insert them directly into code.',
+    'Create or extract clipboards then edit, organize and insert them directly into code.',
   component: () => <div>Snippets Widget</div>,
 }

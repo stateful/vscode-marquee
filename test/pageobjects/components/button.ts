@@ -17,6 +17,7 @@ export class SplitButton extends BasePage<typeof SplitButtonLocators, typeof loc
     await browser.pause(200)
 
     const controls = await popupBtn.getAttribute('aria-controls')
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const items = await this.elem.$$(`#${controls} > li`)
     const itemValues = await Promise.all(items.map((i) => i.getText()))
 

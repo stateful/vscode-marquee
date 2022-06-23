@@ -10,7 +10,7 @@ export default {
   tags: ['productivity', 'workflow', 'search', 'organize'],
   label: 'Clipboard',
   description:
-    'Create or extract code snippets then edit, organize and insert them directly into code.',
+    'Create or extract clipboards then edit, organize and insert them directly into code.',
   component: Snippets,
 }
 export { Snippets }

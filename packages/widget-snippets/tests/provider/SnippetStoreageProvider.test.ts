@@ -11,7 +11,7 @@ describe('SnippetStorageProvider', () => {
 
   it('stat: new Snippet', () => {
     const provider = new SnippetStorageProvider({} as any, {} as any, 'foobar')
-    const s = provider.stat({ path: '/New Snippet'} as any)
+    const s = provider.stat({ path: '/New Clipboard'} as any)
     expect(s.workspaceId).toBe('foobar')
   })
 
@@ -62,7 +62,7 @@ describe('SnippetStorageProvider', () => {
     const provider = new SnippetStorageProvider({} as any, { appendLine: jest.fn() } as any)
     provider.emit = jest.fn()
 
-    await provider.writeFile({ path: '/New Snippet' } as any, enc.encode('some text'))
+    await provider.writeFile({ path: '/New Clipboard' } as any, enc.encode('some text'))
     await new Promise((resolve) => setTimeout(resolve, 100))
 
     expect(provider.emit).toBeCalledWith('saveNewSnippet', {
