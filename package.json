@@ -210,7 +210,7 @@
       },
       {
         "command": "marquee.snippet.addEmpty",
-        "title": "Create New Snippet",
+        "title": "Create New Clipboard Item",
         "category": "Marquee",
         "icon": {
           "light": "assets/add-dark.svg",
@@ -219,7 +219,7 @@
       },
       {
         "command": "marquee.snippet.insertEditor",
-        "title": "Insert from Snippets",
+        "title": "Insert from Clipboard",
         "category": "Marquee"
       },
       {
