@@ -60,6 +60,10 @@ const extensionConfig: Configuration = {
         process.env.MARQUEE_INSTRUMENTATION_KEY
           ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY)
           : undefined,
+      INSTRUMENTATION_KEY_NEW:
+        process.env.MARQUEE_INSTRUMENTATION_KEY_NEW
+          ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY_NEW)
+          : undefined,
       PACKAGE_JSON: pkg
     }),
     new CopyPlugin({
