@@ -28,7 +28,7 @@ test('should render component correctly', async () => {
   expect(screen.getByText('Todo')).toBeInTheDocument()
   expect(screen.getByText('Weather')).toBeInTheDocument()
   expect(screen.getByText('Projects')).toBeInTheDocument()
-  expect(screen.getByText('Clipboards')).toBeInTheDocument()
+  expect(screen.getByText('Clipboard')).toBeInTheDocument()
   expect(screen.getByText('Notes')).toBeInTheDocument()
 
   await userEvent.click(screen.getAllByLabelText('Enable/Disable Github Widget')[0])
