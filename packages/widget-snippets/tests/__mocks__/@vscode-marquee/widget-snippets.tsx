@@ -11,7 +11,7 @@ export const SnippetProvider = ({ children }: any) => (
   </SnippetProviderImport.default.Provider>
 )
 export default {
-  name: 'snippets',
+  name: 'clipboard',
   icon: <div>ClipboardIcon</div>,
   tags: ['productivity', 'workflow', 'search', 'organize'],
   description:
