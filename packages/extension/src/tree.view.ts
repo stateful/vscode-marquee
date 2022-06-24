@@ -95,6 +95,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.toplevel[
       todoIndex
     ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`
+    this.toplevel[1].caption = 'Clipboard' //overrides name 'Snippets' to 'Clipboard'
   }
 
   private _updateNotes (aws: Workspace | null, globalScope: boolean) {
@@ -161,7 +162,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       )
     }
 
-    if (element.label.indexOf('Snippets') !== -1) {
+    if (element.label.indexOf('Clipboard') !== -1) {
       return Promise.resolve(
         SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
       )
@@ -213,7 +214,6 @@ export class Item extends vscode.TreeItem {
 
     const addIconDark = this.getIconPath('add-dark.svg')
     const addIconLight = this.getIconPath('add-light.svg')
-
     switch (this.type) {
       case 'AddNew':
         this.iconPath = {
@@ -226,6 +226,7 @@ export class Item extends vscode.TreeItem {
           light: snippetsIconDark,
           dark: snippetsIconLight,
         }
+        this.label = 'Clipboard'
         break
       case 'Todo':
         const checkedLight = checked
@@ -384,7 +385,7 @@ class SnippetItem extends Item implements ContextMenu {
         basePath,
         {
           command: 'marquee.snippet.insert',
-          title: 'Insert Snippet',
+          title: 'Insert Clipboard',
         }
       )
 
@@ -398,14 +399,14 @@ class SnippetItem extends Item implements ContextMenu {
     if (snps.length < 1) {
       snps.push(
         new SnippetItem(
-          'Add New Snippet',
+          'Add New Clipboard',
           'addItemSnippet',
           {} as Snippet,
           vscode.TreeItemCollapsibleState.None,
           basePath,
           {
             command: 'marquee.snippet.addEmpty',
-            title: 'Add New Snippet',
+            title: 'Add New Clipboard',
           },
           true,
           'AddNew'

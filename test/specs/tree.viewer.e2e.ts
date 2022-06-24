@@ -62,8 +62,8 @@ describe('Marquee Tree Viewer', () => {
       expect(await treeView.getItemLabels()).toEqual([
         'Todo [workspace] (1 open / 0 closed)',
         'Hello World!',
-        'Snippets',
-        'Add New Snippet',
+        'Clipboard',
+        'Add New Clipboard',
         'Notes',
         'Add new note'
       ])
