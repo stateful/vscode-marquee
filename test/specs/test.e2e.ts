@@ -5,7 +5,7 @@ import { TodoWidget } from '../pageobjects/widgets/todo'
 import { Webview } from '../pageobjects/webview'
 import * as locatorMap from '../pageobjects/locators'
 
-const WIDGETS = ['welcome', 'projects', 'weather', 'news', 'github', 'todo', 'snippets', 'notes']
+const WIDGETS = ['welcome', 'projects', 'weather', 'news', 'github', 'todo', 'clipboard', 'notes']
 
 describe('Marquee', () => {
   before('should open by default', async () => {
