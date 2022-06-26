@@ -5,26 +5,43 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "dev",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "presentation": {
-        "reveal": "never"
-      },
-      "group": "build",
-      "label": "npm: dev",
-      "detail": "NODE_ENV=development npm-run-all -p dev:*"
+      "script": "build:dev",
+      "label": "Marquee: build project for development",
+      "detail": "runbook",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "npm",
+      "script": "build:prod",
+      "label": "Marquee: build project for production",
+      "detail": "runbook",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     },
     {
       "type": "npm",
       "script": "watch",
+      "label": "Marquee: watch and re-compile files during development",
+      "detail": "runbook",
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "problemMatcher": [],
-      "label": "npm: watch",
-      "detail": "NODE_ENV=development npm-run-all -p watch:*"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "label": "Marquee: run lint, unit and e2e tests",
+      "detail": "runbook",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
