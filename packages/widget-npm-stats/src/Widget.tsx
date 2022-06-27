@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography, CircularProgress } from '@mui/material'
 import {
   XYPlot,
   XAxis,
@@ -44,6 +44,15 @@ const AXIS_STYLE = {
     fontWeight: 600
   }
 }
+const MARK_STYLE = {
+  width: 5,
+  height: 5,
+  backgroundColor: 'white',
+  borderRadius: 5,
+  position: 'relative' as const,
+  right: 2,
+  top: 2
+}
 const X_TICK_FORMAT = (v: number) => {
   const [date] = (new Date(v)).toISOString().split('T')
   const [y, m] = date.split('-')
@@ -64,10 +73,11 @@ const Root = styled(Grid)(() => ({
     fontWeight: 'bold'
   }
 }))
-const tipStyle = {
+const TIP_STYLE = {
   color: TEXT_COLOR,
   background: '#000',
-  padding: '5px'
+  padding: 5,
+  margin: 10
 }
 
 const FlexibleXYPlot = makeWidthFlexible(XYPlot)
@@ -76,6 +86,7 @@ const WidgetBody = () => {
   const ref = useRef<HTMLDivElement>(null)
   const { error, isLoading, stats } = useContext(NPMStatsContext)
   const [ hoveredCell, setHoveredCell ] = useState<HoveredCell | null>(null)
+  const [ markSeriesData, setMarkSeriesData ] = useState<number | null>(null)
   const hasStats = Object.keys(stats).length !== 0
   const graphHeight = ref.current
     ? ref.current.clientHeight - LEGEND_HEIGHT
@@ -90,8 +101,16 @@ const WidgetBody = () => {
         style={{ height: '100%' }}
       >
         {isLoading && (
-          <Grid item xs style={CENTER_STYLES}>
-            Loading
+          <Grid
+            container
+            style={{ height: '100%' }}
+            alignItems="center"
+            justifyContent="center"
+            direction="column"
+          >
+            <Grid item>
+              <CircularProgress color="secondary" />
+            </Grid>
           </Grid>
         )}
         {error && !isLoading && (
@@ -142,8 +161,13 @@ const WidgetBody = () => {
                     items={Object.keys(stats)}
                   />
                   {hoveredCell ? (
-                    <Hint value={hoveredCell}>
-                      <div style={tipStyle}>
+                    <Hint value={{
+                      ...hoveredCell,
+                      y: Object.values(stats)
+                        .map((s) => Object.values(s)[hoveredCell.index])
+                        .reduce((a, b) => a + b, 0) / 2
+                    }}>
+                      <div style={TIP_STYLE}>
                         {(new Date(hoveredCell.x)).toUTCString().split(' ').slice(0, 4).join(' ')}
                         <hr style={{ borderBottom: 0 }} />
                         {Object.entries(stats).map(([packageName, stat], i) => (
@@ -154,6 +178,18 @@ const WidgetBody = () => {
                       </div>
                     </Hint>
                   ) : null}
+                  {markSeriesData ? Object.values(stats).map((s, i) => {
+                    const [x, y] = Object.entries(s)[markSeriesData]
+                    return (
+                      <Hint
+                        key={i}
+                        value={{ x: (new Date(x)).getTime(), y }}
+                        align={{ horizontal: 'right', vertical: 'top' }}
+                      >
+                        <div style={MARK_STYLE}>&nbsp;</div>
+                      </Hint>
+                    )
+                  }) : null}
                   {Object.entries(stats).map(([packageName, stat]) => (
                     <LineSeries
                       key={packageName}
@@ -162,12 +198,10 @@ const WidgetBody = () => {
                       data={Object.entries(stat).map(([date, count]) => (
                         { x: (new Date(date)).getTime(), y: count }
                       ))}
-                      onNearestXY={
-                        (value, { event, index }) => {
-                          console.log('SET IT', event)
-                          setHoveredCell({ ...value, index })
-                        }
-                      }
+                      onNearestXY={(value, { index }) => {
+                        setHoveredCell({ ...value, index })
+                        setMarkSeriesData(index)
+                      }}
                     />
                   ))}
                 </FlexibleXYPlot>
