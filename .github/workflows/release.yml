@@ -56,12 +56,14 @@ jobs:
         env:
           NODE_ENV: development
           MARQUEE_INSTRUMENTATION_KEY: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY }}
+          MARQUEE_INSTRUMENTATION_KEY_NEW: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY_NEW }}
         if: ${{ github.event.inputs.releaseChannel == 'edge' }}
       - name: Build Package
         run: yarn build:prod
         env:
           NODE_ENV: production
           MARQUEE_INSTRUMENTATION_KEY: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY }}
+          MARQUEE_INSTRUMENTATION_KEY_NEW: ${{ secrets.MARQUEE_INSTRUMENTATION_KEY_NEW }}
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Run Tests
         uses: GabrielBB/xvfb-action@v1

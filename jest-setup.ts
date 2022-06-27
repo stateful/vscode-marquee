@@ -19,6 +19,8 @@ window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode)
 // @ts-expect-error
 global.INSTRUMENTATION_KEY = 'INSTRUMENTATION_KEY_123'
 // @ts-expect-error
+global.INSTRUMENTATION_KEY_NEW = 'INSTRUMENTATION_KEY_123'
+// @ts-expect-error
 global.__requireContext = jest.fn()
 // @ts-expect-error
 global.PACKAGE_JSON = pkg
