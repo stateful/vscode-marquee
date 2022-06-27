@@ -15,6 +15,7 @@ import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weathe
 import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension'
 import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@vscode-marquee/widget-markdown/extension'
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
+import { activate as activateNPMStatsWidget } from '@vscode-marquee/widget-npm-stats/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 
 import telemetry from './telemetry'
@@ -32,6 +33,7 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/todo-widget': activateTodoWidget,
   '@vscode-marquee/markdown-widget': activateMarkdownWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
+  '@vscode-marquee/npm-stats-widget': activateNPMStatsWidget,
   '@vscode-marquee/snippets-widget': activateSnippetsWidget
 }
 

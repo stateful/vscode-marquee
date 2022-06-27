@@ -54,6 +54,7 @@
       "packages/widget-news",
       "packages/widget-markdown",
       "packages/widget-notes",
+      "packages/widget-npm-stats",
       "packages/widget-projects",
       "packages/widget-snippets",
       "packages/widget-todo",
@@ -2722,6 +2723,16 @@
             "scope": "window",
             "default": [],
             "markdownDescription": "Add remote markdown documents"
+          },
+          "marquee.widgets.npm-stats.packageNames": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "title": "NPM package name"
+            },
+            "scope": "window",
+            "default": [],
+            "markdownDescription": "Add NPM package name to display download statistic"
           }
         }
       }
@@ -2746,6 +2757,7 @@
     "compile:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json",
     "compile:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json",
     "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
+    "compile:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
     "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
@@ -2769,6 +2781,7 @@
     "watch:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json --watch",
     "watch:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json --watch",
     "watch:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json --watch",
+    "watch:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json --watch",
     "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
     "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
     "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
