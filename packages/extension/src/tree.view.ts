@@ -226,7 +226,6 @@ export class Item extends vscode.TreeItem {
           light: snippetsIconDark,
           dark: snippetsIconLight,
         }
-        this.label = 'Clipboard'
         break
       case 'Todo':
         const checkedLight = checked
