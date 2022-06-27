@@ -5,7 +5,7 @@ import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
 import Snippets from './Widget'
 
 export default {
-  name: 'clipboard',
+  name: 'snippets',
   icon: <FontAwesomeIcon icon={faCode} />,
   tags: ['productivity', 'workflow', 'search', 'organize'],
   label: 'Clipboard',
