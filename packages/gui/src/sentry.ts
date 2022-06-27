@@ -10,6 +10,15 @@ function init (userID?: string) {
 
   Sentry.init({
     dsn: SENTRY_DNS,
+    beforeSend (event){
+      if(event.environment === 'development'){
+        return null
+      }
+      if(event.platform === 'javascript'){
+        event.fingerprint = ['webview']
+      }
+      return event
+    },
     integrations: [
       new Integrations.BrowserTracing(),
       new CaptureConsole({ levels: ['error'] }),
