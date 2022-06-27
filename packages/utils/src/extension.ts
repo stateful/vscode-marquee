@@ -293,14 +293,15 @@ export function activate (
     beforeSend (event){
       if(event.environment === 'development'){
         return null
-      }
-      if(event.platform === 'node'){
-        event.fingerprint = ['extension host']
-      }
+      } 
       return event
     },
     environment: env,
     tracesSampleRate: 1,
+  })
+
+  Sentry.configureScope(function (scope) {
+    scope.setTag('occurred', 'extension-host')
   })
 
   /**

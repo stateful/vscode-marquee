@@ -11,11 +11,9 @@ function init (userID?: string) {
   Sentry.init({
     dsn: SENTRY_DNS,
     beforeSend (event){
+      console.log(event)
       if(event.environment === 'development'){
         return null
-      }
-      if(event.platform === 'javascript'){
-        event.fingerprint = ['webview']
       }
       return event
     },
@@ -25,6 +23,10 @@ function init (userID?: string) {
     ],
     environment: env,
     tracesSampleRate: 1,
+  })
+
+  Sentry.configureScope(function (scope) {
+    scope.setTag('occurred', 'webview')
   })
 
   if (userID) {
