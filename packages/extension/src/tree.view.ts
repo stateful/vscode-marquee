@@ -137,7 +137,6 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
   }
 
   getChildren (element?: Item): Thenable<Item[]> {
-    console.log('element', element)
     if (!element) {
       const elems = this.toplevel.map((elem) => {
         const item = new Item(
