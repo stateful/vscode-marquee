@@ -70,7 +70,7 @@ Array [
     "type": "todos",
   },
   Object {
-    "caption": "Snippets",
+    "caption": "Clipboard",
     "id": 1,
     "type": "snippets",
   },
@@ -176,7 +176,7 @@ Array [
     "collapsibleState": undefined,
     "command": Object {
       "command": "marquee.snippet.addEmpty",
-      "title": "Add New Snippet",
+      "title": "Add New Clipboard",
     },
     "contextValue": "AddNew",
     "empty": true,
@@ -187,7 +187,7 @@ Array [
     "id": "addItemSnippet",
     "isTreeItem": true,
     "item": Object {},
-    "label": "Add New Snippet",
+    "label": "Add New Clipboard",
     "type": "AddNew",
   },
 ]

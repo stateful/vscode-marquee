@@ -95,7 +95,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.toplevel[
       todoIndex
     ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`
-    this.toplevel[1].caption = 'Clipboard' //overrides name 'Snippets' to 'Clipboard'
+    this.toplevel[1].caption = 'Clipboard' //overrides label 'Snippets' to 'Clipboard'
   }
 
   private _updateNotes (aws: Workspace | null, globalScope: boolean) {
@@ -137,6 +137,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
   }
 
   getChildren (element?: Item): Thenable<Item[]> {
+    console.log('element', element)
     if (!element) {
       const elems = this.toplevel.map((elem) => {
         const item = new Item(
@@ -156,19 +157,19 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       return Promise.resolve(elems)
     }
 
-    if (element.label.indexOf('Todo') !== -1) {
+    if (element.type.indexOf('todos') !== -1) {
       return Promise.resolve(
         TodoItem.map(this.state.todos || [], this.context.extensionUri)
       )
     }
-
-    if (element.label.indexOf('Clipboard') !== -1) {
+    
+    if (element.type.indexOf('snippets') !== -1) {
       return Promise.resolve(
         SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
       )
     }
 
-    if (element.label.indexOf('Notes') !== -1) {
+    if (element.type.indexOf('notes') !== -1) {
       return Promise.resolve(
         NoteItem.map(this.state.notes || [], this.context.extensionUri)
       )
