@@ -11,7 +11,6 @@ function init (userID?: string) {
   Sentry.init({
     dsn: SENTRY_DNS,
     beforeSend (event){
-      console.log(event)
       if(event.environment === 'development'){
         return null
       }
