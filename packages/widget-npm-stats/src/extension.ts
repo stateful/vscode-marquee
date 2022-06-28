@@ -12,7 +12,6 @@ const STATE_KEY = 'widgets.npm-stats'
 export class NPMStatsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
-    this._loadStatistics()
   }
 
   private async _loadStatistics () {
@@ -82,6 +81,11 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
   public setBroadcaster (tangle: Client<State & Configuration>) {
     super.setBroadcaster(tangle)
     this.on('configurationUpdate', () => this._loadStatistics())
+
+    /**
+     * load stats once webview is ready
+     */
+    tangle.whenReady().then(() => this._loadStatistics())
     return this
   }
 }

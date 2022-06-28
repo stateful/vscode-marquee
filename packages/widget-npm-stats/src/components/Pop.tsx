@@ -1,15 +1,18 @@
 import React, { useState, useCallback, useContext } from 'react'
 import Popover from '@mui/material/Popover'
 import styled from '@emotion/styled'
-import { IconButton, Grid, FormControl, Divider, TextField } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton, Grid, FormControl, Divider, TextField, Button } from '@mui/material'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { HideWidgetContent } from '@vscode-marquee/widget'
+import type { MarqueeWindow } from '@vscode-marquee/utils'
 
 import { DEFAULT_CONFIGURATION } from '../constants'
 import NPMStatsContext from '../Context'
+
+declare const window: MarqueeWindow
 
 const StyledTextField = styled(TextField)(() => ({
   ['input']: { cursor: 'pointer' }
@@ -25,6 +28,16 @@ const PopMenu = () => {
 
   const handleClose = useCallback(() => {
     setAnchorEl(null)
+  }, [])
+
+  const handlePackageUpdate = useCallback(() => {
+    window.vscode.postMessage({
+      west: { execCommands: [{
+        command: 'workbench.action.openSettings',
+        args: ['@ext:stateful.marquee Npm-stats Package Names']
+      }]},
+    })
+    handleClose()
   }, [])
 
   const renderInput = (params: any) => <StyledTextField {...params} />
@@ -89,6 +102,11 @@ const PopMenu = () => {
                 </Grid>
               </Grid>
             </FormControl>
+          </Grid>
+          <Grid item>
+            <Button style={{ marginTop: 10, width: '100%' }} onClick={handlePackageUpdate}>
+              Update NPM Packages
+            </Button>
           </Grid>
           <Grid item>&nbsp;</Grid>
           <Grid item>

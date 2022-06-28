@@ -1,16 +1,18 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Grid, Typography, CircularProgress } from '@mui/material'
+import { Grid, Typography, CircularProgress, Button } from '@mui/material'
 import styled from '@emotion/styled'
 import 'react-vis/dist/style.css'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
-import { NetworkError } from '@vscode-marquee/utils'
+import { NetworkError, MarqueeWindow } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import PopMenu from './components/Pop'
 import NPMGraph from './components/Graph'
 import NPMStatsContext, { NPMStatsProvider } from './Context'
 import { TEXT_COLOR, MIN_HEIGHT, LEGEND_HEIGHT } from './constants'
+
+declare const window: MarqueeWindow
 
 const CENTER_STYLES = {
   overflow: 'auto',
@@ -73,10 +75,15 @@ const WidgetBody = () => {
         )}
         {!error && !isLoading && !hasStats && (
           <Grid item xs style={{ ...CENTER_STYLES, textAlign: 'center' }} data-testid="no-stats">
-            No package defined in Marquee configuration!<br />
-            Please check the
-            {' '}<pre style={{ display: 'inline-block' }}>marquee.widgets.npm-stats.packageNames</pre>
-            {' '}VSCode configuration.
+            No packages defined in your Marquee configuration!<br />
+            <Button style={{ marginTop: 10 }} onClick={() => window.vscode.postMessage({
+              west: { execCommands: [{
+                command: 'workbench.action.openSettings',
+                args: ['@ext:stateful.marquee Npm-stats Package Names']
+              }]},
+            })}>
+              Add NPM Packages Now!
+            </Button>
           </Grid>
         )}
         {!error && !isLoading && hasStats && (

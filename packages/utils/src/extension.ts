@@ -96,6 +96,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         `Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`
       )
       this.broadcast({ [prop]: val } as any)
+      this.emit('configurationUpdate', this._configuration)
       break
     }
 
@@ -117,6 +118,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
      * check if we have to update
      */
     if (val && this._configuration[prop] && hash(this._configuration[prop]) === hash(val)) {
+      this._isConfigUpdateListenerDisabled = false
       return
     }
 
