@@ -1,65 +1,22 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Grid, Typography, CircularProgress } from '@mui/material'
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  Hint,
-  DiscreteColorLegend,
-  LineSeries,
-  makeWidthFlexible
-} from 'react-vis'
 import styled from '@emotion/styled'
-// @ts-expect-error
-import { toHumanString } from 'human-readable-numbers'
 import 'react-vis/dist/style.css'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
+import PopMenu from './components/Pop'
+import NPMGraph from './components/Graph'
 import NPMStatsContext, { NPMStatsProvider } from './Context'
+import { TEXT_COLOR, MIN_HEIGHT, LEGEND_HEIGHT } from './constants'
 
-interface HoveredCell {
-  x: number
-  y: number
-  index: number
-}
-
-const LEGEND_HEIGHT = 80
-const MIN_HEIGHT = 300
-const TEXT_COLOR = 'var(--vscode-editor-foreground)'
 const CENTER_STYLES = {
   overflow: 'auto',
   height: '100%',
   width: '100%',
   padding: '24px',
-}
-const AXIS_STYLE = {
-  line: { stroke: TEXT_COLOR },
-  ticks: { stroke: TEXT_COLOR },
-  text: {
-    stroke: 'none',
-    fill: TEXT_COLOR,
-    fontWeight: 600
-  }
-}
-const MARK_STYLE = {
-  width: 5,
-  height: 5,
-  backgroundColor: 'white',
-  borderRadius: 5,
-  position: 'relative' as const,
-  right: 2,
-  top: 2
-}
-const X_TICK_FORMAT = (v: number) => {
-  const [date] = (new Date(v)).toISOString().split('T')
-  const [y, m] = date.split('-')
-  return `${m}/${y}`
-}
-const Y_TICK_FORMAT = (v: number) => {
-  return toHumanString(v)
 }
 
 const Root = styled(Grid)(() => ({
@@ -73,20 +30,10 @@ const Root = styled(Grid)(() => ({
     fontWeight: 'bold'
   }
 }))
-const TIP_STYLE = {
-  color: TEXT_COLOR,
-  background: '#000',
-  padding: 5,
-  margin: 10
-}
-
-const FlexibleXYPlot = makeWidthFlexible(XYPlot)
 
 const WidgetBody = () => {
   const ref = useRef<HTMLDivElement>(null)
   const { error, isLoading, stats } = useContext(NPMStatsContext)
-  const [ hoveredCell, setHoveredCell ] = useState<HoveredCell | null>(null)
-  const [ markSeriesData, setMarkSeriesData ] = useState<number | null>(null)
   const hasStats = Object.keys(stats).length !== 0
   const graphHeight = ref.current
     ? ref.current.clientHeight - LEGEND_HEIGHT
@@ -148,63 +95,7 @@ const WidgetBody = () => {
               wrap="nowrap"
             >
               <Root item xs={1} style={{ maxWidth: '100%' }}>
-                <FlexibleXYPlot
-                  margin={{left: 50}}
-                  height={graphHeight}
-                  yType={'linear'}
-                  onNearestX
-                >
-                  <XAxis tickTotal={8} tickFormat={X_TICK_FORMAT} style={AXIS_STYLE} />
-                  <YAxis tickFormat={Y_TICK_FORMAT} style={AXIS_STYLE} title="Downloads" />
-                  <DiscreteColorLegend
-                    orientation="horizontal"
-                    items={Object.keys(stats)}
-                  />
-                  {hoveredCell ? (
-                    <Hint value={{
-                      ...hoveredCell,
-                      y: Object.values(stats)
-                        .map((s) => Object.values(s)[hoveredCell.index])
-                        .reduce((a, b) => a + b, 0) / 2
-                    }}>
-                      <div style={TIP_STYLE}>
-                        {(new Date(hoveredCell.x)).toUTCString().split(' ').slice(0, 4).join(' ')}
-                        <hr style={{ borderBottom: 0 }} />
-                        {Object.entries(stats).map(([packageName, stat], i) => (
-                          <div key={i}>
-                            <b>{packageName}:</b> {toHumanString(Object.values(stat)[hoveredCell.index])}<br />
-                          </div>
-                        ))}
-                      </div>
-                    </Hint>
-                  ) : null}
-                  {markSeriesData ? Object.values(stats).map((s, i) => {
-                    const [x, y] = Object.entries(s)[markSeriesData]
-                    return (
-                      <Hint
-                        key={i}
-                        value={{ x: (new Date(x)).getTime(), y }}
-                        align={{ horizontal: 'right', vertical: 'top' }}
-                      >
-                        <div style={MARK_STYLE}>&nbsp;</div>
-                      </Hint>
-                    )
-                  }) : null}
-                  {Object.entries(stats).map(([packageName, stat]) => (
-                    <LineSeries
-                      key={packageName}
-                      className="first-series"
-                      xType="time"
-                      data={Object.entries(stat).map(([date, count]) => (
-                        { x: (new Date(date)).getTime(), y: count }
-                      ))}
-                      onNearestXY={(value, { index }) => {
-                        setHoveredCell({ ...value, index })
-                        setMarkSeriesData(index)
-                      }}
-                    />
-                  ))}
-                </FlexibleXYPlot>
+                <NPMGraph height={graphHeight} stats={stats} />
               </Root>
             </Grid>
           </Grid>
@@ -223,6 +114,9 @@ let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         </Grid>
         <Grid item>
           <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <PopMenu />
+            </Grid>
             <Grid item>
               <ToggleFullScreen />
             </Grid>

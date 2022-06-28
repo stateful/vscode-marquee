@@ -124,6 +124,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._channel.appendLine(`Update configuration "${prop.toString()}": ${val as any as string}`)
     this._configuration[prop] = val
     await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET)
+    this.emit('configurationUpdate', this._configuration)
     this._isConfigUpdateListenerDisabled = false
   }
 

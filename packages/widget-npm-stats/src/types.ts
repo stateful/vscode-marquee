@@ -11,6 +11,8 @@ export interface State {
 }
 export interface Configuration {
   packageNames: string[]
+  from?: number
+  until?: number
 }
 
 export interface Context extends ContextProperties<Configuration & State> {}

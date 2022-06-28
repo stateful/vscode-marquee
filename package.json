@@ -2733,6 +2733,16 @@
             "scope": "window",
             "default": [],
             "markdownDescription": "Add NPM package name to display download statistic"
+          },
+          "marquee.widgets.npm-stats.from": {
+            "type": "number",
+            "scope": "window",
+            "markdownDescription": "Timestamp from when the download count should be pulled for"
+          },
+          "marquee.widgets.npm-stats.until": {
+            "type": "number",
+            "scope": "window",
+            "markdownDescription": "Timestamp until when the download count should be pulled for"
           }
         }
       }
