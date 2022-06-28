@@ -2,6 +2,7 @@
 
 exports[`init 1`] = `
 Object {
+  "beforeSend": [Function],
   "dsn": "SENTRY_DNS",
   "environment": "production",
   "integrations": Array [
