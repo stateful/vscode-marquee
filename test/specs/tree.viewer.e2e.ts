@@ -38,7 +38,15 @@ describe('Marquee Tree Viewer', () => {
   it('should open Marquee webview if clicking on adding a new todo', async () => {
     const treeView = new TreeView(locatorMap, marqueeItem)
     const treeItems = await treeView.getItems()
-    await treeItems[1].select()
+
+    let index: number
+    for (index = 0; index < treeItems.length; ++index) {
+      const label = await treeItems[index].getLabel()
+      if (label === 'Add new todo') {
+        break
+      }
+    }
+    await treeItems[index].select()
 
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
