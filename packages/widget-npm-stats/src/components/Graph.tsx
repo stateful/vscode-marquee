@@ -32,7 +32,7 @@ const AXIS_STYLE = {
 const MARK_STYLE = {
   width: 5,
   height: 5,
-  backgroundColor: 'white',
+  backgroundColor: 'var(--vscode-editor-foreground)',
   borderRadius: 5,
   position: 'relative' as const,
   right: 2,
@@ -40,7 +40,7 @@ const MARK_STYLE = {
 }
 const TIP_STYLE = {
   color: TEXT_COLOR,
-  background: '#000',
+  background: 'var(--vscode-editorWidget-background)',
   padding: 5,
   margin: 10
 }

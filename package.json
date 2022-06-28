@@ -2732,7 +2732,7 @@
             },
             "scope": "window",
             "default": [],
-            "markdownDescription": "Add NPM package name to display download statistic"
+            "markdownDescription": "NPM package names to display in NPM Stats widget"
           },
           "marquee.widgets.npm-stats.from": {
             "type": "number",

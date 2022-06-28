@@ -14,4 +14,4 @@ export const DEFAULT_STATE: State = {
 export const STATS_URL = 'https://npm-stat.com/api/download-counts'
 export const LEGEND_HEIGHT = 80
 export const MIN_HEIGHT = 300
-export const TEXT_COLOR = 'var(--vscode-editor-foreground)'
+export const TEXT_COLOR = 'var(--vscode-editorWidget-foreground)'
