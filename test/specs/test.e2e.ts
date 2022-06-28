@@ -17,7 +17,6 @@ describe('Marquee', () => {
 
   describe('widgets', () => {
     const webview = new Webview(locatorMap)
-
     before(async () => {
       await webview.open()
     })

@@ -8,9 +8,9 @@ export default {
   name: 'snippets',
   icon: <FontAwesomeIcon icon={faCode} />,
   tags: ['productivity', 'workflow', 'search', 'organize'],
-  label: 'Snippets',
+  label: 'Clipboard',
   description:
-    'Create or extract code snippets then edit, organize and insert them directly into code.',
+    'Create or extract clipboard items then edit, organize and insert them directly into code.',
   component: Snippets,
 }
 export { Snippets }

@@ -64,7 +64,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   }
 
   private async _addEmptySnippet () {
-    return this._openSnippet('/New Snippet')
+    return this._openSnippet('/New Clipboard Item')
   }
 
   private async _openSnippet (path: string) {

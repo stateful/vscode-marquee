@@ -95,6 +95,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.toplevel[
       todoIndex
     ].caption = `Todo [${scope}] (${openArr.length} open / ${closedArr.length} closed)`
+    this.toplevel[1].caption = 'Clipboard' //overrides label 'Snippets' to 'Clipboard'
   }
 
   private _updateNotes (aws: Workspace | null, globalScope: boolean) {
@@ -155,19 +156,19 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       return Promise.resolve(elems)
     }
 
-    if (element.label.indexOf('Todo') !== -1) {
+    if (element.type.indexOf('todos') !== -1) {
       return Promise.resolve(
         TodoItem.map(this.state.todos || [], this.context.extensionUri)
       )
     }
-
-    if (element.label.indexOf('Snippets') !== -1) {
+    
+    if (element.type.indexOf('snippets') !== -1) {
       return Promise.resolve(
         SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
       )
     }
 
-    if (element.label.indexOf('Notes') !== -1) {
+    if (element.type.indexOf('notes') !== -1) {
       return Promise.resolve(
         NoteItem.map(this.state.notes || [], this.context.extensionUri)
       )
@@ -213,7 +214,6 @@ export class Item extends vscode.TreeItem {
 
     const addIconDark = this.getIconPath('add-dark.svg')
     const addIconLight = this.getIconPath('add-light.svg')
-
     switch (this.type) {
       case 'AddNew':
         this.iconPath = {
@@ -384,7 +384,7 @@ class SnippetItem extends Item implements ContextMenu {
         basePath,
         {
           command: 'marquee.snippet.insert',
-          title: 'Insert Snippet',
+          title: 'Insert Clipboard Item',
         }
       )
 
@@ -398,14 +398,14 @@ class SnippetItem extends Item implements ContextMenu {
     if (snps.length < 1) {
       snps.push(
         new SnippetItem(
-          'Add New Snippet',
+          'Add New Clipboard Item',
           'addItemSnippet',
           {} as Snippet,
           vscode.TreeItemCollapsibleState.None,
           basePath,
           {
             command: 'marquee.snippet.addEmpty',
-            title: 'Add New Snippet',
+            title: 'Add New Clipboard Item',
           },
           true,
           'AddNew'

@@ -25,7 +25,7 @@ const widgets = [{
   </Box>
 }, {
   image: 'snippets.png',
-  heading: 'Snippets',
+  heading: 'Clipboards',
   description: <Box>
     The inter-workspace smart clipboard for your thoughts, code snippets,
     logs, or terminal traces. Anything you want to recall later.
@@ -64,7 +64,7 @@ export const Widgets = () => (
       The ever growing collection of productivity widgets you
       can bring into your Marquee workspaces.
     </Heading>
-    <SimpleGrid minChildWidth={250} spacingX={{ sm: 10, md: 20 }} columns={{ sm: 1, md: 3}}>
+    <SimpleGrid minChildWidth={250} spacingX={{ sm: 10, md: 20 }} columns={{ sm: 1, md: 3 }}>
       {widgets.map((w, i) => (
         <Box mb={10} key={i}>
           <Image src={`/assets/widgets/${w.image}`} rounded={10} />

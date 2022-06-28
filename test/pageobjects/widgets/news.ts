@@ -18,6 +18,7 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     const articles = await this.articles$$
 
     if (!articles[index]) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`Article with index ${index} not found, only ${articles.length} available`)
     }
 

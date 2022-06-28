@@ -28,8 +28,8 @@ describe('Marquee Tree Viewer', () => {
     expect(await treeView.getItemLabels()).toEqual([
       'Todo [workspace] (0 open / 0 closed)',
       'Add new todo',
-      'Snippets',
-      'Add New Snippet',
+      'Clipboard',
+      'Add New Clipboard Item',
       'Notes',
       'Add new note'
     ])
@@ -62,8 +62,8 @@ describe('Marquee Tree Viewer', () => {
       expect(await treeView.getItemLabels()).toEqual([
         'Todo [workspace] (1 open / 0 closed)',
         'Hello World!',
-        'Snippets',
-        'Add New Snippet',
+        'Clipboard',
+        'Add New Clipboard Item',
         'Notes',
         'Add new note'
       ])
@@ -99,7 +99,7 @@ describe('Marquee Tree Viewer', () => {
   describe('snippet', () => {
     it('can open new snippet editor', async () => {
       const treeView = new TreeView(locatorMap, marqueeItem)
-      const addSnippetBtn = await treeView.getItem('Add New Snippet')
+      const addSnippetBtn = await treeView.getItem('Add New Clipboard Item')
       expect(addSnippetBtn).toBeTruthy()
 
       await addSnippetBtn.select()
@@ -107,7 +107,7 @@ describe('Marquee Tree Viewer', () => {
       const editorLabel = await browser.executeWorkbench((vscode) => {
         return vscode.window.activeTextEditor?.document.fileName
       })
-      expect(editorLabel).toBe('/New Snippet')
+      expect(editorLabel).toBe('/New Clipboard Item')
     })
 
     it('should enter text and save snippet', async () => {
