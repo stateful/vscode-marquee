@@ -284,10 +284,12 @@ export function activate (
   }
 
   /**
-   * extension host has access to events
+   * extension host has access to sentry events
    */
-  const env =
-   process.env.NODE_ENV === 'development' ? 'development' : 'production'
+  const env = process.env.NODE_ENV === 'development' 
+    ? 'development'
+    : 'production'
+
   Sentry.init({
     dsn: SENTRY_DNS,
     beforeSend (event){
