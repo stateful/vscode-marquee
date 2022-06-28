@@ -5,10 +5,12 @@ import hash from 'object-hash'
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
+import * as Sentry from '@sentry/node'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType } from './types'
 import type { Configuration, State, Workspace } from './types'
+import { SENTRY_DNS } from './utils'
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
@@ -280,6 +282,29 @@ export function activate (
   if (oldGlobalStore.bg) {
     stateManager.updateConfiguration('background', oldGlobalStore.bg)
   }
+
+  /**
+   * extension host has access to sentry events
+   */
+  const env = process.env.NODE_ENV === 'development' 
+    ? 'development'
+    : 'production'
+
+  Sentry.init({
+    dsn: SENTRY_DNS,
+    beforeSend (event){
+      if(event.environment === 'development'){
+        return null
+      } 
+      return event
+    },
+    environment: env,
+    tracesSampleRate: 1,
+  })
+
+  Sentry.configureScope(function (scope) {
+    scope.setTag('occurred', 'extension-host')
+  })
 
   /**
    * set global state to true if we don't have a workspace

@@ -15,11 +15,11 @@ beforeEach(() => {
 test('init', () => {
   SentryModule.init()
   expect((Sentry.init as jest.Mock).mock.calls[0][0]).toMatchSnapshot()
-  expect(Sentry.configureScope).toBeCalledTimes(0)
+  expect(Sentry.configureScope).toBeCalledTimes(1)
   expect(Integrations.BrowserTracing).toBeCalledTimes(1)
   expect(CaptureConsole).toBeCalledTimes(1)
   SentryModule.init('foobar')
-  expect(Sentry.configureScope).toBeCalledTimes(1)
+  expect(Sentry.configureScope).toBeCalledTimes(3)
 })
 
 test('setUserID', () => {
