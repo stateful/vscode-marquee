@@ -219,7 +219,7 @@
       },
       {
         "command": "marquee.snippet.insertEditor",
-        "title": "Insert from Clipboard",
+        "title": "Insert from Clipboard Item",
         "category": "Marquee"
       },
       {

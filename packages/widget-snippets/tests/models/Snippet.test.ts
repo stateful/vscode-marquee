@@ -5,8 +5,8 @@ describe('Snippet', () => {
   it('can be created with defaults', () => {
     const s = new Snippet()
     expect(s.workspaceId).toBe(null)
-    expect(s.title).toBe('New Clipboard')
-    expect(s.path).toBe(path.sep + path.join('39d2f858-3522-4053-beb8-b75a1defd1d2', 'New Clipboard'))
+    expect(s.title).toBe('New Clipboard Item')
+    expect(s.path).toBe(path.sep + path.join('39d2f858-3522-4053-beb8-b75a1defd1d2', 'New Clipboard Item'))
   })
 
   it('can be created from snippet object', () => {

@@ -29,7 +29,7 @@ describe('Marquee Tree Viewer', () => {
       'Todo [workspace] (0 open / 0 closed)',
       'Add new todo',
       'Clipboard',
-      'Add New Clipboard',
+      'Add New Clipboard Item',
       'Notes',
       'Add new note'
     ])
@@ -63,7 +63,7 @@ describe('Marquee Tree Viewer', () => {
         'Todo [workspace] (1 open / 0 closed)',
         'Hello World!',
         'Clipboard',
-        'Add New Clipboard',
+        'Add New Clipboard Item',
         'Notes',
         'Add new note'
       ])
@@ -99,7 +99,7 @@ describe('Marquee Tree Viewer', () => {
   describe('snippet', () => {
     it('can open new snippet editor', async () => {
       const treeView = new TreeView(locatorMap, marqueeItem)
-      const addSnippetBtn = await treeView.getItem('Add New Clipboard')
+      const addSnippetBtn = await treeView.getItem('Add New Clipboard Item')
       expect(addSnippetBtn).toBeTruthy()
 
       await addSnippetBtn.select()

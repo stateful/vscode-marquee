@@ -398,7 +398,7 @@ class SnippetItem extends Item implements ContextMenu {
     if (snps.length < 1) {
       snps.push(
         new SnippetItem(
-          'Add New Clipboard',
+          'Add New Clipboard Item',
           'addItemSnippet',
           {} as Snippet,
           vscode.TreeItemCollapsibleState.None,

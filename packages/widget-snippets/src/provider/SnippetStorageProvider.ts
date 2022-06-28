@@ -25,7 +25,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
   }
 
   stat (uri: vscode.Uri): Snippet {
-    if (uri.path.slice(1) === 'New Clipboard') {
+    if (uri.path.slice(1) === 'New Clipboard Item') {
       return new Snippet(this._workspaceId)
     }
 
@@ -62,11 +62,11 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
   }
 
   async writeFile (uri: vscode.Uri, content: Uint8Array) {
-    if (uri.path.slice(1) === 'New Clipboard') {
+    if (uri.path.slice(1) === 'New Clipboard Item') {
       const snippetName = await vscode.window.showInputBox({
         title: 'Clipboard Name',
-        prompt: 'Please give your Clipboard a name (e.g. myReactHook.ts)'
-      }).then((val) => val || 'New Clipboard')
+        prompt: 'Please give your Clipboard Item a name (e.g. myReactHook.ts)'
+      }).then((val) => val || 'New Clipboard Item')
 
       const snippet = new Snippet(
         this._workspaceId,

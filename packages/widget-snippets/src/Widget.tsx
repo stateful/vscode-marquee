@@ -213,9 +213,9 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
                         <Button
                           startIcon={<AddCircle />}
                           variant="outlined"
-                          onClick={() => eventListener.emit('openSnippet', '/New Clipboard')}
+                          onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
                         >
-                          Create a clipboard
+                          Create a Clipboard Item
                         </Button>
                       </Grid>
                     </Grid>
@@ -297,13 +297,13 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <Grid item>
               <IconButton
                 size="small"
-                onClick={() => eventListener.emit('openSnippet', '/New Clipboard')}
+                onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
               >
                 <AddCircle fontSize="small" />
               </IconButton>
             </Grid>
             <Grid item>
-              <DoubleClickHelper content="Double-click a clipboard title to edit and right-click for copy & paste" />
+              <DoubleClickHelper content="Double-click a clipboard item to edit and right-click for copy & paste" />
             </Grid>
             <Grid item>
               <HidePop name="snippets" />
