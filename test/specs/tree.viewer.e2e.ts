@@ -107,7 +107,7 @@ describe('Marquee Tree Viewer', () => {
       const editorLabel = await browser.executeWorkbench((vscode) => {
         return vscode.window.activeTextEditor?.document.fileName
       })
-      expect(editorLabel).toBe('/New Clipboard')
+      expect(editorLabel).toBe('/New Clipboard Item')
     })
 
     it('should enter text and save snippet', async () => {
