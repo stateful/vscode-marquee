@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
 import { Grid, Typography, CircularProgress } from '@mui/material'
 import styled from '@emotion/styled'
 import 'react-vis/dist/style.css'
@@ -34,10 +34,15 @@ const Root = styled(Grid)(() => ({
 const WidgetBody = () => {
   const ref = useRef<HTMLDivElement>(null)
   const { error, isLoading, stats } = useContext(NPMStatsContext)
+  const [ graphHeight, setGraphHeight ] = useState<number>(MIN_HEIGHT)
   const hasStats = Object.keys(stats).length !== 0
-  const graphHeight = ref.current
-    ? ref.current.clientHeight - LEGEND_HEIGHT
-    : MIN_HEIGHT
+
+  useEffect(() => {
+    setGraphHeight(ref.current
+      ? ref.current.clientHeight - LEGEND_HEIGHT
+      : MIN_HEIGHT
+    )
+  }, [ref.current?.clientHeight])
 
   return (
     <Grid item xs ref={ref}>
