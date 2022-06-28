@@ -59,6 +59,7 @@ const WidgetBody = () => {
             alignItems="center"
             justifyContent="center"
             direction="column"
+            data-testid="loading"
           >
             <Grid item>
               <CircularProgress color="secondary" />
@@ -66,12 +67,12 @@ const WidgetBody = () => {
           </Grid>
         )}
         {error && !isLoading && (
-          <Grid item xs style={CENTER_STYLES}>
+          <Grid item xs style={CENTER_STYLES} data-testid="error">
             <NetworkError message={error.message} />
           </Grid>
         )}
         {!error && !isLoading && !hasStats && (
-          <Grid item xs style={{ ...CENTER_STYLES, textAlign: 'center' }}>
+          <Grid item xs style={{ ...CENTER_STYLES, textAlign: 'center' }} data-testid="no-stats">
             No package defined in Marquee configuration!<br />
             Please check the
             {' '}<pre style={{ display: 'inline-block' }}>marquee.widgets.npm-stats.packageNames</pre>

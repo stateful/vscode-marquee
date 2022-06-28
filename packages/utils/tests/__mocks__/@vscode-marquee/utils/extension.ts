@@ -16,7 +16,7 @@ export default class ExtensionManagerMock {
   _disposables = []
   _tangle: any
   state: any
-  config: any
+  configuration: any
 
   constructor (
     public _context = {},
@@ -25,7 +25,7 @@ export default class ExtensionManagerMock {
     defaultConfig: any,
     defaultState: any
   ) {
-    this.config = defaultConfig
+    this.configuration = defaultConfig
     this.state = defaultState
   }
 
