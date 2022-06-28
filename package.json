@@ -1856,6 +1856,482 @@
                   "unified": "1f4bc",
                   "native": "💼"
                 }
+              },
+              "project": {
+                "layouts": {
+                  "lg": [
+                    {
+                      "w": 3,
+                      "h": 12,
+                      "x": 6,
+                      "y": 0,
+                      "i": "todo",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 14,
+                      "x": 0,
+                      "y": 30,
+                      "i": "projects",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 18,
+                      "x": 6,
+                      "y": 12,
+                      "i": "snippets",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 3,
+                      "h": 12,
+                      "x": 9,
+                      "y": 0,
+                      "i": "notes",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 30,
+                      "x": 0,
+                      "y": 0,
+                      "i": "markdown",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    }
+                  ],
+                  "md": [
+                    {
+                      "w": 4,
+                      "h": 13,
+                      "x": 6,
+                      "y": 0,
+                      "i": "todo",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 5,
+                      "h": 13,
+                      "x": 5,
+                      "y": 23,
+                      "i": "projects",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 5,
+                      "h": 13,
+                      "x": 0,
+                      "y": 23,
+                      "i": "snippets",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 10,
+                      "x": 6,
+                      "y": 13,
+                      "i": "notes",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 23,
+                      "x": 0,
+                      "y": 0,
+                      "i": "markdown",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "welcome"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "news"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "github"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "weather"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "stateful-marquee-widget"
+                    }
+                  ],
+                  "sm": [
+                    {
+                      "w": 3,
+                      "h": 12,
+                      "x": 0,
+                      "y": 18,
+                      "i": "todo",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 11,
+                      "x": 0,
+                      "y": 43,
+                      "i": "projects",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 13,
+                      "x": 0,
+                      "y": 30,
+                      "i": "snippets",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 3,
+                      "h": 12,
+                      "x": 3,
+                      "y": 18,
+                      "i": "notes",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 6,
+                      "h": 18,
+                      "x": 0,
+                      "y": 0,
+                      "i": "markdown",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "welcome"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "news"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "github"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "weather"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "stateful-marquee-widget"
+                    }
+                  ],
+                  "xs": [
+                    {
+                      "w": 4,
+                      "h": 12,
+                      "x": 0,
+                      "y": 17,
+                      "i": "todo",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 12,
+                      "x": 0,
+                      "y": 55,
+                      "i": "projects",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 13,
+                      "x": 0,
+                      "y": 42,
+                      "i": "snippets",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 13,
+                      "x": 0,
+                      "y": 29,
+                      "i": "notes",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 17,
+                      "x": 0,
+                      "y": 0,
+                      "i": "markdown",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "welcome"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "news"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "github"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "weather"
+                    },
+                    {
+                      "minW": 2,
+                      "minH": 6,
+                      "static": false,
+                      "moved": false,
+                      "x": 0,
+                      "y": 0,
+                      "h": 12,
+                      "w": 4,
+                      "i": "stateful-marquee-widget"
+                    }
+                  ],
+                  "xxs": [
+                    {
+                      "w": 4,
+                      "h": 12,
+                      "x": 0,
+                      "y": 22,
+                      "i": "todo",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 12,
+                      "x": 0,
+                      "y": 60,
+                      "i": "projects",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 13,
+                      "x": 0,
+                      "y": 47,
+                      "i": "snippets",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 13,
+                      "x": 0,
+                      "y": 34,
+                      "i": "notes",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 22,
+                      "x": 0,
+                      "y": 0,
+                      "i": "markdown",
+                      "minW": 2,
+                      "minH": 6,
+                      "moved": false,
+                      "static": false
+                    }
+                  ]
+                },
+                "widgets": {
+                  "news": false,
+                  "github": false,
+                  "todo": true,
+                  "weather": false,
+                  "notes": true,
+                  "markdown": true,
+                  "welcome": false,
+                  "snippets": true,
+                  "projects": true
+                },
+                "icon": {
+                  "id": "rocket",
+                  "name": "Rocket",
+                  "short_names": [
+                    "rocket"
+                  ],
+                  "colons": ":rocket:",
+                  "emoticons": [],
+                  "unified": "1f680",
+                  "skin": null
+                }
               }
             },
             "patternProperties": {
@@ -2714,7 +3190,7 @@
               "title": "markdown link"
             },
             "scope": "window",
-            "default": [],
+            "default": ["https://raw.githubusercontent.com/stateful/vscode-marquee/main/CONTRIBUTING.md"],
             "markdownDescription": "Add remote markdown documents"
           },
           "marquee.widgets.npm-stats.packageNames": {
