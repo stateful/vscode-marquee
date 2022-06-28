@@ -14,8 +14,9 @@ describe('Extension Manager', () => {
   })
 
   it('should initiate extension manager properly', async () => {
-    await new Promise((r) => setTimeout(r, 100))
-    expect(manager.marquee.disposable.updateState).toBeCalledTimes(3)
+    await manager.marquee.disposable['_loadStatistics']()
+    expect(manager.marquee.disposable.updateState).toBeCalledTimes(4)
+    expect(manager.marquee.disposable.updateState).toBeCalledWith('isLoading', true)
     expect(manager.marquee.disposable.updateState).toBeCalledWith('stats', {})
     expect(manager.marquee.disposable.updateState).toBeCalledWith('error', null)
     expect(manager.marquee.disposable.updateState).toBeCalledWith('isLoading', false)
