@@ -5,7 +5,7 @@ import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment = !Boolean(process.env.NODE_ENV)
 
 const extensionConfig: Configuration = {
   target: "node",
