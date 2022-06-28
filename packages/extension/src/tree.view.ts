@@ -384,7 +384,7 @@ class SnippetItem extends Item implements ContextMenu {
         basePath,
         {
           command: 'marquee.snippet.insert',
-          title: 'Insert Clipboard',
+          title: 'Insert Clipboard Item',
         }
       )
 
@@ -405,7 +405,7 @@ class SnippetItem extends Item implements ContextMenu {
           basePath,
           {
             command: 'marquee.snippet.addEmpty',
-            title: 'Add New Clipboard',
+            title: 'Add New Clipboard Item',
           },
           true,
           'AddNew'

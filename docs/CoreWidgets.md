@@ -72,7 +72,7 @@ The inter-workspace smart clipboard for your thoughts, code snippets, logs, or t
 
 - Support for code highlighting
 - Allows to create clipboards directly out of VSCode text files
-- Easily paste a snippet into a document through the `Insert from Clipboard` command
+- Easily paste a snippet into a document through the `Insert from Clipboard Item` command
 - Clipboards can also be access from the Marquee tree view
 
 ## Notes
