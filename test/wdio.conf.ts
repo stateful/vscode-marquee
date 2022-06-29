@@ -51,7 +51,7 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    './test/specs/tree.viewer.e2e.ts'
+    './test/specs/*.e2e.ts'
   ],
   // Patterns to exclude.
   exclude: [
