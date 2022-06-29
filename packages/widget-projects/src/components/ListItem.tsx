@@ -191,7 +191,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
             </Grid>
           }
           secondary={
-            <Typography variant="caption" noWrap style={{ display: 'block' }}>
+            <Typography variant="caption" data-testid="projectPath" noWrap style={{ display: 'block' }}>
               {workspace.path}
             </Typography>
           }

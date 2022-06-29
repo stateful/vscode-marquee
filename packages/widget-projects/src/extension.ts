@@ -13,7 +13,6 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
     channel: vscode.OutputChannel
   ) {
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
-
     const aws = this.getActiveWorkspace()
     /**
      * add new workspace to list
@@ -47,12 +46,12 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
      * count workspace usage
      */
     if (aws) {
-      const newWorkspaceVisitCount = this.state.visitCount[aws.id]
-        ? this.state.visitCount[aws.id] + 1
+      const newWorkspaceVisitCount = this._state.visitCount[aws.id]
+        ? this._state.visitCount[aws.id] + 1
         : 1
 
       const visitCount = {
-        ...this.state.visitCount,
+        ...this._state.visitCount,
         [aws.id]: newWorkspaceVisitCount
       }
 
