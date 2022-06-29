@@ -80,6 +80,13 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
     }
 
     /**
+     * don't trigger if we clicked something within `ItemPop
+     */
+    if (document.querySelector('#todo-item-popover')?.contains(target)) {
+      return
+    }
+
+    /**
      * or if we onfocus the opened more popup
      */
     if (
