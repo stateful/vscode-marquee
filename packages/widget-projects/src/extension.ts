@@ -19,7 +19,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
      * add new workspace to list
      */
     if (
-    /**
+      /**
        * the current workspace can be detected
        */
       aws &&
@@ -41,6 +41,31 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
       typeof vscode.env.remoteName === 'undefined'
     ) {
       this.updateState('workspaces', [...this._state.workspaces, aws])
+    }
+
+    /**
+     * count workspace usage
+     */
+    if (aws) {
+      const newWorkspaceVisitCount = this.state.visitCount[aws.id]
+        ? this.state.visitCount[aws.id] + 1
+        : 1
+
+      const visitCount = {
+        ...this.state.visitCount,
+        [aws.id]: newWorkspaceVisitCount
+      }
+
+      /**
+       * remove ids from `visitCount` list that aren't in workspace list (cleanup)
+       */
+      for (const id of Object.keys(visitCount)) {
+        if (!this._state.workspaces.find((w) => w.id === id)) {
+          delete visitCount[id]
+        }
+      }
+
+      this.updateState('visitCount', visitCount)
     }
   }
 }

@@ -49,7 +49,7 @@ interface ProjectListItemProps {
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   const { themeColor } = useContext(GlobalContext)
 
-  const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext)
+  const { openProjectInNewWindow, notes, todos, snippets, lastVisited, setLastVisited } = useContext(WorkspaceContext)
 
   let todoCount = useMemo(() => {
     return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived)
@@ -89,6 +89,16 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
       return
     }
 
+    /**
+     * mark workspace as last visited
+     */
+    if (window.activeWorkspace) {
+      setLastVisited(window.activeWorkspace.id)
+    }
+
+    /**
+     * open new workspace
+     */
     window.vscode.postMessage({
       west: {
         execCommands: [
@@ -130,7 +140,12 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
               wrap="nowrap"
             >
               <Grid item>
-                <Typography variant="body2">{workspace.name}</Typography>
+                <Typography variant="body2">
+                  {workspace.name}
+                  {workspace.id === lastVisited && (
+                    <i style={{ paddingLeft: 5 }}>(last visited)</i>
+                  )}
+                </Typography>
               </Grid>
               <Grid item>
                 <Grid

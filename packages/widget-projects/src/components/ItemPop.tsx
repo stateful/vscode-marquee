@@ -10,7 +10,7 @@ import WorkspaceContext from '../Context'
 declare const window: MarqueeWindow
 
 let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
-  const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext)
+  const { openProjectInNewWindow, _removeWorkspace, setLastVisited } = useContext(WorkspaceContext)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
@@ -59,6 +59,17 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
         </ListItem>
         <ListItem button onClick={(e) => {
           e.preventDefault()
+
+          /**
+           * mark workspace as last visited
+           */
+          if (window.activeWorkspace) {
+            setLastVisited(window.activeWorkspace.id)
+          }
+
+          /**
+           * open new workspace
+           */
           window.vscode.postMessage({
             west: { execCommands: [{
               command: 'vscode.openFolder',
