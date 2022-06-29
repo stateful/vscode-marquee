@@ -151,15 +151,8 @@
       },
       {
         "command": "marquee.todo.addEditor",
-        "title": "Marquee: Add Selection to Todos",
-        "category": "Marquee",
-        "enablement": "editorHasSelection"
-      },
-      {
-        "command": "marquee.todo.addEditor",
-        "title": "Add to Todos",
-        "category": "Marquee",
-        "enablement": "!editorHasSelection"
+        "title": "Marquee: Add to Todos",
+        "category": "Marquee"
       },
       {
         "command": "marquee.todo.move",
