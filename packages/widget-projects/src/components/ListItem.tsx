@@ -49,8 +49,9 @@ interface ProjectListItemProps {
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   const { themeColor } = useContext(GlobalContext)
 
-  const { openProjectInNewWindow, notes, todos, snippets, lastVisited, setLastVisited } = useContext(WorkspaceContext)
+  const { openProjectInNewWindow, notes, todos, snippets, lastVisited } = useContext(WorkspaceContext)
 
+  const isLastVisitedWorkspace = Math.max(...Object.values(lastVisited)) === lastVisited[workspace.id]
   let todoCount = useMemo(() => {
     return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived)
   }, [workspace, todos])
@@ -87,13 +88,6 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
       target.parentElement.getAttribute('role') === 'presentation'
     ) {
       return
-    }
-
-    /**
-     * mark workspace as last visited
-     */
-    if (window.activeWorkspace) {
-      setLastVisited(window.activeWorkspace.id)
     }
 
     /**
@@ -142,7 +136,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
               <Grid item>
                 <Typography variant="body2">
                   {workspace.name}
-                  {workspace.id === lastVisited && (
+                  {isLastVisitedWorkspace && (
                     <i style={{ paddingLeft: 5 }}>(last visited)</i>
                   )}
                 </Typography>

@@ -11,7 +11,11 @@ declare const window: MarqueeWindow
 (connect as jest.Mock).mockReset()
 
 const TEST_STATE = {
-  lastVisited: 'fa0f7de4-f283-51b2-b4e5-5f47355c0b78',
+  lastVisited: {
+    'f894785a-deec-5197-81bb-975087ae3595': 10,
+    'fa0f7de4-f283-51b2-b4e5-5f47355c0b78:': 20,
+    '86fc84c1-6fee-5479-9930-3094fc498792': 30
+  },
   visitCount: {
     '86fc84c1-6fee-5479-9930-3094fc498792': 1,
     'f894785a-deec-5197-81bb-975087ae3595': 2,
@@ -46,6 +50,7 @@ it('renders component correctly', async () => {
 
   ;(connect as jest.Mock).mockReturnValue({
     openProjectInNewWindow: false,
+    lastVisited: {},
     setWorkspaceFilter,
     workspaces: [
       {
@@ -163,6 +168,28 @@ it('should render projects by visits', () => {
   expect(listElems.map((el) => el.innerHTML)).toEqual([
     '/workspaceB',
     '/workspaceA',
+    '/workspaceC'
+  ])
+})
+
+it('should render projects by last visits', () => {
+  (connect as jest.Mock).mockReturnValue({
+    ...TEST_STATE,
+    workspaceSortOrder: 'recent'
+  })
+  render(
+    <GlobalProvider>
+      <WorkspaceProvider>
+        <Widget.component />
+      </WorkspaceProvider>
+    </GlobalProvider>
+  )
+
+  const listElems = screen.getAllByTestId('projectPath')
+  expect(listElems).toHaveLength(3)
+  expect(listElems.map((el) => el.innerHTML)).toEqual([
+    '/workspaceA',
+    '/workspaceB',
     '/workspaceC'
   ])
 })

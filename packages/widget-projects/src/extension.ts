@@ -64,7 +64,22 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
         }
       }
 
+      const lastVisited = {
+        ...this._state.lastVisited,
+        [aws.id]: Date.now()
+      }
+
+      /**
+       * remove ids from `lastVisited` list that aren't in workspace list (cleanup)
+       */
+      for (const id of Object.keys(lastVisited)) {
+        if (!this._state.workspaces.find((w) => w.id === id)) {
+          delete lastVisited[id]
+        }
+      }
+
       this.updateState('visitCount', visitCount)
+      this.updateState('lastVisited', lastVisited)
     }
   }
 }

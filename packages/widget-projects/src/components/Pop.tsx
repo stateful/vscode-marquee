@@ -9,6 +9,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha'
 import SortIcon from '@mui/icons-material/Sort'
 import TourIcon from '@mui/icons-material/Tour'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 import WorkspaceContext from '../Context'
 import type { WorkspaceSortOrder } from '../types'
@@ -93,6 +94,17 @@ const SortOrder = React.memo(() => {
                 arrow
               >
                 <TourIcon fontSize="small" />
+              </Tooltip>
+            </ToggleButton>
+
+
+            <ToggleButton value="recent">
+              <Tooltip
+                title="Sort by recent visited workspace"
+                placement="top"
+                arrow
+              >
+                <AccessTimeIcon fontSize="small" />
               </Tooltip>
             </ToggleButton>
           </ToggleButtonGroup>

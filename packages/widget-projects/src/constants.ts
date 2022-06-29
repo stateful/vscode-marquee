@@ -8,6 +8,6 @@ export const DEFAULT_CONFIGURATION: Configuration = {
 
 export const DEFAULT_STATE: State = {
   workspaces: [],
-  lastVisited: null,
+  lastVisited: {},
   visitCount: {}
 }
