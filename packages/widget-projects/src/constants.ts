@@ -7,5 +7,7 @@ export const DEFAULT_CONFIGURATION: Configuration = {
 }
 
 export const DEFAULT_STATE: State = {
-  workspaces: []
+  workspaces: [],
+  lastVisited: {},
+  visitCount: {}
 }

@@ -64,8 +64,8 @@ let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
               command: 'vscode.openFolder',
               args: [workspace.path],
               options: { forceNewWindow: openProjectInNewWindow }
-            }],
-            }})
+            }]}
+          })
         }}>
           <ListItemText
             primary={
