@@ -39,14 +39,9 @@ describe('Marquee Tree Viewer', () => {
     const treeView = new TreeView(locatorMap, marqueeItem)
     const treeItems = await treeView.getItems()
 
-    let index: number
-    for (index = 0; index < treeItems.length; ++index) {
-      const label = await treeItems[index].getLabel()
-      if (label === 'Add new todo') {
-        break
-      }
-    }
-    await treeItems[index].select()
+    // give UI some time to settle
+    await browser.pause(4000)
+    await treeItems[1].select()
 
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
