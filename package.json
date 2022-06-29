@@ -151,7 +151,7 @@
       },
       {
         "command": "marquee.todo.addEditor",
-        "title": "Add Selection to Todos",
+        "title": "Marquee: Add Selection to Todos",
         "category": "Marquee",
         "enablement": "editorHasSelection"
       },
@@ -184,7 +184,7 @@
       },
       {
         "command": "marquee.note.addEditor",
-        "title": "Add Selection to Notes",
+        "title": "Marquee: Add Selection to Notes",
         "category": "Marquee",
         "enablement": "editorHasSelection"
       },
@@ -225,7 +225,7 @@
       },
       {
         "command": "marquee.snippet.addEditor",
-        "title": "Add Selection to Snippets",
+        "title": "Marquee: Add Selection to Clipboard",
         "category": "Marquee",
         "enablement": "editorHasSelection"
       },
