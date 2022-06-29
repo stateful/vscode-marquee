@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-npm-stats-extension",
+  "description": "Extension logic for NPM Stats Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}

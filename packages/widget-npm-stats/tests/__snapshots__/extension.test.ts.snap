@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Extension Manager should fail properly 1`] = `
+Array [
+  Array [
+    "isLoading",
+    true,
+  ],
+  Array [
+    "isLoading",
+    false,
+  ],
+  Array [
+    "error",
+    Object {
+      "message": "ups",
+    },
+  ],
+]
+`;
+
+exports[`Extension Manager should successfully fetch data 1`] = `
+Array [
+  Array [
+    "isLoading",
+    true,
+  ],
+  Array [
+    "stats",
+    Object {
+      "bar": Object {
+        "2022-02-01": 33334,
+        "2022-02-02": 31277,
+      },
+      "foo": Object {
+        "2022-06-26": 45142,
+        "2022-06-27": 169454,
+      },
+    },
+  ],
+  Array [
+    "isLoading",
+    false,
+  ],
+  Array [
+    "error",
+    null,
+  ],
+]
+`;

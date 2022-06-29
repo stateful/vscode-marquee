@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
   testMatch: [
     '**/tests/**/*.test.(ts|tsx)'
   ],
+  testTimeout: 15 * 1000,
   transform: {
     ...tsjPreset.transform,
   },

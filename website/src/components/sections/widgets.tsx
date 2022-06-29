@@ -50,6 +50,18 @@ const widgets = [{
   description: <Box>
     Search for popular projects on GitHub to find code needed for your project.
   </Box>
+}, {
+  image: 'markdown.png',
+  heading: 'Markdown',
+  description: <Box>
+    Renders local and remote markdown files to help you navigate through the code base.
+  </Box>
+}, {
+  image: 'npm-stats.png',
+  heading: 'NPM Stats',
+  description: <Box>
+    Get a daily overview about download numbers of all NPM packages you maintain.
+  </Box>
 }]
 
 export const Widgets = () => (

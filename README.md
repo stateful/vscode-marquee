@@ -64,6 +64,10 @@ This extension contributes the following settings:
 * `marquee.widgets.todo.hide` (type: `boolean`, default: `false`): Hide completed ToDos.
 * `marquee.widgets.todo.showArchived` (type: `boolean`, default: `false`): Show archived ToDos.
 * `marquee.widgets.todo.autoDetect` (type: `boolean`, default: `true`): Auto-detect ToDos in your code to allow adding them to Marquee.
+* `marquee.widgets.markdown.externalMarkdownFiles` (type: `string[]`, default: `[]`): Add remote markdown documents to Markdown Widget.
+* `marquee.widgets.npm-stats.packageNames` (type: `string[]`, default: `[]`): NPM package names to display in NPM Stats widget.
+* `marquee.widgets.npm-stats.from` (type: `number`): Timestamp from when the download count should be pulled for.
+* `marquee.widgets.npm-stats.until` (type: `number`): Timestamp until when the download count should be pulled for.
 
 ## More
 

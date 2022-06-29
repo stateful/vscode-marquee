@@ -82,7 +82,12 @@ const extensionConfigBrowser: Configuration = {
     ...extensionConfig.resolve,
     alias: stdLibBrowser,
     fallback: {
-      fs: false
+      fs: false,
+      diagnostics_channel: false,
+      perf_hooks: false,
+      async_hooks: false,
+      'stream/web': false,
+      'util/types': false
     },
   },
   plugins: [

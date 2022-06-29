@@ -92,3 +92,14 @@ Renders local and remote markdown files to help you navigate through the code ba
 - Format notes using a [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) editor
 - Filter for certain notes
 - Create notes directly from the command palette
+
+## NPM Stats
+
+Get a daily overview about download numbers of a set of NPM packages you can configure in the Marquee configuration.
+
+<img src="https://marquee-seven.vercel.app/assets/widgets/npm-stats.png" alt="NPM Stats Widget" width="600" />
+
+### Features
+
+- Follow download numbers of 1 or many NPM packages
+- Set custom time durations to overview
