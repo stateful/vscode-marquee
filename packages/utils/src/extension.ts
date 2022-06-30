@@ -289,7 +289,7 @@ export function activate (
   /**
    * extension host has access to sentry events
    */
-  const env = process.env.NODE_ENV === 'development' 
+  const env = process.env.NODE_ENV === 'development'
     ? 'development'
     : 'production'
 
@@ -298,7 +298,7 @@ export function activate (
     beforeSend (event){
       if(event.environment === 'development'){
         return null
-      } 
+      }
       return event
     },
     environment: env,

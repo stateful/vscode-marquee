@@ -282,7 +282,11 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                   startIcon={<LinkIcon />}
                   disableFocusRipple
                   onClick={() => jumpTo(note)}
-                  style={{ padding: '0 5px' }}
+                  style={{
+                    padding: '0 5px',
+                    background: 'transparent',
+                    color: 'inherit'
+                  }}
                 >
                   {noteLinkFileName}
                 </Button>

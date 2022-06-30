@@ -168,14 +168,13 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       } as vscode.TextEditor)
 
       const todoMatch = textWholeLine.match(TODO)
-      if (!todoMatch || !todoMatch[0]) {
-        return vscode.window.showWarningMessage('Marquee: no text selected')
-      }
 
       /**
        * check if line contains todo match and then strip it
        */
-      text = textWholeLine.slice(textWholeLine.indexOf(todoMatch[0]))
+      text = todoMatch && todoMatch[0]
+        ? textWholeLine.slice(textWholeLine.indexOf(todoMatch[0]))
+        : textWholeLine
       path = pathWholeLine
     }
 
