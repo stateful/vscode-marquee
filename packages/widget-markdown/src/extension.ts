@@ -1,11 +1,14 @@
+import path from 'path'
 import vscode from 'vscode'
 
-import ExtensionManager from '@vscode-marquee/utils/extension'
-import { Configuration, MarkdownDocument, State } from './types'
-import path from 'path'
+import fetch from 'node-fetch'
 import { v5 as uuid } from 'uuid'
 import { Client } from 'tangle'
-import fetch from 'node-fetch'
+
+import ExtensionManager from '@vscode-marquee/utils/extension'
+
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
+import type { Configuration, MarkdownDocument, State } from './types'
 
 const STATE_KEY = 'widgets.markdown'
 const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
@@ -23,17 +26,15 @@ const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
   isRemote,
 })
 
-export class MarkdownExtensionManager extends ExtensionManager<
-State,
-Configuration
-> {
+export class MarkdownExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
+    console.log('GOOO', DEFAULT_CONFIGURATION)
     super(
       context,
       channel,
       STATE_KEY,
-      { externalMarkdownFiles: [] },
-      { markdownDocuments: [], selectedMarkdownContent: undefined }
+      DEFAULT_CONFIGURATION,
+      DEFAULT_STATE
     )
 
     // Load initial documents
