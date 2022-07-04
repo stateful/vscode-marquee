@@ -119,7 +119,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * check if we have to update
      */
-    if (val && this._configuration[prop] && hash(this._configuration[prop]) === hash(val)) {
+    if (
+      typeof val !== 'undefined' &&
+      typeof this._configuration[prop] !== 'undefined' &&
+      hash(this._configuration[prop]) === hash(val)
+    ) {
       this._isConfigUpdateListenerDisabled = false
       return
     }

@@ -163,6 +163,28 @@ test('updateConfiguration does not do anything if values are equal', async () =>
   expect(config.update).toBeCalledTimes(0)
 })
 
+test('updateConfiguration does not update if value is falsy and equal', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    { defaultConfig: 0 },
+    { defaultState: true }
+  )
+  const waitPromise = new Promise((resolve) => setTimeout(resolve, 100))
+  const config = {
+    update: jest.fn().mockReturnValue(waitPromise),
+    get: jest.fn().mockReturnValue('some new value')
+  }
+
+  ;(vscode.workspace.getConfiguration as jest.Mock)
+    .mockClear()
+    .mockReturnValue(config)
+  manager['_configuration'] = { defaultConfig: 0 }
+  await manager.updateConfiguration('defaultConfig', 0 as any)
+  expect(config.update).toBeCalledTimes(0)
+})
+
 test('updateState', async () => {
   const manager = new ExtensionManager(
     context as any,
