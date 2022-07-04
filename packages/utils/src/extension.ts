@@ -90,7 +90,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       /**
        * don't propagate updates if changes are already updated
        */
-      if (val && hash(this._configuration[prop]) === hash(val)) {
+      if (
+        typeof val !== 'undefined' &&
+        typeof this._configuration[prop] !== 'undefined' &&
+        hash(this._configuration[prop]) === hash(val)
+      ) {
         continue
       }
 
@@ -140,7 +144,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * check if we have to update
      */
-    if (val && this._state[prop] && hash(this._state[prop]) === hash(val)) {
+    if (
+      typeof val !== 'undefined' &&
+      typeof this._state[prop] !== 'undefined' &&
+      hash(this._state[prop]) === hash(val)
+    ) {
       return
     }
 

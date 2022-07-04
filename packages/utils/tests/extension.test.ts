@@ -215,6 +215,19 @@ test('updateState does not do anything if values are equal', async () => {
   expect(manager.emit).toBeCalledTimes(0)
 })
 
+test('updateState does not do anything if values are equal and falsy', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    {},
+    { prop: 0 }
+  )
+  manager.emit = jest.fn()
+  await manager.updateState('prop', 0)
+  expect(manager.emit).toBeCalledTimes(0)
+})
+
 test('clear', async () => {
   context.globalState.get.mockClear()
   context.globalState.get.mockReturnValue({})
