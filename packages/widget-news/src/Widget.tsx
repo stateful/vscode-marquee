@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import {
   Grid,
   Link,
@@ -17,19 +17,11 @@ import { NetworkError } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import PopMenu from './components/Pop'
-import { fetchNews } from './utils'
-import { DEFAULT_STATE } from './constants'
-import type { WidgetState } from './types'
+import NewsContext, { NewsProvider } from './Context'
 
 let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const [data, setData] = useState(DEFAULT_STATE)
-
-  useEffect(() => {
-    let _setData = (data: WidgetState) => setData(data)
-    setData({ ...data, isFetching: true })
-    fetchNews(data).then((data) => _setData(data))
-    return () => { _setData = () => {} }
-  }, [data.channel])
+  const { news, error, isFetching } = useContext(NewsContext)
+  console.log(11, news, error, isFetching)
 
   return (
     <>
@@ -40,7 +32,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         <Grid item>
           <Grid container direction="row" spacing={1}>
             <Grid item>
-              <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+              <PopMenu />
             </Grid>
             <Grid item>
               <ToggleFullScreen />
@@ -59,7 +51,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           style={{ height: '100%' }}
         >
           <Grid item xs style={{ overflow: 'auto' }}>
-            {data.error && (
+            {error && (
               <Grid
                 item
                 xs
@@ -70,10 +62,10 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                   padding: '24px',
                 }}
               >
-                <NetworkError message={data.error.message} />
+                <NetworkError message={error.message} />
               </Grid>
             )}
-            {data.isFetching && (
+            {isFetching && (
               <Grid
                 container
                 style={{ height: '100%' }}
@@ -86,7 +78,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                 </Grid>
               </Grid>
             )}
-            {!data.isFetching && data.news.length === 0 && (
+            {!isFetching && news.length === 0 && (
               <Grid
                 container
                 style={{ height: '100%' }}
@@ -99,9 +91,9 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                 </Grid>
               </Grid>
             )}
-            {!data.isFetching && data.news.length !== 0 && (
+            {!isFetching && news.length !== 0 && (
               <List dense={true}>
-                {data.news.map((entry) => (
+                {news.map((entry) => (
                   <ListItem dense key={entry.id}>
                     <ListItemAvatar>
                       <Grid container justifyContent="center" alignItems="center">
@@ -154,4 +146,9 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   )
 }
 
-export default wrapper(News, 'news')
+const Widget = (props: any) => (
+  <NewsProvider>
+    <News {...props} />
+  </NewsProvider>
+)
+export default wrapper(Widget, 'news')

@@ -225,7 +225,6 @@ export class MarqueeGui extends EventEmitter {
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
         `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
-        'https://api.hackerwebapp.com',
         'https://*.ingest.sentry.io'
       ],
       childSrc: [

@@ -9,6 +9,7 @@ import ExtensionManager, {
   MarqueeEvents
 } from '@vscode-marquee/utils/extension'
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension'
+import { activate as activateNewsWidget } from '@vscode-marquee/widget-news/extension'
 import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension'
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension'
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension'
@@ -27,6 +28,7 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/utils': activateUtils,
   '@vscode-marquee/gui': activateGUI,
   '@vscode-marquee/welcome-widget': activateWelcomeWidget,
+  '@vscode-marquee/news-widget': activateNewsWidget,
   '@vscode-marquee/projects-widget': activateProjectsWidget,
   '@vscode-marquee/github-widget': activateGitHubWidget,
   '@vscode-marquee/weather-widget': activateWeatherWidget,

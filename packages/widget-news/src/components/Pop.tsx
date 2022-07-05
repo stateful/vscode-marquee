@@ -1,18 +1,13 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Popover from '@mui/material/Popover'
 import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { HideWidgetContent } from '@vscode-marquee/widget'
 
-import { HN_CHANNELS } from '../constants'
-import type { HackerNewsChannels } from '../types'
+import NewsContext from '../Context'
 
-interface PopMenuProps {
-  value: HackerNewsChannels
-  onChannelChange: (newValue: HackerNewsChannels) => void
-}
-
-const PopMenu = (props: PopMenuProps) => {
+const PopMenu = () => {
+  const { feeds, channel, setChannel } = useContext(NewsContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const handleClick = useCallback((event: React.MouseEvent) => {
@@ -52,14 +47,14 @@ const PopMenu = (props: PopMenuProps) => {
               <InputLabel id="marquee-news-channel">Channel</InputLabel>
               <Select
                 labelId="marquee-news-channel"
-                value={props.value}
+                value={channel}
                 label="Age"
                 onChange={(e) => {
-                  props.onChannelChange(e.target.value as HackerNewsChannels)
+                  setChannel(e.target.value)
                   handleClose()
                 }}
               >
-                {HN_CHANNELS.map(([first, ...rest], i) => (
+                {Object.keys(feeds).map(([first, ...rest], i) => (
                   <MenuItem
                     key={i}
                     value={[first, ...rest].join('')}

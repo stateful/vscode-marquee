@@ -2542,6 +2542,21 @@
             "default": false,
             "markdownDescription": "Only auto-launch Marquee in Workspaces"
           },
+          "marquee.widgets.news.feeds": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {
+              "Newest": "https://hnrss.org/newest",
+              "Ask": "https://hnrss.org/ask",
+              "Show": "https://hnrss.org/show",
+              "Jobs": "https://hnrss.org/jobs",
+              "Best": "https://hnrss.org/best"
+            },
+            "scope": "window",
+            "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)."
+          },
           "marquee.widgets.projects.workspaceFilter": {
             "type": "string",
             "scope": "window",

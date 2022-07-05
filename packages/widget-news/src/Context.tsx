@@ -4,10 +4,10 @@ import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 import type { Context, Configuration, State } from './types'
 
 declare const window: MarqueeWindow
-const NPMStatsContext = createContext<Context>({} as Context)
-export const WIDGET_ID = '@vscode-marquee/npm-stats-widget'
+const NewsContext = createContext<Context>({} as Context)
+export const WIDGET_ID = '@vscode-marquee/news-widget'
 
-export const NPMStatsProvider = ({ children }: { children: React.ReactElement }) => {
+export const NewsProvider = ({ children }: { children: React.ReactElement }) => {
   const widgetState = getEventListener<Configuration & State>(WIDGET_ID)
   const providerValues = connect<Configuration & State>({
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration,
@@ -15,10 +15,10 @@ export const NPMStatsProvider = ({ children }: { children: React.ReactElement })
   }, widgetState)
 
   return (
-    <NPMStatsContext.Provider value={{ ...providerValues }}>
+    <NewsContext.Provider value={{ ...providerValues }}>
       {children}
-    </NPMStatsContext.Provider>
+    </NewsContext.Provider>
   )
 }
 
-export default NPMStatsContext
+export default NewsContext
