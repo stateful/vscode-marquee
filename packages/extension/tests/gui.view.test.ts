@@ -39,6 +39,7 @@ const channel: any = {
 
 beforeEach(() => {
   channel.appendLine.mockClear()
+  ;(vscode.window.showErrorMessage as jest.Mock).mockClear()
 })
 
 test('constructor', () => {
@@ -148,22 +149,33 @@ test('_disposePanel', () => {
   expect(typeof gui['client']).toBe('undefined')
 })
 
-test('_handleWebviewMessage', () => {
+test('_handleWebviewMessage', async () => {
   const gui = new MarqueeGui(context, stateMgr, channel)
   gui['_executeCommand'] = jest.fn()
   gui['_handleNotifications'] = jest.fn()
   gui['emit'] = jest.fn()
 
-  gui['_handleWebviewMessage']({ west: { execCommands: ['foo', 'bar'] } })
+  await gui['_handleWebviewMessage']({ west: { execCommands: ['foo', 'bar'] } })
   expect(gui['_executeCommand']).toBeCalledTimes(2)
   expect(gui['_executeCommand']).toBeCalledWith('foo', 0, ['foo', 'bar'])
   expect(gui['_executeCommand']).toBeCalledWith('bar', 1, ['foo', 'bar'])
 
-  gui['_handleWebviewMessage']({ west: { notify: { message: 'foobar' } } })
+  await gui['_handleWebviewMessage']({ west: { notify: { message: 'foobar' } } })
   expect(gui['_handleNotifications']).toBeCalledWith({ message: 'foobar' })
 
   expect(gui['guiActive']).toBe(false)
-  gui['_handleWebviewMessage']({ ready: true })
+  await gui['_handleWebviewMessage']({ ready: true })
   expect(gui['guiActive']).toBe(true)
   expect(gui.emit).toBeCalledWith('webview.open')
+})
+
+test('_handleWebviewMessage failing', async () => {
+  const gui = new MarqueeGui(context, stateMgr, channel)
+  gui['_executeCommand'] = jest.fn().mockRejectedValue(new Error('ups'))
+
+  expect(vscode.window.showErrorMessage).toBeCalledTimes(0)
+  await gui['_handleWebviewMessage']({ west: { execCommands: ['foo', 'bar'] } })
+  expect(gui['_executeCommand']).toBeCalledTimes(2)
+  expect(vscode.window.showErrorMessage).toBeCalledTimes(1)
+  expect(vscode.window.showErrorMessage).toBeCalledWith('Marquee Error: ups')
 })

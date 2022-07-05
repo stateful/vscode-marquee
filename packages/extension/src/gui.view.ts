@@ -257,9 +257,14 @@ export class MarqueeGui extends EventEmitter {
     delete this.client
   }
 
-  private _handleWebviewMessage (e: any) {
+  private async _handleWebviewMessage (e: any) {
     if (e.west && Array.isArray(e.west.execCommands)) {
-      e.west.execCommands.forEach(this._executeCommand.bind(this))
+      try {
+        await Promise.all(e.west.execCommands.map(this._executeCommand.bind(this)))
+        return
+      } catch (err: any) {
+        return vscode.window.showErrorMessage(`Marquee Error: ${(err as Error).message}`)
+      }
     }
 
     if (e.west && e.west.notify && e.west.notify.message) {
