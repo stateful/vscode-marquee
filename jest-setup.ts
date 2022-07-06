@@ -194,6 +194,13 @@ window.marqueeStateConfiguration = {
       ],
     },
   },
+  '@vscode-marquee/news-widget': {
+    configuration: {},
+    state: {
+      isFetching: true,
+      news: {}
+    },
+  },
   '@vscode-marquee/notes-widget': {
     configuration: {},
     state: {

@@ -1,71 +1,92 @@
 import React from 'react'
-import { act } from 'react-dom/test-utils'
-import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
-import { GlobalProvider } from '@vscode-marquee/utils'
+import { GlobalProvider, connect } from '@vscode-marquee/utils'
 
+import { NewsProvider } from '../src/Context'
 import Widget from '../src'
 
-jest.mock('../../utils/src/contexts/Global')
+test('renders component with progress bar', async () => {
+  (connect as jest.Mock).mockReturnValue({
+    isFetching: true,
+    feeds: {
+      Foobar: 'https://some.rss/feed'
+    }
+  })
 
-let resolveFetch = (params: any) => params
-const fetchOrig = window.fetch
-beforeEach(() => {
-  window.fetch = jest.fn(() => new Promise((r) => {
-    resolveFetch = r
-  }))
-})
-
-test('renders component correctly', async () => {
   render(
     <GlobalProvider>
-      <Widget.component />
+      <NewsProvider>
+        <Widget.component />
+      </NewsProvider>
     </GlobalProvider>
   )
   expect(screen.getByRole('progressbar')).toBeInTheDocument()
-  act(() => {
-    resolveFetch({
-      ok: 1,
-      json: () => [{
-        comments_count: 123,
-        domain: 'http://foobar.com',
-        id: 1,
-        points: 42,
-        time: Date.now(),
-        time_ago: '5hrs',
-        title: 'Foobar Title',
-        type: 'new',
-        url: 'http://foobar.com',
-        user: 'john.doe'
-      }]
-    })
-  })
-  expect(window.fetch).toBeCalledWith(
-    'https://api.hackerwebapp.com/news',
-    { mode: 'cors' }
-  )
-  await new Promise((r) => setTimeout(r, 100))
-  expect(screen.getByText('Foobar Title')).toBeInTheDocument()
-  expect(screen.getByText('42 points by john.doe 5hrs')).toBeInTheDocument()
 })
 
-test('should allow to switch channels', async () => {
-  const { container } = render(
+test('displays error message', async () => {
+  (connect as jest.Mock).mockReturnValue({
+    isFetching: false,
+    news: [],
+    error: new Error('upsala'),
+    feeds: {
+      Foobar: 'https://some.rss/feed'
+    }
+  })
+
+  render(
     <GlobalProvider>
-      <Widget.component />
+      <NewsProvider>
+        <Widget.component />
+      </NewsProvider>
     </GlobalProvider>
   )
-  await userEvent.click(container.querySelectorAll('button svg')[0])
-  expect(screen.getByText('Hide this widget')).toBeInTheDocument()
-  // await new Promise(r => setTimeout(r, 1000))
-  await userEvent.click(screen.getByLabelText('Channel'))
-  await userEvent.click(screen.getByText('Jobs'))
-  expect(window.fetch).toBeCalledWith(
-    'https://api.hackerwebapp.com/jobs',
-    { mode: 'cors' }
-  )
+  expect(screen.getByText('upsala')).toBeInTheDocument()
 })
 
-afterAll(() => {
-  window.fetch = fetchOrig
+test('tells you if there are no news', async () => {
+  (connect as jest.Mock).mockReturnValue({
+    isFetching: false,
+    news: [],
+    feeds: {
+      Foobar: 'https://some.rss/feed'
+    }
+  })
+
+  render(
+    <GlobalProvider>
+      <NewsProvider>
+        <Widget.component />
+      </NewsProvider>
+    </GlobalProvider>
+  )
+  expect(screen.getByText('No news available at the moment!'))
+    .toBeInTheDocument()
+})
+
+test('show loaded news', async () => {
+  (connect as jest.Mock).mockReturnValue({
+    isFetching: false,
+    news: [{
+      title: 'foobar title',
+      link: 'https://stateful.com/rss',
+      pubDate: Date.now() - (3 * 1000 * 60),
+      creator: 'Max Mustermann'
+    }],
+    channel: 'Foobar',
+    feeds: {
+      Foobar: 'https://some.rss/feed'
+    }
+  })
+
+  render(
+    <GlobalProvider>
+      <NewsProvider>
+        <Widget.component />
+      </NewsProvider>
+    </GlobalProvider>
+  )
+  expect(screen.getByText('by Max Mustermann 3 minutes ago'))
+    .toBeInTheDocument()
+  expect(screen.getByText('foobar title'))
+    .toBeInTheDocument()
 })

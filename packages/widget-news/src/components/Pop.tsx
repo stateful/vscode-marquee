@@ -48,7 +48,7 @@ const PopMenu = () => {
               <Select
                 labelId="marquee-news-channel"
                 value={channel}
-                label="Age"
+                label="Channel"
                 onChange={(e) => {
                   setIsFetching(true)
                   setChannel(e.target.value)

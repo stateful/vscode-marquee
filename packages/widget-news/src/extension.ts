@@ -51,7 +51,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       this._tangle?.broadcast({
         news: [] as FeedItem[],
         isFetching: false,
-        error: undefined
+        error: err.message
       } as State & Configuration)
       setTimeout(() => { this._isFetching = false }, 100)
     }
