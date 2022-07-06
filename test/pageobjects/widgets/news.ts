@@ -3,7 +3,7 @@ import * as locatorMap from '../locators'
 import { Select } from '../components/inputs'
 import { newsWidget as newsWidgetLocators } from '../locators'
 
-type NewsChannels = 'News' | 'Newest' | 'Ask' | 'Show' | 'Jobs' | 'Best'
+type NewsChannels = 'HN Newest' | 'HN Ask' | 'HN Show' | 'HN Jobs' | 'HN Best'
 
 export interface NewsWidget extends IPageDecorator<typeof newsWidgetLocators> { }
 @PageDecorator(newsWidgetLocators)
