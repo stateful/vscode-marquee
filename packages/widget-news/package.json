@@ -8,7 +8,8 @@
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@vscode-marquee/widget": "^0.1.0",
-    "feed-reader": "^5.0.2",
+    "javascript-time-ago": "^2.5.6",
+    "rss-parser": "^3.12.0",
     "undici": "^5.6.0"
   }
 }

@@ -1,20 +1,27 @@
 import vscode from 'vscode'
-import { read } from 'feed-reader'
+import Parser from 'rss-parser'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
-import type { Configuration, State } from './types'
+import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
 export class NewsExtensionManager extends ExtensionManager<State, Configuration> {
+  private _parser = new Parser()
+  private _isFetching = false
+
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
+    this.on('stateUpdate', () => this.fetchFeeds())
   }
 
   async fetchFeeds () {
-    console.log('GO IN HERE')
+    if (this._isFetching) {
+      return
+    }
 
+    this._isFetching = true
     await this.updateState('isFetching', true)
 
     try {
@@ -27,19 +34,26 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       }
 
       this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
-      const feed = await read(url)
-
-      console.log('SEND IT')
+      const feed = await this._parser.parseURL(url)
 
       await this.updateState('news', feed.entries)
       await this.updateState('isFetching', false)
       await this.updateState('error', undefined)
-      console.log('SOO', this._state)
-
+      this._tangle?.broadcast({
+        news: feed.items,
+        isFetching: false,
+        error: undefined
+      } as State & Configuration)
+      setTimeout(() => { this._isFetching = false }, 100)
     } catch (err: any) {
-      console.log('UPS')
       await this.updateState('isFetching', false)
       await this.updateState('error', { message: err.message } as Error)
+      this._tangle?.broadcast({
+        news: [] as FeedItem[],
+        isFetching: false,
+        error: undefined
+      } as State & Configuration)
+      setTimeout(() => { this._isFetching = false }, 100)
     }
   }
 }

@@ -7,7 +7,7 @@ import { HideWidgetContent } from '@vscode-marquee/widget'
 import NewsContext from '../Context'
 
 const PopMenu = () => {
-  const { feeds, channel, setChannel } = useContext(NewsContext)
+  const { feeds, channel, setChannel, setIsFetching } = useContext(NewsContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const handleClick = useCallback((event: React.MouseEvent) => {
@@ -50,6 +50,7 @@ const PopMenu = () => {
                 value={channel}
                 label="Age"
                 onChange={(e) => {
+                  setIsFetching(true)
                   setChannel(e.target.value)
                   handleClose()
                 }}

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import {
+  Box,
   Grid,
   Link,
   List,
@@ -8,9 +9,10 @@ import {
   ListItemAvatar
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
 import CircularProgress from '@mui/material/CircularProgress'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+import type { Item } from 'rss-parser'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -19,15 +21,16 @@ import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 import PopMenu from './components/Pop'
 import NewsContext, { NewsProvider } from './Context'
 
-let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const { news, error, isFetching } = useContext(NewsContext)
-  console.log(11, news, error, isFetching)
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-US')
 
+let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
   return (
     <>
       <HeaderWrapper>
         <Grid item>
-          <Typography variant="subtitle1">News</Typography>
+          <Typography variant="subtitle1">News ({channel} RSS Feeds)</Typography>
         </Grid>
         <Grid item>
           <Grid container direction="row" spacing={1}>
@@ -93,12 +96,19 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             )}
             {!isFetching && news.length !== 0 && (
               <List dense={true}>
-                {news.map((entry) => (
-                  <ListItem dense key={entry.id}>
+                {news.map((entry: Item, i) => (
+                  <ListItem dense key={i} style={{ paddingLeft: 0, paddingRight: 8 }}>
                     <ListItemAvatar>
                       <Grid container justifyContent="center" alignItems="center">
                         <Grid item>
-                          <FontAwesomeIcon icon={faHackerNews} />
+                          <Box
+                            component={'img'}
+                            src={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
+                            style={{
+                              width: 20,
+                              filter: 'grayscale(1) invert(1)'
+                            }}
+                          />
                         </Grid>
                       </Grid>
                     </ListItemAvatar>
@@ -107,31 +117,17 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                         <>
                           <Link
                             component="a"
-                            href={`https://news.ycombinator.com/item?id=${entry.id}`}
+                            href={entry.link}
                             target="_blank"
                             underline="hover">
                             {entry.title}
                           </Link>
-                          {entry.domain && (
-                            <Typography variant="caption">
-                              &nbsp;(
-                              <Link
-                                component="a"
-                                href={entry.url}
-                                target="_blank"
-                                underline="hover"
-                              >
-                                {entry.domain}
-                              </Link>
-                              )
-                            </Typography>
-                          )}
                         </>
                       }
                       secondary={
                         <Typography style={{ fontSize: '10px' }}>
-                          {entry.points} points by {entry.user} &nbsp;
-                          {entry.time_ago}
+                          {entry.creator ? (<>by {entry.creator} &nbsp;</>) : ''}
+                          {timeAgo.format(entry.pubDate ? (new Date(entry.pubDate).getTime()) : Date.now())}
                         </Typography>
                       }
                     />
