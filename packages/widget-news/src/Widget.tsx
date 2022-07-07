@@ -81,7 +81,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                 </Grid>
               </Grid>
             )}
-            {!isFetching && news.length === 0 && (
+            {!isFetching && (news && news.length === 0) && (
               <Grid
                 container
                 style={{ height: '100%' }}
@@ -94,7 +94,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                 </Grid>
               </Grid>
             )}
-            {!isFetching && news.length !== 0 && (
+            {!isFetching && (news && news.length !== 0) && (
               <List dense={true}>
                 {news.map((entry: Item, i) => (
                   <ListItem dense key={i} style={{ paddingLeft: 0, paddingRight: 8 }}>
