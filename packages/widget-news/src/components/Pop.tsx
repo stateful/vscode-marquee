@@ -1,10 +1,16 @@
 import React, { useState, useCallback, useContext } from 'react'
 import Popover from '@mui/material/Popover'
-import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  IconButton, Grid, FormControl, InputLabel, Select, MenuItem,
+  Divider, Button
+} from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { HideWidgetContent } from '@vscode-marquee/widget'
+import type { MarqueeWindow } from '@vscode-marquee/utils'
 
 import NewsContext from '../Context'
+
+declare const window: MarqueeWindow
 
 const PopMenu = () => {
   const { feeds, channel, setChannel, setIsFetching } = useContext(NewsContext)
@@ -16,6 +22,16 @@ const PopMenu = () => {
 
   const handleClose = useCallback(() => {
     setAnchorEl(null)
+  }, [])
+
+  const handlePackageUpdate = useCallback(() => {
+    window.vscode.postMessage({
+      west: { execCommands: [{
+        command: 'workbench.action.openSettings',
+        args: ['@ext:stateful.marquee News Feeds']
+      }]},
+    })
+    handleClose()
   }, [])
 
   const open = Boolean(anchorEl)
@@ -65,6 +81,19 @@ const PopMenu = () => {
                 ))}
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item>
+            <Button
+              aria-label='Update RSS Feeds'
+              style={{ marginTop: 10, width: '100%' }}
+              onClick={handlePackageUpdate}
+            >
+              Update RSS Feeds
+            </Button>
+          </Grid>
+          <Grid item>&nbsp;</Grid>
+          <Grid item>
+            <Divider />
           </Grid>
           <Grid item>&nbsp;</Grid>
           <Grid item>
