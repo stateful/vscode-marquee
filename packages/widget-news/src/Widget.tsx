@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Box,
   Grid,
@@ -25,6 +25,7 @@ TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
 let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const [ showAvatar, setShowAvatar ] = useState(true)
   const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
   return (
     <>
@@ -35,7 +36,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         <Grid item>
           <Grid container direction="row" spacing={1}>
             <Grid item>
-              <PopMenu />
+              <PopMenu onUpdate={() => setShowAvatar(true)} />
             </Grid>
             <Grid item>
               <ToggleFullScreen />
@@ -98,21 +99,29 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
               <List dense={true}>
                 {news.map((entry: Item, i) => (
                   <ListItem dense key={i} style={{ paddingLeft: 0, paddingRight: 8 }}>
-                    <ListItemAvatar>
-                      <Grid container justifyContent="center" alignItems="center">
-                        <Grid item>
-                          <Box
-                            component={'img'}
-                            src={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
-                            style={{
-                              width: 20,
-                              filter: 'grayscale(1) invert(1)'
-                            }}
-                          />
+                    { showAvatar && (
+                      <ListItemAvatar>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <Grid item>
+                            <Box
+                              component={'img'}
+                              onError={() => setShowAvatar(false)}
+                              src={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
+                              style={{
+                                width: 20,
+                                filter: 'grayscale(1) invert(1)'
+                              }}
+                            />
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </ListItemAvatar>
+                      </ListItemAvatar>
+                    )}
                     <ListItemText
+                      style={{ marginLeft: showAvatar ? 0 : 8 }}
                       primary={
                         <>
                           <Link

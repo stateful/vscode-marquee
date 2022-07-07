@@ -12,6 +12,7 @@ declare const window: MarqueeWindow
 test('allows to change rss feed channel', async () => {
   const setChannel = jest.fn()
   const setIsFetching = jest.fn()
+  const updateHook = jest.fn()
 
   ;(connect as jest.Mock).mockReturnValue({
     feeds: {
@@ -26,7 +27,7 @@ test('allows to change rss feed channel', async () => {
   render(
     <GlobalProvider>
       <NewsProvider>
-        <Pop />
+        <Pop onUpdate={updateHook} />
       </NewsProvider>
     </GlobalProvider>
   )
@@ -39,6 +40,7 @@ test('allows to change rss feed channel', async () => {
   await userEvent.click(screen.getByText('Barfoo'))
   expect(setChannel).toBeCalledWith('Barfoo')
   expect(setIsFetching).toBeCalledWith(true)
+  expect(updateHook).toBeCalledWith('Barfoo')
 })
 
 test('offers a button to update RSS feeds', async () => {

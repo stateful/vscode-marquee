@@ -12,7 +12,7 @@ import NewsContext from '../Context'
 
 declare const window: MarqueeWindow
 
-const PopMenu = () => {
+const PopMenu = ({ onUpdate }: { onUpdate?: (newChannel: string) => void }) => {
   const { feeds, channel, setChannel, setIsFetching } = useContext(NewsContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
@@ -68,6 +68,9 @@ const PopMenu = () => {
                 onChange={(e) => {
                   setIsFetching(true)
                   setChannel(e.target.value)
+                  if (onUpdate) {
+                    onUpdate(e.target.value)
+                  }
                   handleClose()
                 }}
               >
