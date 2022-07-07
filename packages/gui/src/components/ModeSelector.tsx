@@ -104,14 +104,12 @@ const ModeSelector = () => {
           >
             <Paper>
               <ClickAwayListener
-                onClickAway={(event) => {
-                  const targetClassList =
-                    // @ts-expect-error parentNode not defined
-                    event.target.parentNode.classList.value
+                onClickAway={(event: any) => {
+                  const targetClassList = event.target?.parentNode?.classList.value
+
                   if (
-                    (anchorRef.current &&
-                      // @ts-expect-error parentNode not defined
-                      anchorRef.current.contains(event.target)) ||
+                    !targetClassList ||
+                    (anchorRef.current && (anchorRef.current as any).contains(event.target)) ||
                     targetClassList.indexOf('modeIcon') !== -1 ||
                     targetClassList.indexOf('emoji-mart-emoji') !== -1
                   ) {

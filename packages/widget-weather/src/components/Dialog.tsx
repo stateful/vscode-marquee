@@ -7,6 +7,7 @@ import {
   IconButton,
   Typography,
   Grid,
+  Link
 } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -32,25 +33,27 @@ const LocationOption = React.memo(() => {
           alignItems="center"
           spacing={2}
           justifyContent="space-between"
+          style={{ marginBottom: 16 }}
         >
           <Grid item>
             <Typography>{city}</Typography>
           </Grid>
           <Grid item>
-            <Button
+            <Link
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 setCityValue('')
                 _updateCity('')
               }}
             >
               Restore to auto-detected
-            </Button>
+            </Link>
           </Grid>
         </Grid>
       </Grid>
       <Grid item>
         <Grid container direction="row" alignItems="center" spacing={2}>
-          <Grid item xs>
+          <Grid item xs style={{ paddingTop: 0 }}>
             <DebounceInput
               label={'Update your location'}
               variant="filled"
