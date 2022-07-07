@@ -24,8 +24,60 @@ import NewsContext, { NewsProvider } from './Context'
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
 
-let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const [ showAvatar, setShowAvatar ] = useState(true)
+const MARQUEE_LOGO = 'https://marquee.stateful.com/assets/marquee-logo.png'
+
+interface NewsItemProps {
+  item: Item
+  fallbackIcon: string
+}
+const NewsItem = ({ item, fallbackIcon }: NewsItemProps) => {
+  const [avatar, setAvatar] = useState(item.enclosure?.url || fallbackIcon)
+
+  return (
+    <ListItem dense style={{ paddingLeft: 0, paddingRight: 8 }}>
+      <ListItemAvatar>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <Box
+              component={'img'}
+              onError={() => setAvatar(MARQUEE_LOGO)}
+              src={avatar}
+              style={{
+                width: 20,
+                filter: 'grayscale(1) invert(1)'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </ListItemAvatar>
+      <ListItemText
+        primary={
+          <>
+            <Link
+              component="a"
+              href={item.link}
+              target="_blank"
+              underline="hover">
+              {item.title}
+            </Link>
+          </>
+        }
+        secondary={
+          <Typography style={{ fontSize: '10px' }}>
+            {item.creator ? (<>by {item.creator} &nbsp;</>) : ''}
+            {timeAgo.format(item.pubDate ? (new Date(item.pubDate).getTime()) : Date.now())}
+          </Typography>
+        }
+      />
+    </ListItem>
+  )
+}
+
+const News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
   return (
     <>
@@ -36,7 +88,7 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
         <Grid item>
           <Grid container direction="row" spacing={1}>
             <Grid item>
-              <PopMenu onUpdate={() => setShowAvatar(true)} />
+              <PopMenu />
             </Grid>
             <Grid item>
               <ToggleFullScreen />
@@ -97,50 +149,12 @@ let News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             )}
             {!isFetching && (news && news.length !== 0) && (
               <List dense={true}>
-                {news.map((entry: Item, i) => (
-                  <ListItem dense key={i} style={{ paddingLeft: 0, paddingRight: 8 }}>
-                    { showAvatar && (
-                      <ListItemAvatar>
-                        <Grid
-                          container
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          <Grid item>
-                            <Box
-                              component={'img'}
-                              onError={() => setShowAvatar(false)}
-                              src={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
-                              style={{
-                                width: 20,
-                                filter: 'grayscale(1) invert(1)'
-                              }}
-                            />
-                          </Grid>
-                        </Grid>
-                      </ListItemAvatar>
-                    )}
-                    <ListItemText
-                      style={{ marginLeft: showAvatar ? 0 : 8 }}
-                      primary={
-                        <>
-                          <Link
-                            component="a"
-                            href={entry.link}
-                            target="_blank"
-                            underline="hover">
-                            {entry.title}
-                          </Link>
-                        </>
-                      }
-                      secondary={
-                        <Typography style={{ fontSize: '10px' }}>
-                          {entry.creator ? (<>by {entry.creator} &nbsp;</>) : ''}
-                          {timeAgo.format(entry.pubDate ? (new Date(entry.pubDate).getTime()) : Date.now())}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
+                {news.map((item: Item, i) => (
+                  <NewsItem
+                    key={i}
+                    item={item}
+                    fallbackIcon={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
+                  />
                 ))}
               </List>
             )}
