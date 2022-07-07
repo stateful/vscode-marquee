@@ -28,10 +28,10 @@ const MARQUEE_LOGO = 'https://marquee.stateful.com/assets/marquee-logo.png'
 
 interface NewsItemProps {
   item: Item
-  fallbackIcon: string
+  icon: string
 }
-const NewsItem = ({ item, fallbackIcon }: NewsItemProps) => {
-  const [avatar, setAvatar] = useState(item.enclosure?.url || fallbackIcon)
+const NewsItem = ({ item, icon }: NewsItemProps) => {
+  const [avatar, setAvatar] = useState(icon)
 
   return (
     <ListItem dense style={{ paddingLeft: 0, paddingRight: 8 }}>
@@ -44,7 +44,7 @@ const NewsItem = ({ item, fallbackIcon }: NewsItemProps) => {
           <Grid item>
             <Box
               component={'img'}
-              onError={() => setAvatar(MARQUEE_LOGO)}
+              onError={() => setAvatar(item.enclosure?.url || MARQUEE_LOGO)}
               src={avatar}
               style={{
                 width: 20,
@@ -153,7 +153,7 @@ const News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                   <NewsItem
                     key={i}
                     item={item}
-                    fallbackIcon={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
+                    icon={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
                   />
                 ))}
               </List>
