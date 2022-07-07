@@ -81,11 +81,21 @@ export const WidgetLayout = React.memo(() => {
         })
       })
 
-      if (modified) {
-        return newLayouts
-      } else {
-        return mode.layouts
+      /**
+       * in case a widget got removed and added back to the dashboard
+       * the values for width and height are auto set to `1`. This little
+       * logic ensures that we have a minimal width and height for widgets.
+       */
+      const layout = modified ? newLayouts : mode.layouts
+      for (const [, l] of Object.entries(layout)) {
+        for (const w of l) {
+          if (w.w === 1 && w.h === 1) {
+            w.w = 3
+            w.h = 12
+          }
+        }
       }
+      return layout
     }
     return null
   }, [mode, modes, modeName])

@@ -28,7 +28,6 @@ const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
 
 export class MarkdownExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    console.log('GOOO', DEFAULT_CONFIGURATION)
     super(
       context,
       channel,
