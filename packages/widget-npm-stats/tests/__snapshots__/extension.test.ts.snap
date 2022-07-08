@@ -39,12 +39,12 @@ Array [
     },
   ],
   Array [
-    "isLoading",
-    false,
-  ],
-  Array [
     "error",
     null,
+  ],
+  Array [
+    "isLoading",
+    false,
   ],
 ]
 `;
