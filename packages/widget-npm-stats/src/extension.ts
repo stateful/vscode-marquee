@@ -6,20 +6,60 @@ import type { Client } from 'tangle'
 
 import { formatDate } from './utils'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, STATS_URL } from './constants'
-import type { Configuration, State } from './types'
+import type { Configuration, State, JSONObject } from './types'
 
 const STATE_KEY = 'widgets.npm-stats'
 export class NPMStatsExtensionManager extends ExtensionManager<State, Configuration> {
+  private _isFetching = false
+
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+    this._checkWorkspaceForNPMPackage()
+  }
+
+  private async _checkWorkspaceForNPMPackage () {
+    /**
+     * don't check for NPM packages if
+     */
+    if (
+      /**
+       * no workspace was opened
+       */
+      !vscode.workspace.workspaceFolders ||
+      /**
+       * there are custom packages defined the VSCode configuration
+       */
+      this._configuration.packageNames.length !== 0
+    ) {
+      return
+    }
+
+    try {
+      const workspacePath = vscode.workspace.workspaceFolders[0].uri
+      const pkgJson = vscode.Uri.joinPath(workspacePath, 'package.json')
+      const pkgJsonContent: JSONObject = JSON.parse((await vscode.workspace.fs.readFile(pkgJson)).toString())
+      if (pkgJsonContent.name) {
+        this._channel.appendLine(`Detected NPM workspace, adding ${pkgJsonContent.name as string} to the configuration`)
+        await this.updateConfiguration('packageNames', [pkgJsonContent.name as string])
+        this.broadcast({ packageNames: [pkgJsonContent.name as string] })
+      }
+    } catch (err: any) {
+      return
+    }
   }
 
   private async _loadStatistics () {
-    await this.updateState('isLoading', true)
+    if (this._isFetching) {
+      return
+    }
+
+    this._isFetching = true
+    await this.updateState('isLoading', this._isFetching)
     if (this.configuration.packageNames.length === 0) {
       await this.updateState('stats', {})
       await this.updateState('error', null)
-      await this.updateState('isLoading', false)
+      this._isFetching = false
+      await this.updateState('isLoading', this._isFetching)
       this._tangle?.broadcast({
         stats: {},
         isLoading: false,
@@ -60,8 +100,9 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
       }
 
       await this.updateState('stats', res)
-      await this.updateState('isLoading', false)
       await this.updateState('error', null)
+      this._isFetching = false
+      await this.updateState('isLoading', this._isFetching)
 
       this._tangle?.broadcast({
         stats: res,
@@ -69,7 +110,8 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
         error: null
       } as State & Configuration)
     } catch (err: any) {
-      await this.updateState('isLoading', false)
+      this._isFetching = false
+      await this.updateState('isLoading', this._isFetching)
       await this.updateState('error', { message: err.message } as Error)
       this._tangle?.broadcast({
         isLoading: false,
