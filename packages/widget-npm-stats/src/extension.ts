@@ -40,7 +40,11 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
       const pkgJsonContent: JSONObject = JSON.parse((await vscode.workspace.fs.readFile(pkgJson)).toString())
       if (pkgJsonContent.name) {
         this._channel.appendLine(`Detected NPM workspace, adding ${pkgJsonContent.name as string} to the configuration`)
-        await this.updateConfiguration('packageNames', [pkgJsonContent.name as string])
+        await this.updateConfiguration(
+          'packageNames',
+          [pkgJsonContent.name as string],
+          vscode.ConfigurationTarget.Workspace
+        )
         this.broadcast({ packageNames: [pkgJsonContent.name as string] })
       }
     } catch (err: any) {
