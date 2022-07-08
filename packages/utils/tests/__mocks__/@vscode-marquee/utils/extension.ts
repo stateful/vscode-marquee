@@ -15,8 +15,8 @@ export default class ExtensionManagerMock {
   generateId = jest.fn().mockReturnValue('123457890')
   _disposables = []
   _tangle: any
-  state: any
-  configuration: any
+  _state: any
+  _configuration: any
 
   constructor (
     public _context = {},
@@ -25,8 +25,16 @@ export default class ExtensionManagerMock {
     defaultConfig: any,
     defaultState: any
   ) {
-    this.configuration = defaultConfig
-    this.state = defaultState
+    this._configuration = defaultConfig
+    this._state = defaultState
+  }
+
+  get configuration () {
+    return this._configuration
+  }
+
+  get state () {
+    return this._state
   }
 
   setBroadcaster (tangle: any) {

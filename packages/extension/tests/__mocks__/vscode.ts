@@ -12,7 +12,7 @@ const vscode: any = {
   Disposable: class {
     public dispose = jest.fn()
   },
-  ConfigurationTarget: { Global: 1 },
+  ConfigurationTarget: { Global: 1, Workspace: 42 },
   CodeActionKind: { QuickFix: 1 },
   Uri: {
     parse: jest.fn((param: string) => `parsedUri-${param}`),
