@@ -66,7 +66,6 @@ describe('Marquee', () => {
 
       before(async () => {
         await newsWidget.elem.scrollIntoView({ block: 'end' })
-        await newsWidget.switchChannel('Bromann.dev')
       })
 
       it('should display articles', async () => {
