@@ -140,6 +140,8 @@ test('updateConfiguration', async () => {
   await manager.updateConfiguration('defaultConfig', 'some other new value' as any)
   expect(manager.configuration.defaultConfig).toBe('some other new value')
   expect(config.update).toBeCalledWith('widget.todo.defaultConfig', 'some other new value', 1)
+  await manager.updateConfiguration('defaultConfig', 'another value' as any, 42)
+  expect(config.update).toBeCalledWith('widget.todo.defaultConfig', 'another value', 42)
 })
 
 test('updateConfiguration does not do anything if values are equal', async () => {

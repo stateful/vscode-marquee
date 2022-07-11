@@ -117,7 +117,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._tangle.broadcast(payload as State & Configuration)
   }
 
-  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(
+    prop: T,
+    val: Configuration[T],
+    target = CONFIGURATION_TARGET
+  ) {
     this._isConfigUpdateListenerDisabled = true
 
     /**
@@ -135,7 +139,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     const config = vscode.workspace.getConfiguration('marquee')
     this._channel.appendLine(`Update configuration "${prop.toString()}": ${val as any as string}`)
     this._configuration[prop] = val
-    await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET)
+    await config.update(`${this._key}.${prop.toString()}`, val, target)
     this.emit('configurationUpdate', this._configuration)
     this._isConfigUpdateListenerDisabled = false
   }

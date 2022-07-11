@@ -71,7 +71,7 @@ describe('Marquee', () => {
 
       it('should display articles', async () => {
         await expect(newsWidget.articles$$)
-          .toBeElementsArrayOfSize({ gte: 10 })
+          .toBeElementsArrayOfSize({ gte: 5 })
       })
 
       it('should be able to switch news channels', async () => {

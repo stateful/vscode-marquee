@@ -9582,7 +9582,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^7.2.0, rxjs@^7.4.0, rxjs@^7.5.5:
+rxjs@^7.2.0, rxjs@^7.5.5:
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.5.tgz#2ebad89af0f560f460ad5cc4213219e1f7dd4e9f"
   integrity sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==
@@ -10176,12 +10176,12 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-tangle@^1.0.5, tangle@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/tangle/-/tangle-1.1.1.tgz#a126fcf3a99c492ef1103264c5ece20abcba4955"
-  integrity sha512-S0DKLi/6912p63Nf6CFwYtb0xRa1hC8A+RAIwAkR3dpDD8RbOO1fWPUHe/QmiP2Au6aiAKOIAKLfClVasjmrIQ==
+tangle@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tangle/-/tangle-2.1.0.tgz#3161f5289bfbe55e1d21054e22505bbfc14a364e"
+  integrity sha512-sPFtJpq4xEB/ajlurT1U1Ju7wpdoaK+HsOmsZzs43jU0gEA9iUlLEDzByfqkVnuNyAMHrZh4+/KJSPJwOVQIZg==
   dependencies:
-    rxjs "^7.4.0"
+    rxjs "^7.5.5"
     web-worker "^1.2.0"
 
 tapable@^2.1.1, tapable@^2.2.0:
