@@ -3,8 +3,6 @@ import * as locatorMap from '../locators'
 import { Select } from '../components/inputs'
 import { newsWidget as newsWidgetLocators } from '../locators'
 
-type NewsChannels = 'HN Newest' | 'HN Ask' | 'HN Show' | 'HN Jobs' | 'HN Best'
-
 export interface NewsWidget extends IPageDecorator<typeof newsWidgetLocators> { }
 @PageDecorator(newsWidgetLocators)
 export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locatorMap> {
@@ -25,7 +23,7 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     return articles[index]
   }
 
-  public async switchChannel (channel: NewsChannels) {
+  public async switchChannel (channel: string) {
     await this.settingsBtn$.click()
 
     const channelSelect = new Select(this.locatorMap, 'marquee-news-channel')

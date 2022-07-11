@@ -87,6 +87,11 @@ export const config: Options.Testrunner = {
       verboseLogging: false,
       extensionPath: path.join(__dirname, '..'),
       workspacePath: path.join(__dirname, '..'),
+      userSettings: {
+        'marquee.widgets.news.feeds': {
+          'bromann.dev': 'https://bromann.dev/index.xml'
+        }
+      }
     }
   }],
   //
