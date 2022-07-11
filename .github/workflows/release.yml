@@ -102,6 +102,7 @@ jobs:
         if: ${{ github.event.inputs.releaseChannel == 'stable' }}
       - name: Version Package
         run: |
+          ls -la
           npm version $RELEASE_VERSION
           git tag -a $RELEASE_VERSION -m "$RELEASE_VERSION"
       - name: Package Extension (Edge)
