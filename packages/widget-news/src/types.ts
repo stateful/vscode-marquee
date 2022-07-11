@@ -17,7 +17,7 @@ export interface State {
   news: FeedItem[]
   isFetching: boolean,
   channel: string,
-  error?: Error
+  error: string | null
 }
 
 export interface Configuration {

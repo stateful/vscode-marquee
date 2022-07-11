@@ -38,22 +38,27 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
 
       await this.updateState('news', feed.entries)
       await this.updateState('isFetching', false)
-      await this.updateState('error', undefined)
+      await this.updateState('error', null)
       this._tangle?.broadcast({
         news: feed.items,
         isFetching: false,
-        error: undefined
+        error: null
       } as State & Configuration)
       setTimeout(() => { this._isFetching = false }, 100)
     } catch (err: any) {
       await this.updateState('isFetching', false)
-      await this.updateState('error', { message: err.message } as Error)
+      await this.updateState('error', err.message as string)
       this._tangle?.broadcast({
         news: [] as FeedItem[],
         isFetching: false,
         error: err.message
       } as State & Configuration)
-      setTimeout(() => { this._isFetching = false }, 100)
+      console.log('ERROR', err)
+
+      setTimeout(() => {
+        this._tangle?.broadcast({ isFetching: false } as State & Configuration)
+        this._isFetching = false
+      }, 100)
     }
   }
 }

@@ -107,20 +107,6 @@ const News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
           style={{ height: '100%' }}
         >
           <Grid item xs style={{ overflow: 'auto' }}>
-            {error && (
-              <Grid
-                item
-                xs
-                style={{
-                  overflow: 'auto',
-                  height: '100%',
-                  width: '100%',
-                  padding: '24px',
-                }}
-              >
-                <NetworkError message={error.message} />
-              </Grid>
-            )}
             {isFetching && (
               <Grid
                 container
@@ -134,7 +120,21 @@ const News = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
                 </Grid>
               </Grid>
             )}
-            {!isFetching && (news && news.length === 0) && (
+            {!isFetching && error && (
+              <Grid
+                item
+                xs
+                style={{
+                  overflow: 'auto',
+                  height: '100%',
+                  width: '100%',
+                  padding: '24px',
+                }}
+              >
+                <NetworkError message={error} />
+              </Grid>
+            )}
+            {!isFetching && !error && (news && news.length === 0) && (
               <Grid
                 container
                 style={{ height: '100%' }}
