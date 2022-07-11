@@ -3378,7 +3378,7 @@
     "test:unit": "jest",
     "test:e2e": "run-s test:e2e:*",
     "test:e2e:run": "wdio run ./test/wdio.conf.ts",
-    "test:e2e:cleanup": "git checkout -- package.json",
+    "test:e2e:cleanup": "git checkout -- package.json ./.vscode",
     "watch": "run-p watch:*",
     "watch:ts": "run-p watch:ts:*",
     "watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",
