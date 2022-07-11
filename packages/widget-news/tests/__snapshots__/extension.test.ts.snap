@@ -4,7 +4,7 @@ exports[`Extension Manager can successfully fetch items 1`] = `
 Array [
   Array [
     Object {
-      "error": undefined,
+      "error": null,
       "isFetching": false,
       "news": Array [
         Object {
@@ -35,7 +35,7 @@ Array [
   ],
   Array [
     "error",
-    undefined,
+    null,
   ],
 ]
 `;
@@ -64,9 +64,7 @@ Array [
   ],
   Array [
     "error",
-    Object {
-      "message": "Channel \\"foobar\\" to found, available channels are barfoo, somethingElse",
-    },
+    "Channel \\"foobar\\" to found, available channels are barfoo, somethingElse",
   ],
 ]
 `;

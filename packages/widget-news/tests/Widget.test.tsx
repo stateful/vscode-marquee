@@ -27,7 +27,7 @@ test('displays error message', async () => {
   (connect as jest.Mock).mockReturnValue({
     isFetching: false,
     news: [],
-    error: new Error('upsala'),
+    error: 'upsala',
     feeds: {
       Foobar: 'https://some.rss/feed'
     }
