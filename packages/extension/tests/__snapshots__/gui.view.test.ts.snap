@@ -26,7 +26,6 @@ Array [
       "connectSrc": Array [
         "undefined://undefined",
         "undefined://undefined",
-        "https://api.hackerwebapp.com",
         "https://*.ingest.sentry.io",
       ],
       "cspSource": "csp-source",

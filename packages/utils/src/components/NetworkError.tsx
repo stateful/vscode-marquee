@@ -10,22 +10,24 @@ export interface NetworkErrorProps {
 }
 
 const NetworkError = ({ message }: NetworkErrorProps) => {
-  const errorCaption = message || (
-    <>
-      Are you using a proxy? Please make sure to set it up in the {' '}
-      <Link
-        style={{ cursor: 'pointer' }}
-        onClick={() => window.vscode.postMessage({
-          west: { execCommands: [{
-            command: 'workbench.action.openSettings',
-            args: ['Marquee']
-          }],
-          }})}
-        underline="hover">
-          Marquee settings
-      </Link>.
-    </>
-  )
+  const errorCaption = message
+    ? <>{message}</>
+    : (
+      <>
+        Are you using a proxy? Please make sure to set it up in the {' '}
+        <Link
+          style={{ cursor: 'pointer' }}
+          onClick={() => window.vscode.postMessage({
+            west: { execCommands: [{
+              command: 'workbench.action.openSettings',
+              args: ['Marquee']
+            }],
+            }})}
+          underline="hover">
+            Marquee settings
+        </Link>.
+      </>
+    )
 
   return (
     <Grid

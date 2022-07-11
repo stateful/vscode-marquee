@@ -66,6 +66,7 @@ describe('Marquee', () => {
 
       before(async () => {
         await newsWidget.elem.scrollIntoView({ block: 'end' })
+        await newsWidget.switchChannel('Bromann.dev')
       })
 
       it('should display articles', async () => {
@@ -78,7 +79,7 @@ describe('Marquee', () => {
         const firstArticleText = await firstArticle.getText()
         expect(typeof firstArticleText).toBe('string')
 
-        await newsWidget.switchChannel('Jobs')
+        await newsWidget.switchChannel('HN Show')
 
         const newFirstArticle = await newsWidget.getArticle(0)
         const newFirstArticleText = await newFirstArticle.getText()

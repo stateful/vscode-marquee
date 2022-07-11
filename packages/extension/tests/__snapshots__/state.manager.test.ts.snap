@@ -8,6 +8,7 @@ exports[`_export 1`] = `
   \\"@vscode-marquee/utils\\": \\"some state\\",
   \\"@vscode-marquee/gui\\": \\"some state\\",
   \\"@vscode-marquee/welcome-widget\\": \\"some state\\",
+  \\"@vscode-marquee/news-widget\\": \\"some state\\",
   \\"@vscode-marquee/projects-widget\\": \\"some state\\",
   \\"@vscode-marquee/github-widget\\": \\"some state\\",
   \\"@vscode-marquee/weather-widget\\": \\"some state\\",
@@ -21,6 +22,7 @@ exports[`_export 1`] = `
   \\"@vscode-marquee/utils\\": \\"some configuration\\",
   \\"@vscode-marquee/gui\\": \\"some configuration\\",
   \\"@vscode-marquee/welcome-widget\\": \\"some configuration\\",
+  \\"@vscode-marquee/news-widget\\": \\"some configuration\\",
   \\"@vscode-marquee/projects-widget\\": \\"some configuration\\",
   \\"@vscode-marquee/github-widget\\": \\"some configuration\\",
   \\"@vscode-marquee/weather-widget\\": \\"some configuration\\",
@@ -133,6 +135,17 @@ Array [
 
 exports[`StateManager initiation 1`] = `
 Array [
+  Object {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "setImportInProgress": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
   Object {
     "clear": [MockFunction],
     "configuration": "some configuration",

@@ -1,18 +1,19 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import Popover from '@mui/material/Popover'
-import { IconButton, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  IconButton, Grid, FormControl, InputLabel, Select, MenuItem,
+  Divider, Button
+} from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { HideWidgetContent } from '@vscode-marquee/widget'
+import type { MarqueeWindow } from '@vscode-marquee/utils'
 
-import { HN_CHANNELS } from '../constants'
-import type { HackerNewsChannels } from '../types'
+import NewsContext from '../Context'
 
-interface PopMenuProps {
-  value: HackerNewsChannels
-  onChannelChange: (newValue: HackerNewsChannels) => void
-}
+declare const window: MarqueeWindow
 
-const PopMenu = (props: PopMenuProps) => {
+const PopMenu = ({ onUpdate }: { onUpdate?: (newChannel: string) => void }) => {
+  const { feeds, channel, setChannel, setIsFetching } = useContext(NewsContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const handleClick = useCallback((event: React.MouseEvent) => {
@@ -21,6 +22,16 @@ const PopMenu = (props: PopMenuProps) => {
 
   const handleClose = useCallback(() => {
     setAnchorEl(null)
+  }, [])
+
+  const handlePackageUpdate = useCallback(() => {
+    window.vscode.postMessage({
+      west: { execCommands: [{
+        command: 'workbench.action.openSettings',
+        args: ['@ext:stateful.marquee News Feeds']
+      }]},
+    })
+    handleClose()
   }, [])
 
   const open = Boolean(anchorEl)
@@ -52,14 +63,18 @@ const PopMenu = (props: PopMenuProps) => {
               <InputLabel id="marquee-news-channel">Channel</InputLabel>
               <Select
                 labelId="marquee-news-channel"
-                value={props.value}
-                label="Age"
+                value={channel}
+                label="Channel"
                 onChange={(e) => {
-                  props.onChannelChange(e.target.value as HackerNewsChannels)
+                  setIsFetching(true)
+                  setChannel(e.target.value)
+                  if (onUpdate) {
+                    onUpdate(e.target.value)
+                  }
                   handleClose()
                 }}
               >
-                {HN_CHANNELS.map(([first, ...rest], i) => (
+                {Object.keys(feeds).map(([first, ...rest], i) => (
                   <MenuItem
                     key={i}
                     value={[first, ...rest].join('')}
@@ -69,6 +84,19 @@ const PopMenu = (props: PopMenuProps) => {
                 ))}
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item>
+            <Button
+              aria-label='Update RSS Feeds'
+              style={{ marginTop: 10, width: '100%' }}
+              onClick={handlePackageUpdate}
+            >
+              Update RSS Feeds
+            </Button>
+          </Grid>
+          <Grid item>&nbsp;</Grid>
+          <Grid item>
+            <Divider />
           </Grid>
           <Grid item>&nbsp;</Grid>
           <Grid item>

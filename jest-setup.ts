@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect'
 
 const pkg = JSON.parse(fs.readFileSync('./package.json').toString())
 const vscode = {
+  postMessage: jest.fn(),
   setState: jest.fn(),
   getState: jest.fn().mockReturnValue({
     globalScope: true,
@@ -192,6 +193,13 @@ window.marqueeStateConfiguration = {
           tags: [],
         },
       ],
+    },
+  },
+  '@vscode-marquee/news-widget': {
+    configuration: {},
+    state: {
+      isFetching: true,
+      news: {}
     },
   },
   '@vscode-marquee/notes-widget': {
