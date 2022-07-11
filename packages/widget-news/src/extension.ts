@@ -37,7 +37,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
       const feed = await this._parser.parseURL(url)
 
-      await this.updateState('news', feed.entries)
+      await this.updateState('news', feed.items as FeedItem[])
       await this.updateState('isFetching', false)
       await this.updateState('error', null)
       this._tangle?.broadcast({
