@@ -14,6 +14,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
     this.on('stateUpdate', () => this.fetchFeeds())
+    setInterval(() => this.fetchFeeds(), this.configuration.updateInterval)
   }
 
   async fetchFeeds () {
@@ -36,7 +37,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
       const feed = await this._parser.parseURL(url)
 
-      await this.updateState('news', feed.entries)
+      await this.updateState('news', feed.items as FeedItem[])
       await this.updateState('isFetching', false)
       await this.updateState('error', null)
       this._tangle?.broadcast({
@@ -53,7 +54,6 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
         isFetching: false,
         error: err.message
       } as State & Configuration)
-      console.log('ERROR', err)
 
       setTimeout(() => {
         this._tangle?.broadcast({ isFetching: false } as State & Configuration)

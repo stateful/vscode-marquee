@@ -8,5 +8,6 @@ export const DEFAULT_STATE: State = {
   error: null
 }
 export const DEFAULT_CONFIGURATION: Configuration = {
-  feeds: {}
+  feeds: {},
+  updateInterval: 1000 * 60
 }

@@ -118,7 +118,7 @@ const WidgetBody = () => {
   )
 }
 
-let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let NPMStats = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   return (
     <>
       <HeaderWrapper>
@@ -146,7 +146,7 @@ let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
 
 const Widget = (props: any) => (
   <NPMStatsProvider>
-    <Welcome {...props} />
+    <NPMStats {...props} />
   </NPMStatsProvider>
 )
 export default wrapper(Widget, 'welcome')

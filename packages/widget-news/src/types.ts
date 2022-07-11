@@ -15,12 +15,13 @@ export interface FeedItem {
 
 export interface State {
   news: FeedItem[]
-  isFetching: boolean,
-  channel: string,
+  isFetching: boolean
+  channel: string
   error: string | null
 }
 
 export interface Configuration {
+  updateInterval: number
   feeds: Record<string, string>
 }
 

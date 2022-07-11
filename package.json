@@ -2555,7 +2555,13 @@
               "HN Best": "https://hnrss.org/best"
             },
             "scope": "window",
-            "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)."
+            "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)"
+          },
+          "marquee.widgets.news.updateInterval": {
+            "type": "number",
+            "default": 60000,
+            "scope": "window",
+            "markdownDescription": "Interval that defines how often Marquee updates the RSS feed"
           },
           "marquee.widgets.projects.workspaceFilter": {
             "type": "string",
