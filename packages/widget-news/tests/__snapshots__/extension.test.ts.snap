@@ -27,7 +27,14 @@ Array [
   ],
   Array [
     "news",
-    undefined,
+    Array [
+      Object {
+        "title": "rss item 1",
+      },
+      Object {
+        "title": "rss item 2",
+      },
+    ],
   ],
   Array [
     "isFetching",
