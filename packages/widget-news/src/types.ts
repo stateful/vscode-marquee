@@ -21,6 +21,7 @@ export interface State {
 }
 
 export interface Configuration {
+  updateInterval: number
   feeds: Record<string, string>
 }
 

@@ -14,6 +14,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
     this.on('stateUpdate', () => this.fetchFeeds())
+    setInterval(() => this.fetchFeeds(), this.configuration.updateInterval)
   }
 
   async fetchFeeds () {
@@ -53,7 +54,6 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
         isFetching: false,
         error: err.message
       } as State & Configuration)
-      console.log('ERROR', err)
 
       setTimeout(() => {
         this._tangle?.broadcast({ isFetching: false } as State & Configuration)
