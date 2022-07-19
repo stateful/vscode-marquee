@@ -429,13 +429,13 @@
             "additionalProperties": false,
             "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
           },
-          "marquee.configuration.name": {
+          "marquee.gui.name": {
             "type": "string",
             "scope": "window",
             "default": "name here...",
             "markdownDescription": "Your name so Marquee can greet you!"
           },
-          "marquee.configuration.background": {
+          "marquee.gui.background": {
             "type": "string",
             "scope": "window",
             "default": "1",

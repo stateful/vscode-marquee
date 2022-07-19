@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import ExtensionManager, { activate, getExtProps } from '../src/extension'
+import ExtensionManager, { activate, getExtProps, setKeysForSync, widgetsToSync } from '../src/extension'
 
 const context = {
   globalState: {
@@ -13,6 +13,10 @@ jest.mock('os', () => ({
   platform: () => 'some platform',
   release: () => 'some release'
 }))
+
+beforeEach(() => {
+  widgetsToSync.clear()
+})
 
 test('generate proper default state and configuration', () => {
   const manager = new ExtensionManager(
@@ -397,4 +401,18 @@ test('should not propagate telemetry data if not opted in', () => {
   (vscode.workspace.getConfiguration as jest.Mock)
     .mockReturnValueOnce({ get: jest.fn().mockReturnValue(false) })
   expect(getExtProps()).toEqual({})
+})
+
+test('setKeysForSync', () => {
+  const context: any = {
+    globalState: { setKeysForSync: jest.fn() }
+  }
+  setKeysForSync(context, 'foo')
+  expect(context.globalState.setKeysForSync).toBeCalledWith(['foo'])
+  setKeysForSync(context, 'bar')
+  expect(context.globalState.setKeysForSync).toBeCalledWith(['foo', 'bar'])
+  setKeysForSync(context, 'loo')
+  expect(context.globalState.setKeysForSync).toBeCalledWith(['foo', 'bar', 'loo'])
+
+  expect(() => setKeysForSync(context, 'bar')).toThrowErrorMatchingSnapshot()
 })

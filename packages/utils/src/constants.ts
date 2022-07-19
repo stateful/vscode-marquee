@@ -11,6 +11,6 @@ export const DEFAULT_STATE: State = {
 }
 
 export const DEFAULT_CONFIGURATION: Configuration = {
-  background: defaultConfigurations['marquee.configuration.background'].default,
-  name: defaultConfigurations['marquee.configuration.name'].default
+  background: defaultConfigurations['marquee.gui.background'].default,
+  name: defaultConfigurations['marquee.gui.name'].default
 }
