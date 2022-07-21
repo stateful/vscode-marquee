@@ -17,6 +17,6 @@
     "date-fns": "^2.28.0",
     "human-readable-numbers": "^0.9.5",
     "react-vis": "^1.11.7",
-    "undici": "^5.5.1"
+    "undici": "^5.8.0"
   }
 }
