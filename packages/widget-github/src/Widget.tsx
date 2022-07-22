@@ -158,118 +158,118 @@ let Github = ({
               </Grid>
             )}
             {!isFetching && !error && filteredTrends.length !== 0 &&
-              filteredTrends.map((entry) => {
-                return (
+            filteredTrends.map((entry) => {
+              return (
+                <Grid
+                  aria-labelledby="trend-entry"
+                  key={entry.url}
+                  container
+                  direction="column"
+                  sx={{
+                    marginTop: '4px',
+                    marginBottom: '4px',
+                    padding: '16px',
+                    borderBottom: '1px solid var(--vscode-editorGroup-border)',
+                  }}
+                >
                   <Grid
-                    aria-labelledby="trend-entry"
-                    key={entry.url}
                     container
-                    direction="column"
-                    sx={{
-                      marginTop: '4px',
-                      marginBottom: '4px',
-                      padding: '16px',
-                      borderBottom: '1px solid var(--vscode-editorGroup-border)',
-                    }}
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
                   >
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Link
-                          component="a"
-                          href={entry.url}
-                          target="_blank"
-                          underline="hover"
-                        >
-                          <Typography variant="body2">
-                            {entry.author}/{entry.name}
-                          </Typography>
-                        </Link>
-                      </Grid>
-                      <Grid item>
-                        <GChip
-                          label={entry.currentPeriodStars.toLocaleString()}
-                          icon={<StarHalfIcon />}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Typography variant="caption">
-                          {entry.description}
+                    <Grid item>
+                      <Link
+                        component="a"
+                        href={entry.url}
+                        target="_blank"
+                        underline="hover"
+                      >
+                        <Typography variant="body2">
+                          {entry.author}/{entry.name}
                         </Typography>
-                      </Grid>
+                      </Link>
                     </Grid>
-                    <Grid container>
-                      <Grid item>&nbsp;</Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      alignItems="flex-end"
-                    >
-                      <Grid item>
-                        <Grid container spacing={1}>
-                          {entry.language && (
-                            <Grid aria-label="language" item>
-                              <GChip
-                                label={entry.language}
-                                icon={
-                                  <FiberManualRecordIcon
-                                    style={{
-                                      fill: `${entry.languageColor}`,
-                                    }}
-                                  />
-                                }
-                              />
-                            </Grid>
-                          )}
-                          <Grid aria-label="forks" item>
-                            <GChip
-                              label={entry.forks.toLocaleString()}
-                              icon={<FontAwesomeIcon icon={faCodeBranch} />}
-                            />
-                          </Grid>
-                          <Grid aria-label="stars" item>
-                            <GChip
-                              label={entry.stars.toLocaleString()}
-                              icon={<StarIcon />}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item>
-                        <AvatarGroup>
-                          {entry.builtBy.map((contributor) => {
-                            return (
-                              <Avatar
-                                key={contributor.username}
-                                style={{
-                                  height: '22px',
-                                  width: '22px',
-                                  border: 0,
-                                }}
-                                src={contributor.avatar}
-                                alt={contributor.username}
-                              />
-                            )
-                          })}
-                        </AvatarGroup>
-                      </Grid>
+                    <Grid item>
+                      <GChip
+                        label={entry.currentPeriodStars.toLocaleString()}
+                        icon={<StarHalfIcon />}
+                      />
                     </Grid>
                   </Grid>
-                )
-              })}
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Typography variant="caption">
+                        {entry.description}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid container>
+                    <Grid item>&nbsp;</Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="flex-end"
+                  >
+                    <Grid item>
+                      <Grid container spacing={1}>
+                        {entry.language && (
+                          <Grid aria-label="language" item>
+                            <GChip
+                              label={entry.language}
+                              icon={
+                                <FiberManualRecordIcon
+                                  style={{
+                                    fill: `${entry.languageColor}`,
+                                  }}
+                                />
+                              }
+                            />
+                          </Grid>
+                        )}
+                        <Grid aria-label="forks" item>
+                          <GChip
+                            label={entry.forks.toLocaleString()}
+                            icon={<FontAwesomeIcon icon={faCodeBranch} />}
+                          />
+                        </Grid>
+                        <Grid aria-label="stars" item>
+                          <GChip
+                            label={entry.stars.toLocaleString()}
+                            icon={<StarIcon />}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item>
+                      <AvatarGroup>
+                        {entry.builtBy.map((contributor) => {
+                          return (
+                            <Avatar
+                              key={contributor.username}
+                              style={{
+                                height: '22px',
+                                width: '22px',
+                                border: 0,
+                              }}
+                              src={contributor.avatar}
+                              alt={contributor.username}
+                            />
+                          )
+                        })}
+                      </AvatarGroup>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )
+            })}
           </Grid>
         </Grid>
       </Grid>
