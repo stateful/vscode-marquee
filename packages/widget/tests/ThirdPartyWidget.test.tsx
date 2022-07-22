@@ -31,7 +31,6 @@ xtest('should display custom widget', () => {
     <GlobalProvider>
       <ThirdPartyWidget
         ToggleFullScreen={ToggleFullScreen}
-        fullscreenMode={false}
         name="some-custom-widget"
         label="Some custom Widget" />
     </GlobalProvider>

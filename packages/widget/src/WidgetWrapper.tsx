@@ -67,12 +67,12 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
       handleClose()
       return setMinimizeNavIcon(false)
       // @ts-ignore
-    } else if (!fullscreenMode && ref.current!.offsetWidth < 330) {
+    } else if (!fullscreenMode && ref?.current!.offsetWidth < 330) {
       return setMinimizeNavIcon(true)
     }
     setMinimizeNavIcon(false)
     // @ts-ignore
-  }, [fullscreenMode, ref.current?.offsetWidth])
+  }, [fullscreenMode, ref?.current?.offsetWidth])
 
   const widgetProps = {
     ...props,

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import {
+  Box,
   Grid,
   Link,
   List,
@@ -10,47 +11,96 @@ import {
   Popover
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHackerNews } from '@fortawesome/free-brands-svg-icons/faHackerNews'
 import CircularProgress from '@mui/material/CircularProgress'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+import type { Item } from 'rss-parser'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import PopMenu from './components/Pop'
+import NewsContext, { NewsProvider } from './Context'
 
-import { fetchNews } from './utils'
-import { DEFAULT_STATE } from './constants'
-import type { WidgetState } from './types'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-US')
 
-let News = ({
-  ToggleFullScreen,
+const MARQUEE_LOGO = 'https://marquee.stateful.com/assets/marquee-logo.png'
+
+interface NewsItemProps {
+  item: Item
+  icon: string
+}
+const NewsItem = ({ item, icon }: NewsItemProps) => {
+  const [avatar, setAvatar] = useState(icon)
+
+  return (
+    <ListItem dense style={{ paddingLeft: 0, paddingRight: 8 }}>
+      <ListItemAvatar>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <Box
+              component={'img'}
+              onError={() => setAvatar(item.enclosure?.url || MARQUEE_LOGO)}
+              src={avatar}
+              style={{
+                width: 20,
+                filter: 'grayscale(1) invert(1)'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </ListItemAvatar>
+      <ListItemText
+        primary={
+          <>
+            <Link
+              component="a"
+              href={item.link}
+              target="_blank"
+              underline="hover">
+              {item.title}
+            </Link>
+          </>
+        }
+        secondary={
+          <Typography style={{ fontSize: '10px' }}>
+            {item.creator ? (<>by {item.creator} &nbsp;</>) : ''}
+            {timeAgo.format(item.pubDate ? (new Date(item.pubDate).getTime()) : Date.now())}
+          </Typography>
+        }
+      />
+    </ListItem>
+  )
+}
+
+const News = ({ 
+  ToggleFullScreen,  
   minimizeNavIcon,
   open,
   anchorEl,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
-  const [data, setData] = useState(DEFAULT_STATE)
+  const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
 
-  useEffect(() => {
-    let _setData = (data: WidgetState) => setData(data)
-    setData({ ...data, isFetching: true })
-    fetchNews(data).then((data) => _setData(data))
-    return () => { _setData = () => { } }
-  }, [data.channel])
   const NavButtons = () => (
     <Grid item>
-      <Grid container
-        justifyContent="right"
-        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+      <Grid 
+        container
+        justifyContent="right" 
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'} 
         spacing={1}
-        alignItems="center"
         padding={minimizeNavIcon ? 0.5 : 0}
       >
         <Grid item>
-          <PopMenu value={data.channel} onChannelChange={(channel) => setData({ ...data, channel })} />
+          <PopMenu />
         </Grid>
         <Grid item>
           <ToggleFullScreen />
@@ -66,7 +116,7 @@ let News = ({
     <>
       <HeaderWrapper>
         <Grid item>
-          <Typography variant="subtitle1">News</Typography>
+          <Typography variant="subtitle1">News ({channel} RSS Feeds)</Typography>
         </Grid>
         {minimizeNavIcon ?
           <Grid item xs={1}>
@@ -75,7 +125,6 @@ let News = ({
             </IconButton>
             <Popover
               open={open}
-              id={'widget-news-nav-popover'}
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
@@ -96,21 +145,7 @@ let News = ({
           style={{ height: '100%' }}
         >
           <Grid item xs style={{ overflow: 'auto' }}>
-            {data.error && (
-              <Grid
-                item
-                xs
-                style={{
-                  overflow: 'auto',
-                  height: '100%',
-                  width: '100%',
-                  padding: '24px',
-                }}
-              >
-                <NetworkError message={data.error.message} />
-              </Grid>
-            )}
-            {data.isFetching && (
+            {isFetching && (
               <Grid
                 container
                 style={{ height: '100%' }}
@@ -123,7 +158,21 @@ let News = ({
                 </Grid>
               </Grid>
             )}
-            {!data.isFetching && data.news.length === 0 && (
+            {!isFetching && error && (
+              <Grid
+                item
+                xs
+                style={{
+                  overflow: 'auto',
+                  height: '100%',
+                  width: '100%',
+                  padding: '24px',
+                }}
+              >
+                <NetworkError message={error} />
+              </Grid>
+            )}
+            {!isFetching && !error && (news && news.length === 0) && (
               <Grid
                 container
                 style={{ height: '100%' }}
@@ -136,51 +185,14 @@ let News = ({
                 </Grid>
               </Grid>
             )}
-            {!data.isFetching && data.news.length !== 0 && (
+            {!isFetching && (news && news.length !== 0) && (
               <List dense={true}>
-                {data.news.map((entry) => (
-                  <ListItem dense key={entry.id}>
-                    <ListItemAvatar>
-                      <Grid container justifyContent="center" alignItems="center">
-                        <Grid item>
-                          <FontAwesomeIcon icon={faHackerNews} />
-                        </Grid>
-                      </Grid>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <>
-                          <Link
-                            component="a"
-                            href={`https://news.ycombinator.com/item?id=${entry.id}`}
-                            target="_blank"
-                            underline="hover">
-                            {entry.title}
-                          </Link>
-                          {entry.domain && (
-                            <Typography variant="caption">
-                              &nbsp;(
-                              <Link
-                                component="a"
-                                href={entry.url}
-                                target="_blank"
-                                underline="hover"
-                              >
-                                {entry.domain}
-                              </Link>
-                              )
-                            </Typography>
-                          )}
-                        </>
-                      }
-                      secondary={
-                        <Typography style={{ fontSize: '10px' }}>
-                          {entry.points} points by {entry.user} &nbsp;
-                          {entry.time_ago}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
+                {news.map((item: Item, i:number) => (
+                  <NewsItem
+                    key={i}
+                    item={item}
+                    icon={`${(new URL(feeds[channel]).origin)}/favicon.ico`}
+                  />
                 ))}
               </List>
             )}
@@ -191,4 +203,9 @@ let News = ({
   )
 }
 
-export default wrapper(News, 'news')
+const Widget = (props: any) => (
+  <NewsProvider>
+    <News {...props} />
+  </NewsProvider>
+)
+export default wrapper(Widget, 'news')

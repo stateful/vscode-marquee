@@ -3,11 +3,11 @@ import { Box, Grid, Typography } from '@mui/material'
 
 import HidePop from './HidePop'
 import Dragger from './Dragger'
-import type { MarqueeWidgetProps } from './types'
 
-interface Props extends MarqueeWidgetProps {
+interface Props {
   name: string
   label: string
+  ToggleFullScreen: () => JSX.Element
 }
 
 const WidgetBody = ({ name }: { name: string }) => {
@@ -49,7 +49,7 @@ const ThirdPartyWidget = ({ name, label, ToggleFullScreen }: Props) => {
           <Grid item>
             <Grid container direction="row" spacing={1}>
               <Grid item>
-                <HidePop name={name} />
+                <HidePop name={name}/>
               </Grid>
               <Grid item>
                 <ToggleFullScreen />

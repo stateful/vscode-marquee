@@ -1,7 +1,9 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Grid, Typography, CircularProgress, Button } from '@mui/material'
+import { Grid, Typography, CircularProgress, Button, IconButton, Popover } from '@mui/material'
 import styled from '@emotion/styled'
 import 'react-vis/dist/style.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError, MarqueeWindow } from '@vscode-marquee/utils'
@@ -118,26 +120,55 @@ const WidgetBody = () => {
   )
 }
 
-let NPMStats = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+
+
+let NPMStats = ({ 
+  ToggleFullScreen, 
+  open, 
+  anchorEl, 
+  minimizeNavIcon, 
+  handleClick, 
+  handleClose }: MarqueeWidgetProps) => {
+
+  const NavButtons = () => (
+    <Grid item>
+      <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+        <Grid item>
+          <PopMenu />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">NPM Statistics</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <PopMenu />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
-        </Grid>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
       </HeaderWrapper>
       <WidgetBody />
     </>
