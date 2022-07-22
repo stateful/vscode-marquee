@@ -17,7 +17,6 @@ describe('Marquee', () => {
 
   describe('widgets', () => {
     const webview = new Webview(locatorMap)
-
     before(async () => {
       await webview.open()
     })
@@ -66,12 +65,13 @@ describe('Marquee', () => {
       const newsWidget = new NewsWidget(locatorMap)
 
       before(async () => {
-        await newsWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+        await newsWidget.elem.scrollIntoView({ block: 'end' })
+        await newsWidget.switchChannel('Bromann.dev')
       })
 
       it('should display articles', async () => {
         await expect(newsWidget.articles$$)
-          .toBeElementsArrayOfSize({ gte: 10 })
+          .toBeElementsArrayOfSize({ gte: 5 })
       })
 
       it('should be able to switch news channels', async () => {
@@ -79,7 +79,7 @@ describe('Marquee', () => {
         const firstArticleText = await firstArticle.getText()
         expect(typeof firstArticleText).toBe('string')
 
-        await newsWidget.switchChannel('Jobs')
+        await newsWidget.switchChannel('HN Show')
 
         const newFirstArticle = await newsWidget.getArticle(0)
         const newFirstArticleText = await newFirstArticle.getText()
@@ -93,7 +93,7 @@ describe('Marquee', () => {
       const githubWidget = new GithubWidget(locatorMap)
 
       before(async () => {
-        await githubWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+        await githubWidget.elem.scrollIntoView({ block: 'end' })
       })
 
       it('should display trends', async () => {
@@ -128,7 +128,7 @@ describe('Marquee', () => {
       const todoWidget = new TodoWidget(locatorMap)
 
       before(async () => {
-        await todoWidget.elem.scrollIntoView({ block: 'center', inline: 'nearest' })
+        await todoWidget.elem.scrollIntoView({ block: 'end' })
       })
 
       it('should have no todos at the beginning', async () => {

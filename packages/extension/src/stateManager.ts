@@ -9,12 +9,14 @@ import ExtensionManager, {
   MarqueeEvents
 } from '@vscode-marquee/utils/extension'
 import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension'
+import { activate as activateNewsWidget } from '@vscode-marquee/widget-news/extension'
 import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension'
 import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension'
 import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension'
 import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension'
 import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@vscode-marquee/widget-markdown/extension'
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
+import { activate as activateNPMStatsWidget } from '@vscode-marquee/widget-npm-stats/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 
 import telemetry from './telemetry'
@@ -26,12 +28,14 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/utils': activateUtils,
   '@vscode-marquee/gui': activateGUI,
   '@vscode-marquee/welcome-widget': activateWelcomeWidget,
+  '@vscode-marquee/news-widget': activateNewsWidget,
   '@vscode-marquee/projects-widget': activateProjectsWidget,
   '@vscode-marquee/github-widget': activateGitHubWidget,
   '@vscode-marquee/weather-widget': activateWeatherWidget,
   '@vscode-marquee/todo-widget': activateTodoWidget,
   '@vscode-marquee/markdown-widget': activateMarkdownWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
+  '@vscode-marquee/npm-stats-widget': activateNPMStatsWidget,
   '@vscode-marquee/snippets-widget': activateSnippetsWidget
 }
 

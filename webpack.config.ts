@@ -5,7 +5,7 @@ import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment = !Boolean(process.env.NODE_ENV)
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -60,6 +60,10 @@ const extensionConfig: Configuration = {
         process.env.MARQUEE_INSTRUMENTATION_KEY
           ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY)
           : undefined,
+      INSTRUMENTATION_KEY_NEW:
+        process.env.MARQUEE_INSTRUMENTATION_KEY_NEW
+          ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY_NEW)
+          : undefined,
       PACKAGE_JSON: pkg
     }),
     new CopyPlugin({
@@ -78,7 +82,12 @@ const extensionConfigBrowser: Configuration = {
     ...extensionConfig.resolve,
     alias: stdLibBrowser,
     fallback: {
-      fs: false
+      fs: false,
+      diagnostics_channel: false,
+      perf_hooks: false,
+      async_hooks: false,
+      'stream/web': false,
+      'util/types': false
     },
   },
   plugins: [

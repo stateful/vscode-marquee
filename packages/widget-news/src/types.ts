@@ -1,6 +1,6 @@
-import { HN_CHANNELS } from './constants'
+import type { ContextProperties } from '@vscode-marquee/utils'
 
-export interface HackerNews {
+export interface FeedItem {
   comments_count: number
   domain: string
   id: number
@@ -13,11 +13,16 @@ export interface HackerNews {
   user: string
 }
 
-export type HackerNewsChannels = typeof HN_CHANNELS[number]
-
-export interface WidgetState {
-  news: HackerNews[]
-  isFetching: boolean,
-  channel: HackerNewsChannels,
-  error?: Error
+export interface State {
+  news: FeedItem[]
+  isFetching: boolean
+  channel: string
+  error: string | null
 }
+
+export interface Configuration {
+  updateInterval: number
+  feeds: Record<string, string>
+}
+
+export interface Context extends ContextProperties<Configuration & State> {}

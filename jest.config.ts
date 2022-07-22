@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
   testMatch: [
     '**/tests/**/*.test.(ts|tsx)'
   ],
+  testTimeout: 15 * 1000,
   transform: {
     ...tsjPreset.transform,
   },
@@ -27,10 +28,10 @@ const config: Config.InitialOptions = {
   ],
   coverageThreshold: {
     global: {
-      branches: 52,
+      branches: 56,
       functions: 57,
-      lines: 73,
-      statements: 72
+      lines: 74,
+      statements: 74
     }
   },
   restoreMocks: true,

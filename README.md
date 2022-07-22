@@ -30,7 +30,7 @@ Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to nat
 
 - **Todos**: Keep track of workspace-specific todos. Create, archive and complete todos from the todo widget or the tree view while you are deep in code. Use the three-stripe filter button to toggle between global (all) or workspace-specific todos.
 - **Weather**: Keep an eye on the local weather to know when it's time to head outside for a break, or to organize your day as the forecast changes. If the auto-suggested location doesn't match your prefered location, use the settings (gear icon) to specify a custom location.
-- **Snippets**: The inter-workspace smart clipboard for your thoughts, code snippets, logs, or terminal traces. Anything you want to recall later. Whether you're writing code, debugging it, or jot down notes, **Snippets** support syntax highlighting and easy creation / insert from the editor's context menu. Simple click in the tree view will insert a snippets note in the editor at the cursor's location.
+- **Clipboards**: The inter-workspace smart clipboard for your thoughts, code snippets, logs, or terminal traces. Anything you want to recall later. Whether you're writing code, debugging it, or jot down notes, **Clipboards** support syntax highlighting and easy creation / insert from the editor's context menu. Simple click in the tree view will insert a clipboard note in the editor at the cursor's location.
 - **Hacker news**: See if there's anything worth reading in real-time without leaving your editor when you need a break. Passively keep an eye on them in the tree view on the left side so that you can browse without losing your place in code.
 - **Github Trending**: Filter the most popular projects on Github by clicking the "gear" icon, and picking a programming language and or timespan, so you never fall behind on the coolest web framework.
 - **Deep VS Code Integration**: Quickly switch to todos & latest Hacker news by clicking the Marquee icon in the far left navigation bar. Optionally expand the rich UX via the expand button next to **Marquee** in the top bar as part of the navigation pane.
@@ -64,6 +64,10 @@ This extension contributes the following settings:
 * `marquee.widgets.todo.hide` (type: `boolean`, default: `false`): Hide completed ToDos.
 * `marquee.widgets.todo.showArchived` (type: `boolean`, default: `false`): Show archived ToDos.
 * `marquee.widgets.todo.autoDetect` (type: `boolean`, default: `true`): Auto-detect ToDos in your code to allow adding them to Marquee.
+* `marquee.widgets.markdown.externalMarkdownFiles` (type: `string[]`, default: `[]`): Add remote markdown documents to Markdown Widget.
+* `marquee.widgets.npm-stats.packageNames` (type: `string[]`, default: `[]`): NPM package names to display in NPM Stats widget.
+* `marquee.widgets.npm-stats.from` (type: `number`): Timestamp from when the download count should be pulled for.
+* `marquee.widgets.npm-stats.until` (type: `number`): Timestamp until when the download count should be pulled for.
 
 ## More
 

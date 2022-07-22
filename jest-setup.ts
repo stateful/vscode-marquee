@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect'
 
 const pkg = JSON.parse(fs.readFileSync('./package.json').toString())
 const vscode = {
+  postMessage: jest.fn(),
   setState: jest.fn(),
   getState: jest.fn().mockReturnValue({
     globalScope: true,
@@ -12,12 +13,15 @@ const vscode = {
 // @ts-expect-error
 window.vscode = vscode
 // @ts-expect-error
+// eslint-disable-next-line max-len
 window.marqueeUserProps = '{"os":"darwin","platformversion":"21.2.0","extname":"activecove.marquee","extversion":"2.0.0-edge.2","vscodemachineid":"366db9dc84b42b265be19d881f97b45d623eb61f68f91c6f7c715dd6265d9eb6","vscodesessionid":"a78cfd2b-4773-4404-9367-e9dfca65c0411644419442497","vscodeversion":"1.64.0","uikind":"desktop"}'
 // @ts-expect-error
 window.acquireVsCodeApi = jest.fn().mockReturnValue(vscode)
 
 // @ts-expect-error
 global.INSTRUMENTATION_KEY = 'INSTRUMENTATION_KEY_123'
+// @ts-expect-error
+global.INSTRUMENTATION_KEY_NEW = 'INSTRUMENTATION_KEY_123'
 // @ts-expect-error
 global.__requireContext = jest.fn()
 // @ts-expect-error
@@ -112,6 +116,7 @@ window.marqueeStateConfiguration = {
         {
           id: '-MuKr7KhHYODGehy0G0B',
           active: true,
+          // eslint-disable-next-line max-len
           content: 'Hey there 👋 you are using a pre-release version of Marquee. Thanks for testing out the extension and make sure to leave us feedback ☺️',
           createdAt: 1643191764483,
           notify: true,
@@ -190,6 +195,13 @@ window.marqueeStateConfiguration = {
       ],
     },
   },
+  '@vscode-marquee/news-widget': {
+    configuration: {},
+    state: {
+      isFetching: true,
+      news: {}
+    },
+  },
   '@vscode-marquee/notes-widget': {
     configuration: {},
     state: {
@@ -250,4 +262,16 @@ window.marqueeStateConfiguration = {
       markdownDocumentSelected: undefined,
     },
   },
+  '@vscode-marquee/npm-stats-widget': {
+    configuration: {
+      from: 1656419407727,
+      to: 1656419807337,
+      packageNames: ['foo', 'bar']
+    },
+    state: {
+      isLoading: true,
+      error: null,
+      stats: {}
+    }
+  }
 }

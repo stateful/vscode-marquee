@@ -19,7 +19,8 @@ export class GithubWidget extends BasePage<typeof githubWidgetLocators, typeof l
     const articles = await this.articles$$
 
     if (!articles[index]) {
-      throw new Error(`Article with index ${index} not found, only ${articles.length as string} available`)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      throw new Error(`Article with index ${index} not found, only ${articles.length} available`)
     }
 
     return articles[index]

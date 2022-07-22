@@ -18,7 +18,7 @@ test('should activate extension manager', async () => {
   jest.clearAllTimers()
 
   let exp = activate('context' as any)
-  expect(sendTelemetryEvent).toBeCalledWith('extensionActivate', expect.any(Object))
+  expect(sendTelemetryEvent).toBeCalledWith('extensionActivate', expect.any(Object), undefined)
 
   expect(typeof exp.marquee).toBe('undefined')
 
@@ -33,5 +33,5 @@ test('should activate extension manager', async () => {
 
 test('should deactivate extension', () => {
   deactivate()
-  expect(sendTelemetryEvent).toBeCalledWith('extensionDeactivate')
+  expect(sendTelemetryEvent).toBeCalledWith('extensionDeactivate', undefined, undefined)
 })

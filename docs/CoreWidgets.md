@@ -17,7 +17,7 @@ Keeping up with all the workspaces can be challenging. Marquee helps you to stay
 ### Features
 
 - Automatically detects new workspaces you are opening
-- See how many todos, notes and snippets you created for this workspace
+- See how many todos, notes and clipboards you created for this workspace
 - Add workspaces through "+" button or find new workspaces on your file system
 - Search for specific workspaces
 - Remove projects using the toolbar or by opening the context menu
@@ -62,18 +62,18 @@ Keep track of workspace-specific todos. Create, archive and complete todos from 
 - Search for specific todos by their content or tag
 - All todos are visible in the Marquee tree view
 
-## Snippets
+## Clipboard Widget
 
-The inter-workspace smart clipboard for your thoughts, code snippets, logs, or terminal traces. Anything you want to recall later. Highlight any piece of code you are working on and add them as a snippet so you can easily paste them everywhere later.
+The inter-workspace smart clipboard for your thoughts, code snippets, logs, or terminal traces. Anything you want to recall later. Highlight any piece of code you are working on and add them as a clipboard so you can easily paste them everywhere later.
 
-<img src="https://marquee-seven.vercel.app/assets/widgets/snippets.png" alt="Snippets Widget" width="600" />
+<img src="https://marquee-seven.vercel.app/assets/widgets/snippets.png" alt="Clipboard Widget" width="600" />
 
 ### Features
 
 - Support for code highlighting
-- Allows to create snippets directly out of VSCode text files
-- Easily paste a snippet into a document through the `Insert from Snippets` command
-- Snippets can also be access from the Marquee tree view
+- Allows to create clipboards directly out of VSCode text files
+- Easily paste a snippet into a document through the `Insert from Clipboard Item` command
+- Clipboards can also be access from the Marquee tree view
 
 ## Notes
 
@@ -92,3 +92,14 @@ Renders local and remote markdown files to help you navigate through the code ba
 - Format notes using a [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) editor
 - Filter for certain notes
 - Create notes directly from the command palette
+
+## NPM Stats
+
+Get a daily overview about download numbers of a set of NPM packages you can configure in the Marquee configuration.
+
+<img src="https://marquee-seven.vercel.app/assets/widgets/npm-stats.png" alt="NPM Stats Widget" width="600" />
+
+### Features
+
+- Follow download numbers of 1 or many NPM packages
+- Set custom time durations to overview

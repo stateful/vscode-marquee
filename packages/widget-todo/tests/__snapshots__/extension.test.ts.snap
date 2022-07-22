@@ -41,7 +41,14 @@ Array [
 ]
 `;
 
-exports[`generate proper default state and configuration 1`] = `undefined`;
+exports[`generate proper default state and configuration 1`] = `
+Object {
+  "autoDetect": true,
+  "hide": false,
+  "showArchived": false,
+  "todoFilter": "",
+}
+`;
 
 exports[`generate proper default state and configuration 2`] = `
 Object {

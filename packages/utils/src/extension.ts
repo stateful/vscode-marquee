@@ -5,10 +5,12 @@ import hash from 'object-hash'
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
+import * as Sentry from '@sentry/node'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType } from './types'
 import type { Configuration, State, Workspace } from './types'
+import { SENTRY_DNS } from './utils'
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
@@ -88,7 +90,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       /**
        * don't propagate updates if changes are already updated
        */
-      if (val && hash(this._configuration[prop]) === hash(val)) {
+      if (
+        typeof val !== 'undefined' &&
+        typeof this._configuration[prop] !== 'undefined' &&
+        hash(this._configuration[prop]) === hash(val)
+      ) {
         continue
       }
 
@@ -96,6 +102,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         `Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`
       )
       this.broadcast({ [prop]: val } as any)
+      this.emit('configurationUpdate', this._configuration)
       break
     }
 
@@ -110,20 +117,30 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._tangle.broadcast(payload as State & Configuration)
   }
 
-  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
+  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(
+    prop: T,
+    val: Configuration[T],
+    target = CONFIGURATION_TARGET
+  ) {
     this._isConfigUpdateListenerDisabled = true
 
     /**
      * check if we have to update
      */
-    if (val && this._configuration[prop] && hash(this._configuration[prop]) === hash(val)) {
+    if (
+      typeof val !== 'undefined' &&
+      typeof this._configuration[prop] !== 'undefined' &&
+      hash(this._configuration[prop]) === hash(val)
+    ) {
+      this._isConfigUpdateListenerDisabled = false
       return
     }
 
     const config = vscode.workspace.getConfiguration('marquee')
     this._channel.appendLine(`Update configuration "${prop.toString()}": ${val as any as string}`)
     this._configuration[prop] = val
-    await config.update(`${this._key}.${prop.toString()}`, val, CONFIGURATION_TARGET)
+    await config.update(`${this._key}.${prop.toString()}`, val, target)
+    this.emit('configurationUpdate', this._configuration)
     this._isConfigUpdateListenerDisabled = false
   }
 
@@ -131,7 +148,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * check if we have to update
      */
-    if (val && this._state[prop] && hash(this._state[prop]) === hash(val)) {
+    if (
+      typeof val !== 'undefined' &&
+      typeof this._state[prop] !== 'undefined' &&
+      hash(this._state[prop]) === hash(val)
+    ) {
       return
     }
 
@@ -280,6 +301,29 @@ export function activate (
   if (oldGlobalStore.bg) {
     stateManager.updateConfiguration('background', oldGlobalStore.bg)
   }
+
+  /**
+   * extension host has access to sentry events
+   */
+  const env = process.env.NODE_ENV === 'development'
+    ? 'development'
+    : 'production'
+
+  Sentry.init({
+    dsn: SENTRY_DNS,
+    beforeSend (event){
+      if(event.environment === 'development'){
+        return null
+      }
+      return event
+    },
+    environment: env,
+    tracesSampleRate: 1,
+  })
+
+  Sentry.configureScope(function (scope) {
+    scope.setTag('occurred', 'extension-host')
+  })
 
   /**
    * set global state to true if we don't have a workspace

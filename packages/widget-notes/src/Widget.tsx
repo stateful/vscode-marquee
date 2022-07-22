@@ -1,14 +1,24 @@
-import React, { useContext, useEffect, useMemo, useCallback } from 'react'
-import { Grid, Typography, TextField, IconButton, Button, Popover } from '@mui/material'
+import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
+import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  jumpTo,
+  MarqueeEvents,
+  getEventListener,
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
@@ -18,9 +28,8 @@ import '../css/react-splitter-layout.css'
 import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
-import { Note } from './types'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Events, Note } from './types'
+
 
 declare const window: MarqueeWindow
 
@@ -231,11 +240,25 @@ let Notes = ({
   handleClick,
   handleClose,
 }: MarqueeWidgetProps) => {
+let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+  const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
     noteSelected,
-    setShowAddDialog
+    setShowAddDialog,
   } = useContext(NoteContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
+
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
+
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
 
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
@@ -281,6 +304,12 @@ let Notes = ({
 
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
@@ -294,7 +323,11 @@ let Notes = ({
                   startIcon={<LinkIcon />}
                   disableFocusRipple
                   onClick={() => jumpTo(note)}
-                  style={{ padding: '0 5px' }}
+                  style={{
+                    padding: '0 5px',
+                    background: 'transparent',
+                    color: 'inherit'
+                  }}
                 >
                   {noteLinkFileName}
                 </Button>
@@ -302,19 +335,30 @@ let Notes = ({
             </Grid>
           </Grid>
         </Grid>
-        {minimizeNavIcon ?
-          <Grid>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-notes-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
+        <Grid item>
+          <Grid container direction="row" spacing={1} alignItems="center">
+            <Grid item>
+              <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+                <AddCircleIcon fontSize="small" />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+            </Grid>
+            <Grid item>
+              <HidePop name="notes" />
+            </Grid>
+            <Grid item>
+              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <ToggleFullScreen />
+            </Grid>
+            <Grid item>
+              <Dragger />
+            </Grid>
           </Grid>
           :
           <NavButtons />

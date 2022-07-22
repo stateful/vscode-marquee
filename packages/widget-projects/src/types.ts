@@ -1,6 +1,6 @@
 import type { Workspace, ContextProperties } from '@vscode-marquee/utils'
 
-export type WorkspaceSortOrder = 'alphabetical' | 'usage'
+export type WorkspaceSortOrder = 'alphabetical' | 'usage' | 'visits' | 'recent'
 
 export interface Configuration {
   workspaceFilter?: string
@@ -10,6 +10,8 @@ export interface Configuration {
 
 export interface State {
   workspaces: Workspace[]
+  lastVisited: Record<string, number>
+  visitCount: Record<string, number>
 }
 
 export interface Context extends ContextProperties<Configuration & State> {

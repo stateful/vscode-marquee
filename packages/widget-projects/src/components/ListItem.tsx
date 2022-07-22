@@ -49,8 +49,9 @@ interface ProjectListItemProps {
 let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
   const { themeColor } = useContext(GlobalContext)
 
-  const { openProjectInNewWindow, notes, todos, snippets } = useContext(WorkspaceContext)
+  const { openProjectInNewWindow, notes, todos, snippets, lastVisited } = useContext(WorkspaceContext)
 
+  const isLastVisitedWorkspace = Math.max(...Object.values(lastVisited)) === lastVisited[workspace.id]
   let todoCount = useMemo(() => {
     return todos.filter((todo: any) => todo.workspaceId === workspace.id && !todo.archived)
   }, [workspace, todos])
@@ -79,6 +80,13 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
     }
 
     /**
+     * don't trigger if we clicked something within `ItemPop
+     */
+    if (document.querySelector('#todo-item-popover')?.contains(target)) {
+      return
+    }
+
+    /**
      * or if we onfocus the opened more popup
      */
     if (
@@ -89,6 +97,9 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
       return
     }
 
+    /**
+     * open new workspace
+     */
     window.vscode.postMessage({
       west: {
         execCommands: [
@@ -130,7 +141,12 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
               wrap="nowrap"
             >
               <Grid item>
-                <Typography variant="body2">{workspace.name}</Typography>
+                <Typography variant="body2">
+                  {workspace.name}
+                  {isLastVisitedWorkspace && (
+                    <i style={{ paddingLeft: 5 }}>(last visited)</i>
+                  )}
+                </Typography>
               </Grid>
               <Grid item>
                 <Grid
@@ -176,7 +192,7 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
             </Grid>
           }
           secondary={
-            <Typography variant="caption" noWrap style={{ display: 'block' }}>
+            <Typography variant="caption" data-testid="projectPath" noWrap style={{ display: 'block' }}>
               {workspace.path}
             </Typography>
           }

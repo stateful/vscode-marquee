@@ -18,7 +18,8 @@ declare const window: MarqueeWindow
 let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
-    workspaceSortOrder, openProjectInNewWindow
+    workspaceSortOrder, openProjectInNewWindow, visitCount,
+    lastVisited
   } = useContext(WorkspaceContext)
 
   const totalLen = (wspid: string) => {
@@ -46,10 +47,14 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
     if (workspaceSortOrder === 'usage') {
       return filteredProjects.sort((a, b) => totalLen(b.id) - totalLen(a.id))
+    } else if (workspaceSortOrder === 'visits') {
+      return filteredProjects.sort((a, b) => (visitCount[b.id] || 0) - (visitCount[a.id] || 0))
+    } else if (workspaceSortOrder === 'recent') {
+      return filteredProjects.sort((a, b) => (lastVisited[b.id] || 0) - (lastVisited[a.id] || 0))
     } else {
       return filteredProjects.sort((a, b) => a.name.localeCompare(b.name))
     }
-  }, [workspaces, workspaceFilter, workspaceSortOrder])
+  }, [workspaces, workspaceFilter, workspaceSortOrder, visitCount])
 
   return (
     <>

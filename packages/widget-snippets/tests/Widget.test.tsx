@@ -13,8 +13,8 @@ test('renders component correctly', async () => {
       </SnippetProvider>
     </GlobalProvider>
   )
-  // expect(screen.getByText('Create a snippet')).toBeTruthy();
-  // act(() => { userEvent.click(screen.getByText('Create a snippet')); });
+  // expect(screen.getByText('Create a clipboard')).toBeTruthy();
+  // act(() => { userEvent.click(screen.getByText('Create a clipboard')); });
   // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
   // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'O'); });
   // act(() => { userEvent.type(screen.getByLabelText('Snippet Title').querySelector('input')!, 'L'); });
