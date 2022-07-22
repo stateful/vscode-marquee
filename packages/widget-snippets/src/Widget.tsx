@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useCallback } from 'react'
 import {
   Grid,
   IconButton,
@@ -7,21 +7,11 @@ import {
   Button,
   Popover
 } from '@mui/material'
+
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
-
-import {
-  GlobalContext,
-  jumpTo,
-  DoubleClickHelper,
-  MarqueeWindow,
-  getEventListener,
-  MarqueeEvents
-} from '@vscode-marquee/utils'
+import { GlobalContext, jumpTo, DoubleClickHelper, MarqueeWindow, getEventListener } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
-import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import SplitterLayout from 'react-splitter-layout'
@@ -37,7 +27,6 @@ import type { Events } from './types'
 import Snippet from './models/Snippet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-
 
 declare const window: MarqueeWindow
 
@@ -216,9 +205,9 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
                         <Button
                           startIcon={<AddCircle />}
                           variant="outlined"
-                          onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
+                          onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
                         >
-                          Create a Clipboard Item
+                          Create a snippet
                         </Button>
                       </Grid>
                     </Grid>
@@ -245,17 +234,6 @@ let Snippets = ({
   handleClick }: MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events>(WIDGET_ID)
   const { snippets, snippetSelected } = useContext(SnippetContext)
-let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const eventListener = getEventListener<Events & MarqueeEvents>(WIDGET_ID)
-  const { snippets, snippetSelected } = useContext(SnippetContext)
-  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
-
-  const _isInterestedInSyncFeature = (interested: boolean) => {
-    if (interested) {
-      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
-    }
-    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
-  }
 
   const snippet = useMemo(() => {
     return snippets.find((snippet) => snippet.id === snippetSelected)
@@ -267,23 +245,47 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [snippet])
 
-  useEffect(() => {
-    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
-  }, [])
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <IconButton
+            size="small"
+            onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+          >
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+        </Grid>
+        <Grid item>
+          <HidePop name="snippets" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        <Grid item>
+          <Dragger />
+        </Grid>
+      </Grid>
+    </Grid>
+  )
 
   return (
     <>
-      {showCloudSyncFeature &&
-        <FeatureInterestDialog
-          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
-          setShowCloudSyncFeature={setShowCloudSyncFeature}
-        />
-      }
       <HeaderWrapper>
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
-              <Typography variant="subtitle1">Clipboard</Typography>
+              <Typography variant="subtitle1">Snippets</Typography>
             </Grid>
             <Grid item>
               {snippet && snippetLinkFileName && (
@@ -304,33 +306,19 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <Grid item>
-              <IconButton
-                size="small"
-                onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
-              >
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper content="Double-click a clipboard item to edit and right-click for copy & paste" />
-            </Grid>
-            <Grid item>
-              <HidePop name="snippets" />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
-                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={'widget-snippets-nav-popover'}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
           :
           <Grid item xs={8}>

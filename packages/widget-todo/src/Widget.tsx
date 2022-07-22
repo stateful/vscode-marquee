@@ -1,20 +1,11 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useMemo } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import { Grid, Button, IconButton, Popover } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
 
-import {
-  GlobalContext,
-  DoubleClickHelper,
-  MarqueeWindow,
-  MarqueeEvents,
-  getEventListener
-} from '@vscode-marquee/utils'
+import { GlobalContext, DoubleClickHelper, MarqueeWindow } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
-import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TodoContext, { TodoProvider } from './Context'
@@ -22,13 +13,18 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
-import { Events } from './types'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 declare const window: MarqueeWindow
 
-let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
-  const eventListener = getEventListener<Events & MarqueeEvents>()
+let Todo = ({
+  ToggleFullScreen,
+  minimizeNavIcon,
+  open,
+  anchorEl,
+  handleClose,
+  handleClick }: MarqueeWidgetProps) => {
   const {
     setTodos,
     setShowAddDialog,
@@ -38,18 +34,6 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     todoFilter,
   } = useContext(TodoContext)
   const { globalScope } = useContext(GlobalContext)
-  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
-
-  const _isInterestedInSyncFeature = (interested: boolean) => {
-    if (interested) {
-      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
-    }
-    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
-  }
-
-  useEffect(() => {
-    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
-  }, [])
 
   const NavButtons = () => (
     <Grid item>
@@ -139,12 +123,6 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
 
   return (
     <>
-      {showCloudSyncFeature &&
-        <FeatureInterestDialog
-          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
-          setShowCloudSyncFeature={setShowCloudSyncFeature}
-        />
-      }
       <HeaderWrapper>
         <Grid item xs={6}>
           <Typography variant="subtitle1">
@@ -152,33 +130,19 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <TodoInfo />
           </Typography>
         </Grid>
-        <Grid item xs={8}>
-          <Grid container justifyContent="right" direction={'row'} spacing={1}>
-            <Grid item>
-              <TodoFilter />
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper />
-            </Grid>
-            <Grid item>
-              <TodoPop />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
-                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <Grid item xs={1}>
+            <IconButton onClick={handleClick}>
+              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+            </IconButton>
+            <Popover
+              open={open}
+              id={'widget-todos-nav-popover'}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
+              <NavButtons />
+            </Popover>
           </Grid>
           :
           <Grid item xs={8}>
