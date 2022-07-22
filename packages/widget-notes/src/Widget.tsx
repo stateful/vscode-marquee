@@ -1,26 +1,34 @@
-import React, { useContext, useEffect, useMemo, useCallback } from 'react'
+import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
 import { Grid, Typography, TextField, IconButton, Button, Popover } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow, jumpTo } from '@vscode-marquee/utils'
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  jumpTo,
+  MarqueeEvents,
+  getEventListener,
+} from '@vscode-marquee/utils'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
 import '../css/react-splitter-layout.css'
-// import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import NoteContext, { NoteProvider } from './Context'
 import NoteEditor from './components/Editor'
 import NoteListItem from './components/ListItem'
-import { Note } from './types'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Events, Note } from './types'
+
 
 declare const window: MarqueeWindow
 
@@ -231,12 +239,24 @@ let Notes = ({
   handleClick,
   handleClose,
 }: MarqueeWidgetProps) => {
+  const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
     noteSelected,
     setShowAddDialog
   } = useContext(NoteContext)
+  const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
+  const _isInterestedInSyncFeature = (interested: boolean) => {
+    if (interested) {
+      return eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteYes' })
+    }
+    eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
+  }
+
+  useEffect(() => {
+    eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
+  }, [])
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
   }, [noteSelected, notes])
@@ -269,6 +289,11 @@ let Notes = ({
           <HidePop name="notes" />
         </Grid>
         <Grid item>
+          <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+            <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+          </IconButton>
+        </Grid>
+        <Grid item>
           <ToggleFullScreen />
         </Grid>
         <Grid item>
@@ -278,9 +303,14 @@ let Notes = ({
     </Grid>
   )
 
-
   return (
     <>
+      {showCloudSyncFeature &&
+        <FeatureInterestDialog
+          _isInterestedInSyncFeature={_isInterestedInSyncFeature}
+          setShowCloudSyncFeature={setShowCloudSyncFeature}
+        />
+      }
       <HeaderWrapper>
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">

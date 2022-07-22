@@ -14,7 +14,6 @@ import ProjectPop from './components/Pop'
 import ProjectListItem from './components/ListItem'
 import WorkspaceContext, { WorkspaceProvider } from './Context'
 
-
 declare const window: MarqueeWindow
 
 let Projects = ({ 

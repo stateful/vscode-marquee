@@ -120,8 +120,6 @@ const WidgetBody = () => {
   )
 }
 
-
-
 let NPMStats = ({ 
   ToggleFullScreen, 
   open, 
