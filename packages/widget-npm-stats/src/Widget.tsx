@@ -143,6 +143,7 @@ let NPMStats = ({
       </Grid>
     </Grid>
   )
+
   return (
     <>
       <HeaderWrapper>

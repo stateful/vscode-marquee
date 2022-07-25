@@ -10,7 +10,7 @@ interface ToggleFullScreenProps {
   isFullScreenMode: boolean
   toggleFullScreen: React.Dispatch<React.SetStateAction<boolean>>
 }
-export const ToggleFullScreen = ({ widgetName, isFullScreenMode, toggleFullScreen }: ToggleFullScreenProps) => {
+export const ToggleFullScreen = ({ widgetName, isFullScreenMode, toggleFullScreen } : ToggleFullScreenProps) => {
   return (
     <IconButton
       aria-label={`Toggle ${widgetName} widget to fullscreen`}

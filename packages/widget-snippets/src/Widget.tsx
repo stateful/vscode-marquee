@@ -18,8 +18,10 @@ import {
   DoubleClickHelper, 
   MarqueeWindow, 
   getEventListener, 
-  MarqueeEvents } from '@vscode-marquee/utils'
+  MarqueeEvents 
+} from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import SplitterLayout from 'react-splitter-layout'
@@ -33,7 +35,6 @@ import SnippetListItem from './components/ListItem'
 import { WIDGET_ID } from './constants'
 import type { Events } from './types'
 import Snippet from './models/Snippet'
-import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 
 
 declare const window: MarqueeWindow
@@ -213,9 +214,9 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
                         <Button
                           startIcon={<AddCircle />}
                           variant="outlined"
-                          onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+                          onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
                         >
-                          Create a snippet
+                          Create a Clipboard Item
                         </Button>
                       </Grid>
                     </Grid>
@@ -250,6 +251,7 @@ let Snippets = ({
     }
     eventListener.emit('telemetryEvent', { eventName: 'syncInterestNoteNo' })
   }
+
   const snippet = useMemo(() => {
     return snippets.find((snippet) => snippet.id === snippetSelected)
   }, [snippetSelected, snippets])
@@ -277,13 +279,13 @@ let Snippets = ({
         <Grid item>
           <IconButton
             size="small"
-            onClick={() => eventListener.emit('openSnippet', '/New Snippet')}
+            onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
           >
             <AddCircle fontSize="small" />
           </IconButton>
         </Grid>
         <Grid item>
-          <DoubleClickHelper content="Double-click a snippet title to edit and right-click for copy & paste" />
+          <DoubleClickHelper content="Double-click a clipboard item to edit and right-click for copy & paste" />
         </Grid>
         <Grid item>
           <HidePop name="snippets" />
@@ -315,7 +317,7 @@ let Snippets = ({
         <Grid item>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
-              <Typography variant="subtitle1">Snippets</Typography>
+              <Typography variant="subtitle1">Clipboard</Typography>
             </Grid>
             <Grid item>
               {snippet && snippetLinkFileName && (

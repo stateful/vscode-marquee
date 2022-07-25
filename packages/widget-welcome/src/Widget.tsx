@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Grid, IconButton, Link, Popover, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -10,7 +11,6 @@ import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 import TrickContext, { TrickProvider } from './Context'
 import TrickContent from './components/TrickContent'
 import PopMenu from './components/Pop'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 const WidgetBody = () => {
   const { error } = useContext(TrickContext)
@@ -120,7 +120,6 @@ let Welcome = ({
       </Grid>
     </Grid>
   )
-
 
   return (
     <>

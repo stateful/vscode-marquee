@@ -10,7 +10,7 @@ interface Props {
   ToggleFullScreen: () => JSX.Element
 }
 
-const WidgetBody = ({ name }: { name: string }) => {
+const WidgetBody = ({ name } : { name:string }) => {
   const WidgetTag = name
   return (
     <Grid item xs>
@@ -49,7 +49,7 @@ const ThirdPartyWidget = ({ name, label, ToggleFullScreen }: Props) => {
           <Grid item>
             <Grid container direction="row" spacing={1}>
               <Grid item>
-                <HidePop name={name}/>
+                <HidePop name={name} />
               </Grid>
               <Grid item>
                 <ToggleFullScreen />

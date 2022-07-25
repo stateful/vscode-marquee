@@ -47,10 +47,11 @@ const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
 }
 
 export default (Widget: any, name?: string) => React.memo(React.forwardRef((props: any, ref) => {
+  const wrapperWidthRef = useRef<HTMLDivElement>(null)
   const [fullscreenMode, setFullscreenMode] = useState(false)
   const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
-  const wrapperWidthRef = useRef<HTMLDivElement>(null)
   const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -95,7 +96,7 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
   return (
     <ErrorBoundary>
       <WidgetWrapper innerref={ref} name={name!} dragHandle={props.children} {...props}>
-        {fullscreenMode
+        { fullscreenMode
           ? (
             <Dialog
               fullScreen
@@ -104,10 +105,10 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
               // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
               aria-labelledby={`${props.name}Fullscreen`}
             >
-              <Widget {...widgetProps} />
+              <Widget { ...widgetProps } />
             </Dialog>
           )
-          : <Widget {...widgetProps} />
+          : <Widget { ...widgetProps } />
         }
 
       </WidgetWrapper>

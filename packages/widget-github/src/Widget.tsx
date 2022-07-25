@@ -7,6 +7,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -15,7 +16,6 @@ import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 import TrendContext, { TrendProvider } from './Context'
 import TrendingDialogLauncher from './components/TrendingDialog'
 import Filter from './components/Filter'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 let GChip = ({ ...rest }) => {
   return (

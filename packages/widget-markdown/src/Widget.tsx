@@ -11,16 +11,15 @@ import {
   Typography,
 } from '@mui/material'
 
+import { faCopy, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import SplitterLayout from 'react-splitter-layout'
 import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
 import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { faCopy, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-// import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
@@ -32,6 +31,7 @@ const Markdown = ({
   anchorEl,
   handleClose,
   handleClick }: MarqueeWidgetProps) => {
+
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
@@ -50,7 +50,7 @@ const Markdown = ({
     : markdownDocuments
 
   const CopyToClipboardButton = () => {
-    if (!selectedMarkdownContent) {
+    if (!selectedMarkdownContent){
       return <></>
     }
 
@@ -60,10 +60,8 @@ const Markdown = ({
           <Tooltip arrow title='Copied' open={copied} leaveDelay={800}
             onClose={() => setCopied(false)} disableTouchListener
           >
-            <IconButton sx={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', direction: 'column'
-            }}
+            <IconButton sx={{ display: 'flex', alignItems: 'center',
+              justifyContent: 'center', direction: 'column'}}
             >
               <FontAwesomeIcon
                 fontSize="small"

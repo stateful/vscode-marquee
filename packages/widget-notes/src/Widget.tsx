@@ -17,8 +17,8 @@ import {
   MarqueeEvents,
   getEventListener,
 } from '@vscode-marquee/utils'
-import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import 'react-virtualized/styles.css'
@@ -257,6 +257,7 @@ let Notes = ({
   useEffect(() => {
     eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
   }, [])
+
   const note = useMemo(() => {
     return notes.find((note) => note.id === noteSelected)
   }, [noteSelected, notes])
@@ -324,7 +325,11 @@ let Notes = ({
                   startIcon={<LinkIcon />}
                   disableFocusRipple
                   onClick={() => jumpTo(note)}
-                  style={{ padding: '0 5px' }}
+                  style={{
+                    padding: '0 5px',
+                    background: 'transparent',
+                    color: 'inherit'
+                  }}
                 >
                   {noteLinkFileName}
                 </Button>

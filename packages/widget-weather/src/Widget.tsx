@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
 import { Grid, Typography, CircularProgress, Box, IconButton, Popover } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
@@ -13,15 +15,13 @@ import { WeatherDialogLauncher } from './components/Dialog'
 import { kToF, kToC, formatAMPM } from './utils'
 import { SCALE_OPTIONS } from './constants'
 import type { Forecast } from './types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 interface TodayPropTypes {
   current: Forecast['current']
   hourly: Forecast['hourly']
   fullscreenMode: boolean
 }
-let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => {
+let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) => {
   const { scale } = useContext(WeatherContext)
   const { themeColor } = useContext(GlobalContext)
 
@@ -56,7 +56,7 @@ let Today = React.memo(({ current, hourly, fullscreenMode }: TodayPropTypes) => 
               iconId={`${current.weather[0].id}`}
               flip="horizontal"
               rotate="90"
-              style={{ fontSize: fullscreenMode ? 'inherit' : '75px' }}
+              style={{ fontSize: fullscreenMode ? 'inherit' : '75px'}}
             />
           </Grid>
           <Grid item>

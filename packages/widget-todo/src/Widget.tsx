@@ -3,12 +3,12 @@ import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import { Grid, Button, IconButton, Popover } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
-import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import { GlobalContext, DoubleClickHelper, MarqueeWindow, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import TodoContext, { TodoProvider } from './Context'
