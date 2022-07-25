@@ -116,7 +116,7 @@ const News = ({
     <>
       <HeaderWrapper>
         <Grid item>
-          <Typography variant="subtitle1">News ({channel} RSS Feeds)</Typography>
+          <Typography variant="subtitle1" noWrap>News ({channel} RSS Feeds)</Typography>
         </Grid>
         {minimizeNavIcon ?
           <Grid item xs={1}>
