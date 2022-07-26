@@ -31,7 +31,7 @@ import {
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
-const Markdown = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
@@ -90,9 +90,11 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) =>
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

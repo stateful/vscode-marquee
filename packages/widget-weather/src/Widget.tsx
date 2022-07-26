@@ -199,9 +199,11 @@ const Weather = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon } : Marquee
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

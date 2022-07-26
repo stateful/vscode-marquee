@@ -44,7 +44,7 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = ({ ToggleFullScreen, minimizeNavIcon }: MarqueeWidgetProps) => {
+let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
@@ -84,9 +84,11 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon }: MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

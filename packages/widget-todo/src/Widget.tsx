@@ -26,7 +26,7 @@ import { Events } from './types'
 
 declare const window: MarqueeWindow
 
-let Todo = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     setTodos,
@@ -82,9 +82,11 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

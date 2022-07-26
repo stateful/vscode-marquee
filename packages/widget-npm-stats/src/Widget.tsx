@@ -125,7 +125,7 @@ const WidgetBody = () => {
   )
 }
 
-let NPMStats = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+let NPMStats = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
 
   const NavButtons = () => (
     <Grid item>
@@ -136,9 +136,11 @@ let NPMStats = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

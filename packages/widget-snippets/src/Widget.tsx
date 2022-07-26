@@ -241,7 +241,7 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
   )
 }
 
-let Snippets = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>(WIDGET_ID)
   const { snippets, snippetSelected } = useContext(SnippetContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
@@ -299,9 +299,11 @@ let Snippets = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

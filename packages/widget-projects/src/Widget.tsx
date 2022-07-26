@@ -21,7 +21,7 @@ import WorkspaceContext, { WorkspaceProvider } from './Context'
 
 declare const window: MarqueeWindow
 
-let Projects = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+let Projects = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
     workspaceSortOrder, openProjectInNewWindow, visitCount,
@@ -119,9 +119,11 @@ let Projects = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid >
   )

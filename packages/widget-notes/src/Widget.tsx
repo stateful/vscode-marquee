@@ -236,7 +236,7 @@ const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
     </Grid>
   )
 }
-let Notes = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
@@ -295,9 +295,11 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

@@ -1,16 +1,16 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { Box, ClickAwayListener, Grid, IconButton, Paper, Popper, Typography } from '@mui/material'
-
-import HidePop from './HidePop'
-import Dragger from './Dragger'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
-interface Props {
+import HidePop from './HidePop'
+import Dragger from './Dragger'
+
+import { MarqueeWidgetProps } from './types'
+
+interface Props extends MarqueeWidgetProps{
   name: string
   label: string
-  ToggleFullScreen: () => JSX.Element
-  minimizeNavIcon: boolean
 }
 
 const WidgetBody = ({ name } : { name:string }) => {
@@ -36,6 +36,7 @@ const ThirdPartyWidget = ({
   label, 
   ToggleFullScreen,
   minimizeNavIcon,
+  fullscreenMode
 } : Props) => {
   const ref = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
@@ -70,9 +71,11 @@ const ThirdPartyWidget = ({
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )

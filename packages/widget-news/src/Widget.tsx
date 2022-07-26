@@ -88,7 +88,7 @@ const NewsItem = ({ item, icon }: NewsItemProps) => {
   )
 }
 
-const News = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
+const News = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
 
   const NavButtons = () => (
@@ -106,9 +106,11 @@ const News = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        <Grid item>
-          <Dragger />
-        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
       </Grid>
     </Grid>
   )
