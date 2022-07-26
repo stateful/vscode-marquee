@@ -1,9 +1,25 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress, IconButton, Popover } from '@mui/material'
+import { 
+  Grid, 
+  Link, 
+  Typography, 
+  Chip, 
+  Avatar, 
+  CircularProgress, 
+  IconButton, 
+  Popper, 
+  Paper, 
+  ClickAwayListener 
+} from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
@@ -28,13 +44,7 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = ({
-  ToggleFullScreen,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClose,
-  handleClick }: MarqueeWidgetProps) => {
+let Github = ({ ToggleFullScreen, minimizeNavIcon }: MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
@@ -88,19 +98,23 @@ let Github = ({
           <Typography variant="subtitle1">Trending on Github</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-github-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-github' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal={true} sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
           <Grid item xs={8}>
             <NavButtons />

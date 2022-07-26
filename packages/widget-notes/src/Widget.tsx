@@ -1,10 +1,15 @@
 import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
-import { Grid, Typography, TextField, IconButton, Button, Popover } from '@mui/material'
+import { Grid, Typography, TextField, IconButton, Button, ClickAwayListener, Popper, Paper } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
@@ -38,7 +43,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
+const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
   const { globalScope } = useContext(GlobalContext)
   const {
     _updateNote,
@@ -231,14 +236,7 @@ const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
     </Grid>
   )
 }
-let Notes = ({
-  ToggleFullScreen,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClick,
-  handleClose,
-}: MarqueeWidgetProps) => {
+let Notes = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
@@ -338,21 +336,27 @@ let Notes = ({
           </Grid>
         </Grid>
         {minimizeNavIcon ?
-          <Grid>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-notes-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-notes' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
-          <NavButtons />
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
         }
       </HeaderWrapper>
       <WidgetBody note={note} notes={notes} />

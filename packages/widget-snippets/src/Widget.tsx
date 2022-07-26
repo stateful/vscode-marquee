@@ -5,12 +5,19 @@ import {
   Typography,
   TextField,
   Button,
-  Popover
+  ClickAwayListener,
+  Popper,
+  Paper
 } from '@mui/material'
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import { 
   GlobalContext, 
@@ -234,13 +241,7 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
   )
 }
 
-let Snippets = ({
-  ToggleFullScreen,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClose,
-  handleClick }: MarqueeWidgetProps) => {
+let Snippets = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>(WIDGET_ID)
   const { snippets, snippetSelected } = useContext(SnippetContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
@@ -339,19 +340,23 @@ let Snippets = ({
           </Grid>
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-snippets-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-clipboard' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
           <Grid item xs={8}>
             <NavButtons />

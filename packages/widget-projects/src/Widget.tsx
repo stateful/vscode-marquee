@@ -1,9 +1,14 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Typography, List, IconButton, Button, Popover } from '@mui/material'
+import { ClickAwayListener, Grid, Typography, List, IconButton, Button, Paper, Popper } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { MarqueeWindow } from '@vscode-marquee/utils'
@@ -16,13 +21,7 @@ import WorkspaceContext, { WorkspaceProvider } from './Context'
 
 declare const window: MarqueeWindow
 
-let Projects = ({ 
-  ToggleFullScreen,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClick,
-  handleClose }: MarqueeWidgetProps) => {
+let Projects = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
     workspaceSortOrder, openProjectInNewWindow, visitCount,
@@ -134,18 +133,23 @@ let Projects = ({
           <Typography variant="subtitle1">Projects</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-projects' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
           <Grid item xs={8}>
             <NavButtons />

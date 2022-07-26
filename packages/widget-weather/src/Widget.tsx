@@ -2,9 +2,14 @@ import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box, IconButton, Popover } from '@mui/material'
+import { ClickAwayListener, Grid, Typography, CircularProgress, Box, IconButton, Paper, Popper } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
@@ -172,14 +177,7 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
   )
 })
 
-const Weather = ({
-  ToggleFullScreen,
-  fullscreenMode,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClose,
-  handleClick }: MarqueeWidgetProps) => {
+const Weather = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon } : MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
 
   const NavButtons = () => (
@@ -226,21 +224,25 @@ const Weather = ({
           {!city && <Typography variant="subtitle1">Weather</Typography>}
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-weather-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-weather' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <NavButtons />
           </Grid>
         }

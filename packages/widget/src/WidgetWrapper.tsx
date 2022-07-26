@@ -67,7 +67,7 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
       handleClose()
       return setMinimizeNavIcon(false)
       // @ts-ignore
-    } else if (!fullscreenMode && ref?.current!.offsetWidth < 330) {
+    } else if (!fullscreenMode && ref?.current?.offsetWidth < 330) {
       return setMinimizeNavIcon(true)
     }
     setMinimizeNavIcon(false)

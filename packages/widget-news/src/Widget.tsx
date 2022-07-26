@@ -8,13 +8,20 @@ import {
   ListItemText,
   ListItemAvatar,
   IconButton,
-  Popover
+  Popper,
+  Paper,
+  ClickAwayListener
 } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import type { Item } from 'rss-parser'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
@@ -81,13 +88,7 @@ const NewsItem = ({ item, icon }: NewsItemProps) => {
   )
 }
 
-const News = ({ 
-  ToggleFullScreen,  
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClose,
-  handleClick }: MarqueeWidgetProps) => {
+const News = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
   const { news, error, isFetching, feeds, channel } = useContext(NewsContext)
 
   const NavButtons = () => (
@@ -115,22 +116,29 @@ const News = ({
   return (
     <>
       <HeaderWrapper>
-        <Grid item>
-          <Typography variant="subtitle1" noWrap>News ({channel} RSS Feeds)</Typography>
+        <Grid item style={{ overflow:'hidden', textOverflow: 'ellipsis' }}>
+          <Typography variant="subtitle1" noWrap>
+            News ({channel} RSS Feeds)
+          </Typography>
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-news' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
           <Grid item xs={8}>
             <NavButtons />
@@ -187,7 +195,7 @@ const News = ({
             )}
             {!isFetching && (news && news.length !== 0) && (
               <List dense={true}>
-                {news.map((item: Item, i:number) => (
+                {news.map((item: Item, i) => (
                   <NewsItem
                     key={i}
                     item={item}

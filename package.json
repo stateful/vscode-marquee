@@ -6,3459 +6,3460 @@
 	"description": "Stay organized with minimal context switching, all inside your VS Code.",
 	"author": "Sebastian Tiedtke <sebastian@stateful.com>",
 	"contributors": [
-	  "Christian Bromann <christian@stateful.com>"
+		"Christian Bromann <christian@stateful.com>"
 	],
 	"icon": "assets/icon.png",
 	"license": "MIT",
 	"homepage": "https://marquee.stateful.com",
 	"repository": {
-	  "type": "git",
-	  "url": "git://github.com/stateful/vscode-marquee.git"
+		"type": "git",
+		"url": "git://github.com/stateful/vscode-marquee.git"
 	},
 	"bugs": {
-	  "url": "https://github.com/stateful/vscode-marquee/issues"
+		"url": "https://github.com/stateful/vscode-marquee/issues"
 	},
 	"private": true,
 	"engines": {
-	  "vscode": "^1.63.0"
+		"vscode": "^1.63.0"
 	},
 	"marquee": {
-	  "widget": "./dist/exampleWidget.js"
+		"widget": "./dist/exampleWidget.js"
 	},
 	"categories": [
-	  "Snippets",
-	  "Debuggers",
-	  "Formatters",
-	  "Linters",
-	  "Themes",
-	  "Other"
+		"Snippets",
+		"Debuggers",
+		"Formatters",
+		"Linters",
+		"Themes",
+		"Other"
 	],
 	"keywords": [
-	  "productivity",
-	  "multi-workspace",
-	  "entertainment",
-	  "dashboard",
-	  "homescreen",
-	  "todo",
-	  "notes",
-	  "snippets"
+		"productivity",
+		"multi-workspace",
+		"entertainment",
+		"dashboard",
+		"homescreen",
+		"todo",
+		"notes",
+		"snippets"
 	],
 	"workspaces": {
-	  "packages": [
-		"packages/extension",
-		"packages/gui",
-		"packages/utils",
-		"packages/widget",
-		"packages/dialog",
-		"packages/widget-github",
-		"packages/widget-news",
-		"packages/widget-markdown",
-		"packages/widget-notes",
-		"packages/widget-npm-stats",
-		"packages/widget-projects",
-		"packages/widget-snippets",
-		"packages/widget-todo",
-		"packages/widget-weather",
-		"packages/widget-welcome"
-	  ]
+		"packages": [
+			"packages/extension",
+			"packages/gui",
+			"packages/utils",
+			"packages/widget",
+			"packages/dialog",
+			"packages/widget-github",
+			"packages/widget-news",
+			"packages/widget-markdown",
+			"packages/widget-notes",
+			"packages/widget-npm-stats",
+			"packages/widget-projects",
+			"packages/widget-snippets",
+			"packages/widget-todo",
+			"packages/widget-weather",
+			"packages/widget-welcome"
+		]
 	},
 	"activationEvents": [
-	  "onStartupFinished",
-	  "onView:marquee"
+		"onStartupFinished",
+		"onView:marquee"
 	],
 	"browser": "./dist/extensionWeb.js",
 	"main": "./dist/extension.js",
 	"contributes": {
-	  "viewsContainers": {
-		"activitybar": [
-		  {
-			"id": "marquee",
-			"title": "Marquee",
-			"icon": "assets/marquee_activity_dark.png"
-		  }
-		]
-	  },
-	  "views": {
-		"marquee": [
-		  {
-			"id": "marquee",
-			"name": "Marquee"
-		  }
-		]
-	  },
-	  "commands": [
-		{
-		  "command": "marquee.open",
-		  "title": "Open",
-		  "category": "Marquee",
-		  "icon": {
-			"light": "assets/marquee-light.svg",
-			"dark": "assets/marquee-dark.svg"
-		  }
-		},
-		{
-		  "command": "marquee.clear",
-		  "category": "Marquee",
-		  "title": "Clear Persistence"
-		},
-		{
-		  "command": "marquee.touchbar",
-		  "title": "Open Marquee",
-		  "category": "Marquee",
-		  "icon": "assets/marquee_activity_light.png",
-		  "enablement": "isMac"
-		},
-		{
-		  "command": "marquee.link",
-		  "title": "Jump to origin",
-		  "category": "Marquee",
-		  "enablement": "listFocus",
-		  "icon": {
-			"light": "assets/link-dark.svg",
-			"dark": "assets/link-light.svg"
-		  }
-		},
-		{
-		  "command": "marquee.toggleScope",
-		  "title": "Toggle global / workspace scope",
-		  "category": "Marquee",
-		  "icon": {
-			"light": "assets/toggle-todo-dark.svg",
-			"dark": "assets/toggle-todo-light.svg"
-		  }
-		},
-		{
-		  "command": "marquee.jsonExport",
-		  "category": "Marquee",
-		  "title": "JSON Export"
-		},
-		{
-		  "command": "marquee.jsonImport",
-		  "category": "Marquee",
-		  "title": "JSON Import"
-		},
-		{
-		  "command": "marquee.edit",
-		  "category": "Marquee",
-		  "enablement": "listFocus",
-		  "title": "Edit"
-		},
-		{
-		  "command": "marquee.todo.toggle",
-		  "title": "Toggle Todo",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.todo.addEditor",
-		  "title": "Marquee: Add to Todos",
-		  "category": "Marquee"
-		},
-		{
-		  "command": "marquee.todo.move",
-		  "title": "Move todo to current workspace",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.todo.archive",
-		  "title": "Archive",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.todo.addEmpty",
-		  "title": "Create New Todo",
-		  "category": "Marquee",
-		  "icon": {
-			"light": "assets/add-dark.svg",
-			"dark": "assets/add-light.svg"
-		  }
-		},
-		{
-		  "command": "marquee.note.addEditor",
-		  "title": "Marquee: Add Selection to Notes",
-		  "category": "Marquee",
-		  "enablement": "editorHasSelection"
-		},
-		{
-		  "command": "marquee.note.move",
-		  "title": "Move note to current workspace",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.note.delete",
-		  "title": "Delete",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.note.addEmpty",
-		  "title": "Create New Note",
-		  "category": "Marquee",
-		  "icon": {
-			"light": "assets/add-dark.svg",
-			"dark": "assets/add-light.svg"
-		  }
-		},
-		{
-		  "command": "marquee.snippet.addEmpty",
-		  "title": "Create New Clipboard Item",
-		  "category": "Marquee",
-		  "icon": {
-			"light": "assets/add-dark.svg",
-			"dark": "assets/add-light.svg"
-		  }
-		},
-		{
-		  "command": "marquee.snippet.insertEditor",
-		  "title": "Insert from Clipboard Item",
-		  "category": "Marquee"
-		},
-		{
-		  "command": "marquee.snippet.addEditor",
-		  "title": "Marquee: Add Selection to Clipboard",
-		  "category": "Marquee",
-		  "enablement": "editorHasSelection"
-		},
-		{
-		  "command": "marquee.snippet.insert",
-		  "title": "Insert",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.snippet.delete",
-		  "title": "Delete",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.snippet.move",
-		  "title": "Move snippet to current workspace",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		},
-		{
-		  "command": "marquee.snippet.copyToClipboard",
-		  "title": "Copy snippet to clipboard",
-		  "category": "Marquee",
-		  "enablement": "listFocus"
-		}
-	  ],
-	  "menus": {
-		"touchBar": [
-		  {
-			"command": "marquee.open"
-		  }
-		],
-		"view/title": [
-		  {
-			"command": "marquee.toggleScope",
-			"when": "view == marquee",
-			"group": "navigation@0"
-		  },
-		  {
-			"command": "marquee.open",
-			"when": "view == marquee",
-			"group": "navigation@1"
-		  }
-		],
-		"view/item/context": [
-		  {
-			"command": "marquee.edit",
-			"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
-			"group": "1_actions@1"
-		  },
-		  {
-			"command": "marquee.snippet.insert",
-			"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
-			"group": "1_actions@2"
-		  },
-		  {
-			"command": "marquee.snippet.delete",
-			"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
-			"group": "1_actions@3"
-		  },
-		  {
-			"command": "marquee.snippet.move",
-			"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
-			"group": "5_copy@1"
-		  },
-		  {
-			"command": "marquee.snippet.copyToClipboard",
-			"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
-			"group": "5_copy@2"
-		  },
-		  {
-			"command": "marquee.todo.move",
-			"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
-			"group": "5_copy@1"
-		  },
-		  {
-			"command": "marquee.edit",
-			"when": "view == marquee && viewItem =~ /Note/",
-			"group": "1_actions@1"
-		  },
-		  {
-			"command": "marquee.note.delete",
-			"when": "view == marquee && viewItem =~ /Note/",
-			"group": "1_actions@2"
-		  },
-		  {
-			"command": "marquee.note.move",
-			"when": "view == marquee && viewItem =~ /Note/",
-			"group": "5_copy@1"
-		  },
-		  {
-			"command": "marquee.link",
-			"when": "view == marquee && viewItem == LinkedSnippet",
-			"group": "inline"
-		  },
-		  {
-			"command": "marquee.edit",
-			"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
-			"group": "1_actions@1"
-		  },
-		  {
-			"command": "marquee.todo.archive",
-			"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
-			"group": "1_actions@2"
-		  },
-		  {
-			"command": "marquee.link",
-			"when": "view == marquee && viewItem == LinkedTodo",
-			"group": "inline"
-		  },
-		  {
-			"command": "marquee.todo.addEmpty",
-			"when": "view == marquee && viewItem == todosHeadline",
-			"group": "inline"
-		  },
-		  {
-			"command": "marquee.note.addEmpty",
-			"when": "view == marquee && viewItem == notesHeadline",
-			"group": "inline"
-		  },
-		  {
-			"command": "marquee.snippet.addEmpty",
-			"when": "view == marquee && viewItem == snippetsHeadline",
-			"group": "inline"
-		  }
-		],
-		"editor/context": [
-		  {
-			"command": "marquee.todo.addEditor",
-			"group": "1_modification"
-		  },
-		  {
-			"command": "marquee.snippet.addEditor",
-			"group": "1_modification"
-		  },
-		  {
-			"command": "marquee.note.addEditor",
-			"group": "1_modification"
-		  },
-		  {
-			"command": "marquee.snippet.insertEditor",
-			"group": "9_cutcopypaste"
-		  }
-		],
-		"editor/title": [
-		  {
-			"command": "marquee.open",
-			"group": "navigation"
-		  }
-		]
-	  },
-	  "configuration": [
-		{
-		  "title": "Marquee",
-		  "properties": {
-			"marquee.configuration.proxy": {
-			  "type": "string",
-			  "scope": "machine",
-			  "default": "",
-			  "markdownDescription": "URL to proxy (e.g. `https://username:password@domain.tld:port`). __Note:__ This only has an effect on widgets that gather data from the extension host (e.g. Welcome Widget)."
-			},
-			"marquee.configuration.fontSize": {
-			  "type": "number",
-			  "scope": "window",
-			  "default": 5,
-			  "markdownDescription": "Font Size of Widgets (`0` very small / `10` very large)",
-			  "enum": [
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7,
-				8,
-				9,
-				10
-			  ]
-			},
-			"marquee.configuration.colorScheme": {
-			  "type": "object",
-			  "scope": "window",
-			  "properties": {
-				"r": {
-				  "type": "integer",
-				  "minimum": 0,
-				  "maximum": 255
-				},
-				"g": {
-				  "type": "number",
-				  "minimum": 0,
-				  "maximum": 255
-				},
-				"b": {
-				  "type": "number",
-				  "minimum": 0,
-				  "maximum": 255
-				},
-				"a": {
-				  "type": "number",
-				  "minimum": 0,
-				  "maximum": 1
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "marquee",
+					"title": "Marquee",
+					"icon": "assets/marquee_activity_dark.png"
 				}
-			  },
-			  "additionalProperties": false,
-			  "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
-			},
-			"marquee.configuration.name": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "name here...",
-			  "markdownDescription": "Your name so Marquee can greet you!"
-			},
-			"marquee.configuration.background": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "1",
-			  "markdownDescription": "Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon)."
-			},
-			"marquee.configuration.modes": {
-			  "type": "object",
-			  "scope": "window",
-			  "default": {
-				"default": {
-				  "layouts": {
-					"lg": [
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 8,
-						"y": 12,
-						"i": "todo",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 8,
-						"y": 0,
-						"i": "weather",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 4,
-						"y": 12,
-						"i": "github",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 12,
-						"i": "news",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 24,
-						"i": "snippets",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 6,
-						"h": 13,
-						"x": 6,
-						"y": 24,
-						"i": "notes",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 4,
-						"y": 0,
-						"i": "projects",
-						"moved": false,
-						"static": false
-					  }
-					],
-					"md": [
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 6,
-						"y": 12,
-						"i": "todo",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 7,
-						"y": 0,
-						"i": "weather",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 12,
-						"i": "github",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 12,
-						"i": "news",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 5,
-						"h": 13,
-						"x": 0,
-						"y": 24,
-						"i": "snippets",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 5,
-						"h": 13,
-						"x": 5,
-						"y": 24,
-						"i": "notes",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 3,
-						"y": 0,
-						"i": "projects",
-						"moved": false,
-						"static": false
-					  }
-					],
-					"sm": [
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 24,
-						"i": "todo",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 12,
-						"i": "weather",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 24,
-						"i": "github",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 12,
-						"i": "news",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 36,
-						"i": "snippets",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 49,
-						"i": "notes",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 0,
-						"i": "projects",
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xs": [
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 2,
-						"h": 11,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 23,
-						"i": "todo",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 2,
-						"h": 11,
-						"x": 2,
-						"y": 0,
-						"i": "weather",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 74,
-						"i": "github",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 61,
-						"i": "news",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 35,
-						"i": "snippets",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 48,
-						"i": "notes",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 11,
-						"i": "projects",
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xxs": [
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 11,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 35,
-						"i": "todo",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 11,
-						"i": "weather",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 86,
-						"i": "github",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 73,
-						"i": "news",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 47,
-						"i": "snippets",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 60,
-						"i": "notes",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 23,
-						"i": "projects",
-						"moved": false,
-						"static": false
-					  }
-					]
-				  },
-				  "widgets": {
-					"news": true,
-					"github": true,
-					"todo": true,
-					"weather": true,
-					"notes": true,
-					"welcome": true,
-					"snippets": true,
-					"projects": true
-				  }
-				},
-				"play": {
-				  "layouts": {
-					"sm": [
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 11,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 11,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 36,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 11,
-						"x": 3,
-						"y": 0,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 23,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 11,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 48,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 60,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xs": [
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 37,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 24,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 62,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 11,
-						"x": 0,
-						"y": 13,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 50,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 74,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 86,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"md": [
-					  {
-						"w": 5,
-						"h": 14,
-						"x": 5,
-						"y": 12,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 14,
-						"x": 0,
-						"y": 12,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 37,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 12,
-						"x": 5,
-						"y": 0,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 10,
-						"h": 11,
-						"x": 0,
-						"y": 26,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 12,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 49,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 61,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"lg": [
-					  {
-						"w": 6,
-						"h": 14,
-						"x": 6,
-						"y": 15,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 14,
-						"x": 0,
-						"y": 15,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 14,
-						"x": 4,
-						"y": 29,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 15,
-						"x": 3,
-						"y": 0,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 15,
-						"x": 6,
-						"y": 0,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 15,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 29,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 41,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xxs": [
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 37,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 24,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 62,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 11,
-						"x": 0,
-						"y": 13,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 50,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 74,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 86,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					]
-				  },
-				  "widgets": {
-					"news": true,
-					"github": true,
-					"todo": false,
-					"weather": true,
-					"notes": false,
-					"welcome": true,
-					"snippets": false,
-					"projects": false
-				  },
-				  "icon": {
-					"id": "beach_with_umbrella",
-					"name": "Beach with Umbrella",
-					"short_names": [
-					  "beach_with_umbrella"
-					],
-					"colons": ":beach_with_umbrella:",
-					"unified": "1f3d6-fe0f",
-					"native": "🏖️"
-				  }
-				},
-				"work": {
-				  "layouts": {
-					"sm": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 47,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 59,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 11,
-						"x": 3,
-						"y": 0,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 71,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 11,
-						"x": 0,
-						"y": 36,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 11,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 23,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 12,
-						"x": 0,
-						"y": 11,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xs": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 60,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 72,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 25,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 84,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 11,
-						"x": 0,
-						"y": 49,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 37,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 13,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"md": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 26,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 38,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 0,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 50,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 14,
-						"x": 5,
-						"y": 12,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 14,
-						"x": 0,
-						"y": 12,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 6,
-						"y": 0,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"lg": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 28,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 40,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 8,
-						"y": 0,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 52,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 15,
-						"x": 6,
-						"y": 13,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 15,
-						"x": 0,
-						"y": 13,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 4,
-						"y": 0,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"xxs": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 60,
-						"i": "news",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 72,
-						"i": "github",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 25,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 84,
-						"i": "weather",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 11,
-						"x": 0,
-						"y": 49,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 0,
-						"i": "welcome",
-						"minW": 3,
-						"minH": 9,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 37,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 13,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					]
-				  },
-				  "widgets": {
-					"news": false,
-					"github": false,
-					"todo": true,
-					"weather": false,
-					"notes": true,
-					"welcome": true,
-					"snippets": true,
-					"projects": true
-				  },
-				  "icon": {
-					"id": "briefcase",
-					"name": "Briefcase",
-					"short_names": [
-					  "briefcase"
-					],
-					"colons": ":briefcase:",
-					"unified": "1f4bc",
-					"native": "💼"
-				  }
-				},
-				"project": {
-				  "layouts": {
-					"lg": [
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 5,
-						"y": 0,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 17,
-						"x": 8,
-						"y": 24,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 17,
-						"x": 5,
-						"y": 24,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 8,
-						"y": 0,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 12,
-						"x": 5,
-						"y": 12,
-						"i": "npm-stats",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 41,
-						"x": 0,
-						"y": 0,
-						"i": "markdown",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  }
-					],
-					"md": [
-					  {
-						"w": 4,
-						"h": 8,
-						"x": 6,
-						"y": 0,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 13,
-						"x": 5,
-						"y": 27,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 5,
-						"h": 13,
-						"x": 0,
-						"y": 27,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 10,
-						"x": 6,
-						"y": 8,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 10,
-						"h": 9,
-						"x": 0,
-						"y": 18,
-						"i": "npm-stats",
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 18,
-						"x": 0,
-						"y": 0,
-						"i": "markdown",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "welcome"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "news"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "github"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "weather"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "stateful-marquee-widget"
-					  }
-					],
-					"sm": [
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 0,
-						"y": 30,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 11,
-						"x": 0,
-						"y": 55,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 13,
-						"x": 0,
-						"y": 42,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 3,
-						"h": 12,
-						"x": 3,
-						"y": 30,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 12,
-						"x": 0,
-						"y": 18,
-						"i": "npm-stats",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 6,
-						"h": 18,
-						"x": 0,
-						"y": 0,
-						"i": "markdown",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "welcome"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "news"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "github"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "weather"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "stateful-marquee-widget"
-					  }
-					],
-					"xs": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 29,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 67,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 54,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 41,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 17,
-						"i": "npm-stats",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 17,
-						"x": 0,
-						"y": 0,
-						"i": "markdown",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "welcome"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "news"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "github"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "weather"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "stateful-marquee-widget"
-					  }
-					],
-					"xxs": [
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 34,
-						"i": "todo",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 72,
-						"i": "projects",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 59,
-						"i": "snippets",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 13,
-						"x": 0,
-						"y": 46,
-						"i": "notes",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 12,
-						"x": 0,
-						"y": 22,
-						"i": "npm-stats",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"w": 4,
-						"h": 22,
-						"x": 0,
-						"y": 0,
-						"i": "markdown",
-						"minW": 2,
-						"minH": 6,
-						"moved": false,
-						"static": false
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "welcome"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "news"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "github"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "weather"
-					  },
-					  {
-						"minW": 2,
-						"minH": 6,
-						"static": false,
-						"moved": false,
-						"x": 0,
-						"y": 0,
-						"h": 12,
-						"w": 4,
-						"i": "stateful-marquee-widget"
-					  }
-					]
-				  },
-				  "widgets": {
-					"news": false,
-					"github": false,
-					"todo": true,
-					"weather": false,
-					"notes": true,
-					"markdown": true,
-					"welcome": false,
-					"snippets": true,
-					"projects": true,
-					"npm-stats": true
-				  },
-				  "icon": {
-					"id": "rocket",
-					"name": "Rocket",
-					"short_names": [
-					  "rocket"
-					],
-					"colons": ":rocket:",
-					"emoticons": [],
-					"unified": "1f680",
-					"skin": null
-				  }
+			]
+		},
+		"views": {
+			"marquee": [
+				{
+					"id": "marquee",
+					"name": "Marquee"
 				}
-			  },
-			  "patternProperties": {
-				"^([a-zA-Z0-9_ ])+$": {
-				  "type": "object",
-				  "required": [
-					"layouts",
-					"widgets"
-				  ],
-				  "properties": {
-					"layouts": {
-					  "type": "object",
-					  "patternProperties": {
-						"^(sm|xs|md|lg|xxs)$": {
-						  "type": "array",
-						  "items": {
-							"type": "object",
-							"properties": {
-							  "w": {
-								"type": "number"
-							  },
-							  "h": {
-								"type": "number"
-							  },
-							  "x": {
-								"type": "number"
-							  },
-							  "y": {
-								"type": "number"
-							  },
-							  "i": {
-								"type": "string"
-							  },
-							  "minW": {
-								"type": "number"
-							  },
-							  "minH": {
-								"type": "number"
-							  },
-							  "moved": {
-								"type": "boolean"
-							  },
-							  "static": {
-								"type": "boolean"
-							  }
-							}
-						  }
-						}
-					  }
-					},
-					"widgets": {
-					  "type": "object",
-					  "patternProperties": {
-						"^([a-zA-Z0-9_ ])+$": {
-						  "type": "boolean"
-						}
-					  }
-					},
-					"icon": {
-					  "type": "object",
-					  "properties": {
-						"id": {
-						  "type": "string"
-						},
-						"name": {
-						  "type": "string"
-						},
-						"short_names": {
-						  "type": "array",
-						  "items": {
-							"type": "string"
-						  }
-						},
-						"colons": {
-						  "type": "string"
-						},
-						"unified": {
-						  "type": "string"
-						},
-						"native": {
-						  "type": "string"
-						}
-					  }
-					}
-				  }
+			]
+		},
+		"commands": [
+			{
+				"command": "marquee.open",
+				"title": "Open",
+				"category": "Marquee",
+				"icon": {
+					"light": "assets/marquee-light.svg",
+					"dark": "assets/marquee-dark.svg"
 				}
-			  },
-			  "markdownDescription": "Configuration of your widget location and display"
 			},
-			"marquee.configuration.launchOnStartup": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": true,
-			  "markdownDescription": "Open Marquee when VS Code starts up"
+			{
+				"command": "marquee.clear",
+				"category": "Marquee",
+				"title": "Clear Persistence"
 			},
-			"marquee.configuration.workspaceLaunch": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": false,
-			  "markdownDescription": "Only auto-launch Marquee in Workspaces"
+			{
+				"command": "marquee.touchbar",
+				"title": "Open Marquee",
+				"category": "Marquee",
+				"icon": "assets/marquee_activity_light.png",
+				"enablement": "isMac"
 			},
-			"marquee.widgets.news.feeds": {
-			  "type": "object",
-			  "additionalProperties": {
-				"type": "string"
-			  },
-			  "default": {
-				"HN Newest": "https://hnrss.org/newest",
-				"HN Ask": "https://hnrss.org/ask",
-				"HN Show": "https://hnrss.org/show",
-				"HN Jobs": "https://hnrss.org/jobs",
-				"HN Best": "https://hnrss.org/best"
-			  },
-			  "scope": "window",
-			  "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)"
+			{
+				"command": "marquee.link",
+				"title": "Jump to origin",
+				"category": "Marquee",
+				"enablement": "listFocus",
+				"icon": {
+					"light": "assets/link-dark.svg",
+					"dark": "assets/link-light.svg"
+				}
 			},
-			"marquee.widgets.news.updateInterval": {
-			  "type": "number",
-			  "default": 60000,
-			  "scope": "window",
-			  "markdownDescription": "Interval that defines how often Marquee updates the RSS feed"
+			{
+				"command": "marquee.toggleScope",
+				"title": "Toggle global / workspace scope",
+				"category": "Marquee",
+				"icon": {
+					"light": "assets/toggle-todo-dark.svg",
+					"dark": "assets/toggle-todo-light.svg"
+				}
 			},
-			"marquee.widgets.projects.workspaceFilter": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "",
-			  "markdownDescription": "Filter for project list"
+			{
+				"command": "marquee.jsonExport",
+				"category": "Marquee",
+				"title": "JSON Export"
 			},
-			"marquee.widgets.projects.workspaceSortOrder": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "usage",
-			  "enum": [
-				"alphabetical",
-				"usage"
-			  ],
-			  "markdownDescription": "Sort order of projects"
+			{
+				"command": "marquee.jsonImport",
+				"category": "Marquee",
+				"title": "JSON Import"
 			},
-			"marquee.widgets.projects.openProjectInNewWindow": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": false,
-			  "markdownDescription": "If true, Marquee will open a project in a new window"
+			{
+				"command": "marquee.edit",
+				"category": "Marquee",
+				"enablement": "listFocus",
+				"title": "Edit"
 			},
-			"marquee.widgets.github.language": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "",
-			  "enum": [
-				"",
-				"1C Enterprise",
-				"ABAP",
-				"ABNF",
-				"ActionScript",
-				"Ada",
-				"Adobe Font Metrics",
-				"Agda",
-				"AGS Script",
-				"Alloy",
-				"Alpine Abuild",
-				"AMPL",
-				"AngelScript",
-				"Ant Build System",
-				"ANTLR",
-				"ApacheConf",
-				"Apex",
-				"API Blueprint",
-				"APL",
-				"Apollo Guidance Computer",
-				"AppleScript",
-				"Arc",
-				"AsciiDoc",
-				"ASN.1",
-				"ASP",
-				"AspectJ",
-				"Assembly",
-				"ATS",
-				"Augeas",
-				"AutoHotkey",
-				"AutoIt",
-				"Awk",
-				"Ballerina",
-				"Batchfile",
-				"Befunge",
-				"Bison",
-				"BitBake",
-				"Blade",
-				"BlitzBasic",
-				"BlitzMax",
-				"Bluespec",
-				"Boo",
-				"Brainfuck",
-				"Brightscript",
-				"Bro",
-				"C",
-				"C#",
-				"C++",
-				"C-ObjDump",
-				"C2hs Haskell",
-				"Cap'n Proto",
-				"CartoCSS",
-				"Ceylon",
-				"Chapel",
-				"Charity",
-				"ChucK",
-				"Cirru",
-				"Clarion",
-				"Clean",
-				"Click",
-				"CLIPS",
-				"Clojure",
-				"Closure Templates",
-				"CMake",
-				"COBOL",
-				"CoffeeScript",
-				"ColdFusion",
-				"ColdFusion CFC",
-				"COLLADA",
-				"Common Lisp",
-				"Common Workflow Language",
-				"Component Pascal",
-				"Cool",
-				"Coq",
-				"Cpp-ObjDump",
-				"Creole",
-				"Crystal",
-				"CSON",
-				"Csound",
-				"Csound Document",
-				"Csound Score",
-				"CSS",
-				"CSV",
-				"Cuda",
-				"CWeb",
-				"Cycript",
-				"Cython",
-				"D",
-				"D-ObjDump",
-				"Darcs Patch",
-				"Dart",
-				"DataWeave",
-				"desktop",
-				"Diff",
-				"DIGITAL Command Language",
-				"DM",
-				"DNS Zone",
-				"Dockerfile",
-				"Dogescript",
-				"DTrace",
-				"Dylan",
-				"E",
-				"Eagle",
-				"Easybuild",
-				"EBNF",
-				"eC",
-				"Ecere Projects",
-				"ECL",
-				"ECLiPSe",
-				"Edje Data Collection",
-				"edn",
-				"Eiffel",
-				"EJS",
-				"Elixir",
-				"Elm",
-				"Emacs Lisp",
-				"EmberScript",
-				"EQ",
-				"Erlang",
-				"F#",
-				"Factor",
-				"Fancy",
-				"Fantom",
-				"Filebench WML",
-				"Filterscript",
-				"fish",
-				"FLUX",
-				"Formatted",
-				"Forth",
-				"Fortran",
-				"FreeMarker",
-				"Frege",
-				"G-code",
-				"Game Maker Language",
-				"GAMS",
-				"GAP",
-				"GCC Machine Description",
-				"GDB",
-				"GDScript",
-				"Genie",
-				"Genshi",
-				"Gentoo Ebuild",
-				"Gentoo Eclass",
-				"Gerber Image",
-				"Gettext Catalog",
-				"Gherkin",
-				"GLSL",
-				"Glyph",
-				"GN",
-				"Gnuplot",
-				"Go",
-				"Golo",
-				"Gosu",
-				"Grace",
-				"Gradle",
-				"Grammatical Framework",
-				"Graph Modeling Language",
-				"GraphQL",
-				"Graphviz (DOT)",
-				"Groovy",
-				"Groovy Server Pages",
-				"Hack",
-				"Haml",
-				"Handlebars",
-				"Harbour",
-				"Haskell",
-				"Haxe",
-				"HCL",
-				"HLSL",
-				"HTML",
-				"HTML+Django",
-				"HTML+ECR",
-				"HTML+EEX",
-				"HTML+ERB",
-				"HTML+PHP",
-				"HTTP",
-				"Hy",
-				"HyPhy",
-				"IDL",
-				"Idris",
-				"IGOR Pro",
-				"Inform 7",
-				"INI",
-				"Inno Setup",
-				"Io",
-				"Ioke",
-				"IRC log",
-				"Isabelle",
-				"Isabelle ROOT",
-				"J",
-				"Jasmin",
-				"Java",
-				"Java Server Pages",
-				"JavaScript",
-				"JFlex",
-				"Jison",
-				"Jison Lex",
-				"Jolie",
-				"JSON",
-				"JSON5",
-				"JSONiq",
-				"JSONLD",
-				"JSX",
-				"Julia",
-				"Jupyter Notebook",
-				"KiCad Layout",
-				"KiCad Legacy Layout",
-				"KiCad Schematic",
-				"Kit",
-				"Kotlin",
-				"KRL",
-				"LabVIEW",
-				"Lasso",
-				"Latte",
-				"Lean",
-				"Less",
-				"Lex",
-				"LFE",
-				"LilyPond",
-				"Limbo",
-				"Linker Script",
-				"Linux Kernel Module",
-				"Liquid",
-				"Literate Agda",
-				"Literate CoffeeScript",
-				"Literate Haskell",
-				"LiveScript",
-				"LLVM",
-				"Logos",
-				"Logtalk",
-				"LOLCODE",
-				"LookML",
-				"LoomScript",
-				"LSL",
-				"Lua",
-				"M",
-				"M4",
-				"M4Sugar",
-				"Makefile",
-				"Mako",
-				"Markdown",
-				"Marko",
-				"Mask",
-				"Mathematica",
-				"Matlab",
-				"Maven POM",
-				"Max",
-				"MAXScript",
-				"MediaWiki",
-				"Mercury",
-				"Meson",
-				"Metal",
-				"MiniD",
-				"Mirah",
-				"Modelica",
-				"Modula-2",
-				"Module Management System",
-				"Monkey",
-				"Moocode",
-				"MoonScript",
-				"MQL4",
-				"MQL5",
-				"MTML",
-				"MUF",
-				"mupad",
-				"Myghty",
-				"NCL",
-				"Nearley",
-				"Nemerle",
-				"nesC",
-				"NetLinx",
-				"NetLinx+ERB",
-				"NetLogo",
-				"NewLisp",
-				"Nextflow",
-				"Nginx",
-				"Nim",
-				"Ninja",
-				"Nit",
-				"Nix",
-				"NL",
-				"NSIS",
-				"Nu",
-				"NumPy",
-				"ObjDump",
-				"Objective-C",
-				"Objective-C++",
-				"Objective-J",
-				"OCaml",
-				"Omgrofl",
-				"ooc",
-				"Opa",
-				"Opal",
-				"OpenCL",
-				"OpenEdge ABL",
-				"OpenRC runscript",
-				"OpenSCAD",
-				"OpenType Feature File",
-				"Org",
-				"Ox",
-				"Oxygene",
-				"Oz",
-				"P4",
-				"Pan",
-				"Papyrus",
-				"Parrot",
-				"Parrot Assembly",
-				"Parrot Internal Representation",
-				"Pascal",
-				"PAWN",
-				"Pep8",
-				"Perl",
-				"Perl 6",
-				"PHP",
-				"Pic",
-				"Pickle",
-				"PicoLisp",
-				"PigLatin",
-				"Pike",
-				"PLpgSQL",
-				"PLSQL",
-				"Pod",
-				"PogoScript",
-				"Pony",
-				"PostCSS",
-				"PostScript",
-				"POV-Ray SDL",
-				"PowerBuilder",
-				"PowerShell",
-				"Processing",
-				"Prolog",
-				"Propeller Spin",
-				"Protocol Buffer",
-				"Public Key",
-				"Pug",
-				"Puppet",
-				"Pure Data",
-				"PureBasic",
-				"PureScript",
-				"Python",
-				"Python console",
-				"Python traceback",
-				"QMake",
-				"QML",
-				"R",
-				"Racket",
-				"Ragel",
-				"RAML",
-				"Rascal",
-				"Raw token data",
-				"RDoc",
-				"REALbasic",
-				"Reason",
-				"Rebol",
-				"Red",
-				"Redcode",
-				"Regular Expression",
-				"Ren'Py",
-				"RenderScript",
-				"reStructuredText",
-				"REXX",
-				"RHTML",
-				"Ring",
-				"RMarkdown",
-				"RobotFramework",
-				"Roff",
-				"Rouge",
-				"RPC",
-				"RPM Spec",
-				"Ruby",
-				"RUNOFF",
-				"Rust",
-				"Sage",
-				"SaltStack",
-				"SAS",
-				"Sass",
-				"Scala",
-				"Scaml",
-				"Scheme",
-				"Scilab",
-				"SCSS",
-				"sed",
-				"Self",
-				"ShaderLab",
-				"Shell",
-				"ShellSession",
-				"Shen",
-				"Slash",
-				"Slim",
-				"Smali",
-				"Smalltalk",
-				"Smarty",
-				"SMT",
-				"Solidity",
-				"SourcePawn",
-				"SPARQL",
-				"Spline Font Database",
-				"SQF",
-				"SQL",
-				"SQLPL",
-				"Squirrel",
-				"SRecode Template",
-				"Stan",
-				"Standard ML",
-				"Stata",
-				"STON",
-				"Stylus",
-				"Sublime Text Config",
-				"SubRip Text",
-				"SugarSS",
-				"SuperCollider",
-				"SVG",
-				"Swift",
-				"SystemVerilog",
-				"Tcl",
-				"Tcsh",
-				"Tea",
-				"Terra",
-				"TeX",
-				"Text",
-				"Textile",
-				"Thrift",
-				"TI Program",
-				"TLA",
-				"TOML",
-				"Turing",
-				"Turtle",
-				"Twig",
-				"TXL",
-				"Type Language",
-				"TypeScript",
-				"Unified Parallel C",
-				"Unity3D Asset",
-				"Unix Assembly",
-				"Uno",
-				"UnrealScript",
-				"UrWeb",
-				"Vala",
-				"VCL",
-				"Verilog",
-				"VHDL",
-				"Vim script",
-				"Visual Basic",
-				"Volt",
-				"Vue",
-				"Wavefront Material",
-				"Wavefront Object",
-				"wdl",
-				"Web Ontology Language",
-				"WebAssembly",
-				"WebIDL",
-				"wisp",
-				"World of Warcraft Addon Data",
-				"X10",
-				"xBase",
-				"XC",
-				"XCompose",
-				"XML",
-				"Xojo",
-				"XPages",
-				"XPM",
-				"XProc",
-				"XQuery",
-				"XS",
-				"XSLT",
-				"Xtend",
-				"Yacc",
-				"YAML",
-				"YANG",
-				"YARA",
-				"Zephir",
-				"Zimpl"
-			  ],
-			  "markdownDescription": "Query GitHub trends for a specific programming language"
+			{
+				"command": "marquee.todo.toggle",
+				"title": "Toggle Todo",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.github.spoken": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "",
-			  "enum": [
-				"",
-				"Abkhazian",
-				"Afar",
-				"Afrikaans",
-				"Akan",
-				"Albanian",
-				"Amharic",
-				"Arabic",
-				"Aragonese",
-				"Armenian",
-				"Assamese",
-				"Avaric",
-				"Avestan",
-				"Aymara",
-				"Azerbaijani",
-				"Bambara",
-				"Bashkir",
-				"Basque",
-				"Belarusian",
-				"Bengali",
-				"Bihari languages",
-				"Bislama",
-				"Bosnian",
-				"Breton",
-				"Bulgarian",
-				"Burmese",
-				"Catalan, Valencian",
-				"Chamorro",
-				"Chechen",
-				"Chichewa, Chewa, Nyanja",
-				"Chinese",
-				"Chuvash",
-				"Cornish",
-				"Corsican",
-				"Cree",
-				"Croatian",
-				"Czech",
-				"Danish",
-				"Divehi, Dhivehi, Maldivian",
-				"Dutch, Flemish",
-				"Dzongkha",
-				"English",
-				"Esperanto",
-				"Estonian",
-				"Ewe",
-				"Faroese",
-				"Fijian",
-				"Finnish",
-				"French",
-				"Fulah",
-				"Galician",
-				"Georgian",
-				"German",
-				"Greek, Modern",
-				"Guarani",
-				"Gujarati",
-				"Haitian, Haitian Creole",
-				"Hausa",
-				"Hebrew",
-				"Herero",
-				"Hindi",
-				"Hiri Motu",
-				"Hungarian",
-				"Interlingua (International Auxil...",
-				"Indonesian",
-				"Interlingue, Occidental",
-				"Irish",
-				"Igbo",
-				"Inupiaq",
-				"Ido",
-				"Icelandic",
-				"Italian",
-				"Inuktitut",
-				"Japanese",
-				"Javanese",
-				"Kalaallisut, Greenlandic",
-				"Kannada",
-				"Kanuri",
-				"Kashmiri",
-				"Kazakh",
-				"Central Khmer",
-				"Kikuyu, Gikuyu",
-				"Kinyarwanda",
-				"Kirghiz, Kyrgyz",
-				"Komi",
-				"Kongo",
-				"Korean",
-				"Kurdish",
-				"Kuanyama, Kwanyama",
-				"Latin",
-				"Luxembourgish, Letzeburgesch",
-				"Ganda",
-				"Limburgan, Limburger, Limburgish",
-				"Lingala",
-				"Lao",
-				"Lithuanian",
-				"Luba-Katanga",
-				"Latvian",
-				"Manx",
-				"Macedonian",
-				"Malagasy",
-				"Malay",
-				"Malayalam",
-				"Maltese",
-				"Maori",
-				"Marathi",
-				"Marshallese",
-				"Mongolian",
-				"Nauru",
-				"Navajo, Navaho",
-				"North Ndebele",
-				"Nepali",
-				"Ndonga",
-				"Norwegian Bokmål",
-				"Norwegian Nynorsk",
-				"Norwegian",
-				"Sichuan Yi, Nuosu",
-				"South Ndebele",
-				"Occitan",
-				"Ojibwa",
-				"Church Slavic, Old Slavonic, Chu...",
-				"Oromo",
-				"Oriya",
-				"Ossetian, Ossetic",
-				"Punjabi, Panjabi",
-				"Pali",
-				"Persian",
-				"Polish",
-				"Pashto, Pushto",
-				"Portuguese",
-				"Quechua",
-				"Romansh",
-				"Rundi",
-				"Romanian, Moldavian, Moldovan",
-				"Russian",
-				"Sanskrit",
-				"Sardinian",
-				"Sindhi",
-				"Northern Sami",
-				"Samoan",
-				"Sango",
-				"Serbian",
-				"Gaelic, Scottish Gaelic",
-				"Shona",
-				"Sinhala, Sinhalese",
-				"Slovak",
-				"Slovenian",
-				"Somali",
-				"Southern Sotho",
-				"Spanish, Castilian",
-				"Sundanese",
-				"Swahili",
-				"Swati",
-				"Swedish",
-				"Tamil",
-				"Telugu",
-				"Tajik",
-				"Thai",
-				"Tigrinya",
-				"Tibetan",
-				"Turkmen",
-				"Tagalog",
-				"Tswana",
-				"Tonga (Tonga Islands)",
-				"Turkish",
-				"Tsonga",
-				"Tatar",
-				"Twi",
-				"Tahitian",
-				"Uighur, Uyghur",
-				"Ukrainian",
-				"Urdu",
-				"Uzbek",
-				"Venda",
-				"Vietnamese",
-				"Volapük",
-				"Walloon",
-				"Welsh",
-				"Wolof",
-				"Western Frisian",
-				"Xhosa",
-				"Yiddish",
-				"Yoruba",
-				"Zhuang, Chuang",
-				"Zulu"
-			  ],
-			  "markdownDescription": "Query GitHub trends for a specific spoken language"
+			{
+				"command": "marquee.todo.addEditor",
+				"title": "Marquee: Add to Todos",
+				"category": "Marquee"
 			},
-			"marquee.widgets.github.since": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "Weekly",
-			  "enum": [
-				"Daily",
-				"Weekly",
-				"Monthly"
-			  ],
-			  "markdownDescription": "Query GitHub trends by specific time period"
+			{
+				"command": "marquee.todo.move",
+				"title": "Move todo to current workspace",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.github.trendFilter": {
-			  "type": "string",
-			  "scope": "window",
-			  "markdownDescription": "Query GitHub trends by specific key word"
+			{
+				"command": "marquee.todo.archive",
+				"title": "Archive",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.weather.city": {
-			  "type": "string",
-			  "scope": "window",
-			  "markdownDescription": "City for which the widget displays the weather forecast"
+			{
+				"command": "marquee.todo.addEmpty",
+				"title": "Create New Todo",
+				"category": "Marquee",
+				"icon": {
+					"light": "assets/add-dark.svg",
+					"dark": "assets/add-light.svg"
+				}
 			},
-			"marquee.widgets.weather.scale": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "Fahrenheit",
-			  "enum": [
-				"Fahrenheit",
-				"Celsius"
-			  ],
-			  "markdownDescription": "Scale to display the weather forecast in"
+			{
+				"command": "marquee.note.addEditor",
+				"title": "Marquee: Add Selection to Notes",
+				"category": "Marquee",
+				"enablement": "editorHasSelection"
 			},
-			"marquee.widgets.todo.todoFilter": {
-			  "type": "string",
-			  "scope": "window",
-			  "default": "",
-			  "markdownDescription": "Filter ToDos or their associated tags"
+			{
+				"command": "marquee.note.move",
+				"title": "Move note to current workspace",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.todo.hide": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": false,
-			  "markdownDescription": "Hide completed ToDos"
+			{
+				"command": "marquee.note.delete",
+				"title": "Delete",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.todo.showArchived": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": false,
-			  "markdownDescription": "Show archived ToDos"
+			{
+				"command": "marquee.note.addEmpty",
+				"title": "Create New Note",
+				"category": "Marquee",
+				"icon": {
+					"light": "assets/add-dark.svg",
+					"dark": "assets/add-light.svg"
+				}
 			},
-			"marquee.widgets.todo.autoDetect": {
-			  "type": "boolean",
-			  "scope": "window",
-			  "default": true,
-			  "markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
+			{
+				"command": "marquee.snippet.addEmpty",
+				"title": "Create New Clipboard Item",
+				"category": "Marquee",
+				"icon": {
+					"light": "assets/add-dark.svg",
+					"dark": "assets/add-light.svg"
+				}
 			},
-			"marquee.widgets.markdown.externalMarkdownFiles": {
-			  "type": "array",
-			  "items": {
-				"type": "string",
-				"title": "markdown link"
-			  },
-			  "scope": "window",
-			  "default": [
-				"https://raw.githubusercontent.com/stateful/vscode-marquee/main/CONTRIBUTING.md"
-			  ],
-			  "markdownDescription": "Add remote markdown documents"
+			{
+				"command": "marquee.snippet.insertEditor",
+				"title": "Insert from Clipboard Item",
+				"category": "Marquee"
 			},
-			"marquee.widgets.npm-stats.packageNames": {
-			  "type": "array",
-			  "items": {
-				"type": "string",
-				"title": "NPM package name"
-			  },
-			  "scope": "window",
-			  "default": [],
-			  "markdownDescription": "NPM package names to display in NPM Stats widget"
+			{
+				"command": "marquee.snippet.addEditor",
+				"title": "Marquee: Add Selection to Clipboard",
+				"category": "Marquee",
+				"enablement": "editorHasSelection"
 			},
-			"marquee.widgets.npm-stats.from": {
-			  "type": "number",
-			  "scope": "window",
-			  "markdownDescription": "Timestamp from when the download count should be pulled for"
+			{
+				"command": "marquee.snippet.insert",
+				"title": "Insert",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			},
-			"marquee.widgets.npm-stats.until": {
-			  "type": "number",
-			  "scope": "window",
-			  "markdownDescription": "Timestamp until when the download count should be pulled for"
+			{
+				"command": "marquee.snippet.delete",
+				"title": "Delete",
+				"category": "Marquee",
+				"enablement": "listFocus"
+			},
+			{
+				"command": "marquee.snippet.move",
+				"title": "Move snippet to current workspace",
+				"category": "Marquee",
+				"enablement": "listFocus"
+			},
+			{
+				"command": "marquee.snippet.copyToClipboard",
+				"title": "Copy snippet to clipboard",
+				"category": "Marquee",
+				"enablement": "listFocus"
 			}
-		  }
-		}
-	  ]
+		],
+		"menus": {
+			"touchBar": [
+				{
+					"command": "marquee.open"
+				}
+			],
+			"view/title": [
+				{
+					"command": "marquee.toggleScope",
+					"when": "view == marquee",
+					"group": "navigation@0"
+				},
+				{
+					"command": "marquee.open",
+					"when": "view == marquee",
+					"group": "navigation@1"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "marquee.edit",
+					"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "marquee.snippet.insert",
+					"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "marquee.snippet.delete",
+					"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+					"group": "1_actions@3"
+				},
+				{
+					"command": "marquee.snippet.move",
+					"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+					"group": "5_copy@1"
+				},
+				{
+					"command": "marquee.snippet.copyToClipboard",
+					"when": "view == marquee && viewItem =~ /Snippet|LinkedSnippet/",
+					"group": "5_copy@2"
+				},
+				{
+					"command": "marquee.todo.move",
+					"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+					"group": "5_copy@1"
+				},
+				{
+					"command": "marquee.edit",
+					"when": "view == marquee && viewItem =~ /Note/",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "marquee.note.delete",
+					"when": "view == marquee && viewItem =~ /Note/",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "marquee.note.move",
+					"when": "view == marquee && viewItem =~ /Note/",
+					"group": "5_copy@1"
+				},
+				{
+					"command": "marquee.link",
+					"when": "view == marquee && viewItem == LinkedSnippet",
+					"group": "inline"
+				},
+				{
+					"command": "marquee.edit",
+					"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+					"group": "1_actions@1"
+				},
+				{
+					"command": "marquee.todo.archive",
+					"when": "view == marquee && viewItem =~ /Todo|LinkedTodo/",
+					"group": "1_actions@2"
+				},
+				{
+					"command": "marquee.link",
+					"when": "view == marquee && viewItem == LinkedTodo",
+					"group": "inline"
+				},
+				{
+					"command": "marquee.todo.addEmpty",
+					"when": "view == marquee && viewItem == todosHeadline",
+					"group": "inline"
+				},
+				{
+					"command": "marquee.note.addEmpty",
+					"when": "view == marquee && viewItem == notesHeadline",
+					"group": "inline"
+				},
+				{
+					"command": "marquee.snippet.addEmpty",
+					"when": "view == marquee && viewItem == snippetsHeadline",
+					"group": "inline"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "marquee.todo.addEditor",
+					"group": "1_modification"
+				},
+				{
+					"command": "marquee.snippet.addEditor",
+					"group": "1_modification"
+				},
+				{
+					"command": "marquee.note.addEditor",
+					"group": "1_modification"
+				},
+				{
+					"command": "marquee.snippet.insertEditor",
+					"group": "9_cutcopypaste"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "marquee.open",
+					"group": "navigation"
+				}
+			]
+		},
+		"configuration": [
+			{
+				"title": "Marquee",
+				"properties": {
+					"marquee.configuration.proxy": {
+						"type": "string",
+						"scope": "machine",
+						"default": "",
+						"markdownDescription": "URL to proxy (e.g. `https://username:password@domain.tld:port`). __Note:__ This only has an effect on widgets that gather data from the extension host (e.g. Welcome Widget)."
+					},
+					"marquee.configuration.fontSize": {
+						"type": "number",
+						"scope": "window",
+						"default": 5,
+						"markdownDescription": "Font Size of Widgets (`0` very small / `10` very large)",
+						"enum": [
+							0,
+							1,
+							2,
+							3,
+							4,
+							5,
+							6,
+							7,
+							8,
+							9,
+							10
+						]
+					},
+					"marquee.configuration.colorScheme": {
+						"type": "object",
+						"scope": "window",
+						"properties": {
+							"r": {
+								"type": "integer",
+								"minimum": 0,
+								"maximum": 255
+							},
+							"g": {
+								"type": "number",
+								"minimum": 0,
+								"maximum": 255
+							},
+							"b": {
+								"type": "number",
+								"minimum": 0,
+								"maximum": 255
+							},
+							"a": {
+								"type": "number",
+								"minimum": 0,
+								"maximum": 1
+							}
+						},
+						"additionalProperties": false,
+						"description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
+					},
+					"marquee.configuration.name": {
+						"type": "string",
+						"scope": "window",
+						"default": "name here...",
+						"markdownDescription": "Your name so Marquee can greet you!"
+					},
+					"marquee.configuration.background": {
+						"type": "string",
+						"scope": "window",
+						"default": "1",
+						"markdownDescription": "Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon)."
+					},
+					"marquee.configuration.modes": {
+						"type": "object",
+						"scope": "window",
+						"default": {
+							"default": {
+								"layouts": {
+									"lg": [
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 8,
+											"y": 12,
+											"i": "todo",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 8,
+											"y": 0,
+											"i": "weather",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 4,
+											"y": 12,
+											"i": "github",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 12,
+											"i": "news",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 24,
+											"i": "snippets",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 6,
+											"h": 13,
+											"x": 6,
+											"y": 24,
+											"i": "notes",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 4,
+											"y": 0,
+											"i": "projects",
+											"moved": false,
+											"static": false
+										}
+									],
+									"md": [
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 6,
+											"y": 12,
+											"i": "todo",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 7,
+											"y": 0,
+											"i": "weather",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 12,
+											"i": "github",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 12,
+											"i": "news",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 5,
+											"h": 13,
+											"x": 0,
+											"y": 24,
+											"i": "snippets",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 5,
+											"h": 13,
+											"x": 5,
+											"y": 24,
+											"i": "notes",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 3,
+											"y": 0,
+											"i": "projects",
+											"moved": false,
+											"static": false
+										}
+									],
+									"sm": [
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 24,
+											"i": "todo",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 12,
+											"i": "weather",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 24,
+											"i": "github",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 12,
+											"i": "news",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 36,
+											"i": "snippets",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 49,
+											"i": "notes",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 0,
+											"i": "projects",
+											"moved": false,
+											"static": false
+										}
+									],
+									"xs": [
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 2,
+											"h": 11,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 23,
+											"i": "todo",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 2,
+											"h": 11,
+											"x": 2,
+											"y": 0,
+											"i": "weather",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 74,
+											"i": "github",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 61,
+											"i": "news",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 35,
+											"i": "snippets",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 48,
+											"i": "notes",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 11,
+											"i": "projects",
+											"moved": false,
+											"static": false
+										}
+									],
+									"xxs": [
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 11,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 35,
+											"i": "todo",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 11,
+											"i": "weather",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 86,
+											"i": "github",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 73,
+											"i": "news",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 47,
+											"i": "snippets",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 60,
+											"i": "notes",
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 23,
+											"i": "projects",
+											"moved": false,
+											"static": false
+										}
+									]
+								},
+								"widgets": {
+									"news": true,
+									"github": true,
+									"todo": true,
+									"weather": true,
+									"notes": true,
+									"welcome": true,
+									"snippets": true,
+									"projects": true
+								}
+							},
+							"play": {
+								"layouts": {
+									"sm": [
+										{
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 11,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 11,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 36,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 11,
+											"x": 3,
+											"y": 0,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 23,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 11,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 48,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 60,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"xs": [
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 37,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 24,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 62,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 11,
+											"x": 0,
+											"y": 13,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 50,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 74,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 86,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"md": [
+										{
+											"w": 5,
+											"h": 14,
+											"x": 5,
+											"y": 12,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 14,
+											"x": 0,
+											"y": 12,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 37,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 12,
+											"x": 5,
+											"y": 0,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 10,
+											"h": 11,
+											"x": 0,
+											"y": 26,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 49,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 61,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"lg": [
+										{
+											"w": 6,
+											"h": 14,
+											"x": 6,
+											"y": 15,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 14,
+											"x": 0,
+											"y": 15,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 14,
+											"x": 4,
+											"y": 29,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 15,
+											"x": 3,
+											"y": 0,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 15,
+											"x": 6,
+											"y": 0,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 15,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 29,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 41,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"xxs": [
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 37,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 24,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 62,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 11,
+											"x": 0,
+											"y": 13,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 50,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 74,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 86,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									]
+								},
+								"widgets": {
+									"news": true,
+									"github": true,
+									"todo": false,
+									"weather": true,
+									"notes": false,
+									"welcome": true,
+									"snippets": false,
+									"projects": false
+								},
+								"icon": {
+									"id": "beach_with_umbrella",
+									"name": "Beach with Umbrella",
+									"short_names": [
+										"beach_with_umbrella"
+									],
+									"colons": ":beach_with_umbrella:",
+									"unified": "1f3d6-fe0f",
+									"native": "🏖️"
+								}
+							},
+							"work": {
+								"layouts": {
+									"sm": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 47,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 59,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 11,
+											"x": 3,
+											"y": 0,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 71,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 11,
+											"x": 0,
+											"y": 36,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 11,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 23,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 12,
+											"x": 0,
+											"y": 11,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"xs": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 60,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 72,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 25,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 84,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 11,
+											"x": 0,
+											"y": 49,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 37,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 13,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"md": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 26,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 38,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 0,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 50,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 14,
+											"x": 5,
+											"y": 12,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 14,
+											"x": 0,
+											"y": 12,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 6,
+											"y": 0,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"lg": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 28,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 40,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 8,
+											"y": 0,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 52,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 15,
+											"x": 6,
+											"y": 13,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 15,
+											"x": 0,
+											"y": 13,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 4,
+											"y": 0,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"xxs": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 60,
+											"i": "news",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 72,
+											"i": "github",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 25,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 84,
+											"i": "weather",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 11,
+											"x": 0,
+											"y": 49,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 9,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 37,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 13,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									]
+								},
+								"widgets": {
+									"news": false,
+									"github": false,
+									"todo": true,
+									"weather": false,
+									"notes": true,
+									"welcome": true,
+									"snippets": true,
+									"projects": true
+								},
+								"icon": {
+									"id": "briefcase",
+									"name": "Briefcase",
+									"short_names": [
+										"briefcase"
+									],
+									"colons": ":briefcase:",
+									"unified": "1f4bc",
+									"native": "💼"
+								}
+							},
+							"project": {
+								"layouts": {
+									"lg": [
+										{
+											"w": 3,
+											"h": 12,
+											"x": 5,
+											"y": 0,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 17,
+											"x": 8,
+											"y": 24,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 17,
+											"x": 5,
+											"y": 24,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 12,
+											"x": 8,
+											"y": 0,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 12,
+											"x": 5,
+											"y": 12,
+											"i": "npm-stats",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 41,
+											"x": 0,
+											"y": 0,
+											"i": "markdown",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										}
+									],
+									"md": [
+										{
+											"w": 4,
+											"h": 8,
+											"x": 6,
+											"y": 0,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 13,
+											"x": 5,
+											"y": 27,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 5,
+											"h": 13,
+											"x": 0,
+											"y": 27,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 10,
+											"x": 6,
+											"y": 8,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 10,
+											"h": 9,
+											"x": 0,
+											"y": 18,
+											"i": "npm-stats",
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 18,
+											"x": 0,
+											"y": 0,
+											"i": "markdown",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "welcome"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "news"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "github"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "weather"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "stateful-marquee-widget"
+										}
+									],
+									"sm": [
+										{
+											"w": 3,
+											"h": 12,
+											"x": 0,
+											"y": 30,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 11,
+											"x": 0,
+											"y": 55,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 13,
+											"x": 0,
+											"y": 42,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 3,
+											"h": 12,
+											"x": 3,
+											"y": 30,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 12,
+											"x": 0,
+											"y": 18,
+											"i": "npm-stats",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 18,
+											"x": 0,
+											"y": 0,
+											"i": "markdown",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "welcome"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "news"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "github"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "weather"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "stateful-marquee-widget"
+										}
+									],
+									"xs": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 29,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 67,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 54,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 41,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 17,
+											"i": "npm-stats",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 17,
+											"x": 0,
+											"y": 0,
+											"i": "markdown",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "welcome"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "news"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "github"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "weather"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "stateful-marquee-widget"
+										}
+									],
+									"xxs": [
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 34,
+											"i": "todo",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 72,
+											"i": "projects",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 59,
+											"i": "snippets",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 13,
+											"x": 0,
+											"y": 46,
+											"i": "notes",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 12,
+											"x": 0,
+											"y": 22,
+											"i": "npm-stats",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
+											"h": 22,
+											"x": 0,
+											"y": 0,
+											"i": "markdown",
+											"minW": 2,
+											"minH": 6,
+											"moved": false,
+											"static": false
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "welcome"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "news"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "github"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "weather"
+										},
+										{
+											"minW": 2,
+											"minH": 6,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "stateful-marquee-widget"
+										}
+									]
+								},
+								"widgets": {
+									"news": false,
+									"github": false,
+									"todo": true,
+									"weather": false,
+									"notes": true,
+									"markdown": true,
+									"welcome": false,
+									"snippets": true,
+									"projects": true,
+									"npm-stats": true
+								},
+								"icon": {
+									"id": "rocket",
+									"name": "Rocket",
+									"short_names": [
+										"rocket"
+									],
+									"colons": ":rocket:",
+									"emoticons": [],
+									"unified": "1f680",
+									"skin": null
+								}
+							}
+						},
+						"patternProperties": {
+							"^([a-zA-Z0-9_ ])+$": {
+								"type": "object",
+								"required": [
+									"layouts",
+									"widgets"
+								],
+								"properties": {
+									"layouts": {
+										"type": "object",
+										"patternProperties": {
+											"^(sm|xs|md|lg|xxs)$": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"w": {
+															"type": "number"
+														},
+														"h": {
+															"type": "number"
+														},
+														"x": {
+															"type": "number"
+														},
+														"y": {
+															"type": "number"
+														},
+														"i": {
+															"type": "string"
+														},
+														"minW": {
+															"type": "number"
+														},
+														"minH": {
+															"type": "number"
+														},
+														"moved": {
+															"type": "boolean"
+														},
+														"static": {
+															"type": "boolean"
+														}
+													}
+												}
+											}
+										}
+									},
+									"widgets": {
+										"type": "object",
+										"patternProperties": {
+											"^([a-zA-Z0-9_ ])+$": {
+												"type": "boolean"
+											}
+										}
+									},
+									"icon": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string"
+											},
+											"name": {
+												"type": "string"
+											},
+											"short_names": {
+												"type": "array",
+												"items": {
+													"type": "string"
+												}
+											},
+											"colons": {
+												"type": "string"
+											},
+											"unified": {
+												"type": "string"
+											},
+											"native": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						"markdownDescription": "Configuration of your widget location and display"
+					},
+					"marquee.configuration.launchOnStartup": {
+						"type": "boolean",
+						"scope": "window",
+						"default": true,
+						"markdownDescription": "Open Marquee when VS Code starts up"
+					},
+					"marquee.configuration.workspaceLaunch": {
+						"type": "boolean",
+						"scope": "window",
+						"default": false,
+						"markdownDescription": "Only auto-launch Marquee in Workspaces"
+					},
+					"marquee.widgets.news.feeds": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "string"
+						},
+						"default": {
+							"HN Newest": "https://hnrss.org/newest",
+							"HN Ask": "https://hnrss.org/ask",
+							"HN Show": "https://hnrss.org/show",
+							"HN Jobs": "https://hnrss.org/jobs",
+							"HN Best": "https://hnrss.org/best"
+						},
+						"scope": "window",
+						"markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)"
+					},
+					"marquee.widgets.news.updateInterval": {
+						"type": "number",
+						"default": 60000,
+						"scope": "window",
+						"markdownDescription": "Interval that defines how often Marquee updates the RSS feed"
+					},
+					"marquee.widgets.projects.workspaceFilter": {
+						"type": "string",
+						"scope": "window",
+						"default": "",
+						"markdownDescription": "Filter for project list"
+					},
+					"marquee.widgets.projects.workspaceSortOrder": {
+						"type": "string",
+						"scope": "window",
+						"default": "usage",
+						"enum": [
+							"alphabetical",
+							"usage"
+						],
+						"markdownDescription": "Sort order of projects"
+					},
+					"marquee.widgets.projects.openProjectInNewWindow": {
+						"type": "boolean",
+						"scope": "window",
+						"default": false,
+						"markdownDescription": "If true, Marquee will open a project in a new window"
+					},
+					"marquee.widgets.github.language": {
+						"type": "string",
+						"scope": "window",
+						"default": "",
+						"enum": [
+							"",
+							"1C Enterprise",
+							"ABAP",
+							"ABNF",
+							"ActionScript",
+							"Ada",
+							"Adobe Font Metrics",
+							"Agda",
+							"AGS Script",
+							"Alloy",
+							"Alpine Abuild",
+							"AMPL",
+							"AngelScript",
+							"Ant Build System",
+							"ANTLR",
+							"ApacheConf",
+							"Apex",
+							"API Blueprint",
+							"APL",
+							"Apollo Guidance Computer",
+							"AppleScript",
+							"Arc",
+							"AsciiDoc",
+							"ASN.1",
+							"ASP",
+							"AspectJ",
+							"Assembly",
+							"ATS",
+							"Augeas",
+							"AutoHotkey",
+							"AutoIt",
+							"Awk",
+							"Ballerina",
+							"Batchfile",
+							"Befunge",
+							"Bison",
+							"BitBake",
+							"Blade",
+							"BlitzBasic",
+							"BlitzMax",
+							"Bluespec",
+							"Boo",
+							"Brainfuck",
+							"Brightscript",
+							"Bro",
+							"C",
+							"C#",
+							"C++",
+							"C-ObjDump",
+							"C2hs Haskell",
+							"Cap'n Proto",
+							"CartoCSS",
+							"Ceylon",
+							"Chapel",
+							"Charity",
+							"ChucK",
+							"Cirru",
+							"Clarion",
+							"Clean",
+							"Click",
+							"CLIPS",
+							"Clojure",
+							"Closure Templates",
+							"CMake",
+							"COBOL",
+							"CoffeeScript",
+							"ColdFusion",
+							"ColdFusion CFC",
+							"COLLADA",
+							"Common Lisp",
+							"Common Workflow Language",
+							"Component Pascal",
+							"Cool",
+							"Coq",
+							"Cpp-ObjDump",
+							"Creole",
+							"Crystal",
+							"CSON",
+							"Csound",
+							"Csound Document",
+							"Csound Score",
+							"CSS",
+							"CSV",
+							"Cuda",
+							"CWeb",
+							"Cycript",
+							"Cython",
+							"D",
+							"D-ObjDump",
+							"Darcs Patch",
+							"Dart",
+							"DataWeave",
+							"desktop",
+							"Diff",
+							"DIGITAL Command Language",
+							"DM",
+							"DNS Zone",
+							"Dockerfile",
+							"Dogescript",
+							"DTrace",
+							"Dylan",
+							"E",
+							"Eagle",
+							"Easybuild",
+							"EBNF",
+							"eC",
+							"Ecere Projects",
+							"ECL",
+							"ECLiPSe",
+							"Edje Data Collection",
+							"edn",
+							"Eiffel",
+							"EJS",
+							"Elixir",
+							"Elm",
+							"Emacs Lisp",
+							"EmberScript",
+							"EQ",
+							"Erlang",
+							"F#",
+							"Factor",
+							"Fancy",
+							"Fantom",
+							"Filebench WML",
+							"Filterscript",
+							"fish",
+							"FLUX",
+							"Formatted",
+							"Forth",
+							"Fortran",
+							"FreeMarker",
+							"Frege",
+							"G-code",
+							"Game Maker Language",
+							"GAMS",
+							"GAP",
+							"GCC Machine Description",
+							"GDB",
+							"GDScript",
+							"Genie",
+							"Genshi",
+							"Gentoo Ebuild",
+							"Gentoo Eclass",
+							"Gerber Image",
+							"Gettext Catalog",
+							"Gherkin",
+							"GLSL",
+							"Glyph",
+							"GN",
+							"Gnuplot",
+							"Go",
+							"Golo",
+							"Gosu",
+							"Grace",
+							"Gradle",
+							"Grammatical Framework",
+							"Graph Modeling Language",
+							"GraphQL",
+							"Graphviz (DOT)",
+							"Groovy",
+							"Groovy Server Pages",
+							"Hack",
+							"Haml",
+							"Handlebars",
+							"Harbour",
+							"Haskell",
+							"Haxe",
+							"HCL",
+							"HLSL",
+							"HTML",
+							"HTML+Django",
+							"HTML+ECR",
+							"HTML+EEX",
+							"HTML+ERB",
+							"HTML+PHP",
+							"HTTP",
+							"Hy",
+							"HyPhy",
+							"IDL",
+							"Idris",
+							"IGOR Pro",
+							"Inform 7",
+							"INI",
+							"Inno Setup",
+							"Io",
+							"Ioke",
+							"IRC log",
+							"Isabelle",
+							"Isabelle ROOT",
+							"J",
+							"Jasmin",
+							"Java",
+							"Java Server Pages",
+							"JavaScript",
+							"JFlex",
+							"Jison",
+							"Jison Lex",
+							"Jolie",
+							"JSON",
+							"JSON5",
+							"JSONiq",
+							"JSONLD",
+							"JSX",
+							"Julia",
+							"Jupyter Notebook",
+							"KiCad Layout",
+							"KiCad Legacy Layout",
+							"KiCad Schematic",
+							"Kit",
+							"Kotlin",
+							"KRL",
+							"LabVIEW",
+							"Lasso",
+							"Latte",
+							"Lean",
+							"Less",
+							"Lex",
+							"LFE",
+							"LilyPond",
+							"Limbo",
+							"Linker Script",
+							"Linux Kernel Module",
+							"Liquid",
+							"Literate Agda",
+							"Literate CoffeeScript",
+							"Literate Haskell",
+							"LiveScript",
+							"LLVM",
+							"Logos",
+							"Logtalk",
+							"LOLCODE",
+							"LookML",
+							"LoomScript",
+							"LSL",
+							"Lua",
+							"M",
+							"M4",
+							"M4Sugar",
+							"Makefile",
+							"Mako",
+							"Markdown",
+							"Marko",
+							"Mask",
+							"Mathematica",
+							"Matlab",
+							"Maven POM",
+							"Max",
+							"MAXScript",
+							"MediaWiki",
+							"Mercury",
+							"Meson",
+							"Metal",
+							"MiniD",
+							"Mirah",
+							"Modelica",
+							"Modula-2",
+							"Module Management System",
+							"Monkey",
+							"Moocode",
+							"MoonScript",
+							"MQL4",
+							"MQL5",
+							"MTML",
+							"MUF",
+							"mupad",
+							"Myghty",
+							"NCL",
+							"Nearley",
+							"Nemerle",
+							"nesC",
+							"NetLinx",
+							"NetLinx+ERB",
+							"NetLogo",
+							"NewLisp",
+							"Nextflow",
+							"Nginx",
+							"Nim",
+							"Ninja",
+							"Nit",
+							"Nix",
+							"NL",
+							"NSIS",
+							"Nu",
+							"NumPy",
+							"ObjDump",
+							"Objective-C",
+							"Objective-C++",
+							"Objective-J",
+							"OCaml",
+							"Omgrofl",
+							"ooc",
+							"Opa",
+							"Opal",
+							"OpenCL",
+							"OpenEdge ABL",
+							"OpenRC runscript",
+							"OpenSCAD",
+							"OpenType Feature File",
+							"Org",
+							"Ox",
+							"Oxygene",
+							"Oz",
+							"P4",
+							"Pan",
+							"Papyrus",
+							"Parrot",
+							"Parrot Assembly",
+							"Parrot Internal Representation",
+							"Pascal",
+							"PAWN",
+							"Pep8",
+							"Perl",
+							"Perl 6",
+							"PHP",
+							"Pic",
+							"Pickle",
+							"PicoLisp",
+							"PigLatin",
+							"Pike",
+							"PLpgSQL",
+							"PLSQL",
+							"Pod",
+							"PogoScript",
+							"Pony",
+							"PostCSS",
+							"PostScript",
+							"POV-Ray SDL",
+							"PowerBuilder",
+							"PowerShell",
+							"Processing",
+							"Prolog",
+							"Propeller Spin",
+							"Protocol Buffer",
+							"Public Key",
+							"Pug",
+							"Puppet",
+							"Pure Data",
+							"PureBasic",
+							"PureScript",
+							"Python",
+							"Python console",
+							"Python traceback",
+							"QMake",
+							"QML",
+							"R",
+							"Racket",
+							"Ragel",
+							"RAML",
+							"Rascal",
+							"Raw token data",
+							"RDoc",
+							"REALbasic",
+							"Reason",
+							"Rebol",
+							"Red",
+							"Redcode",
+							"Regular Expression",
+							"Ren'Py",
+							"RenderScript",
+							"reStructuredText",
+							"REXX",
+							"RHTML",
+							"Ring",
+							"RMarkdown",
+							"RobotFramework",
+							"Roff",
+							"Rouge",
+							"RPC",
+							"RPM Spec",
+							"Ruby",
+							"RUNOFF",
+							"Rust",
+							"Sage",
+							"SaltStack",
+							"SAS",
+							"Sass",
+							"Scala",
+							"Scaml",
+							"Scheme",
+							"Scilab",
+							"SCSS",
+							"sed",
+							"Self",
+							"ShaderLab",
+							"Shell",
+							"ShellSession",
+							"Shen",
+							"Slash",
+							"Slim",
+							"Smali",
+							"Smalltalk",
+							"Smarty",
+							"SMT",
+							"Solidity",
+							"SourcePawn",
+							"SPARQL",
+							"Spline Font Database",
+							"SQF",
+							"SQL",
+							"SQLPL",
+							"Squirrel",
+							"SRecode Template",
+							"Stan",
+							"Standard ML",
+							"Stata",
+							"STON",
+							"Stylus",
+							"Sublime Text Config",
+							"SubRip Text",
+							"SugarSS",
+							"SuperCollider",
+							"SVG",
+							"Swift",
+							"SystemVerilog",
+							"Tcl",
+							"Tcsh",
+							"Tea",
+							"Terra",
+							"TeX",
+							"Text",
+							"Textile",
+							"Thrift",
+							"TI Program",
+							"TLA",
+							"TOML",
+							"Turing",
+							"Turtle",
+							"Twig",
+							"TXL",
+							"Type Language",
+							"TypeScript",
+							"Unified Parallel C",
+							"Unity3D Asset",
+							"Unix Assembly",
+							"Uno",
+							"UnrealScript",
+							"UrWeb",
+							"Vala",
+							"VCL",
+							"Verilog",
+							"VHDL",
+							"Vim script",
+							"Visual Basic",
+							"Volt",
+							"Vue",
+							"Wavefront Material",
+							"Wavefront Object",
+							"wdl",
+							"Web Ontology Language",
+							"WebAssembly",
+							"WebIDL",
+							"wisp",
+							"World of Warcraft Addon Data",
+							"X10",
+							"xBase",
+							"XC",
+							"XCompose",
+							"XML",
+							"Xojo",
+							"XPages",
+							"XPM",
+							"XProc",
+							"XQuery",
+							"XS",
+							"XSLT",
+							"Xtend",
+							"Yacc",
+							"YAML",
+							"YANG",
+							"YARA",
+							"Zephir",
+							"Zimpl"
+						],
+						"markdownDescription": "Query GitHub trends for a specific programming language"
+					},
+					"marquee.widgets.github.spoken": {
+						"type": "string",
+						"scope": "window",
+						"default": "",
+						"enum": [
+							"",
+							"Abkhazian",
+							"Afar",
+							"Afrikaans",
+							"Akan",
+							"Albanian",
+							"Amharic",
+							"Arabic",
+							"Aragonese",
+							"Armenian",
+							"Assamese",
+							"Avaric",
+							"Avestan",
+							"Aymara",
+							"Azerbaijani",
+							"Bambara",
+							"Bashkir",
+							"Basque",
+							"Belarusian",
+							"Bengali",
+							"Bihari languages",
+							"Bislama",
+							"Bosnian",
+							"Breton",
+							"Bulgarian",
+							"Burmese",
+							"Catalan, Valencian",
+							"Chamorro",
+							"Chechen",
+							"Chichewa, Chewa, Nyanja",
+							"Chinese",
+							"Chuvash",
+							"Cornish",
+							"Corsican",
+							"Cree",
+							"Croatian",
+							"Czech",
+							"Danish",
+							"Divehi, Dhivehi, Maldivian",
+							"Dutch, Flemish",
+							"Dzongkha",
+							"English",
+							"Esperanto",
+							"Estonian",
+							"Ewe",
+							"Faroese",
+							"Fijian",
+							"Finnish",
+							"French",
+							"Fulah",
+							"Galician",
+							"Georgian",
+							"German",
+							"Greek, Modern",
+							"Guarani",
+							"Gujarati",
+							"Haitian, Haitian Creole",
+							"Hausa",
+							"Hebrew",
+							"Herero",
+							"Hindi",
+							"Hiri Motu",
+							"Hungarian",
+							"Interlingua (International Auxil...",
+							"Indonesian",
+							"Interlingue, Occidental",
+							"Irish",
+							"Igbo",
+							"Inupiaq",
+							"Ido",
+							"Icelandic",
+							"Italian",
+							"Inuktitut",
+							"Japanese",
+							"Javanese",
+							"Kalaallisut, Greenlandic",
+							"Kannada",
+							"Kanuri",
+							"Kashmiri",
+							"Kazakh",
+							"Central Khmer",
+							"Kikuyu, Gikuyu",
+							"Kinyarwanda",
+							"Kirghiz, Kyrgyz",
+							"Komi",
+							"Kongo",
+							"Korean",
+							"Kurdish",
+							"Kuanyama, Kwanyama",
+							"Latin",
+							"Luxembourgish, Letzeburgesch",
+							"Ganda",
+							"Limburgan, Limburger, Limburgish",
+							"Lingala",
+							"Lao",
+							"Lithuanian",
+							"Luba-Katanga",
+							"Latvian",
+							"Manx",
+							"Macedonian",
+							"Malagasy",
+							"Malay",
+							"Malayalam",
+							"Maltese",
+							"Maori",
+							"Marathi",
+							"Marshallese",
+							"Mongolian",
+							"Nauru",
+							"Navajo, Navaho",
+							"North Ndebele",
+							"Nepali",
+							"Ndonga",
+							"Norwegian Bokmål",
+							"Norwegian Nynorsk",
+							"Norwegian",
+							"Sichuan Yi, Nuosu",
+							"South Ndebele",
+							"Occitan",
+							"Ojibwa",
+							"Church Slavic, Old Slavonic, Chu...",
+							"Oromo",
+							"Oriya",
+							"Ossetian, Ossetic",
+							"Punjabi, Panjabi",
+							"Pali",
+							"Persian",
+							"Polish",
+							"Pashto, Pushto",
+							"Portuguese",
+							"Quechua",
+							"Romansh",
+							"Rundi",
+							"Romanian, Moldavian, Moldovan",
+							"Russian",
+							"Sanskrit",
+							"Sardinian",
+							"Sindhi",
+							"Northern Sami",
+							"Samoan",
+							"Sango",
+							"Serbian",
+							"Gaelic, Scottish Gaelic",
+							"Shona",
+							"Sinhala, Sinhalese",
+							"Slovak",
+							"Slovenian",
+							"Somali",
+							"Southern Sotho",
+							"Spanish, Castilian",
+							"Sundanese",
+							"Swahili",
+							"Swati",
+							"Swedish",
+							"Tamil",
+							"Telugu",
+							"Tajik",
+							"Thai",
+							"Tigrinya",
+							"Tibetan",
+							"Turkmen",
+							"Tagalog",
+							"Tswana",
+							"Tonga (Tonga Islands)",
+							"Turkish",
+							"Tsonga",
+							"Tatar",
+							"Twi",
+							"Tahitian",
+							"Uighur, Uyghur",
+							"Ukrainian",
+							"Urdu",
+							"Uzbek",
+							"Venda",
+							"Vietnamese",
+							"Volapük",
+							"Walloon",
+							"Welsh",
+							"Wolof",
+							"Western Frisian",
+							"Xhosa",
+							"Yiddish",
+							"Yoruba",
+							"Zhuang, Chuang",
+							"Zulu"
+						],
+						"markdownDescription": "Query GitHub trends for a specific spoken language"
+					},
+					"marquee.widgets.github.since": {
+						"type": "string",
+						"scope": "window",
+						"default": "Weekly",
+						"enum": [
+							"Daily",
+							"Weekly",
+							"Monthly"
+						],
+						"markdownDescription": "Query GitHub trends by specific time period"
+					},
+					"marquee.widgets.github.trendFilter": {
+						"type": "string",
+						"scope": "window",
+						"markdownDescription": "Query GitHub trends by specific key word"
+					},
+					"marquee.widgets.weather.city": {
+						"type": "string",
+						"scope": "window",
+						"markdownDescription": "City for which the widget displays the weather forecast"
+					},
+					"marquee.widgets.weather.scale": {
+						"type": "string",
+						"scope": "window",
+						"default": "Fahrenheit",
+						"enum": [
+							"Fahrenheit",
+							"Celsius"
+						],
+						"markdownDescription": "Scale to display the weather forecast in"
+					},
+					"marquee.widgets.todo.todoFilter": {
+						"type": "string",
+						"scope": "window",
+						"default": "",
+						"markdownDescription": "Filter ToDos or their associated tags"
+					},
+					"marquee.widgets.todo.hide": {
+						"type": "boolean",
+						"scope": "window",
+						"default": false,
+						"markdownDescription": "Hide completed ToDos"
+					},
+					"marquee.widgets.todo.showArchived": {
+						"type": "boolean",
+						"scope": "window",
+						"default": false,
+						"markdownDescription": "Show archived ToDos"
+					},
+					"marquee.widgets.todo.autoDetect": {
+						"type": "boolean",
+						"scope": "window",
+						"default": true,
+						"markdownDescription": "Auto-detect ToDos in your code to allow adding them to Marquee"
+					},
+					"marquee.widgets.markdown.externalMarkdownFiles": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"title": "markdown link"
+						},
+						"scope": "window",
+						"default": [
+							"https://raw.githubusercontent.com/stateful/vscode-marquee/main/CONTRIBUTING.md"
+						],
+						"markdownDescription": "Add remote markdown documents"
+					},
+					"marquee.widgets.npm-stats.packageNames": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"title": "NPM package name"
+						},
+						"scope": "window",
+						"default": [],
+						"markdownDescription": "NPM package names to display in NPM Stats widget"
+					},
+					"marquee.widgets.npm-stats.from": {
+						"type": "number",
+						"scope": "window",
+						"markdownDescription": "Timestamp from when the download count should be pulled for"
+					},
+					"marquee.widgets.npm-stats.until": {
+						"type": "number",
+						"scope": "window",
+						"markdownDescription": "Timestamp until when the download count should be pulled for"
+					}
+				}
+			}
+		]
 	},
 	"scripts": {
-	  "backend": "cd backend && firebase serve --only hosting",
-	  "build:prod": "run-s compile bundle:prod",
-	  "build:dev": "run-s compile bundle:dev",
-	  "bundle:prod": "cross-env NODE_ENV=production webpack --mode production",
-	  "bundle:dev": "cross-env NODE_ENV=development webpack --mode development",
-	  "clean": "rimraf dist packages/**/node_modules packages/**/build",
-	  "compile": "cross-env NODE_ENV=production run-s compile:*",
-	  "compile:ts": "run-s compile:ts:*",
-	  "compile:ts:utils": "tsc --project packages/utils/tsconfig.json",
-	  "compile:ts:widget": "tsc --project packages/widget/tsconfig.json",
-	  "compile:ts:dialog": "tsc --project packages/dialog/tsconfig.json",
-	  "compile:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json",
-	  "compile:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json",
-	  "compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
-	  "compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
-	  "compile:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json",
-	  "compile:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json",
-	  "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
-	  "compile:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json",
-	  "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
-	  "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
-	  "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
-	  "prepare": "husky install",
-	  "test": "run-s test:*",
-	  "test:lint": "eslint packages test website exampleWidget",
-	  "test:unit": "jest",
-	  "test:e2e": "run-s test:e2e:*",
-	  "test:e2e:run": "wdio run ./test/wdio.conf.ts",
-	  "test:e2e:cleanup": "git checkout -- package.json ./.vscode",
-	  "watch": "run-p watch:*",
-	  "watch:ts": "run-p watch:ts:*",
-	  "watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",
-	  "watch:ts:utils": "tsc --project packages/utils/tsconfig.json --watch",
-	  "watch:ts:widget": "tsc --project packages/widget/tsconfig.json --watch",
-	  "watch:ts:dialog": "tsc --project packages/dialog/tsconfig.json --watch",
-	  "watch:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json --watch",
-	  "watch:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json --watch",
-	  "watch:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json --watch",
-	  "watch:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json --watch",
-	  "watch:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json --watch",
-	  "watch:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json --watch",
-	  "watch:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json --watch",
-	  "watch:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json --watch",
-	  "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
-	  "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
-	  "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
+		"backend": "cd backend && firebase serve --only hosting",
+		"build:prod": "run-s compile bundle:prod",
+		"build:dev": "run-s compile bundle:dev",
+		"bundle:prod": "cross-env NODE_ENV=production webpack --mode production",
+		"bundle:dev": "cross-env NODE_ENV=development webpack --mode development",
+		"clean": "rimraf dist packages/**/node_modules packages/**/build",
+		"compile": "cross-env NODE_ENV=production run-s compile:*",
+		"compile:ts": "run-s compile:ts:*",
+		"compile:ts:utils": "tsc --project packages/utils/tsconfig.json",
+		"compile:ts:widget": "tsc --project packages/widget/tsconfig.json",
+		"compile:ts:dialog": "tsc --project packages/dialog/tsconfig.json",
+		"compile:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json",
+		"compile:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json",
+		"compile:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json",
+		"compile:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json",
+		"compile:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json",
+		"compile:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json",
+		"compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
+		"compile:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json",
+		"compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
+		"compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
+		"compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
+		"prepare": "husky install",
+		"test": "run-s test:*",
+		"test:lint": "eslint packages test website exampleWidget",
+		"test:unit": "jest",
+		"test:e2e": "run-s test:e2e:*",
+		"test:e2e:run": "wdio run ./test/wdio.conf.ts",
+		"test:e2e:cleanup": "git checkout -- package.json ./.vscode",
+		"watch": "run-p watch:*",
+		"watch:ts": "run-p watch:ts:*",
+		"watch:ts:extension": "tsc --project packages/extension/tsconfig.json --watch",
+		"watch:ts:utils": "tsc --project packages/utils/tsconfig.json --watch",
+		"watch:ts:widget": "tsc --project packages/widget/tsconfig.json --watch",
+		"watch:ts:dialog": "tsc --project packages/dialog/tsconfig.json --watch",
+		"watch:ts:widget-welcome": "tsc --project packages/widget-welcome/tsconfig.json --watch",
+		"watch:ts:widget-github": "tsc --project packages/widget-github/tsconfig.json --watch",
+		"watch:ts:widget-news": "tsc --project packages/widget-news/tsconfig.json --watch",
+		"watch:ts:widget-weather": "tsc --project packages/widget-weather/tsconfig.json --watch",
+		"watch:ts:widget-todo": "tsc --project packages/widget-todo/tsconfig.json --watch",
+		"watch:ts:widget-markdown": "tsc --project packages/widget-markdown/tsconfig.json --watch",
+		"watch:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json --watch",
+		"watch:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json --watch",
+		"watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
+		"watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
+		"watch:webpack": "NODE_ENV=development webpack --mode development --watch"
 	},
 	"devDependencies": {
-	  "@babel/core": "^7.18.2",
-	  "@babel/plugin-proposal-private-methods": "^7.17.12",
-	  "@babel/plugin-proposal-private-property-in-object": "^7.17.12",
-	  "@babel/preset-env": "^7.18.2",
-	  "@fortawesome/fontawesome-svg-core": "^6.1.1",
-	  "@jest/types": "^27.5.1",
-	  "@testing-library/dom": "^8.13.0",
-	  "@testing-library/jest-dom": "^5.16.4",
-	  "@testing-library/react": "^12.1.4",
-	  "@testing-library/user-event": "^14.2.0",
-	  "@types/node": "^17.0.38",
-	  "@types/webpack-env": "^1.17.0",
-	  "@typescript-eslint/eslint-plugin": "^5.27.0",
-	  "@typescript-eslint/parser": "^5.27.0",
-	  "@vscode/extension-telemetry": "^0.5.2",
-	  "@wdio/cli": "^7.19.7",
-	  "@wdio/local-runner": "^7.19.7",
-	  "@wdio/mocha-framework": "^7.19.7",
-	  "@wdio/spec-reporter": "^7.19.7",
-	  "babel-loader": "^8.2.5",
-	  "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-	  "babel-preset-react": "^6.24.1",
-	  "babel-preset-react-app": "^10.0.1",
-	  "copy-webpack-plugin": "^10.2.4",
-	  "cross-env": "^7.0.3",
-	  "css-loader": "^6.7.1",
-	  "eslint": "^8.16.0",
-	  "eslint-plugin-jest-dom": "^4.0.2",
-	  "eslint-plugin-testing-library": "^5.5.1",
-	  "eslint-plugin-unused-imports": "^2.0.0",
-	  "file-loader": "^6.2.0",
-	  "husky": "^8.0.1",
-	  "jest": "^27.5.1",
-	  "jest-css-modules": "^2.1.0",
-	  "node-stdlib-browser": "^1.2.0",
-	  "npm-run-all": "^4.1.5",
-	  "rimraf": "^3.0.2",
-	  "semver": "^7.3.7",
-	  "style-loader": "^3.3.1",
-	  "ts-jest": "^27.1.4",
-	  "ts-loader": "^9.3.0",
-	  "ts-node": "^10.8.0",
-	  "typescript": "^4.7.2",
-	  "vsce": "^2.9.1",
-	  "wdio-vscode-service": "^3.0.1",
-	  "webdriverio": "^7.19.7",
-	  "webpack": "^5.73.0",
-	  "webpack-cli": "^4.9.2"
+		"@babel/core": "^7.18.2",
+		"@babel/plugin-proposal-private-methods": "^7.17.12",
+		"@babel/plugin-proposal-private-property-in-object": "^7.17.12",
+		"@babel/preset-env": "^7.18.2",
+		"@fortawesome/fontawesome-svg-core": "^6.1.1",
+		"@jest/types": "^27.5.1",
+		"@testing-library/dom": "^8.13.0",
+		"@testing-library/jest-dom": "^5.16.4",
+		"@testing-library/react": "^12.1.4",
+		"@testing-library/user-event": "^14.2.0",
+		"@types/node": "^17.0.38",
+		"@types/webpack-env": "^1.17.0",
+		"@typescript-eslint/eslint-plugin": "^5.27.0",
+		"@typescript-eslint/parser": "^5.27.0",
+		"@vscode/extension-telemetry": "^0.5.2",
+		"@wdio/cli": "^7.19.7",
+		"@wdio/local-runner": "^7.19.7",
+		"@wdio/mocha-framework": "^7.19.7",
+		"@wdio/spec-reporter": "^7.19.7",
+		"babel-loader": "^8.2.5",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+		"babel-preset-react": "^6.24.1",
+		"babel-preset-react-app": "^10.0.1",
+		"copy-webpack-plugin": "^10.2.4",
+		"cross-env": "^7.0.3",
+		"css-loader": "^6.7.1",
+		"eslint": "^8.16.0",
+		"eslint-plugin-jest-dom": "^4.0.2",
+		"eslint-plugin-testing-library": "^5.5.1",
+		"eslint-plugin-unused-imports": "^2.0.0",
+		"file-loader": "^6.2.0",
+		"husky": "^8.0.1",
+		"jest": "^27.5.1",
+		"jest-css-modules": "^2.1.0",
+		"node-stdlib-browser": "^1.2.0",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"semver": "^7.3.7",
+		"style-loader": "^3.3.1",
+		"ts-jest": "^27.1.4",
+		"ts-loader": "^9.3.0",
+		"ts-node": "^10.8.0",
+		"typescript": "^4.7.2",
+		"vsce": "^2.9.1",
+		"wdio-vscode-service": "^3.0.1",
+		"webdriverio": "^7.19.7",
+		"webpack": "^5.73.0",
+		"webpack-cli": "^4.9.2"
 	},
 	"dependencies": {
-	  "@fortawesome/free-solid-svg-icons": "^6.1.1",
-	  "@fortawesome/react-fontawesome": "^0.1.18",
-	  "@mui/icons-material": "5.8.2",
-	  "@mui/material": "5.8.2",
-	  "@types/vscode": "^1.67.0",
-	  "react": "17.0.2",
-	  "react-dom": "17.0.2",
-	  "tangle": "^2.1.0"
+		"@fortawesome/free-solid-svg-icons": "^6.1.1",
+		"@fortawesome/react-fontawesome": "^0.1.18",
+		"@mui/icons-material": "5.8.2",
+		"@mui/material": "5.8.2",
+		"@types/vscode": "^1.67.0",
+		"material-ui-popup-state": "^4.0.1",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"tangle": "^2.1.0"
 	},
 	"resolutions": {
-	  "@types/react": "17.0.45",
-	  "@types/react-dom": "17.0.16"
+		"@types/react": "17.0.45",
+		"@types/react-dom": "17.0.16"
 	}
-  }
+}

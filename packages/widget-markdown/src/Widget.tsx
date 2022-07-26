@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import {
   Box,
+  ClickAwayListener,
   Grid,
   IconButton,
   ListItem,
   ListItemText,
-  Popover,
+  Paper,
+  Popper,
   TextField,
   Tooltip,
   Typography,
@@ -20,18 +22,16 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { AutoSizer, List } from 'react-virtualized'
 import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
-const Markdown = ({
-  ToggleFullScreen,
-  minimizeNavIcon,
-  open,
-  anchorEl,
-  handleClose,
-  handleClick }: MarqueeWidgetProps) => {
-
+const Markdown = ({ ToggleFullScreen, minimizeNavIcon } : MarqueeWidgetProps) => {
   const [splitterSize, setSplitterSize] = useState(80)
   const [filter, setFilter] = useState('')
   const [copied, setCopied] = useState(false)
@@ -104,19 +104,23 @@ const Markdown = ({
           <Typography variant="subtitle1">Markdown</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <Grid item xs={1}>
-            <IconButton onClick={handleClick}>
-              <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-            </IconButton>
-            <Popover
-              open={open}
-              id={'widget-markdown-nav-popover'}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}>
-              <NavButtons />
-            </Popover>
-          </Grid>
+          <PopupState variant='popper' popupId='widget-markdown' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
           :
           <Grid item xs={8}>
             <NavButtons />
