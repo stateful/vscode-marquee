@@ -6,8 +6,6 @@
   "main": "./build",
   "types": "./build/index.d.ts",
   "dependencies": {
-    "@sentry/node": "^7.3.0",
-    "@sentry/tracing": "^7.3.0",
     "@types/lodash.pick": "^4.4.6",
     "@types/object-hash": "^2.2.1",
     "@types/uuid": "^8.3.4",

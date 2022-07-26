@@ -16,5 +16,3 @@ export const getVSColor = () => {
     a: 0.8,
   } as RGBA
 }
-
-export const SENTRY_DNS = 'https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775'
