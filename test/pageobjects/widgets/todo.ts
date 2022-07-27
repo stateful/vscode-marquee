@@ -67,6 +67,7 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     const checkbox = $(this.locators.autoDetectCheckbox)
     await checkbox.waitForExist()
 
+    await $(this.locators.autoDetectCheckbox).waitForExist()
     const isAutoDetectEnabled = Boolean(
       await $(this.locators.autoDetectCheckbox).$('input[type="checkbox"]').getValue()
     )
@@ -74,6 +75,7 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
       await $(this.locators.autoDetectCheckbox).click()
     }
 
+    await $(this.locators.hideCompleteCheckbox).waitForExist()
     const isHideCompleted = Boolean(
       await $(this.locators.hideCompleteCheckbox).$('input[type="checkbox"]').getValue()
     )
@@ -81,6 +83,7 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
       await $(this.locators.hideCompleteCheckbox).click()
     }
 
+    await $(this.locators.showArchivedCheckbox).waitForExist()
     const showArchived = Boolean(
       await $(this.locators.showArchivedCheckbox).$('input[type="checkbox"]').getValue()
     )
