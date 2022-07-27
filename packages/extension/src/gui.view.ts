@@ -19,6 +19,14 @@ declare const BACKEND_BASE_URL: string
 declare const BACKEND_GEO_URL: string
 declare const BACKEND_FWDGEO_URL: string
 
+interface NotificationParams {
+  type: string
+  message: string
+  detail?: string
+  modal?: boolean
+  items?: string[]
+}
+
 export class MarqueeGui extends EventEmitter {
   private panel: vscode.WebviewPanel | null = null
   private guiActive: boolean = false
@@ -290,16 +298,21 @@ export class MarqueeGui extends EventEmitter {
     vscode.commands.executeCommand(command, undefined, options)
   }
 
-  private _handleNotifications ({ type, message }: { type: string, message: string }) {
+  private _handleNotifications ({ type, message, detail, modal, items }: NotificationParams) {
+    let answer: Thenable<string | undefined>
     switch (type) {
       case 'error':
-        vscode.window.showErrorMessage(message)
+        answer = vscode.window.showErrorMessage(message, { detail, modal }, ...(items || []))
         break
       case 'warning':
-        vscode.window.showWarningMessage(message)
+        answer = vscode.window.showWarningMessage(message, { detail, modal }, ...(items || []))
         break
       default:
-        vscode.window.showInformationMessage(message)
+        answer = vscode.window.showInformationMessage(message, { detail, modal }, ...(items || []))
+    }
+
+    if (items && Array.isArray(items) && items[0] === 'Switch to Global Scope') {
+      answer.then(() => this.stateMgr.global.updateState('globalScope', true, true))
     }
   }
 }

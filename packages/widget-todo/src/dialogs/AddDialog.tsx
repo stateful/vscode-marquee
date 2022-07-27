@@ -6,7 +6,7 @@ import {
   TextField,
 } from '@mui/material'
 
-import { theme, MarqueeWindow } from '@vscode-marquee/utils'
+import { theme, MarqueeWindow, GlobalContext } from '@vscode-marquee/utils'
 import { SplitButton } from '@vscode-marquee/widget'
 import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
 
@@ -17,6 +17,7 @@ declare const window: MarqueeWindow
 const options = ['Add to Workspace', 'Add as Global Todo']
 
 const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
+  const { globalScope } = useContext(GlobalContext)
   const { _addTodo } = useContext(TodoContext)
   const [error, setError] = useState(false)
   const [body, setBody] = useState('')
@@ -25,6 +26,14 @@ const TodoAddDialog = React.memo(({ close }: { close: () => void }) => {
   const submit = (index: number) => {
     const isWorkspaceTodo = index === 0
     if (body !== '') {
+      if (!isWorkspaceTodo && !globalScope) {
+        window.vscode.postMessage({
+          west: { notify: {
+            message: 'A new Todo was created in the Global Scope.',
+            items: ['Switch to Global Scope']
+          }}
+        })
+      }
       _addTodo(body, tags, isWorkspaceTodo)
     } else {
       setError(true)
