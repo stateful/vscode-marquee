@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton } from '@mui/material'
+import { ClickAwayListener, Grid, Button, IconButton, Paper, Popper } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
-
+import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
 import {
-  GlobalContext,
-  DoubleClickHelper,
-  MarqueeWindow,
-  MarqueeEvents,
-  getEventListener
-} from '@vscode-marquee/utils'
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
+
+import { GlobalContext, DoubleClickHelper, MarqueeWindow, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
@@ -27,7 +26,7 @@ import { Events } from './types'
 
 declare const window: MarqueeWindow
 
-let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     setTodos,
@@ -50,6 +49,47 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   useEffect(() => {
     eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
   }, [])
+
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <TodoFilter />
+        </Grid>
+        <Grid item>
+          <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper />
+        </Grid>
+        <Grid item>
+          <TodoPop />
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+            <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
 
   let filteredItems = useMemo(() => {
     let filteredItems = todos
@@ -117,35 +157,29 @@ let Todo = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             <TodoInfo />
           </Typography>
         </Grid>
-        <Grid item xs={8}>
-          <Grid container justifyContent="right" direction={'row'} spacing={1}>
-            <Grid item>
-              <TodoFilter />
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="add-todo" size="small" onClick={() => setShowAddDialog(true)}>
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper />
-            </Grid>
-            <Grid item>
-              <TodoPop />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
-                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-todo' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid

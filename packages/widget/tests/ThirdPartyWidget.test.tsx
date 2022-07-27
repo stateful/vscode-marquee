@@ -31,9 +31,10 @@ xtest('should display custom widget', () => {
     <GlobalProvider>
       <ThirdPartyWidget
         ToggleFullScreen={ToggleFullScreen}
-        fullscreenMode={false}
         name="some-custom-widget"
-        label="Some custom Widget" />
+        label="Some custom Widget" 
+        minimizeNavIcon={false}
+      />
     </GlobalProvider>
   )
   expect(screen.getByText('Some custom Widget')).toBeInTheDocument()

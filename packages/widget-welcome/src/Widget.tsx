@@ -1,7 +1,13 @@
 import React, { useContext } from 'react'
-import { Grid, Link, Typography } from '@mui/material'
+import { ClickAwayListener, Grid, IconButton, Link, Popper, Paper, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -89,26 +95,62 @@ const WidgetBody = () => {
   )
 }
 
-let Welcome = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Welcome = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
+
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <PopMenu />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
+
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Mailbox</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <PopMenu />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-welcome' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <WidgetBody />
     </>

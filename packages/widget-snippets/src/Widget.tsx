@@ -4,20 +4,28 @@ import {
   IconButton,
   Typography,
   TextField,
-  Button
+  Button,
+  ClickAwayListener,
+  Popper,
+  Paper
 } from '@mui/material'
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
-
+import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
 import {
-  GlobalContext,
-  jumpTo,
-  DoubleClickHelper,
-  MarqueeWindow,
-  getEventListener,
-  MarqueeEvents
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
+
+import { 
+  GlobalContext, 
+  jumpTo, 
+  DoubleClickHelper, 
+  MarqueeWindow, 
+  getEventListener, 
+  MarqueeEvents 
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
@@ -233,7 +241,7 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
   )
 }
 
-let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>(WIDGET_ID)
   const { snippets, snippetSelected } = useContext(SnippetContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
@@ -258,6 +266,47 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
   useEffect(() => {
     eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
   }, [])
+
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <IconButton
+            size="small"
+            onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
+          >
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper content="Double-click a clipboard item to edit and right-click for copy & paste" />
+        </Grid>
+        <Grid item>
+          <HidePop name="snippets" />
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+            <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
 
   return (
     <>
@@ -292,35 +341,29 @@ let Snippets = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <Grid item>
-              <IconButton
-                size="small"
-                onClick={() => eventListener.emit('openSnippet', '/New Clipboard Item')}
-              >
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper content="Double-click a clipboard item to edit and right-click for copy & paste" />
-            </Grid>
-            <Grid item>
-              <HidePop name="snippets" />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
-                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-clipboard' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <WidgetBody snippet={snippet} snippets={snippets} />
     </>

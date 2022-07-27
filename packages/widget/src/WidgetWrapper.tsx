@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useState } from 'react'
 import { Box, Grid, Dialog } from '@mui/material'
 import { getEventListener, MarqueeEvents } from '@vscode-marquee/utils'
 
@@ -16,7 +16,7 @@ interface WidgetWrapper {
 
 const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
   const { themeColor } = useContext(GlobalContext)
-  const [ shouldBeDisplayed, setShouldBeDisplayed ] = useState(true)
+  const [shouldBeDisplayed, setShouldBeDisplayed] = useState(true)
 
   const eventListener = getEventListener<MarqueeEvents>()
   eventListener.on('updateWidgetDisplay', (widgets) => {
@@ -48,6 +48,32 @@ const WidgetWrapper = ({ dragHandle, ...props }: WidgetWrapper) => {
 
 export default (Widget: any, name?: string) => React.memo(React.forwardRef((props: any, ref) => {
   const [fullscreenMode, setFullscreenMode] = useState(false)
+  const [minimizeNavIcon, setMinimizeNavIcon] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null as (HTMLButtonElement | null))
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'todo-nav-popover' : undefined
+
+  useEffect(() => {
+    if (fullscreenMode) {
+      handleClose()
+      return setMinimizeNavIcon(false)
+      // @ts-ignore
+    } else if (!fullscreenMode && ref?.current?.offsetWidth < 330) {
+      return setMinimizeNavIcon(true)
+    }
+    setMinimizeNavIcon(false)
+    // @ts-ignore
+  }, [fullscreenMode, ref?.current?.offsetWidth])
+
   const widgetProps = {
     ...props,
     ToggleFullScreen: () => (
@@ -56,7 +82,13 @@ export default (Widget: any, name?: string) => React.memo(React.forwardRef((prop
         toggleFullScreen={setFullscreenMode}
         isFullScreenMode={fullscreenMode} />
     ),
-    fullscreenMode
+    fullscreenMode,
+    minimizeNavIcon,
+    open,
+    id,
+    anchorEl,
+    handleClose,
+    handleClick,
   }
 
   return (

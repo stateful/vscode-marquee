@@ -1,12 +1,29 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Link, Typography, Chip, Avatar, CircularProgress } from '@mui/material'
+import { 
+  Grid, 
+  Link, 
+  Typography, 
+  Chip, 
+  Avatar, 
+  CircularProgress, 
+  IconButton, 
+  Popper, 
+  Paper, 
+  ClickAwayListener 
+} from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
@@ -27,7 +44,7 @@ let GChip = ({ ...rest }) => {
   )
 }
 
-let Github = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const { trends, isFetching, error, trendFilter } = useContext(TrendContext)
   const filteredTrends = useMemo(() => {
     let filteredTrends = trends
@@ -45,31 +62,66 @@ let Github = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     return filteredTrends
   }, [trends, trendFilter])
 
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <Filter />
+        </Grid>
+        <Grid item>
+          <TrendingDialogLauncher />
+        </Grid>
+        <Grid item>
+          <HidePop name="github" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
+
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Trending on Github</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <Filter />
-            </Grid>
-            <Grid item>
-              <TrendingDialogLauncher />
-            </Grid>
-            <Grid item>
-              <HidePop name="github" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-github' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal={true} sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid

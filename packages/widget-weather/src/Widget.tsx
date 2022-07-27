@@ -2,7 +2,14 @@ import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { Grid, Typography, CircularProgress, Box } from '@mui/material'
+import { ClickAwayListener, Grid, Typography, CircularProgress, Box, IconButton, Paper, Popper } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
@@ -170,8 +177,36 @@ let Today = React.memo(({ current, hourly, fullscreenMode } : TodayPropTypes ) =
   )
 })
 
-const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
+const Weather = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon } : MarqueeWidgetProps) => {
   const { city, forecast, error, isFetching } = useContext(WeatherContext)
+
+  const NavButtons = () => (
+    <Grid item >
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <WeatherDialogLauncher />
+        </Grid>
+        <Grid item>
+          <HidePop name="weather" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
 
   return (
     <>
@@ -190,22 +225,29 @@ const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
           )}
           {!city && <Typography variant="subtitle1">Weather</Typography>}
         </Grid>
-        <Grid item xs={4} style={{ minWidth: 145 }}>
-          <Grid container direction="row" spacing={1} justifyContent="flex-end">
-            <Grid item>
-              <WeatherDialogLauncher />
-            </Grid>
-            <Grid item>
-              <HidePop name="weather" />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-weather' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <Grid item xs>
         <Grid
@@ -251,7 +293,7 @@ const Weather = ({ ToggleFullScreen, fullscreenMode }: MarqueeWidgetProps) => {
               padding: '24px',
             }}
           >
-            <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode}/>
+            <Today current={forecast.current} hourly={forecast.hourly} fullscreenMode={fullscreenMode} />
           </Grid>)}
         </Grid>
       </Grid>

@@ -1,10 +1,15 @@
 import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
-import { Grid, Typography, TextField, IconButton, Button } from '@mui/material'
+import { Grid, Typography, TextField, IconButton, Button, ClickAwayListener, Popper, Paper } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud } from '@fortawesome/free-solid-svg-icons'
+import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import SplitterLayout from 'react-splitter-layout'
 import { List, AutoSizer } from 'react-virtualized'
@@ -38,7 +43,7 @@ interface RowRendererProps {
   style: object
 }
 
-const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
+const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
   const { globalScope } = useContext(GlobalContext)
   const {
     _updateNote,
@@ -231,12 +236,12 @@ const WidgetBody = ({ notes, note }: { notes: Note[], note: any }) => {
     </Grid>
   )
 }
-let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const {
     notes,
     noteSelected,
-    setShowAddDialog,
+    setShowAddDialog
   } = useContext(NoteContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
@@ -260,6 +265,44 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
       return note.origin.split('/').reverse()[0].toUpperCase()
     }
   }, [note])
+
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
+            <AddCircleIcon fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
+        </Grid>
+        <Grid item>
+          <HidePop name="notes" />
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => setShowCloudSyncFeature(true)}>
+            <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
 
   return (
     <>
@@ -294,32 +337,29 @@ let Notes = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
-            <Grid item>
-              <IconButton aria-label="Add Note" size="small" onClick={() => setShowAddDialog(true)}>
-                <AddCircleIcon fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <DoubleClickHelper content="Double-click a note title to edit and right-click for copy & paste" />
-            </Grid>
-            <Grid item>
-              <HidePop name="notes" />
-            </Grid>
-            <Grid item>
-              <IconButton onClick={() => setShowCloudSyncFeature(true)}>
-                <FontAwesomeIcon icon={faCloud} fontSize={'small'} />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-notes' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
+        }
       </HeaderWrapper>
       <WidgetBody note={note} notes={notes} />
     </>

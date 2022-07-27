@@ -1,7 +1,14 @@
 import React, { useContext, useMemo } from 'react'
-import { Grid, Typography, List, IconButton, Button } from '@mui/material'
+import { ClickAwayListener, Grid, Typography, List, IconButton, Button, Paper, Popper } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import PopupState from 'material-ui-popup-state'
+import {
+  bindToggle,
+  bindPopper
+} from 'material-ui-popup-state/hooks'
 
 import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { MarqueeWindow } from '@vscode-marquee/utils'
@@ -14,7 +21,7 @@ import WorkspaceContext, { WorkspaceProvider } from './Context'
 
 declare const window: MarqueeWindow
 
-let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
+let Projects = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const {
     notes, todos, snippets, workspaces, workspaceFilter,
     workspaceSortOrder, openProjectInNewWindow, visitCount,
@@ -55,68 +62,102 @@ let Projects = ({ ToggleFullScreen }: MarqueeWidgetProps) => {
     }
   }, [workspaces, workspaceFilter, workspaceSortOrder, visitCount])
 
+  const NavButtons = () => (
+    <Grid item>
+      <Grid 
+        container
+        justifyContent="right" 
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'} 
+        spacing={1} 
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <Grid item>
+          <ProjectsFilter />
+        </Grid>
+        <Grid item>
+          <IconButton
+            aria-label="Open Folder"
+            size="small"
+            onClick={(e) => {
+              e.preventDefault()
+              window.vscode.postMessage({
+                west: {
+                  execCommands: [{
+                    command: 'vscode.openFolder',
+                    options: { forceNewWindow: openProjectInNewWindow }
+                  }],
+                },
+              })
+            }}
+          >
+            <AddCircle fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton
+            aria-label="Open Recent"
+            size="small"
+            onClick={(e) => {
+              e.preventDefault()
+              window.vscode.postMessage({
+                west: {
+                  execCommands: [
+                    {
+                      command: 'workbench.action.quickOpenRecent',
+                    },
+                  ],
+                },
+              })
+            }}
+          >
+            <PageviewIcon fontSize="small" />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <ProjectPop />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode && 
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid >
+  )
+
   return (
     <>
       <HeaderWrapper>
         <Grid item>
           <Typography variant="subtitle1">Projects</Typography>
         </Grid>
-        <Grid item>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <ProjectsFilter />
-            </Grid>
-            <Grid item>
-              <IconButton
-                aria-label="Open Folder"
-                size="small"
-                onClick={(e) => {
-                  e.preventDefault()
-                  window.vscode.postMessage({
-                    west: {
-                      execCommands: [{
-                        command: 'vscode.openFolder',
-                        options: { forceNewWindow: openProjectInNewWindow }
-                      }],
-                    },
-                  })
-                }}
-              >
-                <AddCircle fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <IconButton
-                aria-label="Open Recent"
-                size="small"
-                onClick={(e) => {
-                  e.preventDefault()
-                  window.vscode.postMessage({
-                    west: {
-                      execCommands: [
-                        {
-                          command: 'workbench.action.quickOpenRecent',
-                        },
-                      ],
-                    },
-                  })
-                }}
-              >
-                <PageviewIcon fontSize="small" />
-              </IconButton>
-            </Grid>
-            <Grid item>
-              <ProjectPop />
-            </Grid>
-            <Grid item>
-              <ToggleFullScreen />
-            </Grid>
-            <Grid item>
-              <Dragger />
-            </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-projects' disableAutoFocus>
+            {(popupState) => {
+              return (
+                <ClickAwayListener onClickAway={() => popupState.close()}>
+                  <Grid item xs={1}>
+                    <IconButton {...bindToggle(popupState)}>
+                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
+                    </IconButton>
+                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
+                      <Paper>
+                        <NavButtons />
+                      </Paper>
+                    </Popper>
+                  </Grid>
+                </ClickAwayListener>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
           </Grid>
-        </Grid>
-      </HeaderWrapper>
+        }
+      </HeaderWrapper >
       <Grid item xs>
         <Grid
           container
