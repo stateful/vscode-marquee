@@ -11,33 +11,35 @@ template.innerHTML = /*html*/`
   <div>Hello World</div>
 `
 
-// class CustomWidget extends HTMLElement {
-//   constructor () {
-//     super();
-//     this.attachShadow({ mode: 'open' });
-//   }
+class CustomWidget extends HTMLElement {
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
+  }
 
-//   connectedCallback() {
-//     this.shadowRoot?.appendChild(template.content.cloneNode(true));
-//   }
-// }
-// customElements.define('some-custom-widget', CustomWidget);
+  connectedCallback () {
+    this.shadowRoot?.appendChild(template.content.cloneNode(true))
+  }
+}
+customElements.define('some-custom-widget', CustomWidget)
 
-// TODO: this test needs to be fixed. It passes without the CustomWidget defined
-// Either the test isnt testing anything meaningful or the Widget is not needed
-xtest('should display custom widget', () => {
+test('should display custom widget', () => {
   const ToggleFullScreen = () => <div></div>
   const { container } = render(
     <GlobalProvider>
       <ThirdPartyWidget
         ToggleFullScreen={ToggleFullScreen}
         name="some-custom-widget"
-        label="Some custom Widget" 
+        label="Some custom Widget"
+        fullscreenMode={false}
         minimizeNavIcon={false}
       />
     </GlobalProvider>
   )
   expect(screen.getByText('Some custom Widget')).toBeInTheDocument()
-  // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+  // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
   expect(container.querySelector('some-custom-widget')).toBeInTheDocument()
+  // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+  expect(container.querySelector('some-custom-widget')!.shadowRoot?.innerHTML)
+    .toContain('Hello World')
 })
