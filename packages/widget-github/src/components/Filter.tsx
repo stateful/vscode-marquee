@@ -61,7 +61,6 @@ let Filter = () => {
 
   const open = Boolean(anchorEl)
   const id = open ? 'github-filter-popover' : undefined
-  const badgeContent = (trendFilter || '').length
 
   return (
     <div>
@@ -70,7 +69,7 @@ let Filter = () => {
           color="secondary"
           variant="dot"
           overlap="circular"
-          badgeContent={badgeContent}
+          invisible={!Boolean((trendFilter || '').length)}
         >
           <SearchIcon fontSize="small" />
         </Badge>

@@ -69,7 +69,7 @@ let TodoFilter = () => {
           color="secondary"
           variant="dot"
           overlap="circular"
-          badgeContent={Boolean(todoFilter?.length)}
+          invisible={!Boolean(todoFilter?.length)}
         >
           <SearchIcon fontSize="small" />
         </Badge>

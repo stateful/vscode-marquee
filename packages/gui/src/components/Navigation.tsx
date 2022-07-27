@@ -267,16 +267,10 @@ const Navigation = () => {
                     size="small"
                     onClick={() => setGlobalScope(!globalScope)}
                   >
-                    <Badge
-                      color="secondary"
-                      variant="dot"
-                      overlap="circular"
-                      badgeContent={globalScope ? 1 : 0}
-                    >
-                      {globalScope ? 
-                        <LanguageIcon fontSize="small"/> : <WorkspacesIcon fontSize="small" />
-                      }
-                    </Badge>
+                    {globalScope
+                      ? <LanguageIcon fontSize="small"/>
+                      : <WorkspacesIcon fontSize="small" />
+                    }
                   </IconButton>
                 </Tooltip>
               </Grid>)}

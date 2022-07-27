@@ -180,7 +180,7 @@ const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
                 </Grid>
               </Grid>
             </div>
-            <div style={{ height: '100%' }}>
+            <div style={{ height: '100%' }} data-testid="widgetBody">
               <Grid container style={{ width: '100%', height: '100%' }}>
                 <Grid
                   item
@@ -213,8 +213,8 @@ const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
                           </Button>
                         </Grid>
                       </Grid>
-                      {((noteFilter && noteFilter.length) || (!globalScope && notes.length)) && (
-                        <Grid container>
+                      {Boolean(((noteFilter && noteFilter.length) || (!globalScope && notes.length))) && (
+                        <Grid container data-testid="noteExistanceNotif">
                           <Grid item textAlign={'center'} width={'100%'}>
                             {/* Notify user why they don't see any todos if they have
                                 a filter set or are in workspace scope while todo is

@@ -160,7 +160,7 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
                   </Grid>
                 </Grid>
                 {((todoFilter && todoFilter.length) || (!globalScope && todosInGlobalScope > 0)) && (
-                  <Grid container>
+                  <Grid container data-testid="noteExistanceNotif">
                     <Grid item textAlign={'center'} width={'100%'}>
                       {/* Notify user why they don't see any todos if they have
                           a filter set or are in workspace scope while todo is
