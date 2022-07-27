@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import {
   Box,
-  ClickAwayListener,
   Grid,
   IconButton,
   ListItem,
   ListItemText,
-  Paper,
-  Popper,
   TextField,
   Tooltip,
   Typography,
 } from '@mui/material'
 
-import { faCopy, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -23,12 +20,8 @@ import { AutoSizer, List } from 'react-virtualized'
 import ReactMarkdown from 'react-markdown'
 import { MarkdownProvider, useMarkdownContext } from './Context'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
 
-import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop, NavIconDropdown } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
@@ -106,21 +99,12 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
           <Typography variant="subtitle1">Markdown</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-markdown' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-markdown'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

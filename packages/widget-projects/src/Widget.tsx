@@ -1,16 +1,11 @@
 import React, { useContext, useMemo } from 'react'
-import { ClickAwayListener, Grid, Typography, List, IconButton, Button, Paper, Popper } from '@mui/material'
+import { Grid, Typography, List, IconButton, Button } from '@mui/material'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
 import PageviewIcon from '@mui/icons-material/Pageview'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
 
-import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+
+import wrapper, { Dragger, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
 import { MarqueeWindow } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -135,21 +130,12 @@ let Projects = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
           <Typography variant="subtitle1">Projects</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-projects' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-projects'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

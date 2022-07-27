@@ -2,17 +2,12 @@ import React, { useContext } from 'react'
 
 // @ts-expect-error no types available
 import WeatherIcon from 'react-icons-weather'
-import { ClickAwayListener, Grid, Typography, CircularProgress, Box, IconButton, Paper, Popper } from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { Grid, Typography, CircularProgress, Box } from '@mui/material'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
+
 
 import { GlobalContext, NetworkError } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HidePop, HeaderWrapper } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HidePop, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
 import WeatherContext, { WeatherProvider } from './Context'
@@ -226,21 +221,12 @@ const Weather = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon } : Marquee
           {!city && <Typography variant="subtitle1">Weather</Typography>}
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-weather' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-weather'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

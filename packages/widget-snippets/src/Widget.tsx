@@ -5,19 +5,13 @@ import {
   Typography,
   TextField,
   Button,
-  ClickAwayListener,
-  Popper,
-  Paper
 } from '@mui/material'
 import { AddCircle, Clear } from '@mui/icons-material'
 import LinkIcon from '@mui/icons-material/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCloud, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import { faCloud } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
+
 
 import { 
   GlobalContext, 
@@ -27,7 +21,7 @@ import {
   getEventListener, 
   MarqueeEvents 
 } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop, NavIconDropdown } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -342,21 +336,12 @@ let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
           </Grid>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-clipboard' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-clipboard'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :
