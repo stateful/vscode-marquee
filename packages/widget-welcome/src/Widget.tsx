@@ -1,15 +1,10 @@
 import React, { useContext } from 'react'
-import { ClickAwayListener, Grid, IconButton, Link, Popper, Paper, Typography } from '@mui/material'
+import { Grid, Link, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
 
-import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -129,21 +124,12 @@ let Welcome = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWi
           <Typography variant="subtitle1">Mailbox</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-welcome' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-welcome'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

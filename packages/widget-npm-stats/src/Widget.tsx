@@ -1,16 +1,10 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Grid, Typography, CircularProgress, Button, IconButton, Popper, ClickAwayListener, Paper } from '@mui/material'
+import { Grid, Typography, CircularProgress, Button } from '@mui/material'
 import styled from '@emotion/styled'
 import 'react-vis/dist/style.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
 
-import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
 import { NetworkError, MarqueeWindow } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -129,7 +123,13 @@ let NPMStats = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
 
   const NavButtons = () => (
     <Grid item>
-      <Grid container justifyContent="right" direction={minimizeNavIcon ? 'column-reverse' : 'row'} spacing={1}>
+      <Grid 
+        container 
+        justifyContent="right" 
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'} 
+        spacing={1} 
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
         <Grid item>
           <PopMenu />
         </Grid>
@@ -152,21 +152,12 @@ let NPMStats = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
           <Typography variant="subtitle1">NPM Statistics</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-npm-stats' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-npm-stats'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

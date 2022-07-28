@@ -6,26 +6,17 @@ import {
   Chip, 
   Avatar, 
   CircularProgress, 
-  IconButton, 
-  Popper, 
-  Paper, 
-  ClickAwayListener 
 } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import StarIcon from '@mui/icons-material/Star'
 import StarHalfIcon from '@mui/icons-material/StarHalf'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import PopupState from 'material-ui-popup-state'
-import {
-  bindToggle,
-  bindPopper
-} from 'material-ui-popup-state/hooks'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons/faCodeBranch'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
-import wrapper, { Dragger, HeaderWrapper, HidePop } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, HidePop, NavIconDropdown } from '@vscode-marquee/widget'
 import { NetworkError } from '@vscode-marquee/utils'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -63,7 +54,7 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
   }, [trends, trendFilter])
 
   const NavButtons = () => (
-    <Grid item>
+    <Grid item zIndex={100} style={{opacity: 1}}>
       <Grid
         container
         justifyContent="right"
@@ -100,21 +91,12 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
           <Typography variant="subtitle1">Trending on Github</Typography>
         </Grid>
         {minimizeNavIcon ?
-          <PopupState variant='popper' popupId='widget-github' disableAutoFocus>
+          <PopupState variant='popper' popupId='widget-github'>
             {(popupState) => {
               return (
-                <ClickAwayListener onClickAway={() => popupState.close()}>
-                  <Grid item xs={1}>
-                    <IconButton {...bindToggle(popupState)}>
-                      <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
-                    </IconButton>
-                    <Popper {...bindPopper(popupState)} disablePortal={true} sx={{ zIndex: 100 }}>
-                      <Paper>
-                        <NavButtons />
-                      </Paper>
-                    </Popper>
-                  </Grid>
-                </ClickAwayListener>
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
               )}}
           </PopupState>
           :

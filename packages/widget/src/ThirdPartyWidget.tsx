@@ -113,6 +113,28 @@ const ThirdPartyWidget = ({
                       disablePortal
                       anchorEl={() => ref?.current as any}
                       sx={{ zIndex:100 }}
+                      modifiers={[
+                        {
+                          name: 'flip',
+                          enabled: false,
+                          options: {
+                            altBoundary: true,
+                            rootBoundary: 'document',
+                            padding: 8,
+                          },
+                        },
+                        {
+                          name: 'preventOverflow',
+                          enabled: false,
+                          options: {
+                            altAxis: true,
+                            altBoundary: true,
+                            tether: true,
+                            rootBoundary: 'document',
+                            padding: 8,
+                          },
+                        },
+                      ]}
                     >
                       <Paper>
                         <NavButtons />
