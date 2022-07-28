@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { SplitButton } from '@vscode-marquee/widget'
 import { DialogTitle, DialogContainer } from '@vscode-marquee/dialog'
-import { theme, MarqueeWindow } from '@vscode-marquee/utils'
+import { theme, MarqueeWindow, GlobalContext } from '@vscode-marquee/utils'
 
 import NoteContext from '../Context'
 import NoteEditor from '../components/Editor'
@@ -16,6 +16,7 @@ declare const window: MarqueeWindow
 const options = ['Add to Workspace', 'Add as Global Note']
 
 const AddDialog = React.memo(({ close }: { close: () => void }) => {
+  const { globalScope } = useContext(GlobalContext)
   const { _addNote, setNoteSelected } = useContext(NoteContext)
   const [error, setError] = useState(false)
   const [body, setBody] = useState('')
@@ -27,6 +28,15 @@ const AddDialog = React.memo(({ close }: { close: () => void }) => {
     if (title.trim() === '') {
       setError(true)
       return
+    }
+
+    if (!isWorkspaceTodo && !globalScope) {
+      window.vscode.postMessage({
+        west: { notify: {
+          message: 'A new Note was created in the Global Scope.',
+          items: ['Switch to Global Scope']
+        }}
+      })
     }
 
     setNoteSelected(_addNote({ title, body, text }, isWorkspaceTodo))

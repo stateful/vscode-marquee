@@ -196,9 +196,14 @@ test('updateState', async () => {
     { defaultState: true }
   )
   manager.emit = jest.fn()
-  await manager.updateState('defaultState', 'some new state' as any)
+  manager['_tangle'] = { broadcast: jest.fn() } as any
+  await manager.updateState('defaultState', 'some new state' as any, true)
   expect(manager.state.defaultState).toBe('some new state')
   expect(manager.emit).toBeCalledWith('stateUpdate', {
+    defaultState: 'some new state',
+    defaultConfig: 'old config'
+  })
+  expect(manager['_tangle']?.broadcast).toBeCalledWith({
     defaultState: 'some new state',
     defaultConfig: 'old config'
   })

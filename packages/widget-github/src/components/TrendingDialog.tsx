@@ -50,7 +50,11 @@ const SpokenLanguageOption = () => {
           display="name"
           value={value}
           isOptionEqualToValue={isOptionEqualToValue(spokenLanguages[0])}
-          onChange={(e: any, v: SpokenLanguage) => _updateSpoken(v)}
+          onChange={(e: any, v: SpokenLanguage) => {
+            console.log('UPDATE TO v', v || '')
+
+            _updateSpoken(v || '')
+          }}
         />
       </Grid>
     </Grid>
@@ -121,7 +125,7 @@ const SinceOption = () => {
   )
 }
 
-const GithubTrendingDialog = React.memo(({ close }: { close: () => void }) => {
+export const GithubTrendingDialog = React.memo(({ close }: { close: () => void }) => {
   return (
     <DialogContainer fullWidth={true} onClose={close}>
       <DialogTitle onClose={close}>Github Settings</DialogTitle>
@@ -148,29 +152,19 @@ const GithubTrendingDialog = React.memo(({ close }: { close: () => void }) => {
 })
 
 const TrendingDialogLauncher = () => {
-  const { language, since, spoken, showDialog, setShowDialog } = useContext(TrendContext)
-
-  /**
-   * show badge if settings are changed from default
-   */
-  const badgeContent = (since || spoken || language)
-    ? 1
-    : 0
+  const { language, since, spoken, setShowDialog } = useContext(TrendContext)
 
   return (
-    <>
-      <IconButton aria-label="filter-settings" onClick={() => setShowDialog(true)} size="small">
-        <Badge
-          color="secondary"
-          variant="dot"
-          overlap="circular"
-          badgeContent={badgeContent}
-        >
-          <SettingsIcon fontSize="small" />
-        </Badge>
-      </IconButton>
-      { showDialog && ( <GithubTrendingDialog close={() => setShowDialog(false)} /> )}
-    </>
+    <IconButton aria-label="filter-settings" onClick={() => setShowDialog(true)} size="small">
+      <Badge
+        color="secondary"
+        variant="dot"
+        overlap="circular"
+        invisible={!Boolean(((since !== 'Weekly') || spoken || language))}
+      >
+        <SettingsIcon fontSize="small" />
+      </Badge>
+    </IconButton>
   )
 }
 

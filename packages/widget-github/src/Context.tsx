@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 
+import { GithubTrendingDialog } from './components/TrendingDialog'
 import { fetchData, getFromCache } from './utils'
 import type { Context, Trend, Configuration, Since, SpokenLanguage, SinceConfiguration, Events } from './types'
 
@@ -35,17 +36,11 @@ const TrendProvider = ({ children }: Props) => {
   }
 
   const _updateLanguage = (language?: SpokenLanguage) => {
-    if (!language?.name) {
-      return
-    }
-    providerValues.setLanguage(language.name || '')
+    providerValues.setLanguage(language?.name || '')
   }
 
   const _updateSpoken = (spoken?: SpokenLanguage) => {
-    if (!spoken?.name) {
-      return
-    }
-    providerValues.setSpoken(spoken.name || '')
+    providerValues.setSpoken(spoken?.name || '')
   }
 
   useEffect(() => {
@@ -102,6 +97,7 @@ const TrendProvider = ({ children }: Props) => {
       }}
     >
       {children}
+      { showDialog && ( <GithubTrendingDialog close={() => setShowDialog(false)} /> )}
     </TrendContext.Provider>
   )
 }

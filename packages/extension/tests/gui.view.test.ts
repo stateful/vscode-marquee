@@ -89,13 +89,29 @@ test('_executeCommand', () => {
 test('_handleNotifications', () => {
   const gui = new MarqueeGui(context, stateMgr, channel)
   gui['_handleNotifications']({ type: 'error', message: 'foobar' })
-  expect(vscode.window.showErrorMessage).toBeCalledWith('foobar')
+  expect(vscode.window.showErrorMessage)
+    .toBeCalledWith('foobar', { detail: undefined, modal: undefined })
 
-  gui['_handleNotifications']({ type: 'warning', message: 'foobar' })
-  expect(vscode.window.showWarningMessage).toBeCalledWith('foobar')
+  gui['_handleNotifications']({
+    type: 'warning',
+    message: 'foobar',
+    modal: true,
+    detail: 'barfoo',
+    items: ['foo', 'bar']
+  })
+  expect(vscode.window.showWarningMessage).toBeCalledWith(
+    'foobar',
+    { modal: true, detail: 'barfoo' },
+    'foo',
+    'bar'
+  )
 
-  gui['_handleNotifications']({ type: 'anything', message: 'foobar' })
-  expect(vscode.window.showInformationMessage).toBeCalledWith('foobar')
+  gui['_handleNotifications']({
+    type: 'anything',
+    message: 'foobar',
+    items: ['foo']
+  })
+  expect(vscode.window.showInformationMessage).toBeCalledWith('foobar', {}, 'foo')
 })
 
 test('open an already open webview', async () => {
@@ -160,8 +176,12 @@ test('_handleWebviewMessage', async () => {
   expect(gui['_executeCommand']).toBeCalledWith('foo', 0, ['foo', 'bar'])
   expect(gui['_executeCommand']).toBeCalledWith('bar', 1, ['foo', 'bar'])
 
-  await gui['_handleWebviewMessage']({ west: { notify: { message: 'foobar' } } })
-  expect(gui['_handleNotifications']).toBeCalledWith({ message: 'foobar' })
+  await gui['_handleWebviewMessage']({ west: {
+    notify: { message: 'foobar', details: 'barfoo', modal: true }
+  } })
+  expect(gui['_handleNotifications']).toBeCalledWith(
+    { message: 'foobar', details: 'barfoo', modal: true }
+  )
 
   expect(gui['guiActive']).toBe(false)
   await gui['_handleWebviewMessage']({ ready: true })
