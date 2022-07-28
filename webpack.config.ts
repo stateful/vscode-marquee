@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from "path";
 import stdLibBrowser from "node-stdlib-browser";
 import { Configuration, DefinePlugin, ProvidePlugin } from "webpack";
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
@@ -68,7 +69,10 @@ const extensionConfig: Configuration = {
     }),
     new CopyPlugin({
       patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
-    })
+    }),
+    ...(process.env.ANALYZE_BUNDLE ? [new BundleAnalyzerPlugin({
+      analyzerPort: 8801
+    })] : [])
   ]
 };
 
@@ -95,7 +99,10 @@ const extensionConfigBrowser: Configuration = {
     new ProvidePlugin({
       process: stdLibBrowser.process,
       Buffer: [stdLibBrowser.buffer, 'Buffer']
-    })
+    }),
+    ...(process.env.ANALYZE_BUNDLE ? [new BundleAnalyzerPlugin({
+      analyzerPort: 8802
+    })] : [])
   ]
 };
 
@@ -134,7 +141,10 @@ const guiConfig: Configuration = {
   plugins: [
     new DefinePlugin({
       PACKAGE_JSON: JSON.parse(pkg)
-    })
+    }),
+    ...(process.env.ANALYZE_BUNDLE ? [new BundleAnalyzerPlugin({
+      analyzerPort: 8803
+    })] : [])
   ],
   performance: {
     hints: false,

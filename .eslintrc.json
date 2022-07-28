@@ -4,7 +4,7 @@
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
-    "project": ["./tsconfig.json", "./test/tsconfig.json", "./website/tsconfig.json"]
+    "project": ["./tsconfig.json", "./test/tsconfig.json", "./website/tsconfig.json", "./exampleWidget/tsconfig.json"]
   },
   "plugins": [
     "@typescript-eslint",

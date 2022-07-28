@@ -24,9 +24,12 @@
       "webpack-env"
     ]
   },
-  "include": [
-    "packages/",
+  "exclude": [
     "exampleWidget",
-    "./jest-setup.ts"
+    "./jest-setup.ts",
+    "./webpack-config.ts"
+  ],
+  "include": [
+    "packages/"
   ]
 }

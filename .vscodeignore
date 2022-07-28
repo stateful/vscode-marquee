@@ -5,6 +5,8 @@
 .vscode-test/**
 dist/test/**
 out
+test
+.wdio-vscode-service
 .gitignore
 **/tsconfig.json
 **/.eslintrc.json
