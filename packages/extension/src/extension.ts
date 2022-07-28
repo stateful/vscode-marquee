@@ -56,6 +56,8 @@ export class MarqueeExtension {
         () => this.openMarqueeOnStartup(config.get('configuration')),
         (err) => this._channel.appendLine(`[Error]: ${(err as Error).message}`)
       )
+    } else {
+      this.openMarqueeOnStartup(config.get('configuration'))
     }
   }
 
