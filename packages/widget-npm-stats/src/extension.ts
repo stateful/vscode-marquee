@@ -1,12 +1,12 @@
 import vscode from 'vscode'
 import { format } from 'util'
-import { request } from 'undici'
+import Axios from 'axios'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 import type { Client } from 'tangle'
 
 import { formatDate } from './utils'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, STATS_URL } from './constants'
-import type { Configuration, State, JSONObject } from './types'
+import type { Configuration, State, JSONObject, StatResponse } from './types'
 
 const STATE_KEY = 'widgets.npm-stats'
 export class NPMStatsExtensionManager extends ExtensionManager<State, Configuration> {
@@ -96,20 +96,22 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
       )
 
       this._channel.appendLine(`Fetch NPM Stats from ${url}`)
-      const { body, statusCode } = await request(url)
-      const res = await body.json()
+      const result = await Axios.get(url).then(
+        (res) => res.data as StatResponse,
+        (err) => err as Error
+      )
 
-      if (statusCode !== 200) {
-        throw new Error(res.message)
+      if (result instanceof Error) {
+        throw new Error(`Fetching NPM stats failed: ${(result as Error).message}`)
       }
 
-      await this.updateState('stats', res)
+      await this.updateState('stats', result)
       await this.updateState('error', null)
       this._isFetching = false
       await this.updateState('isLoading', this._isFetching)
 
       this._tangle?.broadcast({
-        stats: res,
+        stats: result,
         isLoading: false,
         error: null
       } as State & Configuration)

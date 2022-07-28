@@ -25,6 +25,9 @@ describe('Marquee Tree Viewer', () => {
 
   it('should be able to open the tree view', async () => {
     const treeView = new TreeView(locatorMap, marqueeItem)
+    await browser.waitUntil(
+      async () => (await treeView.getItemLabels()).length > 0)
+
     expect(await treeView.getItemLabels()).toEqual([
       'Todo [workspace] (0 open / 0 closed)',
       'Add new todo',
@@ -77,11 +80,11 @@ describe('Marquee Tree Viewer', () => {
       const items = await treeView.getItems()
 
       const checkbox = await items[1].elem.$('.custom-view-tree-node-item-icon')
-      await expect(checkbox).toHaveAttributeContaining('style', 'checked-border-light.svg')
+      await expect(checkbox).toHaveAttributeContaining('style', '/assets/checked-border')
 
       await checkbox.click()
 
-      await expect(checkbox).toHaveAttributeContaining('style', 'checked-light.svg')
+      await expect(checkbox).not.toHaveAttributeContaining('style', '/assets/checked-border')
       await browser.pause(3000)
     })
 
@@ -107,6 +110,12 @@ describe('Marquee Tree Viewer', () => {
 
       await addSnippetBtn.select()
       await browser.pause(500)
+    })
+
+    /**
+     * skipped due to https://github.com/webdriverio-community/wdio-vscode-service/issues/23
+     */
+    it('should find correct filename @skipWeb', async () => {
       const editorLabel = await browser.executeWorkbench((vscode) => {
         return vscode.window.activeTextEditor?.document.fileName
       })

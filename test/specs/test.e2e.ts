@@ -61,7 +61,10 @@ describe('Marquee', () => {
       })
     })
 
-    describe('news widget', () => {
+    /**
+     * skipped due to https://github.com/microsoft/vscode-test-web/issues/26
+     */
+    describe('news widget @skipWeb', () => {
       const newsWidget = new NewsWidget(locatorMap)
 
       before(async () => {
