@@ -143,6 +143,7 @@ Object {
       "hover": "rgba(38,79,120,0.25)",
       "hoverOpacity": 0.08,
       "selected": "#264f78",
+      "selectedChannel": "255 255 255",
       "selectedOpacity": 0.16,
     },
     "augmentColor": [Function],
@@ -178,8 +179,6 @@ Object {
       "A200": "#eeeeee",
       "A400": "#bdbdbd",
       "A700": "#616161",
-      "dark": "#616161",
-      "darkChannel": "97 97 97",
     },
     "info": Object {
       "contrastText": "rgba(0, 0, 0, 0.87)",

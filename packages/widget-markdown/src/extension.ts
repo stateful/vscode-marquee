@@ -85,8 +85,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
   }
 
   loadMarkdownDocuments = async () => {
-    const { workspace } = vscode
-    const fileUris = await workspace.findFiles('*.md')
+    const fileUris = await vscode.workspace.findFiles('*.md')
     const markdownDocuments = [
       ...fileUris.map((fileUri) =>
         uriToMarkdownDocument(fileUri.fsPath, false)

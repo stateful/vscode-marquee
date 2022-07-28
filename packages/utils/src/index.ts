@@ -103,7 +103,7 @@ function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): Cont
         })
       })
 
-      return () => { subs.unsubscribe() }
+      return () => { subs?.unsubscribe() }
     }, [])
   }
 
