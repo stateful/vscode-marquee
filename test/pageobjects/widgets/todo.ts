@@ -73,6 +73,9 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     )
     if (typeof options.autoDetect === 'boolean' && isAutoDetectEnabled !== !options.autoDetect) {
       await $(this.locators.autoDetectCheckbox).click()
+      // we have to reopen settings box as it closes for each change
+      await browser.pause(200)
+      await this.settingsBtn$.click()
     }
 
     await $(this.locators.hideCompleteCheckbox).waitForExist()
@@ -81,6 +84,9 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     )
     if (typeof options.hideComplete === 'boolean' && isHideCompleted !== !options.hideComplete) {
       await $(this.locators.hideCompleteCheckbox).click()
+      // we have to reopen settings box as it closes for each change
+      await browser.pause(200)
+      await this.settingsBtn$.click()
     }
 
     await $(this.locators.showArchivedCheckbox).waitForExist()
@@ -89,6 +95,9 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     )
     if (typeof options.showArchived === 'boolean' && showArchived !== !options.showArchived) {
       await $(this.locators.showArchivedCheckbox).click()
+      // we have to reopen settings box as it closes for each change
+      await browser.pause(200)
+      await this.settingsBtn$.click()
     }
 
     await browser.keys(['Escape'])

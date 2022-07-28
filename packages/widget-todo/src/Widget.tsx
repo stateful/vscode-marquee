@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import AddCircle from '@mui/icons-material/AddCircleOutlined'
-import { Grid, Button, IconButton } from '@mui/material'
+import { Grid, Button, IconButton, Link } from '@mui/material'
 import { List, arrayMove } from 'react-movable'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
 
 import { GlobalContext, DoubleClickHelper, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
+import wrapper, { Dragger, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 

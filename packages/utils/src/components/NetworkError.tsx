@@ -31,6 +31,7 @@ const NetworkError = ({ message }: NetworkErrorProps) => {
 
   return (
     <Grid
+      aria-label="widget-error"
       container
       style={{ height: '100%' }}
       alignItems="center"

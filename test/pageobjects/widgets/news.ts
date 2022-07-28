@@ -23,11 +23,28 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     return articles[index]
   }
 
-  public async switchChannel (channel: string) {
+  public async switchChannel (channel: string | number, retries = 5) {
     await this.settingsBtn$.click()
 
     const channelSelect = new Select(this.locatorMap, 'marquee-news-channel')
     await channelSelect.wait()
-    await channelSelect.selectByValue(channel)
+    if (typeof channel === 'string') {
+      await channelSelect.selectByValue(channel)
+    } else if (typeof channel === 'number') {
+      await channelSelect.selectByIndex(channel)
+    } else {
+      throw new Error(`Invalid type of channel: "${typeof channel}", only string and number allowed`)
+    }
+
+    /**
+     * check if widget has an error
+     * ToDo(Christian): remove if rss feeds are not failing due to rate limiting
+     */
+    await browser.pause(1000)
+    const error = await this.elem.$('div[aria-label="widget-error"]')
+    if (await error.isExisting()) {
+      await this.switchChannel(0)
+      return this.switchChannel(channel, --retries)
+    }
   }
 }

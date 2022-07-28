@@ -25,7 +25,12 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
   public async selectByValue (value: string) {
     await this.comboBox$.click()
     await this.list$.waitForExist()
+
+    // wait for animation to finish
+    await browser.pause(500)
     await this.list$.$(`li=${value}`).click()
+    // wait for animation to finish
+    await browser.pause(500)
   }
 
   public async selectByIndex (index: number) {

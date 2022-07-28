@@ -39,7 +39,8 @@ export class GithubWidget extends BasePage<typeof githubWidgetLocators, typeof l
       await this.filterBtn$.click()
     }
 
-    await filterInput.waitForExist()
+    await browser.pause(200)
+    await filterInput.waitForDisplayed()
     await filterInput.parentElement().$('svg').click()
   }
 
