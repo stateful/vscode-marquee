@@ -34,6 +34,7 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
   }
 
   public async selectByIndex (index: number) {
+    await this.comboBox$.click()
     const listItems = await this.list$.$$('li')
     await listItems[index].click()
   }
