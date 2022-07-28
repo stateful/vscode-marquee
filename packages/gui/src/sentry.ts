@@ -4,8 +4,8 @@ import { CaptureConsole } from '@sentry/integrations'
 
 import { SENTRY_DNS } from './constants'
 
-function init (userID?: string) {
-  const env = process.env.NODE_ENV === 'development' 
+function init (userID?: string, location: 'extensionHost' | 'webview' = 'webview') {
+  const env = process.env.NODE_ENV === 'development'
     ? 'development'
     : 'production'
 
@@ -25,8 +25,8 @@ function init (userID?: string) {
     tracesSampleRate: 1,
   })
 
-  Sentry.configureScope(function (scope) {
-    scope.setTag('occurred', 'webview')
+  Sentry.configureScope((scope) => {
+    scope.setTag('occurred', location)
   })
 
   if (userID) {
