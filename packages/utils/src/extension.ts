@@ -144,7 +144,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._isConfigUpdateListenerDisabled = false
   }
 
-  async updateState <T extends keyof State = keyof State>(prop: T, val: State[T]) {
+  /**
+   * Update extension state
+   * @param prop state property name
+   * @param val new state property value
+   * @param broadcastState set to true if you want to broadcast this state change
+   *                       (only needed when updating state from the extension host)
+   */
+  async updateState <T extends keyof State = keyof State>(prop: T, val: State[T], broadcastState?: boolean) {
     /**
      * check if we have to update
      */
@@ -158,12 +165,15 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
     this._channel.appendLine(`Update state "${prop.toString()}": ${val as any as string}`)
     this._state[prop] = val
-    await this.emitStateUpdate()
+    await this.emitStateUpdate(broadcastState)
   }
 
-  async emitStateUpdate () {
+  async emitStateUpdate (broadcastState?: boolean) {
     await this._context.globalState.update(this._key, this._state)
     this.emit('stateUpdate', this._state)
+    if (broadcastState) {
+      this._tangle!.broadcast(this._state as State & Configuration)
+    }
   }
 
   /**

@@ -42,7 +42,7 @@ export const githubTrendItem = {
 export const todoWidget = {
   ...commonWidgetLocators,
   elem: webview.widget('todo'),
-  createTodoBtn: 'button=Create a todo',
+  createTodoBtn: 'button=Create a Todo',
   addTodoBtn: 'button[aria-label="add-todo"]',
   items: 'div[aria-label="todo-item"]',
   filterBtn: 'button[aria-label="todo-filter"]',

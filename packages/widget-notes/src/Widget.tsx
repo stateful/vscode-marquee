@@ -40,7 +40,7 @@ interface RowRendererProps {
 }
 
 const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
-  const { globalScope } = useContext(GlobalContext)
+  const { globalScope, setGlobalScope } = useContext(GlobalContext)
   const {
     _updateNote,
     setNoteFilter,
@@ -176,7 +176,7 @@ const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
                 </Grid>
               </Grid>
             </div>
-            <div style={{ height: '100%' }}>
+            <div style={{ height: '100%' }} data-testid="widgetBody">
               <Grid container style={{ width: '100%', height: '100%' }}>
                 <Grid
                   item
@@ -187,27 +187,54 @@ const WidgetBody = ({ notes, note } : { notes: Note[], note: any }) => {
                   }}
                 >
                   {notesArr.length === 0 && (
-                    <Grid
-                      container
-                      style={{ height: '100%' }}
-                      alignItems="center"
-                      justifyContent="center"
-                      direction="column"
-                    >
-                      <Grid item>
-                        <Typography>Nothing here yet.</Typography>
+                    <>
+                      <Grid
+                        container
+                        style={{ height: '80%' }}
+                        alignItems="center"
+                        justifyContent="center"
+                        direction="column"
+                      >
+                        <Grid item>
+                          <Typography>Nothing here yet.</Typography>
+                        </Grid>
+                        <Grid item>&nbsp;</Grid>
+                        <Grid item>
+                          <Button
+                            startIcon={<AddCircleIcon />}
+                            variant="outlined"
+                            onClick={() => setShowAddDialog(true)}
+                          >
+                            Create a Note
+                          </Button>
+                        </Grid>
                       </Grid>
-                      <Grid item>&nbsp;</Grid>
-                      <Grid item>
-                        <Button
-                          startIcon={<AddCircleIcon />}
-                          variant="outlined"
-                          onClick={() => setShowAddDialog(true)}
-                        >
-                          Create a note
-                        </Button>
-                      </Grid>
-                    </Grid>
+                      {Boolean(((noteFilter && noteFilter.length) || (!globalScope && notes.length))) && (
+                        <Grid container data-testid="noteExistanceNotif">
+                          <Grid item textAlign={'center'} width={'100%'}>
+                            {/* Notify user why they don't see any todos if they have
+                                a filter set or are in workspace scope while todo is
+                                in global scope
+                            */}
+                            {noteFilter && noteFilter.length > 0
+                              ? <>
+                                No Notes found, seems you have a filter set.<br />
+                                <Link href="#" onClick={() => setNoteFilter('')}>Clear Filter</Link>
+                              </>
+                              : <>
+                                There {notes.length === 1
+                                  ? <>is <b style={{ fontWeight: 'bold' }}>1</b> note</>
+                                  : <>are <b style={{ fontWeight: 'bold' }}>{notes.length}</b> notes</>
+                                } in Global Scope.<br />
+                                <Link href="#" onClick={() => setGlobalScope(true)}>
+                                  Switch to Global Scope
+                                </Link>
+                              </>
+                            }
+                          </Grid>
+                        </Grid>
+                      )}
+                    </>
                   )}
                   {notesArr.length !== 0 && note && (
                     <NoteEditor
@@ -291,7 +318,7 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>

@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
 
-import { GlobalContext, DoubleClickHelper, MarqueeWindow, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
-import wrapper, { Dragger, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
+import { GlobalContext, DoubleClickHelper, MarqueeEvents, getEventListener } from '@vscode-marquee/utils'
+import wrapper, { Dragger, HeaderWrapper } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
 import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
 
@@ -17,10 +17,9 @@ import TodoPop from './components/Pop'
 import TodoInfo from './components/Info'
 import TodoFilter from './components/Filter'
 import TodoItem from './components/Item'
-import { Events } from './types'
+import { filterItems } from './utils'
+import type { Events } from './types'
 
-
-declare const window: MarqueeWindow
 
 let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidgetProps) => {
   const eventListener = getEventListener<Events & MarqueeEvents>()
@@ -31,8 +30,9 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
     todos,
     hide,
     todoFilter,
+    setTodoFilter
   } = useContext(TodoContext)
-  const { globalScope } = useContext(GlobalContext)
+  const { globalScope, setGlobalScope } = useContext(GlobalContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   const _isInterestedInSyncFeature = (interested: boolean) => {
@@ -78,7 +78,7 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>
@@ -87,56 +87,12 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
     </Grid>
   )
 
-  let filteredItems = useMemo(() => {
-    let filteredItems = todos
-
-    if (!globalScope) {
-      let filteredArr = filteredItems.filter((item) => {
-        if (item['workspaceId'] === window.activeWorkspace?.id) {
-          return true
-        }
-      })
-      filteredItems = filteredArr
-    }
-
-    if (!showArchived) {
-      let filteredArr = filteredItems.filter((item) => {
-        if (!item.hasOwnProperty('archived') || item.archived === false) {
-          return true
-        }
-      })
-      filteredItems = filteredArr
-    }
-
-    if (todoFilter) {
-      let filteredArr = filteredItems.filter((item) => {
-        let inBody =
-          item.body.toLowerCase().indexOf(todoFilter.toLowerCase()) !== -1
-        let inTags = false
-
-        if (item.tags && item.tags.length !== 0) {
-          inTags =
-            JSON.stringify(item.tags)
-              .toLowerCase()
-              .indexOf(todoFilter.toLowerCase()) !== -1
-        }
-
-        if (inBody || inTags) {
-          return true
-        }
-      })
-      filteredItems = filteredArr
-    }
-
-    if (hide) {
-      let hideArr = filteredItems.filter((item) => {
-        return item.checked === false
-      })
-      filteredItems = hideArr
-    }
-
-    return filteredItems
-  }, [todos, globalScope, hide, todoFilter, showArchived])
+  const filteredItems = useMemo(() => (
+    filterItems(todos, { globalScope, hide, todoFilter, showArchived })
+  ), [todos, globalScope, hide, todoFilter, showArchived])
+  const todosInGlobalScope = useMemo(() => (
+    filterItems(todos, { globalScope: true, hide, showArchived }).length
+  ), [todos, globalScope, hide, showArchived])
 
   return (
     <>
@@ -177,18 +133,47 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
         >
           <Grid item xs style={{ overflow: 'auto' }}>
             {filteredItems.length === 0 && (
-              <Grid
-                container
-                alignItems="center"
-                justifyContent="center"
-                style={{ height: '80%', width: '100%' }}
-              >
-                <Grid item>
-                  <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
-                    Create a todo
-                  </Button>
+              <>
+                <Grid
+                  container
+                  alignItems="center"
+                  justifyContent="center"
+                  style={{ height: '80%', width: '100%' }}
+                >
+                  <Grid item>
+                    <Button startIcon={<AddCircle />} variant="outlined" onClick={() => setShowAddDialog(true)}>
+                      Create a Todo
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
+                {((todoFilter && todoFilter.length) || (!globalScope && todosInGlobalScope > 0)) && (
+                  <Grid container data-testid="noteExistanceNotif">
+                    <Grid item textAlign={'center'} width={'100%'}>
+                      {/* Notify user why they don't see any todos if they have
+                          a filter set or are in workspace scope while todo is
+                          in global scope
+                      */}
+                      {todoFilter && todoFilter.length > 0
+                        ? <>
+                          No Todos found, seems you have a filter set.<br />
+                          <Link href="#" onClick={() => setTodoFilter('')}>Clear Filter</Link>
+                        </>
+                        : <>
+                          There {filterItems(todos, { globalScope: true, hide, showArchived }).length === 1
+                            ? <>is <b style={{ fontWeight: 'bold' }}>1</b> todo</>
+                            : <>are <b style={{ fontWeight: 'bold' }}>{
+                              filterItems(todos, { globalScope: true, hide, showArchived }).length
+                            }</b> todos</>
+                          } in Global Scope.<br />
+                          <Link href="#" onClick={() => setGlobalScope(true)}>
+                            Switch to Global Scope
+                          </Link>
+                        </>
+                      }
+                    </Grid>
+                  </Grid>
+                )}
+              </>
             )}
             <List
               lockVertically={true}
