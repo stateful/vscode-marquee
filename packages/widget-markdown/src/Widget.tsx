@@ -36,6 +36,9 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
     setMarkdownDocumentSelected,
   } = useMarkdownContext()
 
+  console.log('markdownDocumentSelected', markdownDocumentSelected)
+  console.log('selectedMarkdownContent', selectedMarkdownContent)
+
   const markdownDocumentsToDisplay = filter
     ? markdownDocuments.filter((md) =>
       md.name.toLowerCase().includes(filter.toLowerCase())
@@ -83,7 +86,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>

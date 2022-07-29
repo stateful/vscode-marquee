@@ -8,7 +8,7 @@ import { Client } from 'tangle'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
-import type { Configuration, MarkdownDocument, State } from './types'
+import type { Configuration, MarkdownDocument, State, WidgetEvents } from './types'
 
 const STATE_KEY = 'widgets.markdown'
 const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
@@ -27,6 +27,9 @@ const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
 })
 
 export class MarkdownExtensionManager extends ExtensionManager<State, Configuration> {
+  private _eventTangle?: Client<WidgetEvents>
+  private _markdownDocuments: MarkdownDocument[] = []
+
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(
       context,
@@ -38,50 +41,40 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
 
     // Load initial documents
     this.loadMarkdownDocuments().then((markdownDocuments) => {
-      this.updateState('markdownDocuments', markdownDocuments)
-      this.broadcast({ markdownDocuments })
+      this._markdownDocuments = markdownDocuments
+      this.emitEvent('markdownDocuments', this._markdownDocuments)
       if (markdownDocuments.length > 0) {
         this.loadMarkdownContent(markdownDocuments[0])
       }
     })
 
     // keep watching for changes
-    const watcher = vscode.workspace.createFileSystemWatcher(
-      '**/*.md',
-      false,
-      true,
-      false
-    )
+    const watcher = vscode.workspace.createFileSystemWatcher('**/*.md', false, true, false)
     watcher.onDidCreate(({ fsPath }) => this.addMarkdownDocument(fsPath))
     watcher.onDidDelete(({ fsPath }) => this.removeMarkdownDocument(fsPath))
-    this.onChangeExternalMarkdownFiles((externalMarkdownFiles) => {
-      const markdownDocuments = [
-        ...this.state.markdownDocuments.filter(({ isRemote }) => !isRemote),
+
+    vscode.workspace.onDidChangeConfiguration((ev: vscode.ConfigurationChangeEvent) => {
+      if (!ev.affectsConfiguration('marquee.widgets.markdown.externalMarkdownFiles')) {
+        return
+      }
+
+      const configuration = vscode.workspace.getConfiguration('marquee.widgets.markdown')
+      const externalMarkdownFiles: string[] = configuration.get('externalMarkdownFiles')!
+      this._markdownDocuments = [
+        ...this._markdownDocuments.filter(({ isRemote }) => !isRemote),
         ...externalMarkdownFiles.map((uri) => uriToMarkdownDocument(uri, true)),
       ]
 
       this.updateConfiguration('externalMarkdownFiles', externalMarkdownFiles)
-      this.updateState('markdownDocuments', markdownDocuments)
-      this.broadcast({ externalMarkdownFiles, markdownDocuments })
+      this.emitEvent('markdownDocuments', this._markdownDocuments)
     })
   }
 
-  onChangeExternalMarkdownFiles = (cb: (files: string[]) => void) => {
-    vscode.workspace.onDidChangeConfiguration((e) => {
-      if (
-        e.affectsConfiguration('marquee.widgets.markdown.externalMarkdownFiles')
-      ) {
-        const configuration = vscode.workspace.getConfiguration(
-          'marquee.widgets.markdown'
-        )
-
-        const updatedExternalMarkdownFiles: string[] = configuration.get(
-          'externalMarkdownFiles'
-        )!
-
-        cb(updatedExternalMarkdownFiles)
-      }
-    })
+  emitEvent (eventName: keyof WidgetEvents, payload: WidgetEvents[keyof WidgetEvents]) {
+    if (!this._eventTangle) {
+      return
+    }
+    this._eventTangle.emit(eventName, payload)
   }
 
   loadMarkdownDocuments = async () => {
@@ -99,13 +92,14 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
   }
 
   loadMarkdownContent = async (doc: MarkdownDocument) => {
-    let selectedMarkdownContent
+    let selectedMarkdownContent: string
     if (doc.isRemote) {
-      try {
-        selectedMarkdownContent = await fetchRemoteDocument(doc.path)
-      } catch (e) {
-        selectedMarkdownContent = 'Error: Could not fetch remote document.'
-      }
+      selectedMarkdownContent = await fetchRemoteDocument(doc.path).then(
+        (content: string) => content,
+        (err: Error) => {
+          this._channel.appendLine(`Markdown Widget: failed to fetch document - ${err.message}`)
+          return 'Error: Could not fetch remote document.'
+        })
     } else {
       const uri = vscode.Uri.file(doc.path)
       selectedMarkdownContent = (
@@ -113,27 +107,40 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
       ).toString()
     }
 
-    this.updateState('selectedMarkdownContent', selectedMarkdownContent)
-    this.updateState('markdownDocumentSelected', doc.id)
-    this.broadcast({ selectedMarkdownContent })
+    this.emitEvent('selectedMarkdownContent', selectedMarkdownContent)
+    this.updateState('markdownDocumentSelected', doc.id, true)
   }
 
   private addMarkdownDocument = async (uri: string) => {
     const doc = await uriToMarkdownDocument(uri, false)
-    const oldMarkdownDocuments = this.state.markdownDocuments
-    const updatedMarkdownDocuments = [...oldMarkdownDocuments, doc]
-    this.updateState('markdownDocuments', updatedMarkdownDocuments)
-    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
+    this._markdownDocuments = [...this._markdownDocuments, doc]
+    this.emitEvent('markdownDocuments', this._markdownDocuments)
   }
 
   private removeMarkdownDocument = (uri: string) => {
-    const id = getMarkdownDocumentId(uri)
-    const oldMarkdownDocuments = this.state.markdownDocuments
-    const updatedMarkdownDocuments = oldMarkdownDocuments.filter(
-      (doc) => doc.id !== id
-    )
-    this.updateState('markdownDocuments', updatedMarkdownDocuments)
-    this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
+    const rid = getMarkdownDocumentId(uri)
+    this._markdownDocuments = this._markdownDocuments.filter(({ id }) => id !== rid)
+    this.emitEvent('markdownDocuments', this._markdownDocuments)
+  }
+
+  public setBroadcaster (tangle: Client<State & Configuration> | Client<WidgetEvents>) {
+    this._eventTangle = tangle as Client<WidgetEvents>
+    super.setBroadcaster(tangle as Client<State & Configuration>)
+
+    // load content when file is selected
+    ;(tangle as Client<State & Configuration>).listen('markdownDocumentSelected', (id) => {
+      if (this.state.markdownDocumentSelected === id) {
+        // Check if the selected document actually changed.
+        // Otherwise we end up in an infinite state updating loop.
+        // See https://github.com/stateful/tangle/issues/35
+        return
+      }
+      const selectedDoc = this._markdownDocuments.find((doc) => doc.id === id)
+      if (!selectedDoc) {
+        return
+      }
+    })
+    return this
   }
 }
 
@@ -146,35 +153,8 @@ export function activate (
     marquee: {
       disposable: stateManager,
       defaultState: stateManager.state,
-      defaultConfiguration: stateManager.configuration,
-      setup: (tangle: Client<State & Configuration>) => {
-        // load content when file is selected
-        tangle.whenReady().then(() => {
-          tangle.listen(
-            'markdownDocumentSelected',
-            (markdownDocumentSelectedId) => {
-              if (
-                stateManager.state.markdownDocumentSelected ===
-                markdownDocumentSelectedId
-              ) {
-                // Check if the selected document actually changed.
-                // Otherwise we end up in an infinite state updating loop.
-                // See https://github.com/stateful/tangle/issues/35
-                return
-              }
-              const selectedDoc = stateManager.state.markdownDocuments.find(
-                (doc) => doc.id === markdownDocumentSelectedId
-              )
-              if (!selectedDoc) {
-                return
-              }
-              stateManager.loadMarkdownContent(selectedDoc)
-            }
-          )
-        })
-        return stateManager.setBroadcaster(tangle)
-      },
-    },
+      defaultConfiguration: stateManager.configuration
+    }
   }
 }
 
@@ -189,6 +169,5 @@ export async function fetchRemoteDocument (url: string) {
   }
 
   const data = await res.text()
-
   return data
 }

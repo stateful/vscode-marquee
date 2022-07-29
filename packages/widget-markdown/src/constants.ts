@@ -5,5 +5,5 @@ export const DEFAULT_CONFIGURATION: Configuration = {
 }
 
 export const DEFAULT_STATE: State = {
-  markdownDocuments: []
+  markdownDocumentSelected: null
 }
