@@ -55,6 +55,7 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
         spacing={1}
         alignItems="center"
         padding={minimizeNavIcon ? 0.5 : 0}
+        flexWrap={'nowrap'}
       >
         <Grid item>
           <TodoFilter />
@@ -103,8 +104,8 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
         />
       }
       <HeaderWrapper>
-        <Grid item xs={4}>
-          <Typography variant="subtitle1">
+        <Grid item xs={5}>
+          <Typography variant="subtitle1" noWrap>
             Todo
             <TodoInfo />
           </Typography>
