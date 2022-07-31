@@ -250,7 +250,7 @@
 		"menus": {
 			"touchBar": [
 				{
-					"command": "marquee.open"
+					"command": "marquee.touchbar"
 				}
 			],
 			"view/title": [
