@@ -83,7 +83,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>

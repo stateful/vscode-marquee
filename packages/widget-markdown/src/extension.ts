@@ -27,6 +27,8 @@ const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
 })
 
 export class MarkdownExtensionManager extends ExtensionManager<State, Configuration> {
+  #loadedDocument?: MarkdownDocument
+
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(
       context,
@@ -99,20 +101,26 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
   }
 
   loadMarkdownContent = async (doc: MarkdownDocument) => {
-    let selectedMarkdownContent
-    if (doc.isRemote) {
-      try {
-        selectedMarkdownContent = await fetchRemoteDocument(doc.path)
-      } catch (e) {
-        selectedMarkdownContent = 'Error: Could not fetch remote document.'
-      }
-    } else {
-      const uri = vscode.Uri.file(doc.path)
-      selectedMarkdownContent = (
-        await vscode.workspace.fs.readFile(uri)
-      ).toString()
+    /**
+     * ensure we don't unnecessarily load the same content
+     * and run into a tangle endless loop
+     */
+    if (this.#loadedDocument?.id === doc.id) {
+      return
     }
 
+    let selectedMarkdownContent
+    if (doc.isRemote) {
+      selectedMarkdownContent = await fetchRemoteDocument(doc.path).then(
+        (content) => content,
+        (err: any) => `Error: Could not fetch remote document: ${(err as Error).message}`
+      )
+    } else {
+      const uri = vscode.Uri.file(doc.path)
+      selectedMarkdownContent = (await vscode.workspace.fs.readFile(uri)).toString()
+    }
+
+    this.#loadedDocument = doc
     this.updateState('selectedMarkdownContent', selectedMarkdownContent)
     this.updateState('markdownDocumentSelected', doc.id)
     this.broadcast({ selectedMarkdownContent })
@@ -135,6 +143,24 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
     this.updateState('markdownDocuments', updatedMarkdownDocuments)
     this.broadcast({ markdownDocuments: updatedMarkdownDocuments })
   }
+
+  public setBroadcaster (tangle: Client<State & Configuration>) {
+    super.setBroadcaster(tangle)
+
+    // load content when file is selected
+    tangle.whenReady().then(() => {
+      tangle.listen('markdownDocumentSelected', (id) => {
+        const selectedDoc = this.state.markdownDocuments
+          .find((doc) => doc.id === id)
+        if (!selectedDoc) {
+          return
+        }
+        this.loadMarkdownContent(selectedDoc)
+      })
+    })
+
+    return this
+  }
 }
 
 export function activate (
@@ -147,33 +173,7 @@ export function activate (
       disposable: stateManager,
       defaultState: stateManager.state,
       defaultConfiguration: stateManager.configuration,
-      setup: (tangle: Client<State & Configuration>) => {
-        // load content when file is selected
-        tangle.whenReady().then(() => {
-          tangle.listen(
-            'markdownDocumentSelected',
-            (markdownDocumentSelectedId) => {
-              if (
-                stateManager.state.markdownDocumentSelected ===
-                markdownDocumentSelectedId
-              ) {
-                // Check if the selected document actually changed.
-                // Otherwise we end up in an infinite state updating loop.
-                // See https://github.com/stateful/tangle/issues/35
-                return
-              }
-              const selectedDoc = stateManager.state.markdownDocuments.find(
-                (doc) => doc.id === markdownDocumentSelectedId
-              )
-              if (!selectedDoc) {
-                return
-              }
-              stateManager.loadMarkdownContent(selectedDoc)
-            }
-          )
-        })
-        return stateManager.setBroadcaster(tangle)
-      },
+      setup: stateManager.setBroadcaster.bind(stateManager)
     },
   }
 }
@@ -189,6 +189,5 @@ export async function fetchRemoteDocument (url: string) {
   }
 
   const data = await res.text()
-
   return data
 }

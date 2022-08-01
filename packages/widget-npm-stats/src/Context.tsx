@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect } from 'react'
 import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 
 import type { Context, Configuration, State } from './types'
@@ -13,6 +13,12 @@ export const NPMStatsProvider = ({ children }: { children: React.ReactElement })
     ...window.marqueeStateConfiguration[WIDGET_ID].configuration,
     ...window.marqueeStateConfiguration[WIDGET_ID].state
   }, widgetState)
+
+  useEffect(() => {
+    return () => {
+      widgetState.removeAllListeners()
+    }
+  }, [])
 
   return (
     <NPMStatsContext.Provider value={{ ...providerValues }}>
