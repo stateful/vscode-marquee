@@ -135,7 +135,7 @@ export const WidgetLayout = React.memo(() => {
   return (
     <ResponsiveReactGridLayout
       cols={{ lg: 12, md: 9, sm: 6, xs: 4, xxs: 3 }}
-      rowHeight={24}
+      rowHeight={20}
       onLayoutChange={(_, newLayouts) => {
         if (!allowedToChange) {
           return

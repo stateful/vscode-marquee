@@ -618,7 +618,7 @@
 										{
 											"minW": 3,
 											"minH": 12,
-											"w": 6,
+											"w": 4,
 											"h": 12,
 											"x": 3,
 											"y": 0,
@@ -719,7 +719,7 @@
 									],
 									"xs": [
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 2,
 											"h": 11,
@@ -730,7 +730,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -741,7 +741,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 2,
 											"h": 11,
@@ -752,7 +752,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -763,7 +763,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -774,7 +774,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -785,7 +785,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -796,7 +796,7 @@
 											"static": false
 										},
 										{
-											"minW": 2,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -809,7 +809,7 @@
 									],
 									"xxs": [
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 11,
@@ -820,7 +820,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -831,7 +831,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -842,7 +842,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -853,7 +853,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -864,7 +864,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -875,7 +875,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 13,
@@ -886,7 +886,7 @@
 											"static": false
 										},
 										{
-											"minW": 4,
+											"minW": 3,
 											"minH": 12,
 											"w": 4,
 											"h": 12,
@@ -974,7 +974,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1064,7 +1064,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1154,7 +1154,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1244,7 +1244,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1334,7 +1334,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1448,7 +1448,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1538,7 +1538,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1628,7 +1628,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1718,7 +1718,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1808,7 +1808,7 @@
 											"y": 0,
 											"i": "welcome",
 											"minW": 3,
-											"minH": 9,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
