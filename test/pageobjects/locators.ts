@@ -3,7 +3,8 @@ export const webview = {
   outerFrame: '.webview.ready',
   innerFrame: '#active-frame',
   widgets: '.react-grid-layout > div',
-  toggleScopeBtn: 'button[aria-label="toggle-scope"]'
+  toggleScopeBtn: 'button[aria-label="toggle-scope"]',
+  toggleModeBtn: 'button[aria-label="Set Mode"]'
 }
 
 const commonWidgetLocators = {
@@ -90,3 +91,9 @@ export const SplitButton = {
 }
 
 export const TreeView = {}
+
+export const markdownWidget = {
+  elem: 'div[aria-label="markdown-widget"]',
+  items: 'div[aria-label="Markdown Item List"] > div > div',
+  content: 'div[aria-label="content"]'
+}

@@ -173,6 +173,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
                         height: number;
                       }) => (
                         <List
+                          aria-label='Markdown Item List'
                           width={width}
                           height={height}
                           rowCount={markdownDocumentsToDisplay.length}
@@ -243,7 +244,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
                   </Grid>
                 </Grid>
               </div>
-              <div style={{ height: '100%', padding: '16px' }}>
+              <div aria-label="content" style={{ height: '100%', padding: '16px' }}>
                 <ReactMarkdown>
                   {selectedMarkdownContent ?? 'No document selected'}
                 </ReactMarkdown>

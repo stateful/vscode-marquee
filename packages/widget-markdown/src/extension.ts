@@ -38,15 +38,6 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
       DEFAULT_STATE
     )
 
-    // Load initial documents
-    this.loadMarkdownDocuments().then((markdownDocuments) => {
-      this.updateState('markdownDocuments', markdownDocuments)
-      this.broadcast({ markdownDocuments })
-      if (markdownDocuments.length > 0) {
-        this.loadMarkdownContent(markdownDocuments[0])
-      }
-    })
-
     // keep watching for changes
     const watcher = vscode.workspace.createFileSystemWatcher(
       '**/*.md',
@@ -156,6 +147,15 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
           return
         }
         this.loadMarkdownContent(selectedDoc)
+      })
+
+      // Load initial documents
+      this.loadMarkdownDocuments().then((markdownDocuments) => {
+        this.updateState('markdownDocuments', markdownDocuments)
+        this.broadcast({ markdownDocuments })
+        if (markdownDocuments.length > 0) {
+          this.loadMarkdownContent(markdownDocuments[0])
+        }
       })
     })
 
