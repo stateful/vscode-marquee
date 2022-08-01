@@ -449,8 +449,8 @@
 								"layouts": {
 									"lg": [
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -460,8 +460,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 8,
@@ -471,8 +471,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 8,
@@ -482,8 +482,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 4,
@@ -493,8 +493,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -504,8 +504,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 6,
 											"h": 13,
 											"x": 0,
@@ -515,8 +515,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 6,
 											"h": 13,
 											"x": 6,
@@ -526,8 +526,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 4,
@@ -539,8 +539,8 @@
 									],
 									"md": [
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 0,
@@ -550,8 +550,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 6,
@@ -561,8 +561,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 7,
@@ -572,8 +572,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 3,
@@ -583,8 +583,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 0,
@@ -594,8 +594,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 5,
 											"h": 13,
 											"x": 0,
@@ -605,8 +605,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 5,
 											"h": 13,
 											"x": 5,
@@ -616,9 +616,9 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
-											"w": 4,
+											"minW": 3,
+											"minH": 12,
+											"w": 6,
 											"h": 12,
 											"x": 3,
 											"y": 0,
@@ -629,8 +629,8 @@
 									],
 									"sm": [
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 0,
@@ -640,8 +640,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 3,
@@ -651,8 +651,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 3,
@@ -662,8 +662,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 0,
@@ -673,8 +673,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 0,
@@ -684,8 +684,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 6,
 											"h": 13,
 											"x": 0,
@@ -695,8 +695,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 6,
 											"h": 13,
 											"x": 0,
@@ -706,8 +706,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"w": 3,
 											"h": 12,
 											"x": 3,
@@ -720,7 +720,7 @@
 									"xs": [
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 2,
 											"h": 11,
 											"x": 0,
@@ -731,7 +731,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -742,7 +742,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 2,
 											"h": 11,
 											"x": 2,
@@ -753,7 +753,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -764,7 +764,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -775,7 +775,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -786,7 +786,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -797,7 +797,7 @@
 										},
 										{
 											"minW": 2,
-											"minH": 6,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -809,8 +809,8 @@
 									],
 									"xxs": [
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 11,
 											"x": 0,
@@ -820,8 +820,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -831,8 +831,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -842,8 +842,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -853,8 +853,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -864,8 +864,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -875,8 +875,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 13,
 											"x": 0,
@@ -886,8 +886,8 @@
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 4,
+											"minH": 12,
 											"w": 4,
 											"h": 12,
 											"x": 0,
@@ -918,8 +918,8 @@
 											"x": 3,
 											"y": 11,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -929,8 +929,8 @@
 											"x": 0,
 											"y": 11,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -940,8 +940,8 @@
 											"x": 0,
 											"y": 36,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -951,8 +951,8 @@
 											"x": 3,
 											"y": 0,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -962,8 +962,8 @@
 											"x": 0,
 											"y": 23,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -984,8 +984,8 @@
 											"x": 0,
 											"y": 48,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -995,8 +995,8 @@
 											"x": 0,
 											"y": 60,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1008,8 +1008,8 @@
 											"x": 0,
 											"y": 37,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1019,8 +1019,8 @@
 											"x": 0,
 											"y": 24,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1030,8 +1030,8 @@
 											"x": 0,
 											"y": 62,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1041,8 +1041,8 @@
 											"x": 0,
 											"y": 13,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1052,8 +1052,8 @@
 											"x": 0,
 											"y": 50,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1074,8 +1074,8 @@
 											"x": 0,
 											"y": 74,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1085,8 +1085,8 @@
 											"x": 0,
 											"y": 86,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1098,8 +1098,8 @@
 											"x": 5,
 											"y": 12,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1109,8 +1109,8 @@
 											"x": 0,
 											"y": 12,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1120,8 +1120,8 @@
 											"x": 0,
 											"y": 37,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1131,8 +1131,8 @@
 											"x": 5,
 											"y": 0,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1142,8 +1142,8 @@
 											"x": 0,
 											"y": 26,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1164,8 +1164,8 @@
 											"x": 0,
 											"y": 49,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1175,8 +1175,8 @@
 											"x": 0,
 											"y": 61,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1188,8 +1188,8 @@
 											"x": 6,
 											"y": 15,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1199,8 +1199,8 @@
 											"x": 0,
 											"y": 15,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1210,8 +1210,8 @@
 											"x": 4,
 											"y": 29,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1221,8 +1221,8 @@
 											"x": 3,
 											"y": 0,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1232,8 +1232,8 @@
 											"x": 6,
 											"y": 0,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1254,8 +1254,8 @@
 											"x": 0,
 											"y": 29,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1265,8 +1265,8 @@
 											"x": 0,
 											"y": 41,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1278,8 +1278,8 @@
 											"x": 0,
 											"y": 37,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1289,8 +1289,8 @@
 											"x": 0,
 											"y": 24,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1300,8 +1300,8 @@
 											"x": 0,
 											"y": 62,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1311,8 +1311,8 @@
 											"x": 0,
 											"y": 13,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1322,8 +1322,8 @@
 											"x": 0,
 											"y": 50,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1344,8 +1344,8 @@
 											"x": 0,
 											"y": 74,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1355,8 +1355,8 @@
 											"x": 0,
 											"y": 86,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1392,8 +1392,8 @@
 											"x": 0,
 											"y": 47,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1403,8 +1403,8 @@
 											"x": 0,
 											"y": 59,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1414,8 +1414,8 @@
 											"x": 3,
 											"y": 0,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1425,8 +1425,8 @@
 											"x": 0,
 											"y": 71,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1436,8 +1436,8 @@
 											"x": 0,
 											"y": 36,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1458,8 +1458,8 @@
 											"x": 0,
 											"y": 23,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1469,8 +1469,8 @@
 											"x": 0,
 											"y": 11,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1482,8 +1482,8 @@
 											"x": 0,
 											"y": 60,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1493,8 +1493,8 @@
 											"x": 0,
 											"y": 72,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1504,8 +1504,8 @@
 											"x": 0,
 											"y": 25,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1515,8 +1515,8 @@
 											"x": 0,
 											"y": 84,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1526,8 +1526,8 @@
 											"x": 0,
 											"y": 49,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1548,8 +1548,8 @@
 											"x": 0,
 											"y": 37,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1559,8 +1559,8 @@
 											"x": 0,
 											"y": 13,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1572,8 +1572,8 @@
 											"x": 0,
 											"y": 26,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1583,8 +1583,8 @@
 											"x": 0,
 											"y": 38,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1594,8 +1594,8 @@
 											"x": 3,
 											"y": 0,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1605,8 +1605,8 @@
 											"x": 0,
 											"y": 50,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1616,8 +1616,8 @@
 											"x": 5,
 											"y": 12,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1638,8 +1638,8 @@
 											"x": 0,
 											"y": 12,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1649,8 +1649,8 @@
 											"x": 6,
 											"y": 0,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1662,8 +1662,8 @@
 											"x": 0,
 											"y": 28,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1673,8 +1673,8 @@
 											"x": 0,
 											"y": 40,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1684,8 +1684,8 @@
 											"x": 8,
 											"y": 0,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1695,8 +1695,8 @@
 											"x": 0,
 											"y": 52,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1706,8 +1706,8 @@
 											"x": 6,
 											"y": 13,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1728,8 +1728,8 @@
 											"x": 0,
 											"y": 13,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1739,8 +1739,8 @@
 											"x": 4,
 											"y": 0,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1752,8 +1752,8 @@
 											"x": 0,
 											"y": 60,
 											"i": "news",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1763,8 +1763,8 @@
 											"x": 0,
 											"y": 72,
 											"i": "github",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1774,8 +1774,8 @@
 											"x": 0,
 											"y": 25,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1785,8 +1785,8 @@
 											"x": 0,
 											"y": 84,
 											"i": "weather",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1796,8 +1796,8 @@
 											"x": 0,
 											"y": 49,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1818,8 +1818,8 @@
 											"x": 0,
 											"y": 37,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1829,8 +1829,8 @@
 											"x": 0,
 											"y": 13,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1866,8 +1866,8 @@
 											"x": 5,
 											"y": 0,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1877,8 +1877,8 @@
 											"x": 8,
 											"y": 24,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1888,8 +1888,8 @@
 											"x": 5,
 											"y": 24,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1899,8 +1899,8 @@
 											"x": 8,
 											"y": 0,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1910,8 +1910,8 @@
 											"x": 5,
 											"y": 12,
 											"i": "npm-stats",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1921,8 +1921,8 @@
 											"x": 0,
 											"y": 0,
 											"i": "markdown",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										}
@@ -1934,8 +1934,8 @@
 											"x": 6,
 											"y": 0,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1945,8 +1945,8 @@
 											"x": 5,
 											"y": 27,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1956,8 +1956,8 @@
 											"x": 0,
 											"y": 27,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1967,8 +1967,8 @@
 											"x": 6,
 											"y": 8,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -1987,14 +1987,14 @@
 											"x": 0,
 											"y": 0,
 											"i": "markdown",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2004,8 +2004,8 @@
 											"i": "welcome"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2015,8 +2015,8 @@
 											"i": "news"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2026,8 +2026,8 @@
 											"i": "github"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2037,8 +2037,8 @@
 											"i": "weather"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2055,8 +2055,8 @@
 											"x": 0,
 											"y": 30,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2066,8 +2066,8 @@
 											"x": 0,
 											"y": 55,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2077,8 +2077,8 @@
 											"x": 0,
 											"y": 42,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2088,8 +2088,8 @@
 											"x": 3,
 											"y": 30,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2099,8 +2099,8 @@
 											"x": 0,
 											"y": 18,
 											"i": "npm-stats",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2110,14 +2110,14 @@
 											"x": 0,
 											"y": 0,
 											"i": "markdown",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2127,8 +2127,8 @@
 											"i": "welcome"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2138,8 +2138,8 @@
 											"i": "news"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2149,8 +2149,8 @@
 											"i": "github"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2160,8 +2160,8 @@
 											"i": "weather"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2178,8 +2178,8 @@
 											"x": 0,
 											"y": 29,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2189,8 +2189,8 @@
 											"x": 0,
 											"y": 67,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2200,8 +2200,8 @@
 											"x": 0,
 											"y": 54,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2211,8 +2211,8 @@
 											"x": 0,
 											"y": 41,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2222,8 +2222,8 @@
 											"x": 0,
 											"y": 17,
 											"i": "npm-stats",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2233,14 +2233,14 @@
 											"x": 0,
 											"y": 0,
 											"i": "markdown",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2250,8 +2250,8 @@
 											"i": "welcome"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2261,8 +2261,8 @@
 											"i": "news"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2272,8 +2272,8 @@
 											"i": "github"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2283,8 +2283,8 @@
 											"i": "weather"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2301,8 +2301,8 @@
 											"x": 0,
 											"y": 34,
 											"i": "todo",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2312,8 +2312,8 @@
 											"x": 0,
 											"y": 72,
 											"i": "projects",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2323,8 +2323,8 @@
 											"x": 0,
 											"y": 59,
 											"i": "snippets",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2334,8 +2334,8 @@
 											"x": 0,
 											"y": 46,
 											"i": "notes",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2345,8 +2345,8 @@
 											"x": 0,
 											"y": 22,
 											"i": "npm-stats",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
@@ -2356,14 +2356,14 @@
 											"x": 0,
 											"y": 0,
 											"i": "markdown",
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"moved": false,
 											"static": false
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2373,8 +2373,8 @@
 											"i": "welcome"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2384,8 +2384,8 @@
 											"i": "news"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2395,8 +2395,8 @@
 											"i": "github"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,
@@ -2406,8 +2406,8 @@
 											"i": "weather"
 										},
 										{
-											"minW": 2,
-											"minH": 6,
+											"minW": 3,
+											"minH": 12,
 											"static": false,
 											"moved": false,
 											"x": 0,

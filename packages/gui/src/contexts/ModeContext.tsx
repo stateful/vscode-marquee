@@ -50,6 +50,7 @@ const ModeProvider = ({ children }: Props) => {
   }
 
   const _setCurrentModeLayout = (newLayouts: ReactGridLayout.Layouts) => {
+    console.log('newLayouts', newLayouts)
     const newModes: ModeConfig = {
       ...providerValues.modes,
       [providerValues.modeName]: {
