@@ -39,15 +39,6 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
       DEFAULT_STATE
     )
 
-    // Load initial documents
-    this.loadMarkdownDocuments().then((markdownDocuments) => {
-      this._markdownDocuments = markdownDocuments
-      this.emitEvent('markdownDocuments', this._markdownDocuments)
-      if (markdownDocuments.length > 0) {
-        this.loadMarkdownContent(markdownDocuments[0])
-      }
-    })
-
     // keep watching for changes
     const watcher = vscode.workspace.createFileSystemWatcher('**/*.md', false, true, false)
     watcher.onDidCreate(({ fsPath }) => this.addMarkdownDocument(fsPath))
@@ -102,9 +93,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
         })
     } else {
       const uri = vscode.Uri.file(doc.path)
-      selectedMarkdownContent = (
-        await vscode.workspace.fs.readFile(uri)
-      ).toString()
+      selectedMarkdownContent = (await vscode.workspace.fs.readFile(uri)).toString()
     }
 
     this.emitEvent('selectedMarkdownContent', selectedMarkdownContent)
@@ -127,18 +116,22 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
     this._eventTangle = tangle as Client<WidgetEvents>
     super.setBroadcaster(tangle as Client<State & Configuration>)
 
+    // Load initial documents
+    this._eventTangle.whenReady().then(async () => {
+      this._markdownDocuments = await this.loadMarkdownDocuments()
+      this.emitEvent('markdownDocuments', this._markdownDocuments)
+      if (this._markdownDocuments.length > 0) {
+        this.loadMarkdownContent(this._markdownDocuments[0])
+      }
+    })
+
     // load content when file is selected
     ;(tangle as Client<State & Configuration>).listen('markdownDocumentSelected', (id) => {
-      if (this.state.markdownDocumentSelected === id) {
-        // Check if the selected document actually changed.
-        // Otherwise we end up in an infinite state updating loop.
-        // See https://github.com/stateful/tangle/issues/35
-        return
-      }
       const selectedDoc = this._markdownDocuments.find((doc) => doc.id === id)
       if (!selectedDoc) {
         return
       }
+      this.loadMarkdownContent(selectedDoc)
     })
     return this
   }
@@ -153,7 +146,8 @@ export function activate (
     marquee: {
       disposable: stateManager,
       defaultState: stateManager.state,
-      defaultConfiguration: stateManager.configuration
+      defaultConfiguration: stateManager.configuration,
+      setup: stateManager.setBroadcaster.bind(stateManager)
     }
   }
 }

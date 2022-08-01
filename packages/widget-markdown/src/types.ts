@@ -13,11 +13,14 @@ export interface Configuration {
 
 export interface WidgetEvents {
   markdownDocuments: MarkdownDocument[]
-  markdownDocumentSelected?: MarkdownDocument['id']
+  selectedMarkdownContent: string
 }
 
 export interface State {
   markdownDocumentSelected: string | null
 }
 
-export interface Context extends ContextProperties<State> {}
+export interface Context extends ContextProperties<State> {
+  markdownDocuments: MarkdownDocument[]
+  selectedMarkdownContent?: string
+}

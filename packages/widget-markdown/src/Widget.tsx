@@ -38,6 +38,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
 
   console.log('markdownDocumentSelected', markdownDocumentSelected)
   console.log('selectedMarkdownContent', selectedMarkdownContent)
+  console.log('markdownDocuments', markdownDocuments)
 
   const markdownDocumentsToDisplay = filter
     ? markdownDocuments.filter((md) =>
