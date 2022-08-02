@@ -7,7 +7,11 @@ export const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
 const webview = new Webview(locatorMap)
 const widget = new MarkdownWidget(locatorMap)
 
-describe('Markdown Widget', () => {
+/**
+ * no support to be tested as web extension due to
+ * https://github.com/microsoft/vscode-test-web/issues/4
+ */
+describe('Markdown Widget @skipWeb', () => {
   before(async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (

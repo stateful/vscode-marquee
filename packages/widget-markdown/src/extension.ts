@@ -156,7 +156,7 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
         if (markdownDocuments.length > 0) {
           this.loadMarkdownContent(markdownDocuments[0])
         }
-      })
+      }, (err: any) => this._channel.appendLine(`Error fetching Markdown files: ${(err as Error).message}`))
     })
 
     return this
