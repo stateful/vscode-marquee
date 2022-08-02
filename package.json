@@ -1094,6 +1094,17 @@
 									"md": [
 										{
 											"w": 5,
+											"h": 12,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 12,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 4,
 											"h": 14,
 											"x": 5,
 											"y": 12,
@@ -1117,17 +1128,6 @@
 										{
 											"w": 4,
 											"h": 12,
-											"x": 0,
-											"y": 37,
-											"i": "todo",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
-										},
-										{
-											"w": 5,
-											"h": 12,
 											"x": 5,
 											"y": 0,
 											"i": "weather",
@@ -1137,48 +1137,48 @@
 											"static": false
 										},
 										{
-											"w": 10,
-											"h": 11,
-											"x": 0,
-											"y": 26,
-											"i": "notes",
 											"minW": 3,
 											"minH": 12,
+											"static": false,
 											"moved": false,
-											"static": false
-										},
-										{
-											"w": 5,
-											"h": 12,
 											"x": 0,
 											"y": 0,
-											"i": "welcome",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
+											"h": 12,
+											"w": 4,
+											"i": "todo"
 										},
 										{
-											"w": 4,
-											"h": 12,
-											"x": 0,
-											"y": 49,
-											"i": "snippets",
 											"minW": 3,
 											"minH": 12,
+											"static": false,
 											"moved": false,
-											"static": false
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "projects"
 										},
 										{
-											"w": 4,
-											"h": 12,
-											"x": 0,
-											"y": 61,
-											"i": "projects",
 											"minW": 3,
 											"minH": 12,
+											"static": false,
 											"moved": false,
-											"static": false
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "snippets"
+										},
+										{
+											"minW": 3,
+											"minH": 12,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "notes"
 										}
 									],
 									"lg": [
@@ -1186,7 +1186,7 @@
 											"w": 6,
 											"h": 14,
 											"x": 6,
-											"y": 15,
+											"y": 14,
 											"i": "news",
 											"minW": 3,
 											"minH": 12,
@@ -1197,7 +1197,7 @@
 											"w": 6,
 											"h": 14,
 											"x": 0,
-											"y": 15,
+											"y": 14,
 											"i": "github",
 											"minW": 3,
 											"minH": 12,
@@ -1216,9 +1216,9 @@
 											"static": false
 										},
 										{
-											"w": 3,
-											"h": 15,
-											"x": 3,
+											"w": 6,
+											"h": 14,
+											"x": 6,
 											"y": 0,
 											"i": "weather",
 											"minW": 3,
@@ -1238,8 +1238,8 @@
 											"static": false
 										},
 										{
-											"w": 3,
-											"h": 15,
+											"w": 6,
+											"h": 14,
 											"x": 0,
 											"y": 0,
 											"i": "welcome",
@@ -1567,30 +1567,19 @@
 									],
 									"md": [
 										{
-											"w": 4,
-											"h": 12,
-											"x": 0,
-											"y": 26,
-											"i": "news",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
-										},
-										{
-											"w": 4,
-											"h": 12,
-											"x": 0,
-											"y": 38,
-											"i": "github",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
-										},
-										{
 											"w": 3,
-											"h": 12,
+											"h": 14,
+											"x": 0,
+											"y": 0,
+											"i": "welcome",
+											"minW": 3,
+											"minH": 12,
+											"moved": false,
+											"static": false
+										},
+										{
+											"w": 6,
+											"h": 14,
 											"x": 3,
 											"y": 0,
 											"i": "todo",
@@ -1601,32 +1590,10 @@
 										},
 										{
 											"w": 4,
-											"h": 12,
-											"x": 0,
-											"y": 50,
-											"i": "weather",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
-										},
-										{
-											"w": 5,
 											"h": 14,
 											"x": 5,
-											"y": 12,
-											"i": "notes",
-											"minW": 3,
-											"minH": 12,
-											"moved": false,
-											"static": false
-										},
-										{
-											"w": 3,
-											"h": 12,
-											"x": 0,
-											"y": 0,
-											"i": "welcome",
+											"y": 14,
+											"i": "projects",
 											"minW": 3,
 											"minH": 12,
 											"moved": false,
@@ -1636,7 +1603,7 @@
 											"w": 5,
 											"h": 14,
 											"x": 0,
-											"y": 12,
+											"y": 14,
 											"i": "snippets",
 											"minW": 3,
 											"minH": 12,
@@ -1644,15 +1611,48 @@
 											"static": false
 										},
 										{
-											"w": 4,
-											"h": 12,
-											"x": 6,
-											"y": 0,
-											"i": "projects",
+											"w": 9,
+											"h": 13,
+											"x": 0,
+											"y": 28,
+											"i": "notes",
 											"minW": 3,
 											"minH": 12,
 											"moved": false,
 											"static": false
+										},
+										{
+											"minW": 3,
+											"minH": 12,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "news"
+										},
+										{
+											"minW": 3,
+											"minH": 12,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "github"
+										},
+										{
+											"minW": 3,
+											"minH": 12,
+											"static": false,
+											"moved": false,
+											"x": 0,
+											"y": 0,
+											"h": 12,
+											"w": 4,
+											"i": "weather"
 										}
 									],
 									"lg": [
@@ -1940,7 +1940,7 @@
 											"static": false
 										},
 										{
-											"w": 5,
+											"w": 4,
 											"h": 13,
 											"x": 5,
 											"y": 27,
@@ -1982,7 +1982,7 @@
 											"static": false
 										},
 										{
-											"w": 6,
+											"w": 5,
 											"h": 18,
 											"x": 0,
 											"y": 0,
