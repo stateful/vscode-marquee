@@ -64,8 +64,8 @@ export const WidgetLayout = React.memo(() => {
           const found = sizeArr.findIndex((entry) => entry.i === widget)
           if (found === -1) {
             const widgetObject = {
-              minW: 2,
-              minH: 6,
+              minW: 3,
+              minH: 12,
               static: false,
               moved: false,
               x: 0,
@@ -92,6 +92,8 @@ export const WidgetLayout = React.memo(() => {
           if (w.w === 1 && w.h === 1) {
             w.w = 3
             w.h = 12
+            w.minW = 3,
+            w.minH = 12
           }
         }
       }
@@ -132,7 +134,7 @@ export const WidgetLayout = React.memo(() => {
 
   return (
     <ResponsiveReactGridLayout
-      cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 4 }}
+      cols={{ lg: 12, md: 9, sm: 6, xs: 4, xxs: 3 }}
       rowHeight={20}
       onLayoutChange={(_, newLayouts) => {
         if (!allowedToChange) {
