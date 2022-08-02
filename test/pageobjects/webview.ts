@@ -22,4 +22,11 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
     await browser.switchToFrame(null)
     await browser.switchToFrame(null)
   }
+
+  public async switchMode (mode: string) {
+    await this.toggleModeBtn$.click()
+    const projectMode = await $(`p=${mode}`)
+    await projectMode.waitForExist()
+    await projectMode.click()
+  }
 }

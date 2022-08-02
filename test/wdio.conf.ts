@@ -90,7 +90,11 @@ export const config: Options.Testrunner = {
         'marquee.widgets.news.feeds': {
           'bromann.dev': 'https://bromann.dev/index.xml',
           'marquee': 'https://zapier.com/engine/rss/12889198/webdriverio'
-        }
+        },
+        'marquee.widgets.markdown.externalMarkdownFiles': [
+          // eslint-disable-next-line max-len
+          'https://gist.githubusercontent.com/christian-bromann/ebc5551a35d10b0515940fabffe3a3fc/raw/a123776477e3d93400add652f7c0bc64f86a0319/some-test.js'
+        ]
       }
     }
   }],

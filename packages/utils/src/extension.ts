@@ -169,8 +169,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   async emitStateUpdate (broadcastState?: boolean) {
     await this._context.globalState.update(this._key, this._state)
     this.emit('stateUpdate', this._state)
-    if (broadcastState) {
-      this._tangle!.broadcast(this._state as State & Configuration)
+    if (broadcastState && this._tangle) {
+      this._tangle.broadcast(this._state as State & Configuration)
     }
   }
 
