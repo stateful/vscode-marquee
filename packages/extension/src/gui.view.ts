@@ -233,7 +233,11 @@ export class MarqueeGui extends EventEmitter {
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
         `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
-        'https://*.ingest.sentry.io'
+        'https://*.ingest.sentry.io',
+        'https://api.stateful.com',
+        'https://api.staging.stateful.com',
+        'https://api.activecove.com',
+        'https://api.staging.activecove.com'
       ],
       childSrc: [
         'https://www.youtube.com',
