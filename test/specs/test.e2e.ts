@@ -55,7 +55,7 @@ describe('Marquee', () => {
       })
 
       it('should be able to select a different city', async () => {
-        await weatherWidget.selectCity('San Francisco')
+        await weatherWidget.selectCity('San Francisco CA')
         await expect(weatherWidget.title$).toHaveText(
           'Weather in SF')
       })
@@ -77,7 +77,7 @@ describe('Marquee', () => {
           .toBeElementsArrayOfSize({ gte: 5 })
       })
 
-      it('should be able to switch news channels', async () => {
+      it.skip('should be able to switch news channels', async () => {
         const firstArticle = await newsWidget.getArticle(0)
         const firstArticleText = await firstArticle.getText()
         expect(typeof firstArticleText).toBe('string')
