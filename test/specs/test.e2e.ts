@@ -55,7 +55,7 @@ describe('Marquee', () => {
       })
 
       it('should be able to select a different city', async () => {
-        await weatherWidget.selectCity('San Francisco')
+        await weatherWidget.selectCity('San Francisco CA')
         await expect(weatherWidget.title$).toHaveText(
           'Weather in SF')
       })
