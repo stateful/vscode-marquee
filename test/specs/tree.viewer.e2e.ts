@@ -146,6 +146,8 @@ describe('Marquee Tree Viewer', () => {
           await n.dismiss()
         }
         return (await workbench.getNotifications()).length === 0
+      }, {
+        timeout: 15 * 1000 // three times the default
       })
     })
   })
