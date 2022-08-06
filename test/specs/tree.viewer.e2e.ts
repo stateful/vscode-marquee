@@ -102,7 +102,7 @@ describe('Marquee Tree Viewer', () => {
     })
   })
 
-  describe('snippet', () => {
+  describe.skip('snippet', () => {
     it('can open new snippet editor', async () => {
       const treeView = new TreeView(locatorMap, marqueeItem)
       const addSnippetBtn = await treeView.getItem('Add New Clipboard Item')
