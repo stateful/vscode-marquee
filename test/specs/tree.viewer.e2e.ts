@@ -135,6 +135,7 @@ describe('Marquee Tree Viewer', () => {
 
       const treeView = new TreeView(locatorMap, marqueeItem)
       const newSnippet = await treeView.getItem('My new snippet')
+      await browser.pause(100)
       expect(newSnippet).toBeTruthy()
     })
 
