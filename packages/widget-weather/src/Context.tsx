@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { getEventListener, connect, MarqueeWindow } from '@vscode-marquee/utils'
 
+import { WeatherDialog } from './components/Dialog'
 import { fetchGeoData, fetchWeather, forecastCache, geoDataCache } from './utils'
 import type { Context, Configuration, Forecast, Scale, Location, Events } from './types'
 
@@ -97,6 +98,7 @@ const WeatherProvider = function ({ children }: { children: React.ReactElement }
       }}
     >
       {children}
+      { showDialog && (<WeatherDialog close={() => setShowDialog(false)} />)}
     </WeatherContext.Provider>
   )
 }

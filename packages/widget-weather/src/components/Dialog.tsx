@@ -173,15 +173,12 @@ const WeatherDialog = React.memo(({ close }: { close: () => void }) => {
 })
 
 const WeatherDialogLauncher = () => {
-  const { showDialog, setShowDialog } = useContext(WeatherContext)
+  const { setShowDialog } = useContext(WeatherContext)
 
   return (
-    <>
-      <IconButton aria-label="weather-settings" role="button" size="small" onClick={() => setShowDialog(true)}>
-        <SettingsIcon fontSize="small" />
-      </IconButton>
-      { showDialog && ( <WeatherDialog close={() => setShowDialog(false)} /> )}
-    </>
+    <IconButton aria-label="weather-settings" role="button" size="small" onClick={() => setShowDialog(true)}>
+      <SettingsIcon fontSize="small" />
+    </IconButton>
   )
 }
 
