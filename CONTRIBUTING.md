@@ -163,10 +163,179 @@ export default wrapper((props: any) => (
 ), 'foobar')
 ```
 
+### Adding a new Core Widget
+
+Marquee maintains its codebase as a monorepo containing various of modules within the `packages` directory:
+
+- `/packages/dialog`: utility package for creating dialogs within the webview
+- `/packages/extension`: code that runs on the extension host
+- `/packages/gui`: core webview application
+- `/packages/utils`: common utility modules
+- `/packages/widget`: common widget components
+- `/packages/wdiget-xxx`: core Marquee widget code
+
+When creating a new widget, e.g. a foobar widget, add a new directory within that folder, e.g. `/packages/widget-foobar`, and follow the folder structure as other widget modules. The `package.json` should point to an entry file that exports basic widget information, e.g.:
+
+widget-foobar sample folder structure
+```
+packages
+...other packages
+└───widget-foobar
+    │   build
+    │   extension
+    │   │   package.json
+    │   src
+    │   │   constants.ts
+    │   │   extension.ts
+    │   │   index.tsx
+    │   │   types.ts
+    │   │   Widget.tsx
+    │   package.json
+    │   tsconfig.json
+```
+
+Create a `tsconfig.json` file in the widget-foobar root
+```json
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*",
+    "../../@types"
+  ]
+}
+```
+
+Create a `package.json` in the widget-foobar root
+```json
+{
+  "name": "@vscode-marquee/widget-foobar",
+  "description": "Marquee Foobar Widget",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "dependencies": {
+    "@vscode-marquee/utils": "^0.1.0",
+    "@vscode-marquee/widget": "^0.1.0"
+  }
+}
+```
+
+
+`packages/widget-foobar/src/index.tsx:`
+
+Setting marquee up with our `Widget.tsx` ui
+```ts
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCloudSun } from '@fortawesome/free-solid-svg-icons/faCloudSun'
+
+import FoobarWidget from './Widget'
+
+export default {
+  name: 'foobar',
+  icon: <FontAwesomeIcon icon={faCloudSun} />,
+  label: 'Foo Bar',
+  tags: [],
+  description: '...',
+  component: FoobarWidget,
+}
+```
+
+Add the new package to the workspace list in [`/package.json`](https://github.com/stateful/vscode-marquee/blob/dcd2d832853c3b8be9d65b58e736c7d43cacdaf3/package.json#L48-L62) also adding a new [`watch:foobar`](https://github.com/stateful/vscode-marquee/blob/main/package.json#L3383-L3399) script and import it in [`/packages/gui/src/constants.ts`](https://github.com/stateful/vscode-marquee/blob/main/packages/gui/src/constants.ts#L22-L33) so it is loaded by the webview. A basic `widget component` looks as following:
+
+`packages/widget-foobar/src/Widget.tsx:`
+```ts
+import React, { useContext } from 'react'
+import { Grid, Typography } from '@mui/material'
+
+import wrapper, { Dragger, HidePop, HeaderWrapper, NavIconDropdown } from '@vscode-marquee/widget'
+import type { MarqueeWidgetProps } from '@vscode-marquee/widget'
+
+const Foobar = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWidgetProps) => {
+  // ...
+  const NavButtons = () => (
+    <Grid item>
+      <Grid
+        container
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
+        spacing={1}
+        alignItems="center"
+        padding={minimizeNavIcon ? 0.5 : 0}
+      >
+        <CopyToClipboardButton />
+        <Grid item>
+          <HidePop name="markdown" />
+        </Grid>
+        <Grid item>
+          <ToggleFullScreen />
+        </Grid>
+        {!fullscreenMode &&
+          <Grid item>
+            <Dragger />
+          </Grid>
+        }
+      </Grid>
+    </Grid>
+  )
+
+  return (
+    <>
+      <HeaderWrapper>
+        <Grid item>
+          <Typography variant="subtitle1">Foobar</Typography>
+        </Grid>
+        {minimizeNavIcon ?
+          <PopupState variant='popper' popupId='widget-markdown'>
+            {(popupState) => {
+              return (
+                <NavIconDropdown popupState={popupState}>
+                  <NavButtons />
+                </NavIconDropdown>
+              )}}
+          </PopupState>
+          :
+          <Grid item xs={8}>
+            <NavButtons />
+          </Grid>
+        }
+      </HeaderWrapper>
+      <Grid item xs>
+        <Grid
+          container
+          wrap="nowrap"
+          direction="column"
+          style={{ height: '100%' }}
+        >
+          <Grid item xs style={{ overflow: 'hidden' }}>
+            Hello World
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
+  )
+}
+
+export default wrapper((props: any) => (
+    <Foobar {...props} />
+), 'foobar')
+```
+
 ### Run Code within Extension Host
 
 If you need to run certain code within the extension host, e.g. if you like fetch data for the widget, create an `extension` folder within the widget directory and point to a file that exports an `activate` method, e.g.:
 
+`Create a package/widget-foobar/extension/package.json`
 ```json
 {
   "name": "@vscode-marquee/widget-foobar-extension",
@@ -179,6 +348,7 @@ If you need to run certain code within the extension host, e.g. if you like fetc
 
 The `activate` method is called when Marquee as extension is activated. You can use it to iniate an `ExtensionManager` instance that simplifies state and configuration management for the widget, e.g.:
 
+`package/widget-foobar/src/extension.ts`
 ```ts
 import vscode from 'vscode'
 
@@ -212,7 +382,12 @@ export function activate (
 }
 ```
 
-Lastly import the method within the `packages/extension/src/stateManager.ts` so that the `activate` method will be called accordingly and the [`tangle`](https://www.npmjs.com/package/tangle) instance attached to the webview.
+Lastly import the method within the [`packages/extension/src/stateManager.ts`](https://github.com/stateful/vscode-marquee/blob/main/packages/extension/src/stateManager.ts#L11-L20) so that the `activate` method will be called accordingly and the [`tangle`](https://www.npmjs.com/package/tangle) instance attached to the webview.
+
+## Reporting New Issues
+
+When [opening a new issue](https://github.com/stateful/vscode-marquee/issues/new/choose), always make sure to fill out the issue template. __This step is very important!__ Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
+
 
 ## Reporting New Issues
 
