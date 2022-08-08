@@ -10,9 +10,7 @@ import type { State, Events, Configuration, Trick } from './types'
 declare const BACKEND_BASE_URL: string
 
 const STATE_KEY = 'widgets.welcome'
-const FETCH_INTERVAL = process.env.NODE_ENV === 'development'
-  ? 1000 * 5 // 5s
-  : 5 * 1000 * 60 // 5min
+const FETCH_INTERVAL = 5 * 1000 * 60 // 5min
 const AXIOS_RETRIES = process.env.NODE_ENV === 'development'
   ? 1
   : 10
