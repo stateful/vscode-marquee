@@ -72,7 +72,7 @@ describe('Extension Manager', () => {
 //     const url = this._configuration.feeds[this._state.channel]
 //     if (!url) {
 //       throw new Error(
-//         `Channel "${this._state.channel}" to found, ` +
+//         `Channel "${this._state.channel}" not found, ` +
 //         `available channels are ${Object.keys(this._configuration.feeds).join(', ')}`
 //       )
 //     }

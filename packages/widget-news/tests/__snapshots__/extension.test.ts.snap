@@ -51,7 +51,7 @@ exports[`Extension Manager throws an error if channel wasn't found 1`] = `
 Array [
   Array [
     Object {
-      "error": "Channel \\"foobar\\" to found, available channels are barfoo, somethingElse",
+      "error": "Channel \\"foobar\\" not found, available channels are barfoo, somethingElse",
       "isFetching": false,
       "news": Array [],
     },
@@ -71,7 +71,7 @@ Array [
   ],
   Array [
     "error",
-    "Channel \\"foobar\\" to found, available channels are barfoo, somethingElse",
+    "Channel \\"foobar\\" not found, available channels are barfoo, somethingElse",
   ],
 ]
 `;
