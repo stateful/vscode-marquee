@@ -1,6 +1,6 @@
 {
   "name": "marquee",
-  "version": "3.2.5-edge.1",
+  "version": "3.2.5",
   "publisher": "stateful",
   "displayName": "Marquee",
   "description": "Stay organized with minimal context switching, all inside your VS Code.",
