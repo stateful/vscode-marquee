@@ -273,10 +273,6 @@ export function activate (
 
 Lastly import the method within the [`packages/extension/src/stateManager.ts`](https://github.com/stateful/vscode-marquee/blob/main/packages/extension/src/stateManager.ts#L11-L20) so that the `activate` method will be called accordingly and the [`tangle`](https://www.npmjs.com/package/tangle) instance attached to the webview.
 
-## Reporting New Issues
-
-When [opening a new issue](https://github.com/stateful/vscode-marquee/issues/new/choose), always make sure to fill out the issue template. __This step is very important!__ Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
-
 
 ## Reporting New Issues
 
