@@ -34,7 +34,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     await this.updateState('isFetching', true)
 
     try {
-      const url = this._configuration.feeds[this._state.channel]
+      let url = this._configuration.feeds[this._state.channel]
       if (!url) {
         throw new Error(
           `Channel "${this._state.channel}" to found, ` +
@@ -43,6 +43,14 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       }
 
       this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
+
+      /**
+       * ensure we don't run into rate limit issue by adding a timestamp to the url
+       * in case we request hnrss feeds
+       */
+      if (url.includes('hnrss.org')) {
+        url += `?${Date.now()}`
+      }
       const feed = await this._parser.parseURL(url)
 
       await this.updateState('news', feed.items as FeedItem[])
@@ -66,7 +74,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       setTimeout(() => {
         this._tangle?.broadcast({ isFetching: false } as State & Configuration)
         this._isFetching = false
-      }, 100)
+      }, 1000)
     }
   }
 }

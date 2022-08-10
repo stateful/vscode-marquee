@@ -2559,8 +2559,8 @@
           },
           "marquee.widgets.news.updateInterval": {
             "type": "number",
-            "default": 300000,
-            "minimum": 300000,
+            "default": 60000,
+            "minimum": 60000,
             "scope": "window",
             "markdownDescription": "Interval that defines how often Marquee updates the RSS feed"
           },
