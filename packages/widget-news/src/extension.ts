@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import Parser from 'rss-parser'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './constants'
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL, HN_RSS_HOSTNAME } from './constants'
 import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
@@ -36,6 +36,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     try {
       let url = this._configuration.feeds[this._state.channel]
       if (!url) {
+        await this.updateState('channel', Object.keys(this._configuration.feeds)[0], true)
         throw new Error(
           `Channel "${this._state.channel}" to found, ` +
           `available channels are ${Object.keys(this._configuration.feeds).join(', ')}`
@@ -48,7 +49,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
        * ensure we don't run into rate limit issue by adding a timestamp to the url
        * in case we request hnrss feeds
        */
-      if (url.includes('hnrss.org')) {
+      if (new URL(url).hostname === HN_RSS_HOSTNAME) {
         url += `?${Date.now()}`
       }
       const feed = await this._parser.parseURL(url)
