@@ -5,7 +5,6 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { GlobalProvider, getEventListener } from '@vscode-marquee/utils'
 
 import Widget from '../src'
-import { WeatherProvider } from '../src/Context'
 import type { Events } from '../src/types'
 
 import getWeatherData from './__fixtures__/getWeather.json'
@@ -47,14 +46,12 @@ test('renders component correctly', async () => {
   const listener = getEventListener<Events>('@vscode-marquee/welcome-widget')
   render(
     <GlobalProvider>
-      <WeatherProvider>
-        <Widget.component />
-      </WeatherProvider>
+      <Widget.component />
     </GlobalProvider>
   )
   expect(screen.getByRole('progressbar')).toBeInTheDocument()
   await new Promise((r) => setTimeout(r, 100))
-  expect(window.fetch).toBeCalledTimes(4)
+  expect(window.fetch).toBeCalledTimes(2)
   expect(screen.getByText('Weather in Berlin')).toBeInTheDocument()
   await waitFor(() => screen.getAllByText('36°F') !== undefined)
   expect(screen.getAllByText('36°F')).toHaveLength(4)
@@ -67,7 +64,7 @@ test('renders component correctly', async () => {
 
   await userEvent.type(screen.getByPlaceholderText('City, State, Country'), 'San Francisco{enter}')
   await new Promise((r) => setTimeout(r, 100))
-  expect(window.fetch).toBeCalledTimes(4)
+  expect(window.fetch).toBeCalledTimes(2)
   expect((window.fetch as jest.Mock).mock.calls.pop().pop())
     .toContain('52.52000659999999&lon=13.40495')
 })
