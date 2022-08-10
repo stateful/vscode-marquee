@@ -216,7 +216,7 @@ const Foobar = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWi
 }
 
 export default wrapper((props: any) => (
-    <Foobar {...props} />
+  <Foobar {...props} />
 ), 'foobar')
 ```
 
