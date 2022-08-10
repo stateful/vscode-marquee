@@ -224,7 +224,7 @@ export default wrapper((props: any) => (
 
 If you need to run certain code within the extension host, e.g. if you like fetch data for the widget, create an `extension` folder within the widget directory and point to a file that exports an `activate` method, e.g.:
 
-`Create a package/widget-foobar/extension/package.json`
+Create a `package/widget-foobar/extension/package.json`
 ```json
 {
   "name": "@vscode-marquee/widget-foobar-extension",
