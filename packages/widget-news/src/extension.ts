@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import Parser from 'rss-parser'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './constants'
 import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
@@ -14,7 +14,15 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
     this.on('stateUpdate', () => this.fetchFeeds())
-    setInterval(() => this.fetchFeeds(), this.configuration.updateInterval)
+
+    /**
+     * have default interval the minimal possible
+     */
+    const maxUpdateInterval = Math.max(
+      this.configuration.updateInterval,
+      MIN_UPDATE_INTERVAL
+    )
+    setInterval(() => this.fetchFeeds(), maxUpdateInterval)
   }
 
   async fetchFeeds () {

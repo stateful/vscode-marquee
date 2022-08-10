@@ -1,5 +1,6 @@
 import { State, Configuration } from './types'
 
+export const MIN_UPDATE_INTERVAL = 1000 * 60 * 5
 export const FETCH_DATA_TIMEOUT = 10000
 export const DEFAULT_STATE: State = {
   news: [],
@@ -9,5 +10,5 @@ export const DEFAULT_STATE: State = {
 }
 export const DEFAULT_CONFIGURATION: Configuration = {
   feeds: {},
-  updateInterval: 1000 * 60
+  updateInterval: MIN_UPDATE_INTERVAL
 }
