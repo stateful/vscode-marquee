@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import Parser from 'rss-parser'
 import ExtensionManager from '@vscode-marquee/utils/extension'
 
-import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
+import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL, HN_RSS_HOSTNAME } from './constants'
 import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
@@ -14,7 +14,15 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
     this.on('stateUpdate', () => this.fetchFeeds())
-    setInterval(() => this.fetchFeeds(), this.configuration.updateInterval)
+
+    /**
+     * have default interval the minimal possible
+     */
+    const maxUpdateInterval = Math.max(
+      this.configuration.updateInterval,
+      MIN_UPDATE_INTERVAL
+    )
+    setInterval(() => this.fetchFeeds(), maxUpdateInterval)
   }
 
   async fetchFeeds () {
@@ -26,8 +34,9 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     await this.updateState('isFetching', true)
 
     try {
-      const url = this._configuration.feeds[this._state.channel]
+      let url = this._configuration.feeds[this._state.channel]
       if (!url) {
+        await this.updateState('channel', Object.keys(this._configuration.feeds)[0], true)
         throw new Error(
           `Channel "${this._state.channel}" not found, ` +
           `available channels are ${Object.keys(this._configuration.feeds).join(', ')}`
@@ -35,6 +44,14 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       }
 
       this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
+
+      /**
+       * ensure we don't run into rate limit issue by adding a timestamp to the url
+       * in case we request hnrss feeds
+       */
+      if (vscode.Uri.parse(url).authority === HN_RSS_HOSTNAME) {
+        url += `?${Date.now()}`
+      }
       const feed = await this._parser.parseURL(url)
 
       await this.updateState('news', feed.items as FeedItem[])
@@ -58,7 +75,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
       setTimeout(() => {
         this._tangle?.broadcast({ isFetching: false } as State & Configuration)
         this._isFetching = false
-      }, 100)
+      }, 1000)
     }
   }
 }
