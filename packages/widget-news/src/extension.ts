@@ -49,7 +49,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
        * ensure we don't run into rate limit issue by adding a timestamp to the url
        * in case we request hnrss feeds
        */
-      if (new URL(url).hostname === HN_RSS_HOSTNAME) {
+      if (vscode.Uri.parse(url).authority === HN_RSS_HOSTNAME) {
         url += `?${Date.now()}`
       }
       const feed = await this._parser.parseURL(url)
