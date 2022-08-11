@@ -1,7 +1,7 @@
 import type { Configuration, State } from './types'
 
 const ONE_YEAR = 1000 * 60 * 60 * 24 * 365
-export const DEFAULT_CONFIGURATION: Configuration = {
+export const DEFAULT_CONFIGURATION: Required<Configuration> = {
   packageNames: [],
   from: Date.now() - ONE_YEAR,
   until: Date.now(),

@@ -91,8 +91,8 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
         '%s?%s&from=%s&until=%s',
         STATS_URL,
         packageParam,
-        formatDate(this.configuration.from!),
-        formatDate(this.configuration.until!)
+        formatDate(this.configuration.from || DEFAULT_CONFIGURATION.from),
+        formatDate(this.configuration.until || DEFAULT_CONFIGURATION.until)
       )
 
       this._channel.appendLine(`Fetch NPM Stats from ${url}`)
