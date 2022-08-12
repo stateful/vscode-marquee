@@ -37,7 +37,9 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       id: this.generateId(),
       workspaceId: this.getActiveWorkspace()?.id || null,
       path,
-      origin: path
+      origin: path,
+      branch: this._gitProvider.branch,
+      commit: this._gitProvider.commit
     }
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)

@@ -6,6 +6,7 @@ import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
 
+import GitProvider from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType } from './types'
 import type { Configuration, State, Workspace } from './types'
@@ -19,6 +20,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   protected _tangle?: Client<State & Configuration>
   protected _state: State
   protected _configuration: Configuration
+  protected _gitProvider: GitProvider
   protected _disposables: vscode.Disposable[] = [
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
   ]
@@ -34,6 +36,8 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super()
+    this._gitProvider = new GitProvider(this._context)
+    this._disposables.push(this._gitProvider)
     const config = vscode.workspace.getConfiguration('marquee')
 
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {})
@@ -289,11 +293,23 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 }
 
+
+export class GlobalExtensionManager extends ExtensionManager<State, Configuration> {
+  constructor (...args: any[]) {
+    // @ts-expect-error
+    super(...args)
+    this._gitProvider.on('stateUpdate', (provider) => {
+      this.updateState('branch', provider.branch, true)
+      this.updateState('commit', provider.commit, true)
+    })
+  }
+}
+
 export function activate (
   context: vscode.ExtensionContext,
   channel: vscode.OutputChannel
 ) {
-  const stateManager = new ExtensionManager<State, Configuration>(
+  const stateManager = new GlobalExtensionManager(
     context,
     channel,
     'configuration',

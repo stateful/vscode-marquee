@@ -8,6 +8,8 @@ interface FilterParams {
   hide?: boolean
   todoFilter?: string
   showArchived?: boolean
+  showBranched?: boolean
+  branch?: string
 }
 export function filterItems (todos: Todo[], params: FilterParams) {
   let filteredItems = todos
@@ -23,6 +25,15 @@ export function filterItems (todos: Todo[], params: FilterParams) {
   if (!params.showArchived) {
     filteredItems = filteredItems.filter((item) => {
       if (!item.hasOwnProperty('archived') || item.archived === false) {
+        return true
+      }
+    })
+  }
+
+  if (params.showBranched && params.branch) {
+    filteredItems = filteredItems.filter((item) => {
+      console.log('OK FILTER', item.body, item.branch, params.branch)
+      if (!item.hasOwnProperty('branch') || item.branch === params.branch) {
         return true
       }
     })

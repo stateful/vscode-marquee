@@ -79,7 +79,7 @@ export interface Configuration {
   name: string
 }
 
-export interface State {
+export interface State extends Pick<ProjectItem, 'commit' | 'branch'> {
   globalScope: boolean
 }
 
@@ -89,4 +89,9 @@ export interface GuiState {
 
 export interface Context extends ContextProperties<State & Configuration & GuiState> {
   themeColor: RGBA
+}
+
+export interface ProjectItem {
+  commit?: string
+  branch?: string
 }

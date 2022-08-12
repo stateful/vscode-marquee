@@ -1,6 +1,6 @@
-import type { ContextProperties } from '@vscode-marquee/utils'
+import type { ContextProperties, ProjectItem } from '@vscode-marquee/utils'
 
-export interface Note {
+export interface Note extends ProjectItem {
   id: string
   workspaceId: string | null
   title: string

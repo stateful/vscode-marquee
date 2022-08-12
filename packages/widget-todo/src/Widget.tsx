@@ -27,12 +27,13 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
     setTodos,
     setShowAddDialog,
     showArchived,
+    showBranched,
     todos,
     hide,
     todoFilter,
     setTodoFilter
   } = useContext(TodoContext)
-  const { globalScope, setGlobalScope } = useContext(GlobalContext)
+  const { globalScope, setGlobalScope, branch } = useContext(GlobalContext)
   const [showCloudSyncFeature, setShowCloudSyncFeature] = useState(false)
 
   const _isInterestedInSyncFeature = (interested: boolean) => {
@@ -89,11 +90,11 @@ let Todo = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidge
   )
 
   const filteredItems = useMemo(() => (
-    filterItems(todos, { globalScope, hide, todoFilter, showArchived })
-  ), [todos, globalScope, hide, todoFilter, showArchived])
+    filterItems(todos, { globalScope, hide, todoFilter, showArchived, showBranched, branch })
+  ), [todos, globalScope, hide, todoFilter, showArchived, branch])
   const todosInGlobalScope = useMemo(() => (
-    filterItems(todos, { globalScope: true, hide, showArchived }).length
-  ), [todos, globalScope, hide, showArchived])
+    filterItems(todos, { globalScope: true, hide, showArchived, showBranched, branch }).length
+  ), [todos, globalScope, hide, showArchived, branch])
 
   return (
     <>

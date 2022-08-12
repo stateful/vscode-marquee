@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react'
-import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode-marquee/utils'
+import React, { createContext, useState, useEffect, useContext } from 'react'
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents, GlobalContext } from '@vscode-marquee/utils'
 
 import AddDialog from './dialogs/AddDialog'
 import EditDialog from './dialogs/EditDialog'
@@ -11,6 +11,7 @@ const TodoContext = createContext<Context>({} as Context)
 const WIDGET_ID = '@vscode-marquee/todo-widget'
 
 const TodoProvider = ({ children }: { children: React.ReactElement }) => {
+  const { commit, branch } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetState = getEventListener<Configuration & State>(WIDGET_ID)
   const providerValues = connect<Configuration & State>({
@@ -24,12 +25,14 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
   let _addTodo = (body: string, tags: string[] = [], isWorkspaceTodo = true) => {
     eventListener.emit('telemetryEvent', { eventName: 'addTodo' })
     const globalTodos: Todo[] = providerValues.todos
-    const randomString = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
+    const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
     globalTodos.unshift({
       body,
       tags,
+      id,
+      commit,
+      branch,
       checked: false,
-      id: randomString,
       archived: false,
       workspaceId: isWorkspaceTodo && window.activeWorkspace
         ? window.activeWorkspace.id

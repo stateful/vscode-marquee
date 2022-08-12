@@ -64,6 +64,32 @@ let ArchivedBox = React.memo(() => {
   )
 })
 
+const BranchedBox = React.memo(() => {
+  const { setShowBranched, showBranched } = useContext(TodoContext)
+
+  return (
+    <Grid
+      container
+      direction="row"
+      spacing={2}
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Grid item>Show from same branch</Grid>
+      <Grid item>
+        <Checkbox
+          aria-label="Show branched"
+          color="primary"
+          checked={showBranched}
+          value={showBranched}
+          name="hide"
+          onChange={(e) => setShowBranched(e.target.checked)}
+        />
+      </Grid>
+    </Grid>
+  )
+})
+
 let AutoDetectBox = React.memo(() => {
   const { setAutoDetect, autoDetect } = useContext(TodoContext)
   return (
@@ -140,6 +166,9 @@ let TodoPop = () => {
           </Grid>
           <Grid item>
             <ArchivedBox />
+          </Grid>
+          <Grid>
+            <BranchedBox />
           </Grid>
           <Grid item>&nbsp;</Grid>
           <Grid item>

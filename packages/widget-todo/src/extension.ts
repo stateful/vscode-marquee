@@ -188,6 +188,8 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       path: path,
       origin: path,
       workspaceId: this.getActiveWorkspace()?.id || null,
+      branch: this._gitProvider.branch,
+      commit: this._gitProvider.commit
     }
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)

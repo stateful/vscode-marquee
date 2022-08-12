@@ -1,6 +1,6 @@
-import type { ContextProperties } from '@vscode-marquee/utils'
+import type { ContextProperties, ProjectItem } from '@vscode-marquee/utils'
 
-export interface Todo {
+export interface Todo extends ProjectItem {
   body: string
   checked: boolean
   id: string
@@ -19,6 +19,7 @@ export interface Configuration {
   todoFilter?: string
   hide: boolean
   showArchived: boolean
+  showBranched: boolean
   autoDetect: boolean
 }
 
