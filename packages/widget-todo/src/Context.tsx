@@ -26,16 +26,17 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
     eventListener.emit('telemetryEvent', { eventName: 'addTodo' })
     const globalTodos: Todo[] = providerValues.todos
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
+    const workspaceId = window.activeWorkspace?.id || ''
     globalTodos.unshift({
       body,
       tags,
       id,
       commit,
-      branch,
+      branch: `${workspaceId}#${branch}`,
       checked: false,
       archived: false,
       workspaceId: isWorkspaceTodo && window.activeWorkspace
-        ? window.activeWorkspace.id
+        ? workspaceId || null
         : null,
     })
     providerValues.setTodos(globalTodos)

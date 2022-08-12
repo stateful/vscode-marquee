@@ -13,6 +13,7 @@ interface FilterParams {
 }
 export function filterItems (todos: Todo[], params: FilterParams) {
   let filteredItems = todos
+  const workspaceId = window.activeWorkspace?.id || ''
 
   if (!params.globalScope) {
     filteredItems = filteredItems.filter((item) => {
@@ -32,8 +33,7 @@ export function filterItems (todos: Todo[], params: FilterParams) {
 
   if (params.showBranched && params.branch) {
     filteredItems = filteredItems.filter((item) => {
-      console.log('OK FILTER', item.body, item.branch, params.branch)
-      if (!item.hasOwnProperty('branch') || item.branch === params.branch) {
+      if (!item.hasOwnProperty('branch') || item.branch === `${workspaceId}#${params.branch}`) {
         return true
       }
     })

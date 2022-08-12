@@ -34,14 +34,15 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     const globalSnippets = snippets
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
 
+    const workspaceId = window.activeWorkspace?.id || ''
     const newSnippet: Partial<Snippet> = Object.assign({}, snippet, {
       id,
       commit,
-      branch,
+      branch: `${workspaceId}#${branch}`,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo
-        ? window.activeWorkspace?.id || null
+        ? workspaceId || null
         : null
     })
 

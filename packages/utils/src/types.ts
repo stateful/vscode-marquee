@@ -95,3 +95,8 @@ export interface ProjectItem {
   commit?: string
   branch?: string
 }
+
+export interface GitRemote {
+  name: string;
+  url: string;
+}

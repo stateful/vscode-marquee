@@ -34,14 +34,15 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     const globalNotes = notes
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
 
+    const workspaceId = window.activeWorkspace?.id || ''
     const newNote = Object.assign({}, note, {
       id,
       commit,
-      branch,
+      branch: `${workspaceId}#${branch}`,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo
-        ? window.activeWorkspace?.id || null
+        ? workspaceId || null
         : null,
     })
 
