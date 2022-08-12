@@ -6,7 +6,7 @@ import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
 
-import GitProvider from './provider/git'
+import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType } from './types'
 import type { Configuration, State, Workspace } from './types'
@@ -20,10 +20,10 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   protected _tangle?: Client<State & Configuration>
   protected _state: State
   protected _configuration: Configuration
-  protected _gitProvider: GitProvider
   protected _disposables: vscode.Disposable[] = [
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
   ]
+  protected _gitProvider: GitProvider
   protected _subscriptions: { unsubscribe: Function }[] = []
   private _isConfigUpdateListenerDisabled = false
   private _isImportInProgress = false
@@ -36,8 +36,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super()
-    this._gitProvider = new GitProvider(this._context)
-    this._disposables.push(this._gitProvider)
+    this._gitProvider = this._context.subscriptions.find((s) => s instanceof GitProvider) as GitProvider
     const config = vscode.workspace.getConfiguration('marquee')
 
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {})
@@ -385,3 +384,4 @@ export function getExtProps () {
  */
 export * from './types'
 export * from './constants'
+export * from './provider/git'

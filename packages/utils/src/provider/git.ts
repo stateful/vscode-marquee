@@ -3,7 +3,9 @@ import { EventEmitter } from 'events'
 import { API, GitExtension, Remote } from '../types/git'
 import type { GitRemote } from '../types'
 
-export default class GitProvider extends EventEmitter implements vscode.Disposable {
+const sleep = (ms = 100) => new Promise((resolve) => setTimeout(resolve, ms))
+
+export class GitProvider extends EventEmitter implements vscode.Disposable {
   #git?: API
   #disposables: vscode.Disposable[] = []
   #branch?: string
@@ -12,10 +14,6 @@ export default class GitProvider extends EventEmitter implements vscode.Disposab
 
   constructor (protected _context: vscode.ExtensionContext) {
     super()
-
-    if (this.path) {
-      this.#init()
-    }
   }
 
   get path () {
@@ -41,7 +39,7 @@ export default class GitProvider extends EventEmitter implements vscode.Disposab
     return this.#gitUri
   }
 
-  async #init () {
+  async init () {
     const vscodeGit = vscode.extensions.getExtension('vscode.git') as vscode.Extension<GitExtension>
 
     if (!vscodeGit) {
@@ -51,7 +49,26 @@ export default class GitProvider extends EventEmitter implements vscode.Disposab
 
     const ext = await vscodeGit.activate()
     this.#git = ext.getAPI(1)
-    this.repo?.state.onDidChange(this.#updateState.bind(this))
+    this.#registerWhenInitiated()
+  }
+
+  /**
+   * wait until git extension has initiated the repository and then
+   * register listener
+   */
+  async #registerWhenInitiated () {
+    const start = Date.now()
+    while (!this.repo) {
+      await sleep()
+      if ((Date.now() - start) > 5000) {
+        break
+      }
+    }
+
+    if (this.repo) {
+      this.repo?.state.onDidChange(this.#updateState.bind(this))
+      await this.#updateState()
+    }
   }
 
   async #updateState () {

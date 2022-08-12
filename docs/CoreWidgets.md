@@ -61,6 +61,7 @@ Keep track of workspace-specific todos. Create, archive and complete todos from 
 - Attach tags to certain todo so you can easily find them
 - Search for specific todos by their content or tag
 - All todos are visible in the Marquee tree view
+- filter todos by git branch
 
 ## Clipboard Widget
 

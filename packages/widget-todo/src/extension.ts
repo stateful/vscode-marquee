@@ -45,6 +45,10 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     )
   }
 
+  get gitProvider () {
+    return this._gitProvider
+  }
+
   private _refreshActiveTextEditor (diagnostics: vscode.DiagnosticCollection) {
     if (vscode.window.activeTextEditor) {
       this._refreshDiagnostics(

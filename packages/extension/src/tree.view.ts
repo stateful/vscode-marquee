@@ -73,7 +73,14 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
       return
     }
 
-    this.state.todos = filterByScope(todos, aws, globalScope)
+    this.state.todos = filterByScope(todos, aws, globalScope).filter((todo) => {
+      const worksapceId = aws?.id || ''
+      const branch = this.stateMgr.todoWidget.gitProvider.getBranch()
+      if (!branch || !todo.branch) {
+        return true
+      }
+      return `${worksapceId}#${branch}` === todo.branch
+    })
 
     const openArr: Todo[] = []
     const closedArr: Todo[] = []
@@ -161,7 +168,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
         TodoItem.map(this.state.todos || [], this.context.extensionUri)
       )
     }
-    
+
     if (element.type.indexOf('snippets') !== -1) {
       return Promise.resolve(
         SnippetItem.map(this.state.snippets || [], this.context.extensionUri)
