@@ -9,6 +9,7 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from '@mui/material/Tooltip'
 import { HideWidgetContent } from '@vscode-marquee/widget'
+import { GlobalContext } from '@vscode-marquee/utils'
 
 import TodoContext from '../Context'
 
@@ -124,6 +125,7 @@ let AutoDetectBox = React.memo(() => {
 })
 
 let TodoPop = () => {
+  const {branch} = useContext(GlobalContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const handleClick = useCallback((event: React.MouseEvent) => {
@@ -167,9 +169,11 @@ let TodoPop = () => {
           <Grid item>
             <ArchivedBox />
           </Grid>
-          <Grid>
-            <BranchedBox />
-          </Grid>
+          { branch && (
+            <Grid>
+              <BranchedBox />
+            </Grid>
+          )}
           <Grid item>&nbsp;</Grid>
           <Grid item>
             <Divider />
