@@ -11,7 +11,7 @@ export async function activate (context: vscode.ExtensionContext) {
   await gitProvider.init()
   context.subscriptions.push(gitProvider)
 
-  new MarqueeExtension(context, gitProvider)
+  new MarqueeExtension(context)
 
   if (process.env.NODE_ENV !== 'development') {
     return {}

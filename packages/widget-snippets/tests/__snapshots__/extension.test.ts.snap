@@ -8,6 +8,8 @@ Array [
       Snippet {
         "archived": false,
         "body": "foobar",
+        "branch": "#foobar",
+        "commit": undefined,
         "createdAt": 1577836800000,
         "ctime": 1577836800000,
         "id": "123457890",
@@ -35,6 +37,8 @@ Array [
         Snippet {
           "archived": false,
           "body": "foobar",
+          "branch": "#foobar",
+          "commit": undefined,
           "createdAt": 1577836800000,
           "ctime": 1577836800000,
           "id": "123457890",

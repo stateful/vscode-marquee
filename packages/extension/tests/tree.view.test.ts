@@ -2,7 +2,7 @@ import { TreeView } from '../src/tree.view'
 
 const context = {} as any
 const stateMgr = {
-  todoWidget: { on: jest.fn () },
+  todoWidget: { on: jest.fn (), gitProvider: { getBranch: jest.fn() } },
   snippetsWidget: { on: jest.fn () },
   notesWidget: { on: jest.fn () },
   global: { on: jest.fn (), updateState: jest.fn(), state: { globalScope: true } },

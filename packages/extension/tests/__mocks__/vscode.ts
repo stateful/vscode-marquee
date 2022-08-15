@@ -49,6 +49,7 @@ vscode.EventEmitter = jest.fn()
 vscode.workspace = {
   name: 'foobarWorkspace',
   workspaceFile: { path: '/foo/bar' },
+  workspaceFolders: [{ uri: '/some/uri' }],
   getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn() }),
   onDidCloseTextDocument: jest.fn(),
   onDidChangeTextDocument: jest.fn(),
@@ -62,9 +63,35 @@ vscode.workspace = {
   }),
   lineAtMock,
   registerTextDocumentContentProvider: jest.fn(),
-  registerFileSystemProvider: jest.fn()
+  registerFileSystemProvider: jest.fn(),
+  asRelativePath: jest.fn().mockReturnValue('/some/path')
 }
 vscode.extensions = {
+  getExtension: jest.fn().mockReturnValue({
+    activate: jest.fn().mockResolvedValue({
+      getAPI: jest.fn().mockReturnValue({
+        getRepository: jest.fn().mockReturnValue({
+          log: jest.fn().mockReturnValue([{ hash: 'some hash' }]),
+          state: {
+            onDidChange: jest.fn(),
+            HEAD: {
+              name: 'some name',
+              upstream: {
+                remote: 'origin'
+              }
+            },
+            remotes: [{
+              name: 'origin',
+              fetchUrl: 'git@github.com:stateful/vscode-marquee.git'
+            }, {
+              name: 'lorenzejay',
+              fetchUrl: 'git@github.com:lorenzejay/vscode-marquee.git'
+            }]
+          }
+        })
+      })
+    })
+  }),
   all: []
 }
 vscode.window = {

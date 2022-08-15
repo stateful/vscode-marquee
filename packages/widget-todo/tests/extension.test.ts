@@ -66,7 +66,10 @@ describe('_addTodo', () => {
       context as any,
       {} as any
     )
-
+    manager['_gitProvider'] = {
+      branch: 'foobar',
+      commit: 'somecommit'
+    } as any
     vscode.window.activeTextEditor = {
       document: {
         getText: jest.fn().mockReturnValue('ToDo: some new todo here'),

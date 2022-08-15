@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import vscode from 'vscode'
 import path from 'path'
-import { WorkspaceType, GitProvider } from '@vscode-marquee/utils/extension'
+import { WorkspaceType } from '@vscode-marquee/utils/extension'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 import type { Snippet } from '@vscode-marquee/widget-snippets/extension'
 
@@ -22,10 +22,7 @@ export class MarqueeExtension {
   private readonly view: vscode.TreeView<any>
   private readonly treeView: TreeView
 
-  constructor (
-    private readonly context: vscode.ExtensionContext,
-    private readonly gitProvider: GitProvider
-  ) {
+  constructor (private readonly context: vscode.ExtensionContext) {
     this.context.subscriptions.push(...this.setupCommands())
 
     this._stateMgr = new StateManager(this.context, this._channel)

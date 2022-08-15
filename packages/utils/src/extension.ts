@@ -297,7 +297,7 @@ export class GlobalExtensionManager extends ExtensionManager<State, Configuratio
   constructor (...args: any[]) {
     // @ts-expect-error
     super(...args)
-    this._gitProvider.on('stateUpdate', (provider) => {
+    this._gitProvider?.on('stateUpdate', (provider) => {
       this.updateState('branch', provider.branch, true)
       this.updateState('commit', provider.commit, true)
     })
