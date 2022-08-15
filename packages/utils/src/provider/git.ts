@@ -139,8 +139,9 @@ export class GitProvider extends EventEmitter implements vscode.Disposable {
       if (b.name === 'origin') {
         return 1
       }
-      const aIncludeGithub = vscode.Uri.parse(a.fetchUrl || a.pushUrl || '').authority.endsWith('github.com')
-      const bIncludeGithub = vscode.Uri.parse(b.fetchUrl || b.pushUrl || '').authority.endsWith('github.com')
+
+      const aIncludeGithub = (a.fetchUrl || a.pushUrl || '').startsWith('git@github.com')
+      const bIncludeGithub = (b.fetchUrl || b.pushUrl || '').startsWith('git@github.com')
       if (aIncludeGithub !== bIncludeGithub) {
         if (aIncludeGithub) {
           return -1
