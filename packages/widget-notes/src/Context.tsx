@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react'
-import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode-marquee/utils'
+import React, { createContext, useState, useEffect, useContext } from 'react'
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents, GlobalContext } from '@vscode-marquee/utils'
 
 import AddDialog from './dialogs/AddDialog'
 import EditDialog from './dialogs/EditDialog'
@@ -10,6 +10,7 @@ const NoteContext = createContext<Context>({} as Context)
 const WIDGET_ID = '@vscode-marquee/notes-widget'
 
 const NoteProvider = ({ children }: { children: React.ReactElement }) => {
+  const { commit, branch } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetState = getEventListener<State>(WIDGET_ID)
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState)
@@ -33,12 +34,15 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     const globalNotes = notes
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
 
+    const workspaceId = window.activeWorkspace?.id || ''
     const newNote = Object.assign({}, note, {
-      id: id,
+      id,
+      commit,
+      branch: `${workspaceId}#${branch}`,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo
-        ? window.activeWorkspace?.id || null
+        ? workspaceId || null
         : null,
     })
 

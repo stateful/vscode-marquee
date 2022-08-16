@@ -56,7 +56,8 @@ test('_openSnippet', async () => {
 })
 
 test('_addSnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any);
+  const m = new SnippetExtensionManager({} as any, {} as any)
+  m['_gitProvider'] = { branch: 'foobar' } as any
   (m.getTextSelection as jest.Mock).mockReturnValueOnce({ text: '' })
   m['_addSnippet']({} as any)
   expect(vscode.window.showWarningMessage).toBeCalledWith('Marquee: no text selected');

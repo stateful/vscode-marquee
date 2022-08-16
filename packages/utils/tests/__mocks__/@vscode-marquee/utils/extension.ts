@@ -49,3 +49,5 @@ export const pkg = actualExport.pkg
 export const defaultConfigurations = actualExport.defaultConfigurations
 export const DEFAULT_STATE = actualExport.DEFAULT_STATE
 export const DEFAULT_CONFIGURATION = actualExport.DEFAULT_CONFIGURATION
+
+export const GitProvider = class {}

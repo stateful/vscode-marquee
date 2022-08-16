@@ -16,17 +16,18 @@ import type { ExtensionConfiguration } from './types'
 
 export class MarqueeExtension {
   private readonly _channel = vscode.window.createOutputChannel('Marquee')
-  private readonly _stateMgr = new StateManager(this.context, this._channel)
+  private readonly _stateMgr: StateManager
 
   private readonly gui: MarqueeGui
   private readonly view: vscode.TreeView<any>
   private readonly treeView: TreeView
 
   constructor (private readonly context: vscode.ExtensionContext) {
+    this.context.subscriptions.push(...this.setupCommands())
+
+    this._stateMgr = new StateManager(this.context, this._channel)
     this.gui = new MarqueeGui(this.context, this._stateMgr, this._channel)
     this.treeView = new TreeView(this.context, this._stateMgr)
-    this.setupCommands()
-
     this.view = vscode.window.createTreeView('marquee', {
       treeDataProvider: this.treeView,
     })
@@ -115,16 +116,13 @@ export class MarqueeExtension {
   }
 
   private setupCommands (): vscode.Disposable[] {
-    const disposables: vscode.Disposable[] = [
+    return [
       vscode.commands.registerCommand('marquee.link', linkMarquee),
       vscode.commands.registerCommand('marquee.open', this._switchTo.bind(this)),
       vscode.commands.registerCommand('marquee.touchbar', this._switchTo.bind(this)),
       vscode.commands.registerCommand('marquee.clear', this.wipe.bind(this)),
       vscode.commands.registerCommand('marquee.edit', this._editTreeItem.bind(this))
     ]
-
-    disposables.map((d) => this.context.subscriptions.push(d))
-    return disposables
   }
 
   private _editTreeItem (item: ContextMenu) {

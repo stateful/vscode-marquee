@@ -4,6 +4,8 @@ exports[`Snippet can be created from snippet object 1`] = `
 Object {
   "archived": false,
   "body": "some body",
+  "branch": undefined,
+  "commit": undefined,
   "createdAt": 123,
   "ctime": 123,
   "id": "foobar",

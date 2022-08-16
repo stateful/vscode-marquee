@@ -30,14 +30,17 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       return vscode.window.showWarningMessage('Marquee: no text selected')
     }
 
+    const worksapceId = this.getActiveWorkspace()?.id || ''
     const note: Note = {
       title: name,
       body: text,
       text: text,
       id: this.generateId(),
-      workspaceId: this.getActiveWorkspace()?.id || null,
+      workspaceId: worksapceId || null,
       path,
-      origin: path
+      origin: path,
+      branch: `${worksapceId}#${this._gitProvider.branch}`,
+      commit: this._gitProvider.commit
     }
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)

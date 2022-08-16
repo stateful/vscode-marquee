@@ -45,6 +45,10 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     )
   }
 
+  get gitProvider () {
+    return this._gitProvider
+  }
+
   private _refreshActiveTextEditor (diagnostics: vscode.DiagnosticCollection) {
     if (vscode.window.activeTextEditor) {
       this._refreshDiagnostics(
@@ -126,15 +130,18 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
     body = body.replace(TODO, '').trim()
 
+    const worksapceId = this.getActiveWorkspace()?.id
     const todo: Todo = {
       archived: false,
       body: body,
       checked: false,
+      branch: `${worksapceId}#${this._gitProvider.branch}`,
+      commit: this._gitProvider.commit,
       id: this.generateId(),
       tags: [],
       path,
       origin: path,
-      workspaceId: this.getActiveWorkspace()?.id || null,
+      workspaceId: worksapceId || null,
     }
 
     const newTodos = [todo].concat(this.state.todos)
@@ -188,6 +195,8 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       path: path,
       origin: path,
       workspaceId: this.getActiveWorkspace()?.id || null,
+      branch: this._gitProvider.branch,
+      commit: this._gitProvider.commit
     }
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)

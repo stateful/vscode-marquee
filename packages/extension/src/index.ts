@@ -3,10 +3,14 @@ import type { Client } from 'tangle'
 
 import telemetry from './telemetry'
 import { MarqueeExtension } from './extension'
-import { getExtProps } from '@vscode-marquee/utils/extension'
+import { getExtProps, GitProvider } from '@vscode-marquee/utils/extension'
 
-export function activate (context: vscode.ExtensionContext) {
+export async function activate (context: vscode.ExtensionContext) {
   telemetry.sendTelemetryEvent('extensionActivate', getExtProps())
+  const gitProvider = new GitProvider(context)
+  await gitProvider.init()
+  context.subscriptions.push(gitProvider)
+
   new MarqueeExtension(context)
 
   if (process.env.NODE_ENV !== 'development') {

@@ -8,9 +8,12 @@ interface FilterParams {
   hide?: boolean
   todoFilter?: string
   showArchived?: boolean
+  showBranched?: boolean
+  branch?: string
 }
 export function filterItems (todos: Todo[], params: FilterParams) {
   let filteredItems = todos
+  const workspaceId = window.activeWorkspace?.id || ''
 
   if (!params.globalScope) {
     filteredItems = filteredItems.filter((item) => {
@@ -23,6 +26,14 @@ export function filterItems (todos: Todo[], params: FilterParams) {
   if (!params.showArchived) {
     filteredItems = filteredItems.filter((item) => {
       if (!item.hasOwnProperty('archived') || item.archived === false) {
+        return true
+      }
+    })
+  }
+
+  if (params.showBranched && params.branch) {
+    filteredItems = filteredItems.filter((item) => {
+      if (!item.hasOwnProperty('branch') || item.branch === `${workspaceId}#${params.branch}`) {
         return true
       }
     })

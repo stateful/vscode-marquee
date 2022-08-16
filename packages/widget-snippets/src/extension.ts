@@ -83,6 +83,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       return vscode.window.showWarningMessage('Marquee: no text selected')
     }
 
+    const worksapceId = this.getActiveWorkspace()?.id || ''
     const id = this.generateId()
     const snippet = new Snippet(
       this.getActiveWorkspace()?.id || null,
@@ -91,6 +92,8 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       false,
       Date.now(),
       id,
+      `${worksapceId}#${this._gitProvider.branch}`,
+      this._gitProvider.commit,
       path
     )
     const newSnippets = [snippet].concat(this.state.snippets)

@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react'
-import { connect, getEventListener, MarqueeWindow, MarqueeEvents } from '@vscode-marquee/utils'
+import React, { createContext, useState, useEffect, useContext } from 'react'
+import { connect, getEventListener, MarqueeWindow, MarqueeEvents, GlobalContext } from '@vscode-marquee/utils'
 
 import { WIDGET_ID } from './constants'
 import type { State, Context, Snippet, Events } from './types'
@@ -8,6 +8,7 @@ declare const window: MarqueeWindow
 const SnippetContext = createContext<Context>({} as Context)
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
+  const { commit, branch } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetEvents = getEventListener<Events>(WIDGET_ID)
   const widgetState = getEventListener<State>(WIDGET_ID)
@@ -33,12 +34,15 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     const globalSnippets = snippets
     const id = [...Array(8)].map(() => Math.random().toString(36)[2]).join('')
 
+    const workspaceId = window.activeWorkspace?.id || ''
     const newSnippet: Partial<Snippet> = Object.assign({}, snippet, {
       id,
+      commit,
+      branch: `${workspaceId}#${branch}`,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo
-        ? window.activeWorkspace?.id || null
+        ? workspaceId || null
         : null
     })
 

@@ -2,6 +2,7 @@ import vscode from 'vscode'
 import ExtensionManager, { activate, getExtProps } from '../src/extension'
 
 const context = {
+  subscriptions: [],
   globalState: {
     setKeysForSync: jest.fn(),
     get: jest.fn().mockReturnValue({ someRandomConfig: 'foobar' }),

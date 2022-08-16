@@ -3308,6 +3308,12 @@
             "default": false,
             "markdownDescription": "Show archived ToDos"
           },
+          "marquee.widgets.todo.showBranched": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "Show only ToDos from the same branch"
+          },
           "marquee.widgets.todo.autoDetect": {
             "type": "boolean",
             "scope": "window",

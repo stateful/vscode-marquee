@@ -8,7 +8,9 @@ Array [
       Object {
         "archived": false,
         "body": "some new todo here",
+        "branch": "undefined#foobar",
         "checked": false,
+        "commit": "somecommit",
         "id": "123457890",
         "origin": "/some/path.js:123",
         "path": "/some/path.js:123",
@@ -28,7 +30,9 @@ Array [
         Object {
           "archived": false,
           "body": "some new todo here",
+          "branch": "undefined#foobar",
           "checked": false,
+          "commit": "somecommit",
           "id": "123457890",
           "origin": "/some/path.js:123",
           "path": "/some/path.js:123",
@@ -46,6 +50,7 @@ Object {
   "autoDetect": true,
   "hide": false,
   "showArchived": false,
+  "showBranched": false,
   "todoFilter": "",
 }
 `;
