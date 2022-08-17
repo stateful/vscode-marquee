@@ -131,11 +131,14 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     body = body.replace(TODO, '').trim()
 
     const worksapceId = this.getActiveWorkspace()?.id
+    const branch = this._gitProvider.branch
+      ? `${worksapceId}#${this._gitProvider.branch}`
+      : undefined
     const todo: Todo = {
       archived: false,
       body: body,
       checked: false,
-      branch: `${worksapceId}#${this._gitProvider.branch}`,
+      branch,
       commit: this._gitProvider.commit,
       id: this.generateId(),
       tags: [],

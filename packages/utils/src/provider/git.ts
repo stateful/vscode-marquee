@@ -58,7 +58,7 @@ export class GitProvider extends EventEmitter implements vscode.Disposable {
    */
   async #registerWhenInitiated () {
     const start = Date.now()
-    while (!this.repo) {
+    while (!this.repo && !this.getBranch()) {
       await sleep()
       if ((Date.now() - start) > 5000) {
         break

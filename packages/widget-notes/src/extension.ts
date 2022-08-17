@@ -31,6 +31,9 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
     }
 
     const worksapceId = this.getActiveWorkspace()?.id || ''
+    const branch = this._gitProvider.branch
+      ? `${worksapceId}#${this._gitProvider.branch}`
+      : undefined
     const note: Note = {
       title: name,
       body: text,
@@ -39,7 +42,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       workspaceId: worksapceId || null,
       path,
       origin: path,
-      branch: `${worksapceId}#${this._gitProvider.branch}`,
+      branch,
       commit: this._gitProvider.commit
     }
     const newNotes = [note].concat(this.state.notes)

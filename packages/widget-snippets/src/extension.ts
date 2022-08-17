@@ -84,6 +84,9 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     }
 
     const worksapceId = this.getActiveWorkspace()?.id || ''
+    const branch = this._gitProvider.branch
+      ? `${worksapceId}#${this._gitProvider.branch}`
+      : undefined
     const id = this.generateId()
     const snippet = new Snippet(
       this.getActiveWorkspace()?.id || null,
@@ -92,7 +95,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       false,
       Date.now(),
       id,
-      `${worksapceId}#${this._gitProvider.branch}`,
+      branch,
       this._gitProvider.commit,
       path
     )

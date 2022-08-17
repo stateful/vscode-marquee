@@ -32,7 +32,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
       tags,
       id,
       commit,
-      branch: `${workspaceId}#${branch}`,
+      branch: branch ? `${workspaceId}#${branch}` : undefined,
       checked: false,
       archived: false,
       workspaceId: isWorkspaceTodo && window.activeWorkspace

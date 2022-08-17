@@ -42,7 +42,7 @@ test('triggers `onChange` with new value when input is blurred', async () => {
   await userEvent.type(screen.getByRole('textbox'), userInputText)
 
   // to trigger blur
-  userEvent.tab()
+  await userEvent.tab()
 
   expect(onChange).toHaveBeenCalledWith([...oldTags, userInputText])
 })

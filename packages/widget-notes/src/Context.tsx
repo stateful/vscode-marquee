@@ -38,7 +38,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     const newNote = Object.assign({}, note, {
       id,
       commit,
-      branch: `${workspaceId}#${branch}`,
+      branch: branch ? `${workspaceId}#${branch}` : undefined,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo

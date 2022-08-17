@@ -38,7 +38,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     const newSnippet: Partial<Snippet> = Object.assign({}, snippet, {
       id,
       commit,
-      branch: `${workspaceId}#${branch}`,
+      branch: branch ? `${workspaceId}#${branch}` : undefined,
       archived: false,
       createdAt: new Date().getTime(),
       workspaceId: isWorkspaceTodo
