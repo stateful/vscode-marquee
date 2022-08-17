@@ -7,7 +7,7 @@ import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
 export class NewsExtensionManager extends ExtensionManager<State, Configuration> {
-  private _parser = new Parser()
+  private _parser = new Parser({ requestOptions: { headers: {} } })
   private _isFetching = false
 
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
