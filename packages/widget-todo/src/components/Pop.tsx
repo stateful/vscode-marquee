@@ -66,7 +66,8 @@ let ArchivedBox = React.memo(() => {
 })
 
 const BranchedBox = React.memo(() => {
-  const { setShowBranched, showBranched } = useContext(TodoContext)
+  const {branch} = useContext(GlobalContext)
+  const {setShowBranched, showBranched} = useContext(TodoContext)
 
   return (
     <Grid
@@ -76,7 +77,7 @@ const BranchedBox = React.memo(() => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Grid item>Show from same branch</Grid>
+      <Grid item>Show from same branch (<code>#{branch}</code>)</Grid>
       <Grid item>
         <Checkbox
           aria-label="Show branched"
@@ -117,7 +118,7 @@ let AutoDetectBox = React.memo(() => {
           checked={autoDetect}
           value={autoDetect}
           name="autodetect"
-          onChange={(e) => setAutoDetect(e.target.checked)}
+          onChange={(e) => setAutoDetect(e.target.checked) }
         />
       </Grid>
     </Grid>
@@ -126,6 +127,7 @@ let AutoDetectBox = React.memo(() => {
 
 let TodoPop = () => {
   const {branch} = useContext(GlobalContext)
+  const {todos} = useContext(TodoContext)
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const handleClick = useCallback((event: React.MouseEvent) => {
@@ -138,6 +140,7 @@ let TodoPop = () => {
 
   const open = Boolean(anchorEl)
   const id = open ? 'todo-popover' : undefined
+  const showBranchFilter = todos.find((t) => Boolean(t.branch)) && branch
 
   return (
     <div>
@@ -169,7 +172,7 @@ let TodoPop = () => {
           <Grid item>
             <ArchivedBox />
           </Grid>
-          { branch && (
+          { showBranchFilter && (
             <Grid>
               <BranchedBox />
             </Grid>

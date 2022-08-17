@@ -66,6 +66,7 @@ export const setThemeColor = jest.fn()
 
 export const GlobalProvider = ({ children }: any) => (
   <GlobalContext.Provider value={{
+    branch: 'main',
     background: '4',
     name: 'some name',
     globalScope: false,
