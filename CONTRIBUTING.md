@@ -38,7 +38,7 @@ Next, build the project:
 yarn build:dev
 ```
 
-and open up VSCode:
+and open up VS Code:
 
 ```sh
 code .

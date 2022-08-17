@@ -4,7 +4,7 @@ Marquee currently supports a broad set of widgets that help you build your own c
 
 ## Mailbox Widget
 
-The Mailbox widget is a communication channel between the extension developers and users of Marquee. You will find announcement as well as tipps and tricks around VSCode and Marquee.
+The Mailbox widget is a communication channel between the extension developers and users of Marquee. You will find announcement as well as tipps and tricks around VS Code and Marquee.
 
 <img src="https://marquee-seven.vercel.app/assets/widgets/mailbox.png" alt="Mailbox Widget" width="600" />
 
@@ -72,7 +72,7 @@ The inter-workspace smart clipboard for your thoughts, code snippets, logs, or t
 ### Features
 
 - Support for code highlighting
-- Allows to create clipboards directly out of VSCode text files
+- Allows to create clipboards directly out of VS Code text files
 - Easily paste a snippet into a document through the `Insert from Clipboard Item` command
 - Clipboards can also be access from the Marquee tree view
 

@@ -427,7 +427,7 @@
               }
             },
             "additionalProperties": false,
-            "description": "The color scheme applied to the Marquee Webview (default is based on the current VSCode color scheme)"
+            "description": "The color scheme applied to the Marquee Webview (default is based on the current VS Code color scheme)"
           },
           "marquee.configuration.name": {
             "type": "string",

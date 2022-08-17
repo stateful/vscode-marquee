@@ -5,13 +5,13 @@ labels: [Bug 🐛, Needs Triaging ⏳]
 body:
   - type: markdown
     attributes:
-      value: Thanks for taking the time to fill out this bug report! First, let's get some information about the VSCode environment you are using. For that please open VSCode and open the `Code` menu and go to `About Visual Studio Code`.
+      value: Thanks for taking the time to fill out this bug report! First, let's get some information about the VS Code environment you are using. For that please open VS Code and open the `Code` menu and go to `About Visual Studio Code`.
 
   - type: textarea
     id: environment
     attributes:
-      label: VSCode Environment
-      description: Information about the VSCode environment you are using.
+      label: VS Code Environment
+      description: Information about the VS Code environment you are using.
       placeholder: |
         Version: 1.63.2 (Universal)
         Commit: 899d46d82c4c95423fb7e10e68eba52050e30ba3

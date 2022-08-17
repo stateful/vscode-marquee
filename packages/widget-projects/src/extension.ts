@@ -33,7 +33,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
       !this._state.workspaces.find((ws: any) => ws.id === aws.id) &&
       /**
        * we are not running on a remote machine, this is necessary
-       * because we aren't able to connect to remote VSCode instances
+       * because we aren't able to connect to remote VS Code instances
        * through `vscode.openFolder`
        * see more: https://github.com/microsoft/vscode-remote-release/issues/6243
        */

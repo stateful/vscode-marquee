@@ -6,7 +6,7 @@ body:
 
   - type: markdown
     attributes:
-      value: Thanks for taking the time and for sharing your great idea with us. Like many VSCode extensions Marquee is an open source project and lives from these great ideas.
+      value: Thanks for taking the time and for sharing your great idea with us. Like many VS Code extensions Marquee is an open source project and lives from these great ideas.
 
   - type: textarea
     id: problem

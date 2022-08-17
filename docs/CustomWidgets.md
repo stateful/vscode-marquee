@@ -1,6 +1,6 @@
 # Custom Widgets
 
-Do you want to build your own custom widget? You can do that! Just build your own VSCode extension using the [offical VSCode documentation](https://code.visualstudio.com/api/get-started/your-first-extension) with some Marquee specific settings.
+Do you want to build your own custom widget? You can do that! Just build your own VS Code extension using the [offical VS Code documentation](https://code.visualstudio.com/api/get-started/your-first-extension) with some Marquee specific settings.
 
 ## Widget Architecture
 
@@ -29,7 +29,7 @@ To add your widget to Marquee add the following to your extension:
   ```
 
   You can define as many widgets as you like.
-- Publish your VSCode extension to the marketplace, and voilá - once you install the extension, Marquee will automatically pick it up and display its content
+- Publish your VS Code extension to the marketplace, and voilá - once you install the extension, Marquee will automatically pick it up and display its content
 
 ## Data Communication
 
@@ -100,4 +100,4 @@ class MyAwesomeWidget extends HTMLElement {
 }
 ```
 
-Note that the channel name you want to attach to is your extension id. Also important: Marquee attaches the VSCodeWebview instance, that you usually acquire through `window.acquireVsCodeApi()`, to the `window` scope for you to use.
+Note that the channel name you want to attach to is your extension id. Also important: Marquee attaches the VS CodeWebview instance, that you usually acquire through `window.acquireVsCodeApi()`, to the `window` scope for you to use.

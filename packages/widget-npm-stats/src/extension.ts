@@ -27,7 +27,7 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
        */
       !vscode.workspace.workspaceFolders ||
       /**
-       * there are custom packages defined the VSCode configuration
+       * there are custom packages defined the VS Code configuration
        */
       this._configuration.packageNames.length !== 0
     ) {

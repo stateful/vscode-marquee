@@ -14,7 +14,7 @@ const pkg = JSON.parse(fs.readFileSync(pkgPath).toString());
 const newVersion = pkg.version.split('.').slice(0, 2)
 
 /**
- * VSCode Marketplace version requirements:
+ * VS Code Marketplace version requirements:
  * It must be one to four numbers in the range 0 to 2147483647,
  * with each number seperated by a period. It must contain at least one non-zero number.
  */

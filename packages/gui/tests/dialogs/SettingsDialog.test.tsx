@@ -46,7 +46,7 @@ test('switches to import/export settings', async () => {
   expect(close).toBeCalledTimes(2)
 })
 
-test('should open Marquee settings in VSCode preference view', async () => {
+test('should open Marquee settings in VS Code preference view', async () => {
   window.vscode = { postMessage: jest.fn() }
 
   const close = jest.fn()
