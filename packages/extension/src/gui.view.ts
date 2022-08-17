@@ -125,7 +125,7 @@ export class MarqueeGui extends EventEmitter {
     const fontSize = 0.5 + ((typeof pref?.fontSize === 'number' ? pref.fontSize : DEFAULT_FONT_SIZE) / 10)
     const widgets = [
       /**
-       * 3rd party VSCode extension widgets
+       * 3rd party VS Code extension widgets
        */
       ...vscode.extensions.all,
       /**

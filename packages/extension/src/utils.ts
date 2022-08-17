@@ -55,7 +55,7 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
     /**
      * when updating modes the webview passes the native ascii icon (e.g. "💼") which
      * breaks when sending from webview to extension host. This ensures that we don't
-     * includes these broken ascii characters into the VSCode settings file
+     * includes these broken ascii characters into the VS Code settings file
      */
     if (prop === 'modes') {
       this._lastModesChange = Date.now()

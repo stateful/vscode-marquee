@@ -9,7 +9,7 @@ export default {
   icon: <FontAwesomeIcon icon={faProjectDiagram} />,
   tags: ['workspace', 'organize', 'productivity'],
   label: 'Projects',
-  description: 'Search and access VSCode project folders and workspaces.',
+  description: 'Search and access VS Code project folders and workspaces.',
   component: Projects,
 }
 export { Projects }
