@@ -76,7 +76,7 @@ export class TreeView implements vscode.TreeDataProvider<Item> {
     this.state.todos = filterByScope(todos, aws, globalScope).filter((todo) => {
       const worksapceId = aws?.id || ''
       const branch = this.stateMgr.todoWidget.gitProvider.getBranch()
-      if (!branch || !todo.branch) {
+      if (!branch || !todo.branch || !this.stateMgr.todoWidget.configuration.showBranched) {
         return true
       }
       return `${worksapceId}#${branch}` === todo.branch
