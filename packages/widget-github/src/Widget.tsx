@@ -100,12 +100,12 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
               )}}
           </PopupState>
           :
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <NavButtons />
           </Grid>
         }
       </HeaderWrapper>
-      <Grid item>
+      <Grid item xs>
         <Grid
           container
           wrap="nowrap"
