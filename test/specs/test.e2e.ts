@@ -69,8 +69,10 @@ describe('Marquee', () => {
       })
 
       it('should display articles', async () => {
-        await browser.waitUntil(async () => (
-          await newsWidget.articles$$.length) > 0)
+        await browser.waitUntil(
+          (async () => (await newsWidget.articles$$.length) > 0),
+          { timeout: 60 * 1000 }
+        )
         await expect(newsWidget.articles$$)
           .toBeElementsArrayOfSize({ gte: 5 })
       })
