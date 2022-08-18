@@ -1,6 +1,6 @@
 {
   "name": "marquee",
-  "version": "3.2.8",
+  "version": "3.2.9",
   "publisher": "stateful",
   "displayName": "Marquee",
   "description": "Stay organized with minimal context switching, all inside your VS Code.",
@@ -30,12 +30,12 @@
     "theme": "light"
   },
   "badges": [
-		{
-			"url": "https://img.shields.io/badge/Marquee-Join%20our%20Community-blue?logo=discord&color=F62459",
-			"href": "https://discord.gg/BQm8zRCBUY",
-			"description": "Join us on Discord"
-		}
-	],
+    {
+      "url": "https://img.shields.io/badge/Marquee-Join%20our%20Community-blue?logo=discord&color=F62459",
+      "href": "https://discord.gg/BQm8zRCBUY",
+      "description": "Join us on Discord"
+    }
+  ],
   "categories": [
     "Snippets",
     "Debuggers",
