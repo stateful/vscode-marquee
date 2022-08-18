@@ -83,10 +83,10 @@ const News = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
 
   const NavButtons = () => (
     <Grid item>
-      <Grid 
+      <Grid
         container
-        justifyContent="right" 
-        direction={minimizeNavIcon ? 'column-reverse' : 'row'} 
+        justifyContent="right"
+        direction={minimizeNavIcon ? 'column-reverse' : 'row'}
         spacing={1}
         padding={minimizeNavIcon ? 0.5 : 0}
       >
@@ -96,7 +96,7 @@ const News = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>
@@ -123,7 +123,7 @@ const News = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
               )}}
           </PopupState>
           :
-          <Grid item xs={8}>
+          <Grid item xs={4}>
             <NavButtons />
           </Grid>
         }

@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from 'react'
-import { 
-  Grid, 
-  Link, 
-  Typography, 
-  Chip, 
-  Avatar, 
-  CircularProgress, 
+import {
+  Grid,
+  Link,
+  Typography,
+  Chip,
+  Avatar,
+  CircularProgress,
 } from '@mui/material'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import StarIcon from '@mui/icons-material/Star'
@@ -75,7 +75,7 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>
@@ -87,8 +87,8 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
   return (
     <>
       <HeaderWrapper>
-        <Grid item>
-          <Typography variant="subtitle1">Trending on Github</Typography>
+        <Grid item xs={6} style={{ overflow:'hidden', textOverflow: 'ellipsis' }}>
+          <Typography variant="subtitle1" noWrap>Trending on Github</Typography>
         </Grid>
         {minimizeNavIcon ?
           <PopupState variant='popper' popupId='widget-github'>
@@ -100,12 +100,12 @@ let Github = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWid
               )}}
           </PopupState>
           :
-          <Grid item xs={8}>
+          <Grid item xs={6}>
             <NavButtons />
           </Grid>
         }
       </HeaderWrapper>
-      <Grid item xs>
+      <Grid item>
         <Grid
           container
           wrap="nowrap"
