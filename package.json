@@ -25,6 +25,10 @@
   "marquee": {
     "widget": "./dist/exampleWidget.js"
   },
+  "galleryBanner": {
+    "color": "#000727",
+    "theme": "light"
+  },
   "categories": [
     "Snippets",
     "Debuggers",
