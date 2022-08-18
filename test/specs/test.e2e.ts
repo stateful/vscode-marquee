@@ -61,9 +61,6 @@ describe('Marquee', () => {
       })
     })
 
-    /**
-     * skipped due to https://github.com/microsoft/vscode-test-web/issues/26
-     */
     describe('news widget @skipWeb', () => {
       const newsWidget = new NewsWidget(locatorMap)
 
@@ -72,6 +69,8 @@ describe('Marquee', () => {
       })
 
       it('should display articles', async () => {
+        await browser.waitUntil(async () => (
+          await newsWidget.articles$$.length) > 0)
         await expect(newsWidget.articles$$)
           .toBeElementsArrayOfSize({ gte: 5 })
       })
