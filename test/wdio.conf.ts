@@ -88,8 +88,7 @@ export const config: Options.Testrunner = {
       workspacePath: path.join(__dirname, '..'),
       userSettings: {
         'marquee.widgets.news.feeds': {
-          'bromann.dev': 'https://bromann.dev/index.xml',
-          'marquee': 'https://zapier.com/engine/rss/12889198/webdriverio'
+          'bromann.dev': 'https://bromann.dev/index.xml'
         },
         'marquee.widgets.markdown.externalMarkdownFiles': [
           // eslint-disable-next-line max-len
