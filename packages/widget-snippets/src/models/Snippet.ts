@@ -19,6 +19,7 @@ export default class Snippet implements vscode.FileStat {
     public id = uuidv4(),
     public branch?: string,
     public commit?: string,
+    public gitUri?: string,
     snippetPath?: string
   ) {
     this.type = vscode.FileType.File

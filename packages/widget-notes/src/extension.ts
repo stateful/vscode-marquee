@@ -43,7 +43,8 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       path,
       origin: path,
       branch,
-      commit: this._gitProvider.commit
+      commit: this._gitProvider.commit,
+      gitUri: this._gitProvider.gitUri
     }
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)

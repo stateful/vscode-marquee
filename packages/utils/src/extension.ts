@@ -300,6 +300,7 @@ export class GlobalExtensionManager extends ExtensionManager<State, Configuratio
     this._gitProvider?.on('stateUpdate', (provider) => {
       this.updateState('branch', provider.branch, true)
       this.updateState('commit', provider.commit, true)
+      this.updateState('gitUri', provider.gitUri, true)
     })
   }
 }

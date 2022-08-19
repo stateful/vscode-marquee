@@ -140,6 +140,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       checked: false,
       branch,
       commit: this._gitProvider.commit,
+      gitUri: this._gitProvider.gitUri,
       id: this.generateId(),
       tags: [],
       path,
@@ -199,8 +200,10 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       origin: path,
       workspaceId: this.getActiveWorkspace()?.id || null,
       branch: this._gitProvider.branch,
-      commit: this._gitProvider.commit
+      commit: this._gitProvider.commit,
+      gitUri: this._gitProvider.gitUri
     }
+
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)
     this.broadcast({ todos: newTodos })

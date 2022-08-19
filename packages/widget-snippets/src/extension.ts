@@ -97,6 +97,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       id,
       branch,
       this._gitProvider.commit,
+      this._gitProvider.gitUri,
       path
     )
     const newSnippets = [snippet].concat(this.state.snippets)

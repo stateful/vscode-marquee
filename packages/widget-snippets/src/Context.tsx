@@ -8,7 +8,7 @@ declare const window: MarqueeWindow
 const SnippetContext = createContext<Context>({} as Context)
 
 const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
-  const { commit, branch } = useContext(GlobalContext)
+  const { commit, branch, gitUri } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetEvents = getEventListener<Events>(WIDGET_ID)
   const widgetState = getEventListener<State>(WIDGET_ID)
@@ -38,6 +38,7 @@ const SnippetProvider = ({ children }: { children: React.ReactElement }) => {
     const newSnippet: Partial<Snippet> = Object.assign({}, snippet, {
       id,
       commit,
+      gitUri,
       branch: branch ? `${workspaceId}#${branch}` : undefined,
       archived: false,
       createdAt: new Date().getTime(),
