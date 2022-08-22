@@ -16,9 +16,17 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const diagnostics = vscode.languages.createDiagnosticCollection('todo')
     this._refreshActiveTextEditor(diagnostics)
 
-
     this._disposables.push(
       diagnostics,
+
+      /**
+       * add file listeners
+       */
+      ...[...(new Set(this.getItemsWithReference('todos').map((t) => t.path!.split(':')[0])))].map((file) => {
+        const listener = vscode.workspace.createFileSystemWatcher(file)
+        listener.onDidChange(this._onFileChange.bind(this) as any)
+        return listener
+      }),
 
       vscode.commands.registerCommand('marquee.todo.toggle', this._toggleTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.archive', this._archiveTodo.bind(this)),

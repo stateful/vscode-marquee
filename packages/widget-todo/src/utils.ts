@@ -1,7 +1,7 @@
 import type { MarqueeWindow } from '@vscode-marquee/utils'
 import { Todo } from './types'
 
-declare const window: MarqueeWindow
+const marqueeWindow: MarqueeWindow = window as any
 
 interface FilterParams {
   globalScope?: boolean
@@ -13,11 +13,11 @@ interface FilterParams {
 }
 export function filterItems (todos: Todo[], params: FilterParams) {
   let filteredItems = todos
-  const workspaceId = window.activeWorkspace?.id || ''
+  const workspaceId = marqueeWindow.activeWorkspace?.id || ''
 
   if (!params.globalScope) {
     filteredItems = filteredItems.filter((item) => {
-      if (item['workspaceId'] === window.activeWorkspace?.id) {
+      if (item['workspaceId'] === marqueeWindow.activeWorkspace?.id) {
         return true
       }
     })
@@ -66,4 +66,24 @@ export function filterItems (todos: Todo[], params: FilterParams) {
   }
 
   return filteredItems
+}
+
+export const transformPathToLink = (todo: Todo) => {
+  try {
+    // transform
+    // -> git@github.com/foo/bar.git#main
+    // to
+    // -> https://github.com/foo/bar/blob/adcbe2a5c0428783fe9d6b50a1d2e39cbbe2def6/some/file#L3
+    const [path, line] = todo.origin!.split(':')
+    const u = new window.URL(`https://${todo.gitUri!
+      .replace(':', '/')
+      .split('@')
+      .pop()!
+    }`)
+    const rPath = path.replace(marqueeWindow.activeWorkspace!.path, '')
+    return `${u.origin}${u.pathname.replace(/\.git$/, '')}/blob/${todo.commit}${rPath}#L${parseInt(line, 10) + 1}`
+  } catch (err: any) {
+    console.warn(`Couldn't construct remote url: ${(err as Error).message}`)
+    return undefined
+  }
 }

@@ -120,7 +120,7 @@ export function activateGUI (
 }
 
 export const linkMarquee = async (item: any) => {
-  let file = item?.item?.origin
+  let file = item?.item?.path
 
   if (!file) {
     return
@@ -149,6 +149,7 @@ export const linkMarquee = async (item: any) => {
     }
 
     editor.revealRange(r, vscode.TextEditorRevealType.InCenter)
+    editor.selection = new vscode.Selection(r.start, r.end)
   } catch (err: any) {
     console.warn(`Marquee: ${(err as Error).message}`)
   }

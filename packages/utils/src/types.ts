@@ -95,6 +95,10 @@ export interface ProjectItem {
   commit?: string
   branch?: string
   gitUri?: string
+  path?: string
+  body: string
+  id: string
+  workspaceId: string | null
 }
 
 export interface GitRemote {

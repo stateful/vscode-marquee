@@ -8,9 +8,10 @@ import { EventEmitter } from 'events'
 
 import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
-import { WorkspaceType } from './types'
+import { WorkspaceType, ProjectItem } from './types'
 import type { Configuration, State, Workspace } from './types'
 
+const LINE_CHECK_RANGE = 10
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
 const TELEMETRY_CONFIG_ID = 'telemetry'
@@ -276,6 +277,77 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   public generateId (): string {
     return uuidv4()
+  }
+
+  getItemsWithReference (itemName: 'todos' | 'snippets' | 'notes'): ProjectItem[] {
+    const ws = this.getActiveWorkspace()
+    return (this.state[itemName as keyof State] as Array<ProjectItem>)
+      // only watch files that have todos in current workspace
+      .filter((t) => Boolean(t.path) && ws && ws.id === t.workspaceId)
+  }
+
+  protected async _onFileChange (uri: vscode.Uri, itemName: 'todos' | 'snippets' | 'notes') {
+    const content = (await vscode.workspace.fs.readFile(uri)).toString().split('\n')
+    const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
+
+    this._channel.appendLine(`Found ${itemsInFile.length} todo items connected to updated file`)
+    fileLoop:
+    for (const item of itemsInFile) {
+      const lineNumber = parseInt(item.path!.split(':').pop()!, 10)
+
+      /**
+       * check if we still can find the reference
+       */
+      if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(item.body.split('\n')[0])) {
+        this._channel.appendLine(`item with id ${item.id} does not need to be updated`)
+        continue fileLoop
+      }
+
+      /**
+       * if not check if it can be found some lines further up or down
+       */
+      lineLoop:
+      for (
+        let l = Math.max(lineNumber - LINE_CHECK_RANGE, 0);
+        l <= Math.min(lineNumber + LINE_CHECK_RANGE, content.length);
+        ++l
+      ) {
+        /**
+         * check if reference can be found
+         */
+        if (content[l].includes(item.body.split('\n')[0])) {
+          this._updateReference(itemName, item.id, l)
+          continue fileLoop
+        }
+      }
+
+      /**
+       * if reference can not be found anymore, delete path
+       */
+      this._updateReference(itemName, item.id)
+    }
+  }
+
+  private _updateReference (itemName: 'todos' | 'snippets' | 'notes', id: string, newLine?: number) {
+    const items = this.state[itemName as keyof State] as ProjectItem[]
+    const otherItems = items.filter((t) => t.id !== id)
+    const modifiedItem = items.find((t) => t.id === id)
+
+    if (!modifiedItem || !modifiedItem.path) {
+      return
+    }
+
+    if (newLine) {
+      const uri = modifiedItem.path.split(':')[0]
+      modifiedItem.path = `${uri}:${newLine}`
+      this._channel.appendLine(`Updated path of todo item with id ${modifiedItem.id}, new path is ${modifiedItem.path}`)
+    } else {
+      delete modifiedItem.path
+      this._channel.appendLine(`Can't find original reference for todo with id ${modifiedItem.id}, removing its path`)
+    }
+
+    this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as State[keyof State]
+    return this.emitStateUpdate(true)
   }
 
   reset () {
