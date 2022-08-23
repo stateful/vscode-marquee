@@ -121,6 +121,70 @@ test('setImportInProgress', () => {
   expect(manager['_isImportInProgress']).toBe(false)
 })
 
+test('getItemsWithReference', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    { defaultConfig: true },
+    { defaultState: true }
+  )
+  manager['_state'] = {
+    todos: [
+      { workspaceId: 'foobar123', path: '/foo/bar:13' },
+      { workspaceId: 'foobar123' },
+      { workspaceId: 'foobar123', path: '/bar/foo:31' },
+      { workspaceId: 'foobar1234', path: '/bar/foo:31' }
+    ]
+  } as any
+  manager.getActiveWorkspace = () => ({ id: 'foobar123' } as any)
+  expect(manager.getItemsWithReference('todos')).toHaveLength(2)
+})
+
+test('_onFileChange', async () => {
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    { defaultConfig: true },
+    { defaultState: true }
+  )
+  manager['_state'] = {
+    todos: [
+      { id: '1', body: 'foobar', workspaceId: 'foobar123', path: '/foo/bar:13' },
+      { id: '2', body: 'some code', workspaceId: 'foobar123' },
+      { id: '3', body: 'here we go', workspaceId: 'foobar123', path: '/bar/foo:0' },
+      { id: '4', body: 'nothing', workspaceId: 'foobar1234', path: '/bar/foo:31' }
+    ]
+  } as any
+  manager.getActiveWorkspace = () => ({ id: 'foobar123' } as any)
+  manager['_updateReference'] = jest.fn()
+  vscode.workspace.fs.readFile = jest.fn().mockResolvedValue(Buffer.from('Hello World\nsome code\nhere we go'))
+  await manager['_onFileChange']('todos', { path: '/bar/foo' } as any)
+  expect(manager['_updateReference']).toBeCalledWith('todos', '3', 2)
+})
+
+test('_updateReference', async () => {
+  vscode.workspace.fs.readFile = jest.fn().mockResolvedValue(Buffer.from('Hello World\nsome code\nhere we go'))
+  const todos = [
+    { id: '1', body: 'Hello World', workspaceId: 'foobar123', path: '/foo/bar:13' },
+    { id: '2', body: 'some code', workspaceId: 'foobar123' },
+    { id: '3', body: 'here we go', workspaceId: 'foobar123', path: '/bar/foo:0' },
+    { id: '4', body: 'nothing', workspaceId: 'foobar1234', path: '/bar/foo:31' }
+  ]
+  const manager = new ExtensionManager(
+    context as any,
+    { appendLine: jest.fn() } as any,
+    'widget.todo',
+    { defaultConfig: true },
+    { defaultState: true }
+  )
+  manager['_state'] = { todos } as any
+  await manager['_updateReference']('todos', '3', 112233)
+  await manager['_updateReference']('todos', '1')
+  expect(manager['_state']).toMatchSnapshot()
+})
+
 test('updateConfiguration', async () => {
   const manager = new ExtensionManager(
     context as any,

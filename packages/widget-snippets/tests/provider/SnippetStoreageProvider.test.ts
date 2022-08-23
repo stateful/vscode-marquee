@@ -73,10 +73,14 @@ describe('SnippetStorageProvider', () => {
       id: '39d2f858-3522-4053-beb8-b75a1defd1d2',
       mtime: expect.any(Number),
       origin: undefined,
-      path: path.sep + path.join('39d2f858-3522-4053-beb8-b75a1defd1d2', 'some input'),
+      path: undefined,
+      storagePath: path.sep + path.join('39d2f858-3522-4053-beb8-b75a1defd1d2', 'some input'),
       size: 34,
       title: 'some input',
       type: '1',
+      branch: undefined,
+      commit: undefined,
+      gitUri: undefined,
       workspaceId: null,
     })
   })
@@ -98,10 +102,14 @@ describe('SnippetStorageProvider', () => {
       id: 'foobar',
       mtime: expect.any(Number),
       origin: undefined,
-      path: path.sep + path.join('foobar', 'some title'),
+      path: undefined,
+      storagePath: path.sep + path.join('foobar', 'some title'),
       size: 6,
       title: 'some title',
       type: '1',
+      branch: undefined,
+      commit: undefined,
+      gitUri: undefined,
       workspaceId: null,
     })
   })

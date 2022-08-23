@@ -6,6 +6,7 @@ import GlobalContextImport from '../../../src/contexts/Global'
 import NetworkErrorImport from '../../../src/components/NetworkError'
 import BetterCompleteImport from '../../../src/components/BetterComplete'
 import DoubleClickHelperImport from '../../../src/components/DoubleClickHelper'
+import ProjectItemLinkImport from '../../../src/components/ProjectItemLink'
 
 export const theme = createTheme({
   palette: {
@@ -85,3 +86,4 @@ export const GlobalProvider = ({ children }: any) => (
 export const NetworkError = NetworkErrorImport
 export const BetterComplete = BetterCompleteImport
 export const DoubleClickHelper = DoubleClickHelperImport
+export const ProjectItemLink = ProjectItemLinkImport

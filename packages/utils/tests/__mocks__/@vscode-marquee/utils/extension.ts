@@ -10,6 +10,7 @@ export default class ExtensionManagerMock {
   updateState = jest.fn()
   updateConfiguration = jest.fn()
   broadcast = jest.fn()
+  getItemsWithReference = jest.fn().mockReturnValue([])
   getActiveWorkspace = jest.fn().mockReturnValue(null)
   getTextSelection = jest.fn().mockReturnValue({})
   generateId = jest.fn().mockReturnValue('123457890')

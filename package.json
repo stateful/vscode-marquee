@@ -130,15 +130,6 @@
         }
       },
       {
-        "command": "marquee.toggleScope",
-        "title": "Toggle global / workspace scope",
-        "category": "Marquee",
-        "icon": {
-          "light": "assets/toggle-todo-dark.svg",
-          "dark": "assets/toggle-todo-light.svg"
-        }
-      },
-      {
         "command": "marquee.jsonExport",
         "category": "Marquee",
         "title": "JSON Export"
@@ -2559,11 +2550,11 @@
               "type": "string"
             },
             "default": {
-              "HN Best": "https://hnrss.stateful.com/best",
               "HN Newest": "https://hnrss.stateful.com/newest",
               "HN Ask": "https://hnrss.stateful.com/ask",
               "HN Show": "https://hnrss.stateful.com/show",
-              "HN Jobs": "https://hnrss.stateful.com/jobs"
+              "HN Jobs": "https://hnrss.stateful.com/jobs",
+              "HN Best": "https://hnrss.stateful.com/best"
             },
             "scope": "window",
             "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)"

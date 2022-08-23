@@ -79,7 +79,7 @@ export interface Configuration {
   name: string
 }
 
-export interface State extends ProjectItem {
+export interface State extends Pick<ProjectItem, 'commit' | 'branch' | 'gitUri'> {
   globalScope: boolean
 }
 

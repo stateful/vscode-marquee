@@ -281,7 +281,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   getItemsWithReference (itemName: 'todos' | 'snippets' | 'notes'): ProjectItem[] {
     const ws = this.getActiveWorkspace()
-    return (this.state[itemName as keyof State] as Array<ProjectItem>)
+    return (this.state[itemName as keyof State] as any as Array<ProjectItem>)
       // only watch files that have todos in current workspace
       .filter((t) => Boolean(t.path) && ws && ws.id === t.workspaceId)
   }
@@ -339,7 +339,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   private _updateReference (itemName: 'todos' | 'snippets' | 'notes', id: string, newLine?: number) {
-    const items = this.state[itemName as keyof State] as ProjectItem[]
+    const items = this.state[itemName as keyof State] as any as ProjectItem[]
     const otherItems = items.filter((t) => t.id !== id)
     const modifiedItem = items.find((t) => t.id === id)
 
@@ -360,7 +360,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       )
     }
 
-    this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as State[keyof State]
+    this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as any as State[keyof State]
     return this.emitStateUpdate(true)
   }
 

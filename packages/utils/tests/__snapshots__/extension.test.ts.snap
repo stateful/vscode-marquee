@@ -1,5 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`_updateReference 1`] = `
+Object {
+  "todos": Array [
+    Object {
+      "body": "Hello World",
+      "id": "1",
+      "workspaceId": "foobar123",
+    },
+    Object {
+      "body": "here we go",
+      "id": "3",
+      "path": "/bar/foo:112233",
+      "workspaceId": "foobar123",
+    },
+    Object {
+      "body": "some code",
+      "id": "2",
+      "workspaceId": "foobar123",
+    },
+    Object {
+      "body": "nothing",
+      "id": "4",
+      "path": "/bar/foo:31",
+      "workspaceId": "foobar1234",
+    },
+  ],
+}
+`;
+
 exports[`generate proper default state and configuration 1`] = `
 Object {
   "defaultConfig": true,

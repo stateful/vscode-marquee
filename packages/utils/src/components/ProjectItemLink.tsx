@@ -102,7 +102,7 @@ let ProjectItemLink = (props: ProjectItemLinkParams) => {
         arrow
       >
         <Typography variant="body2" noWrap>
-          <Link aria-label="todo-link" tabIndex={-1} href={link}>
+          <Link aria-label="Project Item Link" tabIndex={-1} href={link}>
             <LinkIcon />
           </Link>
         </Typography>
@@ -112,6 +112,7 @@ let ProjectItemLink = (props: ProjectItemLinkParams) => {
 
   return (
     <Link
+      aria-label="Project Item Link"
       href={link}
       style={{
         padding: '3px 5px 0 29px',

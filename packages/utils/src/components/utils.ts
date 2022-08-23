@@ -2,8 +2,13 @@ import type { MarqueeWindow } from '../types'
 
 declare const window: MarqueeWindow
 
-export const jumpTo = (item: any) => {
-  window.vscode.postMessage({
+/**
+ * open the reference of a project item
+ * @param item project item (note/snippet/todo)
+ * @param w    window object (for testing purposes only)
+ */
+export const jumpTo = (item: any, w = window) => {
+  w.vscode.postMessage({
     west: {
       execCommands: [
         {
