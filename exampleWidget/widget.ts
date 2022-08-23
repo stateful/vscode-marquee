@@ -40,6 +40,26 @@ class StatefulMarqueeWidget extends HTMLElement {
     this.shadowRoot?.appendChild(template.content.cloneNode(true))
   }
 }
+class StatefulMarqueeWidget2 extends HTMLElement {
+  static get is () {
+    return 'stateful-marquee-widget-2'
+  }
+
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
+    client.on('counter', (cnt) => {
+      this.shadowRoot!.querySelector('div')!.innerHTML = (
+        'Hello World' +
+        [...new Array(cnt)].map(() => '!').join('')
+      )
+    })
+  }
+
+  connectedCallback () {
+    this.shadowRoot?.appendChild(template.content.cloneNode(true))
+  }
+}
 
 window.marqueeExtension.defineWidget({
   name: StatefulMarqueeWidget.is,
@@ -48,5 +68,13 @@ window.marqueeExtension.defineWidget({
   tags: ['productivity'],
   description: 'An example widget that shows how other extensions can add Marquee widgets.'
 }, StatefulMarqueeWidget)
+
+window.marqueeExtension.defineWidget({
+  name: StatefulMarqueeWidget2.is,
+  icon: faBrain,
+  label: 'Marquee Example Widget-2',
+  tags: ['productivity'],
+  description: 'An example widget that shows how other extensions can add Marquee widgets.'
+}, StatefulMarqueeWidget2)
 
 export default StatefulMarqueeWidget

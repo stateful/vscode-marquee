@@ -135,6 +135,7 @@ export class MarqueeGui extends EventEmitter {
     ] as vscode.Extension<ExtensionExport>[]
 
     const widgetScripts: string[] = []
+    let customWidgetCounter = 0
     for (const extension of widgets) {
       /**
        * continue if extension doesn't expose a marquee widget
@@ -162,15 +163,19 @@ export class MarqueeGui extends EventEmitter {
          * the extension properly exports a setup method
          */
         extension.exports &&
-        extension.exports.marquee &&
-        typeof extension.exports.marquee.setup === 'function'
-      ) {
-        const defaultState = extension.exports.marquee?.disposable?.state || {}
-        const defaultConfiguration = extension.exports.marquee?.disposable?.configuration || {}
-        const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration })
-        ch.registerPromise([this.panel.webview]).then((client) => {
-          extension.exports.marquee.setup(client)
-        })
+        extension.exports.marquee
+      ) {       
+        if (typeof extension.exports.marquee.widgetCounter === 'number'){
+          customWidgetCounter += extension.exports.marquee.widgetCounter
+        }
+        if (typeof extension.exports.marquee.setup === 'function'){
+          const defaultState = extension.exports.marquee?.disposable?.state || {}
+          const defaultConfiguration = extension.exports.marquee?.disposable?.configuration || {}
+          const ch = new Channel(extension.id, { ...defaultState, ...defaultConfiguration })
+          ch.registerPromise([this.panel.webview]).then((client) => {
+            extension.exports.marquee.setup(client)
+          })
+        }
       }
 
       /**
@@ -214,7 +219,6 @@ export class MarqueeGui extends EventEmitter {
       }),
       {} as Record<string, Pick<ExtensionExport, 'configuration' | 'state'>>
     )
-
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
     const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL)
     const content = await render(await this.getTemplate(), {
@@ -230,6 +234,7 @@ export class MarqueeGui extends EventEmitter {
       cspSource: this.panel.webview.cspSource,
       widgetStateConfigurations: Buffer.from(JSON.stringify(widgetStateConfigurations)).toString('base64'),
       widgetScripts,
+      customWidgetCounter,
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
         `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
@@ -245,7 +250,6 @@ export class MarqueeGui extends EventEmitter {
         'https://fast.wistia.net'
       ]
     })
-
     if (!content) {
       return vscode.window.showErrorMessage('Couldn\'t load Marquee')
     }

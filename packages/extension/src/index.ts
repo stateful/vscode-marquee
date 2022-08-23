@@ -22,6 +22,7 @@ export async function activate (context: vscode.ExtensionContext) {
      * demo code for example widget in "/example"
      */
     marquee: {
+      widgetCounter: 2,
       setup: (tangle: Client<{ counter: number }>) => {
         return tangle.whenReady().then(() => {
           let i = 0
