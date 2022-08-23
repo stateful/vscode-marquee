@@ -7,19 +7,18 @@ import {
   Button,
 } from '@mui/material'
 import { AddCircle, Clear } from '@mui/icons-material'
-import LinkIcon from '@mui/icons-material/Link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloud } from '@fortawesome/free-solid-svg-icons'
 import PopupState from 'material-ui-popup-state'
 
 
-import { 
-  GlobalContext, 
-  jumpTo, 
-  DoubleClickHelper, 
-  MarqueeWindow, 
-  getEventListener, 
-  MarqueeEvents 
+import {
+  GlobalContext,
+  DoubleClickHelper,
+  MarqueeWindow,
+  getEventListener,
+  MarqueeEvents,
+  ProjectItemLink
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop, NavIconDropdown } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
@@ -251,12 +250,6 @@ let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
     return snippets.find((snippet) => snippet.id === snippetSelected)
   }, [snippetSelected, snippets])
 
-  const snippetLinkFileName = useMemo(() => {
-    if (snippet && snippet.origin) {
-      return snippet.origin.split('/').reverse()[0].toUpperCase()
-    }
-  }, [snippet])
-
   useEffect(() => {
     eventListener.on('openCloudSyncFeatureInterest', setShowCloudSyncFeature)
   }, [])
@@ -293,7 +286,7 @@ let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
         <Grid item>
           <ToggleFullScreen />
         </Grid>
-        {!fullscreenMode && 
+        {!fullscreenMode &&
           <Grid item>
             <Dragger />
           </Grid>
@@ -317,21 +310,7 @@ let Snippets = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeW
               <Typography variant="subtitle1">Clipboard</Typography>
             </Grid>
             <Grid item>
-              {snippet && snippetLinkFileName && (
-                <Button
-                  size="small"
-                  startIcon={<LinkIcon />}
-                  disableFocusRipple
-                  style={{
-                    padding: '0 5px',
-                    background: 'transparent',
-                    color: 'inherit'
-                  }}
-                  onClick={() => jumpTo(snippet)}
-                >
-                  {snippetLinkFileName}
-                </Button>
-              )}
+              <ProjectItemLink item={snippet}></ProjectItemLink>
             </Grid>
           </Grid>
         </Grid>

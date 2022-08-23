@@ -67,23 +67,3 @@ export function filterItems (todos: Todo[], params: FilterParams) {
 
   return filteredItems
 }
-
-export const transformPathToLink = (todo: Todo) => {
-  try {
-    // transform
-    // -> git@github.com/foo/bar.git#main
-    // to
-    // -> https://github.com/foo/bar/blob/adcbe2a5c0428783fe9d6b50a1d2e39cbbe2def6/some/file#L3
-    const [path, line] = todo.origin!.split(':')
-    const u = new window.URL(`https://${todo.gitUri!
-      .replace(':', '/')
-      .split('@')
-      .pop()!
-    }`)
-    const rPath = path.replace(marqueeWindow.activeWorkspace!.path, '')
-    return `${u.origin}${u.pathname.replace(/\.git$/, '')}/blob/${todo.commit}${rPath}#L${parseInt(line, 10) + 1}`
-  } catch (err: any) {
-    console.warn(`Couldn't construct remote url: ${(err as Error).message}`)
-    return undefined
-  }
-}

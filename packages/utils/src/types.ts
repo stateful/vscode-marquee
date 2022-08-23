@@ -96,6 +96,7 @@ export interface ProjectItem {
   branch?: string
   gitUri?: string
   path?: string
+  origin?: string
   body: string
   id: string
   workspaceId: string | null

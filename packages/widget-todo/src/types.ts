@@ -4,7 +4,6 @@ export interface Todo extends ProjectItem {
   checked: boolean
   archived: boolean
   tags: string[]
-  origin?: string
 }
 
 export interface State {

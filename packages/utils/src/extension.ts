@@ -286,19 +286,29 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       .filter((t) => Boolean(t.path) && ws && ws.id === t.workspaceId)
   }
 
-  protected async _onFileChange (uri: vscode.Uri, itemName: 'todos' | 'snippets' | 'notes') {
+  protected async _onFileChange (itemName: 'todos' | 'snippets' | 'notes', uri: vscode.Uri) {
     const content = (await vscode.workspace.fs.readFile(uri)).toString().split('\n')
     const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
 
-    this._channel.appendLine(`Found ${itemsInFile.length} todo items connected to updated file`)
+    this._channel.appendLine(`Found ${itemsInFile.length} ${itemName} connected to updated file`)
     fileLoop:
     for (const item of itemsInFile) {
       const lineNumber = parseInt(item.path!.split(':').pop()!, 10)
 
       /**
+       * notes have markdown support and might start with <p>
+       */
+      const itemBody = item.body.split('\n')[0]
+      const itemBodyParsed = itemBody.startsWith('<p>')
+        ? itemBody.endsWith('</p>')
+          ? itemBody.slice('<p>'.length, -('</p>'.length))
+          : itemBody.slice('<p>'.length)
+        : itemBody
+
+      /**
        * check if we still can find the reference
        */
-      if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(item.body.split('\n')[0])) {
+      if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(itemBodyParsed)) {
         this._channel.appendLine(`item with id ${item.id} does not need to be updated`)
         continue fileLoop
       }
@@ -315,7 +325,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
         /**
          * check if reference can be found
          */
-        if (content[l].includes(item.body.split('\n')[0])) {
+        if (content[l].includes(itemBodyParsed)) {
           this._updateReference(itemName, item.id, l)
           continue fileLoop
         }
@@ -340,10 +350,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     if (newLine) {
       const uri = modifiedItem.path.split(':')[0]
       modifiedItem.path = `${uri}:${newLine}`
-      this._channel.appendLine(`Updated path of todo item with id ${modifiedItem.id}, new path is ${modifiedItem.path}`)
+      this._channel.appendLine(
+        `Updated path of ${itemName.slice(0, -1)} item with id ${modifiedItem.id}, new path is ${modifiedItem.path}`
+      )
     } else {
       delete modifiedItem.path
-      this._channel.appendLine(`Can't find original reference for todo with id ${modifiedItem.id}, removing its path`)
+      this._channel.appendLine(
+        `Can't find original reference for ${itemName.slice(0, -1)} with id ${modifiedItem.id}, removing its path`
+      )
     }
 
     this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as State[keyof State]

@@ -24,7 +24,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
        */
       ...[...(new Set(this.getItemsWithReference('todos').map((t) => t.path!.split(':')[0])))].map((file) => {
         const listener = vscode.workspace.createFileSystemWatcher(file)
-        listener.onDidChange(this._onFileChange.bind(this) as any)
+        listener.onDidChange(this._onFileChange.bind(this, 'todos') as any)
         return listener
       }),
 

@@ -18,6 +18,15 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this._fsProvider = new SnippetStorageProvider(context, channel, this.getActiveWorkspace()?.id)
 
     this._disposables.push(
+      /**
+       * add file listeners
+       */
+      ...[...(new Set(this.getItemsWithReference('snippets').map((t) => t.path!.split(':')[0])))].map((file) => {
+        const listener = vscode.workspace.createFileSystemWatcher(file)
+        listener.onDidChange(this._onFileChange.bind(this, 'snippets') as any)
+        return listener
+      }),
+
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.addEmpty', this._addEmptySnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.insert', this._insertFromTreeView.bind(this)),

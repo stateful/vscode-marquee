@@ -2,26 +2,22 @@ import React, { useContext, useState, useCallback } from 'react'
 
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import Chip from '@mui/material/Chip'
-import LinkIcon from '@mui/icons-material/Link'
 import Tooltip from '@mui/material/Tooltip'
 import {
   Grid,
   Checkbox,
-  Link,
   IconButton,
   Typography,
   Popover,
   styled,
 } from '@mui/material'
-import { jumpTo, MarqueeWindow } from '@vscode-marquee/utils'
+import { ProjectItemLink } from '@vscode-marquee/utils'
 import TodoItemPop from './ItemPop'
 import TodoPopItemContent from './PopItemContent'
 
 import TodoContext from '../Context'
-import { transformPathToLink } from '../utils'
 import type { Todo } from '../types'
 
-const marqueeWindow: MarqueeWindow = window as any
 const PREFIX = 'WidgetTodoItem'
 
 const classes = {
@@ -46,12 +42,6 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const open = Boolean(anchorEl)
   const id = open ? 'todo-item-popover' : undefined
-  let link = todo.path
-  const useRemoteLink = !link && todo.gitUri && todo.commit && todo.origin
-
-  if (useRemoteLink && marqueeWindow.activeWorkspace) {
-    link = transformPathToLink(todo)
-  }
 
   const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -179,38 +169,9 @@ const TodoItem = ({ todo, isDragged, dragProps }: TodoItemProps) => {
             )}
           </Grid>
         </Grid>
-        {todo.path && (
-          <Grid item xs>
-            <StyledTooltip
-              title={<Typography variant="subtitle2">{todo.path}</Typography>}
-              classes={{ tooltip: classes.customTooltip }}
-              placement="top"
-              arrow
-            >
-              <Typography variant="body2" noWrap>
-                <IconButton aria-label="todo-link" size="small" tabIndex={-1} onClick={() => jumpTo(todo)}>
-                  <LinkIcon />
-                </IconButton>
-              </Typography>
-            </StyledTooltip>
-          </Grid>
-        )}
-        {useRemoteLink && (
-          <Grid item xs>
-            <StyledTooltip
-              title={<Typography variant="subtitle2">{link}</Typography>}
-              classes={{ tooltip: classes.customTooltip }}
-              placement="top"
-              arrow
-            >
-              <Typography variant="body2" noWrap>
-                <Link aria-label="todo-link" tabIndex={-1} href={link}>
-                  <LinkIcon />
-                </Link>
-              </Typography>
-            </StyledTooltip>
-          </Grid>
-        )}
+        <Grid item xs>
+          <ProjectItemLink item={todo} iconOnly={true}></ProjectItemLink>
+        </Grid>
         <Grid item xs style={{ margin: '4px' }}>
           <TodoItemPop todo={todo} />
         </Grid>
