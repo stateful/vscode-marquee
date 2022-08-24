@@ -22,7 +22,7 @@ export interface ExtensionExport<State = any, Configuration = any> {
     defaultState?: Record<string, any>
     defaultConfiguration?: Record<string, any>
     setup: (tangle: Client<any>) => EventEmitter | undefined
-    widgetCounter?: number
+    customWidgetCounter?: number
   }
   [i: string]: any
 }
