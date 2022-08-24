@@ -28,10 +28,11 @@ test('should activate extension manager', async () => {
 
   process.env.NODE_ENV = 'development'
   exp = await activate(context)
-  const client = { whenReady: jest.fn().mockResolvedValue({}), emit: jest.fn() }
+  const client = { whenReady: jest.fn().mockResolvedValue({}), emit: jest.fn(), listen: jest.fn() }
   await exp.marquee!.setup(client as any)
 
   jest.advanceTimersByTime(2000)
+  expect(client.listen).toBeCalledWith('changeName', expect.any(Function))
   expect(client.emit).toBeCalledWith('counter', 1)
 })
 
