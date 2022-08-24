@@ -2559,11 +2559,11 @@
               "type": "string"
             },
             "default": {
-              "HN Newest": "https://hnrss.org/newest",
-              "HN Ask": "https://hnrss.org/ask",
-              "HN Show": "https://hnrss.org/show",
-              "HN Jobs": "https://hnrss.org/jobs",
-              "HN Best": "https://hnrss.org/best"
+              "HN Newest": "https://hnrss.stateful.com/newest",
+              "HN Ask": "https://hnrss.stateful.com/ask",
+              "HN Show": "https://hnrss.stateful.com/show",
+              "HN Jobs": "https://hnrss.stateful.com/jobs",
+              "HN Best": "https://hnrss.stateful.com/best"
             },
             "scope": "window",
             "markdownDescription": "Define your news feed channels by providing a feed label (Item) and url (Value)"
