@@ -37,7 +37,6 @@ describe('page items', () => {
   before(async () => {
     // wait until Marquee has settled
     await browser.pause(3000)
-    await browser.debug()
   })
 
   beforeEach(async () => {
