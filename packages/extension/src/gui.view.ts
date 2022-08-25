@@ -175,6 +175,7 @@ export class MarqueeGui extends EventEmitter {
           })
         }
       }
+
       /**
        * in order to allow accessing assets outside of the Marquee extension
        * we need to link to the directory as accessing files outside of the
@@ -189,10 +190,10 @@ export class MarqueeGui extends EventEmitter {
           await fs.symlink(extension.extensionPath, extPath)
         }
 
-        customWidgetCounter += extension.exports.marquee.customWidgetCounter || 1
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath))
         widgetScripts.push(`<script type="module" src="${src.toString()}" nonce="${nonce}"></script>`)
+        customWidgetCounter += extension.exports.marquee.customWidgetCounter || 1
       }
     }
 
@@ -217,6 +218,7 @@ export class MarqueeGui extends EventEmitter {
       }),
       {} as Record<string, Pick<ExtensionExport, 'configuration' | 'state'>>
     )
+
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
     const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL)
     const content = await render(await this.getTemplate(), {
@@ -248,6 +250,7 @@ export class MarqueeGui extends EventEmitter {
         'https://fast.wistia.net'
       ]
     })
+
     if (!content) {
       return vscode.window.showErrorMessage('Couldn\'t load Marquee')
     }
