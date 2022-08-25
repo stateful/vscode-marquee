@@ -20,7 +20,7 @@ template.innerHTML = /*html*/`
   </div>
 `
 
-class StatefulMarqueeWidget extends HTMLElement {
+class StatefulMarqueeIncrementExampleWidget extends HTMLElement {
   static get is () {
     return 'stateful-marquee-widget'
   }
@@ -41,8 +41,8 @@ class StatefulMarqueeWidget extends HTMLElement {
   }
 }
 
-const widget2Template = document.createElement('template')
-widget2Template.innerHTML = /*html*/`
+const updateNameWidgetTemplate = document.createElement('template')
+updateNameWidgetTemplate.innerHTML = /*html*/`
   <style>
   :host {
     margin: 10px;
@@ -61,7 +61,7 @@ widget2Template.innerHTML = /*html*/`
     <button>Change Name</button>
   </section>
 `
-class StatefulMarqueeWidget2 extends HTMLElement {
+class StatefulMarqueeUpdateNameWidget extends HTMLElement {
   static get is () {
     return 'stateful-marquee-updatename'
   }
@@ -74,7 +74,7 @@ class StatefulMarqueeWidget2 extends HTMLElement {
   }
 
   connectedCallback () {
-    this.shadowRoot?.appendChild(widget2Template.content.cloneNode(true))    
+    this.shadowRoot?.appendChild(updateNameWidgetTemplate.content.cloneNode(true))    
     const button = this.shadowRoot!.querySelector('button')
     button?.addEventListener('click', () => {
       client.emit('changeName', 'Bar')
@@ -83,19 +83,19 @@ class StatefulMarqueeWidget2 extends HTMLElement {
 }
 
 window.marqueeExtension.defineWidget({
-  name: StatefulMarqueeWidget.is,
+  name: StatefulMarqueeIncrementExampleWidget.is,
   icon: faBrain,
   label: 'Marquee Example Widget - Counter',
   tags: ['productivity'],
   description: 'An example widget that shows how other extensions can add Marquee widgets.'
-}, StatefulMarqueeWidget)
+}, StatefulMarqueeIncrementExampleWidget)
 
 window.marqueeExtension.defineWidget({
-  name: StatefulMarqueeWidget2.is,
+  name: StatefulMarqueeUpdateNameWidget.is,
   icon: faBrain,
   label: 'Marquee Example - Change Name',
   tags: ['productivity'],
   description: 'An example widget that shows how other extensions can add Marquee widgets.'
-}, StatefulMarqueeWidget2)
+}, StatefulMarqueeUpdateNameWidget)
 
-export default StatefulMarqueeWidget
+export default StatefulMarqueeIncrementExampleWidget

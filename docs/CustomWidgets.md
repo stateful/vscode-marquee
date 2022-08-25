@@ -66,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
   // if you want to have multiple widget instances you need to specify the number of widgets you're exporting. If you only have one, you do not need to specify.
   return {
     marquee: {
-      customWidgetCounter: 1 // optional
+      customWidgetCounter: 1, // optional
       setup: (tangle: Client<{ counter: number }>) => {
         return tangle.whenReady().then(() => {
           let i = 0

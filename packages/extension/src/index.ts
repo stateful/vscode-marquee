@@ -31,10 +31,10 @@ export async function activate (context: vscode.ExtensionContext) {
             tangle.emit('changeName', name)
           }
 
-          tangle.listen('changeName', (newName) => {
+          tangle.on('changeName', (newName) => {
             name = newName
           })
-       
+
           setInterval(() => {
             tangle.emit('counter', ++i)
           }, 1000)
