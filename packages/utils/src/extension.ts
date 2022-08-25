@@ -279,7 +279,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return uuidv4()
   }
 
-  protected registerFileListenerForFile (itemName: ProjectItemTypes, file: string) {
+  registerFileListenerForFile (itemName: ProjectItemTypes, file: string) {
     this._channel.appendLine(`Register File Listener for ${itemName} for file "${file}"`)
     const listener = vscode.workspace.createFileSystemWatcher(file)
     listener.onDidChange(this._onFileChange.bind(this, itemName) as any)

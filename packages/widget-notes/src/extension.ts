@@ -14,11 +14,9 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       /**
        * add file listeners
        */
-      ...[...(new Set(this.getItemsWithReference('notes').map((t) => t.path!.split(':')[0])))].map((file) => {
-        const listener = vscode.workspace.createFileSystemWatcher(file)
-        listener.onDidChange(this._onFileChange.bind(this, 'notes') as any)
-        return listener
-      }),
+      ...[
+        ...(new Set(this.getItemsWithReference('notes').map((t) => t.path!.split(':')[0])))
+      ].map(this.registerFileListenerForFile.bind(this, 'notes')),
 
       vscode.commands.registerTextEditorCommand('marquee.note.addEditor', this._addNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),

@@ -59,7 +59,7 @@ test('_addSnippet', () => {
   const m = new SnippetExtensionManager({} as any, {} as any)
   m['_gitProvider'] = { branch: 'foobar' } as any
   (m.getTextSelection as jest.Mock).mockReturnValueOnce({ text: '' })
-  m['_addSnippet']({} as any)
+  m['_addSnippet']({ document: { uri: { path: '/foobar' } } } as any)
   expect(vscode.window.showWarningMessage).toBeCalledWith('Marquee: no text selected');
 
   (m.getTextSelection as jest.Mock).mockReturnValueOnce({ text: 'foobar', name: 'some name', lang: 'ts' })
@@ -89,7 +89,7 @@ test('_insertFromTreeView', () => {
   vscode.window.activeTextEditor = {
     edit: jest.fn(),
     revealRange: jest.fn(),
-    document: 'foobar',
+    document: { uri: { path: '/foobar' } },
     selection: { active: { start: 123, end: 321 } }
   } as any
   m['_insertFromTreeView']({ isTreeItem: true, item: { body: 'bar' } } as any)

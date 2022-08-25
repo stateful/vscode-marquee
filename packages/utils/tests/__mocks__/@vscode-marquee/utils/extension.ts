@@ -13,6 +13,7 @@ export default class ExtensionManagerMock {
   getItemsWithReference = jest.fn().mockReturnValue([])
   getActiveWorkspace = jest.fn().mockReturnValue(null)
   getTextSelection = jest.fn().mockReturnValue({})
+  registerFileListenerForFile = jest.fn()
   generateId = jest.fn().mockReturnValue('123457890')
   _disposables = []
   _tangle: any
