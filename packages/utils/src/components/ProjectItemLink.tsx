@@ -64,7 +64,7 @@ let ProjectItemLink = (props: ProjectItemLinkParams) => {
           arrow
         >
           <Typography variant="body2" noWrap>
-            <IconButton aria-label="todo-link" size="small" tabIndex={-1} onClick={() => jumpTo(props.item)}>
+            <IconButton aria-label="Project Item Link" size="small" tabIndex={-1} onClick={() => jumpTo(props.item)}>
               <LinkIcon />
             </IconButton>
           </Typography>
@@ -74,6 +74,7 @@ let ProjectItemLink = (props: ProjectItemLinkParams) => {
 
     return (
       <Button
+        aria-label="Project Item Link"
         size="small"
         startIcon={<LinkIcon />}
         disableFocusRipple

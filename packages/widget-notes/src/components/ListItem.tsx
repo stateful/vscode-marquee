@@ -215,7 +215,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
               </Grid>
               <Grid item>
                 <Tooltip title={note.title || 'Untitled'} placement="top" arrow>
-                  <Typography variant="body2" noWrap>
+                  <Typography variant="body2" noWrap aria-label="note-item">
                     {note.title || 'Untitled'}
                   </Typography>
                 </Tooltip>

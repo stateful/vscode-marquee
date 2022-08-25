@@ -12,7 +12,7 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
   /**
    * @private locator key to identify locator map (see locators.ts)
    */
-  public locatorKey = 'todoWidget' as const
+  public locatorKey = 'noteWidget' as const
 
   public async createNote (title: string, noteText: string, scope: 'workspace' | 'global') {
     const dialog = new MuiDialog(this.locatorMap)
@@ -44,5 +44,25 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
     }
 
     await dialog.saveBtn$.click()
+  }
+
+  public getNotes () {
+    return this.noteItems$$.map((noteElem) => noteElem.getText())
+  }
+
+  public async selectNote (name: string)  {
+    await this.elem.$(`p=${name}`).click()
+  }
+
+  public async getNoteText (name: string) {
+    if (name) {
+      await this.selectNote(name)
+    }
+
+    return this.editor$.getText()
+  }
+
+  public clickLink () {
+    return this.link$.click()
   }
 }

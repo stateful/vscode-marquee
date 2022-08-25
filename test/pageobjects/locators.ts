@@ -58,11 +58,17 @@ export const todoItem = {
   label: 'p[aria-label="todo-label"]',
   originLink: 'button[aria-label="todo-link"]',
   tags: '.MuiChip-root',
-  optionsBtn: 'button[aria-label="todo-options"]'
+  optionsBtn: 'button[aria-label="todo-options"]',
+  link: 'button[aria-label="Project Item Link"]'
 }
 
 export const noteWidget = {
-  addNoteBtn: 'button[aria-label="Add Note"]'
+  ...commonWidgetLocators,
+  elem: webview.widget('notes'),
+  addNoteBtn: 'button[aria-label="Add Note"]',
+  noteItems: 'div[aria-label="grid"] p[aria-label="note-item"]',
+  editor: '.ql-editor',
+  link: 'button[aria-label="Project Item Link"]'
 }
 
 export const MuiDialog = {
