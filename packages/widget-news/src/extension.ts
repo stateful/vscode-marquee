@@ -6,6 +6,9 @@ import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './con
 import type { Configuration, FeedItem, State } from './types'
 
 const STATE_KEY = 'widgets.news'
+const DEFAULT_HNRSS_CHANNELS = ['HN Newest', 'HN Ask', 'HN Show', 'HN Jobs', 'HN Best']
+const DEPRECATED_HNRSS_URL = 'https://hnrss.org'
+
 export class NewsExtensionManager extends ExtensionManager<State, Configuration> {
   private _parser = new Parser({ requestOptions: { headers: {} } })
   private _isFetching = false
@@ -28,6 +31,20 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
   async fetchFeeds () {
     if (this._isFetching) {
       return
+    }
+
+    /**
+     * reset invalid hnrss feed settings
+     * ToDo(Christian): remove this once no one uses v3.2.9 anymore
+     */
+    const feeds = Object.assign({}, this.configuration.feeds)
+    if (Object.values(feeds).find((f) => f.startsWith(DEPRECATED_HNRSS_URL))) {
+      for (const channel of DEFAULT_HNRSS_CHANNELS) {
+        if (feeds[channel] && feeds[channel].startsWith(DEPRECATED_HNRSS_URL)) {
+          delete feeds[channel]
+        }
+      }
+      await this.updateConfiguration('feeds', feeds)
     }
 
     this._isFetching = true
