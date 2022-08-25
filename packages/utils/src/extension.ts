@@ -5,13 +5,13 @@ import hash from 'object-hash'
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
+import { closest } from 'fastest-levenshtein'
 
 import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType, ProjectItem } from './types'
 import type { Configuration, State, Workspace, ProjectItemTypes } from './types'
 
-const LINE_CHECK_RANGE = 10
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
 const TELEMETRY_CONFIG_ID = 'telemetry'
@@ -321,27 +321,32 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       }
 
       /**
-       * if not check if it can be found some lines further up or down
+       * in order to pick the next close code line from the previous position we need
+       * to reorder the content from, given content is [a, b, c, d, e]) and c is our
+       * previous code line, to [c, b, d, a, e]
        */
-      lineLoop:
-      for (
-        let l = Math.max(lineNumber - LINE_CHECK_RANGE, 0);
-        l <= Math.min(lineNumber + LINE_CHECK_RANGE, content.length);
-        ++l
-      ) {
-        /**
-         * check if reference can be found
-         */
-        if (content[l].includes(itemBodyParsed)) {
-          this._updateReference(itemName, item.id, l)
-          continue fileLoop
+      const linesToItem = [...new Array(lineNumber)].map((_, i) => lineNumber - (i + 1))
+      const linesFromItem = [...new Array(content.length - lineNumber)].map((_, i) => (i + 1) + lineNumber)
+      const contentReordered = (
+        linesToItem.length >= linesFromItem.length ? linesToItem : linesFromItem
+      ).reduce((prev, curr, i) => {
+        if (typeof linesToItem[i] === 'number') {
+          prev.add(linesToItem[i])
         }
-      }
+        if (typeof linesFromItem[i] === 'number') {
+          prev.add(linesFromItem[i])
+        }
+        return prev
+      }, new Set<number>([lineNumber]))
 
-      /**
-       * if reference can not be found anymore, delete path
-       */
-      this._updateReference(itemName, item.id)
+      const newLine = content.findIndex(
+        (l) => l === closest(
+          itemBodyParsed,
+          [...contentReordered].slice(0, -1).map((l) => content[l])
+        )
+      )
+
+      this._updateReference(itemName, item.id, newLine)
     }
   }
 
