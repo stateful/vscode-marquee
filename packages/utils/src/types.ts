@@ -102,6 +102,8 @@ export interface ProjectItem {
   workspaceId: string | null
 }
 
+export type ProjectItemTypes = 'todos' | 'snippets' | 'notes'
+
 export interface GitRemote {
   name: string;
   url: string;

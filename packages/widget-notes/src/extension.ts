@@ -34,6 +34,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
    */
   private _addNote (editor: vscode.TextEditor) {
     const { text, name, path } = this.getTextSelection(editor)
+    const file = editor.document.uri.path
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected')
@@ -55,6 +56,12 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       commit: this._gitProvider.commit,
       gitUri: this._gitProvider.gitUri
     }
+
+    const filesWithListeners = this.state.notes.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('notes', file))
+    }
+
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)
     this.broadcast({ notes: newNotes })

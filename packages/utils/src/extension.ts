@@ -9,7 +9,7 @@ import { EventEmitter } from 'events'
 import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType, ProjectItem } from './types'
-import type { Configuration, State, Workspace } from './types'
+import type { Configuration, State, Workspace, ProjectItemTypes } from './types'
 
 const LINE_CHECK_RANGE = 10
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
@@ -279,14 +279,21 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return uuidv4()
   }
 
-  getItemsWithReference (itemName: 'todos' | 'snippets' | 'notes'): ProjectItem[] {
+  protected registerFileListenerForFile (itemName: ProjectItemTypes, file: string) {
+    this._channel.appendLine(`Register File Listener for ${itemName} for file "${file}"`)
+    const listener = vscode.workspace.createFileSystemWatcher(file)
+    listener.onDidChange(this._onFileChange.bind(this, itemName) as any)
+    return listener
+  }
+
+  getItemsWithReference (itemName: ProjectItemTypes): ProjectItem[] {
     const ws = this.getActiveWorkspace()
     return (this.state[itemName as keyof State] as any as Array<ProjectItem>)
       // only watch files that have todos in current workspace
       .filter((t) => Boolean(t.path) && ws && ws.id === t.workspaceId)
   }
 
-  protected async _onFileChange (itemName: 'todos' | 'snippets' | 'notes', uri: vscode.Uri) {
+  protected async _onFileChange (itemName: ProjectItemTypes, uri: vscode.Uri) {
     const content = (await vscode.workspace.fs.readFile(uri)).toString().split('\n')
     const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
 
@@ -338,7 +345,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     }
   }
 
-  private _updateReference (itemName: 'todos' | 'snippets' | 'notes', id: string, newLine?: number) {
+  private _updateReference (itemName: ProjectItemTypes, id: string, newLine?: number) {
     const items = this.state[itemName as keyof State] as any as ProjectItem[]
     const otherItems = items.filter((t) => t.id !== id)
     const modifiedItem = items.find((t) => t.id === id)

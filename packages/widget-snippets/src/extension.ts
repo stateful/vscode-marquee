@@ -87,6 +87,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
    */
   private _addSnippet (editor: vscode.TextEditor) {
     const { path, text, name } = this.getTextSelection(editor)
+    const file = editor.document.uri.path
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected')
@@ -109,6 +110,12 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       this._gitProvider.gitUri,
       path
     )
+
+    const filesWithListeners = this.state.snippets.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('snippets', file))
+    }
+
     const newSnippets = [snippet].concat(this.state.snippets)
     this.updateState('snippets', newSnippets)
     this.broadcast({ snippets: newSnippets })

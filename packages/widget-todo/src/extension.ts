@@ -22,11 +22,9 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       /**
        * add file listeners
        */
-      ...[...(new Set(this.getItemsWithReference('todos').map((t) => t.path!.split(':')[0])))].map((file) => {
-        const listener = vscode.workspace.createFileSystemWatcher(file)
-        listener.onDidChange(this._onFileChange.bind(this, 'todos') as any)
-        return listener
-      }),
+      ...[
+        ...(new Set(this.getItemsWithReference('todos').map((t) => t.path!.split(':')[0])))
+      ].map(this.registerFileListenerForFile.bind(this, 'todos')),
 
       vscode.commands.registerCommand('marquee.todo.toggle', this._toggleTodo.bind(this)),
       vscode.commands.registerCommand('marquee.todo.archive', this._archiveTodo.bind(this)),
@@ -135,7 +133,8 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       return
     }
 
-    const path = `${vscode.window.activeTextEditor.document.uri.path}:${diagnostic.range.start.line}`
+    const file = vscode.window.activeTextEditor.document.uri.path
+    const path = `${file}:${diagnostic.range.start.line}`
     body = body.replace(TODO, '').trim()
 
     const worksapceId = this.getActiveWorkspace()?.id
@@ -156,6 +155,11 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       workspaceId: worksapceId || null,
     }
 
+    const filesWithListeners = this.state.todos.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('todos', file))
+    }
+
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)
     this.emit('gui.open')
@@ -167,6 +171,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
    * add todo from editor
    */
   private _addEditor (editor: vscode.TextEditor) {
+    const file = editor.document.uri.path
     let { text, path } = this.getTextSelection(editor as vscode.TextEditor)
 
     if (text.length < 1) {
@@ -210,6 +215,11 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       branch: this._gitProvider.branch,
       commit: this._gitProvider.commit,
       gitUri: this._gitProvider.gitUri
+    }
+
+    const filesWithListeners = this.state.todos.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('todos', file))
     }
 
     const newTodos = [todo].concat(this.state.todos)

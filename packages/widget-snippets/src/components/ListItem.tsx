@@ -247,6 +247,7 @@ let SnippetListItem = ({
               <Grid item>
                 <Tooltip title={snippet.title || 'Untitled'} placement="top" arrow>
                   <Typography
+                    aria-label="clipboard-item"
                     variant="body1"
                     noWrap
                     style={{ fontFamily: 'monospace' }}

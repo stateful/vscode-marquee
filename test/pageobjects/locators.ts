@@ -71,6 +71,14 @@ export const noteWidget = {
   link: 'button[aria-label="Project Item Link"]'
 }
 
+export const clipboardWidget = {
+  ...commonWidgetLocators,
+  elem: webview.widget('snippets'),
+  editor: '.layout-pane pre',
+  clipboardItems: 'div[aria-label="grid"] p[aria-label="clipboard-item"]',
+  link: 'button[aria-label="Project Item Link"]'
+}
+
 export const MuiDialog = {
   elem: '.MuiDialog-root',
   closeBtn: 'button=Close',
