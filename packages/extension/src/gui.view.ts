@@ -134,42 +134,8 @@ export class MarqueeGui extends EventEmitter {
       ...this.stateMgr.widgetExtensions
     ] as vscode.Extension<ExtensionExport>[]
 
-    const thirdPartyWidgets = [ ...vscode.extensions.all ]
     const widgetScripts: string[] = []
     let customWidgetCounter = 0
-
-    for (const extension of thirdPartyWidgets) {
-      /**
-       * continue if extension doesn't expose a marquee widget
-       * within its package.json
-       */
-      if (
-        !extension.packageJSON.marquee?.widget ||
-        /**
-         * don't show example widget extension in production
-         */
-        (process.env.NODE_ENV !== 'development' && extension.id === 'stateful.marquee')
-      ) {
-        continue
-      }
-
-      /**
-       * only setup a communication channel to the extension backend, if
-       */
-      if (
-      /**
-         * the extension is active so we can access its exported APIs
-         */
-        extension.isActive &&
-        /**
-         * the extension properly exports a setup method
-         */
-        extension.exports &&
-        extension.exports.marquee
-      ) {
-        customWidgetCounter += extension.exports.marquee.customWidgetCounter || 1
-      }
-    }
 
     for (const extension of widgets) {
       /**
@@ -199,7 +165,7 @@ export class MarqueeGui extends EventEmitter {
          */
         extension.exports &&
         extension.exports.marquee
-      ) {        
+      ) {
         if (typeof extension.exports.marquee.setup === 'function'){
           const defaultState = extension.exports.marquee?.disposable?.state || {}
           const defaultConfiguration = extension.exports.marquee?.disposable?.configuration || {}
@@ -209,7 +175,6 @@ export class MarqueeGui extends EventEmitter {
           })
         }
       }
-
       /**
        * in order to allow accessing assets outside of the Marquee extension
        * we need to link to the directory as accessing files outside of the
@@ -224,6 +189,7 @@ export class MarqueeGui extends EventEmitter {
           await fs.symlink(extension.extensionPath, extPath)
         }
 
+        customWidgetCounter += extension.exports.marquee.customWidgetCounter || 1
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath))
         widgetScripts.push(`<script type="module" src="${src.toString()}" nonce="${nonce}"></script>`)
