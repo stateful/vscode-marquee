@@ -69,6 +69,7 @@ describe('page items', () => {
       expect(items).toHaveLength(1)
       expect(await items[0].getText()).toBe('Add me as Todo')
 
+      await items[0].elem.scrollIntoView({ block: 'center' })
       await items[0].clickLink()
       await webview.close()
     })
@@ -92,6 +93,7 @@ describe('page items', () => {
       await webview.open()
       await todoWidget.elem.scrollIntoView({ block: 'center' })
       const items = await todoWidget.getTodoItems()
+      await items[0].elem.scrollIntoView({ block: 'center' })
       await items[0].clickLink()
       await webview.close()
 
