@@ -25,10 +25,6 @@
   "marquee": {
     "widget": "./dist/exampleWidget.js"
   },
-  "galleryBanner": {
-    "color": "#000727",
-    "theme": "light"
-  },
   "badges": [
     {
       "url": "https://img.shields.io/badge/Marquee-Join%20our%20Community-blue?logo=discord&color=F62459",
