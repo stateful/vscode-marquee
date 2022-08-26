@@ -33,6 +33,7 @@ Array [
         "https://api.staging.activecove.com",
       ],
       "cspSource": "csp-source",
+      "customWidgetCounter": 0,
       "fontSize": 1,
       "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
       "geoUrl": "http://BACKEND_GEO_URL.com",

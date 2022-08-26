@@ -135,6 +135,8 @@ export class MarqueeGui extends EventEmitter {
     ] as vscode.Extension<ExtensionExport>[]
 
     const widgetScripts: string[] = []
+    let customWidgetCounter = 0
+
     for (const extension of widgets) {
       /**
        * continue if extension doesn't expose a marquee widget
@@ -161,8 +163,8 @@ export class MarqueeGui extends EventEmitter {
         /**
          * the extension properly exports a setup method
          */
-        extension.exports &&
-        extension.exports.marquee &&
+        extension.exports && 
+        extension.exports.marquee && 
         typeof extension.exports.marquee.setup === 'function'
       ) {
         const defaultState = extension.exports.marquee?.disposable?.state || {}
@@ -190,6 +192,7 @@ export class MarqueeGui extends EventEmitter {
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
         const src = this.panel.webview.asWebviewUri(vscode.Uri.file(targetPath))
         widgetScripts.push(`<script type="module" src="${src.toString()}" nonce="${nonce}"></script>`)
+        customWidgetCounter += extension.exports.marquee.customWidgetCounter || 1
       }
     }
 
@@ -230,6 +233,7 @@ export class MarqueeGui extends EventEmitter {
       cspSource: this.panel.webview.cspSource,
       widgetStateConfigurations: Buffer.from(JSON.stringify(widgetStateConfigurations)).toString('base64'),
       widgetScripts,
+      customWidgetCounter,
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
         `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
