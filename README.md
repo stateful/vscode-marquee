@@ -1,9 +1,6 @@
 Marquee
 =======
 [![Test](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml/badge.svg)](https://github.com/stateful/vscode-marquee/actions/workflows/test.yml)
-[![vscode version](https://vsmarketplacebadge.apphb.com/version/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview)
-[![number of installs](https://vsmarketplacebadge.apphb.com/installs/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview)
-[![average user rating](https://vsmarketplacebadge.apphb.com/rating/stateful.marquee.svg)](https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#review-details)
 ![license](https://img.shields.io/github/license/stateful/marquee.svg)
 
 ### Stay organized with minimal context switching, all inside your Visual Studio Code.
