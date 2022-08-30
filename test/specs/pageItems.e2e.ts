@@ -64,9 +64,8 @@ describe('page items @skipWeb', () => {
 
     it('validates if item was added and opens link', async () => {
       const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await todoWidget.elem.waitForDisplayed()
       await todoWidget.elem.scrollIntoView({ block: 'center' })
 
       const items = await todoWidget.getTodoItems()
@@ -93,9 +92,8 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await todoWidget.elem.waitForDisplayed()
       await todoWidget.elem.scrollIntoView({ block: 'center' })
       const items = await todoWidget.getTodoItems()
       await items[0].elem.scrollIntoView({ block: 'center' })
@@ -122,9 +120,8 @@ describe('page items @skipWeb', () => {
 
     it('validates if item was added and opens link', async () => {
       const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await clipboardWidget.elem.waitForDisplayed()
       await clipboardWidget.elem.scrollIntoView({ block: 'center' })
 
       await browser.waitUntil(async () => (await clipboardWidget.clipboardItems$$).length === 1)
@@ -151,9 +148,8 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await clipboardWidget.elem.waitForDisplayed()
       await clipboardWidget.elem.scrollIntoView({ block: 'center' })
       await clipboardWidget.clickLink()
       await webview.close(true)
@@ -178,9 +174,8 @@ describe('page items @skipWeb', () => {
 
     it('validates if item was added and opens link', async () => {
       const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await notesWidget.elem.waitForDisplayed()
       await notesWidget.elem.scrollIntoView({ block: 'center' })
 
       await browser.waitUntil(async () => (await notesWidget.noteItems$$).length === 1)
@@ -207,9 +202,8 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Marquee: Open Marquee')
+      await workbench.executeCommand('Open Marquee')
       await webview.open()
-      await notesWidget.elem.waitForDisplayed()
       await notesWidget.elem.scrollIntoView({ block: 'center' })
       await notesWidget.clickLink()
       await webview.close(true)
