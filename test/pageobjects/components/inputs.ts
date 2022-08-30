@@ -22,6 +22,18 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
     return this.elem.$(`ul[aria-labelledby="${this.id}"]`)
   }
 
+  public getValue () {
+    return this.elem.$(`div[aria-labelledby="${this.id}"]`).getText()
+  }
+
+  public async getOptions () {
+    await this.comboBox$.click()
+    await this.list$.waitForExist()
+    const options = await this.list$.$$('li').map((li) => li.getText())
+    await browser.keys(['Escape'])
+    return options
+  }
+
   public async selectByValue (value: string) {
     await this.comboBox$.click()
     await this.list$.waitForExist()

@@ -19,6 +19,15 @@ Add me as Clipboard Item
 Add me as Note
 `
 
+const setup = () => fs.writeFile(file, FIXTURE_CONTENT)
+
+const teardown = async () => {
+  await fs.unlink(file)
+  const workbench = await browser.getWorkbench()
+  const editorView = await workbench.getEditorView()
+  await editorView.closeAllEditors()
+}
+
 const openFile = async (vscode: typeof vscodeType, file: string, line: number) => {
   const rpath = vscode.Uri.parse(file).fsPath
   const doc = await vscode.workspace.openTextDocument(rpath)
@@ -32,16 +41,18 @@ const openFile = async (vscode: typeof vscodeType, file: string, line: number) =
 }
 
 const file = path.join(__dirname, '..', 'deleteMe.md')
+const webview = new Webview(locatorMap)
+const todoWidget = new TodoWidget(locatorMap)
+const notesWidget = new NoteWidget(locatorMap)
+const clipboardWidget = new ClipboardWidget(locatorMap)
 
 describe('page items @skipWeb', () => {
   // wait until Marquee has settled
   before(() => browser.pause(3000))
-  beforeEach(() => fs.writeFile(file, FIXTURE_CONTENT))
-  afterEach(() => fs.unlink(file))
 
   describe('todo', () => {
-    const webview = new Webview(locatorMap)
-    const todoWidget = new TodoWidget(locatorMap)
+    before(setup)
+    after(teardown)
 
     it('should be able to store item with reference', async () => {
       // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
@@ -94,8 +105,8 @@ describe('page items @skipWeb', () => {
   })
 
   describe('clipboard', () => {
-    const webview = new Webview(locatorMap)
-    const clipboardWidget = new ClipboardWidget(locatorMap)
+    before(setup)
+    after(teardown)
 
     it('should be able to store item with reference', async () => {
       // wait until file got updated
@@ -148,8 +159,8 @@ describe('page items @skipWeb', () => {
   })
 
   describe('notes', () => {
-    const webview = new Webview(locatorMap)
-    const notesWidget = new NoteWidget(locatorMap)
+    before(setup)
+    after(teardown)
 
     it('should be able to store item with reference', async () => {
       // wait until file got updated

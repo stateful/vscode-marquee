@@ -23,17 +23,33 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     return articles[index]
   }
 
-  public async switchChannel (channel: string | number) {
+  public async switchChannel (channel?: string | number) {
     await this.settingsBtn$.click()
 
     const channelSelect = new Select(this.locatorMap, 'marquee-news-channel')
     await channelSelect.wait()
+
+    /**
+     * pick channel by string
+     */
     if (typeof channel === 'string') {
       return channelSelect.selectByValue(channel)
-    } else if (typeof channel === 'number') {
+    }
+
+    /**
+     * pick channel by index
+     */
+    if (typeof channel === 'number') {
       return channelSelect.selectByIndex(channel)
     }
 
-    throw new Error(`Invalid type of channel: "${typeof channel}", only string and number allowed`)
+    /**
+     * pick random other channel
+     */
+    const currentValue = await channelSelect.getValue()
+    const otherValues = (await channelSelect.getOptions()).filter(
+      (option) => option !== currentValue)
+    const randomChannel = otherValues[Math.floor(Math.random() * otherValues.length)]
+    return channelSelect.selectByValue(randomChannel)
   }
 }

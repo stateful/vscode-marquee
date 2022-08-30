@@ -82,7 +82,7 @@ describe('Marquee', () => {
         const firstArticleText = await firstArticle.getText()
         expect(typeof firstArticleText).toBe('string')
 
-        await newsWidget.switchChannel('HN Newest')
+        await newsWidget.switchChannel()
 
         const newFirstArticle = await newsWidget.getArticle(0)
         const newFirstArticleText = await newFirstArticle.getText()
