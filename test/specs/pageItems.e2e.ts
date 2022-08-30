@@ -33,7 +33,7 @@ const openFile = async (vscode: typeof vscodeType, file: string, line: number) =
 
 const file = path.join(__dirname, '..', 'deleteMe.md')
 
-describe('page items', () => {
+describe('page items @skipWeb', () => {
   // wait until Marquee has settled
   before(() => browser.pause(3000))
   beforeEach(() => fs.writeFile(file, FIXTURE_CONTENT))
