@@ -10,7 +10,7 @@ const NoteContext = createContext<Context>({} as Context)
 const WIDGET_ID = '@vscode-marquee/notes-widget'
 
 const NoteProvider = ({ children }: { children: React.ReactElement }) => {
-  const { commit, branch } = useContext(GlobalContext)
+  const { commit, branch, gitUri } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetState = getEventListener<State>(WIDGET_ID)
   const providerValues = connect<State>(window.marqueeStateConfiguration[WIDGET_ID].state, widgetState)
@@ -38,6 +38,7 @@ const NoteProvider = ({ children }: { children: React.ReactElement }) => {
     const newNote = Object.assign({}, note, {
       id,
       commit,
+      gitUri,
       branch: branch ? `${workspaceId}#${branch}` : undefined,
       archived: false,
       createdAt: new Date().getTime(),

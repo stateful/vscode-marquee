@@ -79,7 +79,7 @@ export interface Configuration {
   name: string
 }
 
-export interface State extends Pick<ProjectItem, 'commit' | 'branch'> {
+export interface State extends Pick<ProjectItem, 'commit' | 'branch' | 'gitUri'> {
   globalScope: boolean
 }
 
@@ -94,7 +94,15 @@ export interface Context extends ContextProperties<State & Configuration & GuiSt
 export interface ProjectItem {
   commit?: string
   branch?: string
+  gitUri?: string
+  path?: string
+  origin?: string
+  body: string
+  id: string
+  workspaceId: string | null
 }
+
+export type ProjectItemTypes = 'todos' | 'snippets' | 'notes'
 
 export interface GitRemote {
   name: string;

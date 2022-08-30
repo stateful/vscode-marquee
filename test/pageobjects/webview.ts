@@ -18,9 +18,15 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
     await browser.switchToFrame(webviewInner)
   }
 
-  public async close () {
+  public async close (closeTab?: boolean) {
     await browser.switchToFrame(null)
     await browser.switchToFrame(null)
+
+    if (closeTab) {
+      const workbench = await browser.getWorkbench()
+      const editorView = await workbench.getEditorView()
+      await editorView.closeEditor('Marquee')
+    }
   }
 
   public async switchMode (mode: string) {

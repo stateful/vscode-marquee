@@ -163,8 +163,8 @@ export class MarqueeGui extends EventEmitter {
         /**
          * the extension properly exports a setup method
          */
-        extension.exports && 
-        extension.exports.marquee && 
+        extension.exports &&
+        extension.exports.marquee &&
         typeof extension.exports.marquee.setup === 'function'
       ) {
         const defaultState = extension.exports.marquee?.disposable?.state || {}

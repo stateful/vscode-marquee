@@ -11,7 +11,7 @@ const TodoContext = createContext<Context>({} as Context)
 const WIDGET_ID = '@vscode-marquee/todo-widget'
 
 const TodoProvider = ({ children }: { children: React.ReactElement }) => {
-  const { commit, branch } = useContext(GlobalContext)
+  const { commit, branch, gitUri } = useContext(GlobalContext)
   const eventListener = getEventListener<Events & MarqueeEvents>()
   const widgetState = getEventListener<Configuration & State>(WIDGET_ID)
   const providerValues = connect<Configuration & State>({
@@ -32,6 +32,7 @@ const TodoProvider = ({ children }: { children: React.ReactElement }) => {
       tags,
       id,
       commit,
+      gitUri,
       branch: branch ? `${workspaceId}#${branch}` : undefined,
       checked: false,
       archived: false,

@@ -11,6 +11,13 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
     super(context, channel, STATE_KEY, {}, DEFAULT_STATE)
     this._disposables.push(
+      /**
+       * add file listeners
+       */
+      ...[
+        ...(new Set(this.getItemsWithReference('notes').map((t) => t.path!.split(':')[0])))
+      ].map(this.registerFileListenerForFile.bind(this, 'notes')),
+
       vscode.commands.registerTextEditorCommand('marquee.note.addEditor', this._addNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.move', this._moveNote.bind(this)),
       vscode.commands.registerCommand('marquee.note.delete', this._deleteNote.bind(this)),
@@ -25,6 +32,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
    */
   private _addNote (editor: vscode.TextEditor) {
     const { text, name, path } = this.getTextSelection(editor)
+    const file = editor.document.uri.path
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected')
@@ -43,8 +51,15 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
       path,
       origin: path,
       branch,
-      commit: this._gitProvider.commit
+      commit: this._gitProvider.commit,
+      gitUri: this._gitProvider.gitUri
     }
+
+    const filesWithListeners = this.state.notes.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('notes', file))
+    }
+
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)
     this.broadcast({ notes: newNotes })

@@ -125,9 +125,9 @@ test('extension manager listens on mode changes and applies if not triggered wit
 
 test('linkMarquee', async () => {
   const parse = vscode.Uri.parse as jest.Mock
-  await linkMarquee({ item: { origin: '/some/file:123:3' } })
+  await linkMarquee({ item: { path: '/some/file:123:3' } })
   expect(parse).toBeCalledWith('/some/file:123')
-  await linkMarquee({ item: { origin: '/some/file:124' } })
+  await linkMarquee({ item: { path: '/some/file:124' } })
   expect(parse).toBeCalledWith('/some/file')
 
   // @ts-expect-error mock feature
@@ -135,6 +135,6 @@ test('linkMarquee', async () => {
     throw new Error('ups')
   })
   const logSpy = jest.spyOn(console, 'warn')
-  await linkMarquee({ item: { origin: '/some/file:124' } })
+  await linkMarquee({ item: { path: '/some/file:124' } })
   expect(logSpy).toBeCalledWith('Marquee: ups')
 })

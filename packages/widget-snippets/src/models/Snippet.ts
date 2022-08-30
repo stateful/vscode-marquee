@@ -5,7 +5,8 @@ import vscode from 'vscode'
 export default class Snippet implements vscode.FileStat {
   type: vscode.FileType = vscode.FileType.File
   size: number
-  path: string
+  storagePath: string
+  path?: string
   origin?: string
   ctime: number
   mtime: number
@@ -19,11 +20,13 @@ export default class Snippet implements vscode.FileStat {
     public id = uuidv4(),
     public branch?: string,
     public commit?: string,
+    public gitUri?: string,
     snippetPath?: string
   ) {
     this.type = vscode.FileType.File
     this.size = body.length
-    this.path = path.join(`/${id}`, snippetPath ? path.basename(snippetPath) : title)
+    this.storagePath = path.join(`/${id}`, snippetPath ? path.basename(snippetPath) : title)
+    this.path = snippetPath
     this.origin = snippetPath
     this.ctime = this.createdAt
     this.mtime = this.createdAt

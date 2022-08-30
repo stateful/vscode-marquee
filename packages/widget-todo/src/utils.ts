@@ -1,7 +1,7 @@
 import type { MarqueeWindow } from '@vscode-marquee/utils'
 import { Todo } from './types'
 
-declare const window: MarqueeWindow
+const marqueeWindow: MarqueeWindow = window as any
 
 interface FilterParams {
   globalScope?: boolean
@@ -13,11 +13,11 @@ interface FilterParams {
 }
 export function filterItems (todos: Todo[], params: FilterParams) {
   let filteredItems = todos
-  const workspaceId = window.activeWorkspace?.id || ''
+  const workspaceId = marqueeWindow.activeWorkspace?.id || ''
 
   if (!params.globalScope) {
     filteredItems = filteredItems.filter((item) => {
-      if (item['workspaceId'] === window.activeWorkspace?.id) {
+      if (item['workspaceId'] === marqueeWindow.activeWorkspace?.id) {
         return true
       }
     })

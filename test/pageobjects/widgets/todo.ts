@@ -125,6 +125,11 @@ export class TodoItem extends BasePage<typeof todoItemLocators, typeof locatorMa
     return this.tags$$.map((tag) => tag.getText())
   }
 
+  public async clickLink () {
+    await this.link$.scrollIntoView({ block: 'center' })
+    return this.link$.click()
+  }
+
   public async edit (option: { todo: string, tags: string[] }, isDialogOpen = false) {
     if (!isDialogOpen) {
       await this.optionsBtn$.click()

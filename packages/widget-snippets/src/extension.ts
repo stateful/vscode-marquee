@@ -18,6 +18,13 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     this._fsProvider = new SnippetStorageProvider(context, channel, this.getActiveWorkspace()?.id)
 
     this._disposables.push(
+      /**
+       * add file listeners
+       */
+      ...[
+        ...(new Set(this.getItemsWithReference('snippets').map((t) => t.path!.split(':')[0])))
+      ].map(this.registerFileListenerForFile.bind(this, 'snippets')),
+
       vscode.commands.registerCommand('marquee.snippet.move', this._moveSnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.addEmpty', this._addEmptySnippet.bind(this)),
       vscode.commands.registerCommand('marquee.snippet.insert', this._insertFromTreeView.bind(this)),
@@ -78,6 +85,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
    */
   private _addSnippet (editor: vscode.TextEditor) {
     const { path, text, name } = this.getTextSelection(editor)
+    const file = editor.document.uri.path
 
     if (text.length < 1) {
       return vscode.window.showWarningMessage('Marquee: no text selected')
@@ -97,8 +105,15 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
       id,
       branch,
       this._gitProvider.commit,
+      this._gitProvider.gitUri,
       path
     )
+
+    const filesWithListeners = this.state.snippets.map((t) => t.path).filter(Boolean)
+    if (!filesWithListeners.includes(path)) {
+      this._disposables.push(this.registerFileListenerForFile('snippets', file))
+    }
+
     const newSnippets = [snippet].concat(this.state.snippets)
     this.updateState('snippets', newSnippets)
     this.broadcast({ snippets: newSnippets })

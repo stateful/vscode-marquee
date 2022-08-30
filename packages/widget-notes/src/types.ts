@@ -1,13 +1,8 @@
 import type { ContextProperties, ProjectItem } from '@vscode-marquee/utils'
 
 export interface Note extends ProjectItem {
-  id: string
-  workspaceId: string | null
   title: string
-  body: string
-  text: string,
-  path?: string,
-  origin?: string
+  text: string
 }
 
 export interface Events {

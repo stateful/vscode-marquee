@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useCallback, useState } from 'react'
 import { Grid, Typography, TextField, IconButton, Button, Link } from '@mui/material'
-import LinkIcon from '@mui/icons-material/Link'
 import ClearIcon from '@mui/icons-material/Clear'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,9 +13,9 @@ import {
   GlobalContext,
   DoubleClickHelper,
   MarqueeWindow,
-  jumpTo,
   MarqueeEvents,
   getEventListener,
+  ProjectItemLink
 } from '@vscode-marquee/utils'
 import wrapper, { Dragger, HeaderWrapper, HidePop, NavIconDropdown } from '@vscode-marquee/widget'
 import { FeatureInterestDialog } from '@vscode-marquee/dialog'
@@ -283,12 +282,6 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
     return notes.find((note) => note.id === noteSelected)
   }, [noteSelected, notes])
 
-  const noteLinkFileName = useMemo(() => {
-    if (note && note.origin) {
-      return note.origin.split('/').reverse()[0].toUpperCase()
-    }
-  }, [note])
-
   const NavButtons = () => (
     <Grid item>
       <Grid
@@ -337,26 +330,12 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
       }
       <HeaderWrapper>
         <Grid item>
-          <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid container flexWrap={'nowrap'} direction="row" spacing={1} alignItems="center">
             <Grid item>
               <Typography variant="subtitle1">Notes</Typography>
             </Grid>
             <Grid item>
-              {note && noteLinkFileName && (
-                <Button
-                  size="small"
-                  startIcon={<LinkIcon />}
-                  disableFocusRipple
-                  onClick={() => jumpTo(note)}
-                  style={{
-                    padding: '0 5px',
-                    background: 'transparent',
-                    color: 'inherit'
-                  }}
-                >
-                  {noteLinkFileName}
-                </Button>
-              )}
+              <ProjectItemLink item={note}></ProjectItemLink>
             </Grid>
           </Grid>
         </Grid>
@@ -370,7 +349,7 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
               )}}
           </PopupState>
           :
-          <Grid item xs={8}>
+          <Grid item xs={6}>
             <NavButtons />
           </Grid>
         }

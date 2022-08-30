@@ -10,6 +10,8 @@ import calculateTheme from './calculateTheme'
 import BetterComplete from './components/BetterComplete'
 import NetworkError from './components/NetworkError'
 import DoubleClickHelper from './components/DoubleClickHelper'
+import ProjectItemLink from './components/ProjectItemLink'
+import { jumpTo } from './components/utils'
 
 import GlobalContext, { GlobalProvider } from './contexts/Global'
 import type { MarqueeWindow, ContextProperties } from './types'
@@ -30,19 +32,6 @@ const getEventListener = <T>(channel = defaultChannel) => {
   return tangleChannels.get(channel)! as Client<T>
 }
 
-const jumpTo = (item: any) => {
-  window.vscode.postMessage({
-    west: {
-      execCommands: [
-        {
-          command: 'marquee.link',
-          args: [{ item }],
-        },
-      ],
-    },
-  })
-}
-
 type Entries<T> = {
   [K in keyof T]: [K, T[K]]
 }[keyof T][]
@@ -58,7 +47,7 @@ type Entries<T> = {
 function connect<T, Events = {}> (defaults: T, tangle: Client<T & Events>): ContextProperties<T> {
   const prevState: any = window.vscode.getState() || {}
   const contextValues: Partial<ContextProperties<T>> = {}
-  for (const [prop, defaultVal] of Object.entries(defaults) as Entries<ContextProperties<T>>) {
+  for (const [prop, defaultVal] of Object.entries(defaults as any) as Entries<ContextProperties<T>>) {
     /**
      * get default state either from:
      * - the webview state (when widget was removed and re-loaded)
@@ -120,6 +109,7 @@ export {
   BetterComplete,
   NetworkError,
   DoubleClickHelper,
+  ProjectItemLink,
 
   // contexts
   GlobalContext,

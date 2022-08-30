@@ -5,11 +5,12 @@ import hash from 'object-hash'
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid'
 import { Client } from 'tangle'
 import { EventEmitter } from 'events'
+import { closest } from 'fastest-levenshtein'
 
 import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
-import { WorkspaceType } from './types'
-import type { Configuration, State, Workspace } from './types'
+import { WorkspaceType, ProjectItem } from './types'
+import type { Configuration, State, Workspace, ProjectItemTypes } from './types'
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
@@ -278,6 +279,104 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     return uuidv4()
   }
 
+  registerFileListenerForFile (itemName: ProjectItemTypes, file: string) {
+    this._channel.appendLine(`Register File Listener for ${itemName} for file "${file}"`)
+    const listener = vscode.workspace.createFileSystemWatcher(file)
+    listener.onDidChange(this._onFileChange.bind(this, itemName) as any)
+    return listener
+  }
+
+  getItemsWithReference (itemName: ProjectItemTypes): ProjectItem[] {
+    const ws = this.getActiveWorkspace()
+    return (this.state[itemName as keyof State] as any as Array<ProjectItem>)
+      // only watch files that have todos in current workspace
+      .filter((t) => Boolean(t.path) && ws && ws.id === t.workspaceId)
+  }
+
+  protected async _onFileChange (itemName: ProjectItemTypes, uri: vscode.Uri) {
+    const content = (await vscode.workspace.fs.readFile(uri)).toString().split('\n')
+    const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
+
+    this._channel.appendLine(`Found ${itemsInFile.length} ${itemName} connected to updated file`)
+    for (const item of itemsInFile) {
+      const lineNumber = parseInt(item.path!.split(':').pop()!, 10)
+
+      /**
+       * notes have markdown support and might start with <p>
+       */
+      const itemBody = item.body.split('\n')[0]
+      const itemBodyParsed = itemBody.startsWith('<p>')
+        ? itemBody.endsWith('</p>')
+          ? itemBody.slice('<p>'.length, -('</p>'.length))
+          : itemBody.slice('<p>'.length)
+        : itemBody
+
+      /**
+       * check if we still can find the reference
+       */
+      if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(itemBodyParsed)) {
+        this._channel.appendLine(`item with id ${item.id} does not need to be updated`)
+        continue
+      }
+
+      /**
+       * in order to pick the next close code line from the previous position we need
+       * to reorder the content from, given content is [a, b, c, d, e]) and c is our
+       * previous code line, to [c, b, d, a, e]
+       */
+      const linesToItem = [...new Array(lineNumber)].map((_, i) => lineNumber - (i + 1))
+      const linesFromItem = [...new Array(Math.max(content.length - lineNumber, 0))].map((_, i) => (i + 1) + lineNumber)
+      const contentReordered = (
+        linesToItem.length >= linesFromItem.length ? linesToItem : linesFromItem
+      ).reduce((prev, curr, i) => {
+        if (typeof linesToItem[i] === 'number') {
+          prev.add(linesToItem[i])
+        }
+        if (typeof linesFromItem[i] === 'number') {
+          prev.add(linesFromItem[i])
+        }
+        return prev
+      }, new Set<number>([lineNumber]))
+
+      const newLine = content.findIndex(
+        (l) => l === closest(
+          itemBodyParsed,
+          [...contentReordered]
+            .map((l) => content[l])
+            .filter((c) => typeof c === 'string')
+        )
+      )
+
+      this._updateReference(itemName, item.id, newLine)
+    }
+  }
+
+  private _updateReference (itemName: ProjectItemTypes, id: string, newLine?: number) {
+    const items = this.state[itemName as keyof State] as any as ProjectItem[]
+    const otherItems = items.filter((t) => t.id !== id)
+    const modifiedItem = items.find((t) => t.id === id)
+
+    if (!modifiedItem || !modifiedItem.path) {
+      return
+    }
+
+    if (newLine) {
+      const uri = modifiedItem.path.split(':')[0]
+      modifiedItem.path = `${uri}:${newLine}`
+      this._channel.appendLine(
+        `Updated path of ${itemName.slice(0, -1)} item with id ${modifiedItem.id}, new path is ${modifiedItem.path}`
+      )
+    } else {
+      delete modifiedItem.path
+      this._channel.appendLine(
+        `Can't find original reference for ${itemName.slice(0, -1)} with id ${modifiedItem.id}, removing its path`
+      )
+    }
+
+    this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as any as State[keyof State]
+    return this.emitStateUpdate(true)
+  }
+
   reset () {
     if (this._tangle) {
       this._subscriptions.forEach((s) => s.unsubscribe())
@@ -300,6 +399,7 @@ export class GlobalExtensionManager extends ExtensionManager<State, Configuratio
     this._gitProvider?.on('stateUpdate', (provider) => {
       this.updateState('branch', provider.branch, true)
       this.updateState('commit', provider.commit, true)
+      this.updateState('gitUri', provider.gitUri, true)
     })
   }
 }

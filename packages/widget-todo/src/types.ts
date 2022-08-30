@@ -1,14 +1,9 @@
 import type { ContextProperties, ProjectItem } from '@vscode-marquee/utils'
 
 export interface Todo extends ProjectItem {
-  body: string
   checked: boolean
-  id: string
   archived: boolean
-  workspaceId: string | null
   tags: string[]
-  origin?: string
-  path?: string
 }
 
 export interface State {
