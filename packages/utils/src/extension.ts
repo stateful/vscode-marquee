@@ -298,7 +298,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
 
     this._channel.appendLine(`Found ${itemsInFile.length} ${itemName} connected to updated file`)
-    fileLoop:
     for (const item of itemsInFile) {
       const lineNumber = parseInt(item.path!.split(':').pop()!, 10)
 
@@ -317,7 +316,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
        */
       if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(itemBodyParsed)) {
         this._channel.appendLine(`item with id ${item.id} does not need to be updated`)
-        continue fileLoop
+        continue
       }
 
       /**
@@ -326,7 +325,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
        * previous code line, to [c, b, d, a, e]
        */
       const linesToItem = [...new Array(lineNumber)].map((_, i) => lineNumber - (i + 1))
-      const linesFromItem = [...new Array(content.length - lineNumber)].map((_, i) => (i + 1) + lineNumber)
+      const linesFromItem = [...new Array(Math.max(content.length - lineNumber, 0))].map((_, i) => (i + 1) + lineNumber)
       const contentReordered = (
         linesToItem.length >= linesFromItem.length ? linesToItem : linesFromItem
       ).reduce((prev, curr, i) => {
@@ -342,7 +341,9 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       const newLine = content.findIndex(
         (l) => l === closest(
           itemBodyParsed,
-          [...contentReordered].slice(0, -1).map((l) => content[l])
+          [...contentReordered]
+            .map((l) => content[l])
+            .filter((c) => typeof c === 'string')
         )
       )
 

@@ -34,18 +34,10 @@ const openFile = async (vscode: typeof vscodeType, file: string, line: number) =
 const file = path.join(__dirname, '..', 'deleteMe.md')
 
 describe('page items', () => {
-  before(async () => {
-    // wait until Marquee has settled
-    await browser.pause(3000)
-  })
-
-  beforeEach(async () => {
-    await fs.writeFile(file, FIXTURE_CONTENT)
-  })
-
-  afterEach(async () => {
-    await fs.unlink(file)
-  })
+  // wait until Marquee has settled
+  before(() => browser.pause(3000))
+  beforeEach(() => fs.writeFile(file, FIXTURE_CONTENT))
+  afterEach(() => fs.unlink(file))
 
   describe('todo', () => {
     const webview = new Webview(locatorMap)
@@ -71,7 +63,7 @@ describe('page items', () => {
 
       await items[0].elem.scrollIntoView({ block: 'center' })
       await items[0].clickLink()
-      await webview.close()
+      await webview.close(true)
     })
 
     it('should have a button to go back to its origin', async () => {
@@ -95,61 +87,9 @@ describe('page items', () => {
       const items = await todoWidget.getTodoItems()
       await items[0].elem.scrollIntoView({ block: 'center' })
       await items[0].clickLink()
-      await webview.close()
+      await webview.close(true)
 
       expect(await editor.getSelectedText()).toBe('Add me as Todo')
-    })
-  })
-
-  describe('notes', () => {
-    const webview = new Webview(locatorMap)
-    const notesWidget = new NoteWidget(locatorMap)
-
-    it('should be able to store item with reference', async () => {
-      // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
-      await browser.executeWorkbench(openFile, file, 9)
-
-      const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Marquee: Marquee: Add Selection to Notes')
-    })
-
-    it('validates if item was added and opens link', async () => {
-      const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Marquee: Open Marquee')
-      await webview.open()
-      await notesWidget.elem.scrollIntoView({ block: 'center' })
-
-      await browser.waitUntil(async () => (await notesWidget.noteItems$$).length === 1)
-      const items = await notesWidget.getNotes()
-      expect(items[0]).toBe(path.basename(file))
-
-      await notesWidget.selectNote(items[0])
-      await notesWidget.clickLink()
-      await webview.close()
-    })
-
-    it('should have a button to go back to its origin', async () => {
-      const workbench = await browser.getWorkbench()
-      const editorView = await workbench.getEditorView()
-      const editor = await editorView.openEditor(path.basename(file)) as TextEditor
-      expect(await editor.getSelectedText()).toBe('Add me as Note')
-    })
-
-    it('should add text and validate that item was updated', async () => {
-      const workbench = await browser.getWorkbench()
-      const editorView = await workbench.getEditorView()
-      const editor = await editorView.openEditor(path.basename(file)) as TextEditor
-      await editor.setTextAtLine(1, 'I am new code\n')
-      await editor.setTextAtLine(2, 'and me too\n')
-      await editor.save()
-
-      await workbench.executeCommand('Marquee: Open Marquee')
-      await webview.open()
-      await notesWidget.elem.scrollIntoView({ block: 'center' })
-      await notesWidget.clickLink()
-      await webview.close()
-
-      expect(await editor.getSelectedText()).toBe('Add me as Note')
     })
   })
 
@@ -158,8 +98,10 @@ describe('page items', () => {
     const clipboardWidget = new ClipboardWidget(locatorMap)
 
     it('should be able to store item with reference', async () => {
+      // wait until file got updated
+      await browser.pause(1000)
       // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
-      await browser.executeWorkbench(openFile, file, 7)
+      await browser.executeWorkbench(openFile, file, 5)
 
       const workbench = await browser.getWorkbench()
       await workbench.executeCommand('Marquee: Marquee: Add Selection to Clipboard')
@@ -177,7 +119,7 @@ describe('page items', () => {
 
       await clipboardWidget.selectItem(items[0])
       await clipboardWidget.clickLink()
-      await webview.close()
+      await webview.close(true)
     })
 
     it('should have a button to go back to its origin', async () => {
@@ -199,9 +141,63 @@ describe('page items', () => {
       await webview.open()
       await clipboardWidget.elem.scrollIntoView({ block: 'center' })
       await clipboardWidget.clickLink()
-      await webview.close()
+      await webview.close(true)
 
       expect(await editor.getSelectedText()).toBe('Add me as Clipboard Item')
+    })
+  })
+
+  describe('notes', () => {
+    const webview = new Webview(locatorMap)
+    const notesWidget = new NoteWidget(locatorMap)
+
+    it('should be able to store item with reference', async () => {
+      // wait until file got updated
+      await browser.pause(1000)
+      // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
+      await browser.executeWorkbench(openFile, file, 7)
+
+      const workbench = await browser.getWorkbench()
+      await workbench.executeCommand('Marquee: Marquee: Add Selection to Notes')
+    })
+
+    it('validates if item was added and opens link', async () => {
+      const workbench = await browser.getWorkbench()
+      await workbench.executeCommand('Marquee: Open Marquee')
+      await webview.open()
+      await notesWidget.elem.scrollIntoView({ block: 'center' })
+
+      await browser.waitUntil(async () => (await notesWidget.noteItems$$).length === 1)
+      const items = await notesWidget.getNotes()
+      expect(items[0]).toBe(path.basename(file))
+
+      await notesWidget.selectNote(items[0])
+      await notesWidget.clickLink()
+      await webview.close(true)
+    })
+
+    it('should have a button to go back to its origin', async () => {
+      const workbench = await browser.getWorkbench()
+      const editorView = await workbench.getEditorView()
+      const editor = await editorView.openEditor(path.basename(file)) as TextEditor
+      expect(await editor.getSelectedText()).toBe('Add me as Note')
+    })
+
+    it('should add text and validate that item was updated', async () => {
+      const workbench = await browser.getWorkbench()
+      const editorView = await workbench.getEditorView()
+      const editor = await editorView.openEditor(path.basename(file)) as TextEditor
+      await editor.setTextAtLine(1, 'I am new code\n')
+      await editor.setTextAtLine(2, 'and me too\n')
+      await editor.save()
+
+      await workbench.executeCommand('Marquee: Open Marquee')
+      await webview.open()
+      await notesWidget.elem.scrollIntoView({ block: 'center' })
+      await notesWidget.clickLink()
+      await webview.close(true)
+
+      expect(await editor.getSelectedText()).toBe('Add me as Note')
     })
   })
 })
