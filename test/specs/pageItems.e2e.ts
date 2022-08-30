@@ -28,6 +28,12 @@ const teardown = async () => {
   await editorView.closeAllEditors()
 }
 
+const openMarquee = async () => {
+  await browser.pause(500)
+  await $('ul[aria-label="Editor actions"] li').click()
+  await browser.pause(1500)
+}
+
 const openFile = async (vscode: typeof vscodeType, file: string, line: number) => {
   const rpath = vscode.Uri.parse(file).fsPath
   const doc = await vscode.workspace.openTextDocument(rpath)
@@ -63,8 +69,7 @@ describe('page items @skipWeb', () => {
     })
 
     it('validates if item was added and opens link', async () => {
-      const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await todoWidget.elem.scrollIntoView({ block: 'center' })
 
@@ -92,7 +97,7 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await todoWidget.elem.scrollIntoView({ block: 'center' })
       const items = await todoWidget.getTodoItems()
@@ -119,8 +124,7 @@ describe('page items @skipWeb', () => {
     })
 
     it('validates if item was added and opens link', async () => {
-      const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await clipboardWidget.elem.scrollIntoView({ block: 'center' })
 
@@ -148,7 +152,7 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await clipboardWidget.elem.scrollIntoView({ block: 'center' })
       await clipboardWidget.clickLink()
@@ -173,8 +177,7 @@ describe('page items @skipWeb', () => {
     })
 
     it('validates if item was added and opens link', async () => {
-      const workbench = await browser.getWorkbench()
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await notesWidget.elem.scrollIntoView({ block: 'center' })
 
@@ -202,7 +205,7 @@ describe('page items @skipWeb', () => {
       await editor.setTextAtLine(2, 'and me too\n')
       await editor.save()
 
-      await workbench.executeCommand('Open Marquee')
+      await openMarquee()
       await webview.open()
       await notesWidget.elem.scrollIntoView({ block: 'center' })
       await notesWidget.clickLink()
