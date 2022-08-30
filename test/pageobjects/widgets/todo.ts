@@ -125,7 +125,8 @@ export class TodoItem extends BasePage<typeof todoItemLocators, typeof locatorMa
     return this.tags$$.map((tag) => tag.getText())
   }
 
-  public clickLink () {
+  public async clickLink () {
+    await this.link$.scrollIntoView({ block: 'center' })
     return this.link$.click()
   }
 

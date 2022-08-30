@@ -62,7 +62,8 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
     return this.editor$.getText()
   }
 
-  public clickLink () {
+  public async clickLink () {
+    await this.link$.scrollIntoView({ block: 'center' })
     return this.link$.click()
   }
 }
