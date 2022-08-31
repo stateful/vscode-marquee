@@ -1,4 +1,5 @@
 import vscode from 'vscode'
+import { Logger } from '@vscode-marquee/utils/extension'
 import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/utils'
 
 jest.mock('@vscode-marquee/utils/extension', () => class {
@@ -9,6 +10,7 @@ jest.mock('@vscode-marquee/utils/extension', () => class {
     'marquee.configuration.launchOnStartup': { default: 'marquee.configuration.launchOnStartup' },
     'marquee.configuration.workspaceLaunch': { default: 'marquee.configuration.workspaceLaunch' }
   }
+  static Logger = { info: jest.fn(), warn: jest.fn() } as any
   setBroadcaster = jest.fn()
   broadcast = jest.fn()
   state = 'foobar'
@@ -113,7 +115,9 @@ test('extension manager listens on mode changes and applies if not triggered wit
 
   await new Promise((resolve) => setTimeout(resolve, 110))
 
-  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(true) })
+  extExport.marquee.disposable['_onModeChange']({
+    affectsConfiguration: jest.fn().mockReturnValue(true)
+  })
   expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(1)
   expect(extExport.marquee.disposable['broadcast']).toBeCalledWith({
     modes: { foo: 'bar' }
@@ -131,7 +135,6 @@ test('linkMarquee', async () => {
   vscode.workspace.lineAtMock.mockImplementation(() => {
     throw new Error('ups')
   })
-  const logSpy = jest.spyOn(console, 'warn')
   await linkMarquee({ item: { path: '/some/file:124' } })
-  expect(logSpy).toBeCalledWith('Marquee: ups')
+  expect(Logger.warn).toBeCalledWith('Marquee: ups')
 })

@@ -147,6 +147,6 @@ export const linkMarquee = async (item: any) => {
     editor.revealRange(r, vscode.TextEditorRevealType.InCenter)
     editor.selection = new vscode.Selection(r.start, r.end)
   } catch (err: any) {
-    console.warn(`Marquee: ${(err as Error).message}`)
+    Logger.warn(`Marquee: ${(err as Error).message}`)
   }
 }

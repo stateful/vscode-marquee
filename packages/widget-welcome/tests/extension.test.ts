@@ -9,6 +9,19 @@ jest.mock('axios', () => ({
   post: jest.fn().mockResolvedValue({ data: [] })
 }))
 
+jest.mock('vscode', () => ({
+  ConfigurationTarget: { Global: 1 },
+  workspace: {
+    getConfiguration: jest.fn().mockReturnValue(new Map()),
+    onDidChangeConfiguration: jest.fn()
+  },
+  window: {
+    createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
+    showInformationMessage: jest.fn().mockResolvedValue({}),
+    showErrorMessage: jest.fn().mockResolvedValue({})
+  }
+}))
+
 test('should return expected interface', async () => {
   const tangle: any = {
     on: jest.fn(),

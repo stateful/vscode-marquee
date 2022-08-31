@@ -10,6 +10,12 @@ Array [
     "isLoading",
     false,
   ],
+  Array [
+    "error",
+    Object {
+      "message": "Fetching NPM stats failed: Network Error",
+    },
+  ],
 ]
 `;
 
@@ -22,6 +28,12 @@ Array [
   Array [
     "isLoading",
     false,
+  ],
+  Array [
+    "error",
+    Object {
+      "message": "Fetching NPM stats failed: Network Error",
+    },
   ],
 ]
 `;

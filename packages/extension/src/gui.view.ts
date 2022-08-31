@@ -293,7 +293,7 @@ export class MarqueeGui extends EventEmitter {
   }
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
-    Logger.info(`Execute command "${command}" with args: ${args.map((arg) => JSON.stringify(arg)).join(', ')}`)
+    Logger.info(`Execute command "${command}" with args: ${(args || []).map((arg) => JSON.stringify(arg)).join(', ')}`)
     telemetry.sendTelemetryEvent('executeCommand', { command })
     if (args && args.length > 0 && command === 'vscode.openFolder') {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options)

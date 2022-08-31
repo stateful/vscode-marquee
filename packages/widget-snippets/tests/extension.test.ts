@@ -14,7 +14,7 @@ beforeEach(() => {
 })
 
 test('should register all commands in constructor', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   expect(m['_fsProvider'].on).toBeCalledTimes(2)
   expect(vscode.commands.registerCommand).toBeCalledTimes(5)
   expect(vscode.commands.registerTextEditorCommand).toBeCalledTimes(2)
@@ -23,7 +23,7 @@ test('should register all commands in constructor', () => {
 })
 
 test('_saveNewSnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m['_openSnippet'] = jest.fn()
   m.state.snippets = [{ foo: 'bar' } as any]
   m['_saveNewSnippet']({ bar: 'foo', path: 'foobar' } as any)
@@ -33,7 +33,7 @@ test('_saveNewSnippet', () => {
 })
 
 test('_updateSnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m.state.snippets = [{ id: 'foo' } as any]
   m['_updateSnippet']({ id: 'bar' } as any)
   expect(vscode.window.showErrorMessage).toBeCalledTimes(1)
@@ -43,20 +43,20 @@ test('_updateSnippet', () => {
 })
 
 test('_addEmptySnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m['_openSnippet'] = jest.fn()
   m['_addEmptySnippet']()
   expect(m['_openSnippet']).toBeCalledWith('/New Clipboard Item')
 })
 
 test('_openSnippet', async () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   await m['_openSnippet']('/foobar')
   expect(vscode.window.showTextDocument).toBeCalledTimes(1)
 })
 
 test('_addSnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m['_gitProvider'] = { branch: 'foobar' } as any
   (m.getTextSelection as jest.Mock).mockReturnValueOnce({ text: '' })
   m['_addSnippet']({ document: { uri: { path: '/foobar' } } } as any)
@@ -82,7 +82,7 @@ test('_addSnippet', () => {
 
 test('_insertFromTreeView', () => {
   delete vscode.window.activeTextEditor
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m['_insertFromTreeView']({ foo: 'bar' } as any)
   expect((vscode.window.showInformationMessage as jest.Mock).mock.calls[0][0]).toContain('No editor open')
 
@@ -106,13 +106,13 @@ test('_insertFromTreeView', () => {
 })
 
 test('_copyToClipboard', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m['_copyToClipboard']({ item: { body: 'foobar' }} as any)
   expect(vscode.env.clipboard.writeText).toBeCalledWith('foobar')
 })
 
 test('_removeSnippet', () => {
-  const m = new SnippetExtensionManager({} as any, {} as any)
+  const m = new SnippetExtensionManager({} as any)
   m.state.snippets = [{ id: 'foo' }, { id: 'bar' }, { id: 'loo' }] as any
   m['_removeSnippet']({ item: { id: 'bar' }} as any)
   expect((m.updateState as jest.Mock).mock.calls).toMatchSnapshot()
@@ -120,6 +120,6 @@ test('_removeSnippet', () => {
 })
 
 test('activate', () => {
-  const exp = activate({} as any, {} as any)
+  const exp = activate({} as any)
   expect(Object.keys(exp.marquee)).toMatchSnapshot()
 })

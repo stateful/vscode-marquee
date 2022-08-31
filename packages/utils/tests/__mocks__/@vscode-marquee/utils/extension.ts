@@ -1,5 +1,16 @@
 const actualExport = jest.requireActual('../../../../src/extension')
 
+export const Logger = {
+  trace: jest.fn(),
+  debug: jest.fn(),
+  info: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+  fatal: jest.fn(),
+  getChildLogger: jest.fn()
+}
+Logger.getChildLogger.mockReturnValue(Logger)
+
 export default class ExtensionManagerMock {
   on = jest.fn()
   emit = jest.fn()

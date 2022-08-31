@@ -29,6 +29,9 @@ const vscode: any = {
   UIKind: {
     Desktop: 1,
     Web: 2
+  },
+  ExtensionMode: {
+    Development: 'development'
   }
 }
 vscode.TreeItemCollapsibleState = {
@@ -45,12 +48,12 @@ vscode.commands = {
 const lineAtMock = jest.fn().mockReturnValue({ range: 'some range'})
 
 vscode.TreeItem = jest.fn()
-vscode.EventEmitter = jest.fn()
+vscode.EventEmitter = jest.fn().mockReturnValue({ event: {}, fire: jest.fn() })
 vscode.workspace = {
   name: 'foobarWorkspace',
   workspaceFile: { path: '/foo/bar' },
   workspaceFolders: [{ uri: '/some/uri' }],
-  getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn() }),
+  getConfiguration: jest.fn().mockReturnValue({ get: jest.fn(), update: jest.fn(), set: jest.fn() }),
   onDidCloseTextDocument: jest.fn(),
   onDidChangeTextDocument: jest.fn(),
   onDidChangeConfiguration: jest.fn(),

@@ -1,4 +1,4 @@
-import { window, ExtensionContext, ExtensionMode, OutputChannel } from 'vscode'
+import vscode from 'vscode'
 import { getExtensionLogger, IVSCodeExtLogger, IChildLogger, LogLevel } from '@vscode-logging/logger'
 
 const DEFAULT_LOG_LEVEL: LogLevel = 'info'
@@ -15,16 +15,16 @@ export type ChildLogger = IChildLogger
 export class Logger {
   private static output?: IVSCodeExtLogger
 
-  static configure (context: ExtensionContext) {
+  static configure (context: vscode.ExtensionContext) {
     const { name, publisher } = context.extension.packageJSON
-    const inDevelopment = context.extensionMode === ExtensionMode.Development
+    const inDevelopment = context.extensionMode === vscode.ExtensionMode.Development
 
-    const channel = window.createOutputChannel(name.slice(0, 1).toUpperCase() + name.slice(1))
+    const channel = vscode.window.createOutputChannel(name.slice(0, 1).toUpperCase() + name.slice(1))
     this.output = getExtensionLogger({
       extName: `${publisher}.${name}`,
       level: this.logLevel, // See LogLevel type in @vscode-logging/types for possible logLevels
       logPath: context.logUri.fsPath,
-      logOutputChannel: <OutputChannel>{
+      logOutputChannel: <vscode.OutputChannel>{
         appendLine: (payload: string) => {
           const msg: MessagePayload = JSON.parse(payload)
           return channel.appendLine(`[${msg.time}] ${msg.level.toUpperCase()} ${msg.label} - ${msg.message}`)

@@ -34,7 +34,7 @@ describe('Extension Manager', () => {
     // @ts-ignore
     vscode.workspace.workspaceFolders = 'foo'
     // @ts-ignore
-    const manager = new NPMStatsExtensionManager({} as any, channel as any, null, { packageNames: [] })
+    const manager = new NPMStatsExtensionManager({} as any, null, { packageNames: [] })
     manager['_configuration'].packageNames = []
     ;(vscode.workspace.fs.readFile as jest.Mock)
       .mockResolvedValue(JSON.stringify({ name: 'foobar' }))
