@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import Axios, { AxiosRequestConfig } from 'axios'
 import axiosRetry from 'axios-retry'
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 import { Client } from 'tangle'
 
 import { DEFAULT_STATE } from './constants'
@@ -18,15 +18,15 @@ const config = vscode.workspace.getConfiguration('marquee')
 axiosRetry(Axios, { retries: AXIOS_RETRIES, retryDelay: axiosRetry.exponentialDelay })
 
 class StateManager extends ExtensionManager<State & Events, Configuration> {
+  #logger: ChildLogger
+
   private _interval: NodeJS.Timeout
   private _prevtricks?: Trick[]
   private _retainTricks: boolean = false
 
-  constructor (
-    context: vscode.ExtensionContext,
-    channel: vscode.OutputChannel
-  ) {
-    super(context, channel, STATE_KEY, {}, DEFAULT_STATE as State & Events)
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, {}, DEFAULT_STATE as State & Events)
+    this.#logger = Logger.getChildLogger(STATE_KEY)
     this.fetchData()
     this._interval = setInterval(this.fetchData.bind(this), FETCH_INTERVAL)
   }
@@ -78,14 +78,14 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
    */
   async fetchData () {
     const url = `${this.backendUrl}/getTricks`
-    this._channel.appendLine(`Fetching ${url}`)
+    this.#logger.info(`Fetching ${url}`)
     const result = await Axios.get(url, this._getRequestOptions()).then(
       (res) => res.data as Trick[],
       (err) => err as Error
     )
 
     if (result instanceof Error) {
-      this._channel.appendLine(`Error fetching tricks: ${result.message}`)
+      this.#logger.error(`Error fetching tricks: ${result.message}`)
       return this.broadcast({ error: result })
     }
 
@@ -95,7 +95,7 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
         .pop()
 
       if (newTrick) {
-        this._channel.appendLine(`Notify new trick: ${newTrick.title}`)
+        this.#logger.info(`Notify new trick: ${newTrick.title}`)
         vscode.window
           .showInformationMessage(newTrick.title, 'Learn more')
           .then(() => this.emit('gui.open'))
@@ -109,13 +109,13 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
     const netNewTrickIds = new Set(result.filter(resTrick => !prevTrickIds.has(resTrick.id)))
     if (this._retainTricks && (!this._prevtricks || netNewTrickIds.size > 0)) {
       this._prevtricks = result
-      this._channel.appendLine(`Broadcast ${result.length} tricks`)
+      this.#logger.info(`Broadcast ${result.length} tricks`)
       this.broadcast({ error: null, tricks: result })
     }
   }
 
   private _upvoteTrick (id: string) {
-    this._channel.appendLine(`Upvote trick with id: ${id}`)
+    this.#logger.info(`Upvote trick with id: ${id}`)
     return Axios.post(
       `${this.backendUrl}/voteTrick`,
       { op: 'upvote', id },
@@ -140,11 +140,8 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
 }
 
 let stateManager: StateManager
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  stateManager = new StateManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  stateManager = new StateManager(context)
 
   // don't allow errors to be recovered from default state
   const defaultState = stateManager.state

@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import ExtensionManager, { defaultConfigurations } from '@vscode-marquee/utils/extension'
+import ExtensionManager, { defaultConfigurations, Logger } from '@vscode-marquee/utils/extension'
 
 import { MODES_UPDATE_TIMEOUT } from './constants'
 
@@ -42,12 +42,11 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
 
   constructor (
     context: vscode.ExtensionContext,
-    channel: vscode.OutputChannel,
     key: string,
     defaultConfiguration: Configuration,
     defaultState: State
   ) {
-    super(context, channel, key, defaultConfiguration, defaultState)
+    super(context, key, defaultConfiguration, defaultState)
     this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)))
   }
 
@@ -98,16 +97,13 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
 
     const config = vscode.workspace.getConfiguration('marquee')
     const val = config.get('configuration.modes') as Configuration[keyof Configuration]
-    this._channel.appendLine('Update configuration.modes via configuration listener')
+    Logger.info('Update configuration.modes via configuration listener')
     this.broadcast({ modes: JSON.parse(JSON.stringify(val)) })
   }
 }
 
-export function activateGUI (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new GUIExtensionManager(context, channel, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+export function activateGUI (context: vscode.ExtensionContext) {
+  const stateManager = new GUIExtensionManager(context, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
 
   return {
     marquee: {

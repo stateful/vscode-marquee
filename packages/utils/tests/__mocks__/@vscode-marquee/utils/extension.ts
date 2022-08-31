@@ -1,9 +1,5 @@
 const actualExport = jest.requireActual('../../../../src/extension')
 
-const defaultChannel = {
-  appendLine: jest.fn()
-}
-
 export default class ExtensionManagerMock {
   on = jest.fn()
   emit = jest.fn()
@@ -22,7 +18,6 @@ export default class ExtensionManagerMock {
 
   constructor (
     public _context = {},
-    public _channel = defaultChannel,
     ___: any,
     defaultConfig: any,
     defaultState: any

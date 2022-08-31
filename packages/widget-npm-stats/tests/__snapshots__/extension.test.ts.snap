@@ -10,12 +10,6 @@ Array [
     "isLoading",
     false,
   ],
-  Array [
-    "error",
-    Object {
-      "message": "this._channel.appendLine is not a function",
-    },
-  ],
 ]
 `;
 
@@ -28,12 +22,6 @@ Array [
   Array [
     "isLoading",
     false,
-  ],
-  Array [
-    "error",
-    Object {
-      "message": "this._channel.appendLine is not a function",
-    },
   ],
 ]
 `;

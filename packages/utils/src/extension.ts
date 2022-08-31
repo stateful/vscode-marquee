@@ -7,6 +7,7 @@ import { Client } from 'tangle'
 import { EventEmitter } from 'events'
 import { closest } from 'fastest-levenshtein'
 
+import { Logger } from './logger'
 import { GitProvider } from './provider/git'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType, ProjectItem } from './types'
@@ -31,7 +32,6 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
   constructor (
     protected _context: vscode.ExtensionContext,
-    protected _channel: vscode.OutputChannel,
     protected _key: string,
     private _defaultConfiguration: Configuration,
     private _defaultState: State
@@ -43,19 +43,19 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {})
     this._state = {
       ...this._defaultState,
-      ...pick(oldGlobalStore, Object.keys(this._defaultState)),
+      ...pick(oldGlobalStore, Object.keys(this._defaultState as any)),
       ...this._context.globalState.get<State>(this._key)
     }
 
     /**
      * preserve state across different machines
      */
-    this._context.globalState.setKeysForSync(Object.keys(this._defaultState))
+    this._context.globalState.setKeysForSync(Object.keys(this._defaultState as any))
 
     this._configuration = {
       ...this._defaultConfiguration,
       ...config.get<Configuration>(this._key),
-      ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration))
+      ...pick<Configuration>(oldGlobalStore as any, Object.keys(this._defaultConfiguration as any))
     }
   }
 
@@ -76,7 +76,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       return
     }
 
-    for (const configKey of Object.keys(this.configuration)) {
+    for (const configKey of Object.keys(this.configuration as any)) {
       const prop = configKey as keyof Configuration
 
       /**
@@ -95,14 +95,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       if (
         typeof val !== 'undefined' &&
         typeof this._configuration[prop] !== 'undefined' &&
-        hash(this._configuration[prop]) === hash(val)
+        hash(this._configuration[prop] as any) === hash(val as any)
       ) {
         continue
       }
 
-      this._channel.appendLine(
-        `Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`
-      )
+      Logger.info(`Update configuration via configuration listener "${prop.toString()}": ${val as any as string}`)
       this.broadcast({ [prop]: val } as any)
       this.emit('configurationUpdate', this._configuration)
       break
@@ -132,14 +130,14 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     if (
       typeof val !== 'undefined' &&
       typeof this._configuration[prop] !== 'undefined' &&
-      hash(this._configuration[prop]) === hash(val)
+      hash(this._configuration[prop] as any) === hash(val as any)
     ) {
       this._isConfigUpdateListenerDisabled = false
       return
     }
 
     const config = vscode.workspace.getConfiguration('marquee')
-    this._channel.appendLine(`Update configuration "${prop.toString()}": ${val as any as string}`)
+    Logger.info(`Update configuration "${prop.toString()}": ${val as any as string}`)
     this._configuration[prop] = val
     await config.update(`${this._key}.${prop.toString()}`, val, target)
     this.emit('configurationUpdate', this._configuration)
@@ -160,12 +158,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     if (
       typeof val !== 'undefined' &&
       typeof this._state[prop] !== 'undefined' &&
-      hash(this._state[prop]) === hash(val)
+      hash(this._state[prop] as any) === hash(val as any)
     ) {
       return
     }
 
-    this._channel.appendLine(`Update state "${prop.toString()}": ${val as any as string}`)
+    Logger.info(`Update state "${prop.toString()}": ${val as any as string}`)
     this._state[prop] = val
     await this.emitStateUpdate(broadcastState)
   }
@@ -192,7 +190,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
 
     this._configuration = { ...this._defaultConfiguration }
     await Promise.all(
-      Object.keys(this._defaultConfiguration).map((key) => (
+      Object.keys(this._defaultConfiguration as any).map((key) => (
         config.update(
           `${this._key}.${key}`,
           this._defaultConfiguration[key as keyof Configuration],
@@ -259,7 +257,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * listen on configuration changes
      */
-    for (const configProp of Object.keys(this._defaultConfiguration)) {
+    for (const configProp of Object.keys(this._defaultConfiguration as any)) {
       const c = configProp as keyof Configuration
       this._subscriptions.push(this._tangle.listen(c, (val) => this.updateConfiguration(c, val)))
     }
@@ -267,7 +265,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * listen on state changes
      */
-    for (const stateProp of Object.keys(this._defaultState)) {
+    for (const stateProp of Object.keys(this._defaultState as any)) {
       const s = stateProp as keyof State
       this._subscriptions.push(this._tangle.listen(s, (val) => this.updateState(s, val)))
     }
@@ -280,7 +278,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   registerFileListenerForFile (itemName: ProjectItemTypes, file: string) {
-    this._channel.appendLine(`Register File Listener for ${itemName} for file "${file}"`)
+    Logger.info(`Register File Listener for ${itemName} for file "${file}"`)
     const listener = vscode.workspace.createFileSystemWatcher(file)
     listener.onDidChange(this._onFileChange.bind(this, itemName) as any)
     return listener
@@ -297,7 +295,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     const content = (await vscode.workspace.fs.readFile(uri)).toString().split('\n')
     const itemsInFile = this.getItemsWithReference(itemName).filter((t) => uri.path.endsWith(t.path!.split(':')[0]))
 
-    this._channel.appendLine(`Found ${itemsInFile.length} ${itemName} connected to updated file`)
+    Logger.info(`Found ${itemsInFile.length} ${itemName} connected to updated file`)
     for (const item of itemsInFile) {
       const lineNumber = parseInt(item.path!.split(':').pop()!, 10)
 
@@ -315,7 +313,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
        * check if we still can find the reference
        */
       if (typeof content[lineNumber] === 'string' && content[lineNumber].includes(itemBodyParsed)) {
-        this._channel.appendLine(`item with id ${item.id} does not need to be updated`)
+        Logger.debug(`item with id ${item.id} does not need to be updated`)
         continue
       }
 
@@ -363,12 +361,12 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     if (newLine) {
       const uri = modifiedItem.path.split(':')[0]
       modifiedItem.path = `${uri}:${newLine}`
-      this._channel.appendLine(
+      Logger.debug(
         `Updated path of ${itemName.slice(0, -1)} item with id ${modifiedItem.id}, new path is ${modifiedItem.path}`
       )
     } else {
       delete modifiedItem.path
-      this._channel.appendLine(
+      Logger.debug(
         `Can't find original reference for ${itemName.slice(0, -1)} with id ${modifiedItem.id}, removing its path`
       )
     }
@@ -404,13 +402,9 @@ export class GlobalExtensionManager extends ExtensionManager<State, Configuratio
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
+export function activate (context: vscode.ExtensionContext) {
   const stateManager = new GlobalExtensionManager(
     context,
-    channel,
     'configuration',
     DEFAULT_CONFIGURATION,
     DEFAULT_STATE
@@ -484,4 +478,5 @@ export function getExtProps () {
  */
 export * from './types'
 export * from './constants'
+export * from './logger'
 export * from './provider/git'

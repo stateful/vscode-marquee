@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 import Parser from 'rss-parser'
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger } from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './constants'
 import type { Configuration, FeedItem, State } from './types'
@@ -13,8 +13,8 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
   private _parser = new Parser({ requestOptions: { headers: {} } })
   private _isFetching = false
 
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     this.fetchFeeds()
     this.on('stateUpdate', () => this.fetchFeeds())
 
@@ -60,7 +60,7 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
         )
       }
 
-      this._channel.appendLine(`Fetch News ("${this._state.channel}") from ${url}`)
+      Logger.info(`Fetch News ("${this._state.channel}") from ${url}`)
       const feed = await this._parser.parseURL(url)
 
       await this.updateState('news', feed.items as FeedItem[])
@@ -89,11 +89,8 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new NewsExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new NewsExtensionManager(context)
   return {
     marquee: {
       disposable: stateManager,

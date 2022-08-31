@@ -7,13 +7,9 @@ import type { Configuration } from './types'
 
 const STATE_KEY = 'widgets.github'
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
+export function activate (context: vscode.ExtensionContext) {
   const stateManager = new ExtensionManager<{}, Configuration>(
     context,
-    channel,
     STATE_KEY,
     DEFAULT_CONFIGURATION,
     DEFAULT_STATE

@@ -1,6 +1,7 @@
 import vscode from 'vscode'
 
 import ExtensionManager, {
+  Logger,
   pkg as packageJson,
   activate as activateUtils,
   State as GlobalState,
@@ -54,7 +55,7 @@ export default class StateManager implements vscode.Disposable {
      */
     ([id, activate]) => ({
       id,
-      exports: activate(this._context, this._channel),
+      exports: activate(this._context),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
     }) as Pick<vscode.Extension<ExtensionExport>, 'id' | 'exports' | 'isActive' | 'packageJSON'>
@@ -66,10 +67,7 @@ export default class StateManager implements vscode.Disposable {
   private _subscriptions: vscode.Disposable[] = this.widgetExtensions.map(
     (ex) => ex.exports.marquee.disposable)
 
-  constructor (
-    private readonly _context: vscode.ExtensionContext,
-    private readonly _channel: vscode.OutputChannel
-  ) {
+  constructor (private readonly _context: vscode.ExtensionContext) {
     this._subscriptions.push(
       vscode.commands.registerCommand('marquee.jsonImport', this._import.bind(this)),
       vscode.commands.registerCommand('marquee.jsonExport', this._export.bind(this))
@@ -105,6 +103,7 @@ export default class StateManager implements vscode.Disposable {
     }
 
     try {
+      Logger.info(`Import configuration from ${filePath}`)
       const dec = new TextDecoder('utf-8')
       const importJSON = await vscode.workspace.fs.readFile(filePath)
       const obj = JSON.parse(dec.decode(importJSON))
@@ -157,7 +156,9 @@ export default class StateManager implements vscode.Disposable {
       this.global.emit('gui.close')
       return this.global.emit('gui.open', true)
     } catch (err) {
-      vscode.window.showErrorMessage(`Error importing file: ${(err as Error).message}`)
+      const message = `Error importing file: ${(err as Error).message}`
+      Logger.error(message)
+      vscode.window.showErrorMessage(message)
     } finally {
       /**
        * re-enable config change listener again
@@ -191,6 +192,7 @@ export default class StateManager implements vscode.Disposable {
         return
       }
 
+      Logger.info(`Export configuration and state to ${exportPath}`)
       const jsonExport: ExportFormat = {
         type: CONFIG_FILE_TYPE,
         version: packageJson.version,
@@ -204,9 +206,9 @@ export default class StateManager implements vscode.Disposable {
         `Successfully exported Marquee state to ${exportPath.fsPath}`
       )
     } catch (err) {
-      vscode.window.showErrorMessage(
-        `Error writing export file: ${(err as Error).message}`
-      )
+      const message = `Error writing export file: ${(err as Error).message}`
+      Logger.error(message)
+      vscode.window.showErrorMessage(message)
     }
   }
 

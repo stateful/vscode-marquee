@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_STATE } from './constants'
 import type { State, Note } from './types'
@@ -8,8 +8,11 @@ import type { State, Note } from './types'
 const STATE_KEY = 'widgets.notes'
 
 export class NoteExtensionManager extends ExtensionManager<State, {}> {
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    super(context, channel, STATE_KEY, {}, DEFAULT_STATE)
+  #logger: ChildLogger
+
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, {}, DEFAULT_STATE)
+    this.#logger = Logger.getChildLogger(STATE_KEY)
     this._disposables.push(
       /**
        * add file listeners
@@ -63,6 +66,7 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
     const newNotes = [note].concat(this.state.notes)
     this.updateState('notes', newNotes)
     this.broadcast({ notes: newNotes })
+    this.#logger.info(`New note added with id ${note.id}`)
 
     vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
@@ -104,11 +108,8 @@ export class NoteExtensionManager extends ExtensionManager<State, {}> {
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new NoteExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new NoteExtensionManager(context)
 
   return {
     marquee: {

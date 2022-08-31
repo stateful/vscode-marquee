@@ -9,20 +9,6 @@ jest.mock('axios', () => ({
   post: jest.fn().mockResolvedValue({ data: [] })
 }))
 
-jest.mock('vscode', () => ({
-  ConfigurationTarget: { Global: 1 },
-  workspace: {
-    getConfiguration: jest.fn().mockReturnValue(new Map()),
-    onDidChangeConfiguration: jest.fn()
-  },
-  window: {
-    createOutputChannel: jest.fn().mockReturnValue({ appendLine: jest.fn() }),
-    showInformationMessage: jest.fn().mockResolvedValue({}),
-    showErrorMessage: jest.fn().mockResolvedValue({})
-  }
-}))
-const channel = { appendLine: jest.fn() }
-
 test('should return expected interface', async () => {
   const tangle: any = {
     on: jest.fn(),
@@ -36,7 +22,7 @@ test('should return expected interface', async () => {
   // @ts-expect-error
   context.globalState.setKeysForSync = jest.fn()
   context.globalState.set('persistence', {})
-  const result = activate(context as any, channel as any)
+  const result = activate(context as any)
 
   expect(result.marquee).toBeTruthy()
   result.marquee.setup(tangle)

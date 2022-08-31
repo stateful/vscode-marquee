@@ -18,7 +18,6 @@ jest.mock('os', () => ({
 test('generate proper default state and configuration', () => {
   const manager = new ExtensionManager(
     context as any,
-    {} as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -31,7 +30,6 @@ test('should apply old configuration if available', () => {
   context.globalState.get.mockReturnValue({ defaultConfig: 'old config', defaultState: 'old state' })
   const manager = new ExtensionManager(
     context as any,
-    {} as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -43,7 +41,6 @@ test('should apply old configuration if available', () => {
 test('_onConfigChange', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true, modes: { foo: 'bar' } },
     { defaultState: true }
@@ -73,7 +70,6 @@ test('_onConfigChange', () => {
 test('_onConfigChange is not triggered if flags are set', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     {},
     {}
@@ -93,7 +89,6 @@ test('_onConfigChange is not triggered if flags are set', () => {
 test('broadcast', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -109,7 +104,6 @@ test('broadcast', () => {
 test('setImportInProgress', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'foobar',
     {},
     {}
@@ -124,7 +118,6 @@ test('setImportInProgress', () => {
 test('getItemsWithReference', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -144,7 +137,6 @@ test('getItemsWithReference', async () => {
 test('_onFileChange', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -174,7 +166,6 @@ test('_updateReference', async () => {
   ]
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -188,7 +179,6 @@ test('_updateReference', async () => {
 test('updateConfiguration', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -212,7 +202,6 @@ test('updateConfiguration', async () => {
 test('updateConfiguration does not do anything if values are equal', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { prop: { a: 'b' , c: 'd' } },
     {}
@@ -233,7 +222,6 @@ test('updateConfiguration does not do anything if values are equal', async () =>
 test('updateConfiguration does not update if value is falsy and equal', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: 0 },
     { defaultState: true }
@@ -255,7 +243,6 @@ test('updateConfiguration does not update if value is falsy and equal', async ()
 test('updateState', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -277,7 +264,6 @@ test('updateState', async () => {
 test('updateState does not do anything if values are equal', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     {},
     { prop: { a: 'b' , c: 'd' } }
@@ -290,7 +276,6 @@ test('updateState does not do anything if values are equal', async () => {
 test('updateState does not do anything if values are equal and falsy', async () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     {},
     { prop: 0 }
@@ -313,7 +298,6 @@ test('clear', async () => {
     .mockReturnValue(config)
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -342,7 +326,6 @@ test('clear', async () => {
 test('getActiveWorkspace', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -364,7 +347,6 @@ test('getTextSelection', () => {
   }
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -380,7 +362,6 @@ test('setBroadcaster', () => {
   }
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -395,7 +376,6 @@ test('setBroadcaster', () => {
 test('generateId', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -406,7 +386,6 @@ test('generateId', () => {
 test('reset', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -428,7 +407,6 @@ test('reset', () => {
 test('dispose', () => {
   const manager = new ExtensionManager(
     context as any,
-    { appendLine: jest.fn() } as any,
     'widget.todo',
     { defaultConfig: true },
     { defaultState: true }
@@ -445,7 +423,7 @@ test('dispose', () => {
 })
 
 test('returns proper interface', () => {
-  const exp = activate(context as any, { appendLine: jest.fn() } as any)
+  const exp = activate(context as any)
   expect(Object.keys(exp.marquee)).toEqual(
     ['disposable', 'defaultState', 'defaultConfiguration', 'setup']
   )
@@ -453,7 +431,7 @@ test('returns proper interface', () => {
 
 test('should upgrade config from v2 to v3', () => {
   context.globalState.get = jest.fn().mockReturnValue({ bg: 42 })
-  const exp = activate(context as any, { appendLine: jest.fn() } as any)
+  const exp = activate(context as any)
   expect(exp.marquee.disposable.configuration.background).toBe(42)
 })
 

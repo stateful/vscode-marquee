@@ -33,17 +33,13 @@ const stateMgr: any = {
     getActiveWorkspace: jest.fn().mockReturnValue({ id: 'foobar' })
   }
 }
-const channel: any = {
-  appendLine: jest.fn()
-}
 
 beforeEach(() => {
-  channel.appendLine.mockClear()
   ;(vscode.window.showErrorMessage as jest.Mock).mockClear()
 })
 
 test('constructor', () => {
-  new MarqueeGui(context, stateMgr, channel)
+  new MarqueeGui(context, stateMgr)
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on).toBeCalledTimes(2)
   expect(stateMgr.widgetExtensions[0].exports.marquee.disposable.on)
     .toBeCalledWith('gui.open', expect.any(Function))
@@ -52,13 +48,13 @@ test('constructor', () => {
 })
 
 test('isActive', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['guiActive'] = 'foobar' as any
   expect(gui.isActive()).toBe('foobar')
 })
 
 test('close', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui.close()
   gui['panel'] = { dispose: jest.fn() } as any
   gui.close()
@@ -66,7 +62,7 @@ test('close', () => {
 })
 
 test('broadcast', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   expect(gui.broadcast('removeWidget', 'foobar')).toBe(false)
 
   gui['client'] = { emit: jest.fn() } as any
@@ -75,7 +71,7 @@ test('broadcast', () => {
 })
 
 test('_executeCommand', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['_executeCommand']({ command: 'vscode.openFolder', args: ['foo', 'bar'], options: 'foobar' as any})
   expect(vscode.commands.executeCommand).toBeCalledWith('vscode.openFolder', 'parsedUri-foo', 'foobar')
 
@@ -87,7 +83,7 @@ test('_executeCommand', () => {
 })
 
 test('_handleNotifications', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['_handleNotifications']({ type: 'error', message: 'foobar' })
   expect(vscode.window.showErrorMessage)
     .toBeCalledWith('foobar', { detail: undefined, modal: undefined })
@@ -115,7 +111,7 @@ test('_handleNotifications', () => {
 })
 
 test('open an already open webview', async () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['panel'] = { reveal: jest.fn() } as any
   gui['guiActive'] = true
   await gui.open()
@@ -127,7 +123,7 @@ test('open webview', async () => {
     extensionUri: '/some/uri',
     extensionPath: '/some/path'
   }
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   const encoder = new TextEncoder()
   gui['_template'] = Promise.resolve(encoder.encode('<html></html>'))
   gui['_verifyWidgetStates'] = jest.fn()
@@ -139,7 +135,7 @@ test('open webview', async () => {
 })
 
 test('_verifyWidgetStates', async () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['_templateDecoded'] = 'foo'
   await gui.open()
   expect(stateMgr.gui.updateState).toBeCalledTimes(0)
@@ -149,7 +145,7 @@ test('_verifyWidgetStates', async () => {
 })
 
 test('_disposePanel', () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['guiActive'] = true
   gui['panel'] = {} as any
   gui.emit = jest.fn()
@@ -166,7 +162,7 @@ test('_disposePanel', () => {
 })
 
 test('_handleWebviewMessage', async () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['_executeCommand'] = jest.fn()
   gui['_handleNotifications'] = jest.fn()
   gui['emit'] = jest.fn()
@@ -190,7 +186,7 @@ test('_handleWebviewMessage', async () => {
 })
 
 test('_handleWebviewMessage failing', async () => {
-  const gui = new MarqueeGui(context, stateMgr, channel)
+  const gui = new MarqueeGui(context, stateMgr)
   gui['_executeCommand'] = jest.fn().mockRejectedValue(new Error('ups'))
 
   expect(vscode.window.showErrorMessage).toBeCalledTimes(0)

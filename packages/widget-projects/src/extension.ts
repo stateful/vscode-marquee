@@ -8,11 +8,8 @@ import type { State, Configuration } from './types'
 const STATE_KEY = 'widgets.projects'
 
 export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
-  constructor (
-    context: vscode.ExtensionContext,
-    channel: vscode.OutputChannel
-  ) {
-    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
     const aws = this.getActiveWorkspace()
     /**
      * add new workspace to list
@@ -84,11 +81,8 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new ProjectsExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new ProjectsExtensionManager(context)
 
   return {
     marquee: {
