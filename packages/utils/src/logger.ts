@@ -1,6 +1,7 @@
 import vscode from 'vscode'
 import { getExtensionLogger, IVSCodeExtLogger, IChildLogger, LogLevel } from '@vscode-logging/logger'
 
+declare const IS_WEB_BUNDLE: boolean
 const DEFAULT_LOG_LEVEL: LogLevel = 'info'
 
 interface MessagePayload {
@@ -23,7 +24,10 @@ export class Logger {
     this.output = getExtensionLogger({
       extName: `${publisher}.${name}`,
       level: this.logLevel, // See LogLevel type in @vscode-logging/types for possible logLevels
-      logPath: context.logUri.fsPath,
+      ...(IS_WEB_BUNDLE
+        ? {}
+        : { logPath: context.logUri.fsPath }
+      ),
       logOutputChannel: <vscode.OutputChannel>{
         appendLine: (payload: string) => {
           const msg: MessagePayload = JSON.parse(payload)

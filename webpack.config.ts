@@ -84,7 +84,11 @@ const extensionConfigBrowser: Configuration = {
   },
   resolve: {
     ...extensionConfig.resolve,
-    alias: stdLibBrowser,
+    alias: {
+      ...stdLibBrowser,
+      streamroller: false,
+      './transports/rolling-file': false
+    },
     fallback: {
       fs: false,
       diagnostics_channel: false,
@@ -96,6 +100,9 @@ const extensionConfigBrowser: Configuration = {
   },
   plugins: [
     ...(extensionConfig.plugins || []),
+    new DefinePlugin({
+      IS_WEB_BUNDLE: true
+    }),
     new ProvidePlugin({
       process: stdLibBrowser.process,
       Buffer: [stdLibBrowser.buffer, 'Buffer']
