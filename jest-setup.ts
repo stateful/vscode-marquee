@@ -32,6 +32,8 @@ global.BACKEND_BASE_URL = 'http://BACKEND_BASE_URL.com'
 global.BACKEND_GEO_URL = 'http://BACKEND_GEO_URL.com'
 // @ts-expect-error
 global.BACKEND_FWDGEO_URL = 'http://BACKEND_FWDGEO_URL.com'
+// @ts-expect-error
+global.IS_WEB_BUNDLE = false
 
 // @ts-expect-error
 global.TextDecoder = TextDecoder
