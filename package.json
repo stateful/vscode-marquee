@@ -123,7 +123,6 @@
         "command": "marquee.link",
         "title": "Jump to origin",
         "category": "Marquee",
-        "enablement": "listFocus",
         "icon": {
           "light": "assets/link-dark.svg",
           "dark": "assets/link-light.svg"
@@ -151,7 +150,6 @@
       {
         "command": "marquee.edit",
         "category": "Marquee",
-        "enablement": "listFocus",
         "title": "Edit"
       },
       {
@@ -235,8 +233,7 @@
       {
         "command": "marquee.snippet.insert",
         "title": "Insert",
-        "category": "Marquee",
-        "enablement": "listFocus"
+        "category": "Marquee"
       },
       {
         "command": "marquee.snippet.delete",
