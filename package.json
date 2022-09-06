@@ -157,8 +157,7 @@
       {
         "command": "marquee.todo.toggle",
         "title": "Toggle Todo",
-        "category": "Marquee",
-        "enablement": "listFocus"
+        "category": "Marquee"
       },
       {
         "command": "marquee.todo.addEditor",
