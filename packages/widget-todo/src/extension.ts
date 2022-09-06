@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State, Todo } from './types'
@@ -10,8 +10,11 @@ export const CODE_TODO = 'marquee_todo'
 export const TODO = /(TODO|ToDo|Todo|todo)[:]? /
 
 export class TodoExtensionManager extends ExtensionManager<State, Configuration> {
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  #logger: ChildLogger
+
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+    this.#logger = Logger.getChildLogger(STATE_KEY)
 
     const diagnostics = vscode.languages.createDiagnosticCollection('todo')
     this._refreshActiveTextEditor(diagnostics)
@@ -164,6 +167,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     this.updateState('todos', newTodos)
     this.emit('gui.open')
     this.broadcast({ todos: newTodos })
+    this.#logger.info(`New todo created with id ${todo.id}`)
     vscode.commands.executeCommand('marquee.refreshCodeActions')
   }
 
@@ -225,6 +229,7 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
     const newTodos = [todo].concat(this.state.todos)
     this.updateState('todos', newTodos)
     this.broadcast({ todos: newTodos })
+    this.#logger.info(`New todo created with id ${todo.id}`)
     vscode.window.showInformationMessage(
       `Added "${text}" to your todos in Marquee`,
       'Open Marquee'
@@ -324,11 +329,8 @@ class TodoInfo implements vscode.CodeActionProvider {
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new TodoExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new TodoExtensionManager(context)
 
   return {
     marquee: {

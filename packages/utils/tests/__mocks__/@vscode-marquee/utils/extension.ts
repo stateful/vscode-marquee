@@ -1,8 +1,15 @@
 const actualExport = jest.requireActual('../../../../src/extension')
 
-const defaultChannel = {
-  appendLine: jest.fn()
+export const Logger = {
+  trace: jest.fn(),
+  debug: jest.fn(),
+  info: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+  fatal: jest.fn(),
+  getChildLogger: jest.fn()
 }
+Logger.getChildLogger.mockReturnValue(Logger)
 
 export default class ExtensionManagerMock {
   on = jest.fn()
@@ -22,7 +29,6 @@ export default class ExtensionManagerMock {
 
   constructor (
     public _context = {},
-    public _channel = defaultChannel,
     ___: any,
     defaultConfig: any,
     defaultState: any

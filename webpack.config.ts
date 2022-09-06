@@ -7,6 +7,30 @@ import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
 const isDevelopment = !Boolean(process.env.NODE_ENV)
+const getGlobals = (isWebExtension?: boolean) => ({
+  BACKEND_BASE_URL:
+    isDevelopment
+      ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net")
+      : JSON.stringify("https://api.marquee.activecove.com"),
+  BACKEND_GEO_URL:
+    isDevelopment
+      ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation")
+      : JSON.stringify("https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"),
+  BACKEND_FWDGEO_URL:
+    isDevelopment
+      ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation")
+      : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
+  INSTRUMENTATION_KEY:
+    process.env.MARQUEE_INSTRUMENTATION_KEY
+      ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY)
+      : undefined,
+  INSTRUMENTATION_KEY_NEW:
+    process.env.MARQUEE_INSTRUMENTATION_KEY_NEW
+      ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY_NEW)
+      : undefined,
+  PACKAGE_JSON: pkg,
+  IS_WEB_BUNDLE: Boolean(isWebExtension)
+})
 
 const extensionConfig: Configuration = {
   target: "node",
@@ -44,29 +68,7 @@ const extensionConfig: Configuration = {
     ],
   },
   plugins: [
-    new DefinePlugin({
-      BACKEND_BASE_URL:
-        isDevelopment
-          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net")
-          : JSON.stringify("https://api.marquee.activecove.com"),
-      BACKEND_GEO_URL:
-        isDevelopment
-          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation")
-          : JSON.stringify("https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"),
-      BACKEND_FWDGEO_URL:
-        isDevelopment
-          ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation")
-          : JSON.stringify("https://api.marquee.activecove.com/lookupGoogleLocation"),
-      INSTRUMENTATION_KEY:
-        process.env.MARQUEE_INSTRUMENTATION_KEY
-          ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY)
-          : undefined,
-      INSTRUMENTATION_KEY_NEW:
-        process.env.MARQUEE_INSTRUMENTATION_KEY_NEW
-          ? JSON.stringify(process.env.MARQUEE_INSTRUMENTATION_KEY_NEW)
-          : undefined,
-      PACKAGE_JSON: pkg
-    }),
+    new DefinePlugin(getGlobals()),
     new CopyPlugin({
       patterns: [{ from: "packages/extension/src/*.html", to: "[name][ext]" }]
     }),
@@ -84,7 +86,11 @@ const extensionConfigBrowser: Configuration = {
   },
   resolve: {
     ...extensionConfig.resolve,
-    alias: stdLibBrowser,
+    alias: {
+      ...stdLibBrowser,
+      streamroller: false,
+      './transports/rolling-file': false
+    },
     fallback: {
       fs: false,
       diagnostics_channel: false,
@@ -95,7 +101,8 @@ const extensionConfigBrowser: Configuration = {
     },
   },
   plugins: [
-    ...(extensionConfig.plugins || []),
+    ...(extensionConfig.plugins?.slice(1)!),
+    new DefinePlugin(getGlobals(true)),
     new ProvidePlugin({
       process: stdLibBrowser.process,
       Buffer: [stdLibBrowser.buffer, 'Buffer']

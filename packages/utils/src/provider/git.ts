@@ -1,20 +1,23 @@
 import vscode from 'vscode'
-import { EventEmitter } from 'events'
 import { API, GitExtension, Remote } from '../types/git'
 import type { GitRemote } from '../types'
 
 const sleep = (ms = 100) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export class GitProvider extends EventEmitter implements vscode.Disposable {
+interface GitChangeEvent {
+  branch?: string
+  commit?: string
+  gitUri?: string
+}
+
+export class GitProvider implements vscode.Disposable {
   #git?: API
   #disposables: vscode.Disposable[] = []
   #branch?: string
   #commit?: string
   #gitUri?: string
 
-  constructor (protected _context: vscode.ExtensionContext) {
-    super()
-  }
+  constructor (protected _context: vscode.ExtensionContext) {}
 
   get path () {
     if (!vscode.workspace.workspaceFolders) {
@@ -37,6 +40,11 @@ export class GitProvider extends EventEmitter implements vscode.Disposable {
 
   get gitUri () {
     return this.#gitUri
+  }
+
+  #onDidChange = new vscode.EventEmitter<GitChangeEvent>()
+  get onDidChange (): vscode.Event<GitChangeEvent> {
+    return this.#onDidChange.event
   }
 
   async init () {
@@ -75,7 +83,11 @@ export class GitProvider extends EventEmitter implements vscode.Disposable {
     this.#branch = this.getBranch()
     this.#commit = await this.getCommit()
     this.#gitUri = await this.getGitUri()
-    this.emit('stateUpdate', this)
+    this.#onDidChange.fire({
+      branch: this.#branch,
+      commit: this.#commit,
+      gitUri: this.#gitUri
+    })
   }
 
   getBranch () {

@@ -1,5 +1,6 @@
 // @ts-expect-error mock
 import { sendTelemetryEvent } from '@vscode/extension-telemetry'
+import { Logger } from '@vscode-marquee/utils/extension'
 
 import { activate, deactivate } from '../src'
 
@@ -9,6 +10,7 @@ jest.mock('../src/extension.ts', () => ({
 
 jest.mock('@vscode-marquee/utils/extension', () => ({
   getExtProps: jest.fn().mockReturnValue({ some: 'props' }),
+  Logger: { configure: jest.fn() },
   pkg: { version: '1.2.3' },
   GitProvider: class {
     init = jest.fn()
@@ -23,7 +25,7 @@ test('should activate extension manager', async () => {
 
   let exp = await activate(context)
   expect(sendTelemetryEvent).toBeCalledWith('extensionActivate', expect.any(Object), undefined)
-
+  expect(Logger.configure).toBeCalledTimes(1)
   expect(typeof exp.marquee).toBe('undefined')
 
   process.env.NODE_ENV = 'development'

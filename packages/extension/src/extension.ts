@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import vscode from 'vscode'
 import path from 'path'
-import { WorkspaceType } from '@vscode-marquee/utils/extension'
+import { WorkspaceType, Logger } from '@vscode-marquee/utils/extension'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 import type { Snippet } from '@vscode-marquee/widget-snippets/extension'
 
@@ -15,7 +15,6 @@ import { config, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration } from './types'
 
 export class MarqueeExtension {
-  private readonly _channel = vscode.window.createOutputChannel('Marquee')
   private readonly _stateMgr: StateManager
 
   private readonly gui: MarqueeGui
@@ -25,8 +24,8 @@ export class MarqueeExtension {
   constructor (private readonly context: vscode.ExtensionContext) {
     this.context.subscriptions.push(...this.setupCommands())
 
-    this._stateMgr = new StateManager(this.context, this._channel)
-    this.gui = new MarqueeGui(this.context, this._stateMgr, this._channel)
+    this._stateMgr = new StateManager(this.context)
+    this.gui = new MarqueeGui(this.context, this._stateMgr)
     this.treeView = new TreeView(this.context, this._stateMgr)
     this.view = vscode.window.createTreeView('marquee', {
       treeDataProvider: this.treeView,
@@ -52,10 +51,10 @@ export class MarqueeExtension {
       fs.rm(thirdPartyDir, { force: true, recursive: true }).then(
         () => fs.mkdir(thirdPartyDir)
       ).then(() => (
-        this._channel.appendLine(`Regenerated widget extension dir ${thirdPartyDir}`)
+        Logger.info(`Regenerated widget extension dir ${thirdPartyDir}`)
       )).then(
         () => this.openMarqueeOnStartup(config.get('configuration')),
-        (err) => this._channel.appendLine(`[Error]: ${(err as Error).message}`)
+        (err) => Logger.error(`[Error]: ${(err as Error).message}`)
       )
     } else {
       this.openMarqueeOnStartup(config.get('configuration'))
@@ -89,6 +88,7 @@ export class MarqueeExtension {
       return
     }
 
+    Logger.info('Open Marquee on start up enabled, opening GUI')
     return this.openGui()
   }
 

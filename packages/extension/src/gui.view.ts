@@ -5,7 +5,7 @@ import Channel from 'tangle/webviews'
 import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter } from 'events'
 import { render } from 'eta'
-import { getExtProps } from '@vscode-marquee/utils/extension'
+import { getExtProps, Logger } from '@vscode-marquee/utils/extension'
 import type { Client } from 'tangle'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 
@@ -39,7 +39,6 @@ export class MarqueeGui extends EventEmitter {
   constructor (
     private readonly context: vscode.ExtensionContext,
     private readonly stateMgr: StateManager,
-    private readonly channel: vscode.OutputChannel
   ) {
     super()
     this._template = vscode.workspace.fs.readFile(vscode.Uri.joinPath(this._baseUri, 'dist', 'extension.html'))
@@ -88,7 +87,7 @@ export class MarqueeGui extends EventEmitter {
      * mode if so
      */
     if (this.stateMgr.gui.state.modeName && !this.stateMgr.gui.configuration.modes[this.stateMgr.gui.state.modeName]) {
-      this.channel.appendLine(`Couldn't find selected mode "${this.stateMgr.gui.state.modeName}", switching to default`)
+      Logger.warn(`Couldn't find selected mode "${this.stateMgr.gui.state.modeName}", switching to default`)
       await this.stateMgr.gui.updateState('modeName', DEFAULT_STATE.modeName)
     }
   }
@@ -294,6 +293,7 @@ export class MarqueeGui extends EventEmitter {
   }
 
   private _executeCommand ({ command, args, options }: { command: string, args: any[], options: any }) {
+    Logger.info(`Execute command "${command}" with args: ${(args || []).map((arg) => JSON.stringify(arg)).join(', ')}`)
     telemetry.sendTelemetryEvent('executeCommand', { command })
     if (args && args.length > 0 && command === 'vscode.openFolder') {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options)

@@ -5,7 +5,7 @@ import fetch from 'node-fetch'
 import { v5 as uuid } from 'uuid'
 import { Client } from 'tangle'
 
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, MarkdownDocument, State } from './types'
@@ -27,17 +27,18 @@ const uriToMarkdownDocument = (uri: string, isRemote: boolean) => ({
 })
 
 export class MarkdownExtensionManager extends ExtensionManager<State, Configuration> {
+  #logger: ChildLogger
   #loadedDocument?: MarkdownDocument
 
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
+  constructor (context: vscode.ExtensionContext) {
     super(
       context,
-      channel,
       STATE_KEY,
       DEFAULT_CONFIGURATION,
       DEFAULT_STATE
     )
 
+    this.#logger = Logger.getChildLogger(STATE_KEY)
     // keep watching for changes
     const watcher = vscode.workspace.createFileSystemWatcher(
       '**/*.md',
@@ -156,18 +157,15 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
         if (markdownDocuments.length > 0) {
           this.loadMarkdownContent(markdownDocuments[0])
         }
-      }, (err: any) => this._channel.appendLine(`Error fetching Markdown files: ${(err as Error).message}`))
+      }, (err: any) => this.#logger.error(`Error fetching Markdown files: ${(err as Error).message}`))
     })
 
     return this
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new MarkdownExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new MarkdownExtensionManager(context)
   return {
     marquee: {
       disposable: stateManager,

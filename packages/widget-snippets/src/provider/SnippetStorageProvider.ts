@@ -1,6 +1,7 @@
 import path from 'path'
 import vscode from 'vscode'
 import { EventEmitter } from 'events'
+import { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 
 import Snippet from '../models/Snippet'
 import { STATE_KEY } from '../constants'
@@ -9,15 +10,16 @@ import type { State } from '../types'
 export default class SnippetStorageProvider extends EventEmitter implements vscode.FileSystemProvider {
   static scheme = 'snippet'
 
+  #logger: ChildLogger
   private _emitter = new vscode.EventEmitter<vscode.FileChangeEvent[]>()
   readonly onDidChangeFile: vscode.Event<vscode.FileChangeEvent[]> = this._emitter.event
 
   constructor (
     private _context: vscode.ExtensionContext,
-    private _channel: vscode.OutputChannel,
     private _workspaceId?: string
   ) {
     super()
+    this.#logger = Logger.getChildLogger('SnippetStorageProvider')
   }
 
   watch (): vscode.Disposable {
@@ -45,7 +47,9 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
     }
 
     if (!snippet) {
-      throw new Error(`Couldn't find snippet at ${uri.path}`)
+      const message = `Couldn't find snippet at ${uri.path}`
+      this.#logger.error(message)
+      throw new Error(message)
     }
 
     this.emit('fileStat', snippet.id)
@@ -82,7 +86,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
        * emit with delay so that VS Code can store the file and no prompt appears
        */
       setTimeout(() => this.emit('saveNewSnippet', snippet), 100)
-      this._channel.appendLine(
+      this.#logger.info(
         `New snippet add "${snippetName}"` + (this._workspaceId ? `, to workspace with id ${this._workspaceId}` : '')
       )
       return
@@ -90,7 +94,7 @@ export default class SnippetStorageProvider extends EventEmitter implements vsco
 
     const snippet = this.stat(uri)
     snippet.body = content.toString()
-    this._channel.appendLine(`Updated snippet "${snippet.title}"`)
+    this.#logger.info(`Updated snippet "${snippet.title}"`)
     setTimeout(() => this.emit('updateSnippet', snippet), 100)
   }
 

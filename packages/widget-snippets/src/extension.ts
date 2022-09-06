@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import type { Client } from 'tangle'
 
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, {Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 
 import Snippet from './models/Snippet'
 import ContentProvider from './provider/ContentProvider'
@@ -10,12 +10,14 @@ import { DEFAULT_STATE, STATE_KEY } from './constants'
 import type { SnippetTreeItem, State, Events, Selection } from './types'
 
 export class SnippetExtensionManager extends ExtensionManager<State, {}> {
+  #logger: ChildLogger
   private _contentProvider = new ContentProvider()
   private _fsProvider: SnippetStorageProvider
 
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    super(context, channel, STATE_KEY, {}, DEFAULT_STATE)
-    this._fsProvider = new SnippetStorageProvider(context, channel, this.getActiveWorkspace()?.id)
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, {}, DEFAULT_STATE)
+    this.#logger = Logger.getChildLogger(STATE_KEY)
+    this._fsProvider = new SnippetStorageProvider(context, this.getActiveWorkspace()?.id)
 
     this._disposables.push(
       /**
@@ -117,6 +119,7 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
     const newSnippets = [snippet].concat(this.state.snippets)
     this.updateState('snippets', newSnippets)
     this.broadcast({ snippets: newSnippets })
+    this.#logger.info(`New snippet created with id ${snippet.id}`)
 
     vscode.commands.executeCommand('marquee.refreshCodeActions')
     vscode.window.showInformationMessage(
@@ -242,11 +245,8 @@ export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new SnippetExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new SnippetExtensionManager(context)
 
   return {
     marquee: {

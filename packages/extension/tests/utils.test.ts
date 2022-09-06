@@ -1,4 +1,5 @@
 import vscode from 'vscode'
+import { Logger } from '@vscode-marquee/utils/extension'
 import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/utils'
 
 jest.mock('@vscode-marquee/utils/extension', () => class {
@@ -9,13 +10,11 @@ jest.mock('@vscode-marquee/utils/extension', () => class {
     'marquee.configuration.launchOnStartup': { default: 'marquee.configuration.launchOnStartup' },
     'marquee.configuration.workspaceLaunch': { default: 'marquee.configuration.workspaceLaunch' }
   }
+  static Logger = { info: jest.fn(), warn: jest.fn() } as any
   setBroadcaster = jest.fn()
   broadcast = jest.fn()
   state = 'foobar'
   _disposables = []
-  _channel = {
-    appendLine: jest.fn()
-  }
   configuration = {} as any
   updateConfiguration (prop: string, val: any) {
     this.configuration[prop] = val
@@ -45,7 +44,7 @@ test('activateGUI', () => {
       setKeysForSync: jest.fn()
     }
   }
-  const extExport = activateGUI(context as any, {} as any)
+  const extExport = activateGUI(context as any)
   expect(extExport.marquee.disposable.state).toEqual('foobar')
 })
 
@@ -56,7 +55,7 @@ test('extension manager removes native icon', async () => {
       setKeysForSync: jest.fn()
     }
   }
-  const extExport = activateGUI(context as any, {} as any)
+  const extExport = activateGUI(context as any)
   await extExport.marquee.disposable.updateConfiguration('modes', {
     foobar: {
       icon: { foo: 'bar', native: 123 }
@@ -76,7 +75,7 @@ test('extension manager removes workspace modes', async () => {
       setKeysForSync: jest.fn()
     }
   }
-  const extExport = activateGUI(context as any, {} as any)
+  const extExport = activateGUI(context as any)
   // @ts-expect-error
   vscode.workspace.workspaceFolders = ['/foo/bar']
   ;(vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(JSON.stringify({
@@ -105,7 +104,7 @@ test('extension manager listens on mode changes and applies if not triggered wit
       setKeysForSync: jest.fn()
     }
   }
-  const extExport = activateGUI(context as any, {} as any)
+  const extExport = activateGUI(context as any)
   expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0)
 
   extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(false) })
@@ -116,7 +115,9 @@ test('extension manager listens on mode changes and applies if not triggered wit
 
   await new Promise((resolve) => setTimeout(resolve, 110))
 
-  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(true) })
+  extExport.marquee.disposable['_onModeChange']({
+    affectsConfiguration: jest.fn().mockReturnValue(true)
+  })
   expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(1)
   expect(extExport.marquee.disposable['broadcast']).toBeCalledWith({
     modes: { foo: 'bar' }
@@ -134,7 +135,6 @@ test('linkMarquee', async () => {
   vscode.workspace.lineAtMock.mockImplementation(() => {
     throw new Error('ups')
   })
-  const logSpy = jest.spyOn(console, 'warn')
   await linkMarquee({ item: { path: '/some/file:124' } })
-  expect(logSpy).toBeCalledWith('Marquee: ups')
+  expect(Logger.warn).toBeCalledWith('Marquee: ups')
 })

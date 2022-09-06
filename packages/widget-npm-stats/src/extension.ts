@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import { format } from 'util'
 import Axios from 'axios'
-import ExtensionManager from '@vscode-marquee/utils/extension'
+import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/extension'
 import type { Client } from 'tangle'
 
 import { formatDate } from './utils'
@@ -10,10 +10,12 @@ import type { Configuration, State, JSONObject, StatResponse } from './types'
 
 const STATE_KEY = 'widgets.npm-stats'
 export class NPMStatsExtensionManager extends ExtensionManager<State, Configuration> {
+  #logger: ChildLogger
   private _isFetching = false
 
-  constructor (context: vscode.ExtensionContext, channel: vscode.OutputChannel) {
-    super(context, channel, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  constructor (context: vscode.ExtensionContext) {
+    super(context, STATE_KEY, DEFAULT_CONFIGURATION, DEFAULT_STATE)
+    this.#logger = Logger.getChildLogger(STATE_KEY)
     this._checkWorkspaceForNPMPackage()
   }
 
@@ -39,7 +41,7 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
       const pkgJson = vscode.Uri.joinPath(workspacePath, 'package.json')
       const pkgJsonContent: JSONObject = JSON.parse((await vscode.workspace.fs.readFile(pkgJson)).toString())
       if (pkgJsonContent.name) {
-        this._channel.appendLine(`Detected NPM workspace, adding ${pkgJsonContent.name as string} to the configuration`)
+        this.#logger.info(`Detected NPM workspace, adding ${pkgJsonContent.name as string} to the configuration`)
         await this.updateConfiguration(
           'packageNames',
           [pkgJsonContent.name as string],
@@ -95,7 +97,7 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
         formatDate(this.configuration.until || DEFAULT_CONFIGURATION.until)
       )
 
-      this._channel.appendLine(`Fetch NPM Stats from ${url}`)
+      this.#logger.info(`Fetch NPM Stats from ${url}`)
       const result = await Axios.get(url).then(
         (res) => res.data as StatResponse,
         (err) => err as Error
@@ -123,6 +125,7 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
         isLoading: false,
         error: { message: err.message } as Error
       } as State & Configuration)
+      this.#logger.error(err.message)
     }
   }
 
@@ -138,11 +141,8 @@ export class NPMStatsExtensionManager extends ExtensionManager<State, Configurat
   }
 }
 
-export function activate (
-  context: vscode.ExtensionContext,
-  channel: vscode.OutputChannel
-) {
-  const stateManager = new NPMStatsExtensionManager(context, channel)
+export function activate (context: vscode.ExtensionContext) {
+  const stateManager = new NPMStatsExtensionManager(context)
   return {
     marquee: {
       disposable: stateManager,

@@ -11,7 +11,8 @@ jest.mock('../src/utils', () => ({ activateGUI: () => ({ marquee: { disposable: 
 jest.mock('@vscode-marquee/utils/extension', () => ({
   activate: () => ({ marquee: { disposable: require('disposableManager') }}),
   pkg: { version: '1.2.3' },
-  DEPRECATED_GLOBAL_STORE_KEY: 'foobar'
+  DEPRECATED_GLOBAL_STORE_KEY: 'foobar',
+  Logger: { error: jest.fn(), info: jest.fn() }
 }))
 jest.mock('@vscode-marquee/widget-welcome/extension', () => (
   { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
@@ -60,13 +61,13 @@ beforeEach(() => {
 })
 
 test('StateManager initiation', () => {
-  const stateManager = new StateManager(context, 'channel' as any)
+  const stateManager = new StateManager(context)
   expect(stateManager['_subscriptions']).toMatchSnapshot()
   expect(context.globalState.update).toBeCalledWith('foobar', undefined)
 })
 
 test('_import', async () => {
-  const stateManager = new StateManager(context, 'channel' as any)
+  const stateManager = new StateManager(context)
   await stateManager['_import']()
   expect(vscode.window.showErrorMessage).toBeCalledWith(
     'Error importing file: Invalid Marquee Configuration'
@@ -75,9 +76,9 @@ test('_import', async () => {
 })
 
 test('_import transforms old config types', async () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any);
-  (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }]);
-  (vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(encoder.encode(JSON.stringify(oldConfigFile)))
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
+  ;(vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }])
+  ;(vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(encoder.encode(JSON.stringify(oldConfigFile)))
   await stateManager['_import']()
   expect(manager.updateConfiguration.mock.calls).toMatchSnapshot()
   expect(manager.updateState.mock.calls).toMatchSnapshot()
@@ -87,23 +88,23 @@ test('_import transforms old config types', async () => {
 })
 
 test('_export', async () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any);
-  (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }])
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
+  ;(vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }])
   await stateManager['_export']()
   expect(decoder.decode((vscode.workspace.fs.writeFile as jest.Mock).mock.calls[0][1])).toMatchSnapshot()
   expect(vscode.window.showInformationMessage).toBeCalledWith('Successfully exported Marquee state to /bar/foo')
 })
 
 test('_export with error', async () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any);
-  (vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }]);
-  (vscode.workspace.fs.writeFile as jest.Mock).mockRejectedValue(new Error('upps'))
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
+  ;(vscode.window.showOpenDialog as jest.Mock).mockResolvedValue([{ fsPath: '/foo/bar' }])
+  ;(vscode.workspace.fs.writeFile as jest.Mock).mockRejectedValue(new Error('upps'))
   await stateManager['_export']()
   expect(vscode.window.showErrorMessage).toBeCalledWith('Error writing export file: upps')
 })
 
 test('access to individual disposables', () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any)
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   expect(stateManager.projectWidget).toEqual(manager)
   expect(stateManager.notesWidget).toEqual(manager)
   expect(stateManager.todoWidget).toEqual(manager)
@@ -113,20 +114,20 @@ test('access to individual disposables', () => {
 })
 
 test('clearAll', async () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any)
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   await stateManager.clearAll()
   expect(manager.clear).toBeCalledTimes(12)
 })
 
 test('onWidget', () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any)
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   stateManager.onWidget('foobar', () => {})
   expect(manager.on).toBeCalledTimes(12)
   expect(manager.on).toBeCalledWith('foobar', expect.any(Function))
 })
 
 test('dispose', async () => {
-  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any, 'channel' as any)
+  const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   stateManager['_subscriptions'] = [{ dispose: jest.fn() }]
   await stateManager.dispose()
   expect(stateManager['_subscriptions'][0].dispose).toBeCalledTimes(1)

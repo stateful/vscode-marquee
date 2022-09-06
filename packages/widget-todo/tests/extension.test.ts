@@ -15,10 +15,7 @@ jest.mock('os', () => ({
 }))
 
 test('generate proper default state and configuration', () => {
-  const manager = new TodoExtensionManager(
-    context as any,
-    {} as any
-  )
+  const manager = new TodoExtensionManager(context as any)
   expect(manager.configuration).toMatchSnapshot()
   expect(manager.state).toMatchSnapshot()
   expect(vscode.languages.createDiagnosticCollection).toBeCalledTimes(1)
@@ -38,18 +35,12 @@ describe('_addTodo', () => {
   })
 
   it('with no active text editor', () => {
-    const manager = new TodoExtensionManager(
-      context as any,
-      {} as any
-    )
+    const manager = new TodoExtensionManager(context as any)
     expect(manager['_addTodo']({} as any)).toBe(undefined)
   })
 
   it('with zero length body', () => {
-    const manager = new TodoExtensionManager(
-      context as any,
-      {} as any
-    )
+    const manager = new TodoExtensionManager(context as any)
 
     vscode.window.activeTextEditor = {
       document: {
@@ -62,10 +53,7 @@ describe('_addTodo', () => {
   })
 
   it('sets todo properly', () => {
-    const manager = new TodoExtensionManager(
-      context as any,
-      {} as any
-    )
+    const manager = new TodoExtensionManager(context as any)
     manager['_gitProvider'] = {
       branch: 'foobar',
       commit: 'somecommit'

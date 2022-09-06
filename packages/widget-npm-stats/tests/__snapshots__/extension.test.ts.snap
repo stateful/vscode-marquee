@@ -13,7 +13,7 @@ Array [
   Array [
     "error",
     Object {
-      "message": "this._channel.appendLine is not a function",
+      "message": "Fetching NPM stats failed: Network Error",
     },
   ],
 ]
@@ -32,7 +32,7 @@ Array [
   Array [
     "error",
     Object {
-      "message": "this._channel.appendLine is not a function",
+      "message": "Fetching NPM stats failed: Network Error",
     },
   ],
 ]

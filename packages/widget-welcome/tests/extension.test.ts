@@ -21,7 +21,6 @@ jest.mock('vscode', () => ({
     showErrorMessage: jest.fn().mockResolvedValue({})
   }
 }))
-const channel = { appendLine: jest.fn() }
 
 test('should return expected interface', async () => {
   const tangle: any = {
@@ -36,7 +35,7 @@ test('should return expected interface', async () => {
   // @ts-expect-error
   context.globalState.setKeysForSync = jest.fn()
   context.globalState.set('persistence', {})
-  const result = activate(context as any, channel as any)
+  const result = activate(context as any)
 
   expect(result.marquee).toBeTruthy()
   result.marquee.setup(tangle)

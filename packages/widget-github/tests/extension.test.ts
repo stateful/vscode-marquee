@@ -6,7 +6,7 @@ test('returns proper interface', () => {
       get: jest.fn().mockReturnValue({})
     }
   }
-  const exp = activate(context as any, {} as any)
+  const exp = activate(context as any)
   expect(Object.keys(exp.marquee)).toEqual(
     ['disposable', 'defaultState', 'defaultConfiguration', 'setup']
   )
@@ -22,7 +22,7 @@ test('should upgrade config from v2 to v3', () => {
       })
     }
   }
-  const exp = activate(context as any, {} as any)
+  const exp = activate(context as any)
   expect(exp.marquee.disposable.updateConfiguration)
     .toBeCalledWith('language', 'HTML')
   expect(exp.marquee.disposable.updateConfiguration)

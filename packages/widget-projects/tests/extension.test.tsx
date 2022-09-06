@@ -21,18 +21,18 @@ jest.mock('@vscode-marquee/utils/extension', () => class ExtensionManagerMock {
 
 test('should update state with new workspaces', () => {
   const ws = { id: 'foobar', path: '/foo/bar' }
-  const manager = new ProjectsExtensionManager({} as any, {} as any)
+  const manager = new ProjectsExtensionManager({} as any)
   expect(manager.updateState).toBeCalledWith('workspaces', [ws])
 })
 
 test('should count workspace visit', () => {
   const ws = { id: 'foobar', path: '/foo/bar' }
-  const manager = new ProjectsExtensionManager(ws as any, {} as any)
+  const manager = new ProjectsExtensionManager(ws as any)
   expect(manager.updateState).toBeCalledWith('visitCount', { [ws.id]: 1 })
 })
 
 test('should remember last visit', () => {
   const ws = { id: 'foobar', path: '/foo/bar' }
-  const manager = new ProjectsExtensionManager(ws as any, {} as any)
+  const manager = new ProjectsExtensionManager(ws as any)
   expect(manager.updateState).toBeCalledWith('lastVisited', { [ws.id]: expect.any(Number) })
 })
