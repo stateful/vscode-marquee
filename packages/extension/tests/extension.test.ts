@@ -169,3 +169,20 @@ test('_editTreeItem', async () => {
     `parsedUri-snippet:${filePath}`)
   expect(vscode.window.showTextDocument).toBeCalledTimes(2)
 })
+
+test('_onColorThemeChange', () => {
+  const context: any = { subscriptions: [], extensionPath: '/foo/bar' }
+  const ext = new MarqueeExtension(context)
+  // @ts-expect-error
+  ext['gui'] = {
+    isActive: jest.fn(),
+    close: jest.fn(),
+    open: jest.fn()
+  }
+  ext['_onColorThemeChange']()
+  expect(ext['gui'].close).toBeCalledTimes(0)
+
+  ;(ext['gui'].isActive as jest.Mock).mockReturnValue(true)
+  ext['_onColorThemeChange']()
+  expect(vscode.window.showInformationMessage).toBeCalledTimes(1)
+})

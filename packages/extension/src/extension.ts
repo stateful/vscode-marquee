@@ -68,8 +68,9 @@ export class MarqueeExtension {
 
     this.gui.close()
     vscode.window.showInformationMessage(
-      'Please reload your Marquee View to apply the new theme.'
-    )
+      'Please reload your Marquee View to apply the new theme.',
+      'Open Marquee'
+    ).then((item) => item && this.gui.open())
   }
 
   /**
