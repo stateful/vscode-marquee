@@ -9,6 +9,7 @@ import { closest } from 'fastest-levenshtein'
 
 import { Logger } from './logger'
 import { GitProvider } from './provider/git'
+import { StateManager } from './state/manager'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
 import { WorkspaceType, ProjectItem } from './types'
 import type { Configuration, State, Workspace, ProjectItemTypes } from './types'
@@ -19,8 +20,9 @@ const TELEMETRY_CONFIG_ID = 'telemetry'
 const TELEMETRY_CONFIG_ENABLED_ID = 'enableTelemetry'
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
+  #stateManager: StateManager<State>
+
   protected _tangle?: Client<State & Configuration>
-  protected _state: State
   protected _configuration: Configuration
   protected _disposables: vscode.Disposable[] = [
     vscode.workspace.onDidChangeConfiguration(this._onConfigChange.bind(this))
@@ -37,21 +39,13 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     private _defaultState: State
   ) {
     super()
+    this.#stateManager = new StateManager(this._context, this._key, this._defaultState)
+    this._context.subscriptions.push(this.#stateManager)
+
     this._gitProvider = this._context.subscriptions.find((s) => s instanceof GitProvider) as GitProvider
     const config = vscode.workspace.getConfiguration('marquee')
 
     const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {})
-    this._state = {
-      ...this._defaultState,
-      ...pick(oldGlobalStore, Object.keys(this._defaultState as any)),
-      ...this._context.globalState.get<State>(this._key)
-    }
-
-    /**
-     * preserve state across different machines
-     */
-    this._context.globalState.setKeysForSync(Object.keys(this._defaultState as any))
-
     this._configuration = {
       ...this._defaultConfiguration,
       ...config.get<Configuration>(this._key),
@@ -60,7 +54,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   get state () {
-    return this._state
+    return this.#stateManager.state
   }
 
   get configuration () {
@@ -144,35 +138,11 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._isConfigUpdateListenerDisabled = false
   }
 
-  /**
-   * Update extension state
-   * @param prop state property name
-   * @param val new state property value
-   * @param broadcastState set to true if you want to broadcast this state change
-   *                       (only needed when updating state from the extension host)
-   */
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T], broadcastState?: boolean) {
-    /**
-     * check if we have to update
-     */
-    if (
-      typeof val !== 'undefined' &&
-      typeof this._state[prop] !== 'undefined' &&
-      hash(this._state[prop] as any) === hash(val as any)
-    ) {
-      return
-    }
-
-    Logger.info(`Update state "${prop.toString()}": ${val as any as string}`)
-    this._state[prop] = val
-    await this.emitStateUpdate(broadcastState)
-  }
-
-  async emitStateUpdate (broadcastState?: boolean) {
-    await this._context.globalState.update(this._key, this._state)
-    this.emit('stateUpdate', this._state)
+    await this.#stateManager.updateState(prop, val)
+    this.emit('stateUpdate', this.#stateManager.state)
     if (broadcastState && this._tangle) {
-      this._tangle.broadcast(this._state as State & Configuration)
+      this._tangle.broadcast(this.#stateManager.state as State & Configuration)
     }
   }
 
@@ -183,10 +153,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     this._isConfigUpdateListenerDisabled = true
 
     const config = vscode.workspace.getConfiguration('marquee')
-    this._state = { ...this._defaultState }
-    await this._context.globalState.update(this._key, this._state)
-    await this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined)
-    this.emit('stateUpdate', this._state)
+    // this.emit('stateUpdate', this._state)
 
     this._configuration = { ...this._defaultConfiguration }
     await Promise.all(
@@ -371,8 +338,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
       )
     }
 
-    this._state[itemName as keyof State] = [modifiedItem, ...otherItems] as any as State[keyof State]
-    return this.emitStateUpdate(true)
+    return this.updateState(itemName as keyof State, [modifiedItem, ...otherItems] as any as State[keyof State], true)
   }
 
   reset () {
