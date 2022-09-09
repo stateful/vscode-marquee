@@ -9,19 +9,17 @@ import { closest } from 'fastest-levenshtein'
 
 import { Logger } from './logger'
 import { GitProvider } from './provider/git'
-import { StateManager } from './state/manager'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DEPRECATED_GLOBAL_STORE_KEY, EXTENSION_ID, pkg } from './constants'
-import { WorkspaceType, ProjectItem } from './types'
+import { WorkspaceType, ProjectItem, StateManager } from './types'
 import type { Configuration, State, Workspace, ProjectItemTypes } from './types'
 
 const NAMESPACE = '144fb8a8-7dbf-4241-8795-0dc12b8e2fb6'
 const CONFIGURATION_TARGET = vscode.ConfigurationTarget.Global
 const TELEMETRY_CONFIG_ID = 'telemetry'
 const TELEMETRY_CONFIG_ENABLED_ID = 'enableTelemetry'
+export const STATE_KEY = 'configuration'
 
 export default class ExtensionManager<State, Configuration> extends EventEmitter implements vscode.Disposable {
-  #stateManager: StateManager<State>
-
   protected _tangle?: Client<State & Configuration>
   protected _configuration: Configuration
   protected _disposables: vscode.Disposable[] = [
@@ -36,11 +34,9 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     protected _context: vscode.ExtensionContext,
     protected _key: string,
     private _defaultConfiguration: Configuration,
-    private _defaultState: State
+    private _stateManager: StateManager<State>
   ) {
     super()
-    this.#stateManager = new StateManager(this._context, this._key, this._defaultState)
-    this._context.subscriptions.push(this.#stateManager)
 
     this._gitProvider = this._context.subscriptions.find((s) => s instanceof GitProvider) as GitProvider
     const config = vscode.workspace.getConfiguration('marquee')
@@ -54,7 +50,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   get state () {
-    return this.#stateManager.state
+    return this._stateManager.get()
   }
 
   get configuration () {
@@ -139,10 +135,10 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
   }
 
   async updateState <T extends keyof State = keyof State>(prop: T, val: State[T], broadcastState?: boolean) {
-    await this.#stateManager.updateState(prop, val)
-    this.emit('stateUpdate', this.#stateManager.state)
+    await this._stateManager.set(prop, val)
+    this.emit('stateUpdate', this.state)
     if (broadcastState && this._tangle) {
-      this._tangle.broadcast(this.#stateManager.state as State & Configuration)
+      this._tangle.broadcast(this.state as State & Configuration)
     }
   }
 
@@ -232,7 +228,7 @@ export default class ExtensionManager<State, Configuration> extends EventEmitter
     /**
      * listen on state changes
      */
-    for (const stateProp of Object.keys(this._defaultState as any)) {
+    for (const stateProp of Object.keys(DEFAULT_STATE as any)) {
       const s = stateProp as keyof State
       this._subscriptions.push(this._tangle.listen(s, (val) => this.updateState(s, val)))
     }
@@ -368,36 +364,40 @@ export class GlobalExtensionManager extends ExtensionManager<State, Configuratio
   }
 }
 
-export function activate (context: vscode.ExtensionContext) {
-  const stateManager = new GlobalExtensionManager(
+export async function activate (
+  context: vscode.ExtensionContext,
+  getStateManager: (defaultState: State) => Promise<StateManager<State>>
+) {
+  const stateManager = await getStateManager(DEFAULT_STATE)
+  const widgetManager = new GlobalExtensionManager(
     context,
-    'configuration',
+    STATE_KEY,
     DEFAULT_CONFIGURATION,
-    DEFAULT_STATE
+    stateManager
   )
-  const aws = stateManager.getActiveWorkspace()
+  const aws = widgetManager.getActiveWorkspace()
 
   /**
    * transform configurations from Marquee v2 -> v3
    */
   const oldGlobalStore = context.globalState.get<any>(DEPRECATED_GLOBAL_STORE_KEY, {})
   if (oldGlobalStore.bg) {
-    stateManager.updateConfiguration('background', oldGlobalStore.bg)
+    widgetManager.updateConfiguration('background', oldGlobalStore.bg)
   }
 
   /**
    * set global state to true if we don't have a workspace
    */
   if (!aws) {
-    stateManager.updateState('globalScope', true)
+    widgetManager.updateState('globalScope', true)
   }
 
   return {
     marquee: {
-      disposable: stateManager,
-      defaultState: stateManager.state,
-      defaultConfiguration: stateManager.configuration,
-      setup: stateManager.setBroadcaster.bind(stateManager)
+      disposable: widgetManager,
+      defaultState: widgetManager.state,
+      defaultConfiguration: widgetManager.configuration,
+      setup: widgetManager.setBroadcaster.bind(widgetManager)
     }
   }
 }

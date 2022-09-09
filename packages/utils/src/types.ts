@@ -108,3 +108,9 @@ export interface GitRemote {
   name: string;
   url: string;
 }
+
+export interface StateManager<State> {
+  get (): State
+  get (property: keyof State): State[keyof State]
+  set (property: keyof State, value: State[keyof State]): Promise<void>
+}

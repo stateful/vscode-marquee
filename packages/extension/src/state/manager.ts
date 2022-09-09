@@ -1,44 +1,80 @@
 import vscode from 'vscode'
+import pick from 'lodash.pick'
 
 import ExtensionManager, {
   Logger,
+  STATE_KEY as keyUtils,
   pkg as packageJson,
   activate as activateUtils,
   State as GlobalState,
+  StateManager as WidgetStateManager,
   Configuration as GlobalConfiguration,
   DEPRECATED_GLOBAL_STORE_KEY,
   MarqueeEvents
 } from '@vscode-marquee/utils/extension'
-import { activate as activateWelcomeWidget } from '@vscode-marquee/widget-welcome/extension'
-import { activate as activateNewsWidget } from '@vscode-marquee/widget-news/extension'
-import { activate as activateProjectsWidget, ProjectsExtensionManager } from '@vscode-marquee/widget-projects/extension'
-import { activate as activateGitHubWidget } from '@vscode-marquee/widget-github/extension'
-import { activate as activateWeatherWidget } from '@vscode-marquee/widget-weather/extension'
-import { activate as activateTodoWidget, TodoExtensionManager } from '@vscode-marquee/widget-todo/extension'
-import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@vscode-marquee/widget-markdown/extension'
-import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
-import { activate as activateNPMStatsWidget } from '@vscode-marquee/widget-npm-stats/extension'
-import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
+import {
+  STATE_KEY as keyWelcomeWidget,
+  activate as activateWelcomeWidget
+} from '@vscode-marquee/widget-welcome/extension'
+import {
+  STATE_KEY as keyNewsWidget,
+  activate as activateNewsWidget
+} from '@vscode-marquee/widget-news/extension'
+import {
+  STATE_KEY as keyProjectsWidget,
+  activate as activateProjectsWidget, ProjectsExtensionManager
+} from '@vscode-marquee/widget-projects/extension'
+import {
+  STATE_KEY as keyGitHubWidget,
+  activate as activateGitHubWidget
+} from '@vscode-marquee/widget-github/extension'
+import {
+  STATE_KEY as keyWeatherWidget,
+  activate as activateWeatherWidget
+} from '@vscode-marquee/widget-weather/extension'
+import {
+  STATE_KEY as keyTodoWidget,
+  activate as activateTodoWidget, TodoExtensionManager
+} from '@vscode-marquee/widget-todo/extension'
+import {
+  STATE_KEY as keyMarkdownWidget,
+  activate as activateMarkdownWidget, MarkdownExtensionManager
+} from '@vscode-marquee/widget-markdown/extension'
+import {
+  STATE_KEY as keyNotesWidget,
+  activate as activateNotesWidget, NoteExtensionManager
+} from '@vscode-marquee/widget-notes/extension'
+import {
+  STATE_KEY as keyNPMStatsWidget,
+  activate as activateNPMStatsWidget
+} from '@vscode-marquee/widget-npm-stats/extension'
+import {
+  STATE_KEY as keySnippetsWidget,
+  activate as activateSnippetsWidget, SnippetExtensionManager
+} from '@vscode-marquee/widget-snippets/extension'
 
-import telemetry from './telemetry'
-import { activateGUI, GUIExtensionManager } from './utils'
-import { FILE_FILTER, CONFIG_FILE_TYPE } from './constants'
-import type { ExtensionExport } from './types'
+import provider from './provider'
+import telemetry from '../telemetry'
+import { activateGUI, GUIExtensionManager, STATE_KEY as keyGUI } from '../utils'
+import { FILE_FILTER, CONFIG_FILE_TYPE } from '../constants'
+import { VSCodeState } from './provider/vscode'
+import type { StateProvider, WidgetKeys, WidgetStates } from './types'
+import type { ExtensionExport } from '../types'
 
 const MARQUEE_WIDGETS = {
-  '@vscode-marquee/utils': activateUtils,
-  '@vscode-marquee/gui': activateGUI,
-  '@vscode-marquee/welcome-widget': activateWelcomeWidget,
-  '@vscode-marquee/news-widget': activateNewsWidget,
-  '@vscode-marquee/projects-widget': activateProjectsWidget,
-  '@vscode-marquee/github-widget': activateGitHubWidget,
-  '@vscode-marquee/weather-widget': activateWeatherWidget,
-  '@vscode-marquee/todo-widget': activateTodoWidget,
-  '@vscode-marquee/markdown-widget': activateMarkdownWidget,
-  '@vscode-marquee/notes-widget': activateNotesWidget,
-  '@vscode-marquee/npm-stats-widget': activateNPMStatsWidget,
-  '@vscode-marquee/snippets-widget': activateSnippetsWidget
-}
+  '@vscode-marquee/utils': [keyUtils, activateUtils],
+  '@vscode-marquee/gui': [keyGUI, activateGUI],
+  '@vscode-marquee/welcome-widget': [keyWelcomeWidget, activateWelcomeWidget],
+  '@vscode-marquee/news-widget': [keyNewsWidget, activateNewsWidget],
+  '@vscode-marquee/projects-widget': [keyProjectsWidget, activateProjectsWidget],
+  '@vscode-marquee/github-widget': [keyGitHubWidget, activateGitHubWidget],
+  '@vscode-marquee/weather-widget': [keyWeatherWidget, activateWeatherWidget],
+  '@vscode-marquee/todo-widget': [keyTodoWidget, activateTodoWidget],
+  '@vscode-marquee/markdown-widget': [keyMarkdownWidget, activateMarkdownWidget],
+  '@vscode-marquee/notes-widget': [keyNotesWidget, activateNotesWidget],
+  '@vscode-marquee/npm-stats-widget': [keyNPMStatsWidget, activateNPMStatsWidget],
+  '@vscode-marquee/snippets-widget': [keySnippetsWidget, activateSnippetsWidget]
+} as const
 
 interface ExportFormat<T = any> {
   type: typeof CONFIG_FILE_TYPE
@@ -48,14 +84,17 @@ interface ExportFormat<T = any> {
 }
 
 export default class StateManager implements vscode.Disposable {
+  #provider: StateProvider[] = []
+  #state: Record<WidgetKeys, WidgetStates[WidgetKeys]> = {} as Record<WidgetKeys, WidgetStates[WidgetKeys]>
+
   public readonly widgetExtensions = Object.entries(MARQUEE_WIDGETS).map(
     /**
      * this is to make Marquee core widget look like external widgets
      * so that the interface is the same
      */
-    ([id, activate]) => ({
+    ([id, [key, activate]]) => ({
       id,
-      exports: activate(this._context),
+      exports: activate(this._context, this.#initState.bind(this, key)),
       isActive: true,
       packageJSON: { marquee: { widget: true } }
     }) as Pick<vscode.Extension<ExtensionExport>, 'id' | 'exports' | 'isActive' | 'packageJSON'>
@@ -73,11 +112,58 @@ export default class StateManager implements vscode.Disposable {
       vscode.commands.registerCommand('marquee.jsonExport', this._export.bind(this))
     )
 
+    this.#provider.push(
+      /**
+       * always set VS Code provider since we always have access to it
+       */
+      new VSCodeState(this._context),
+      /**
+       * set other providers given they are available and registered through authentification
+       */
+      ...(this._context.workspaceState.get<string[]>('stateProvider') || [])
+        .filter((p) => Boolean(provider[p]))
+        .map((p) => new provider[p](_context))
+    )
+
+    // const modeName = this.#provider[0].getState('configuration', 'modeName')
+    // this.#provider[0].setState('configuration.globalScope', true)
+    // this.#provider[0].setState('configuration', {
+    //   globalScope: true
+    // })
+    // const a = this.#provider[0].getState('widgets.projects', 'visitCount')
+
+
+  }
+
+  async #initState<Key extends WidgetKeys, State extends WidgetStates[Key]> (key: WidgetKeys, defaultState: State) {
+    const oldGlobalStore = this._context.globalState.get<object>(DEPRECATED_GLOBAL_STORE_KEY, {})
+    this.#state[key] = {
+      ...defaultState,
+      ...pick(oldGlobalStore, Object.keys(defaultState as any)),
+      ...this._context.globalState.get<State>(key)
+    }
+    await Promise.all(this.#provider.map((p) => p.setState(key, this.#state[key])))
+
     /**
      * delete old global state so that configurations stored in the globalState in v2
      * can be applied with v3
      */
-    this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined)
+    await this._context.globalState.update(DEPRECATED_GLOBAL_STORE_KEY, undefined)
+
+    const manager: WidgetStateManager<State> = {
+      get: (property?: keyof State) => {
+        if (property) {
+          return this.#state[key][property]
+        }
+
+        return this.#state[key]
+      },
+
+      set: async (property: keyof State extends string ? keyof State : never, value: State[keyof State]) => {
+        await Promise.all(this.#provider.map((p) => p.setState(property, value)))
+      }
+    }
+    return manager
   }
 
   private async _import () {

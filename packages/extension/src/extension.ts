@@ -6,7 +6,7 @@ import type { MarqueeEvents } from '@vscode-marquee/utils'
 import type { Snippet } from '@vscode-marquee/widget-snippets/extension'
 
 import telemetry from './telemetry'
-import StateManager from './stateManager'
+import StateManager from './state/manager'
 import { MarqueeGui } from './gui.view'
 import { TreeView } from './tree.view'
 import { ContextMenu } from './tree.view'

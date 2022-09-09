@@ -36,6 +36,8 @@ export interface Configuration {
   trendFilter?: string
 }
 
+export interface State {}
+
 export interface ContextTypes extends Configuration {
   trends: Trend[]
   isFetching: boolean

@@ -5,7 +5,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State, Todo } from './types'
 
-const STATE_KEY = 'widgets.todo'
+export const STATE_KEY = 'widgets.todo'
 export const CODE_TODO = 'marquee_todo'
 export const TODO = /(TODO|ToDo|Todo|todo)[:]? /
 

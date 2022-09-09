@@ -5,7 +5,7 @@ import type { Snippet } from '@vscode-marquee/widget-snippets/extension'
 import type { Note } from '@vscode-marquee/widget-notes/extension'
 import type { Todo } from '@vscode-marquee/widget-todo/extension'
 
-import StateManager from './stateManager'
+import StateManager from './state/manager'
 import { isExpanded, filterByScope } from './utils'
 
 const DEFAULT_STATE: State = { todos: [], snippets: [], notes: [] }

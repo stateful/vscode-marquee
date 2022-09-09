@@ -6,8 +6,10 @@ import ExtensionManager, {Logger, ChildLogger } from '@vscode-marquee/utils/exte
 import Snippet from './models/Snippet'
 import ContentProvider from './provider/ContentProvider'
 import SnippetStorageProvider from './provider/SnippetStorageProvider'
-import { DEFAULT_STATE, STATE_KEY } from './constants'
+import { DEFAULT_STATE } from './constants'
 import type { SnippetTreeItem, State, Events, Selection } from './types'
+
+export const STATE_KEY = 'widgets.snippets'
 
 export class SnippetExtensionManager extends ExtensionManager<State, {}> {
   #logger: ChildLogger

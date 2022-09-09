@@ -5,7 +5,7 @@ import ExtensionManager, { DEPRECATED_GLOBAL_STORE_KEY } from '@vscode-marquee/u
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration } from './types'
 
-const STATE_KEY = 'widgets.weather'
+export const STATE_KEY = 'widgets.weather'
 
 export function activate (context: vscode.ExtensionContext) {
   const stateManager = new ExtensionManager<{}, Configuration>(
@@ -33,3 +33,5 @@ export function activate (context: vscode.ExtensionContext) {
     }
   }
 }
+
+export * from './types'

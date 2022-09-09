@@ -246,7 +246,7 @@ import ExtensionManager from '@vscode-marquee/utils/extension'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State } from './types'
 
-const STATE_KEY = 'widgets.foobar'
+export const STATE_KEY = 'widgets.foobar'
 
 export function activate (
   context: vscode.ExtensionContext,

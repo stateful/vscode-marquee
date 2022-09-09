@@ -5,7 +5,7 @@ import ExtensionManager from '@vscode-marquee/utils/extension'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { State, Configuration } from './types'
 
-const STATE_KEY = 'widgets.projects'
+export const STATE_KEY = 'widgets.projects'
 
 export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext) {

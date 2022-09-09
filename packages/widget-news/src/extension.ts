@@ -5,7 +5,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './constants'
 import type { Configuration, FeedItem, State } from './types'
 
-const STATE_KEY = 'widgets.news'
+export const STATE_KEY = 'widgets.news'
 const DEFAULT_HNRSS_CHANNELS = ['HN Newest', 'HN Ask', 'HN Show', 'HN Jobs', 'HN Best']
 const DEPRECATED_HNRSS_URL = 'https://hnrss.org'
 
@@ -102,3 +102,5 @@ export function activate (context: vscode.ExtensionContext) {
     },
   }
 }
+
+export * from './types'

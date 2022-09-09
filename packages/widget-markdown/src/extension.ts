@@ -10,7 +10,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, MarkdownDocument, State } from './types'
 
-const STATE_KEY = 'widgets.markdown'
+export const STATE_KEY = 'widgets.markdown'
 const FILE_UUID_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'
 const MARKDOWN_FETCH_ERROR_MESSAGE = 'Couldn\'t fetch markdown file!'
 
@@ -189,3 +189,5 @@ export async function fetchRemoteDocument (url: string) {
   const data = await res.text()
   return data
 }
+
+export * from './types'

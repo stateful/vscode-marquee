@@ -9,7 +9,7 @@ import type { State, Events, Configuration, Trick } from './types'
 
 declare const BACKEND_BASE_URL: string
 
-const STATE_KEY = 'widgets.welcome'
+export const STATE_KEY = 'widgets.welcome'
 const FETCH_INTERVAL = 5 * 1000 * 60 // 5min
 const AXIOS_RETRIES = process.env.NODE_ENV === 'development'
   ? 1
@@ -158,3 +158,5 @@ export function activate (context: vscode.ExtensionContext) {
     }
   }
 }
+
+export * from './types'
