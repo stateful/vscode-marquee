@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WidgetLayout filters non display widgets 1`] = `
-Object {
-  "default": Object {
-    "layouts": Object {
-      "lg": Array [
-        Object {
+{
+  "default": {
+    "layouts": {
+      "lg": [
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -16,7 +16,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -27,7 +27,7 @@ Object {
           "x": 8,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -38,7 +38,7 @@ Object {
           "x": 8,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -49,7 +49,7 @@ Object {
           "x": 4,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -60,7 +60,7 @@ Object {
           "x": 0,
           "y": 12,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -71,7 +71,7 @@ Object {
           "x": 0,
           "y": 24,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -82,7 +82,7 @@ Object {
           "x": 6,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -94,8 +94,8 @@ Object {
           "y": 0,
         },
       ],
-      "md": Array [
-        Object {
+      "md": [
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -106,7 +106,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -117,7 +117,7 @@ Object {
           "x": 6,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -128,7 +128,7 @@ Object {
           "x": 7,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -139,7 +139,7 @@ Object {
           "x": 3,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -150,7 +150,7 @@ Object {
           "x": 0,
           "y": 12,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -161,7 +161,7 @@ Object {
           "x": 0,
           "y": 24,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -172,7 +172,7 @@ Object {
           "x": 5,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -184,8 +184,8 @@ Object {
           "y": 0,
         },
       ],
-      "sm": Array [
-        Object {
+      "sm": [
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -196,7 +196,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -207,7 +207,7 @@ Object {
           "x": 3,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -218,7 +218,7 @@ Object {
           "x": 3,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -229,7 +229,7 @@ Object {
           "x": 0,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -240,7 +240,7 @@ Object {
           "x": 0,
           "y": 12,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -251,7 +251,7 @@ Object {
           "x": 0,
           "y": 36,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -262,7 +262,7 @@ Object {
           "x": 0,
           "y": 49,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -274,8 +274,8 @@ Object {
           "y": 0,
         },
       ],
-      "xs": Array [
-        Object {
+      "xs": [
+        {
           "h": 11,
           "i": "welcome",
           "minH": 12,
@@ -286,7 +286,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -297,7 +297,7 @@ Object {
           "x": 0,
           "y": 23,
         },
-        Object {
+        {
           "h": 11,
           "i": "weather",
           "minH": 12,
@@ -308,7 +308,7 @@ Object {
           "x": 2,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -319,7 +319,7 @@ Object {
           "x": 0,
           "y": 74,
         },
-        Object {
+        {
           "h": 13,
           "i": "news",
           "minH": 12,
@@ -330,7 +330,7 @@ Object {
           "x": 0,
           "y": 61,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -341,7 +341,7 @@ Object {
           "x": 0,
           "y": 35,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -352,7 +352,7 @@ Object {
           "x": 0,
           "y": 48,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -364,8 +364,8 @@ Object {
           "y": 11,
         },
       ],
-      "xxs": Array [
-        Object {
+      "xxs": [
+        {
           "h": 11,
           "i": "welcome",
           "minH": 12,
@@ -376,7 +376,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -387,7 +387,7 @@ Object {
           "x": 0,
           "y": 35,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -398,7 +398,7 @@ Object {
           "x": 0,
           "y": 11,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -409,7 +409,7 @@ Object {
           "x": 0,
           "y": 86,
         },
-        Object {
+        {
           "h": 13,
           "i": "news",
           "minH": 12,
@@ -420,7 +420,7 @@ Object {
           "x": 0,
           "y": 73,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -431,7 +431,7 @@ Object {
           "x": 0,
           "y": 47,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -442,7 +442,7 @@ Object {
           "x": 0,
           "y": 60,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -455,7 +455,7 @@ Object {
         },
       ],
     },
-    "widgets": Object {
+    "widgets": {
       "github": true,
       "news": true,
       "notes": true,
@@ -466,20 +466,20 @@ Object {
       "welcome": true,
     },
   },
-  "play": Object {
-    "icon": Object {
+  "play": {
+    "icon": {
       "colons": ":beach_with_umbrella:",
       "id": "beach_with_umbrella",
       "name": "Beach with Umbrella",
       "native": "🏖️",
-      "short_names": Array [
+      "short_names": [
         "beach_with_umbrella",
       ],
       "unified": "1f3d6-fe0f",
     },
-    "layouts": Object {
-      "lg": Array [
-        Object {
+    "layouts": {
+      "lg": [
+        {
           "h": 14,
           "i": "news",
           "minH": 12,
@@ -490,7 +490,7 @@ Object {
           "x": 6,
           "y": 14,
         },
-        Object {
+        {
           "h": 14,
           "i": "github",
           "minH": 12,
@@ -501,7 +501,7 @@ Object {
           "x": 0,
           "y": 14,
         },
-        Object {
+        {
           "h": 14,
           "i": "todo",
           "minH": 12,
@@ -512,7 +512,7 @@ Object {
           "x": 4,
           "y": 29,
         },
-        Object {
+        {
           "h": 14,
           "i": "weather",
           "minH": 12,
@@ -523,7 +523,7 @@ Object {
           "x": 6,
           "y": 0,
         },
-        Object {
+        {
           "h": 15,
           "i": "notes",
           "minH": 12,
@@ -534,7 +534,7 @@ Object {
           "x": 6,
           "y": 0,
         },
-        Object {
+        {
           "h": 14,
           "i": "welcome",
           "minH": 12,
@@ -545,7 +545,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -556,7 +556,7 @@ Object {
           "x": 0,
           "y": 29,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -568,8 +568,8 @@ Object {
           "y": 41,
         },
       ],
-      "md": Array [
-        Object {
+      "md": [
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -580,7 +580,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 14,
           "i": "news",
           "minH": 12,
@@ -591,7 +591,7 @@ Object {
           "x": 5,
           "y": 12,
         },
-        Object {
+        {
           "h": 14,
           "i": "github",
           "minH": 12,
@@ -602,7 +602,7 @@ Object {
           "x": 0,
           "y": 12,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -613,7 +613,7 @@ Object {
           "x": 5,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -624,7 +624,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -635,7 +635,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -646,7 +646,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "notes",
           "minH": 12,
@@ -658,8 +658,8 @@ Object {
           "y": 0,
         },
       ],
-      "sm": Array [
-        Object {
+      "sm": [
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -670,7 +670,7 @@ Object {
           "x": 3,
           "y": 11,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -681,7 +681,7 @@ Object {
           "x": 0,
           "y": 11,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -692,7 +692,7 @@ Object {
           "x": 0,
           "y": 36,
         },
-        Object {
+        {
           "h": 11,
           "i": "weather",
           "minH": 12,
@@ -703,7 +703,7 @@ Object {
           "x": 3,
           "y": 0,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -714,7 +714,7 @@ Object {
           "x": 0,
           "y": 23,
         },
-        Object {
+        {
           "h": 11,
           "i": "welcome",
           "minH": 12,
@@ -725,7 +725,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -736,7 +736,7 @@ Object {
           "x": 0,
           "y": 48,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -748,8 +748,8 @@ Object {
           "y": 60,
         },
       ],
-      "xs": Array [
-        Object {
+      "xs": [
+        {
           "h": 13,
           "i": "news",
           "minH": 12,
@@ -760,7 +760,7 @@ Object {
           "x": 0,
           "y": 37,
         },
-        Object {
+        {
           "h": 13,
           "i": "github",
           "minH": 12,
@@ -771,7 +771,7 @@ Object {
           "x": 0,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -782,7 +782,7 @@ Object {
           "x": 0,
           "y": 62,
         },
-        Object {
+        {
           "h": 11,
           "i": "weather",
           "minH": 12,
@@ -793,7 +793,7 @@ Object {
           "x": 0,
           "y": 13,
         },
-        Object {
+        {
           "h": 12,
           "i": "notes",
           "minH": 12,
@@ -804,7 +804,7 @@ Object {
           "x": 0,
           "y": 50,
         },
-        Object {
+        {
           "h": 13,
           "i": "welcome",
           "minH": 12,
@@ -815,7 +815,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -826,7 +826,7 @@ Object {
           "x": 0,
           "y": 74,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -838,8 +838,8 @@ Object {
           "y": 86,
         },
       ],
-      "xxs": Array [
-        Object {
+      "xxs": [
+        {
           "h": 13,
           "i": "news",
           "minH": 12,
@@ -850,7 +850,7 @@ Object {
           "x": 0,
           "y": 37,
         },
-        Object {
+        {
           "h": 13,
           "i": "github",
           "minH": 12,
@@ -861,7 +861,7 @@ Object {
           "x": 0,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -872,7 +872,7 @@ Object {
           "x": 0,
           "y": 62,
         },
-        Object {
+        {
           "h": 11,
           "i": "weather",
           "minH": 12,
@@ -883,7 +883,7 @@ Object {
           "x": 0,
           "y": 13,
         },
-        Object {
+        {
           "h": 12,
           "i": "notes",
           "minH": 12,
@@ -894,7 +894,7 @@ Object {
           "x": 0,
           "y": 50,
         },
-        Object {
+        {
           "h": 13,
           "i": "welcome",
           "minH": 12,
@@ -905,7 +905,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -916,7 +916,7 @@ Object {
           "x": 0,
           "y": 74,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -929,7 +929,7 @@ Object {
         },
       ],
     },
-    "widgets": Object {
+    "widgets": {
       "github": true,
       "news": true,
       "notes": false,
@@ -940,21 +940,21 @@ Object {
       "welcome": true,
     },
   },
-  "project": Object {
-    "icon": Object {
+  "project": {
+    "icon": {
       "colons": ":rocket:",
-      "emoticons": Array [],
+      "emoticons": [],
       "id": "rocket",
       "name": "Rocket",
-      "short_names": Array [
+      "short_names": [
         "rocket",
       ],
       "skin": null,
       "unified": "1f680",
     },
-    "layouts": Object {
-      "lg": Array [
-        Object {
+    "layouts": {
+      "lg": [
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -965,7 +965,7 @@ Object {
           "x": 5,
           "y": 0,
         },
-        Object {
+        {
           "h": 17,
           "i": "projects",
           "minH": 12,
@@ -976,7 +976,7 @@ Object {
           "x": 8,
           "y": 24,
         },
-        Object {
+        {
           "h": 17,
           "i": "snippets",
           "minH": 12,
@@ -987,7 +987,7 @@ Object {
           "x": 5,
           "y": 24,
         },
-        Object {
+        {
           "h": 12,
           "i": "notes",
           "minH": 12,
@@ -998,7 +998,7 @@ Object {
           "x": 8,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "npm-stats",
           "minH": 12,
@@ -1009,7 +1009,7 @@ Object {
           "x": 5,
           "y": 12,
         },
-        Object {
+        {
           "h": 41,
           "i": "markdown",
           "minH": 12,
@@ -1021,8 +1021,8 @@ Object {
           "y": 0,
         },
       ],
-      "md": Array [
-        Object {
+      "md": [
+        {
           "h": 8,
           "i": "todo",
           "minH": 12,
@@ -1033,7 +1033,7 @@ Object {
           "x": 6,
           "y": 0,
         },
-        Object {
+        {
           "h": 13,
           "i": "projects",
           "minH": 12,
@@ -1044,7 +1044,7 @@ Object {
           "x": 5,
           "y": 27,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -1055,7 +1055,7 @@ Object {
           "x": 0,
           "y": 27,
         },
-        Object {
+        {
           "h": 10,
           "i": "notes",
           "minH": 12,
@@ -1066,7 +1066,7 @@ Object {
           "x": 6,
           "y": 8,
         },
-        Object {
+        {
           "h": 9,
           "i": "npm-stats",
           "moved": false,
@@ -1075,7 +1075,7 @@ Object {
           "x": 0,
           "y": 18,
         },
-        Object {
+        {
           "h": 18,
           "i": "markdown",
           "minH": 12,
@@ -1086,7 +1086,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -1097,7 +1097,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1108,7 +1108,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1119,7 +1119,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1130,7 +1130,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "stateful-marquee-widget",
           "minH": 12,
@@ -1142,8 +1142,8 @@ Object {
           "y": 0,
         },
       ],
-      "sm": Array [
-        Object {
+      "sm": [
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -1154,7 +1154,7 @@ Object {
           "x": 0,
           "y": 30,
         },
-        Object {
+        {
           "h": 11,
           "i": "projects",
           "minH": 12,
@@ -1165,7 +1165,7 @@ Object {
           "x": 0,
           "y": 55,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -1176,7 +1176,7 @@ Object {
           "x": 0,
           "y": 42,
         },
-        Object {
+        {
           "h": 12,
           "i": "notes",
           "minH": 12,
@@ -1187,7 +1187,7 @@ Object {
           "x": 3,
           "y": 30,
         },
-        Object {
+        {
           "h": 12,
           "i": "npm-stats",
           "minH": 12,
@@ -1198,7 +1198,7 @@ Object {
           "x": 0,
           "y": 18,
         },
-        Object {
+        {
           "h": 18,
           "i": "markdown",
           "minH": 12,
@@ -1209,7 +1209,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -1220,7 +1220,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1231,7 +1231,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1242,7 +1242,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1253,7 +1253,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "stateful-marquee-widget",
           "minH": 12,
@@ -1265,8 +1265,8 @@ Object {
           "y": 0,
         },
       ],
-      "xs": Array [
-        Object {
+      "xs": [
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -1277,7 +1277,7 @@ Object {
           "x": 0,
           "y": 29,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -1288,7 +1288,7 @@ Object {
           "x": 0,
           "y": 67,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -1299,7 +1299,7 @@ Object {
           "x": 0,
           "y": 54,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -1310,7 +1310,7 @@ Object {
           "x": 0,
           "y": 41,
         },
-        Object {
+        {
           "h": 12,
           "i": "npm-stats",
           "minH": 12,
@@ -1321,7 +1321,7 @@ Object {
           "x": 0,
           "y": 17,
         },
-        Object {
+        {
           "h": 17,
           "i": "markdown",
           "minH": 12,
@@ -1332,7 +1332,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -1343,7 +1343,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1354,7 +1354,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1365,7 +1365,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1376,7 +1376,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "stateful-marquee-widget",
           "minH": 12,
@@ -1388,8 +1388,8 @@ Object {
           "y": 0,
         },
       ],
-      "xxs": Array [
-        Object {
+      "xxs": [
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -1400,7 +1400,7 @@ Object {
           "x": 0,
           "y": 34,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -1411,7 +1411,7 @@ Object {
           "x": 0,
           "y": 72,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -1422,7 +1422,7 @@ Object {
           "x": 0,
           "y": 59,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -1433,7 +1433,7 @@ Object {
           "x": 0,
           "y": 46,
         },
-        Object {
+        {
           "h": 12,
           "i": "npm-stats",
           "minH": 12,
@@ -1444,7 +1444,7 @@ Object {
           "x": 0,
           "y": 22,
         },
-        Object {
+        {
           "h": 22,
           "i": "markdown",
           "minH": 12,
@@ -1455,7 +1455,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "welcome",
           "minH": 12,
@@ -1466,7 +1466,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1477,7 +1477,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1488,7 +1488,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1499,7 +1499,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "stateful-marquee-widget",
           "minH": 12,
@@ -1512,7 +1512,7 @@ Object {
         },
       ],
     },
-    "widgets": Object {
+    "widgets": {
       "github": false,
       "markdown": true,
       "news": false,
@@ -1525,20 +1525,20 @@ Object {
       "welcome": false,
     },
   },
-  "work": Object {
-    "icon": Object {
+  "work": {
+    "icon": {
       "colons": ":briefcase:",
       "id": "briefcase",
       "name": "Briefcase",
       "native": "💼",
-      "short_names": Array [
+      "short_names": [
         "briefcase",
       ],
       "unified": "1f4bc",
     },
-    "layouts": Object {
-      "lg": Array [
-        Object {
+    "layouts": {
+      "lg": [
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1549,7 +1549,7 @@ Object {
           "x": 0,
           "y": 28,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1560,7 +1560,7 @@ Object {
           "x": 0,
           "y": 40,
         },
-        Object {
+        {
           "h": 13,
           "i": "todo",
           "minH": 12,
@@ -1571,7 +1571,7 @@ Object {
           "x": 8,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1582,7 +1582,7 @@ Object {
           "x": 0,
           "y": 52,
         },
-        Object {
+        {
           "h": 15,
           "i": "notes",
           "minH": 12,
@@ -1593,7 +1593,7 @@ Object {
           "x": 6,
           "y": 13,
         },
-        Object {
+        {
           "h": 13,
           "i": "welcome",
           "minH": 12,
@@ -1604,7 +1604,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 15,
           "i": "snippets",
           "minH": 12,
@@ -1615,7 +1615,7 @@ Object {
           "x": 0,
           "y": 13,
         },
-        Object {
+        {
           "h": 13,
           "i": "projects",
           "minH": 12,
@@ -1627,8 +1627,8 @@ Object {
           "y": 0,
         },
       ],
-      "md": Array [
-        Object {
+      "md": [
+        {
           "h": 14,
           "i": "welcome",
           "minH": 12,
@@ -1639,7 +1639,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 14,
           "i": "todo",
           "minH": 12,
@@ -1650,7 +1650,7 @@ Object {
           "x": 3,
           "y": 0,
         },
-        Object {
+        {
           "h": 14,
           "i": "projects",
           "minH": 12,
@@ -1661,7 +1661,7 @@ Object {
           "x": 5,
           "y": 14,
         },
-        Object {
+        {
           "h": 14,
           "i": "snippets",
           "minH": 12,
@@ -1672,7 +1672,7 @@ Object {
           "x": 0,
           "y": 14,
         },
-        Object {
+        {
           "h": 13,
           "i": "notes",
           "minH": 12,
@@ -1683,7 +1683,7 @@ Object {
           "x": 0,
           "y": 28,
         },
-        Object {
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1694,7 +1694,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1705,7 +1705,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1717,8 +1717,8 @@ Object {
           "y": 0,
         },
       ],
-      "sm": Array [
-        Object {
+      "sm": [
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1729,7 +1729,7 @@ Object {
           "x": 0,
           "y": 47,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1740,7 +1740,7 @@ Object {
           "x": 0,
           "y": 59,
         },
-        Object {
+        {
           "h": 11,
           "i": "todo",
           "minH": 12,
@@ -1751,7 +1751,7 @@ Object {
           "x": 3,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1762,7 +1762,7 @@ Object {
           "x": 0,
           "y": 71,
         },
-        Object {
+        {
           "h": 11,
           "i": "notes",
           "minH": 12,
@@ -1773,7 +1773,7 @@ Object {
           "x": 0,
           "y": 36,
         },
-        Object {
+        {
           "h": 11,
           "i": "welcome",
           "minH": 12,
@@ -1784,7 +1784,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 13,
           "i": "snippets",
           "minH": 12,
@@ -1795,7 +1795,7 @@ Object {
           "x": 0,
           "y": 23,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -1807,8 +1807,8 @@ Object {
           "y": 11,
         },
       ],
-      "xs": Array [
-        Object {
+      "xs": [
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1819,7 +1819,7 @@ Object {
           "x": 0,
           "y": 60,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1830,7 +1830,7 @@ Object {
           "x": 0,
           "y": 72,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -1841,7 +1841,7 @@ Object {
           "x": 0,
           "y": 25,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1852,7 +1852,7 @@ Object {
           "x": 0,
           "y": 84,
         },
-        Object {
+        {
           "h": 11,
           "i": "notes",
           "minH": 12,
@@ -1863,7 +1863,7 @@ Object {
           "x": 0,
           "y": 49,
         },
-        Object {
+        {
           "h": 13,
           "i": "welcome",
           "minH": 12,
@@ -1874,7 +1874,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -1885,7 +1885,7 @@ Object {
           "x": 0,
           "y": 37,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -1897,8 +1897,8 @@ Object {
           "y": 13,
         },
       ],
-      "xxs": Array [
-        Object {
+      "xxs": [
+        {
           "h": 12,
           "i": "news",
           "minH": 12,
@@ -1909,7 +1909,7 @@ Object {
           "x": 0,
           "y": 60,
         },
-        Object {
+        {
           "h": 12,
           "i": "github",
           "minH": 12,
@@ -1920,7 +1920,7 @@ Object {
           "x": 0,
           "y": 72,
         },
-        Object {
+        {
           "h": 12,
           "i": "todo",
           "minH": 12,
@@ -1931,7 +1931,7 @@ Object {
           "x": 0,
           "y": 25,
         },
-        Object {
+        {
           "h": 12,
           "i": "weather",
           "minH": 12,
@@ -1942,7 +1942,7 @@ Object {
           "x": 0,
           "y": 84,
         },
-        Object {
+        {
           "h": 11,
           "i": "notes",
           "minH": 12,
@@ -1953,7 +1953,7 @@ Object {
           "x": 0,
           "y": 49,
         },
-        Object {
+        {
           "h": 13,
           "i": "welcome",
           "minH": 12,
@@ -1964,7 +1964,7 @@ Object {
           "x": 0,
           "y": 0,
         },
-        Object {
+        {
           "h": 12,
           "i": "snippets",
           "minH": 12,
@@ -1975,7 +1975,7 @@ Object {
           "x": 0,
           "y": 37,
         },
-        Object {
+        {
           "h": 12,
           "i": "projects",
           "minH": 12,
@@ -1988,7 +1988,7 @@ Object {
         },
       ],
     },
-    "widgets": Object {
+    "widgets": {
       "github": false,
       "news": false,
       "notes": true,

@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetStorageProvider getDirectory 1`] = `
-Array [
-  Array [
+[
+  [
     "/foo/bar",
     "1",
   ],
-  Array [
+  [
     "/bar/foo",
     "1",
   ],

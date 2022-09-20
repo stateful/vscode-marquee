@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`calculateTheme 1`] = `
-Object {
-  "breakpoints": Object {
+{
+  "breakpoints": {
     "between": [Function],
     "down": [Function],
-    "keys": Array [
+    "keys": [
       "xs",
       "sm",
       "md",
@@ -16,7 +16,7 @@ Object {
     "only": [Function],
     "unit": "px",
     "up": [Function],
-    "values": Object {
+    "values": {
       "lg": 1200,
       "md": 900,
       "sm": 600,
@@ -24,15 +24,15 @@ Object {
       "xs": 0,
     },
   },
-  "components": Object {
-    "MuiButton": Object {
-      "styleOverrides": Object {
-        "outlined": Object {
+  "components": {
+    "MuiButton": {
+      "styleOverrides": {
+        "outlined": {
           "backgroundColor": "transparent",
           "color": "var(--vscode-button-background)",
         },
-        "root": Object {
-          "&:hover": Object {
+        "root": {
+          "&:hover": {
             "backgroundColor": "var(--vscode-button-hoverBackground)",
             "borderColor": "var(--vscode-tab-inactiveForeground)",
           },
@@ -42,74 +42,74 @@ Object {
         },
       },
     },
-    "MuiButtonGroup": Object {
-      "styleOverrides": Object {
-        "grouped": Object {
-          "&:not(:last-of-type)": Object {
+    "MuiButtonGroup": {
+      "styleOverrides": {
+        "grouped": {
+          "&:not(:last-of-type)": {
             "borderRight": "1px solid rgba(255, 255, 255, 0.23)",
           },
         },
       },
     },
-    "MuiChip": Object {
-      "styleOverrides": Object {
-        "root": Object {
+    "MuiChip": {
+      "styleOverrides": {
+        "root": {
           "borderRadius": "0px",
         },
       },
     },
-    "MuiDialog": Object {
-      "styleOverrides": Object {
-        "paper": Object {
+    "MuiDialog": {
+      "styleOverrides": {
+        "paper": {
           "backgroundImage": "none",
         },
       },
     },
-    "MuiDialogContent": Object {
-      "styleOverrides": Object {
-        "root": Object {
+    "MuiDialogContent": {
+      "styleOverrides": {
+        "root": {
           "borderBottom": "1px solid var(--vscode-editorGroup-border)",
           "borderTop": "1px solid var(--vscode-editorGroup-border)",
         },
       },
     },
-    "MuiListItem": Object {
-      "styleOverrides": Object {
-        "root": Object {
-          "&:hover": Object {
+    "MuiListItem": {
+      "styleOverrides": {
+        "root": {
+          "&:hover": {
             "backgroundColor": "var(--vscode-button-secondaryHoverBackground)",
             "color": "var(--vscode-button-secondaryForeground)",
           },
         },
       },
     },
-    "MuiPopover": Object {
-      "styleOverrides": Object {
-        "paper": Object {
+    "MuiPopover": {
+      "styleOverrides": {
+        "paper": {
           "backgroundImage": "none",
         },
       },
     },
-    "MuiSvgIcon": Object {
-      "defaultProps": Object {
+    "MuiSvgIcon": {
+      "defaultProps": {
         "htmlColor": "#c5c5c5",
       },
     },
-    "MuiTabs": Object {
-      "styleOverrides": Object {
-        "indicator": Object {
+    "MuiTabs": {
+      "styleOverrides": {
+        "indicator": {
           "left": 0,
         },
       },
     },
-    "MuiTooltip": Object {
-      "styleOverrides": Object {
-        "arrow": Object {
-          "&:before": Object {
+    "MuiTooltip": {
+      "styleOverrides": {
+        "arrow": {
+          "&:before": {
             "color": "var(--vscode-charts-blue)",
           },
         },
-        "tooltip": Object {
+        "tooltip": {
           "background": "var(--vscode-charts-blue)",
           "borderRadius": "8px",
         },
@@ -117,21 +117,21 @@ Object {
     },
   },
   "direction": "ltr",
-  "mixins": Object {
-    "toolbar": Object {
-      "@media (min-width:0px)": Object {
-        "@media (orientation: landscape)": Object {
+  "mixins": {
+    "toolbar": {
+      "@media (min-width:0px)": {
+        "@media (orientation: landscape)": {
           "minHeight": 48,
         },
       },
-      "@media (min-width:600px)": Object {
+      "@media (min-width:600px)": {
         "minHeight": 64,
       },
       "minHeight": 56,
     },
   },
-  "palette": Object {
-    "action": Object {
+  "palette": {
+    "action": {
       "activatedOpacity": 0.24,
       "active": "#cccccc",
       "activeChannel": "255 255 255",
@@ -147,24 +147,24 @@ Object {
       "selectedOpacity": 0.16,
     },
     "augmentColor": [Function],
-    "background": Object {
+    "background": {
       "default": "#252526",
       "paper": "#252526",
     },
-    "common": Object {
+    "common": {
       "black": "#000",
       "white": "#fff",
     },
     "contrastThreshold": 3,
     "divider": "#cccccc",
-    "error": Object {
+    "error": {
       "contrastText": "#fff",
       "dark": "#d32f2f",
       "light": "#e57373",
       "main": "#f44336",
     },
     "getContrastText": [Function],
-    "grey": Object {
+    "grey": {
       "100": "#f5f5f5",
       "200": "#eeeeee",
       "300": "#e0e0e0",
@@ -180,32 +180,32 @@ Object {
       "A400": "#bdbdbd",
       "A700": "#616161",
     },
-    "info": Object {
+    "info": {
       "contrastText": "rgba(0, 0, 0, 0.87)",
       "dark": "#0288d1",
       "light": "#4fc3f7",
       "main": "#29b6f6",
     },
     "mode": "dark",
-    "primary": Object {
+    "primary": {
       "contrastText": "#ffffff",
       "dark": "#1177bb",
       "light": "rgb(62, 130, 175)",
       "main": "#0e639c",
     },
-    "secondary": Object {
+    "secondary": {
       "contrastText": "#ffffff",
       "dark": "rgb(168, 53, 53)",
       "light": "rgb(243, 111, 111)",
       "main": "#f14c4c",
     },
-    "success": Object {
+    "success": {
       "contrastText": "rgba(0, 0, 0, 0.87)",
       "dark": "#388e3c",
       "light": "#81c784",
       "main": "#66bb6a",
     },
-    "text": Object {
+    "text": {
       "disabled": "rgba(255, 255, 255, 0.5)",
       "icon": "rgba(255, 255, 255, 0.5)",
       "primary": "#cccccc",
@@ -214,14 +214,14 @@ Object {
       "secondaryChannel": "255 255 255",
     },
     "tonalOffset": 0.2,
-    "warning": Object {
+    "warning": {
       "contrastText": "rgba(0, 0, 0, 0.87)",
       "dark": "#f57c00",
       "light": "#ffb74d",
       "main": "#ffa726",
     },
   },
-  "shadows": Array [
+  "shadows": [
     "none",
     "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
     "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
@@ -248,13 +248,13 @@ Object {
     "0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12)",
     "0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)",
   ],
-  "shape": Object {
+  "shape": {
     "borderRadius": 0,
   },
   "spacing": [Function],
-  "transitions": Object {
+  "transitions": {
     "create": [Function],
-    "duration": Object {
+    "duration": {
       "complex": 375,
       "enteringScreen": 225,
       "leavingScreen": 195,
@@ -263,7 +263,7 @@ Object {
       "shortest": 150,
       "standard": 300,
     },
-    "easing": Object {
+    "easing": {
       "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
       "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
       "easeOut": "cubic-bezier(0.0, 0, 0.2, 1)",
@@ -271,27 +271,27 @@ Object {
     },
     "getAutoHeightDuration": [Function],
   },
-  "typography": Object {
-    "body1": Object {
+  "typography": {
+    "body1": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.9285714285714286rem",
       "fontWeight": "normal",
       "lineHeight": 1.5,
     },
-    "body2": Object {
+    "body2": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.8125rem",
       "fontWeight": "normal",
       "lineHeight": 1.43,
     },
-    "button": Object {
+    "button": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.8125rem",
       "fontWeight": "normal",
       "lineHeight": 1.75,
       "textTransform": "none",
     },
-    "caption": Object {
+    "caption": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.6964285714285714rem",
       "fontWeight": "normal",
@@ -303,44 +303,44 @@ Object {
     "fontWeightLight": "normal",
     "fontWeightMedium": "normal",
     "fontWeightRegular": "normal",
-    "h1": Object {
+    "h1": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "5.571428571428571rem",
       "fontWeight": "normal",
       "lineHeight": 1.167,
     },
-    "h2": Object {
+    "h2": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "3.482142857142857rem",
       "fontWeight": "normal",
       "lineHeight": 1.2,
     },
-    "h3": Object {
+    "h3": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "2.7857142857142856rem",
       "fontWeight": "normal",
       "lineHeight": 1.167,
     },
-    "h4": Object {
+    "h4": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "1.9732142857142858rem",
       "fontWeight": "normal",
       "lineHeight": 1.235,
     },
-    "h5": Object {
+    "h5": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "1.3928571428571428rem",
       "fontWeight": "normal",
       "lineHeight": 1.334,
     },
-    "h6": Object {
+    "h6": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "1.1607142857142858rem",
       "fontWeight": "normal",
       "lineHeight": 1.6,
     },
     "htmlFontSize": 16,
-    "overline": Object {
+    "overline": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.6964285714285714rem",
       "fontWeight": "normal",
@@ -348,20 +348,20 @@ Object {
       "textTransform": "uppercase",
     },
     "pxToRem": [Function],
-    "subtitle1": Object {
+    "subtitle1": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.9285714285714286rem",
       "fontWeight": "normal",
       "lineHeight": 1.75,
     },
-    "subtitle2": Object {
+    "subtitle2": {
       "fontFamily": "-apple-system,BlinkMacSystemFont,sans-serif",
       "fontSize": "0.8125rem",
       "fontWeight": "normal",
       "lineHeight": 1.57,
     },
   },
-  "zIndex": Object {
+  "zIndex": {
     "appBar": 1100,
     "drawer": 1200,
     "fab": 1050,
