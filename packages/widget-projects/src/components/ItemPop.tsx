@@ -11,9 +11,9 @@ declare const window: MarqueeWindow
 
 let TodoItemPop = ({ workspace }: { workspace: Workspace }) => {
   const { openProjectInNewWindow, _removeWorkspace } = useContext(WorkspaceContext)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
     setAnchorEl(event.currentTarget)
   }, [])

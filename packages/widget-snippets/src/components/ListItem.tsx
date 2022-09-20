@@ -41,7 +41,7 @@ let SnippetListItem = ({
   const eventListener = getEventListener<Events>()
 
   const { _removeSnippet, _updateSnippet } = useContext(SnippetContext)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const matchingWorkspace = useMemo(() => {
     if (!window.activeWorkspace) {
@@ -70,12 +70,12 @@ let SnippetListItem = ({
     setAnchorEl(null)
   }, [snippet])
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }, [])
 
-  const handleClose = useCallback((e) => {
+  const handleClose = useCallback((e: React.MouseEvent) => {
     setAnchorEl(null)
     e.preventDefault()
     e.stopPropagation()

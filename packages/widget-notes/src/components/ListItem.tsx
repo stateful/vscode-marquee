@@ -32,7 +32,7 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
   const eventListener = getEventListener<Events>()
   const { _removeNote, _updateNote, setShowEditDialog } = useContext(NoteContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const matchingWorkspace = useMemo(() => {
     if (!window.activeWorkspace) {
@@ -59,12 +59,12 @@ let NoteListItem = ({ note, index, keyVal, style, selected, click }: NoteListIte
     setAnchorEl(null)
   }, [note])
 
-  const handleRightClick = useCallback((e) => {
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     setAnchorEl(e.currentTarget)
   }, [])
 
-  const handleClose = useCallback((e) => {
+  const handleClose = useCallback((e: React.MouseEvent) => {
     setAnchorEl(null)
     e.preventDefault()
     e.stopPropagation()

@@ -8,9 +8,9 @@ import TodoPopItemContent from './PopItemContent'
 import type { Todo } from '../types'
 
 let TodoItemPop = ({ todo }: { todo: Todo }) => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  const handleClick = useCallback((event) => {
+  const handleClick = useCallback((event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget)
   }, [])
 

@@ -82,7 +82,7 @@ const extensionConfigBrowser: Configuration = {
   ...extensionConfig,
   target: 'web',
   entry: {
-    extensionWeb: path.resolve(__dirname, "packages", "extension", "src", "index.ts"),
+    extensionWeb: path.resolve(__dirname, "packages", "extension", "build", "index.js"),
   },
   resolve: {
     ...extensionConfig.resolve,
