@@ -70,7 +70,8 @@
       "packages/widget-snippets",
       "packages/widget-todo",
       "packages/widget-weather",
-      "packages/widget-welcome"
+      "packages/widget-welcome",
+      "packages/widget-stateful"
     ]
   },
   "activationEvents": [
@@ -3384,6 +3385,7 @@
     "compile:ts:widget-notes": "tsc --project packages/widget-notes/tsconfig.json",
     "compile:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
+    "compile:ts:widget-stateful": "tsc --project packages/widget-stateful/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
     "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "prepare": "husky install",
@@ -3410,6 +3412,7 @@
     "watch:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json --watch",
     "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
     "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
+    "watch:ts:widget-stateful": "tsc --project packages/widget-stateful/tsconfig.json --watch",
     "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
   },
   "devDependencies": {

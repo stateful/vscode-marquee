@@ -1,0 +1,7 @@
+{
+  "name": "@vscode-marquee/widget-stateful-extension",
+  "description": "extension logic for Stateful Widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}

@@ -8,6 +8,7 @@ import NPMStats from '@vscode-marquee/widget-npm-stats'
 import Markdown from '@vscode-marquee/widget-markdown'
 import Snippets from '@vscode-marquee/widget-snippets'
 import Projects from '@vscode-marquee/widget-projects'
+import Stateful from '@vscode-marquee/widget-stateful'
 
 import { WidgetConfig, Theme, State, Configuration, LayoutType } from './types'
 
@@ -29,7 +30,8 @@ export const widgetConfig: WidgetConfig[] = [
   Snippets,
   Notes,
   NPMStats,
-  Markdown
+  Markdown,
+  Stateful
 ] as WidgetConfig[]
 export const SENTRY_DNS = 'https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775'
 export const themes: Theme[] = [

@@ -19,6 +19,7 @@ import { activate as activateMarkdownWidget, MarkdownExtensionManager } from '@v
 import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-marquee/widget-notes/extension'
 import { activate as activateNPMStatsWidget } from '@vscode-marquee/widget-npm-stats/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
+import { activate as activateStatefulWidget } from '@vscode-marquee/widget-stateful/extension'
 
 import telemetry from './telemetry'
 import { activateGUI, GUIExtensionManager } from './utils'
@@ -37,7 +38,8 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/markdown-widget': activateMarkdownWidget,
   '@vscode-marquee/notes-widget': activateNotesWidget,
   '@vscode-marquee/npm-stats-widget': activateNPMStatsWidget,
-  '@vscode-marquee/snippets-widget': activateSnippetsWidget
+  '@vscode-marquee/snippets-widget': activateSnippetsWidget,
+  '@vscode-marquee/stateful-widget': activateStatefulWidget,
 }
 
 interface ExportFormat<T = any> {
