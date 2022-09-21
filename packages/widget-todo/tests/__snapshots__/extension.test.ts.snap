@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`_addTodo sets todo properly 1`] = `
-Array [
-  Array [
+[
+  [
     "todos",
-    Array [
-      Object {
+    [
+      {
         "archived": false,
         "body": "some new todo here",
         "branch": "undefined#foobar",
@@ -15,7 +15,7 @@ Array [
         "id": "123457890",
         "origin": "/some/path.js:123",
         "path": "/some/path.js:123",
-        "tags": Array [],
+        "tags": [],
         "workspaceId": null,
       },
     ],
@@ -24,11 +24,11 @@ Array [
 `;
 
 exports[`_addTodo sets todo properly 2`] = `
-Array [
-  Array [
-    Object {
-      "todos": Array [
-        Object {
+[
+  [
+    {
+      "todos": [
+        {
           "archived": false,
           "body": "some new todo here",
           "branch": "undefined#foobar",
@@ -38,7 +38,7 @@ Array [
           "id": "123457890",
           "origin": "/some/path.js:123",
           "path": "/some/path.js:123",
-          "tags": Array [],
+          "tags": [],
           "workspaceId": null,
         },
       ],
@@ -48,7 +48,7 @@ Array [
 `;
 
 exports[`generate proper default state and configuration 1`] = `
-Object {
+{
   "autoDetect": true,
   "hide": false,
   "showArchived": false,
@@ -58,7 +58,7 @@ Object {
 `;
 
 exports[`generate proper default state and configuration 2`] = `
-Object {
-  "todos": Array [],
+{
+  "todos": [],
 }
 `;

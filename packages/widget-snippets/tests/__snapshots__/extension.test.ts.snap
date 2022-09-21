@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`_addSnippet 1`] = `
-Array [
-  Array [
+[
+  [
     "snippets",
-    Array [
+    [
       Snippet {
         "archived": false,
         "body": "foobar",
@@ -22,7 +22,7 @@ Array [
         "type": "1",
         "workspaceId": null,
       },
-      Object {
+      {
         "body": "bar",
         "id": "foo",
       },
@@ -32,10 +32,10 @@ Array [
 `;
 
 exports[`_addSnippet 2`] = `
-Array [
-  Array [
-    Object {
-      "snippets": Array [
+[
+  [
+    {
+      "snippets": [
         Snippet {
           "archived": false,
           "body": "foobar",
@@ -53,7 +53,7 @@ Array [
           "type": "1",
           "workspaceId": null,
         },
-        Object {
+        {
           "body": "bar",
           "id": "foo",
         },
@@ -64,14 +64,14 @@ Array [
 `;
 
 exports[`_removeSnippet 1`] = `
-Array [
-  Array [
+[
+  [
     "snippets",
-    Array [
-      Object {
+    [
+      {
         "id": "foo",
       },
-      Object {
+      {
         "id": "loo",
       },
     ],
@@ -80,14 +80,14 @@ Array [
 `;
 
 exports[`_removeSnippet 2`] = `
-Array [
-  Array [
-    Object {
-      "snippets": Array [
-        Object {
+[
+  [
+    {
+      "snippets": [
+        {
           "id": "foo",
         },
-        Object {
+        {
           "id": "loo",
         },
       ],
@@ -97,15 +97,15 @@ Array [
 `;
 
 exports[`_saveNewSnippet 1`] = `
-Array [
-  Array [
+[
+  [
     "snippets",
-    Array [
-      Object {
+    [
+      {
         "bar": "foo",
         "path": "foobar",
       },
-      Object {
+      {
         "foo": "bar",
       },
     ],
@@ -114,15 +114,15 @@ Array [
 `;
 
 exports[`_saveNewSnippet 2`] = `
-Array [
-  Array [
-    Object {
-      "snippets": Array [
-        Object {
+[
+  [
+    {
+      "snippets": [
+        {
           "bar": "foo",
           "path": "foobar",
         },
-        Object {
+        {
           "foo": "bar",
         },
       ],
@@ -132,11 +132,11 @@ Array [
 `;
 
 exports[`_updateSnippet 1`] = `
-Array [
-  Array [
+[
+  [
     "snippets",
-    Array [
-      Object {
+    [
+      {
         "body": "bar",
         "id": "foo",
       },
@@ -146,11 +146,11 @@ Array [
 `;
 
 exports[`_updateSnippet 2`] = `
-Array [
-  Array [
-    Object {
-      "snippets": Array [
-        Object {
+[
+  [
+    {
+      "snippets": [
+        {
           "body": "bar",
           "id": "foo",
         },
@@ -161,7 +161,7 @@ Array [
 `;
 
 exports[`activate 1`] = `
-Array [
+[
   "disposable",
   "defaultState",
   "defaultConfiguration",

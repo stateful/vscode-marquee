@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Extension Manager should fail properly 1`] = `
-Array [
-  Array [
+[
+  [
     "isLoading",
     true,
   ],
-  Array [
+  [
     "isLoading",
     false,
   ],
-  Array [
+  [
     "error",
-    Object {
+    {
       "message": "Fetching NPM stats failed: Network Error",
     },
   ],
@@ -20,18 +20,18 @@ Array [
 `;
 
 exports[`Extension Manager should successfully fetch data 1`] = `
-Array [
-  Array [
+[
+  [
     "isLoading",
     true,
   ],
-  Array [
+  [
     "isLoading",
     false,
   ],
-  Array [
+  [
     "error",
-    Object {
+    {
       "message": "Fetching NPM stats failed: Network Error",
     },
   ],

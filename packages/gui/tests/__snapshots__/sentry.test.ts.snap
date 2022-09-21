@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`init 1`] = `
-Object {
+{
   "beforeSend": [Function],
   "dsn": "SENTRY_DNS",
   "environment": "production",
-  "integrations": Array [
+  "integrations": [
     mockConstructor {},
     mockConstructor {},
   ],

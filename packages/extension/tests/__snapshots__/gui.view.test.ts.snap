@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`open webview 1`] = `
-Object {
+{
   "dark": "/some/uri/assets/marquee-tab.svg",
   "light": "/some/uri/assets/marquee-tab.svg",
 }
 `;
 
 exports[`open webview 2`] = `
-Array [
-  Array [
+[
+  [
     "<html></html>",
-    Object {
-      "aws": Object {
+    {
+      "aws": {
         "id": "foobar",
       },
       "baseAppUri": "some url",
       "baseUrl": "http://BACKEND_BASE_URL.com",
-      "childSrc": Array [
+      "childSrc": [
         "https://www.youtube.com",
         "https://player.vimeo.com",
         "https://fast.wistia.net",
       ],
       "colorScheme": "transparent",
-      "connectSrc": Array [
+      "connectSrc": [
         "undefined://undefined",
         "undefined://undefined",
         "https://*.ingest.sentry.io",
@@ -38,10 +38,10 @@ Array [
       "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
       "geoUrl": "http://BACKEND_GEO_URL.com",
       "nonce": "MzlkMmY4NTgtMzUyMi00MDUzLWJlYjgtYjc1YTFkZWZkMWQy",
-      "props": Object {
+      "props": {
         "some": "props",
       },
-      "widgetScripts": Array [],
+      "widgetScripts": [],
       "widgetStateConfigurations": "eyJ1bmRlZmluZWQiOnsiY29uZmlndXJhdGlvbiI6e30sInN0YXRlIjp7fX19",
     },
   ],

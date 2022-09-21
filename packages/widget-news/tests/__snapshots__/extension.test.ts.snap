@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Extension Manager can successfully fetch items 1`] = `
-Array [
-  Array [
-    Object {
+[
+  [
+    {
       "error": null,
       "isFetching": false,
-      "news": Array [
-        Object {
+      "news": [
+        {
           "title": "rss item 1",
         },
-        Object {
+        {
           "title": "rss item 2",
         },
       ],
@@ -20,27 +20,27 @@ Array [
 `;
 
 exports[`Extension Manager can successfully fetch items 2`] = `
-Array [
-  Array [
+[
+  [
     "isFetching",
     true,
   ],
-  Array [
+  [
     "news",
-    Array [
-      Object {
+    [
+      {
         "title": "rss item 1",
       },
-      Object {
+      {
         "title": "rss item 2",
       },
     ],
   ],
-  Array [
+  [
     "isFetching",
     false,
   ],
-  Array [
+  [
     "error",
     null,
   ],
@@ -48,35 +48,35 @@ Array [
 `;
 
 exports[`Extension Manager throws an error if channel wasn't found 1`] = `
-Array [
-  Array [
-    Object {
-      "error": "Channel \\"foobar\\" not found, available channels are barfoo, somethingElse",
+[
+  [
+    {
+      "error": "Channel "foobar" not found, available channels are barfoo, somethingElse",
       "isFetching": false,
-      "news": Array [],
+      "news": [],
     },
   ],
 ]
 `;
 
 exports[`Extension Manager throws an error if channel wasn't found 2`] = `
-Array [
-  Array [
+[
+  [
     "isFetching",
     true,
   ],
-  Array [
+  [
     "channel",
     "barfoo",
     true,
   ],
-  Array [
+  [
     "isFetching",
     false,
   ],
-  Array [
+  [
     "error",
-    "Channel \\"foobar\\" not found, available channels are barfoo, somethingElse",
+    "Channel "foobar" not found, available channels are barfoo, somethingElse",
   ],
 ]
 `;

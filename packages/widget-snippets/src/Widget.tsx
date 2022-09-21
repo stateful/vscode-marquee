@@ -174,8 +174,11 @@ const WidgetBody = ({ snippets, snippet }: { snippets: Snippet[], snippet: Snipp
                   />
                 </Grid>
                 <Grid item xs style={{ maxWidth: '100%' }}>
+                  {/* @ts-expect-error */}
                   <AutoSizer>
                     {({ height, width }) => (
+                      // eslint-disable-next-line max-len
+                      // @ts-expect-error see https://github.com/bvaughn/react-virtualized/commit/005be24a608add0344284053dae7633be86053b2
                       <List
                         width={width}
                         height={height}

@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TreeView _updateNotes 1`] = `
-Array [
-  Object {
+[
+  {
     "caption": "Todos",
     "id": 0,
     "type": "todos",
   },
-  Object {
+  {
     "caption": "Snippets",
     "id": 1,
     "type": "snippets",
   },
-  Object {
+  {
     "caption": "Notes",
     "id": 2,
     "type": "notes",
@@ -21,29 +21,29 @@ Array [
 `;
 
 exports[`TreeView _updateNotes 2`] = `
-Array [
-  Object {
+[
+  {
     "workspaceId": "123",
   },
-  Object {
+  {
     "workspaceId": "321",
   },
 ]
 `;
 
 exports[`TreeView _updateSnippets 1`] = `
-Array [
-  Object {
+[
+  {
     "caption": "Todos",
     "id": 0,
     "type": "todos",
   },
-  Object {
+  {
     "caption": "Snippets",
     "id": 1,
     "type": "snippets",
   },
-  Object {
+  {
     "caption": "Notes",
     "id": 2,
     "type": "notes",
@@ -52,29 +52,29 @@ Array [
 `;
 
 exports[`TreeView _updateSnippets 2`] = `
-Array [
-  Object {
+[
+  {
     "workspaceId": "123",
   },
-  Object {
+  {
     "workspaceId": "321",
   },
 ]
 `;
 
 exports[`TreeView _updateTodos 1`] = `
-Array [
-  Object {
+[
+  {
     "caption": "Todo [global] (0 open / 2 closed)",
     "id": 0,
     "type": "todos",
   },
-  Object {
+  {
     "caption": "Clipboard",
     "id": 1,
     "type": "snippets",
   },
-  Object {
+  {
     "caption": "Notes",
     "id": 2,
     "type": "notes",
@@ -83,26 +83,26 @@ Array [
 `;
 
 exports[`TreeView _updateTodos 2`] = `
-Array [
-  Object {
+[
+  {
     "workspaceId": "123",
   },
-  Object {
+  {
     "workspaceId": "321",
   },
 ]
 `;
 
 exports[`TreeView clearTree 1`] = `
-Object {
-  "notes": Array [],
-  "snippets": Array [],
-  "todos": Array [],
+{
+  "notes": [],
+  "snippets": [],
+  "todos": [],
 }
 `;
 
 exports[`TreeView getChildren 1`] = `
-Array [
+[
   Item {
     "archived": undefined,
     "basePath": "/foo/bar",
@@ -143,24 +143,24 @@ Array [
 `;
 
 exports[`TreeView getChildren 2`] = `
-Array [
+[
   TodoItem {
     "archived": undefined,
     "basePath": "/foo/bar",
     "checked": undefined,
     "collapsibleState": undefined,
-    "command": Object {
+    "command": {
       "command": "marquee.todo.addEmpty",
       "title": "Add new todo",
     },
     "contextValue": "AddNew",
-    "iconPath": Object {
+    "iconPath": {
       "dark": "/foo/bar/assets/add-light.svg",
       "light": "/foo/bar/assets/add-dark.svg",
     },
     "id": "addtodos",
     "isTreeItem": true,
-    "item": Object {},
+    "item": {},
     "label": "Add new todo",
     "type": "AddNew",
   },
@@ -168,25 +168,25 @@ Array [
 `;
 
 exports[`TreeView getChildren 3`] = `
-Array [
+[
   SnippetItem {
     "archived": undefined,
     "basePath": "/foo/bar",
     "checked": undefined,
     "collapsibleState": undefined,
-    "command": Object {
+    "command": {
       "command": "marquee.snippet.addEmpty",
       "title": "Add New Clipboard Item",
     },
     "contextValue": "AddNew",
     "empty": true,
-    "iconPath": Object {
+    "iconPath": {
       "dark": "/foo/bar/assets/add-light.svg",
       "light": "/foo/bar/assets/add-dark.svg",
     },
     "id": "addItemSnippet",
     "isTreeItem": true,
-    "item": Object {},
+    "item": {},
     "label": "Add New Clipboard Item",
     "type": "AddNew",
   },
@@ -194,25 +194,25 @@ Array [
 `;
 
 exports[`TreeView getChildren 4`] = `
-Array [
+[
   NoteItem {
     "archived": undefined,
     "basePath": "/foo/bar",
     "checked": undefined,
     "collapsibleState": undefined,
-    "command": Object {
+    "command": {
       "command": "marquee.note.addEmpty",
       "title": "Add new note",
     },
     "contextValue": "AddNew",
     "empty": true,
-    "iconPath": Object {
+    "iconPath": {
       "dark": "/foo/bar/assets/add-light.svg",
       "light": "/foo/bar/assets/add-dark.svg",
     },
     "id": "addItemNote",
     "isTreeItem": true,
-    "item": Object {},
+    "item": {},
     "label": "Add new note",
     "type": "AddNew",
   },

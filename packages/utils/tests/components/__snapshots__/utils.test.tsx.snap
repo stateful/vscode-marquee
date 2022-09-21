@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`jumpTo 1`] = `
-Array [
-  Array [
-    Object {
-      "west": Object {
-        "execCommands": Array [
-          Object {
-            "args": Array [
-              Object {
-                "item": Object {
+[
+  [
+    {
+      "west": {
+        "execCommands": [
+          {
+            "args": [
+              {
+                "item": {
                   "foo": "bar",
                 },
               },

@@ -164,6 +164,7 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
                     />
                   </Grid>
                   <Grid item xs style={{ maxWidth: '100%' }}>
+                    {/* @ts-expect-error */}
                     <AutoSizer>
                       {({
                         height,
@@ -172,6 +173,8 @@ const Markdown = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : Marque
                         width: number;
                         height: number;
                       }) => (
+                        // eslint-disable-next-line max-len
+                        // @ts-expect-error see https://github.com/bvaughn/react-virtualized/commit/005be24a608add0344284053dae7633be86053b2
                         <List
                           aria-label='Markdown Item List'
                           width={width}

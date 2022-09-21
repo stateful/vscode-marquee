@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`_updateReference 1`] = `
-Object {
-  "todos": Array [
-    Object {
+{
+  "todos": [
+    {
       "body": "Hello World",
       "id": "1",
       "workspaceId": "foobar123",
     },
-    Object {
+    {
       "body": "here we go",
       "id": "3",
       "path": "/bar/foo:112233",
       "workspaceId": "foobar123",
     },
-    Object {
+    {
       "body": "some code",
       "id": "2",
       "workspaceId": "foobar123",
     },
-    Object {
+    {
       "body": "nothing",
       "id": "4",
       "path": "/bar/foo:31",
@@ -30,20 +30,20 @@ Object {
 `;
 
 exports[`generate proper default state and configuration 1`] = `
-Object {
+{
   "defaultConfig": true,
 }
 `;
 
 exports[`generate proper default state and configuration 2`] = `
-Object {
+{
   "defaultState": true,
   "someRandomConfig": "foobar",
 }
 `;
 
 exports[`getActiveWorkspace 1`] = `
-Object {
+{
   "id": "6a46e7d7-31ab-4c19-80ec-333506d67dd0",
   "name": "foobarWorkspace",
   "path": "/foo/bar",
@@ -52,7 +52,7 @@ Object {
 `;
 
 exports[`getTextSelection 1`] = `
-Object {
+{
   "lang": "42",
   "name": "bar",
   "path": "/foo/bar:0",
@@ -61,20 +61,20 @@ Object {
 `;
 
 exports[`should apply old configuration if available 1`] = `
-Object {
+{
   "defaultConfig": "old config",
 }
 `;
 
 exports[`should apply old configuration if available 2`] = `
-Object {
+{
   "defaultConfig": "old config",
   "defaultState": "old state",
 }
 `;
 
 exports[`should get proper extension props 1`] = `
-Object {
+{
   "extname": "stateful.marquee",
   "os": "some platform",
   "platformversion": "some release",

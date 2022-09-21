@@ -2,62 +2,62 @@
 
 exports[`_export 1`] = `
 "{
- \\"type\\": \\"MarqueeSettings\\",
- \\"version\\": \\"1.2.3\\",
- \\"state\\": {
-  \\"@vscode-marquee/utils\\": \\"some state\\",
-  \\"@vscode-marquee/gui\\": \\"some state\\",
-  \\"@vscode-marquee/welcome-widget\\": \\"some state\\",
-  \\"@vscode-marquee/news-widget\\": \\"some state\\",
-  \\"@vscode-marquee/projects-widget\\": \\"some state\\",
-  \\"@vscode-marquee/github-widget\\": \\"some state\\",
-  \\"@vscode-marquee/weather-widget\\": \\"some state\\",
-  \\"@vscode-marquee/todo-widget\\": \\"some state\\",
-  \\"@vscode-marquee/markdown-widget\\": \\"some state\\",
-  \\"@vscode-marquee/notes-widget\\": \\"some state\\",
-  \\"@vscode-marquee/npm-stats-widget\\": \\"some state\\",
-  \\"@vscode-marquee/snippets-widget\\": \\"some state\\"
+ "type": "MarqueeSettings",
+ "version": "1.2.3",
+ "state": {
+  "@vscode-marquee/utils": "some state",
+  "@vscode-marquee/gui": "some state",
+  "@vscode-marquee/welcome-widget": "some state",
+  "@vscode-marquee/news-widget": "some state",
+  "@vscode-marquee/projects-widget": "some state",
+  "@vscode-marquee/github-widget": "some state",
+  "@vscode-marquee/weather-widget": "some state",
+  "@vscode-marquee/todo-widget": "some state",
+  "@vscode-marquee/markdown-widget": "some state",
+  "@vscode-marquee/notes-widget": "some state",
+  "@vscode-marquee/npm-stats-widget": "some state",
+  "@vscode-marquee/snippets-widget": "some state"
  },
- \\"configuration\\": {
-  \\"@vscode-marquee/utils\\": \\"some configuration\\",
-  \\"@vscode-marquee/gui\\": \\"some configuration\\",
-  \\"@vscode-marquee/welcome-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/news-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/projects-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/github-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/weather-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/todo-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/markdown-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/notes-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/npm-stats-widget\\": \\"some configuration\\",
-  \\"@vscode-marquee/snippets-widget\\": \\"some configuration\\"
+ "configuration": {
+  "@vscode-marquee/utils": "some configuration",
+  "@vscode-marquee/gui": "some configuration",
+  "@vscode-marquee/welcome-widget": "some configuration",
+  "@vscode-marquee/news-widget": "some configuration",
+  "@vscode-marquee/projects-widget": "some configuration",
+  "@vscode-marquee/github-widget": "some configuration",
+  "@vscode-marquee/weather-widget": "some configuration",
+  "@vscode-marquee/todo-widget": "some configuration",
+  "@vscode-marquee/markdown-widget": "some configuration",
+  "@vscode-marquee/notes-widget": "some configuration",
+  "@vscode-marquee/npm-stats-widget": "some configuration",
+  "@vscode-marquee/snippets-widget": "some configuration"
  }
 }"
 `;
 
 exports[`_import transforms old config types 1`] = `
-Array [
-  Array [
+[
+  [
     "name",
     undefined,
   ],
-  Array [
+  [
     "background",
     "9",
   ],
-  Array [
+  [
     "language",
     undefined,
   ],
-  Array [
+  [
     "since",
     "Weekly",
   ],
-  Array [
+  [
     "spoken",
     undefined,
   ],
-  Array [
+  [
     "autoDetect",
     undefined,
   ],
@@ -65,10 +65,10 @@ Array [
 `;
 
 exports[`_import transforms old config types 2`] = `
-Array [
-  Array [
+[
+  [
     "read",
-    Array [
+    [
       "-MumT6xMRoa9-5HldrZM",
       "-MsgFT_sLhRzijQekM8s",
       "-MRQu2va0eCaPZnPAtNz",
@@ -76,30 +76,30 @@ Array [
       "-MKpao5VyK0UrufFJT6M",
     ],
   ],
-  Array [
+  [
     "workspaces",
-    Array [],
+    [],
   ],
-  Array [
+  [
     "todos",
-    Array [
-      Object {
+    [
+      {
         "archived": false,
         "body": "foobar",
         "checked": false,
         "exists": false,
         "id": "z825fdsi",
-        "tags": Array [
+        "tags": [
           "foo",
         ],
         "workspaceId": "00824ce3c6d29b87c30ed9649a23cf6ce9554c80",
       },
     ],
   ],
-  Array [
+  [
     "notes",
-    Array [
-      Object {
+    [
+      {
         "archived": false,
         "body": "<p>asdsaasd</p>",
         "createdAt": 1644402822591,
@@ -111,16 +111,16 @@ Array [
       },
     ],
   ],
-  Array [
+  [
     "snippets",
-    Array [
-      Object {
+    [
+      {
         "archived": false,
         "body": "dassaddsa",
         "createdAt": 1644402818003,
         "exists": false,
         "id": "y7utrxy7",
-        "language": Object {
+        "language": {
           "name": "markdown",
           "value": "markdown",
         },
@@ -134,8 +134,8 @@ Array [
 `;
 
 exports[`StateManager initiation 1`] = `
-Array [
-  Object {
+[
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -146,7 +146,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -157,7 +157,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -168,7 +168,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -179,7 +179,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -190,7 +190,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -201,7 +201,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -212,7 +212,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -223,7 +223,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -234,7 +234,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -245,7 +245,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],
@@ -256,7 +256,7 @@ Array [
     "updateConfiguration": [MockFunction],
     "updateState": [MockFunction],
   },
-  Object {
+  {
     "clear": [MockFunction],
     "configuration": "some configuration",
     "dispose": [MockFunction],

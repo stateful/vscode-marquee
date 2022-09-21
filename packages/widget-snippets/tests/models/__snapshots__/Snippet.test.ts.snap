@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snippet can be created from snippet object 1`] = `
-Object {
+{
   "archived": false,
   "body": "some body",
   "branch": undefined,

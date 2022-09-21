@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`with path as icon only 1`] = `
-Array [
-  Array [
-    Object {
-      "west": Object {
-        "execCommands": Array [
-          Object {
-            "args": Array [
-              Object {
-                "item": Object {
+[
+  [
+    {
+      "west": {
+        "execCommands": [
+          {
+            "args": [
+              {
+                "item": {
                   "body": "foobar",
                   "id": "foobar",
                   "path": "/foo/bar:42",

@@ -64,8 +64,8 @@ let ProjectListItem = ({ workspace }: ProjectListItemProps) => {
     return snippets.filter((snippets: any) => snippets.workspaceId === workspace.id)
   }, [workspace, snippets])
 
-  const handleOpen = useCallback((ev) => {
-    let target = ev.target
+  const handleOpen = useCallback((ev: React.MouseEvent<Element>) => {
+    let target = ev.target as Element
 
     /**
      * don't trigger open if "More" icon was clicked
