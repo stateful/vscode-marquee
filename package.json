@@ -2555,6 +2555,7 @@
               "type": "string"
             },
             "default": {
+              "HN Frontpage": "https://hnrss.stateful.com/frontpage",
               "HN Best": "https://hnrss.stateful.com/best",
               "HN Newest": "https://hnrss.stateful.com/newest",
               "HN Ask": "https://hnrss.stateful.com/ask",
