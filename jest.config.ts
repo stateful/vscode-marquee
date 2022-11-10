@@ -1,7 +1,7 @@
-import type { InitialOptionsTsJest } from 'ts-jest'
+import type { JestConfigWithTsJest } from 'ts-jest'
 import { jsWithTsESM as tsjPreset } from 'ts-jest/presets';
 
-const config: InitialOptionsTsJest = {
+const config: JestConfigWithTsJest = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   testMatch: [
