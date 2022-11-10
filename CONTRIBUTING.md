@@ -24,11 +24,16 @@ The maintainers of the project try to organize all [issues](https://github.com/s
 
 ## Contributing Code
 
-In order to propose changes to the code, please check out the repository and install neccessary dependencies:
+In order to propose changes to the code, please check out the repository:
 
 ```sh
 git clone git@github.com:stateful/vscode-marquee.git
 cd vscode-marquee
+```
+
+and install neccessary dependencies:
+
+```sh
 yarn install
 ```
 
