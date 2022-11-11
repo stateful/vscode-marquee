@@ -3,6 +3,9 @@ on: [push, pull_request]
 
 jobs:
   build:
+    permissions:
+      actions: read
+      contents: read
     strategy:
       matrix:
         os: [ubuntu-latest]
