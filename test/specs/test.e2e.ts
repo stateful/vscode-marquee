@@ -87,7 +87,7 @@ describe('Marquee', () => {
         const newFirstArticle = await newsWidget.getArticle(0)
         const newFirstArticleText = await newFirstArticle.getText()
 
-        expect(typeof newFirstArticleText).toBe('string')
+        expect(typeof newFirstArticleText).toBe('number')
         expect(firstArticleText).not.toBe(newFirstArticleText)
       })
     })
