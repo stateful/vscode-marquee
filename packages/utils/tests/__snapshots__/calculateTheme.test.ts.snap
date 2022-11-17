@@ -149,6 +149,7 @@ exports[`calculateTheme 1`] = `
     "augmentColor": [Function],
     "background": {
       "default": "#252526",
+      "defaultChannel": "18 18 18",
       "paper": "#252526",
     },
     "common": {
