@@ -125,11 +125,9 @@ class StateManager extends ExtensionManager<State & Events, Configuration> {
 
   setBroadcaster (tangle: Client<State & Events>) {
     super.setBroadcaster(tangle)
-    tangle.whenReady().then(() => {
-      this._retainTricks = true
-      return this.fetchData()
-    })
+    this._retainTricks = true
     tangle.on('upvote', this._upvoteTrick.bind(this))
+    this.fetchData()
     return this
   }
 

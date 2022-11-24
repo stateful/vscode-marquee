@@ -35,8 +35,6 @@ To add your widget to Marquee add the following to your extension:
 
 If your extension manages state data or other information you want to display, you can send them to your widget using [`tangle`](https://www.npmjs.com/package/tangle). Tangle is the data communication layer and allows to share state as well as events from your original extension and the Marquee webview. In order to iniate a communication channel return an object within your [activate method](https://code.visualstudio.com/api/get-started/extension-anatomy#extension-entry-file) or your extension entry file, please see below.
 
-> Please note that the `whenReady` hook below is optional and resolves once Marquee (counter-party JS sandbox) is ready to receive state updates. It's only required if sequence of events is important. For more information check out the [tangle docs](https://www.npmjs.com/package/tangle)' paragraph about lifecycle hooks.
-
 ```ts
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
@@ -68,12 +66,10 @@ export function activate(context: vscode.ExtensionContext) {
     marquee: {
       customWidgetCounter: 1, // optional
       setup: (tangle: Client<{ counter: number }>) => {
-        return tangle.whenReady().then(() => {
-          let i = 0
-          setInterval(() => {
-            tangle.emit('counter', ++i)
-          }, 1000)
-        })
+        let i = 0
+        setInterval(() => {
+          tangle.emit('counter', ++i)
+        }, 1000)
       },
     },
   }
