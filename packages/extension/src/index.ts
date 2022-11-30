@@ -26,18 +26,16 @@ export async function activate (context: vscode.ExtensionContext) {
     marquee: {
       customWidgetCounter: 2, // defined 2 marquee widgets on exampleWidget/widgets.ts
       setup: (tangle: Client<{ counter: number, changeName: string }>) => {
-        return tangle.whenReady().then(() => {
-          let i = 0
-          let name = 'foo'
-          tangle.emit('changeName', name)
-          tangle.on('changeName', (newName) => {
-            name = newName
-          })
-
-          setInterval(() => {
-            tangle.emit('counter', ++i)
-          }, 1000)
+        let i = 0
+        let name = 'foo'
+        tangle.emit('changeName', name)
+        tangle.on('changeName', (newName) => {
+          name = newName
         })
+
+        setInterval(() => {
+          tangle.emit('counter', ++i)
+        }, 1000)
       },
     },
   }

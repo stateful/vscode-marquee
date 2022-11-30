@@ -28,7 +28,6 @@ test('should return expected interface', async () => {
     emit: jest.fn(),
     broadcast: jest.fn(),
     listen: jest.fn().mockReturnValue({ unsubscribe: jest.fn() }),
-    whenReady: jest.fn().mockReturnValue(Promise.resolve()),
     removeAllListeners: jest.fn()
   }
   const context = { globalState: new Map() }

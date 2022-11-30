@@ -140,25 +140,23 @@ export class MarkdownExtensionManager extends ExtensionManager<State, Configurat
     super.setBroadcaster(tangle)
 
     // load content when file is selected
-    tangle.whenReady().then(() => {
-      tangle.listen('markdownDocumentSelected', (id) => {
-        const selectedDoc = this.state.markdownDocuments
-          .find((doc) => doc.id === id)
-        if (!selectedDoc) {
-          return
-        }
-        this.loadMarkdownContent(selectedDoc)
-      })
-
-      // Load initial documents
-      this.loadMarkdownDocuments().then((markdownDocuments) => {
-        this.updateState('markdownDocuments', markdownDocuments)
-        this.broadcast({ markdownDocuments })
-        if (markdownDocuments.length > 0) {
-          this.loadMarkdownContent(markdownDocuments[0])
-        }
-      }, (err: any) => this.#logger.error(`Error fetching Markdown files: ${(err as Error).message}`))
+    tangle.listen('markdownDocumentSelected', (id) => {
+      const selectedDoc = this.state.markdownDocuments
+        .find((doc) => doc.id === id)
+      if (!selectedDoc) {
+        return
+      }
+      this.loadMarkdownContent(selectedDoc)
     })
+
+    // Load initial documents
+    this.loadMarkdownDocuments().then((markdownDocuments) => {
+      this.updateState('markdownDocuments', markdownDocuments)
+      this.broadcast({ markdownDocuments })
+      if (markdownDocuments.length > 0) {
+        this.loadMarkdownContent(markdownDocuments[0])
+      }
+    }, (err: any) => this.#logger.error(`Error fetching Markdown files: ${(err as Error).message}`))
 
     return this
   }
