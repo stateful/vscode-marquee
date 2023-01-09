@@ -1,6 +1,4 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
-import { TITLE, DESCRIPTION, CANONICAL } from '../constants'
-import { DefaultSeo } from 'next-seo'
 
 export default class MyDocument extends Document {
   render () {
@@ -29,30 +27,6 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png"></link>
           <meta name="theme-color" content="#1a1f2c" />
         </Head>
-        <DefaultSeo
-          title={TITLE}
-          description={DESCRIPTION}
-          canonical={CANONICAL}
-
-          openGraph={{
-            url: CANONICAL,
-            title: TITLE,
-            description: DESCRIPTION,
-            images: [{
-              url: `${CANONICAL}/assets/screenshot.png`,
-              width: 1200,
-              height: 744,
-              alt: 'Marquee Extension',
-              type: 'image/png',
-            }],
-            site_name: TITLE,
-          }}
-          twitter={{
-            handle: '@statefulhq',
-            site: '@statefulhq',
-            cardType: 'summary_large_image'
-          }}
-        />
 
         <body>
           <Main />
