@@ -23,7 +23,9 @@ export const Hero = () => {
         <Heading as="h1" mr={{base:2, sm:4, md:10}} fontSize={{ base: '4em', sm: '6em', md: '9em'}}>
           Marquee
         </Heading>
-        <Image src='/assets/marquee-logo.png' width={{base:55, sm:75 ,md:150}} height={{base:45, sm:75 ,md:125}}/>
+        <Image
+          src='/assets/marquee-logo.png'
+          width={{base:55, sm:75 ,md:150}} height={{base:45, sm:75 ,md:125}} alt="Marquee" />
       </Flex>
       <Box my={6} maxWidth={'1200px'}>
         <Heading as="h2" fontSize={{ base: '1.2em', md: '1.8em'}} textAlign={'center'} mx={5} mb={{ base: 5, sm: 0 }}>
@@ -107,7 +109,7 @@ export const Hero = () => {
             position: 'relative'
           }}
         >
-          <Image src="/assets/laptop.png" position={'relative'} zIndex={10} />
+          <Image src="/assets/laptop.png" position={'relative'} zIndex={10} alt="Laptop"/>
           <Box
             h={'90%'}
             overflow={'hidden'}
@@ -119,6 +121,7 @@ export const Hero = () => {
               src="/assets/screenshot.gif"
               margin={{ base: '20px 51px', xs: '27px 67px', sm: '37px 95px', md: '53px 137px'}}
               w={{ base: 268, xs: 346, sm: 510, md: 726 }}
+              alt="Screencast"
             />
           </Box>
         </motion.div>

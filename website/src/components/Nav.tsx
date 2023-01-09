@@ -49,6 +49,7 @@ export const Nav = () => {
               src={useColorModeValue('/assets/logo.png', '/assets/logo_white.png')}
               padding={'10px'}
               width={'200px'}
+              alt="Stateful"
             />
           </Link>
           <Flex ml={'auto'} display={{ base: 'flex', sm: 'none' }}>

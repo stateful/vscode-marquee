@@ -79,7 +79,7 @@ export const Widgets = () => (
     <SimpleGrid minChildWidth={250} spacingX={{ sm: 10, md: 20 }} columns={{ sm: 1, md: 3 }}>
       {widgets.map((w, i) => (
         <Box mb={10} key={i}>
-          <Image src={`/assets/widgets/${w.image}`} rounded={10} />
+          <Image src={`/assets/widgets/${w.image}`} rounded={10} alt="Widget"/>
           <Heading color={'marquee'} my={{ base: 4 }} as="h3" fontSize="1.5em">
             {w.heading}
           </Heading>
