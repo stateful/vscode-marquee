@@ -25,7 +25,7 @@ interface Props {
 const Docs = ({ source, currentSlug, currentTitle }: Props) => {
   return (
     <>
-      <NextSeo title={`${TITLE} - ${currentTitle}`} />
+      <NextSeo title={`${TITLE} - ${currentTitle}`} description="Docs • Marquee"/>
       <Container height="100vh">
         <Nav />
         <Main pt={8}>
