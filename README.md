@@ -9,7 +9,7 @@ Marquee is a [VS Code](https://code.visualstudio.com/) extension designed to nat
 
 <p align="center" style="padding: 20px 0">
   <a href="https://marketplace.visualstudio.com/items?itemName=stateful.marquee&ssr=false#overview">
-    <img src="https://img.shields.io/badge/Install-VSCode%20Marketplace-blue" />
+    <img src="https://img.shields.io/badge/Install-VSCode%20Marketplace-blue" alt="Marketplace Badge"/>
   </a>
 </p>
 

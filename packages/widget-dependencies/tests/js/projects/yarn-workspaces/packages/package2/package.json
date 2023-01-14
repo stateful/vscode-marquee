@@ -1,0 +1,9 @@
+{
+  "name": "yarn-project-workspace-package2",
+  "version": "1.0.0",
+  "homepage": "https://homepage.com",
+  "repository": "https://repository.com/yarn-project",
+  "main": "index.js",
+  "license": "MIT"
+}
+

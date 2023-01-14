@@ -57,6 +57,7 @@ vscode.workspace = {
   onDidCloseTextDocument: jest.fn(),
   onDidChangeTextDocument: jest.fn(),
   onDidChangeConfiguration: jest.fn(),
+  onDidChangeWorkspaceFolders: jest.fn(),
   fs: {
     readFile: jest.fn().mockResolvedValue('some file'),
     writeFile: jest.fn().mockResolvedValue({})

@@ -275,5 +275,9 @@ window.marqueeStateConfiguration = {
       error: null,
       stats: {}
     }
-  }
+  },
+  '@vscode-marquee/dependencies-widget': {
+    configuration: {},
+    state: {},
+  },
 }

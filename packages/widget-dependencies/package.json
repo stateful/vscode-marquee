@@ -1,0 +1,19 @@
+{
+    "name": "@vscode-marquee/widget-dependencies",
+    "description": "Marquee Dependencies Widget",
+    "version": "0.1.0",
+    "private": true,
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
+    "dependencies": {
+        "@vscode-marquee/utils": "^0.1.0",
+        "@vscode-marquee/widget": "^0.1.0",
+        "semver": "^7.3.8"
+    },
+    "devDependencies": {
+        "@types/glob": "^8.0.0",
+        "@types/semver": "^7.3.13",
+        "glob": "^8.0.3",
+        "query-registry": "^2.6.0"
+    }
+}
