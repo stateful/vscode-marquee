@@ -1,29 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`packageManagerCmdOutdated 1`] = `
-{
-  "current": "5.10.13",
-  "latest": "5.11.4",
-  "packageId": "@mui/material",
-  "packageType": "devDependencies",
-  "url": "https://mui.com/material-ui/getting-started/overview/",
-  "wanted": "5.11.4",
-  "workspace": undefined,
-}
-`;
-
-exports[`packageManagerCmdOutdated 2`] = `
-{
-  "current": "18.0.25",
-  "latest": "18.0.26",
-  "packageId": "@types/react",
-  "packageType": "devDependencies",
-  "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
-  "wanted": "18.0.26",
-  "workspace": undefined,
-}
-`;
-
 exports[`tryGetJsProject 1`] = `
 {
   "dependencies": {
