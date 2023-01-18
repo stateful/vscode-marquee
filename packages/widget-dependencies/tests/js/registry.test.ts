@@ -1,5 +1,5 @@
 import { getRawPackument, pullRemoteRegistry } from '../../src/js/registry'
-import * as util from '../../src/util'
+import util from '../../src/util'
 
 const fetch = jest.fn(
   async () => ({

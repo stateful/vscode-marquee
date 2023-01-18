@@ -248,8 +248,6 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                               <FontAwesomeIcon 
                                 icon={faTrash}
                                 fontSize='medium'
-                                // style={{ cursor: 'pointer' }}
-                                // onClick={() => _removeDependency(dep)}
                               />
                             </IconButton>
                           )}
