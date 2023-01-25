@@ -73,6 +73,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
             <IconButton
               onClick={() => _updateAllDependencies()}
               aria-label='Upgrade All Dependencies'
+              disabled={loading || !dependencies.some(dep => needsUpgrade(dep))}
             >
               <FontAwesomeIcon 
                 icon={faAnglesUp}
