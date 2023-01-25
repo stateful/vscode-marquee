@@ -1,5 +1,4 @@
 import { getRawPackument, pullRemoteRegistry } from '../../src/js/registry'
-import util from '../../src/util'
 
 const fetch = jest.fn(
   async () => ({
@@ -16,7 +15,10 @@ const fetch = jest.fn(
   })
 )
 
-;(util as any).getFetch = () => fetch
+jest.mock('../../src/util', () => ({
+  ...jest.requireActual('../../src/util'),
+  getFetch: () => fetch
+}))
 
 afterEach(() => fetch.mockClear())
 
