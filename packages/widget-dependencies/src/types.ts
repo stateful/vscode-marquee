@@ -2,7 +2,7 @@ import type { ContextProperties } from '@vscode-marquee/utils'
 import type vscode from 'vscode'
 export type { RawPackument } from 'query-registry'
 
-export interface State { 
+export interface State {
   dependencies: DisplayedDependency[]
   loading: boolean
   capabilities: DependencyProviderCapabilities
@@ -26,7 +26,7 @@ export interface Events {
   removeDependency: { packageId: string, workspace?: string, isRootWorkspace: boolean }
 }
 
-export interface Context extends ContextProperties<Configuration & State> { 
+export interface Context extends ContextProperties<Configuration & State> {
   _refreshDependencies(): void
   _updateDependency(dep: DisplayedDependency, toVersion: string): void
   _updateAllDependencies(): void
@@ -45,7 +45,7 @@ export interface DependencyProvider extends vscode.Disposable {
   upgradeAllDependencies?: () => Promise<void>
 
   deleteDependency?: (
-    packageId: string, 
+    packageId: string,
     workspace: string|undefined,
     isRootWorkspace: boolean
   ) => Promise<void>
@@ -53,7 +53,7 @@ export interface DependencyProvider extends vscode.Disposable {
   /**
    * Whether or not this provider explicitly sets if this dependency needs
    * an upgrade via the `needsUpgrade` prop of `DisplayedDependency`
-   * 
+   *
    * If this is false, the client determines whether a package needs an update
    * by comparing the current and latest semantic versions
    */
@@ -61,14 +61,14 @@ export interface DependencyProvider extends vscode.Disposable {
 }
 
 export interface TerminalProvider extends vscode.Disposable {
-  getOrCreateTerminal(): vscode.Terminal
+  getOrCreateTerminal(cwd: vscode.Uri): vscode.Terminal
 }
 
 export type DependencyType = 'normal'|'dev'
 
 export interface DisplayedDependency {
   name: string
-  
+
   versions: {
     current?: string
     wanted?: string

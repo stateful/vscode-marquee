@@ -47,13 +47,13 @@ const remoteRegistry: RemoteRegistry = {
 
 const packageManagerCmdOutdated = jest.fn<NPMOutdatedInfo[], any>(() => [])
 
-const { 
+const {
   _fsWatcherChangeDispose,
   _fsWatcherDispose
-} = (vscode as unknown as typeof vscodeMock).workspace 
+} = (vscode as unknown as typeof vscodeMock).workspace
 
-const disposables = [ 
-  _fsWatcherChangeDispose, 
+const disposables = [
+  _fsWatcherChangeDispose,
   _fsWatcherDispose
 ]
 
@@ -74,7 +74,7 @@ describe('loadDependencies', () => {
       expect(deps).not.toHaveLength(0)
     }
   ))
-  
+
   test('yarn project', providerTest(
     'yarn',
     async (provider) => {
@@ -120,9 +120,9 @@ describe('loadDependencies', () => {
           workspace: 'yarn-project-workspace'
         }
       ])
-      
+
       const deps = await provider.loadDependencies()
-  
+
       expect(deps).toBeTruthy()
       expect(deps).toHaveLength(4)
 
@@ -135,14 +135,14 @@ describe('loadDependencies', () => {
 describe('upgradeDependency', () => {
   test('for root package', providerTest(
     'yarn',
-    async (provider) => {
+    async (provider, uri) => {
       // must call so that package manager is set
       await provider.getPackageInfo()
-      
+
       await provider.upgradeDependency('package', 'latest', undefined)
 
       expect(terminal.sendText).toBeCalledTimes(1)
-      expect(terminal.sendText).toBeCalledWith('yarn upgrade package@latest', true)
+      expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn upgrade package@latest', uri), true)
       expect(terminal.show).toBeCalledTimes(1)
       expect(terminal.show).toBeCalledWith(true)
     }
@@ -150,14 +150,14 @@ describe('upgradeDependency', () => {
 
   test('for workspace package', providerTest(
     'yarnWorkspaces',
-    async (provider) => {
+    async (provider, uri) => {
       // must call so that package manager is set
       await provider.getPackageInfo()
-      
+
       await provider.upgradeDependency('package', 'latest', 'subspace')
 
       expect(terminal.sendText).toBeCalledTimes(1)
-      expect(terminal.sendText).toBeCalledWith('yarn workspace subspace upgrade package@latest', true)
+      expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn workspace subspace upgrade package@latest', uri), true)
       expect(terminal.show).toBeCalledTimes(1)
       expect(terminal.show).toBeCalledWith(true)
     }
@@ -167,14 +167,14 @@ describe('upgradeDependency', () => {
 describe('deleteDependency', () => {
   test('for root package', providerTest(
     'yarn',
-    async (provider) => {
+    async (provider, uri) => {
       // must call so that package manager is set
       await provider.getPackageInfo()
-      
+
       await provider.deleteDependency('package', undefined)
 
       expect(terminal.sendText).toBeCalledTimes(1)
-      expect(terminal.sendText).toBeCalledWith('yarn remove package', true)
+      expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn remove package', uri), true)
       expect(terminal.show).toBeCalledTimes(1)
       expect(terminal.show).toBeCalledWith(true)
     }
@@ -182,14 +182,14 @@ describe('deleteDependency', () => {
 
   test('for workspace package', providerTest(
     'yarnWorkspaces',
-    async (provider) => {
+    async (provider, uri) => {
       // must call so that package manager is set
       await provider.getPackageInfo()
 
       await provider.deleteDependency('package', 'subspace')
 
       expect(terminal.sendText).toBeCalledTimes(1)
-      expect(terminal.sendText).toBeCalledWith('yarn workspace subspace remove package', true)
+      expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn workspace subspace remove package', uri), true)
       expect(terminal.show).toBeCalledTimes(1)
       expect(terminal.show).toBeCalledWith(true)
     }
@@ -197,14 +197,14 @@ describe('deleteDependency', () => {
 
   test('for workspace package root', providerTest(
     'yarnWorkspaces',
-    async (provider) => {
+    async (provider, uri) => {
       // must call so that package manager is set
       await provider.getPackageInfo()
-      
+
       await provider.deleteDependency('package', 'root', true)
 
       expect(terminal.sendText).toBeCalledTimes(1)
-      expect(terminal.sendText).toBeCalledWith('yarn -W remove package', true)
+      expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn -W remove package', uri), true)
       expect(terminal.show).toBeCalledTimes(1)
       expect(terminal.show).toBeCalledWith(true)
     }
@@ -213,34 +213,40 @@ describe('deleteDependency', () => {
 
 test('upgradeAllDependencies', providerTest(
   'yarn',
-  async (provider) => {
+    async (provider, uri) => {
     // must call so that package manager is set
     await provider.getPackageInfo()
 
     await provider.upgradeAllDependencies()
 
     expect(terminal.sendText).toBeCalledTimes(1)
-    expect(terminal.sendText).toBeCalledWith('yarn upgrade', true)
+    expect(terminal.sendText).toBeCalledWith(getPkgCmd('yarn upgrade', uri), true)
     expect(terminal.show).toBeCalledTimes(1)
     expect(terminal.show).toBeCalledWith(true)
   }
 ))
 
+function getPkgCmd (cmd: string, uri: vscode.Uri): string {
+  return `${cmd} --cwd ${uri.fsPath}`
+}
+
 function providerTest (
   project: vscode.Uri | keyof typeof projects,
-  cb: (provider: JsDependencyProvider) => Promise<void>,
+  cb: (provider: JsDependencyProvider, uri: vscode.Uri) => Promise<void>,
   config?: ProviderConfig,
 ) {
   return async () => {
+    const uri = typeof project === 'object' ? project : vscode.Uri.file(projects[project])
+
     const provider = createProvider(
-      typeof project === 'object' ? project : vscode.Uri.file(projects[project]),
+      uri,
       config
     )
-  
-    await cb?.(provider)
-  
+
+    await cb?.(provider, uri)
+
     provider.dispose()
-  
+
     disposables.forEach(d => {
       expect(d).toBeCalledTimes(1)
       d.mockClear()
@@ -251,11 +257,11 @@ function providerTest (
   }
 
   function createProvider (
-    uri: vscode.Uri, 
+    uri: vscode.Uri,
     config: ProviderConfig = { showUpToDate: true }
   ) {
     (vscode.workspace as any)._setWorkspaceFolder(uri)
-    
+
     return new JsDependencyProvider(
       config as Configuration,
       terminalProvider as unknown as TerminalProvider,
@@ -269,9 +275,9 @@ function providerTest (
 function normalizeDependencyList (
   deps: DisplayedDependency[]
 ) {
-  deps.sort((a, b) => { 
+  deps.sort((a, b) => {
     {
-      const comp = a.name.localeCompare(b.name) 
+      const comp = a.name.localeCompare(b.name)
       if(comp !== 0) { return comp }
     }
 

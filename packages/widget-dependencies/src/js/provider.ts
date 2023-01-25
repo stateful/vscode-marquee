@@ -3,22 +3,24 @@ import { Configuration, DependencyProvider, DisplayedDependency, TerminalProvide
 import { pullRemoteRegistry } from './registry'
 import { findWorkspaces, packageManagerCmdOutdated, tryGetJsProject } from './packageManager'
 import { JsPackageManager, LocalJsPackage } from './types'
+import { Logger } from '@vscode-marquee/utils/build/logger'
 
 declare const IS_WEB_BUNDLE: boolean
 
 export class JsDependencyProvider implements DependencyProvider {
   private packageManager: JsPackageManager = 'npm'
   private disposables: vscode.Disposable[] = []
-  
+  private cwd: vscode.Uri|undefined
+
   constructor (
     private readonly config: Configuration,
     private terminalProvider: TerminalProvider,
     refreshDependencies: () => void,
-  ) { 
+  ) {
     const watcher = vscode.workspace.createFileSystemWatcher(
       '**/package.json'
     )
-    
+
     this.disposables.push(
       watcher
     )
@@ -33,14 +35,14 @@ export class JsDependencyProvider implements DependencyProvider {
   async loadDependencies (): Promise<DisplayedDependency[]|undefined> {
     const pkg = await this.getPackageInfo()
     if(!pkg) { return undefined }
-  
+
     const projects = await findWorkspaces(pkg)
 
     if (!IS_WEB_BUNDLE) {
       const data = await packageManagerCmdOutdated(pkg) ?? []
 
       const upgradeableDepMemo: Record<string, Set<string>|undefined> = {}
-      
+
       const upgradeableDeps: DisplayedDependency[] = await Promise.all(data.map(
         async ({
           packageId,
@@ -52,11 +54,11 @@ export class JsDependencyProvider implements DependencyProvider {
           url
         }) => {
           const workspaceId = workspace ?? pkg.name
-          
+
           if(!upgradeableDepMemo[workspaceId]) {
             upgradeableDepMemo[workspaceId] = new Set()
           }
-          
+
           upgradeableDepMemo[workspaceId]?.add(packageId)
 
           const hasWorkspaces = (pkg.workspaces?.length ?? 0) > 0
@@ -81,7 +83,7 @@ export class JsDependencyProvider implements DependencyProvider {
       ))
 
       const upToDateDeps = this.config.showUpToDate && Object.values(projects)
-        .flatMap(repo => 
+        .flatMap(repo =>
           Object.values(repo.dependencies)
             .filter(dep => !upgradeableDepMemo[repo.name]?.has(dep.name))
             .map(dep => {
@@ -111,7 +113,7 @@ export class JsDependencyProvider implements DependencyProvider {
 
       return Object.values(projects)
         .flatMap(
-          repo => 
+          repo =>
             Object.values(repo.dependencies)
               .filter(dep => dep.name in remoteRegistry)
               .map(dep => {
@@ -137,8 +139,8 @@ export class JsDependencyProvider implements DependencyProvider {
   }
 
   async upgradeDependency (
-    packageId: string, 
-    toVersion: string, 
+    packageId: string,
+    toVersion: string,
     workspace: string|undefined
   ) {
     this.packageManagerCommand(
@@ -152,7 +154,7 @@ export class JsDependencyProvider implements DependencyProvider {
   }
 
   async deleteDependency (
-    packageId: string, 
+    packageId: string,
     workspace: string|undefined,
     isRootWorkspace: boolean = false
   ) {
@@ -169,15 +171,16 @@ export class JsDependencyProvider implements DependencyProvider {
 
   async getPackageInfo (): Promise<LocalJsPackage|undefined> {
     const { workspaceFolders } = vscode.workspace
-    
+
     if(!workspaceFolders || workspaceFolders.length === 0) { return undefined }
-    
+
     const workspacePath = workspaceFolders[0].uri
     const pkg = await tryGetJsProject(workspacePath, undefined, this.config.prefersPnpm)
 
     if(!pkg) { return undefined }
 
     this.packageManager = pkg.manager
+    this.cwd = pkg.uri
 
     return pkg
   }
@@ -187,23 +190,31 @@ export class JsDependencyProvider implements DependencyProvider {
     workspace?: string,
     rootWorkspaceFlag = false
   ) {
+    if(!this.cwd) {
+      Logger.error('Cwd not set by JS provider!')
+      return
+    }
+
     args = [
       ...rootWorkspaceFlag ? ['-W'] : [],
       ...(workspace && !rootWorkspaceFlag) ? ['workspace', workspace] : [],
       ...args
     ]
-    
-    const terminal = this.terminalProvider.getOrCreateTerminal()
+
+    const terminal = this.terminalProvider.getOrCreateTerminal(this.cwd)
 
     terminal.sendText(
-      [ this.packageManager, ...args ].join(' '),
+      [ 
+        this.packageManager, ...args,
+        '--cwd', this.cwd.fsPath
+      ].join(' '),
       true
     )
 
     terminal.show(true)
   }
 
-  dispose () { 
+  dispose () {
     this.disposables.forEach(d => d.dispose())
   }
 }

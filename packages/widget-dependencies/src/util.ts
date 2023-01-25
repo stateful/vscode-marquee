@@ -20,25 +20,37 @@ export function getFetch (): typeof fetch {
 }
 
 export class NamedTerminalProvider implements TerminalProvider {
-  private terminal?: vscode.Terminal
-  
+  private terminals: Record<string, vscode.Terminal> = {}
+
   constructor (
     private name: string
   ) { }
 
-  getOrCreateTerminal (): vscode.Terminal {
-    if(this.terminal && !this.terminal.exitStatus) { return this.terminal }
+  getOrCreateTerminal (cwd: vscode.Uri): vscode.Terminal {
+    const key = cwd.fsPath
 
-    this.terminal?.dispose()
-    
-    this.terminal = vscode.window.createTerminal(
-      this.name
-    )
+    if(key in this.terminals && this.terminals[key].exitStatus) {
+      this.terminals[key].dispose()
+      delete this.terminals[key]
+    }
 
-    return this.terminal
+    if(!(key in this.terminals)) {
+      this.terminals[key] = vscode.window.createTerminal(
+        {
+          name: this.name,
+          cwd: cwd.fsPath,
+          isTransient: true
+        }
+      )
+    }
+
+    const terminal = this.terminals[key]
+
+    return terminal
   }
 
   dispose () {
-    this.terminal?.dispose()
+    Object.values(this.terminals)
+      .forEach(terminal => terminal.dispose())
   }
 }
