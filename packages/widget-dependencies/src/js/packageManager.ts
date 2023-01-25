@@ -1,12 +1,13 @@
 import type { PackageJSON } from 'query-registry'
 import vscode  from 'vscode'
-import type { 
-  JsPackageManager, 
-  LocalJsPackage, 
-  LocalJsProjects, 
-  NPMOutdatedColumn, 
-  NPMOutdatedData, 
-  NPMOutdatedInfo 
+import hash from 'object-hash'
+import type {
+  JsPackageManager,
+  LocalJsPackage,
+  LocalJsProjects,
+  NPMOutdatedColumn,
+  NPMOutdatedData,
+  NPMOutdatedInfo
 } from './types'
 
 declare const IS_WEB_BUNDLE: boolean
@@ -15,7 +16,7 @@ export async function tryGetPackageJson (
   uri: vscode.Uri,
 ): Promise<PackageJSON|undefined> {
   const pkgJsonPath = vscode.Uri.joinPath(uri, 'package.json')
-    
+
   let file: string
 
   try {
@@ -35,10 +36,10 @@ export async function tryGetPackageJson (
     throw new Error('Unable to serialize package.json')
   }
 
-  if (typeof pkgJson !== 'object' 
+  if (typeof pkgJson !== 'object'
     || typeof pkgJson.name !== 'string'
     || typeof pkgJson.version !== 'string'
-  ) { 
+  ) {
     throw new Error('Invalid package.json')
   }
 
@@ -65,7 +66,8 @@ export async function tryGetJsProject (
     uri,
     manager: parent?.manager ?? await getPackageManager(uri, prefersPnpm),
     homepage: pkgJson.homepage,
-    repository: repositoryUrl || undefined
+    repository: repositoryUrl || undefined,
+    json: pkgJson
   }
 
   const dependenciesZipped = [
@@ -118,13 +120,13 @@ export async function findWorkspaces (
 
   // apply glob patterns in workspaces
   const candidateUris = (await Promise.all(
-    rootProject.workspaces?.map(workspacePath => 
+    rootProject.workspaces?.map(workspacePath =>
       vscode.workspace.findFiles(
         new vscode.RelativePattern(rootProject.uri, workspacePath)
       )
     ) ?? []
   )).flatMap(x => x)
-  
+
   // filter for only the folders, and add to projects
   await Promise.all(
     candidateUris.map(async (relativeUri) => {
@@ -148,7 +150,7 @@ export async function packageManagerCmdOutdated (
   pkg: LocalJsPackage,
 ): Promise<NPMOutdatedInfo[]|undefined> {
   const output = await packageManagerCmd(
-    pkg, 
+    pkg,
     'outdated',
     '--json',
   )
@@ -166,7 +168,7 @@ export async function packageManagerCmdOutdated (
         return false
       }
     })
-  
+
   if(!table) { return undefined }
 
   let data: NPMOutdatedData
@@ -182,7 +184,7 @@ export async function packageManagerCmdOutdated (
     (prev, col, i) => {
       prev[col] = i
       return prev
-    }, 
+    },
     {} as Record<NPMOutdatedColumn, number>
   )
 
@@ -192,8 +194,8 @@ export async function packageManagerCmdOutdated (
   }
 
   const fromRow = (from: string[], col: NPMOutdatedColumn) => {
-    if (col in idxMap) { 
-      return from[idxMap[col]] 
+    if (col in idxMap) {
+      return from[idxMap[col]]
     }
 
     return undefined
@@ -210,14 +212,27 @@ export async function packageManagerCmdOutdated (
   }))
 }
 
+const PackageManagerCmdCache: Record<string, string|undefined> = {}
+
 export async function packageManagerCmd (
   pkg: LocalJsPackage,
   ...args: string[]
 ): Promise<string|undefined> {
   if(IS_WEB_BUNDLE) { return undefined }
 
+  const projects = await findWorkspaces(pkg) ?? {}
+
+  const cmdHash = hash({
+    projects,
+    args
+  })
+
+  if (cmdHash in PackageManagerCmdCache) {
+    return PackageManagerCmdCache[cmdHash]
+  }
+
   const { exec } = require('child_process') as typeof import('node:child_process')
-  
+
   return await new Promise<string|undefined>((res, rej) => {
     const proc = exec(
       [pkg.manager, ...args].join(' '),
@@ -239,4 +254,8 @@ export async function packageManagerCmd (
 
     proc.on('close', () => res(undefined))
   })
+    .then((result) => {
+      PackageManagerCmdCache[cmdHash] = result
+      return result
+    })
 }

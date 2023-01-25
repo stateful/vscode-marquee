@@ -1,5 +1,6 @@
 import type vscode from 'vscode'
 import type { DependencyType } from 'src/types'
+import type { PackageJSON } from 'query-registry'
 
 export type JsPackageManager = 'npm'|'yarn'|'pnpm'
 
@@ -26,6 +27,7 @@ export interface LocalJsPackage extends JsPackageMeta {
   uri: vscode.Uri
   workspaces?: string[]
   manager: JsPackageManager
+  json: PackageJSON
 }
 
 export type LocalJsProjects = Record<string, LocalJsPackage>
