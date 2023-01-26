@@ -213,7 +213,7 @@ describe('deleteDependency', () => {
 
 test('upgradeAllDependencies', providerTest(
   'yarn',
-    async (provider, uri) => {
+  async (provider, uri) => {
     // must call so that package manager is set
     await provider.getPackageInfo()
 
