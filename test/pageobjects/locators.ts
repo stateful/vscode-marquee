@@ -92,7 +92,8 @@ export const dependenciesWidget = {
 export const dependenciesEntry = {
   name: 'span[aria-label="dependency-name-text"]',
   versionInfoCurrent: 'div[aria-label="dependency-version-info-current"]',
-  versionInfoLatest: 'div[aria-label="dependency-version-info-latest"]'
+  versionInfoLatest: 'div[aria-label="dependency-version-info-latest"]',
+  linkButton: 'button[aria-label="dependency-url-button"]'
 }
 
 export const MuiDialog = {

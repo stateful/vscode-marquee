@@ -29,11 +29,27 @@ describe('Dependencies Widget @skipWeb', () => {
 
     expect(dependencies).not.toHaveLength(0)
 
+    let someLinkExists = false
+
     for(const dep of dependencies) {
       expect(await dep.name$.isExisting()).toBeTruthy()
       expect(await dep.name$.getHTML(false)).not.toHaveLength(0)
       expect(await dep.versionInfoCurrent$.isExisting()).toBeTruthy()
       expect(await dep.versionInfoLatest$.isExisting()).toBeTruthy()
+      
+      const links = await dep.linkButton$$
+
+      for(const link of links) {
+        someLinkExists = true
+
+        const aElem = link.parentElement()
+        const href = await aElem.getAttribute('href')
+        
+        expect(href).not.toHaveLength(0)
+        expect(href).toMatch(/^http?/)
+      }
     }
+
+    expect(someLinkExists).toBeTruthy()
   })
 })

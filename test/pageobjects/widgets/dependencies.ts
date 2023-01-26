@@ -17,7 +17,6 @@ export class DependenciesWidget extends BasePage<typeof dependenciesEntryLocator
     await this.refreshButton$.waitForClickable()
     await this.refreshButton$.click()
 
-    await this.refreshButton$.waitForEnabled({ reverse: true })
     await this.refreshButton$.waitForEnabled()
   }
 
