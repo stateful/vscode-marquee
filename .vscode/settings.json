@@ -10,5 +10,8 @@
   "typescript.tsc.autoDetect": "off",
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  }
+  },
+  "marquee.widgets.npm-stats.packageNames": [
+    "marquee"
+  ]
 }
