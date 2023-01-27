@@ -117,7 +117,7 @@ function withManager (cb: (manager: DependenciesExtensionManager) => Promise<voi
       }
     }
   
-    const manager = new DependenciesExtensionManager(context as any)
+    const manager = new DependenciesExtensionManager(context as any, false)
 
     if(loadDeps) { await manager.loadDependencies() }
 

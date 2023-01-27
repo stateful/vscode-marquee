@@ -17,7 +17,7 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
   private activeProvider: DependencyProvider|undefined
   private terminalProvider: TerminalProvider
   
-  constructor (context: vscode.ExtensionContext) {
+  constructor (context: vscode.ExtensionContext, loadDependencies = true) {
     super(
       context,
       STATE_KEY,
@@ -35,6 +35,7 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
     )
 
     this.setLoading(false)
+      .then(async () => loadDependencies && this.loadDependencies())
   }
 
   async handleEvent (data: EventsObj) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 import { createContext } from 'react'
@@ -14,6 +14,8 @@ interface Props {
 }
 
 const DependencyProvider = ({ children }: Props) => {
+  const initialized = useRef<boolean>(false)
+  
   const widgetState = getEventListener<State & Configuration>(WIDGET_ID)
 
   const providerValues = connect<Configuration & State>(
@@ -74,8 +76,10 @@ const DependencyProvider = ({ children }: Props) => {
   }
 
   useEffect(() => {
+    if(providerValues.loading || initialized.current) { return }
     _refreshDependencies()
-  }, [])
+    initialized.current = true
+  }, [providerValues.loading])
 
   return (
     <DependencyContext.Provider
