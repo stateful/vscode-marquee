@@ -82,6 +82,8 @@ export interface Configuration {
   scale?: ScaleUnits
 }
 
+export interface State {}
+
 export interface Context extends Configuration {
   forecast?: Forecast
   isFetching: boolean

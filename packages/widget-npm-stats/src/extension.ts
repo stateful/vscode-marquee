@@ -8,7 +8,7 @@ import { formatDate } from './utils'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, STATS_URL } from './constants'
 import type { Configuration, State, JSONObject, StatResponse } from './types'
 
-const STATE_KEY = 'widgets.npm-stats'
+export const STATE_KEY = 'widgets.npm-stats'
 export class NPMStatsExtensionManager extends ExtensionManager<State, Configuration> {
   #logger: ChildLogger
   private _isFetching = false
@@ -148,3 +148,5 @@ export function activate (context: vscode.ExtensionContext) {
     },
   }
 }
+
+export * from './types'

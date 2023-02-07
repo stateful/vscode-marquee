@@ -5,7 +5,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State, Todo } from './types'
 
-const STATE_KEY = 'widgets.todo'
+export const STATE_KEY = 'widgets.todo'
 export const CODE_TODO = 'marquee_todo'
 export const TODO = /(TODO|ToDo|Todo|todo)[:]? /
 
@@ -248,9 +248,9 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       return console.warn(`Couldn't find todo to toggle with id "${item.id}"`)
     }
 
-    this.state.todos[todoIndex].checked = !item.checked
-    this.emitStateUpdate()
-    this.broadcast({ todos: this.state.todos })
+    const todos = [...this.state.todos]
+    todos[todoIndex].checked = !item.checked
+    return this.updateState('todos', todos, true)
   }
 
   /**
@@ -265,9 +265,9 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       return console.warn(`Couldn't find todo to toggle with id "${item.id}"`)
     }
 
-    this.state.todos[todoIndex].archived = !item.archived
-    this.emitStateUpdate()
-    this.broadcast({ todos: this.state.todos })
+    const todos = [...this.state.todos]
+    todos[todoIndex].archived = !item.archived
+    return this.updateState('todos', todos, true)
   }
 
   /**
@@ -288,9 +288,9 @@ export class TodoExtensionManager extends ExtensionManager<State, Configuration>
       return console.warn(`Couldn't find todo to toggle with id "${item.id}"`)
     }
 
-    this.state.todos[todoIndex].workspaceId = awsp.id
-    this.emitStateUpdate()
-    this.broadcast({ todos: this.state.todos })
+    const todos = [...this.state.todos]
+    todos[todoIndex].workspaceId = awsp.id
+    return this.updateState('todos', todos, true)
   }
 }
 

@@ -5,7 +5,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, MIN_UPDATE_INTERVAL } from './constants'
 import type { Configuration, FeedItem, State } from './types'
 
-const STATE_KEY = 'widgets.news'
+export const STATE_KEY = 'widgets.news'
 const DEFAULT_HNRSS_CHANNELS = ['HN Newest', 'HN Ask', 'HN Show', 'HN Jobs', 'HN Best']
 const DEPRECATED_HNRSS_URL = 'https://hnrss.org'
 
@@ -53,16 +53,16 @@ export class NewsExtensionManager extends ExtensionManager<State, Configuration>
     await this.updateState('isFetching', true)
 
     try {
-      let url = this._configuration.feeds[this._state.channel]
+      let url = this._configuration.feeds[this.state.channel]
       if (!url) {
         await this.updateState('channel', Object.keys(this._configuration.feeds)[0], true)
         throw new Error(
-          `Channel "${this._state.channel}" not found, ` +
+          `Channel "${this.state.channel}" not found, ` +
           `available channels are ${Object.keys(this._configuration.feeds).join(', ')}`
         )
       }
 
-      this.#logger.info(`Fetch News ("${this._state.channel}") from ${url}`)
+      this.#logger.info(`Fetch News ("${this.state.channel}") from ${url}`)
       const feed = await this._parser.parseURL(url)
 
       await this.updateState('news', feed.items as FeedItem[])
@@ -102,3 +102,5 @@ export function activate (context: vscode.ExtensionContext) {
     },
   }
 }
+
+export * from './types'

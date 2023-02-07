@@ -5,7 +5,7 @@ import ExtensionManager from '@vscode-marquee/utils/extension'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { State, Configuration } from './types'
 
-const STATE_KEY = 'widgets.projects'
+export const STATE_KEY = 'widgets.projects'
 
 export class ProjectsExtensionManager extends ExtensionManager<State, Configuration> {
   constructor (context: vscode.ExtensionContext) {
@@ -27,7 +27,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
       /**
        * the workspace isn't part of the existing list
        */
-      !this._state.workspaces.find((ws: any) => ws.id === aws.id) &&
+      !this.state.workspaces.find((ws: any) => ws.id === aws.id) &&
       /**
        * we are not running on a remote machine, this is necessary
        * because we aren't able to connect to remote VS Code instances
@@ -36,19 +36,19 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
        */
       typeof vscode.env.remoteName === 'undefined'
     ) {
-      this.updateState('workspaces', [...this._state.workspaces, aws])
+      this.updateState('workspaces', [...this.state.workspaces, aws])
     }
 
     /**
      * count workspace usage
      */
     if (aws) {
-      const newWorkspaceVisitCount = this._state.visitCount[aws.id]
-        ? this._state.visitCount[aws.id] + 1
+      const newWorkspaceVisitCount = this.state.visitCount[aws.id]
+        ? this.state.visitCount[aws.id] + 1
         : 1
 
       const visitCount = {
-        ...this._state.visitCount,
+        ...this.state.visitCount,
         [aws.id]: newWorkspaceVisitCount
       }
 
@@ -56,13 +56,13 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
        * remove ids from `visitCount` list that aren't in workspace list (cleanup)
        */
       for (const id of Object.keys(visitCount)) {
-        if (!this._state.workspaces.find((w) => w.id === id)) {
+        if (!this.state.workspaces.find((w) => w.id === id)) {
           delete visitCount[id]
         }
       }
 
       const lastVisited = {
-        ...this._state.lastVisited,
+        ...this.state.lastVisited,
         [aws.id]: Date.now()
       }
 
@@ -70,7 +70,7 @@ export class ProjectsExtensionManager extends ExtensionManager<State, Configurat
        * remove ids from `lastVisited` list that aren't in workspace list (cleanup)
        */
       for (const id of Object.keys(lastVisited)) {
-        if (!this._state.workspaces.find((w) => w.id === id)) {
+        if (!this.state.workspaces.find((w) => w.id === id)) {
           delete lastVisited[id]
         }
       }

@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import ExtensionManager, { defaultConfigurations, Logger } from '@vscode-marquee/utils/extension'
+import ExtensionManager, { defaultConfigurations, Logger, StateManager } from '@vscode-marquee/utils/extension'
 
 import { MODES_UPDATE_TIMEOUT } from './constants'
 
@@ -34,8 +34,8 @@ export const DEFAULT_CONFIGURATION = {
   colorScheme: undefined
 }
 
-type Configuration = typeof DEFAULT_CONFIGURATION
-type State = typeof DEFAULT_STATE
+export type Configuration = typeof DEFAULT_CONFIGURATION
+export type State = typeof DEFAULT_STATE
 
 export class GUIExtensionManager extends ExtensionManager<State, Configuration> {
   private _lastModesChange = Date.now()
@@ -44,9 +44,9 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
     context: vscode.ExtensionContext,
     key: string,
     defaultConfiguration: Configuration,
-    defaultState: State
+    stateManager: StateManager<State>
   ) {
-    super(context, key, defaultConfiguration, defaultState)
+    super(context, key, defaultConfiguration, stateManager)
     this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)))
   }
 
@@ -102,15 +102,20 @@ export class GUIExtensionManager extends ExtensionManager<State, Configuration> 
   }
 }
 
-export function activateGUI (context: vscode.ExtensionContext) {
-  const stateManager = new GUIExtensionManager(context, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+export const STATE_KEY = 'configuration'
+export async function activateGUI (
+  context: vscode.ExtensionContext,
+  getStateManager: (defaultState: State) => Promise<StateManager<State>>
+) {
+  const stateManager = await getStateManager(DEFAULT_STATE)
+  const widgetManager = new GUIExtensionManager(context, STATE_KEY, DEFAULT_CONFIGURATION, stateManager)
 
   return {
     marquee: {
-      disposable: stateManager,
-      defaultState: stateManager.state,
-      defaultConfiguration: stateManager.configuration,
-      setup: stateManager.setBroadcaster.bind(stateManager)
+      disposable: widgetManager,
+      defaultState: widgetManager.state,
+      defaultConfiguration: widgetManager.configuration,
+      setup: widgetManager.setBroadcaster.bind(widgetManager)
     }
   }
 }

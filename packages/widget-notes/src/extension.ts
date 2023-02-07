@@ -5,7 +5,7 @@ import ExtensionManager, { Logger, ChildLogger } from '@vscode-marquee/utils/ext
 import { DEFAULT_STATE } from './constants'
 import type { State, Note } from './types'
 
-const STATE_KEY = 'widgets.notes'
+export const STATE_KEY = 'widgets.notes'
 
 export class NoteExtensionManager extends ExtensionManager<State, {}> {
   #logger: ChildLogger

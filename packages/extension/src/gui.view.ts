@@ -10,7 +10,7 @@ import type { Client } from 'tangle'
 import type { MarqueeEvents } from '@vscode-marquee/utils'
 
 import telemetry from './telemetry'
-import StateManager from './stateManager'
+import StateManager from './state/manager'
 import { DEFAULT_STATE } from './utils'
 import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration, ExtensionExport } from './types'
