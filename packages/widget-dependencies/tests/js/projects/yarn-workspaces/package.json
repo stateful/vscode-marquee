@@ -1,0 +1,19 @@
+{
+  "name": "yarn-project-workspace",
+  "version": "1.0.0",
+  "homepage": "https://homepage.com",
+  "repository": "https://repository.com/yarn-project",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "package3"
+  ],
+  "dependencies": {
+    "@types/react": "^18.0.26"
+  },
+  "devDependencies": {
+    "@types/node": "16.18.9"
+  }
+}

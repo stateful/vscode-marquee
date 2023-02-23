@@ -70,7 +70,8 @@
       "packages/widget-snippets",
       "packages/widget-todo",
       "packages/widget-weather",
-      "packages/widget-welcome"
+      "packages/widget-welcome",
+      "packages/widget-dependencies"
     ]
   },
   "activationEvents": [
@@ -1449,6 +1450,17 @@
                       "static": false
                     },
                     {
+                      "w": 6,
+                      "h": 12,
+                      "x": 0,
+                      "y": 47,
+                      "i": "dependencies",
+                      "minW": 3,
+                      "minH": 12,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
                       "w": 3,
                       "h": 11,
                       "x": 0,
@@ -1533,6 +1545,17 @@
                       "x": 0,
                       "y": 49,
                       "i": "notes",
+                      "minW": 3,
+                      "minH": 12,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 4,
+                      "h": 12,
+                      "x": 0,
+                      "y": 60,
+                      "i": "dependencies",
                       "minW": 3,
                       "minH": 12,
                       "moved": false,
@@ -1629,6 +1652,17 @@
                       "static": false
                     },
                     {
+                      "w": 9,
+                      "h": 12,
+                      "x": 0,
+                      "y": 41,
+                      "i": "dependencies",
+                      "minW": 3,
+                      "minH": 12,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
                       "minW": 3,
                       "minH": 12,
                       "static": false,
@@ -1713,6 +1747,17 @@
                       "x": 6,
                       "y": 13,
                       "i": "notes",
+                      "minW": 3,
+                      "minH": 12,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
+                      "w": 12,
+                      "h": 13,
+                      "x": 0,
+                      "y": 28,
+                      "i": "dependencies",
                       "minW": 3,
                       "minH": 12,
                       "moved": false,
@@ -1809,6 +1854,17 @@
                       "static": false
                     },
                     {
+                      "w": 3,
+                      "h": 12,
+                      "x": 0,
+                      "y": 60,
+                      "i": "dependencies",
+                      "minW": 3,
+                      "minH": 12,
+                      "moved": false,
+                      "static": false
+                    },
+                    {
                       "w": 4,
                       "h": 13,
                       "x": 0,
@@ -1851,7 +1907,8 @@
                   "notes": true,
                   "welcome": true,
                   "snippets": true,
-                  "projects": true
+                  "projects": true,
+                  "dependencies": true
                 },
                 "icon": {
                   "id": "briefcase",
@@ -3359,6 +3416,30 @@
             "type": "number",
             "scope": "window",
             "markdownDescription": "Timestamp until when the download count should be pulled for"
+          },
+          "marquee.widgets.dependencies.showUpToDate": {
+            "type": "boolean",
+            "scope": "window",
+            "default": true,
+            "markdownDescription": "Whether to show already up-to-date packages"
+          },
+          "marquee.widgets.dependencies.autoRefresh": {
+            "type": "boolean",
+            "scope": "window",
+            "default": true,
+            "markdownDescription": "Whether to automatically refresh dependencies in response to package metadata changes"
+          },
+          "marquee.widgets.dependencies.jsRegistry": {
+            "type": "string",
+            "scope": "window",
+            "default": "https://registry.npmjs.com/",
+            "markdownDescription": "Registry for js packages"
+          },
+          "marquee.widgets.dependencies.prefersPnpm": {
+            "type": "boolean",
+            "scope": "window",
+            "default": false,
+            "markdownDescription": "Prefer pnpm over npm"
           }
         }
       }
@@ -3386,6 +3467,7 @@
     "compile:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json",
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
+    "compile:ts:widget-dependencies": "tsc --project packages/widget-dependencies/tsconfig.json",
     "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "prepare": "husky install",
     "test": "run-s test:*",
@@ -3411,6 +3493,7 @@
     "watch:ts:widget-npm-stats": "tsc --project packages/widget-npm-stats/tsconfig.json --watch",
     "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
     "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
+    "watch:ts:widget-dependencies": "tsc --project packages/widget-dependencies/tsconfig.json --watch",
     "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
   },
   "devDependencies": {

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tryGetJsProject 1`] = `
+{
+  "dependencies": {
+    "@emotion/react": {
+      "actualVersion": "11.10.5",
+      "dependencyType": "dev",
+      "homepage": undefined,
+      "name": "@emotion/react",
+      "packageVersion": "^11.10.5",
+      "repository": "https://github.com/emotion-js/emotion/tree/main/packages/react",
+    },
+    "@emotion/styled": {
+      "actualVersion": "11.10.5",
+      "dependencyType": "normal",
+      "homepage": undefined,
+      "name": "@emotion/styled",
+      "packageVersion": "^11.10.5",
+      "repository": "https://github.com/emotion-js/emotion/tree/main/packages/styled",
+    },
+    "@mui/material": {
+      "actualVersion": "5.10.13",
+      "dependencyType": "dev",
+      "homepage": "https://mui.com/material-ui/getting-started/overview/",
+      "name": "@mui/material",
+      "packageVersion": "^5.10.13",
+      "repository": undefined,
+    },
+    "@types/react": {
+      "actualVersion": "18.0.25",
+      "dependencyType": "dev",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
+      "name": "@types/react",
+      "packageVersion": "^18.0.25",
+      "repository": undefined,
+    },
+    "typescript": {
+      "actualVersion": "4.9.4",
+      "dependencyType": "dev",
+      "homepage": "https://www.typescriptlang.org/",
+      "name": "typescript",
+      "packageVersion": "4.9.4",
+      "repository": undefined,
+    },
+  },
+  "homepage": undefined,
+  "isWorkspace": false,
+  "json": {
+    "dependencies": {
+      "@emotion/styled": "^11.10.5",
+    },
+    "devDependencies": {
+      "@emotion/react": "^11.10.5",
+      "@mui/material": "^5.10.13",
+      "@types/react": "^18.0.25",
+      "typescript": "4.9.4",
+    },
+    "license": "MIT",
+    "main": "index.js",
+    "name": "yarn-project",
+    "version": "1.0.0",
+  },
+  "manager": "yarn",
+  "name": "yarn-project",
+  "repository": undefined,
+  "uri": "packages/widget-dependencies/tests/js/projects/yarn",
+  "version": "1.0.0",
+  "workspaces": undefined,
+}
+`;
+
+exports[`tryGetPackageJson 1`] = `
+{
+  "dependencies": {
+    "@emotion/styled": "^11.10.5",
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.10.5",
+    "@mui/material": "^5.10.13",
+    "@types/react": "^18.0.25",
+    "typescript": "4.9.4",
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "yarn-project",
+  "version": "1.0.0",
+}
+`;

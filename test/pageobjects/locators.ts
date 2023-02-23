@@ -79,6 +79,23 @@ export const clipboardWidget = {
   link: 'button[aria-label="Project Item Link"]'
 }
 
+const dependenciesListSelector = 'div[aria-label="dependency-list"]'
+
+export const dependenciesWidget = {
+  ...commonWidgetLocators,
+  elem: webview.widget('dependencies'),
+  refreshButton: 'button[aria-label="Refresh Dependencies"]',
+  dependencyList: dependenciesListSelector,
+  dependencies: `${dependenciesListSelector} div[aria-label="dependency-entry"]`
+}
+
+export const dependenciesEntry = {
+  name: 'span[aria-label="dependency-name-text"]',
+  versionInfoCurrent: 'div[aria-label="dependency-version-info-current"]',
+  versionInfoLatest: 'div[aria-label="dependency-version-info-latest"]',
+  linkButton: 'button[aria-label="dependency-url-button"]'
+}
+
 export const MuiDialog = {
   elem: '.MuiDialog-root',
   closeBtn: 'button=Close',

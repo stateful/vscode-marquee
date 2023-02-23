@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadDependencies yarn project 1`] = `
+[
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "@emotion/react",
+    "url": "https://github.com/emotion-js/emotion/tree/main/packages/react",
+    "versions": {
+      "current": "11.10.5",
+      "latest": "11.10.5",
+      "query": "^11.10.5",
+    },
+  },
+  {
+    "dependencyType": "normal",
+    "isRootWorkspace": false,
+    "name": "@emotion/styled",
+    "url": "https://github.com/emotion-js/emotion/tree/main/packages/styled",
+    "versions": {
+      "current": "11.10.5",
+      "latest": "11.10.5",
+      "query": "^11.10.5",
+    },
+  },
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "@mui/material",
+    "needsUpgrade": true,
+    "project": undefined,
+    "url": "https://mui.com/material-ui/getting-started/overview/",
+    "versions": {
+      "current": "5.10.13",
+      "latest": "5.11.4",
+      "query": "^5.10.13",
+      "wanted": "5.11.4",
+    },
+  },
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "@types/react",
+    "needsUpgrade": true,
+    "project": undefined,
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
+    "versions": {
+      "current": "18.0.25",
+      "latest": "18.0.26",
+      "query": "^18.0.25",
+      "wanted": "18.0.26",
+    },
+  },
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "typescript",
+    "url": "https://www.typescriptlang.org/",
+    "versions": {
+      "current": "4.9.4",
+      "latest": "4.9.4",
+      "query": "4.9.4",
+    },
+  },
+]
+`;
+
+exports[`loadDependencies yarn project with workspaces 1`] = `
+[
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "@types/mocha",
+    "project": "yarn-project-workspace-package1",
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mocha",
+    "versions": {
+      "current": "10.0.1",
+      "latest": "10.0.1",
+      "query": "^10.0.1",
+    },
+  },
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": true,
+    "name": "@types/node",
+    "needsUpgrade": true,
+    "project": "yarn-project-workspace",
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node",
+    "versions": {
+      "current": "16.18.9",
+      "latest": "18.11.18",
+      "query": "16.18.9",
+      "wanted": "16.18.9",
+    },
+  },
+  {
+    "dependencyType": "dev",
+    "isRootWorkspace": false,
+    "name": "@types/node",
+    "project": "yarn-project-workspace-package3",
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node",
+    "versions": {
+      "current": "18.11.18",
+      "latest": "18.11.18",
+      "query": "^18.11.18",
+    },
+  },
+  {
+    "dependencyType": "normal",
+    "isRootWorkspace": true,
+    "name": "@types/react",
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
+    "versions": {
+      "current": "18.0.26",
+      "latest": "18.0.26",
+      "query": "^18.0.26",
+    },
+  },
+]
+`;
