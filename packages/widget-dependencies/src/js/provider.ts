@@ -1,8 +1,8 @@
 import vscode from 'vscode'
-import { Configuration, DependencyProvider, DisplayedDependency, TerminalProvider } from 'src/types'
 import { pullRemoteRegistry } from './registry'
 import { findWorkspaces, packageManagerCmdOutdated, tryGetJsProject } from './packageManager'
-import { JsPackageManager, LocalJsPackage } from './types'
+import type { JsPackageManager, LocalJsPackage } from './types'
+import type { Configuration, DependencyProvider, DisplayedDependency, TerminalProvider } from '../types'
 import { Logger } from '@vscode-marquee/utils/build/logger'
 
 declare const IS_WEB_BUNDLE: boolean
@@ -204,7 +204,7 @@ export class JsDependencyProvider implements DependencyProvider {
     const terminal = this.terminalProvider.getOrCreateTerminal(this.cwd)
 
     terminal.sendText(
-      [ 
+      [
         this.packageManager, ...args,
         '--cwd', this.cwd.fsPath
       ].join(' '),

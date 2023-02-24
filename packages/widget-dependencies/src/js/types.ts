@@ -1,6 +1,7 @@
 import type vscode from 'vscode'
-import type { DependencyType } from 'src/types'
 import type { PackageJSON } from 'query-registry'
+
+import type { DependencyType } from '../types'
 
 export type JsPackageManager = 'npm'|'yarn'|'pnpm'
 

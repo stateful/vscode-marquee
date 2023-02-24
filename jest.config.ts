@@ -36,14 +36,7 @@ const config: JestConfigWithTsJest = {
   },
   restoreMocks: true,
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
-  bail: false,
-  globals: {
-    'ts-jest': {
-      diagnostics: {
-        exclude: ['!**/*.(spec|test).ts?(x)'],
-      }
-    }
-  }
+  bail: false
 };
 
 export default config;
