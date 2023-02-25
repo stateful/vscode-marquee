@@ -95,10 +95,6 @@ window.marqueeStateConfiguration = {
   },
   '@vscode-marquee/gui': {
     configuration: {
-      modes:
-        pkg.contributes.configuration[0].properties[
-          'marquee.configuration.modes'
-        ].default,
       proxy: '',
       fontSize: 5,
       colorScheme: {},
@@ -108,6 +104,7 @@ window.marqueeStateConfiguration = {
       workspaceLaunch: false,
     },
     state: {
+      modes: {},
       modeName: 'default'
     },
   },

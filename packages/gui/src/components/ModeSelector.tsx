@@ -24,6 +24,7 @@ import {
 import ModeContext from '../contexts/ModeContext'
 import ModeDialog from '../dialogs/ModeDialog'
 import { ucFirst } from '../utils'
+import { defaultLayout } from '../constants'
 
 const DenseListIcon = ({ children }: { children: any[] }) => {
   return (
@@ -39,7 +40,7 @@ const ModeSelector = () => {
   const [showModeDialog, setShowModeDialog] = useState(false)
   const { modeName, _setModeName, modes } = useContext(ModeContext)
   const anchorRef = useRef(null)
-  const mode = modes[modeName]
+  const mode = modes[modeName] || defaultLayout
 
   /**
    * if user deletes the selected mode within the settings.json while

@@ -4,7 +4,6 @@ import { isExpanded, filterByScope, activateGUI, linkMarquee } from '../src/util
 
 jest.mock('@vscode-marquee/utils/extension', () => class {
   static defaultConfigurations: Record<string, { default: string }> = {
-    'marquee.configuration.modes': { default: 'marquee.configuration.modes' },
     'marquee.configuration.proxy': { default: 'marquee.configuration.proxy' },
     'marquee.configuration.fontSize': { default: 'marquee.configuration.fontSize' },
     'marquee.configuration.launchOnStartup': { default: 'marquee.configuration.launchOnStartup' },
@@ -56,7 +55,7 @@ test('extension manager removes native icon', async () => {
     }
   }
   const extExport = activateGUI(context as any)
-  await extExport.marquee.disposable.updateConfiguration('modes', {
+  await extExport.marquee.disposable.updateState('modes', {
     foobar: {
       icon: { foo: 'bar', native: 123 }
     }
@@ -64,32 +63,6 @@ test('extension manager removes native icon', async () => {
   expect(extExport.marquee.disposable.configuration).toEqual({
     modes: {
       foobar: { icon: { foo: 'bar' } }
-    }
-  })
-})
-
-test('extension manager removes workspace modes', async () => {
-  const context = {
-    globalState: {
-      get: jest.fn().mockReturnValue({}),
-      setKeysForSync: jest.fn()
-    }
-  }
-  const extExport = activateGUI(context as any)
-  // @ts-expect-error
-  vscode.workspace.workspaceFolders = ['/foo/bar']
-  ;(vscode.workspace.fs.readFile as jest.Mock).mockResolvedValue(JSON.stringify({
-    'marquee.configuration.modes': { foobar: {} }
-  }))
-  await extExport.marquee.disposable.updateConfiguration('modes', {
-    default: {},
-    foobar: {
-      icon: { foo: 'bar', native: 123 }
-    }
-  })
-  expect(extExport.marquee.disposable.configuration).toEqual({
-    modes: {
-      default: {}
     }
   })
 })

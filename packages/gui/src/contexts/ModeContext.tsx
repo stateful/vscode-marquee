@@ -162,7 +162,7 @@ const ModeProvider = ({ children }: Props) => {
   useEffect(() => {
     eventListener.emit(
       'updateWidgetDisplay',
-      providerValues.modes[providerValues.modeName].widgets
+      (providerValues.modes[providerValues.modeName] || {}).widgets
     )
 
     return () => { eventListener.removeAllListeners() }

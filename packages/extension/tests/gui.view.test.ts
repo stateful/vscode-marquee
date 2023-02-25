@@ -139,7 +139,6 @@ test('_verifyWidgetStates', async () => {
   gui['_templateDecoded'] = 'foo'
   await gui.open()
   expect(stateMgr.gui.updateState).toBeCalledTimes(0)
-  delete gui['stateMgr'].gui.configuration.modes['foobar']
   await gui.open()
   expect(stateMgr.gui.updateState).toBeCalledWith('modeName', 'default')
 })

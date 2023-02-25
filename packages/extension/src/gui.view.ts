@@ -86,7 +86,7 @@ export class MarqueeGui extends EventEmitter {
      * check if current selected mode was removed and switch to the default
      * mode if so
      */
-    if (this.stateMgr.gui.state.modeName && !this.stateMgr.gui.configuration.modes[this.stateMgr.gui.state.modeName]) {
+    if (this.stateMgr.gui.state.modeName && !this.stateMgr.gui.state.modes[this.stateMgr.gui.state.modeName]) {
       Logger.warn(`Couldn't find selected mode "${this.stateMgr.gui.state.modeName}", switching to default`)
       await this.stateMgr.gui.updateState('modeName', DEFAULT_STATE.modeName)
     }
