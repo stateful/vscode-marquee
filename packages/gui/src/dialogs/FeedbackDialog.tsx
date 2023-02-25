@@ -17,8 +17,11 @@ import EmailIcon from '@mui/icons-material/Email'
 import validator from 'email-validator'
 
 import { DialogContainer, DialogTitle } from '@vscode-marquee/dialog'
+import type { MarqueeWindow } from '@vscode-marquee/utils'
 
 import { sendFeedbackRequest } from '../utils'
+
+declare const window: MarqueeWindow
 
 const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
   const [sentError, setSentError] = useState<Error | undefined>()
@@ -41,9 +44,6 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
     if (!body) {
       return setMsgError(true)
     }
-    if (!email) {
-      return setEmailError(true)
-    }
 
     isSendingData(true)
     sendFeedbackRequest(body, email).then(
@@ -51,6 +51,16 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
         isSendingData(false)
         setSentError(undefined)
         close()
+        window.vscode.postMessage({
+          west: {
+            notify: {
+              message: (
+                'Thank you for your feedback! We will get back to you soon.\n' +
+                'Feel free to reach out at any time at info@stateful.com'
+              )
+            }
+          }
+        })
       },
       (err: Error) => {
         setSentError(err)
@@ -66,8 +76,6 @@ const FeedbackDialog = React.memo(({ close }: { close: () => void }) => {
       } else {
         setEmailError(false)
       }
-    } else {
-      setEmailError(false)
     }
     setEmail(e.target.value)
   }, [])
