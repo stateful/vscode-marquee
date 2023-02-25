@@ -29,20 +29,18 @@ test('should render component and handle user input properly', async () => {
   expect(sendFeedbackRequest).toBeCalledTimes(0)
 
   await userEvent.click(screen.getByText('Send'))
-  const emailInput = screen.getByPlaceholderText('you@you.com')
-  // eslint-disable-next-line testing-library/no-node-access
-  expect(emailInput.parentElement?.className).toContain('Mui-error')
-  expect(sendFeedbackRequest).toBeCalledTimes(0)
+  expect(sendFeedbackRequest).toBeCalledTimes(1)
 
+  const emailInput = screen.getByPlaceholderText('you@you.com')
   await userEvent.type(emailInput, 'me@you.de')
   // eslint-disable-next-line testing-library/no-node-access
   expect(emailInput.parentElement?.className).not.toContain('Mui-error')
   await userEvent.click(screen.getByText('Send'))
-  expect(sendFeedbackRequest).toBeCalledTimes(1)
+  expect(sendFeedbackRequest).toBeCalledTimes(2)
   expect(sendFeedbackRequest).toBeCalledWith('foobar', 'me@you.de')
 
   await new Promise((resolve) => setTimeout(resolve, 10))
-  expect(close).toBeCalledTimes(1);
+  expect(close).toBeCalledTimes(2);
 
   (sendFeedbackRequest as jest.Mock).mockRejectedValue(new Error('upsii'))
   await userEvent.click(screen.getByText('Send'))
