@@ -1,5 +1,5 @@
 import { Options } from '@wdio/types'
-import { config as baseConfig } from './wdio.conf'
+import { config as baseConfig } from './wdio.conf.js'
 
 export const config: Options.Testrunner = {
   ...baseConfig,

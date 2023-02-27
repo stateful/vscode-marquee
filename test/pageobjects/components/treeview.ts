@@ -1,6 +1,7 @@
 import { PageDecorator, IPageDecorator, BasePage, ViewControl, CustomTreeItem } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { TreeView as TreeViewLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { TreeView as TreeViewLocators } from '../locators.js'
 
 export interface TreeView extends IPageDecorator<typeof TreeViewLocators> { }
 @PageDecorator(TreeViewLocators)

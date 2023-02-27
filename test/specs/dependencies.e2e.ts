@@ -1,6 +1,6 @@
-import { Webview } from '../pageobjects/webview'
-import { DependenciesWidget } from '../pageobjects/widgets/dependencies'
-import * as locatorMap from '../pageobjects/locators'
+import { Webview } from '../pageobjects/webview.js'
+import { DependenciesWidget } from '../pageobjects/widgets/dependencies.js'
+import * as locatorMap from '../pageobjects/locators.js'
 
 const webview = new Webview(locatorMap)
 const widget = new DependenciesWidget(locatorMap)
@@ -36,7 +36,7 @@ describe('Dependencies Widget @skipWeb', () => {
       expect(await dep.name$.getHTML(false)).not.toHaveLength(0)
       expect(await dep.versionInfoCurrent$.isExisting()).toBeTruthy()
       expect(await dep.versionInfoLatest$.isExisting()).toBeTruthy()
-      
+
       const links = await dep.linkButton$$
 
       for(const link of links) {
@@ -44,7 +44,7 @@ describe('Dependencies Widget @skipWeb', () => {
 
         const aElem = link.parentElement()
         const href = await aElem.getAttribute('href')
-        
+
         expect(href).not.toHaveLength(0)
         expect(href).toMatch(/^http?/)
       }

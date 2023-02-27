@@ -1,8 +1,9 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { MuiDialog } from '../components/dialog'
-import { todoWidget as todoWidgetLocators, todoItem as todoItemLocators } from '../locators'
-import { SplitButton } from '../components/button'
+
+import * as locatorMap from '../locators.js'
+import { MuiDialog } from '../components/dialog.js'
+import { todoWidget as todoWidgetLocators, todoItem as todoItemLocators } from '../locators.js'
+import { SplitButton } from '../components/button.js'
 
 interface WidgetOptions {
   autoDetect?: boolean

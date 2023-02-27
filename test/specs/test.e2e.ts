@@ -1,9 +1,9 @@
-import { WeatherWidget } from '../pageobjects/widgets/weather'
-import { NewsWidget } from '../pageobjects/widgets/news'
-import { GithubWidget } from '../pageobjects/widgets/github'
-import { TodoWidget } from '../pageobjects/widgets/todo'
-import { Webview } from '../pageobjects/webview'
-import * as locatorMap from '../pageobjects/locators'
+import { WeatherWidget } from '../pageobjects/widgets/weather.js'
+import { NewsWidget } from '../pageobjects/widgets/news.js'
+import { GithubWidget } from '../pageobjects/widgets/github.js'
+import { TodoWidget } from '../pageobjects/widgets/todo.js'
+import { Webview } from '../pageobjects/webview.js'
+import * as locatorMap from '../pageobjects/locators.js'
 
 const WIDGETS = ['welcome', 'projects', 'weather', 'news', 'github', 'todo', 'snippets', 'notes']
 

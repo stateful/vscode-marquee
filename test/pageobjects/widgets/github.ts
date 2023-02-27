@@ -1,10 +1,11 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { MuiAutocomplete } from '../components/inputs'
+
+import * as locatorMap from '../locators.js'
+import { MuiAutocomplete } from '../components/inputs.js'
 import {
   githubWidget as githubWidgetLocators,
   githubTrendItem as githubTrendItemLocators
-} from '../locators'
+} from '../locators.js'
 
 export interface GithubWidget extends IPageDecorator<typeof githubWidgetLocators> { }
 @PageDecorator(githubWidgetLocators)

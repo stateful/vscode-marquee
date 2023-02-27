@@ -1,13 +1,14 @@
 import fs from 'node:fs/promises'
+import url from 'node:url'
 import path from 'node:path'
 import vscodeType from 'vscode'
 import { TextEditor } from 'wdio-vscode-service'
 
-import { Webview } from '../pageobjects/webview'
-import { TodoWidget } from '../pageobjects/widgets/todo'
-import { NoteWidget } from '../pageobjects/widgets/note'
-import { ClipboardWidget } from '../pageobjects/widgets/clipboard'
-import * as locatorMap from '../pageobjects/locators'
+import { Webview } from '../pageobjects/webview.js'
+import { TodoWidget } from '../pageobjects/widgets/todo.js'
+import { NoteWidget } from '../pageobjects/widgets/note.js'
+import { ClipboardWidget } from '../pageobjects/widgets/clipboard.js'
+import * as locatorMap from '../pageobjects/locators.js'
 
 const FIXTURE_CONTENT = `
 This file is auto-generate from e2e tests and can be removed
@@ -46,6 +47,7 @@ const openFile = async (vscode: typeof vscodeType, file: string, line: number) =
   editor.selection = new vscode.Selection(range.start, range.end)
 }
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 const file = path.join(__dirname, '..', 'deleteMe.md')
 const webview = new Webview(locatorMap)
 const todoWidget = new TodoWidget(locatorMap)
@@ -61,7 +63,6 @@ describe('page items @skipWeb', () => {
     after(teardown)
 
     it('should be able to store item with reference', async () => {
-      // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
       await browser.executeWorkbench(openFile, file, 3)
 
       const workbench = await browser.getWorkbench()
@@ -116,7 +117,6 @@ describe('page items @skipWeb', () => {
     it('should be able to store item with reference', async () => {
       // wait until file got updated
       await browser.pause(1000)
-      // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
       await browser.executeWorkbench(openFile, file, 5)
 
       const workbench = await browser.getWorkbench()
@@ -169,7 +169,6 @@ describe('page items @skipWeb', () => {
     it('should be able to store item with reference', async () => {
       // wait until file got updated
       await browser.pause(1000)
-      // @ts-expect-error https://github.com/webdriverio-community/wdio-vscode-service/issues/34
       await browser.executeWorkbench(openFile, file, 7)
 
       const workbench = await browser.getWorkbench()
