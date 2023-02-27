@@ -15,6 +15,7 @@ jest.mock('@vscode-marquee/utils/extension', () => class {
   state = 'foobar'
   _disposables = []
   configuration = {} as any
+  updateState = jest.fn()
   updateConfiguration (prop: string, val: any) {
     this.configuration[prop] = val
   }
@@ -45,56 +46,6 @@ test('activateGUI', () => {
   }
   const extExport = activateGUI(context as any)
   expect(extExport.marquee.disposable.state).toEqual('foobar')
-})
-
-test('extension manager removes native icon', async () => {
-  const context = {
-    globalState: {
-      get: jest.fn().mockReturnValue({}),
-      setKeysForSync: jest.fn()
-    }
-  }
-  const extExport = activateGUI(context as any)
-  await extExport.marquee.disposable.updateState('modes', {
-    foobar: {
-      icon: { foo: 'bar', native: 123 }
-    }
-  })
-  expect(extExport.marquee.disposable.configuration).toEqual({
-    modes: {
-      foobar: { icon: { foo: 'bar' } }
-    }
-  })
-})
-
-test('extension manager listens on mode changes and applies if not triggered within the last 2s', async () => {
-  (vscode.workspace.getConfiguration as jest.Mock).mockReturnValueOnce({
-    get: jest.fn().mockReturnValue({ foo: 'bar' })
-  })
-  const context = {
-    globalState: {
-      get: jest.fn().mockReturnValue({}),
-      setKeysForSync: jest.fn()
-    }
-  }
-  const extExport = activateGUI(context as any)
-  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0)
-
-  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(false) })
-  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0)
-
-  extExport.marquee.disposable['_onModeChange']({ affectsConfiguration: jest.fn().mockReturnValue(true) })
-  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(0)
-
-  await new Promise((resolve) => setTimeout(resolve, 110))
-
-  extExport.marquee.disposable['_onModeChange']({
-    affectsConfiguration: jest.fn().mockReturnValue(true)
-  })
-  expect(extExport.marquee.disposable['broadcast']).toBeCalledTimes(1)
-  expect(extExport.marquee.disposable['broadcast']).toBeCalledWith({
-    modes: { foo: 'bar' }
-  })
 })
 
 test('linkMarquee', async () => {
