@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 import { connect, getEventListener, MarqueeWindow } from '@vscode-marquee/utils'
 import { createContext } from 'react'
@@ -14,18 +14,14 @@ interface Props {
 }
 
 const DependencyProvider = ({ children }: Props) => {
-  const initialized = useRef<boolean>(false)
-  
   const widgetState = getEventListener<State & Configuration>(WIDGET_ID)
 
-  const providerValues = connect<Configuration & State>(
-    { 
-      ...window.marqueeStateConfiguration[WIDGET_ID].configuration,
-      ...window.marqueeStateConfiguration[WIDGET_ID].state
-    }, widgetState)
-  
+  const providerValues = connect<Configuration & State>({
+    ...window.marqueeStateConfiguration[WIDGET_ID].configuration,
+    ...window.marqueeStateConfiguration[WIDGET_ID].state
+  }, widgetState)
+
   const [ _eventId, _setEventId ] = useState<EventId>(0)
-  
   const _broadcastEvent = <K extends keyof Events>(
     event: K,
     payload: Events[K]
@@ -33,12 +29,12 @@ const DependencyProvider = ({ children }: Props) => {
     const eventObj = {
       type: event, payload
     } as EventsObj
-    
+
     providerValues.setEvent({
       ...eventObj,
       id: _eventId
     })
-  
+
     _setEventId(id => id + 1)
   }
 
@@ -60,10 +56,10 @@ const DependencyProvider = ({ children }: Props) => {
   const _removeDependency = (dep: DisplayedDependency) => {
     _broadcastEvent(
       'removeDependency',
-      { 
-        packageId: dep.name, 
-        workspace: dep.project, 
-        isRootWorkspace: dep.isRootWorkspace 
+      {
+        packageId: dep.name,
+        workspace: dep.project,
+        isRootWorkspace: dep.isRootWorkspace
       }
     )
   }
@@ -74,12 +70,6 @@ const DependencyProvider = ({ children }: Props) => {
       {}
     )
   }
-
-  useEffect(() => {
-    if(providerValues.loading || initialized.current) { return }
-    _refreshDependencies()
-    initialized.current = true
-  }, [providerValues.loading])
 
   return (
     <DependencyContext.Provider

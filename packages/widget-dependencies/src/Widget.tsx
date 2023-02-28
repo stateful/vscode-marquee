@@ -16,12 +16,12 @@ import semverGt from 'semver/functions/gt'
 import { DisplayedDependency } from './types'
 
 const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWidgetProps) => {
-  const { 
-    dependencies: _dependencies, 
-    loading, 
-    _refreshDependencies, 
-    _updateDependency, 
-    _removeDependency, 
+  const {
+    dependencies: _dependencies,
+    loading,
+    _refreshDependencies,
+    _updateDependency,
+    _removeDependency,
     _updateAllDependencies,
     capabilities,
     showUpToDate
@@ -41,9 +41,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
   }
 
   const dependencies =  [..._dependencies]
-    .sort(
-      (a, b) => (needsUpgrade(b) ? 1 : 0) - (needsUpgrade(a) ? 1 : 0)
-    ) 
+    .sort((a, b) => (needsUpgrade(b) ? 1 : 0) - (needsUpgrade(a) ? 1 : 0))
     .filter(dep => showUpToDate || needsUpgrade(dep))
 
   const NavButtons = () => (
@@ -62,7 +60,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
             onClick={() => _refreshDependencies()}
             aria-label='Refresh Dependencies'
           >
-            <FontAwesomeIcon 
+            <FontAwesomeIcon
               icon={faRefresh}
               fontSize='small'
             />
@@ -75,7 +73,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
               aria-label='Upgrade All Dependencies'
               disabled={loading || !dependencies.some(dep => needsUpgrade(dep))}
             >
-              <FontAwesomeIcon 
+              <FontAwesomeIcon
                 icon={faAnglesUp}
                 fontSize='small'
               />
@@ -85,7 +83,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
         <Grid item>
           <DependenciesPop />
         </Grid>
-        <Grid 
+        <Grid
           item
         >
           <ToggleFullScreen />
@@ -193,7 +191,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                           {(dep.versions.current || dep.versions.query) && (
                             <DependencyVersion
                               version={dep.versions.current ?? dep.versions.query}
-                              caption="current" 
+                              caption="current"
                             />
                           )}
 
@@ -201,9 +199,9 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                             <DependencyVersion
                               version={dep.versions.wanted}
                               caption="wanted"
-                              upgrade={needsUpgrade(dep, dep.versions.wanted) && (() => 
+                              upgrade={needsUpgrade(dep, dep.versions.wanted) && (() =>
                                 _updateDependency(dep, dep.versions.wanted!)
-                              )} 
+                              )}
                             />
                           )}
 
@@ -211,9 +209,9 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                             <DependencyVersion
                               version={dep.versions.latest}
                               caption="latest"
-                              upgrade={needsUpgrade(dep, dep.versions.latest) && (() => 
+                              upgrade={needsUpgrade(dep, dep.versions.latest) && (() =>
                                 _updateDependency(dep, dep.versions.latest!)
-                              )} 
+                              )}
                             />
                           )}
                         </Grid>
@@ -235,7 +233,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                               >
                                 <FontAwesomeIcon
                                   icon={faLink}
-                                  fontSize='medium' 
+                                  fontSize='medium'
                                 />
                               </IconButton>
                             </Link>
@@ -246,7 +244,7 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
                               onClick={() => _removeDependency(dep)}
                               aria-label="dependency-delete-button"
                             >
-                              <FontAwesomeIcon 
+                              <FontAwesomeIcon
                                 icon={faTrash}
                                 fontSize='medium'
                               />

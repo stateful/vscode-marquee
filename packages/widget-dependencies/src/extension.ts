@@ -1,11 +1,11 @@
 import vscode from 'vscode'
 import ExtensionManager, { Logger }  from '@vscode-marquee/utils/extension'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE, DependencyProviders } from './constants'
-import type { 
-  Configuration, 
-  DependencyProvider, 
-  EventsObj, 
-  State, 
+import type {
+  Configuration,
+  DependencyProvider,
+  EventsObj,
+  State,
   TerminalProvider
 } from './types'
 import hash from 'object-hash'
@@ -16,7 +16,7 @@ const STATE_KEY = 'widgets.dependencies'
 export class DependenciesExtensionManager extends ExtensionManager<State, Configuration> {
   private activeProvider: DependencyProvider|undefined
   private terminalProvider: TerminalProvider
-  
+
   constructor (context: vscode.ExtensionContext, loadDependencies = true) {
     super(
       context,
@@ -41,70 +41,63 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
   async handleEvent (data: EventsObj) {
     const { type, payload } = data
 
-    switch (type) {
-      case 'refreshDependencies': {
-        this.loadDependencies()
-      } break
-
-      case 'updateDependency': {
-        const { packageId, toVersion, workspace } = payload
-
-        this.activeProvider?.upgradeDependency?.(
-          packageId, toVersion, workspace
-        )
-      } break
-
-      case 'removeDependency': {
-        const { packageId, workspace, isRootWorkspace } = payload
-        
-        this.activeProvider?.deleteDependency?.(
-          packageId, workspace, isRootWorkspace
-        )
-      } break
-
-      case 'updateAllDependencies': {
-        this.activeProvider?.upgradeAllDependencies?.()
-      } break
+    if (type === 'refreshDependencies') {
+      return this.loadDependencies()
     }
+
+    if (type === 'updateDependency') {
+      const { packageId, toVersion, workspace } = payload
+      return this.activeProvider?.upgradeDependency?.(
+        packageId, toVersion, workspace
+      )
+    }
+
+    if (type === 'removeDependency') {
+      const { packageId, workspace, isRootWorkspace } = payload
+      return this.activeProvider?.deleteDependency?.(
+        packageId, workspace, isRootWorkspace
+      )
+    }
+
+    if (type === 'updateAllDependencies') {
+      return this.activeProvider?.upgradeAllDependencies?.()
+    }
+
+    Logger.warn(`Received unknown event" ${type}`)
   }
-  
+
   async loadDependencies () {
-    await this.withLoading(
-      async () => {
-        for (const Provider of DependencyProviders) {
-          try {
-            const provider = new Provider(
-              this._configuration,
-              this.terminalProvider,
-              (autoRefresh = true) => {
-                if(this.configuration.autoRefresh || !autoRefresh) {
-                  this.loadDependencies()
-                }
-              }
-            )
-
-            const deps = await provider.loadDependencies()
-            if(!deps) { continue }
-
-            await this.updateState('dependencies', deps)
-            await this.setDependencyProvider(provider)
-
-            this.broadcast({
-              dependencies: deps,
-              capabilities: this._state.capabilities,
-            })
-
-            return
-          } catch(e) {
-            Logger.error('Error from dependency provider', e)
+    await this.withLoading(async () => {
+      for (const Provider of DependencyProviders) {
+        const provider = new Provider(
+          this._configuration,
+          this.terminalProvider,
+          (autoRefresh = true) => {
+            if (this.configuration.autoRefresh || !autoRefresh) {
+              this.loadDependencies()
+            }
           }
-        }
+        )
 
-        this.updateState('dependencies', [])
-        this.broadcast({ dependencies: [] })
-      },
-      'Unexpected error loading dependencies'
-    )
+        const deps = await provider.loadDependencies()
+        vscode.window.showInformationMessage(JSON.stringify(deps))
+
+        if(!deps) { continue }
+
+        await this.updateState('dependencies', deps)
+        await this.setDependencyProvider(provider)
+
+        this.broadcast({
+          dependencies: deps,
+          capabilities: this._state.capabilities,
+        })
+
+        return
+      }
+
+      this.updateState('dependencies', [])
+      this.broadcast({ dependencies: [] })
+    }, 'Unexpected error loading dependencies')
   }
 
   private async withLoading (
@@ -112,15 +105,15 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
     err_msg: string = 'Unexpected error!',
     err_cb?: (err: any) => void,
   ) {
-    if(this.state.loading) { return }
-    
-    await this.setLoading(true)
+    if(this.state.loading) {
+      return
+    }
 
-    await cb()
-      .catch((e: any) => {
-        Logger.error(err_msg, e)
-        err_cb?.(e)
-      })
+    await this.setLoading(true)
+    await cb().catch((e: any) => {
+      Logger.error(err_msg, e)
+      err_cb?.(e)
+    })
 
     await this.setLoading(false)
   }
@@ -134,7 +127,7 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
     }
 
     await this.updateState('capabilities', capabilities)
-    
+
     this.activeProvider?.dispose()
     this.activeProvider = provider
   }
