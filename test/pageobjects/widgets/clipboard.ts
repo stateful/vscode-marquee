@@ -1,6 +1,7 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { clipboardWidget as clipboardWidgetLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { clipboardWidget as clipboardWidgetLocators } from '../locators.js'
 
 export interface ClipboardWidget extends IPageDecorator<typeof clipboardWidgetLocators> { }
 @PageDecorator(clipboardWidgetLocators)

@@ -1,7 +1,8 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { Select } from '../components/inputs'
-import { newsWidget as newsWidgetLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { Select } from '../components/inputs.js'
+import { newsWidget as newsWidgetLocators } from '../locators.js'
 
 export interface NewsWidget extends IPageDecorator<typeof newsWidgetLocators> { }
 @PageDecorator(newsWidgetLocators)

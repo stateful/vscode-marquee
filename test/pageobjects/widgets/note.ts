@@ -1,10 +1,10 @@
+import { Key } from 'webdriverio'
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { MuiDialog } from '../components/dialog'
-import { noteWidget as noteWidgetLocators } from '../locators'
-import { SplitButton } from '../components/button'
 
-const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
+import * as locatorMap from '../locators.js'
+import { MuiDialog } from '../components/dialog.js'
+import { noteWidget as noteWidgetLocators } from '../locators.js'
+import { SplitButton } from '../components/button.js'
 
 export interface NoteWidget extends IPageDecorator<typeof noteWidgetLocators> { }
 @PageDecorator(noteWidgetLocators)
@@ -35,7 +35,7 @@ export class NoteWidget extends BasePage<typeof noteWidgetLocators, typeof locat
     if (params.title) {
       // delete input first (not possible with clearValue)
       await dialog.input$('title').click()
-      await browser.keys([CMD_KEY, 'a'])
+      await browser.keys([Key.Ctrl, 'a'])
       await browser.keys(['Delete'])
       await dialog.setInputValue('title', params.title)
     }

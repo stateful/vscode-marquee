@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
     "types": [
       "node",
       "webdriverio/async",
@@ -7,7 +8,7 @@
       "expect-webdriverio",
       "wdio-vscode-service"
     ],
-    "target": "es2019",
+    "target": "es2022",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true

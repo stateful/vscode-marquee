@@ -1,6 +1,7 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { markdownWidget as markdownWidgetLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { markdownWidget as markdownWidgetLocators } from '../locators.js'
 
 export interface MarkdownWidget extends IPageDecorator<typeof markdownWidgetLocators> { }
 @PageDecorator(markdownWidgetLocators)

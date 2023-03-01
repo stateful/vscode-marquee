@@ -21,7 +21,6 @@ export const DEFAULT_STATE: State = {
   },
 
   loading: false,
-
   event: {}
 }
 

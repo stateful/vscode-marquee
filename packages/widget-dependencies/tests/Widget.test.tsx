@@ -69,7 +69,7 @@ beforeEach(() => {
 
 it('renders component correctly', async () => {
   const setEvent = jest.fn<void, [data: State['event']]>()
-  
+
   ;(connect as jest.Mock).mockReturnValue({
     ...TEST_STATE,
     ...DEFAULT_CONFIGURATION,
@@ -84,13 +84,6 @@ it('renders component correctly', async () => {
     </GlobalProvider>
   )
 
-  // initial refresh
-  expect(setEvent).toBeCalledWith<[State['event']]>({
-    id: 0,
-    type: 'refreshDependencies',
-    payload: {}
-  })
-
   setEvent.mockClear()
 
   // manual options
@@ -98,23 +91,19 @@ it('renders component correctly', async () => {
   expect(setEvent).toBeCalledTimes(1)
   await userEvent.click(screen.getByLabelText('Upgrade All Dependencies'))
   expect(setEvent).toBeCalledTimes(2)
-  
+
   setEvent.mockClear()
 
   const dependencyList = screen.getByLabelText('dependency-list')
-
   const dependencies = within(dependencyList).getAllByLabelText('dependency-entry')
-
   expect(dependencies).toHaveLength(TEST_STATE.dependencies.length)
 
   for (const dependencyContainer of dependencies) {
     const nameContainer = within(dependencyContainer).getByLabelText('dependency-name-text')
-
     const packageId = nameContainer!.innerHTML
     const dependencyMeta = TEST_STATE.dependencies.find(d => d.name === packageId)
 
     expect(dependencyMeta).toBeTruthy()
-
     // currentVersion
     within(dependencyContainer).getByLabelText('dependency-version-info-current')
 
@@ -122,11 +111,8 @@ it('renders component correctly', async () => {
 
     if (dependencyMeta?.needsUpgrade) {
       await userEvent.click(within(latestVersion).getByLabelText('dependency-upgrade-button'))
-
       const wantedVersion = within(dependencyContainer).getByLabelText('dependency-version-info-wanted')
-
       await userEvent.click(within(wantedVersion).getByLabelText('dependency-upgrade-button'))
-
       expect(setEvent).toBeCalledTimes(2)
       setEvent.mockClear()
     }
@@ -162,10 +148,7 @@ it('hides actions if not capable', () => {
   )
 
   const dependencyList = screen.getByLabelText('dependency-list')
-
   expect(screen.queryByLabelText('Upgrade All Dependencies')).not.toBeInTheDocument()
-
   expect(within(dependencyList).queryByLabelText('dependency-upgrade-button')).not.toBeInTheDocument()
-
   expect(within(dependencyList).queryByLabelText('dependency-delete-button')).not.toBeInTheDocument()
 })

@@ -1,6 +1,7 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { Select as SelectLocators, MuiAutocomplete as MuiAutocompleteLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { Select as SelectLocators, MuiAutocomplete as MuiAutocompleteLocators } from '../locators.js'
 
 export interface Select extends IPageDecorator<typeof SelectLocators> { }
 @PageDecorator(SelectLocators)
