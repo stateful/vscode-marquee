@@ -80,7 +80,6 @@ export class DependenciesExtensionManager extends ExtensionManager<State, Config
         )
 
         const deps = await provider.loadDependencies()
-        vscode.window.showInformationMessage(JSON.stringify(deps))
 
         if(!deps) { continue }
 
