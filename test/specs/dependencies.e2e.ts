@@ -16,36 +16,28 @@ describe('Dependencies Widget @skipWeb', () => {
       (await workbench.getTitleBar().getTitle()).includes('Marquee')
     ))
     await webview.open()
-  })
-
-  it('should be able to switch into work mode', async () => {
     await webview.switchMode('Work')
-    expect(widget.elem).toBeExisting()
+    await expect(widget.elem).toBeExisting()
   })
 
   it('should be able to get project dependencies', async () => {
     await widget.refresh()
     const dependencies = await widget.getDependencies()
-
     expect(dependencies).not.toHaveLength(0)
 
     let someLinkExists = false
 
     for(const dep of dependencies) {
-      expect(await dep.name$.isExisting()).toBeTruthy()
-      expect(await dep.name$.getHTML(false)).not.toHaveLength(0)
-      expect(await dep.versionInfoCurrent$.isExisting()).toBeTruthy()
-      expect(await dep.versionInfoLatest$.isExisting()).toBeTruthy()
+      await expect(dep.name$).toBeExisting()
+      await expect(dep.name$.getHTML(false)).not.toBe('')
+      await expect(dep.versionInfoCurrent$).toBeExisting()
+      await expect(dep.versionInfoLatest$).toBeExisting()
 
       const links = await dep.linkButton$$
 
       for(const link of links) {
         someLinkExists = true
-
-        const aElem = link.parentElement()
-        const href = await aElem.getAttribute('href')
-
-        expect(href).not.toHaveLength(0)
+        const href = await link.parentElement().getAttribute('href')
         expect(href).toMatch(/^http?/)
       }
     }
