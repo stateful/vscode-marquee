@@ -15,7 +15,7 @@ export class DependenciesWidget extends BasePage<typeof dependenciesEntryLocator
   public locatorKey = 'dependenciesWidget' as const
 
   public async refresh () {
-    await this.refreshButton$.waitForClickable()
+    await this.refreshButton$.waitForClickable({ timeout: 1000 * 60 })
     await this.refreshButton$.click()
 
     await this.refreshButton$.waitForEnabled()

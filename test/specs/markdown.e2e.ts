@@ -16,9 +16,6 @@ describe('Markdown Widget @skipWeb', () => {
       (await workbench.getTitleBar().getTitle()).includes('Marquee')
     ))
     await webview.open()
-  })
-
-  it('should be able to switch into project mode', async () => {
     await webview.switchMode('Project')
     expect(widget.elem).toBeExisting()
   })
