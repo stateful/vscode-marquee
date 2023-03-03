@@ -1,8 +1,6 @@
-import { Webview } from '../pageobjects/webview'
-import { MarkdownWidget } from '../pageobjects/widgets/markdown'
-import * as locatorMap from '../pageobjects/locators'
-
-export const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
+import { Webview } from '../pageobjects/webview.js'
+import { MarkdownWidget } from '../pageobjects/widgets/markdown.js'
+import * as locatorMap from '../pageobjects/locators.js'
 
 const webview = new Webview(locatorMap)
 const widget = new MarkdownWidget(locatorMap)
@@ -18,9 +16,6 @@ describe('Markdown Widget @skipWeb', () => {
       (await workbench.getTitleBar().getTitle()).includes('Marquee')
     ))
     await webview.open()
-  })
-
-  it('should be able to switch into project mode', async () => {
     await webview.switchMode('Project')
     expect(widget.elem).toBeExisting()
   })

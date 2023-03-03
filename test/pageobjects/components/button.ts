@@ -1,6 +1,7 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
-import { SplitButton as SplitButtonLocators } from '../locators'
+
+import * as locatorMap from '../locators.js'
+import { SplitButton as SplitButtonLocators } from '../locators.js'
 
 export interface SplitButton extends IPageDecorator<typeof SplitButtonLocators> { }
 @PageDecorator(SplitButtonLocators)

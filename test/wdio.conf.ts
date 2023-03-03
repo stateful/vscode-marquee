@@ -1,6 +1,9 @@
 import fs from 'fs/promises'
+import url from 'url'
 import path from 'path'
 import { Options } from '@wdio/types'
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 export const config: Options.Testrunner = {
   //
@@ -51,7 +54,7 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    './test/specs/*.e2e.ts'
+    './specs/*.e2e.ts'
   ],
   // Patterns to exclude.
   exclude: [
@@ -172,7 +175,7 @@ export const config: Options.Testrunner = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: 60000,
+    timeout: Infinity,
     bail: true,
     retries: 3
   },

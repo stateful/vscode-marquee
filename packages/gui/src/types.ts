@@ -39,11 +39,10 @@ export interface Theme {
 
 export interface State {
   modeName: string
-}
-
-export interface Configuration {
   modes: ModeConfig
 }
+
+export interface Configuration {}
 
 export interface AdditionalProps {
   thirdPartyWidgets: WidgetConfig[]

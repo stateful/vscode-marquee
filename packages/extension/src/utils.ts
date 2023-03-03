@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import ExtensionManager, { defaultConfigurations, Logger } from '@vscode-marquee/utils/extension'
 
-import { MODES_UPDATE_TIMEOUT } from './constants'
+import { DEFAULT_MODES } from './constants'
 
 export const isExpanded = (id: number): vscode.TreeItemCollapsibleState => {
   const found = [0, 1, 2, 3].filter((item: number) => id === item).length > 0
@@ -22,11 +22,11 @@ export const filterByScope = <T extends { workspaceId: string | null }>(
 }
 
 export const DEFAULT_STATE = {
-  modeName: 'default'
+  modeName: 'default',
+  modes: DEFAULT_MODES
 }
 
 export const DEFAULT_CONFIGURATION = {
-  modes: defaultConfigurations['marquee.configuration.modes'].default,
   proxy: defaultConfigurations['marquee.configuration.proxy'].default,
   fontSize: defaultConfigurations['marquee.configuration.fontSize'].default,
   launchOnStartup: defaultConfigurations['marquee.configuration.launchOnStartup'].default,
@@ -37,73 +37,14 @@ export const DEFAULT_CONFIGURATION = {
 type Configuration = typeof DEFAULT_CONFIGURATION
 type State = typeof DEFAULT_STATE
 
-export class GUIExtensionManager extends ExtensionManager<State, Configuration> {
-  private _lastModesChange = Date.now()
-
-  constructor (
-    context: vscode.ExtensionContext,
-    key: string,
-    defaultConfiguration: Configuration,
-    defaultState: State
-  ) {
-    super(context, key, defaultConfiguration, defaultState)
-    this._disposables.push(vscode.workspace.onDidChangeConfiguration(this._onModeChange.bind(this)))
-  }
-
-  async updateConfiguration <T extends keyof Configuration = keyof Configuration>(prop: T, val: Configuration[T]) {
-    /**
-     * when updating modes the webview passes the native ascii icon (e.g. "💼") which
-     * breaks when sending from webview to extension host. This ensures that we don't
-     * includes these broken ascii characters into the VS Code settings file
-     */
-    if (prop === 'modes') {
-      this._lastModesChange = Date.now()
-
-      for (const modeName of Object.keys(val)) {
-        if (val[modeName].icon) {
-          delete val[modeName].icon.native
-        }
-      }
-
-      /**
-       * in order to prevent storing modes into the global workspace we should check weather
-       * they are part of the workspace settings
-       */
-      const workspaceFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0]
-      if (workspaceFolder) {
-        try {
-          const workspaceSettings: Record<string, any> = JSON.parse((await vscode.workspace.fs.readFile(
-            vscode.Uri.joinPath(workspaceFolder.uri, '.vscode', 'settings.json')
-          )).toString())
-          for (const workspaceMode of Object.keys(workspaceSettings['marquee.configuration.modes'])) {
-            delete val[workspaceMode]
-          }
-        } catch (err) {
-          // no-op
-        }
-      }
-    }
-
-    return super.updateConfiguration(prop, val)
-  }
-
-  _onModeChange (event: vscode.ConfigurationChangeEvent) {
-    if (
-      !event.affectsConfiguration('marquee.configuration.modes') ||
-      (Date.now() - this._lastModesChange) < MODES_UPDATE_TIMEOUT
-    ) {
-      return
-    }
-
-    const config = vscode.workspace.getConfiguration('marquee')
-    const val = config.get('configuration.modes') as Configuration[keyof Configuration]
-    Logger.info('Update configuration.modes via configuration listener')
-    this.broadcast({ modes: JSON.parse(JSON.stringify(val)) })
-  }
-}
+export class GUIExtensionManager extends ExtensionManager<State, Configuration> {}
 
 export function activateGUI (context: vscode.ExtensionContext) {
   const stateManager = new GUIExtensionManager(context, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+
+  if (!stateManager.state.modes || Object.keys(stateManager.state.modes).length === 0) {
+    stateManager.updateState('modes', DEFAULT_STATE.modes)
+  }
 
   return {
     marquee: {

@@ -13,12 +13,11 @@ import Dependencies from '@vscode-marquee/widget-dependencies'
 import { WidgetConfig, Theme, State, Configuration, LayoutType } from './types'
 
 export const DEFAULT_STATE: State = {
-  modeName: 'default'
-}
-
-export const DEFAULT_CONFIGURATION: Configuration = {
+  modeName: 'default',
   modes: {}
 }
+
+export const DEFAULT_CONFIGURATION: Configuration = {}
 
 export const widgetConfig: WidgetConfig[] = [
   Welcome,

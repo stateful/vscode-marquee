@@ -1,8 +1,8 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
 
-import * as locatorMap from '../locators'
-import { MuiAutocomplete } from './inputs'
-import { MuiDialog as MuiDialogLocators } from '../locators'
+import * as locatorMap from '../locators.js'
+import { MuiAutocomplete } from './inputs.js'
+import { MuiDialog as MuiDialogLocators } from '../locators.js'
 
 export interface MuiDialog extends IPageDecorator<typeof MuiDialogLocators> { }
 @PageDecorator(MuiDialogLocators)

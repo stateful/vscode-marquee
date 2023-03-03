@@ -45,7 +45,6 @@ This extension contributes the following settings:
 * `marquee.configuration.colorScheme` (type: `object`, default: `{}`): The color scheme applied to the Marquee Webview (default is based on the current VS Code color scheme).
 * `marquee.configuration.name` (type: `string`, default: `name here...`): Your name so Marquee can greet you!
 * `marquee.configuration.background` (type: `string`, default: `1`): Homescreen background image (currently only numbers between 1-10 are available, we will add support for Unsplash images soon).
-* `marquee.configuration.modes` (type: `object`): Configuration of your widget location and display.
 * `marquee.configuration.launchOnStartup` (type: `boolean`, default: `true`): Open Marquee when VS Code starts up.
 * `marquee.configuration.workspaceLaunch` (type: `boolean`, default: `false`): Only auto-launch Marquee in Workspaces.
 * `marquee.widgets.projects.workspaceFilter` (type: `string`, default: `""`): Filter for project list.

@@ -1,11 +1,11 @@
+import { Key } from 'webdriverio'
 import type { ViewControl } from 'wdio-vscode-service'
-import { TodoWidget } from '../pageobjects/widgets/todo'
-import { NoteWidget } from '../pageobjects/widgets/note'
-import { TreeView } from '../pageobjects/components/treeview'
-import { Webview } from '../pageobjects/webview'
-import * as locatorMap from '../pageobjects/locators'
 
-export const CMD_KEY = process.platform === 'darwin' ? 'Meta' : 'Control'
+import { TodoWidget } from '../pageobjects/widgets/todo.js'
+import { NoteWidget } from '../pageobjects/widgets/note.js'
+import { TreeView } from '../pageobjects/components/treeview.js'
+import { Webview } from '../pageobjects/webview.js'
+import * as locatorMap from '../pageobjects/locators.js'
 
 describe('Marquee Tree Viewer', () => {
   let marqueeItem: ViewControl
@@ -126,7 +126,7 @@ describe('Marquee Tree Viewer', () => {
       // write snippet content
       await browser.keys('This is a snippet')
       // save
-      await browser.keys([CMD_KEY, 's'])
+      await browser.keys([Key.Ctrl, 's'])
       await browser.pause(100)
       // enter name of snippet into the prompt
       await browser.keys('My new snippet')

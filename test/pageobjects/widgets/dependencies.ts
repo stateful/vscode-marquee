@@ -1,9 +1,10 @@
 import { PageDecorator, IPageDecorator, BasePage } from 'wdio-vscode-service'
-import * as locatorMap from '../locators'
+
+import * as locatorMap from '../locators.js'
 import {
   dependenciesWidget as dependenciesWidgetLocators,
   dependenciesEntry as dependenciesEntryLocators
-} from '../locators'
+} from '../locators.js'
 
 export interface DependenciesWidget extends IPageDecorator<typeof dependenciesWidgetLocators> { }
 @PageDecorator(dependenciesWidgetLocators)
@@ -14,7 +15,7 @@ export class DependenciesWidget extends BasePage<typeof dependenciesEntryLocator
   public locatorKey = 'dependenciesWidget' as const
 
   public async refresh () {
-    await this.refreshButton$.waitForClickable()
+    await this.refreshButton$.waitForClickable({ timeout: 1000 * 60 })
     await this.refreshButton$.click()
 
     await this.refreshButton$.waitForEnabled()

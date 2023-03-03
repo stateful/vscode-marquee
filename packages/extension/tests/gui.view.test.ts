@@ -2,6 +2,7 @@ import vscode from 'vscode'
 import { TextEncoder } from 'util'
 import { render } from 'eta'
 import { MarqueeGui } from '../src/gui.view'
+import { DEFAULT_MODES } from '../src/constants'
 
 const context: any = {}
 const stateMgr: any = {
@@ -20,7 +21,10 @@ const stateMgr: any = {
     }
   ],
   gui: {
-    state: { modeName: 'foobar' },
+    state: {
+      modeName: 'foobar',
+      modes: DEFAULT_MODES
+    },
     configuration: {
       modes: {
         default: {},
@@ -36,6 +40,7 @@ const stateMgr: any = {
 
 beforeEach(() => {
   ;(vscode.window.showErrorMessage as jest.Mock).mockClear()
+  stateMgr.gui.updateState.mockClear()
 })
 
 test('constructor', () => {
@@ -138,10 +143,11 @@ test('_verifyWidgetStates', async () => {
   const gui = new MarqueeGui(context, stateMgr)
   gui['_templateDecoded'] = 'foo'
   await gui.open()
-  expect(stateMgr.gui.updateState).toBeCalledTimes(0)
-  delete gui['stateMgr'].gui.configuration.modes['foobar']
-  await gui.open()
+  expect(stateMgr.gui.updateState).toBeCalledTimes(1)
   expect(stateMgr.gui.updateState).toBeCalledWith('modeName', 'default')
+  stateMgr.gui.state.modeName = 'default'
+  await gui.open()
+  expect(stateMgr.gui.updateState).toBeCalledTimes(1)
 })
 
 test('_disposePanel', () => {
