@@ -24,11 +24,11 @@ jobs:
         with:
           run: yarn test
           options: "-screen 0 1600x1200x24"
-      - name: 🐛 Debug Build
-        uses: stateful/vscode-server-action@v1
-        if: failure()
-        with:
-          timeout: '30000'
+      # - name: 🐛 Debug Build
+      #   uses: stateful/vscode-server-action@v1
+      #   if: failure()
+      #   with:
+      #     timeout: '30000'
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
