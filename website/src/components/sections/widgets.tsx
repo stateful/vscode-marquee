@@ -72,7 +72,7 @@ const widgets = [{
   image: 'runme.png',
   heading: 'Runme',
   description: <Box>
-    Handy <a href="https://runme.dev">Runme</a> widget to view and open Runme Notebooks.
+    Handy <Link href='https://runme.dev' color={'marquee'}>Runme</Link> widget to view and open Runme Notebooks.
   </Box>
 }]
 
