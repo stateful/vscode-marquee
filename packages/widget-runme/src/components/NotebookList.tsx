@@ -1,10 +1,32 @@
 import React, { useContext } from 'react'
 import { Grid, Link, List, ListItem, ListItemText, Typography, CircularProgress } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import type { MarqueeWindow } from '@vscode-marquee/utils'
 
 import RunmeContext from '../Context'
 
 declare const window: MarqueeWindow
+
+const PREFIX = 'RunmeListItem'
+const classes = {
+  primary: `${PREFIX}-primary`,
+  secondary: `${PREFIX}-secondary`
+}
+
+const RunmeItem = styled(ListItemText)(() => ({
+  [`.${classes.primary}`]: {
+    fontWeight: 'bold',
+    fontSize: '0.8em !important',
+    lineHeight: 0
+  },
+
+  [`.${classes.secondary}`]: {
+    display: 'block',
+    opacity: '.7',
+    fontSize: '.7em !important',
+    lineHeight: '1.5em'
+  }
+}))
 
 export default function NotebookList () {
   const { notebooks } = useContext(RunmeContext)
@@ -56,7 +78,7 @@ export default function NotebookList () {
       container
       alignItems="center"
     >
-      <List dense={true} style={{ width: '100%' }}>
+      <List dense={true} style={{ width: '100%', paddingTop: 0, paddingBottom: 0, lineHeight: '0.9em' }}>
         {notebooks?.map((notebook, key) => (
           <ListItem
             dense
@@ -64,7 +86,7 @@ export default function NotebookList () {
             disableRipple
             disableTouchRipple
             key={key}
-            style={{ width: '100%' }}
+            style={{ width: '100%', paddingTop: 0, paddingBottom: 0 }}
             onClick={() => window.vscode.postMessage({
               west: {
                 execCommands: [
@@ -79,17 +101,17 @@ export default function NotebookList () {
             <img
               src={'../packages/widget-runme/src/img/runme.png'}
               alt="Runme"
-              width={40}
+              width={25}
               style={{marginRight: 15}}
             />
-            <ListItemText
+            <RunmeItem
               primary={
-                <Typography variant="caption" style={{ fontWeight: 'bold' }}>
+                <Typography variant="caption" className={classes.primary}>
                   {notebook.split('/').pop()}
                 </Typography>
               }
               secondary={
-                <Typography variant="subtitle2" noWrap style={{ display: 'block', opacity: '.7', fontSize: '.8em' }}>
+                <Typography noWrap className={classes.secondary}>
                   {notebook.split('/')
                     .slice(2, notebook.split('/').length - 1).join('/')
                     .replace(window.activeWorkspace?.path || '', '') || '/'

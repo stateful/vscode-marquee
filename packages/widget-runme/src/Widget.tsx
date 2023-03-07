@@ -37,7 +37,7 @@ const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWid
     <>
       <HeaderWrapper>
         <Grid item>
-          <Typography variant="subtitle1">Runme Notebooks</Typography>
+          <Typography variant="subtitle1">Runme Markdowns</Typography>
         </Grid>
         {minimizeNavIcon ?
           <PopupState variant='popper' popupId='widget-runme'>
@@ -62,7 +62,7 @@ const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWid
           style={{ height: '100%' }}
         >
           <Grid item xs style={{ overflow: 'auto' }}>
-            {isInstalled || true
+            {isInstalled
               ? <NotebookList />
               : <InstallRunme />
             }

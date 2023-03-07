@@ -30,7 +30,7 @@ export default function InstallRunme () {
         runme
       </h1>
       <h3>Everything a markdown file can do and way more. No changes required.</h3>
-      <p>Download for integrated Marquee Support 🚀</p>
+      <p>Install native VS Code support for Runme 🚀</p>
       <p>
         <Button
           component={'a'}

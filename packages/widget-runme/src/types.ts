@@ -2,7 +2,7 @@ import type { ContextProperties } from '@vscode-marquee/utils'
 
 export interface State {
   isInstalled: boolean
-  notebooks?: string[]
+  notebooks: null | string[]
 }
 export interface Configuration {}
 
