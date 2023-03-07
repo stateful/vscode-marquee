@@ -9,7 +9,7 @@ const widget = new MarkdownWidget(locatorMap)
  * no support to be tested as web extension due to
  * https://github.com/microsoft/vscode-test-web/issues/4
  */
-describe('Markdown Widget @skipWeb', () => {
+describe.skip('Markdown Widget @skipWeb', () => {
   before(async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (

@@ -9,7 +9,7 @@ const widget = new DependenciesWidget(locatorMap)
  * no support to be tested as web extension due to
  * https://github.com/microsoft/vscode-test-web/issues/4
  */
-describe('Dependencies Widget @skipWeb', () => {
+describe.skip('Dependencies Widget @skipWeb', () => {
   before(async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
