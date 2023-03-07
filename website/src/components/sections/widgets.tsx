@@ -62,6 +62,18 @@ const widgets = [{
   description: <Box>
     Get a daily overview about download numbers of all NPM packages you maintain.
   </Box>
+}, {
+  image: 'dependencies.png',
+  heading: 'Dependencies',
+  description: <Box>
+    View and update Node.js dependency versions from your Marquee Dashboard.
+  </Box>
+}, {
+  image: 'runme.png',
+  heading: 'Runme',
+  description: <Box>
+    Handy <a href="https://runme.dev">Runme</a> widget to view and open Runme Notebooks.
+  </Box>
 }]
 
 export const Widgets = () => (
