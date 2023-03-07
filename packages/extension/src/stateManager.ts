@@ -20,6 +20,7 @@ import { activate as activateNotesWidget, NoteExtensionManager } from '@vscode-m
 import { activate as activateNPMStatsWidget } from '@vscode-marquee/widget-npm-stats/extension'
 import { activate as activateSnippetsWidget, SnippetExtensionManager } from '@vscode-marquee/widget-snippets/extension'
 import { activate as activateDependenciesWidget } from '@vscode-marquee/widget-dependencies/extension'
+import { activate as activateRunmeWidget } from '@vscode-marquee/widget-runme/extension'
 
 import telemetry from './telemetry'
 import { activateGUI, GUIExtensionManager } from './utils'
@@ -40,6 +41,7 @@ const MARQUEE_WIDGETS = {
   '@vscode-marquee/npm-stats-widget': activateNPMStatsWidget,
   '@vscode-marquee/snippets-widget': activateSnippetsWidget,
   '@vscode-marquee/dependencies-widget': activateDependenciesWidget,
+  '@vscode-marquee/runme-widget': activateRunmeWidget,
 }
 
 interface ExportFormat<T = any> {

@@ -9,6 +9,7 @@ import Markdown from '@vscode-marquee/widget-markdown'
 import Snippets from '@vscode-marquee/widget-snippets'
 import Projects from '@vscode-marquee/widget-projects'
 import Dependencies from '@vscode-marquee/widget-dependencies'
+import Runme from '@vscode-marquee/widget-runme'
 
 import { WidgetConfig, Theme, State, Configuration, LayoutType } from './types'
 
@@ -31,6 +32,7 @@ export const widgetConfig: WidgetConfig[] = [
   NPMStats,
   Markdown,
   Dependencies,
+  Runme,
 ] as WidgetConfig[]
 export const SENTRY_DNS = 'https://6e86226331e84bd9885554fdac788ce7@o481102.ingest.sentry.io/5543775'
 export const themes: Theme[] = [
@@ -158,6 +160,7 @@ export const defaultLayout: LayoutType = {
     { minW: 3, minH: 12, w: 6, h: 13, x: 6, y: 24, i: 'npm-stats', moved: false, static: false },
     { minW: 3, minH: 12, w: 6, h: 13, x: 6, y: 24, i: 'markdown', moved: false, static: false },
     { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false },
+    { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'runme', moved: false, static: false },
   ],
   md: [
     { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 0, i: 'welcome', moved: false, static: false },
@@ -170,6 +173,7 @@ export const defaultLayout: LayoutType = {
     { minW: 3, minH: 12, w: 5, h: 13, x: 5, y: 24, i: 'markdown', moved: false, static: false },
     { minW: 3, minH: 12, w: 5, h: 13, x: 5, y: 24, i: 'npm-stats', moved: false, static: false },
     { minW: 3, minH: 12, w: 6, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
+    { minW: 3, minH: 12, w: 6, h: 12, x: 3, y: 0, i: 'runme', moved: false, static: false },
   ],
   sm: [
     { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 0, i: 'welcome', moved: false, static: false },
@@ -182,6 +186,7 @@ export const defaultLayout: LayoutType = {
     { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 49, i: 'npm-stats', moved: false, static: false },
     { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 49, i: 'markdown', moved: false, static: false },
     { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
+    { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'runme', moved: false, static: false },
   ],
   xs: [
     { minW: 3, minH: 12, w: 2, h: 11, x: 0, y: 0, i: 'welcome', moved: false, static: false },
@@ -194,6 +199,7 @@ export const defaultLayout: LayoutType = {
     { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 48, i: 'markdown', moved: false, static: false },
     { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 48, i: 'npm-stats', moved: false, static: false },
     { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false },
+    { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'runme', moved: false, static: false },
   ],
   xxs: [
     { minW: 3, minH: 12, w: 3, h: 11, x: 0, y: 0, i: 'welcome', moved: false, static: false },
@@ -206,6 +212,7 @@ export const defaultLayout: LayoutType = {
     { minW: 3, minH: 12, w: 3, h: 13, x: 0, y: 60, i: 'markdown', moved: false, static: false },
     { minW: 3, minH: 12, w: 3, h: 13, x: 0, y: 60, i: 'npm-stats', moved: false, static: false },
     { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 23, i: 'projects', moved: false, static: false },
+    { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 23, i: 'runme', moved: false, static: false },
   ],
 }
 
@@ -220,6 +227,7 @@ export const defaultEnabledWidgets = {
   welcome: true,
   snippets: true,
   projects: true,
+  runme: true,
 }
 
 export const presetModes = ['default', 'work', 'play'] as string[]

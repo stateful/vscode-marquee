@@ -219,6 +219,8 @@ export class MarqueeGui extends EventEmitter {
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
     const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL)
+    console.log('OPEN WITH', widgetStateConfigurations)
+
     const content = await render(await this.getTemplate(), {
       aws,
       nonce,
@@ -297,6 +299,10 @@ export class MarqueeGui extends EventEmitter {
     telemetry.sendTelemetryEvent('executeCommand', { command })
     if (args && args.length > 0 && command === 'vscode.openFolder') {
       return vscode.commands.executeCommand(command, vscode.Uri.parse(args[0].toString()), options)
+    }
+
+    if (args && args.length > 0 && command === 'runme.openAsRunmeNotebook') {
+      return vscode.commands.executeCommand(command, vscode.Uri.file(args[0].replace('file://', '')), options)
     }
 
     if (args && args.length > 0) {
