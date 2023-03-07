@@ -40,10 +40,12 @@ export class RunmeExtensionManager extends ExtensionManager<State, Configuration
     const notebookPath = uri.toString()
     const notebooks = JSON.parse(JSON.stringify(this.#notebooks))
 
-    if (wasDeleted) {
+    if (!wasDeleted) {
+      notebooks.push(notebookPath)
+    } else if (notebooks.includes(notebookPath)) {
       notebooks.splice(notebooks.indexOf(notebookPath), 1)
     } else {
-      notebooks.push(notebookPath)
+      return
     }
 
     this.updateState('notebooks', notebooks, true)

@@ -6,7 +6,7 @@ import PopupState from 'material-ui-popup-state'
 
 import InstallRunme from './components/InstallRunme'
 import NotebookList from './components/NotebookList'
-import RunmeContext, { DependencyProvider } from './Context'
+import RunmeContext, { RunmeProvider } from './Context'
 
 const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWidgetProps) => {
   const { isInstalled } = useContext(RunmeContext)
@@ -74,7 +74,7 @@ const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWid
 }
 
 export default wrapper((props: any) => (
-  <DependencyProvider>
+  <RunmeProvider>
     <Runme {...props} />
-  </DependencyProvider>
+  </RunmeProvider>
 ), 'dependencies')

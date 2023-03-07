@@ -6,14 +6,14 @@ import { Configuration, Context, State } from './types'
 
 declare const window: MarqueeWindow
 
-const DependencyContext = createContext<Context>({} as any)
+const RunmeContext = createContext<Context>({} as any)
 const WIDGET_ID = '@vscode-marquee/runme-widget'
 
 interface Props {
   children?: React.ReactNode;
 }
 
-const DependencyProvider = ({ children }: Props) => {
+const RunmeProvider = ({ children }: Props) => {
   const widgetState = getEventListener<State & Configuration>(WIDGET_ID)
   const providerValues = connect<Configuration & State>(
     {
@@ -23,13 +23,13 @@ const DependencyProvider = ({ children }: Props) => {
   )
 
   return (
-    <DependencyContext.Provider
+    <RunmeContext.Provider
       value={{ ...providerValues }}
     >
       { children }
-    </DependencyContext.Provider>
+    </RunmeContext.Provider>
   )
 }
 
-export default DependencyContext
-export { DependencyProvider }
+export default RunmeContext
+export { RunmeProvider }

@@ -30,7 +30,6 @@ const RunmeItem = styled(ListItemText)(() => ({
 
 export default function NotebookList () {
   const { notebooks } = useContext(RunmeContext)
-  console.log('notebooks', notebooks)
 
   if (!notebooks) {
     return (

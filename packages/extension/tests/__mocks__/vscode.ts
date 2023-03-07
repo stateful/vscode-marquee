@@ -68,7 +68,12 @@ vscode.workspace = {
   lineAtMock,
   registerTextDocumentContentProvider: jest.fn(),
   registerFileSystemProvider: jest.fn(),
-  asRelativePath: jest.fn().mockReturnValue('/some/path')
+  asRelativePath: jest.fn().mockReturnValue('/some/path'),
+  createFileSystemWatcher: jest.fn().mockReturnValue({
+    onDidCreate: jest.fn(),
+    onDidDelete: jest.fn()
+  }),
+  findFiles: jest.fn().mockResolvedValue([])
 }
 vscode.extensions = {
   getExtension: jest.fn().mockReturnValue({
