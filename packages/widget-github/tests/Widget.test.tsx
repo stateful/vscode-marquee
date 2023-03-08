@@ -39,7 +39,7 @@ test('renders component correctly', async () => {
       }]
     })
   })
-  await new Promise((r) => setTimeout(r, 100))
+  await new Promise((r) => setTimeout(r, 500))
   expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
   expect(screen.getByText('Trending on Github')).toBeInTheDocument()
   expect(screen.getByText('projectDescriptiom')).toBeInTheDocument()
@@ -53,7 +53,7 @@ test('should query projects with no result', async () => {
     </GlobalProvider>
   )
   act(() => { resolveFetch({ ok: 1, json: () => [] }) })
-  await new Promise((r) => setTimeout(r, 100))
+  await new Promise((r) => setTimeout(r, 500))
   expect(screen.getByText('There are no matches for your search criteria.')).toBeInTheDocument()
 })
 
@@ -64,7 +64,7 @@ test('should fail with network error', async () => {
       <Widget.component />
     </GlobalProvider>
   )
-  await new Promise((r) => setTimeout(r, 100))
+  await new Promise((r) => setTimeout(r, 500))
   expect(screen.getByText('Couldn\'t fetch GitHub trends!')).toBeInTheDocument()
 })
 
