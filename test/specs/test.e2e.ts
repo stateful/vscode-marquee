@@ -26,7 +26,7 @@ describe('Marquee', () => {
     })
 
     it('should load all widgets', async () => {
-      await expect(webview.widgets$$).toBeElementsArrayOfSize(8)
+      await expect(webview.widgets$$).toBeElementsArrayOfSize(9)
     })
 
     /**
