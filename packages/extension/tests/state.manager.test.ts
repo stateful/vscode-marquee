@@ -47,6 +47,9 @@ jest.mock('@vscode-marquee/widget-npm-stats/extension', () => (
 jest.mock('@vscode-marquee/widget-dependencies/extension', () => (
   { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
 )
+jest.mock('@vscode-marquee/widget-runme/extension', () => (
+  { activate: () => ({ marquee: { disposable: require('disposableManager') }}) })
+)
 
 const encoder = new TextEncoder()
 const decoder = new TextDecoder();
@@ -75,7 +78,7 @@ test('_import', async () => {
   expect(vscode.window.showErrorMessage).toBeCalledWith(
     'Error importing file: Invalid Marquee Configuration'
   )
-  expect(manager.setImportInProgress).toBeCalledTimes(26)
+  expect(manager.setImportInProgress).toBeCalledTimes(28)
 })
 
 test('_import transforms old config types', async () => {
@@ -87,7 +90,7 @@ test('_import transforms old config types', async () => {
   expect(manager.updateState.mock.calls).toMatchSnapshot()
   expect(manager.emit).toBeCalledWith('gui.close')
   expect(manager.emit).toBeCalledWith('gui.open', true)
-  expect(manager.setImportInProgress).toBeCalledTimes(26)
+  expect(manager.setImportInProgress).toBeCalledTimes(28)
 })
 
 test('_export', async () => {
@@ -119,13 +122,13 @@ test('access to individual disposables', () => {
 test('clearAll', async () => {
   const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   await stateManager.clearAll()
-  expect(manager.clear).toBeCalledTimes(13)
+  expect(manager.clear).toBeCalledTimes(14)
 })
 
 test('onWidget', () => {
   const stateManager = new StateManager({ ...context, extensionPath: '/foo/bar' } as any)
   stateManager.onWidget('foobar', () => {})
-  expect(manager.on).toBeCalledTimes(13)
+  expect(manager.on).toBeCalledTimes(14)
   expect(manager.on).toBeCalledWith('foobar', expect.any(Function))
 })
 
