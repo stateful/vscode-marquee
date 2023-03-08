@@ -1,5 +1,8 @@
+import url from 'url'
 import vscode from 'vscode'
 import ExtensionManager, { Logger }  from '@vscode-marquee/utils/extension'
+
+import { getExcludePattern } from './utils'
 import { DEFAULT_CONFIGURATION, DEFAULT_STATE } from './constants'
 import type { Configuration, State } from './types'
 
@@ -29,10 +32,13 @@ export class RunmeExtensionManager extends ExtensionManager<State, Configuration
   }
 
   async #init () {
+    const aws = this.getActiveWorkspace()
+    const excludePatterns = await getExcludePattern(aws)
+
     this.#notebooks = [
-      ...await vscode.workspace.findFiles('**/*.md'),
-      // ...await vscode.workspace.findFiles('**/*.mdx')
-    ].map((notebook) => notebook.toString())
+      ...await vscode.workspace.findFiles('**/*.md', `{${excludePatterns}}`),
+      // ...await vscode.workspace.findFiles('**/*.mdx'),
+    ].map((notebook) => url.pathToFileURL(notebook.fsPath).toString())
     this.updateState('notebooks', this.#notebooks, true)
   }
 

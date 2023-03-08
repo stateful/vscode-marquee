@@ -185,7 +185,13 @@ export class MarqueeGui extends EventEmitter {
         const extPath = path.join(this.context.extensionPath, THIRD_PARTY_EXTENSION_DIR, extension.id)
         const doesExist = await fs.access(extPath).then(() => true, () => false)
         if (!doesExist) {
-          await fs.symlink(extension.extensionPath, extPath)
+          const hasSymlinkedSuccessfully = await fs.symlink(extension.extensionPath, extPath).then(
+            () => true,
+            (err) => Logger.error(`Failed to set symlink: ${err.message}`)
+          )
+          if (!hasSymlinkedSuccessfully) {
+            continue
+          }
         }
 
         const targetPath = path.join(extPath, extension.packageJSON.marquee?.widget)
@@ -219,8 +225,6 @@ export class MarqueeGui extends EventEmitter {
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
     const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL)
-    console.log('OPEN WITH', widgetStateConfigurations)
-
     const content = await render(await this.getTemplate(), {
       aws,
       nonce,

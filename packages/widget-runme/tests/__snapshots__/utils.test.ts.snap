@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getExcludePattern 1`] = `"**/dist/**,**/out/**,**/node_modules/**,**/.vscode-test/**,**/packages/**/build/**"`;
+
+exports[`mapGitIgnoreToGlobFolders 1`] = `
+[
+  "**/dist/**",
+  "**/out/**",
+  "**/node_modules/**",
+  "**/.vscode-test/**",
+  "**/packages/**/build/**",
+]
+`;
