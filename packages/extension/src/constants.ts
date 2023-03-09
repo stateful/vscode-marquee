@@ -14,71 +14,90 @@ export const DEFAULT_MODES: any = {
   default: {
     layouts: {
       lg: [
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 0, i: 'welcome', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 8, y: 12, i: 'todo', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 8, y: 0, i: 'weather', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 12, i: 'github', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
-        { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
-        { minW: 3, minH: 12, w: 6, h: 13, x: 6, y: 24, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 24, x: 4, y: 0, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 8, y: 12, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 8, y: 0, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 12, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'npm-stats' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'markdown' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-widget' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-updatename' }
       ],
       md: [
-        { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 0, i: 'welcome', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 6, y: 12, i: 'todo', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 7, y: 0, i: 'weather', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 12, i: 'github', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
-        { minW: 3, minH: 12, w: 5, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
-        { minW: 3, minH: 12, w: 5, h: 13, x: 5, y: 24, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false }
+        { w: 3, h: 12, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 5, h: 12, x: 0, y: 12, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 5, y: 12, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 6, y: 0, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 3, y: 0, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'npm-stats' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'markdown' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       sm: [
-        { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 0, i: 'welcome', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 24, i: 'todo', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 12, i: 'weather', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 24, i: 'github', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
-        { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 36, i: 'snippets', moved: false, static: false },
-        { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 49, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
-        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false }
+        { w: 3, h: 12, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 12, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 3, y: 12, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 6, h: 12, x: 0, y: 24, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 3, y: 0, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'npm-stats' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'markdown' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       xs: [
-        { minW: 3, minH: 12, w: 2, h: 11, x: 0, y: 0, i: 'welcome', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'todo', moved: false, static: false },
-        { minW: 3, minH: 12, w: 2, h: 11, x: 2, y: 0, i: 'weather', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 74, i: 'github', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 61, i: 'news', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 35, i: 'snippets', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 48, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false }
+        { w: 2, h: 11, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 13, x: 0, y: 61, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 74, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 2, h: 11, x: 2, y: 0, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 11, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'npm-stats' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'markdown' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       xxs: [
-        { minW: 3, minH: 12, w: 4, h: 11, x: 0, y: 0, i: 'welcome', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 35, i: 'todo', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'weather', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 86, i: 'github', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 73, i: 'news', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 47, i: 'snippets', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 60, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'projects', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'runme', moved: false, static: false }
+        { w: 3, h: 11, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 13, x: 0, y: 73, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 86, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 11, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 23, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'npm-stats' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'markdown' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ]
     },
     widgets: {
       news: true,
       github: true,
-      todo: true,
+      todo: false,
       weather: true,
-      notes: true,
+      notes: false,
       welcome: true,
-      snippets: true,
-      projects: true,
-      runme: true
+      snippets: false,
+      projects: false,
+      runme: true,
+      dependencies: false,
+      markdown: false
     }
   },
   play: {
@@ -254,60 +273,70 @@ export const DEFAULT_MODES: any = {
         { w: 3, h: 17, x: 8, y: 24, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
         { w: 3, h: 17, x: 5, y: 24, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
         { w: 3, h: 12, x: 8, y: 0, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
-        { w: 6, h: 12, x: 5, y: 12, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
-        { w: 5, h: 41, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false }
-      ],
-      md: [
-        { w: 4, h: 8, x: 6, y: 0, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 5, y: 27, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
-        { w: 5, h: 13, x: 0, y: 27, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 10, x: 6, y: 8, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
-        { w: 10, h: 9, x: 0, y: 18, i: 'npm-stats', moved: false, static: false },
-        { w: 5, h: 18, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 5, y: 12, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
+        { w: 5, h: 41, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 8, y: 12, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'welcome' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-widget' }
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
+      ],
+      md: [
+        { w: 4, h: 8, x: 5, y: 0, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 13, x: 5, y: 30, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 5, h: 13, x: 0, y: 30, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 10, x: 5, y: 8, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
+        { w: 5, h: 12, x: 0, y: 18, i: 'npm-stats', moved: false, static: false },
+        { w: 5, h: 18, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 5, y: 18, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'welcome' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' },
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       sm: [
         { w: 3, h: 12, x: 0, y: 30, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 11, x: 0, y: 55, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 13, x: 0, y: 42, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
         { w: 3, h: 12, x: 3, y: 30, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
-        { w: 6, h: 12, x: 0, y: 18, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 18, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 18, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 3, y: 18, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'welcome' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-widget' }
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       xs: [
-        { w: 4, h: 12, x: 0, y: 29, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 67, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 0, y: 54, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 0, y: 41, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 17, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 41, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 79, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 13, x: 0, y: 66, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 13, x: 0, y: 53, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 29, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 17, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 17, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'welcome' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-widget' }
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ],
       xxs: [
-        { w: 4, h: 12, x: 0, y: 34, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 72, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 0, y: 59, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 0, y: 46, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 22, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 22, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 46, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 84, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 13, x: 0, y: 71, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 13, x: 0, y: 58, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 34, i: 'npm-stats', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 22, x: 0, y: 0, i: 'markdown', minW: 3, minH: 12, moved: false, static: false },
+        { w: 3, h: 12, x: 0, y: 22, i: 'runme', minW: 3, minH: 12, moved: false, static: false },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'welcome' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
         { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'stateful-marquee-widget' }
+        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'dependencies' }
       ]
     },
     widgets: {
@@ -321,18 +350,16 @@ export const DEFAULT_MODES: any = {
       snippets: true,
       projects: true,
       'npm-stats': true,
-      runme: false
+      runme: true
     },
     icon: {
       id: 'rocket',
       name: 'Rocket',
-      short_names: [
-        'rocket'
-      ],
+      short_names: ['rocket'],
       colons: ':rocket:',
       emoticons: [],
       unified: '1f680',
       skin: null
-    } as any
+    }
   }
 }
