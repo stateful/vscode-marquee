@@ -1,6 +1,8 @@
 import React from 'react'
 import { Grid, Button } from '@mui/material'
 
+import { runmeLogo } from './constants'
+
 export default function InstallRunme () {
   return (<Grid
     container
@@ -11,7 +13,7 @@ export default function InstallRunme () {
   >
     <Grid item style={{ width: '40%', textAlign: 'center' }}>
       <img
-        src={'../packages/widget-runme/src/img/runme.png'}
+        src={runmeLogo}
         alt="Runme"
       />
     </Grid>

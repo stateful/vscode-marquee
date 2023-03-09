@@ -3,6 +3,7 @@ import { Grid, Link, List, ListItem, ListItemText, Typography, CircularProgress 
 import { styled } from '@mui/material/styles'
 import type { MarqueeWindow } from '@vscode-marquee/utils'
 
+import { runmeLogo } from './constants'
 import RunmeContext from '../Context'
 
 declare const window: MarqueeWindow
@@ -98,7 +99,7 @@ export default function NotebookList () {
             })}
           >
             <img
-              src={'../packages/widget-runme/src/img/runme.png'}
+              src={runmeLogo}
               alt="Runme"
               width={25}
               style={{marginRight: 15}}
