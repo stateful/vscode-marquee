@@ -1,0 +1,8 @@
+{
+  "name": "@vscode-marquee/widget-runme-extension",
+  "description": "extension logic for Runme widget",
+  "main": "../build/extension.js",
+  "module": "../build/extension.js",
+  "types": "../build/extension.d.ts"
+}
+

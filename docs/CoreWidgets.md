@@ -104,3 +104,25 @@ Get a daily overview about download numbers of a set of NPM packages you can con
 
 - Follow download numbers of 1 or many NPM packages
 - Set custom time durations to overview
+
+## NPM Dependency
+
+View and update Node.js dependency versions from your Marquee Dashboard.
+
+<img src="/assets/widgets/dependencies.png" alt="NPM Dependency Widget" width="600" />
+
+### Features
+
+- Get a list of all your Node.js dependencies
+- Simply update a dependency with a click on the button
+
+## NPM Dependency
+
+Handy [Runme](https://runme.dev) widget to view and open Runme Notebooks.
+
+<img src="/assets/widgets/runme.png" alt="Runme Widget" width="600" />
+
+### Features
+
+- Get a list of all Runme notebooks
+- Open individual notebooks with a simple click

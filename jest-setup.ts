@@ -277,4 +277,8 @@ window.marqueeStateConfiguration = {
     configuration: {},
     state: {},
   },
+  '@vscode-marquee/runme-widget': {
+    configuration: {},
+    state: {},
+  },
 }

@@ -71,7 +71,8 @@
       "packages/widget-todo",
       "packages/widget-weather",
       "packages/widget-welcome",
-      "packages/widget-dependencies"
+      "packages/widget-dependencies",
+      "packages/widget-runme"
     ]
   },
   "activationEvents": [
@@ -1323,6 +1324,7 @@
     "compile:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json",
     "compile:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json",
     "compile:ts:widget-dependencies": "tsc --project packages/widget-dependencies/tsconfig.json",
+    "compile:ts:widget-runme": "tsc --project packages/widget-runme/tsconfig.json",
     "compile:ts:extension": "tsc --project packages/extension/tsconfig.json",
     "prepare": "husky install",
     "test": "run-s test:*",
@@ -1349,7 +1351,8 @@
     "watch:ts:widget-snippets": "tsc --project packages/widget-snippets/tsconfig.json --watch",
     "watch:ts:widget-projects": "tsc --project packages/widget-projects/tsconfig.json --watch",
     "watch:ts:widget-dependencies": "tsc --project packages/widget-dependencies/tsconfig.json --watch",
-    "watch:webpack": "NODE_ENV=development webpack --mode development --watch"
+    "watch:ts:widget-runme": "tsc --project packages/widget-runme/tsconfig.json --watch",
+    "watch:webpack": "cross-env NODE_ENV=development webpack --mode development --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",

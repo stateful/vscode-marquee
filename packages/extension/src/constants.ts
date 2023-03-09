@@ -21,6 +21,7 @@ export const DEFAULT_MODES: any = {
         { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
         { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
         { minW: 3, minH: 12, w: 6, h: 13, x: 6, y: 24, i: 'notes', moved: false, static: false },
+        { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 12, x: 4, y: 0, i: 'projects', moved: false, static: false }
       ],
       md: [
@@ -31,6 +32,7 @@ export const DEFAULT_MODES: any = {
         { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
         { minW: 3, minH: 12, w: 5, h: 13, x: 0, y: 24, i: 'snippets', moved: false, static: false },
         { minW: 3, minH: 12, w: 5, h: 13, x: 5, y: 24, i: 'notes', moved: false, static: false },
+        { minW: 3, minH: 12, w: 4, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false }
       ],
       sm: [
@@ -41,6 +43,7 @@ export const DEFAULT_MODES: any = {
         { minW: 3, minH: 12, w: 3, h: 12, x: 0, y: 12, i: 'news', moved: false, static: false },
         { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 36, i: 'snippets', moved: false, static: false },
         { minW: 3, minH: 12, w: 6, h: 13, x: 0, y: 49, i: 'notes', moved: false, static: false },
+        { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false },
         { minW: 3, minH: 12, w: 3, h: 12, x: 3, y: 0, i: 'projects', moved: false, static: false }
       ],
       xs: [
@@ -51,6 +54,7 @@ export const DEFAULT_MODES: any = {
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 61, i: 'news', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 35, i: 'snippets', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 48, i: 'notes', moved: false, static: false },
+        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 11, i: 'projects', moved: false, static: false }
       ],
       xxs: [
@@ -61,7 +65,8 @@ export const DEFAULT_MODES: any = {
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 73, i: 'news', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 47, i: 'snippets', moved: false, static: false },
         { minW: 3, minH: 12, w: 4, h: 13, x: 0, y: 60, i: 'notes', moved: false, static: false },
-        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'projects', moved: false, static: false }
+        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'projects', moved: false, static: false },
+        { minW: 3, minH: 12, w: 4, h: 12, x: 0, y: 23, i: 'runme', moved: false, static: false }
       ]
     },
     widgets: {
@@ -72,7 +77,8 @@ export const DEFAULT_MODES: any = {
       notes: true,
       welcome: true,
       snippets: true,
-      projects: true
+      projects: true,
+      runme: true
     }
   },
   play: {
@@ -85,7 +91,8 @@ export const DEFAULT_MODES: any = {
         { w: 6, h: 13, x: 0, y: 23, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
         { w: 3, h: 11, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 48, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 60, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 60, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 60, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       xs: [
         { w: 4, h: 13, x: 0, y: 37, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -95,17 +102,19 @@ export const DEFAULT_MODES: any = {
         { w: 4, h: 12, x: 0, y: 50, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 13, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 74, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 86, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 86, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 86, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       md: [
-        { w: 5, h: 12, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 14, x: 5, y: 12, i: 'news', minW: 3, minH: 12, moved: false, static: false },
         { w: 5, h: 14, x: 0, y: 12, i: 'github', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 0, i: 'todo', minW: 3, minH: 12, moved: false, static: false, },
         { w: 4, h: 12, x: 5, y: 0, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'todo' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'projects' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'snippets' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'notes' }
+        { w: 4, h: 12, x: 0, y: 0, i: 'notes', minW: 3, minH: 12, moved: false, static: false, },
+        { w: 5, h: 12, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 0, i: 'snippets', minW: 3, minH: 12, moved: false, static: false, },
+        { w: 4, h: 12, x: 0, y: 0, i: 'projects', minW: 3, minH: 12, moved: false, static: false, },
+        { w: 4, h: 12, x: 0, y: 0, i: 'runme', minW: 3, minH: 12, moved: false, static: false, }
       ],
       lg: [
         { w: 6, h: 14, x: 6, y: 14, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -115,7 +124,8 @@ export const DEFAULT_MODES: any = {
         { w: 6, h: 15, x: 6, y: 0, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 14, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 29, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 41, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 41, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 41, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       xxs: [
         { w: 4, h: 13, x: 0, y: 37, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -125,7 +135,8 @@ export const DEFAULT_MODES: any = {
         { w: 4, h: 12, x: 0, y: 50, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 13, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 74, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 86, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 86, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 86, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ]
     },
     widgets: {
@@ -136,7 +147,8 @@ export const DEFAULT_MODES: any = {
       notes: false,
       welcome: true,
       snippets: false,
-      projects: false
+      projects: false,
+      runme: false
     },
     icon: {
       id: 'beach_with_umbrella',
@@ -160,7 +172,8 @@ export const DEFAULT_MODES: any = {
         { w: 6, h: 12, x: 0, y: 47, i: 'dependencies', minW: 3, minH: 12, moved: false, static: false },
         { w: 3, h: 11, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 13, x: 0, y: 23, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 6, h: 12, x: 0, y: 11, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 6, h: 12, x: 0, y: 11, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 6, h: 12, x: 0, y: 11, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       xs: [
         { w: 4, h: 12, x: 0, y: 60, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -171,18 +184,20 @@ export const DEFAULT_MODES: any = {
         { w: 4, h: 12, x: 0, y: 60, i: 'dependencies', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 13, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 37, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 13, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 13, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 13, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       md: [
-        { w: 3, h: 14, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 0, i: 'news', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 0, i: 'github', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 14, x: 3, y: 0, i: 'todo', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 14, x: 5, y: 14, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
-        { w: 5, h: 14, x: 0, y: 14, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 0, i: 'weather', minW: 3, minH: 12, moved: false, static: false },
         { w: 9, h: 13, x: 0, y: 28, i: 'notes', minW: 3, minH: 12, moved: false, static: false },
         { w: 9, h: 12, x: 0, y: 41, i: 'dependencies', minW: 3, minH: 12, moved: false, static: false },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'news' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'github' },
-        { minW: 3, minH: 12, static: false, moved: false, x: 0, y: 0, h: 12, w: 4, i: 'weather' }
+        { w: 3, h: 14, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
+        { w: 5, h: 14, x: 0, y: 14, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 14, x: 5, y: 14, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 14, x: 5, y: 14, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       lg: [
         { w: 4, h: 12, x: 0, y: 28, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -193,7 +208,8 @@ export const DEFAULT_MODES: any = {
         { w: 12, h: 13, x: 0, y: 28, i: 'dependencies', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 13, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 6, h: 15, x: 0, y: 13, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 13, x: 4, y: 0, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 13, x: 4, y: 0, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 13, x: 4, y: 0, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ],
       xxs: [
         { w: 4, h: 12, x: 0, y: 60, i: 'news', minW: 3, minH: 12, moved: false, static: false },
@@ -204,7 +220,8 @@ export const DEFAULT_MODES: any = {
         { w: 3, h: 12, x: 0, y: 60, i: 'dependencies', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 13, x: 0, y: 0, i: 'welcome', minW: 3, minH: 12, moved: false, static: false },
         { w: 4, h: 12, x: 0, y: 37, i: 'snippets', minW: 3, minH: 12, moved: false, static: false },
-        { w: 4, h: 12, x: 0, y: 13, i: 'projects', minW: 3, minH: 12, moved: false, static: false }
+        { w: 4, h: 12, x: 0, y: 13, i: 'projects', minW: 3, minH: 12, moved: false, static: false },
+        { w: 4, h: 12, x: 0, y: 13, i: 'runme', minW: 3, minH: 12, moved: false, static: false }
       ]
     },
     widgets: {
@@ -216,7 +233,8 @@ export const DEFAULT_MODES: any = {
       welcome: true,
       snippets: true,
       projects: true,
-      dependencies: true
+      dependencies: true,
+      runme: false
     },
     icon: {
       id: 'briefcase',
@@ -302,7 +320,8 @@ export const DEFAULT_MODES: any = {
       welcome: false,
       snippets: true,
       projects: true,
-      'npm-stats': true
+      'npm-stats': true,
+      runme: false
     },
     icon: {
       id: 'rocket',

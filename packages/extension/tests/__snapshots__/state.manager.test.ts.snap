@@ -17,7 +17,8 @@ exports[`_export 1`] = `
   "@vscode-marquee/notes-widget": "some state",
   "@vscode-marquee/npm-stats-widget": "some state",
   "@vscode-marquee/snippets-widget": "some state",
-  "@vscode-marquee/dependencies-widget": "some state"
+  "@vscode-marquee/dependencies-widget": "some state",
+  "@vscode-marquee/runme-widget": "some state"
  },
  "configuration": {
   "@vscode-marquee/utils": "some configuration",
@@ -32,7 +33,8 @@ exports[`_export 1`] = `
   "@vscode-marquee/notes-widget": "some configuration",
   "@vscode-marquee/npm-stats-widget": "some configuration",
   "@vscode-marquee/snippets-widget": "some configuration",
-  "@vscode-marquee/dependencies-widget": "some configuration"
+  "@vscode-marquee/dependencies-widget": "some configuration",
+  "@vscode-marquee/runme-widget": "some configuration"
  }
 }"
 `;
@@ -137,6 +139,17 @@ exports[`_import transforms old config types 2`] = `
 
 exports[`StateManager initiation 1`] = `
 [
+  {
+    "clear": [MockFunction],
+    "configuration": "some configuration",
+    "dispose": [MockFunction],
+    "emit": [MockFunction],
+    "on": [MockFunction],
+    "setImportInProgress": [MockFunction],
+    "state": "some state",
+    "updateConfiguration": [MockFunction],
+    "updateState": [MockFunction],
+  },
   {
     "clear": [MockFunction],
     "configuration": "some configuration",
