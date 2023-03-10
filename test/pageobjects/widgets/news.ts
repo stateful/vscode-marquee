@@ -51,6 +51,7 @@ export class NewsWidget extends BasePage<typeof newsWidgetLocators, typeof locat
     const otherValues = (await channelSelect.getOptions()).filter(
       (option) => option !== currentValue)
     const randomChannel = otherValues[Math.floor(Math.random() * otherValues.length)]
-    return channelSelect.selectByValue(randomChannel)
+    await channelSelect.selectByValue(randomChannel)
+    await this.settingsBtn$.click()
   }
 }

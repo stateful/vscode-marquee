@@ -30,11 +30,24 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
     }
   }
 
-  public async switchMode (mode: string) {
+  public async switchMode (mode: string, retry = false) {
     await this.toggleModeBtn$.click()
     const projectMode = await $(`p=${mode}`)
-    await projectMode.waitForExist()
-    await projectMode.click()
+    try {
+      await projectMode.waitForExist()
+      await projectMode.click()
+    } catch (err) {
+      /**
+       * it seems that the popup does not show up in CI
+       * every once in a while, retry in this case once
+       */
+      if (!retry) {
+        return this.switchMode(mode, true)
+      }
+
+      throw err
+    }
+
     await this.toggleModeBtn$.click()
   }
 }
