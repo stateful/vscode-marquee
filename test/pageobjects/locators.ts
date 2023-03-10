@@ -45,6 +45,7 @@ export const todoWidget = {
   elem: webview.widget('todo'),
   createTodoBtn: 'button=Create a Todo',
   addTodoBtn: 'button[aria-label="add-todo"]',
+  openMenuBtn: 'aria/Open Menu',
   items: 'div[aria-label="todo-item"]',
   filterBtn: 'button[aria-label="todo-filter"]',
   filterInput: 'input[name="todo-filter"]',

@@ -17,7 +17,7 @@ const NavIconDropdown = ({ popupState, children } : NavIconDropdownPropTypes) =>
   return (
     <ClickAwayListener onClickAway={() => popupState.close()}>
       <Grid item xs={1}>
-        <IconButton {...bindToggle(popupState)} ref={() => anchorRef(popupState)}>
+        <IconButton aria-label="Open Menu" {...bindToggle(popupState)} ref={() => anchorRef(popupState)}>
           <FontAwesomeIcon icon={faEllipsisV} fontSize={'small'} />
         </IconButton>
         <Popper {...bindPopper(popupState)} disablePortal sx={{ zIndex: 1000 }}

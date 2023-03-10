@@ -332,7 +332,7 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
         />
       }
       <HeaderWrapper>
-        <Grid item>
+        <Grid item xs={4} m={6}>
           <Grid container flexWrap={'nowrap'} direction="row" spacing={1} alignItems="center">
             <Grid item>
               <Typography variant="subtitle1">Notes</Typography>
@@ -352,7 +352,7 @@ let Notes = ({ ToggleFullScreen, minimizeNavIcon, fullscreenMode } : MarqueeWidg
               )}}
           </PopupState>
           :
-          <Grid item xs={6}>
+          <Grid item xs={8} m={6}>
             <NavButtons />
           </Grid>
         }
