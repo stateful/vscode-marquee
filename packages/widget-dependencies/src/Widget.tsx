@@ -44,6 +44,8 @@ const Dependencies = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: Mar
     .sort((a, b) => (needsUpgrade(b) ? 1 : 0) - (needsUpgrade(a) ? 1 : 0))
     .filter(dep => showUpToDate || needsUpgrade(dep))
 
+  console.log(';CHECK', loading)
+
   const NavButtons = () => (
     <Grid item>
       <Grid

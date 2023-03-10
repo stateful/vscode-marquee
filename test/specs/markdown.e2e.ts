@@ -9,7 +9,7 @@ const widget = new MarkdownWidget(locatorMap)
  * no support to be tested as web extension due to
  * https://github.com/microsoft/vscode-test-web/issues/4
  */
-describe.skip('Markdown Widget @skipWeb', () => {
+describe('Markdown Widget @skipWeb', () => {
   before(async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
@@ -17,7 +17,7 @@ describe.skip('Markdown Widget @skipWeb', () => {
     ))
     await webview.open()
     await webview.switchMode('Project')
-    expect(widget.elem).toBeExisting()
+    await expect(widget.elem).toBeExisting()
   })
 
   it('should have markdown items loaded', async () => {

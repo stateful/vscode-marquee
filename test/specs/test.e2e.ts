@@ -1,11 +1,12 @@
+import { Key } from 'webdriverio'
+
 import { WeatherWidget } from '../pageobjects/widgets/weather.js'
 import { NewsWidget } from '../pageobjects/widgets/news.js'
 import { GithubWidget } from '../pageobjects/widgets/github.js'
-import { TodoWidget } from '../pageobjects/widgets/todo.js'
 import { Webview } from '../pageobjects/webview.js'
 import * as locatorMap from '../pageobjects/locators.js'
 
-const WIDGETS = ['welcome', 'projects', 'weather', 'news', 'github', 'todo', 'snippets', 'notes']
+const WIDGETS = ['welcome', 'weather', 'news', 'github', 'runme']
 
 describe('Marquee', () => {
   before('should open by default', async () => {
@@ -22,11 +23,11 @@ describe('Marquee', () => {
     })
 
     beforeEach(async () => {
-      await browser.keys(['Escape'])
+      await browser.keys(Key.Escape)
     })
 
     it('should load all widgets', async () => {
-      await expect(webview.widgets$$).toBeElementsArrayOfSize(9)
+      await expect(webview.widgets$$).toBeElementsArrayOfSize(WIDGETS.length)
     })
 
     /**
@@ -37,6 +38,12 @@ describe('Marquee', () => {
       it('should display message', async () => {
         await expect($('div[aria-label="welcome-widget"]'))
           .toHaveTextContaining('you are using a pre-release version of Marquee.')
+      })
+    })
+
+    describe('Runme widget', () => {
+      it('should be in the default view', async () => {
+        await expect($('div[aria-label="runme-widget"] h6')).toHaveText('Runme Markdowns')
       })
     })
 
@@ -124,62 +131,6 @@ describe('Marquee', () => {
       it('should be able to select spoken language', async () => {
         await githubWidget.setFilterOption({ spoken: 'Yoruba' })
         await expect(githubWidget.articles$$).toBeElementsArrayOfSize(0)
-      })
-    })
-
-    describe('todo widget', () => {
-      const todoWidget = new TodoWidget(locatorMap)
-
-      before(async () => {
-        await todoWidget.elem.scrollIntoView({ block: 'end' })
-      })
-
-      it('should have no todos at the beginning', async () => {
-        await todoWidget.createTodoBtn$.waitForExist()
-      })
-
-      it('can set a workspace todo', async () => {
-        await todoWidget.createTodo('test123', ['foo1', 'bar1'], 'workspace')
-        await todoWidget.createTodo('test321', ['bar2', 'foo2'], 'global')
-
-        const items = await todoWidget.getTodoItems()
-        expect(items).toHaveLength(1)
-        expect(await items[0].getText()).toBe('test123')
-        expect(await items[0].getTags()).toEqual(['foo1', 'bar1'])
-
-      })
-
-      it('shows all todos if global scope is enabled', async () => {
-        await webview.toggleScopeBtn$.click()
-        expect(await todoWidget.getTodoItems()).toHaveLength(2)
-      })
-
-      it('can search for tags', async () => {
-        await todoWidget.setFilter('bar2')
-        const items = await todoWidget.getTodoItems()
-        expect(items).toHaveLength(1)
-        expect(await items[0].getText()).toBe('test321')
-      })
-
-      it('can edit todo', async () => {
-        const items = await todoWidget.getTodoItems()
-        await items[0].edit({
-          todo: 'updates test321',
-          tags: ['bar2', 'foo2', 'updated']
-        })
-        expect(await items[0].getText()).toBe('updates test321')
-        expect(await items[0].getTags()).toEqual(['bar2', 'foo2', 'updated'])
-      })
-
-      it('it can hide complete todos', async () => {
-        await todoWidget.clearFilter()
-        const items = await todoWidget.getTodoItems()
-        expect(items).toHaveLength(2)
-
-        await items[0].completeItemCheckbox$.click()
-        await items[1].completeItemCheckbox$.click()
-        await todoWidget.selectOptions({ hideComplete: true })
-        expect(await todoWidget.items$$).toHaveLength(0)
       })
     })
   })

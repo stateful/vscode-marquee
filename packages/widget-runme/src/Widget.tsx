@@ -36,7 +36,7 @@ const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWid
   return (
     <>
       <HeaderWrapper>
-        <Grid item>
+        <Grid item xs={8}>
           <Typography variant="subtitle1">Runme Markdowns</Typography>
         </Grid>
         {minimizeNavIcon ?
@@ -49,7 +49,7 @@ const Runme = ({ ToggleFullScreen, fullscreenMode, minimizeNavIcon }: MarqueeWid
               )}}
           </PopupState>
           :
-          <Grid item xs={8}>
+          <Grid item xs={4}>
             <NavButtons />
           </Grid>
         }

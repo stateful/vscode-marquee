@@ -35,5 +35,6 @@ export class Webview extends BasePage<typeof webviewLocators, typeof locatorMap>
     const projectMode = await $(`p=${mode}`)
     await projectMode.waitForExist()
     await projectMode.click()
+    await this.toggleModeBtn$.click()
   }
 }

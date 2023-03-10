@@ -9,6 +9,19 @@ import * as locatorMap from '../pageobjects/locators.js'
 
 describe('Marquee Tree Viewer', () => {
   let marqueeItem: ViewControl
+  const webview = new Webview(locatorMap)
+  const todoWidget = new TodoWidget(locatorMap)
+
+  before(async () => {
+    const workbench = await browser.getWorkbench()
+    await browser.waitUntil(async () => (
+      (await workbench.getTitleBar().getTitle()).includes('Marquee')
+    ))
+    await webview.open()
+    await webview.switchMode('Project')
+    await expect(todoWidget.elem).toBeExisting()
+    await webview.close()
+  })
 
   before(async () => {
     const workbench = await browser.getWorkbench()
@@ -54,12 +67,8 @@ describe('Marquee Tree Viewer', () => {
 
   describe('todo', () => {
     it('should fill out the form and submit', async () => {
-      const webview = new Webview(locatorMap)
       await webview.open()
-
-      const todo = new TodoWidget(locatorMap)
-      await todo.createTodo('Hello World!', ['foo', 'bar'], 'workspace')
-
+      await todoWidget.createTodo('Hello World!', ['foo', 'bar'], 'workspace')
       await webview.close()
     })
 
@@ -89,15 +98,10 @@ describe('Marquee Tree Viewer', () => {
     })
 
     it('should propagate changes from tree view to webview', async () => {
-      const webview = new Webview(locatorMap)
       await webview.open()
-
-      const todo = new TodoWidget(locatorMap)
-      const items = await todo.getTodoItems()
-
+      const items = await todoWidget.getTodoItems()
       expect(items.length).toBe(1)
       expect(await items[0].getText()).toBe('Hello World!')
-
       await webview.close()
     })
   })
@@ -131,7 +135,7 @@ describe('Marquee Tree Viewer', () => {
       // enter name of snippet into the prompt
       await browser.keys('My new snippet')
       // save
-      await browser.keys(['Enter'])
+      await browser.keys(Key.Enter)
       await browser.pause(300)
 
       const treeView = new TreeView(locatorMap, marqueeItem)

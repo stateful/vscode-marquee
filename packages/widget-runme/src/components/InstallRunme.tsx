@@ -11,7 +11,7 @@ export default function InstallRunme () {
     justifyContent="center"
     direction="row"
   >
-    <Grid item style={{ width: '40%', textAlign: 'center' }}>
+    <Grid item style={{ width: '40%', textAlign: 'center', padding: '0 30px 0 20px' }}>
       <img
         src={runmeLogo}
         alt="Runme"

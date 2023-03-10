@@ -9,19 +9,20 @@ const widget = new DependenciesWidget(locatorMap)
  * no support to be tested as web extension due to
  * https://github.com/microsoft/vscode-test-web/issues/4
  */
-describe.skip('Dependencies Widget @skipWeb', () => {
-  before(async () => {
+describe('Dependencies Widget @skipWeb', () => {
+  it('shows up in project mode', async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (
       (await workbench.getTitleBar().getTitle()).includes('Marquee')
     ))
     await webview.open()
-    await webview.switchMode('Work')
+    await webview.switchMode('Project')
     await expect(widget.elem).toBeExisting()
   })
 
   /**
-   * seems like dependencies don't load in CI, loading svg never disappears
+   * we load the Marquee project which has a hefty number of
+   * dependencies making this test very slow and brittle
    */
   it.skip('should be able to get project dependencies', async () => {
     await widget.refresh()

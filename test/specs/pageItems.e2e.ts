@@ -20,7 +20,7 @@ Add me as Clipboard Item
 Add me as Note
 `
 
-const setup = () => fs.writeFile(file, FIXTURE_CONTENT)
+const setup = async () => fs.writeFile(file, FIXTURE_CONTENT)
 
 const teardown = async () => {
   await fs.unlink(file)
@@ -55,8 +55,16 @@ const notesWidget = new NoteWidget(locatorMap)
 const clipboardWidget = new ClipboardWidget(locatorMap)
 
 describe('page items @skipWeb', () => {
-  // wait until Marquee has settled
-  before(() => browser.pause(3000))
+  before(async () => {
+    const workbench = await browser.getWorkbench()
+    await browser.waitUntil(async () => (
+      (await workbench.getTitleBar().getTitle()).includes('Marquee')
+    ))
+    await webview.open()
+    await webview.switchMode('Project')
+    await expect(todoWidget.elem).toBeExisting()
+    await webview.close()
+  })
 
   describe('todo', () => {
     before(setup)
