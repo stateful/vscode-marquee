@@ -20,7 +20,11 @@ export class SplitButton extends BasePage<typeof SplitButtonLocators, typeof loc
     const controls = await popupBtn.getAttribute('aria-controls')
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const items = await this.elem.$$(`#${controls} > li`)
-    const itemValues = await Promise.all(items.map((i) => i.getText()))
+    const itemValues = await Promise.all(items.map(async (li) => (
+      (await li.getText()) ||
+      (await li.getAttribute('data-value')) ||
+      (await li.getHTML())
+    )))
 
     if (!itemValues.includes(value)) {
       throw new Error(`Option for SplitButton "${value}" not available, options are: ${itemValues.join(', ')}`)

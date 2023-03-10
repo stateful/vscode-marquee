@@ -30,7 +30,11 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
   public async getOptions () {
     await this.comboBox$.click()
     await this.list$.waitForExist()
-    const options = await this.list$.$$('li').map(async (li) => (await li.getText()) || (await li.getHTML()))
+    const options = await this.list$.$$('li').map(async (li) => (
+      (await li.getText()) ||
+      (await li.getAttribute('data-value')) ||
+      (await li.getHTML())
+    ))
     await browser.keys(['Escape'])
     return options
   }
