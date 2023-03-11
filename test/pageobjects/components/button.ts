@@ -23,7 +23,7 @@ export class SplitButton extends BasePage<typeof SplitButtonLocators, typeof loc
     const itemValues = await Promise.all(items.map(async (li) => (
       (await li.getText()) ||
       (await li.getAttribute('data-value')) ||
-      (await li.getHTML())
+      (await li.getHTML(false))
     )))
 
     if (!itemValues.includes(value)) {

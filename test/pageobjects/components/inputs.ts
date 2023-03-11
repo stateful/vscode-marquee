@@ -33,7 +33,7 @@ export class Select extends BasePage<typeof SelectLocators, typeof locatorMap> {
     const options = await this.list$.$$('li').map(async (li) => (
       (await li.getText()) ||
       (await li.getAttribute('data-value')) ||
-      (await li.getHTML())
+      (await li.getHTML(false))
     ))
     await browser.keys(['Escape'])
     return options
