@@ -43,7 +43,7 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     /**
      * click menu handle if widget is too small
      */
-    if (!(await menuBtn.isExisting())) {
+    if (!(await menuBtn.isDisplayed()) && (await this.openMenuBtn$.isExisting())) {
       await this.openMenuBtn$.click()
     }
   }
@@ -63,7 +63,7 @@ export class TodoWidget extends BasePage<typeof todoWidgetLocators, typeof locat
     /**
      * only needed if widget is too small
      */
-    if (!(await this.openMenuBtn$.isExisting())) {
+    if ((await this.openMenuBtn$.isExisting())) {
       await this.openMenuBtn$.click()
     }
   }
