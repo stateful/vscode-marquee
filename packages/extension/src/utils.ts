@@ -40,8 +40,24 @@ type State = typeof DEFAULT_STATE
 export class GUIExtensionManager extends ExtensionManager<State, Configuration> {}
 
 export function activateGUI (context: vscode.ExtensionContext) {
-  const stateManager = new GUIExtensionManager(context, 'configuration', DEFAULT_CONFIGURATION, DEFAULT_STATE)
+  const key = 'configuration'
+  const modeConfigKey = `${key}.modes`
+  /**
+   * In v3.3.0 we moved `modes` from configuration to state
+   * see https://github.com/stateful/vscode-marquee/issues/221
+   * This section checks if modes were stored as configuration object and
+   * moves them over to state
+   */
+  let defaultState: State = JSON.parse(JSON.stringify(DEFAULT_STATE))
+  const config = vscode.workspace.getConfiguration('marquee')
+  const modeAsConfiguration = config.get(modeConfigKey)
+  if (modeAsConfiguration) {
+    context.globalState.update(modeConfigKey, modeAsConfiguration)
+    config.update(modeConfigKey, undefined, vscode.ConfigurationTarget.Global)
+    defaultState.modes = modeAsConfiguration
+  }
 
+  const stateManager = new GUIExtensionManager(context, key, DEFAULT_CONFIGURATION, defaultState)
   if (!stateManager.state.modes || Object.keys(stateManager.state.modes).length === 0) {
     stateManager.updateState('modes', DEFAULT_STATE.modes)
   }
