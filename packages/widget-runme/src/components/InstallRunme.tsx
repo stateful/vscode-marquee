@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Grid, Button } from '@mui/material'
 
 import { runmeLogo } from './constants'
+import RunmeContext from '../Context'
 
 export default function InstallRunme () {
+  const { uriScheme } = useContext(RunmeContext)
+
   return (<Grid
     container
     style={{ height: '100%' }}
@@ -38,7 +41,7 @@ export default function InstallRunme () {
           component={'a'}
           style={{ color: '#fff' }}
           // eslint-disable-next-line max-len
-          href="vscode://stateful.runme?command=setup&fileToOpen=https://gist.githubusercontent.com/christian-bromann/df97ce3dace21564ffdf1900400ec099/raw/0a9b29c979d61e17032c855b04dbc4f5b962f847/ThankYou.md"
+          href={`${uriScheme}://stateful.runme?command=setup&fileToOpen=https://gist.githubusercontent.com/christian-bromann/df97ce3dace21564ffdf1900400ec099/raw/0a9b29c979d61e17032c855b04dbc4f5b962f847/ThankYou.md`}
         >
           Add to VS Code
         </Button>
