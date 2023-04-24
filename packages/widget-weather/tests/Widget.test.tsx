@@ -34,7 +34,7 @@ beforeAll(() => {
       return Promise.resolve({ ...res, json: () => getWeatherData })
     }
 
-    if (url.includes('marqueeBackendGeoUrl')) {
+    if (url.includes('marqueeBackendFwdGeoUrl')) {
       return Promise.resolve({ ...res, json: () => getGoogleGeolocation })
     }
 

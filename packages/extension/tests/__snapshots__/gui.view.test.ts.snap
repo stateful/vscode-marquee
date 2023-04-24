@@ -25,7 +25,6 @@ exports[`open webview 2`] = `
       "colorScheme": "transparent",
       "connectSrc": [
         "undefined://undefined",
-        "undefined://undefined",
         "https://*.ingest.sentry.io",
         "https://api.stateful.com",
         "https://api.staging.stateful.com",
@@ -36,7 +35,6 @@ exports[`open webview 2`] = `
       "customWidgetCounter": 0,
       "fontSize": 1,
       "fwdGeoUrl": "http://BACKEND_FWDGEO_URL.com",
-      "geoUrl": "http://BACKEND_GEO_URL.com",
       "nonce": "MzlkMmY4NTgtMzUyMi00MDUzLWJlYjgtYjc1YTFkZWZkMWQy",
       "props": {
         "some": "props",
