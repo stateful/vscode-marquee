@@ -10,7 +10,8 @@ export async function activate (context: vscode.ExtensionContext) {
   Logger.configure(context)
 
   const gitProvider = new GitProvider(context)
-  await gitProvider.init()
+  await gitProvider.init().catch(
+    (err) => Logger.info(`Failed to load Git provider: ${err.message}`))
   context.subscriptions.push(gitProvider)
 
   new MarqueeExtension(context)

@@ -1303,6 +1303,7 @@
   },
   "scripts": {
     "backend": "cd backend && firebase serve --only hosting",
+    "build": "run-s build:dev",
     "build:prod": "run-s compile bundle:prod",
     "build:dev": "run-s compile bundle:dev",
     "bundle:prod": "cross-env NODE_ENV=production webpack --mode production",
