@@ -16,7 +16,6 @@ import { DEFAULT_FONT_SIZE, THIRD_PARTY_EXTENSION_DIR } from './constants'
 import type { ExtensionConfiguration, ExtensionExport } from './types'
 
 declare const BACKEND_BASE_URL: string
-declare const BACKEND_GEO_URL: string
 declare const BACKEND_FWDGEO_URL: string
 
 interface NotificationParams {
@@ -224,7 +223,6 @@ export class MarqueeGui extends EventEmitter {
     )
 
     const backendBaseUrl = vscode.Uri.parse(BACKEND_BASE_URL)
-    const backendGeoUrl = vscode.Uri.parse(BACKEND_GEO_URL)
     const content = await render(await this.getTemplate(), {
       aws,
       nonce,
@@ -233,7 +231,6 @@ export class MarqueeGui extends EventEmitter {
       colorScheme,
       props: getExtProps(),
       baseUrl: BACKEND_BASE_URL,
-      geoUrl: BACKEND_GEO_URL,
       fwdGeoUrl: BACKEND_FWDGEO_URL,
       cspSource: this.panel.webview.cspSource,
       widgetStateConfigurations: Buffer.from(JSON.stringify(widgetStateConfigurations)).toString('base64'),
@@ -241,7 +238,6 @@ export class MarqueeGui extends EventEmitter {
       customWidgetCounter,
       connectSrc: [
         `${backendBaseUrl.scheme}://${backendBaseUrl.authority}`,
-        `${backendGeoUrl.scheme}://${backendGeoUrl.authority}`,
         'https://*.ingest.sentry.io',
         'https://api.stateful.com',
         'https://api.staging.stateful.com',

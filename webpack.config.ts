@@ -6,16 +6,14 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CopyPlugin from "copy-webpack-plugin";
 
 const pkg = fs.readFileSync(`${__dirname}/package.json`).toString('utf8');
-const isDevelopment = !Boolean(process.env.NODE_ENV)
+const isDevelopment = !Boolean(process.env.NODE_ENV) || process.env.NODE_ENV !== 'production'
+console.log('isDevelopment', isDevelopment);
+
 const getGlobals = (isWebExtension?: boolean) => ({
   BACKEND_BASE_URL:
     isDevelopment
       ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net")
       : JSON.stringify("https://api.marquee.activecove.com"),
-  BACKEND_GEO_URL:
-    isDevelopment
-      ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/getGoogleGeolocation")
-      : JSON.stringify("https://us-central1-marquee-backend.cloudfunctions.net/getGoogleGeolocation"),
   BACKEND_FWDGEO_URL:
     isDevelopment
       ? JSON.stringify("https://us-central1-marquee-backend-dev.cloudfunctions.net/lookupGoogleLocation")

@@ -49,7 +49,6 @@
       window.activeWorkspace = <%~ JSON.stringify(it.aws) %>;
       window.marqueeUserProps = '<%~ JSON.stringify(it.props) %>';
       window.marqueeBackendBaseUrl = '<%= it.baseUrl %>';
-      window.marqueeBackendGeoUrl = '<%= it.geoUrl %>';
       window.marqueeBackendFwdGeoUrl = '<%= it.fwdGeoUrl %>';
       window.marqueeStateConfiguration = JSON.parse(b64DecodeUnicode('<%= it.widgetStateConfigurations %>'));
     </script>

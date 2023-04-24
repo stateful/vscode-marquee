@@ -79,8 +79,7 @@ export async function fetchGeoData (city?: string) {
     searchParams.append('city', city)
   }
 
-  const targetUrl = !city ? window.marqueeBackendGeoUrl : window.marqueeBackendFwdGeoUrl
-  const geoUrl = `${targetUrl}?${searchParams.toString()}`
+  const geoUrl = `${window.marqueeBackendFwdGeoUrl}?${searchParams.toString()}`
   console.log(`Fetch geolocation${city ? ` from ${city}` : ''} via: ${geoUrl}`)
   const res = await fetch(geoUrl).catch(
     () => { throw new Error(USER_GEO_LOCATION_ERROR) })
