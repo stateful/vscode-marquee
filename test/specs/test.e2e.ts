@@ -50,6 +50,10 @@ describe('Marquee', () => {
     describe('weather widget', () => {
       const weatherWidget = new WeatherWidget(locatorMap)
 
+      before(async () => {
+        await weatherWidget.elem.scrollIntoView()
+      })
+
       it('should display weather forecast', async () => {
         await expect(weatherWidget.currentTemperature$)
           .toHaveTextContaining('°F')

@@ -13,7 +13,7 @@ describe('todo widget', () => {
     ))
     await webview.open()
     await webview.switchMode('Project')
-    await expect(todoWidget.elem).toBeExisting()
+    await todoWidget.elem.waitForExist()
     await todoWidget.elem.scrollIntoView({ block: 'end' })
   })
 
