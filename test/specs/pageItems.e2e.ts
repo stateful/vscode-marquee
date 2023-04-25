@@ -62,7 +62,7 @@ describe('page items @skipWeb', () => {
     ))
     await webview.open()
     await webview.switchMode('Project')
-    await expect(todoWidget.elem).toBeExisting()
+    await todoWidget.elem.waitForExist()
     await webview.close()
   })
 
