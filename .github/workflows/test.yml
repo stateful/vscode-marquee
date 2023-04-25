@@ -14,6 +14,8 @@ jobs:
           node-version: 16
       - name: 📦 Install Dependencies
         run: yarn
+        env:
+          DETECT_CHROMEDRIVER_VERSION: true
       - name: 🏗 Build Project
         run: yarn build:dev
       - name: 🧪 Run Tests
