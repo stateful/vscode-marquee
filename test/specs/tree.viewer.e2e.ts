@@ -1,4 +1,5 @@
 import { Key } from 'webdriverio'
+import { browser } from '@wdio/globals'
 import type { ViewControl } from 'wdio-vscode-service'
 
 import { TodoWidget } from '../pageobjects/widgets/todo.js'
@@ -6,6 +7,8 @@ import { NoteWidget } from '../pageobjects/widgets/note.js'
 import { TreeView } from '../pageobjects/components/treeview.js'
 import { Webview } from '../pageobjects/webview.js'
 import * as locatorMap from '../pageobjects/locators.js'
+
+const skipWebCI = process.env.CI ? ' @skipWeb' : ''
 
 describe('Marquee Tree Viewer', () => {
   let marqueeItem: ViewControl
@@ -65,7 +68,7 @@ describe('Marquee Tree Viewer', () => {
     ))
   })
 
-  describe('todo', () => {
+  describe('todo' + skipWebCI, () => {
     it('should fill out the form and submit', async () => {
       await webview.open()
       await todoWidget.createTodo('Hello World!', ['foo', 'bar'], 'workspace')
@@ -106,7 +109,7 @@ describe('Marquee Tree Viewer', () => {
     })
   })
 
-  describe('snippet', () => {
+  describe('snippet' + skipWebCI, () => {
     it('can open new snippet editor', async () => {
       const treeView = new TreeView(locatorMap, marqueeItem)
       const addSnippetBtn = await treeView.getItem('Add New Clipboard Item')
@@ -157,7 +160,7 @@ describe('Marquee Tree Viewer', () => {
     })
   })
 
-  describe('notes', () => {
+  describe('notes' + skipWebCI, () => {
     it('should open new note modal in webview', async () => {
       const treeView = new TreeView(locatorMap, marqueeItem)
       const addNoteBtn = await treeView.getItem('Add new note')
