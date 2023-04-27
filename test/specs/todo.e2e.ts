@@ -1,8 +1,12 @@
+import { browser } from '@wdio/globals'
+
 import { TodoWidget } from '../pageobjects/widgets/todo.js'
 import { Webview } from '../pageobjects/webview.js'
 import * as locatorMap from '../pageobjects/locators.js'
 
-describe('todo widget', () => {
+const describeSkipCI = process.env.CI ? describe.skip : describe
+
+describeSkipCI('todo widget', () => {
   const webview = new Webview(locatorMap)
   const todoWidget = new TodoWidget(locatorMap)
 

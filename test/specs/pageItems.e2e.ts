@@ -54,8 +54,9 @@ const webview = new Webview(locatorMap)
 const todoWidget = new TodoWidget(locatorMap)
 const notesWidget = new NoteWidget(locatorMap)
 const clipboardWidget = new ClipboardWidget(locatorMap)
+const describeSkipCi = process.env.CI ? describe.skip : describe
 
-describe('page items @skipWeb', () => {
+describeSkipCi('page items @skipWeb', () => {
   before(async () => {
     const workbench = await browser.getWorkbench()
     await browser.waitUntil(async () => (

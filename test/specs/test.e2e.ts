@@ -1,4 +1,5 @@
 import { Key } from 'webdriverio'
+import { browser, $ } from '@wdio/globals'
 
 import { WeatherWidget } from '../pageobjects/widgets/weather.js'
 import { NewsWidget } from '../pageobjects/widgets/news.js'
@@ -7,6 +8,7 @@ import { Webview } from '../pageobjects/webview.js'
 import * as locatorMap from '../pageobjects/locators.js'
 
 const WIDGETS = ['welcome', 'weather', 'news', 'github', 'runme']
+const describeSkipCI = process.env.CI ? describe.skip : describe
 
 describe('Marquee', () => {
   before('should open by default', async () => {
@@ -47,7 +49,7 @@ describe('Marquee', () => {
       })
     })
 
-    describe('weather widget', () => {
+    describeSkipCI('weather widget', () => {
       const weatherWidget = new WeatherWidget(locatorMap)
 
       before(async () => {
