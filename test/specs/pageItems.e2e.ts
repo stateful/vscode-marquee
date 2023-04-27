@@ -3,6 +3,7 @@ import url from 'node:url'
 import path from 'node:path'
 import vscodeType from 'vscode'
 import { TextEditor } from 'wdio-vscode-service'
+import { browser, $ } from '@wdio/globals'
 
 import { Webview } from '../pageobjects/webview.js'
 import { TodoWidget } from '../pageobjects/widgets/todo.js'
@@ -80,13 +81,12 @@ describe('page items @skipWeb', () => {
     it('validates if item was added and opens link', async () => {
       await openMarquee()
       await webview.open()
-      await todoWidget.elem.scrollIntoView({ block: 'center' })
+      await todoWidget.elem.scrollIntoView()
 
       const items = await todoWidget.getTodoItems()
       expect(items).toHaveLength(1)
       expect(await items[0].getText()).toBe('Add me as Todo')
-
-      await items[0].elem.scrollIntoView({ block: 'center' })
+      await items[0].elem.scrollIntoView()
       await items[0].clickLink()
       await webview.close(true)
     })
@@ -108,9 +108,9 @@ describe('page items @skipWeb', () => {
 
       await openMarquee()
       await webview.open()
-      await todoWidget.elem.scrollIntoView({ block: 'center' })
+      await todoWidget.elem.scrollIntoView()
       const items = await todoWidget.getTodoItems()
-      await items[0].elem.scrollIntoView({ block: 'center' })
+      await items[0].elem.scrollIntoView()
       await items[0].clickLink()
       await webview.close(true)
 

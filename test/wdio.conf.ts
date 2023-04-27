@@ -1,7 +1,9 @@
 import fs from 'fs/promises'
 import url from 'url'
 import path from 'path'
-import { Options } from '@wdio/types'
+
+import { browser } from '@wdio/globals'
+import type { Options } from '@wdio/types'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
@@ -235,7 +237,10 @@ export const config: Options.Testrunner = {
    * @param {Object}         browser      instance of created browser/device session
    */
   before: async function () {
-    await browser.setWindowSize(1600, 1200)
+    browser.overwriteCommand('scrollIntoView', async function (origFunction, args) {
+      // @ts-expect-error
+      return origFunction(args).catch((err) => console.log(`Failed to run "scrollIntoView": ${err.message}`))
+    }, true)
   },
   /**
    * Runs before a WebdriverIO command gets executed.
