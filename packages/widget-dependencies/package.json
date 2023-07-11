@@ -8,7 +8,7 @@
     "dependencies": {
         "@vscode-marquee/utils": "^0.1.0",
         "@vscode-marquee/widget": "^0.1.0",
-        "semver": "^7.3.8"
+        "semver": "^7.5.2"
     },
     "devDependencies": {
         "@types/glob": "^8.0.0",
