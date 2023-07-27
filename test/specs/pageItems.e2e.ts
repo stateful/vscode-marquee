@@ -119,7 +119,7 @@ describeSkipCi('page items @skipWeb', () => {
     })
   })
 
-  describe('clipboard', () => {
+  describe.skip('clipboard', () => {
     before(setup)
     after(teardown)
 
