@@ -12,6 +12,6 @@
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@vscode-marquee/widget": "^0.1.0",
-    "axios": "^0.27.2"
+    "axios": "^1.6.0"
   }
 }
